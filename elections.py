@@ -28,7 +28,7 @@ class Voter:
             euc_dist = math.sqrt(euc_sum)
             dists.append(euc_dist)
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate
-        if dists[index_min] <= 200: # if close enough to vote for them:
+        if dists[index_min] <= 250: # if close enough to vote for them:
             RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
         else:
             not_voted += 1 # do not vote
@@ -38,7 +38,7 @@ class Voter:
 
 def format_votes(votes):
     global scale_factor, scale_fac
-    return (f'{(votes*scale_factor + (random.randrange(-int("0" + "9"*scale_fac), int("0" + "9"*scale_fac)) if scale_fac > 1 else 0)):,}')
+    return (f'{abs((votes*scale_factor + (random.randrange(0, int("0" + "9"*scale_fac)) if scale_fac > 1 else 0))):,}')
 
 def print_results(RESULTS):
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -46,7 +46,7 @@ def print_results(RESULTS):
     
     for i in range(len(res)):
         print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/VOTING_DEMOS[COUNTRY]['pop']*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
-    print(f"{str.ljust('Not voted', 42)} : {format_votes(not_voted)}")
+    print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
 
 
 def run(data, cands, pop):
@@ -87,9 +87,9 @@ VOTING_DEMOS = {
     "HAMPTON": {"pop": 1_546, "vals": [21, 0, 76, 12, -23], "scale":1},
     "DENMARK": {"pop": 50_843, "vals": [-34, 46, 24, -2, -76], "scale":100},
     "NORTH KOREA": {"pop": 25_083_4, "vals" : [56, -99, 35, -98, 70], "scale":100},
-    "USA" : {"pop": 350_000, "vals" : [-5, 3, 20, 46, 60], "scale":1000}
+    "USA" : {"pop": 350_000, "vals" : [20, -20, 20, 70, 60], "scale":1000}
 }
-COUNTRY = "UK"
+COUNTRY = input()
 # SETTING SCALE FACTOR FOR COUNTRY POPULATION
 scale_factor = VOTING_DEMOS[COUNTRY]["scale"] # from population to real population
 scale_fac = len(str(scale_factor))-1
@@ -102,6 +102,7 @@ for p in range(len(VOTING_DEMOS[COUNTRY])):
 
 # ~~~~~~~~~~ CUSTOM USER PARTIES ~~~~~~~~~~~~
 
+# progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist
 # the first number does not matter at all
 uk_parties = [
     Candidate(0, "Rishi Sunak", "Conservative", 65, -24, 76, 71, -2),
@@ -111,6 +112,14 @@ uk_parties = [
     Candidate(5, "Hannah Sell", "Socialist Party", 23, -85, 23, -96, -30),
     #Candidate(4, "Oswald Mosley", "Britain First", 95, -98, 65, 2, 96),
 ]
+us_parties = [
+    Candidate(0, "Donald Trump", "Republican", 60, -40, 40, 95, 40),
+    Candidate(1, "Joe Biden", "Democrat", 20, 0, 30, 78, 10),
+    Candidate(2, "Jo Jorgensen", "Libertarian Party", 30, -50, 90, 90, -40),
+    Candidate(3, "Howie Hawkins", "Green Party", -40, 35, -85, -10, -50),
+    Candidate(4, "Ron Edwards", "Christian C. Party", 94, -50, 0, -20, 80)
+
+]
 friends = [
     Candidate(8, "James Greenfield", "CPdD", -60, 0, -10, -35, -24),
     Candidate(6, "Danil Eliasov", "Yes Please!", 90, -90, 90, 95, 100),
@@ -119,7 +128,7 @@ friends = [
     Candidate(8, "Mehmet Altinel", "Turkiye", 80, -50, 50, 98, 30),
     Candidate(11, "Mr Zuckert", "SNP", 100, 100, 100, 100, 100)
 ]
-CANDIDATES = friends # SET CANDIDATE LIST TO USE
+CANDIDATES = us_parties # SET CANDIDATE LIST TO USE
 for m in range(len(CANDIDATES)):
     CANDIDATES[m].id = m
 
@@ -139,11 +148,11 @@ DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
 RUN_OFF_CANDIDATES = 2
 
 data = [ # create normal distributions for each value axis
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][0], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][0], scale = 50, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][1], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # nat - glob
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][2], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # env - eco
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][3], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][3], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # pac - mil
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][2], scale = 150, size=VOTING_DEMOS[COUNTRY]["pop"]), # env - eco
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][3], scale = 70, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][3], scale = 120, size=VOTING_DEMOS[COUNTRY]["pop"]), # pac - mil
 ]
 
 # running main program
@@ -168,4 +177,4 @@ if results[0][1]/VOTING_DEMOS[COUNTRY]['pop'] < 0.5: # if nobody has a majority:
     print(f"\n{results[0][0].name} of the {results[0][0].party} party has won the runoff election by a margin of {round((results[0][1]-results[1][1])/VOTING_DEMOS[COUNTRY]['pop'] * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")
 
 else: # majority
-    print(f"\n{results[0][0].name} of the {results[0][0].party} party has won the election by a margin of {round((results[0][1]-results[1][1])/VOTING_DEMOS[COUNTRY]['pop'] * 100, 2)}% with a majority by a margin of {round((results[0][1]/VOTING_DEMOS[COUNTRY]['pop'] - 0.5)*100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")
+    print(f"\n{results[0][0].name} of the {results[0][0].party} party has won the election by a margin of {round((results[0][1]-results[1][1])/VOTING_DEMOS[COUNTRY]['pop'] * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/VOTING_DEMOS[COUNTRY]['pop'] - 0.5)*100, 2)}%!")
