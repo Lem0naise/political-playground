@@ -8,10 +8,11 @@ class Candidate:
     # nationalist - globalist
     # environmentalist - economist
     # socialist - capitalist
-    def __init__(self, id, name, party, prog_cons, nat_glob, env_eco, soc_cap, pac_mil):
+    def __init__(self, id, name, party, party_size, prog_cons, nat_glob, env_eco, soc_cap, pac_mil):
         self.id = id
         self.name = name
         self.party = party
+        self.party_size = -(party_size)*5
         self.vals = [prog_cons, nat_glob, env_eco, soc_cap, pac_mil]
 
 class Voter:
@@ -26,6 +27,7 @@ class Voter:
             for o in range(len(self.vals)):
                 euc_sum += (self.vals[o] - cand.vals[o])**2
             euc_dist = math.sqrt(euc_sum)
+            euc_dist += cand.party_size
             dists.append(euc_dist)
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate
         if dists[index_min] <= 250: # if close enough to vote for them:
@@ -104,29 +106,30 @@ for p in range(len(VOTING_DEMOS[COUNTRY])):
 
 # progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist
 # the first number does not matter at all
+# party size is from 1 to 10
 uk_parties = [
-    Candidate(0, "Rishi Sunak", "Conservative", 65, -24, 76, 71, -2),
-    Candidate(1, "Ed Davey", "Lib Dems", -32, 12, 24, 41, -40),
-    Candidate(2, "Jeremy Corbyn", "Labour", -21, 41, -11, -12, 4),
-    Candidate(3, "Zack Polanski", "Green", -67, 71, -94, -31, -40),
-    Candidate(5, "Hannah Sell", "Socialist Party", 23, -85, 23, -96, -30),
-    #Candidate(4, "Oswald Mosley", "Britain First", 95, -98, 65, 2, 96),
+    Candidate(0, "Rishi Sunak", "Conservative", 10, 65, -24, 76, 71, -2),
+    Candidate(1, "Ed Davey", "Lib Dems", 3, -32, 12, 24, 41, -40),
+    Candidate(2, "Jeremy Corbyn", "Labour", 10, -21, 41, -11, -12, 4),
+    Candidate(3, "Zack Polanski", "Green", 1, -67, 71, -94, -31, -40),
+    Candidate(5, "Hannah Sell", "Socialist Party", 1, 23, -85, 23, -96, -30),
+    #Candidate(4, "Oswald Mosley", "Britain First", 1, 95, -98, 65, 2, 96),
 ]
 us_parties = [
-    Candidate(0, "Donald Trump", "Republican", 60, -40, 40, 95, 40),
-    Candidate(1, "Joe Biden", "Democrat", 20, 0, 30, 78, 10),
-    Candidate(2, "Jo Jorgensen", "Libertarian Party", 30, -50, 90, 90, -40),
-    Candidate(3, "Howie Hawkins", "Green Party", -40, 35, -85, -10, -50),
-    Candidate(4, "Ron Edwards", "Christian C. Party", 94, -50, 0, -20, 80)
+    Candidate(0, "Donald Trump", "Republican", 10, 60, -40, 40, 95, 40),
+    Candidate(1, "Joe Biden", "Democrat", 10, 20, 0, 30, 78, 10),
+    Candidate(2, "Jo Jorgensen", "Libertarian Party", 2, 30, -50, 90, 90, -40),
+    Candidate(3, "Howie Hawkins", "Green Party", 1, -40, 35, -85, -10, -50),
+    Candidate(4, "Ron Edwards", "Christian C. Party", 1, 94, -50, 0, -20, 80)
 
 ]
 friends = [
-    Candidate(8, "James Greenfield", "CPdD", -60, 0, -10, -35, -24),
-    Candidate(6, "Danil Eliasov", "Yes Please!", 90, -90, 90, 95, 100),
-    Candidate(1, "Zac Nolan", "Party for Change", -74, 80, -30, -5, 10),
-    Candidate(7, "Theo Evison", "Monarchist", 70, 10, 50, 80, 45),
-    Candidate(8, "Mehmet Altinel", "Turkiye", 80, -50, 50, 98, 30),
-    Candidate(11, "Mr Zuckert", "SNP", 100, 100, 100, 100, 100)
+    Candidate(8, "James Greenfield", "CPdD", 5, -60, 0, -10, -35, -24),
+    Candidate(6, "Danil Eliasov", "Yes Please!", 2, 90, -90, 90, 95, 100),
+    Candidate(1, "Zac Nolan", "Party for Change", 3, -74, 80, -30, -5, 10),
+    Candidate(7, "Theo Evison", "Monarchist", 3, 70, 10, 50, 80, 45),
+    Candidate(8, "Mehmet Altinel", "Turkiye", 3, 80, -50, 50, 98, 30),
+    Candidate(11, "Mr Zuckert", "SNP", 100, 1, 100, 100, 100, 100)
 ]
 CANDIDATES = us_parties # SET CANDIDATE LIST TO USE
 for m in range(len(CANDIDATES)):
