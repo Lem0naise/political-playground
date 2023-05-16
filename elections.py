@@ -12,7 +12,7 @@ class Candidate:
         self.id = id
         self.name = name
         self.party = party
-        self.party_size = -(party_size)*5
+        self.party_size = -(party_size)*2
         self.vals = [prog_cons, nat_glob, env_eco, soc_cap, pac_mil]
 
 class Voter:
@@ -30,7 +30,7 @@ class Voter:
             euc_dist += cand.party_size
             dists.append(euc_dist)
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate
-        if dists[index_min] <= 250: # if close enough to vote for them:
+        if dists[index_min] <= 200: # if close enough to vote for them:
             RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
         else:
             not_voted += 1 # do not vote
@@ -68,7 +68,7 @@ def run(data, cands, pop):
         vot.vote(cands) # calling vote
 
         # showing results
-        if it % (pop//50) == 0:
+        if it % (pop//50 + 1) == 0:
             print_results(RESULTS)
             sleep(DELAY)
 
@@ -84,7 +84,7 @@ def run(data, cands, pop):
 VOTING_DEMOS = {
     #COUNTRY: [pop in hundreds, prog_cons, nat_glob, env_eco, soc_cap, pac_mil]
     # progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist
-    "UK": {"pop": 70_029_0, "vals": [60, -25, 45, 85, -24], "scale":100},
+    "UK": {"pop": 70_029_0, "vals": [0, -25, 45, 85, -24], "scale":100},
     "GERMANY 1936": {"pop": 61_024_1, "vals":[74, -68, 64, 87, 78], "scale":100},
     "HAMPTON": {"pop": 1_546, "vals": [21, 0, 76, 12, -23], "scale":1},
     "DENMARK": {"pop": 50_843, "vals": [-34, 46, 24, -2, -76], "scale":100},
@@ -98,7 +98,7 @@ scale_fac = len(str(scale_factor))-1
 
 # SLIGHTLY RANDOMIZING VOTING DEMOGRAPHIC
 for p in range(len(VOTING_DEMOS[COUNTRY])):
-    VOTING_DEMOS[COUNTRY]["vals"][p] += 20*(random.random()-0.5) # randomise by 10 possibility each side
+    VOTING_DEMOS[COUNTRY]["vals"][p] += round(20*(random.random()-0.5)) # randomise by 10 possibility each side
 
 
 
@@ -121,17 +121,21 @@ us_parties = [
     Candidate(2, "Jo Jorgensen", "Libertarian Party", 2, 30, -50, 90, 90, -40),
     Candidate(3, "Howie Hawkins", "Green Party", 1, -40, 35, -85, -10, -50),
     Candidate(4, "Ron Edwards", "Christian C. Party", 1, 94, -50, 0, -20, 80)
-
+]
+nk_parties = [
+    Candidate(0, "Kim Jong-Un", "Worker's Party", 70, 59, -90, 23, -99, 90),
+    Candidate(1, "Kim Ho-Chol", "Social Democrat", 20, -20, -20, -20, -60, 50)
 ]
 friends = [
     Candidate(8, "James Greenfield", "CPdD", 5, -60, 0, -10, -35, -24),
     Candidate(6, "Danil Eliasov", "Yes Please!", 2, 90, -90, 90, 95, 100),
-    Candidate(1, "Zac Nolan", "Party for Change", 3, -74, 80, -30, -5, 10),
+    Candidate(1, "Zac Nolan", "Party for Change", 5, -74, 80, -30, -5, 10),
     Candidate(7, "Theo Evison", "Monarchist", 3, 70, 10, 50, 80, 45),
     Candidate(8, "Mehmet Altinel", "Turkiye", 3, 80, -50, 50, 98, 30),
-    Candidate(11, "Mr Zuckert", "SNP", 100, 1, 100, 100, 100, 100)
+    Candidate(11, "Mr Zuckert", "SNP", 1, 100, 100, 100, 100, 100)
 ]
-CANDIDATES = us_parties # SET CANDIDATE LIST TO USE
+
+CANDIDATES = uk_parties # SET CANDIDATE LIST TO USE
 for m in range(len(CANDIDATES)):
     CANDIDATES[m].id = m
 
