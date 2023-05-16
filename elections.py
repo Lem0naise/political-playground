@@ -38,7 +38,7 @@ class Voter:
 
 def format_votes(votes):
     global scale_factor, scale_fac
-    return (f'{(votes*scale_factor + random.randrange(-int("9"*scale_fac), int("9"*scale_fac))):,}')
+    return (f'{(votes*scale_factor + (random.randrange(-int("0" + "9"*scale_fac), int("0" + "9"*scale_fac)) if scale_fac > 1 else 0)):,}')
 
 def print_results(RESULTS):
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -82,16 +82,16 @@ def run(data, cands, pop):
 VOTING_DEMOS = {
     #COUNTRY: [pop in hundreds, prog_cons, nat_glob, env_eco, soc_cap, pac_mil]
     # progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist
-    "UK": {"pop": 70_029_0, "vals": [60, -25, 45, 85, -24]},
-    "GERMANY 1936": {"pop": 61_024_1, "vals":[74, -68, 64, 87, 78]},
-    "HAMPTON": {"pop": 1_546, "vals": [21, 0, 76, 12, -23]},
-    "DENMARK": {"pop": 50_843, "vals": [-34, 46, 24, -2, -76]},
-    "NORTH KOREA": {"pop": 25_083_4, "vals" : [56, -99, 35, -98, 70]},
-    "USA" : {"pop": 350_000_0, "vals" : [-5, 3, 20, 46, 60]}
+    "UK": {"pop": 70_029_0, "vals": [60, -25, 45, 85, -24], "scale":100},
+    "GERMANY 1936": {"pop": 61_024_1, "vals":[74, -68, 64, 87, 78], "scale":100},
+    "HAMPTON": {"pop": 1_546, "vals": [21, 0, 76, 12, -23], "scale":1},
+    "DENMARK": {"pop": 50_843, "vals": [-34, 46, 24, -2, -76], "scale":100},
+    "NORTH KOREA": {"pop": 25_083_4, "vals" : [56, -99, 35, -98, 70], "scale":100},
+    "USA" : {"pop": 350_000, "vals" : [-5, 3, 20, 46, 60], "scale":1000}
 }
-COUNTRY = "HAMPTON"
+COUNTRY = "UK"
 # SETTING SCALE FACTOR FOR COUNTRY POPULATION
-scale_factor = VOTING_DEMOS[COUNTRY] # from population to real population
+scale_factor = VOTING_DEMOS[COUNTRY]["scale"] # from population to real population
 scale_fac = len(str(scale_factor))-1
 
 # SLIGHTLY RANDOMIZING VOTING DEMOGRAPHIC
