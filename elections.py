@@ -100,7 +100,7 @@ VOTING_DEMOS = {
 
 for x in VOTING_DEMOS.keys():
     print(x)
-COUNTRY = input("\nPick a country from the list: ")
+COUNTRY = input("\nPick a country from the list: ").upper().strip()
 # SETTING SCALE FACTOR FOR COUNTRY POPULATION
 scale_factor = VOTING_DEMOS[COUNTRY]["scale"] # from population to real population
 scale_fac = len(str(scale_factor))-1
@@ -152,7 +152,6 @@ CAND_LIST = {
         Candidate(1, "Zac Nolan", "Party for Change", 5, -32, 80, -30, -5, 10, -14),
         Candidate(7, "Theo Evison", "Monarchist", 5, 17, -3, 62, 31, 1, -32),
         Candidate(8, "Mehmet Altinel", "Turkiye", 5, 80, -50, 50, 98, 30, -78),
-        Candidate(11, "Mr Zuckert", "SNP", 1, 100, 100, 100, 100, 100, -200),
         Candidate(12, "William Greenfield", "Economic Reformists", 5, 80, 100, 100, 100, 0, -100),
         Candidate(13, "Ivo Meldrum", "MRL Party", 5, -20, 40, -40, -10, -20, 10)
     ]
@@ -164,7 +163,7 @@ CAND_LIST = {
 os.system('cls' if os.name == 'nt' else 'clear') # clear and then ask 
 for x in CAND_LIST.keys():
     print(x)
-CANDIDATES = CAND_LIST[input("\nPick a party group from the list above:")] # SET CANDIDATE LIST TO USE
+CANDIDATES = CAND_LIST[input("\nPick a party group from the list above:").upper().strip()] # SET CANDIDATE LIST TO USE
 for m in range(len(CANDIDATES)):
     CANDIDATES[m].id = m
 
@@ -195,7 +194,7 @@ data = [ # create normal distributions for each value axis
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
 
-runoff_counter = len(CANDIDATES)-1
+runoff_counter = 4 if len(CANDIDATES) > 4 else len(CANDIDATES)-1
 
 while results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) < 0.5: # if nobody has a majority:
     not_voted = 0
