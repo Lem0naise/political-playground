@@ -12,7 +12,7 @@ class Candidate:
         self.id = id
         self.name = name
         self.party = party
-        self.party_pop = (party_pop)*0.1
+        self.party_pop = (party_pop)*2
         self.vals = [prog_cons, nat_glob, env_eco, soc_cap, pac_mil, auth_ana]
 
 class Voter:
@@ -126,7 +126,6 @@ CAND_LIST = {
         Candidate(5, "Hannah Sell", "Socialist Party", 1, 23, -85, 23, -96, -30, -5),
         Candidate(4, "Nigel Farage", "Reform Party", 1, 95, -98, 65, 70, 90, -42),
         Candidate(5, "Jeremy Corbyn", "Independent", 0.5, -50, 30, -40, -50, -10, -13),
-            Candidate(7, "Theo Evison", "Monarchist", 5, 17, -3, 62, 31, 1, -32),
     ],
     "USA": [
         Candidate(0, "Donald Trump", "Republican", 10, 60, -40, 40, 95, 40, -33),
