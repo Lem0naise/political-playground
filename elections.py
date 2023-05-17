@@ -120,12 +120,13 @@ for p in range(len(VOTING_DEMOS[COUNTRY])):
 CAND_LIST = {
     "UK": [
         Candidate(0, "Rishi Sunak", "Conservative", 8, 65, -24, 76, 71, -2, -21),
-        Candidate(1, "Ed Davey", "Lib Dems", 3, -32, 12, 24, 41, -40, -6),
+        Candidate(1, "Ed Davey", "Lib Dems", 1, -32, 12, 24, 41, -40, -6),
         Candidate(2, "Keir Starmer", "Labour", 10, -21, 41, -11, 0, 4, -1),
         Candidate(3, "Zack Polanski", "Green", 1, -67, 71, -94, -31, -40, 41),
         Candidate(5, "Hannah Sell", "Socialist Party", 1, 23, -85, 23, -96, -30, -5),
         Candidate(4, "Nigel Farage", "Reform Party", 1, 95, -98, 65, 70, 90, -42),
         Candidate(5, "Jeremy Corbyn", "Independent", 0.5, -50, 30, -40, -50, -10, -13),
+            Candidate(7, "Theo Evison", "Monarchist", 5, 17, -3, 62, 31, 1, -32),
     ],
     "USA": [
         Candidate(0, "Donald Trump", "Republican", 10, 60, -40, 40, 95, 40, -33),
@@ -154,6 +155,7 @@ CAND_LIST = {
         Candidate(8, "Mehmet Altinel", "Turkiye", 5, 80, -50, 50, 98, 30, -78),
         Candidate(11, "Mr Zuckert", "SNP", 1, 100, 100, 100, 100, 100, -200),
         Candidate(12, "William Greenfield", "Economic Reformists", 5, 80, 100, 100, 100, 0, -100),
+        Candidate(13, "Ivo Meldrum", "MRL Party", 5, -20, 40, -40, -10, -20, 10)
     ]
 }
 
@@ -197,6 +199,7 @@ results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
 runoff_counter = len(CANDIDATES)-1
 
 while results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) < 0.5: # if nobody has a majority:
+    not_voted = 0
     print(f"\n{results[0][0].name} of the {results[0][0].party} party has won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")
 
 
