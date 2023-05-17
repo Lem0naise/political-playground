@@ -43,18 +43,20 @@ def format_votes(votes):
     return (f'{abs((votes*scale_factor + (random.randrange(0, int("0" + "9"*scale_fac)) if scale_fac > 1 else 0))):,}')
 
 def print_results(RESULTS):
+
+    res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     os.system('cls' if os.name == 'nt' else 'clear')
     print(COUNTRY + "\n")
-    res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
-    
     for i in range(len(res)):
+        
         print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
     print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
 
 def print_final_results(RESULTS, first=True, old_res = []):
+
+    res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     os.system('cls' if os.name == 'nt' else 'clear')
     print(COUNTRY + "\n")
-    res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     for i in range(len(res)):
         if not first: # print with the percentage change
             print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} {str.ljust('[+' + str(round((res[i][1]-old_res[res[i][0]])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2)) + '%]', 10)}: {format_votes(res[i][1])} votes " )
