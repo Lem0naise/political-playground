@@ -211,7 +211,14 @@ CAND_LIST = {
                 auth_ana= -78),
 
         Candidate(12, "William Greenfield", "Economic Reformists", 5, 80, 100, 100, 100, 0, -100),
-        Candidate(13, "Ivo Meldrum", "Monster Raving Loony", 5, -20, 40, -40, -10, -20, 10)
+        Candidate(13, "Ivo Meldrum", "Monster Raving Loony", 5, -20, 40, -40, -10, -20, 10),
+        Candidate(14, "Alex Wicks", "Britain First", 5, 
+                prog_cons = -20,
+                nat_glob = 70,
+                env_eco = -50,
+                soc_cap = 65,
+                pac_mil = -30,
+                auth_ana = 25)
     ],
     "RADICALS" : [
         Candidate(0, "Karl Max", "Communist America", 5, 
