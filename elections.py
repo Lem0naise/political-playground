@@ -51,6 +51,7 @@ def print_results(RESULTS):
         
         print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
     print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
+    print()
 
 def print_final_results(RESULTS, first=True, old_res = []):
 
@@ -64,6 +65,7 @@ def print_final_results(RESULTS, first=True, old_res = []):
             print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
 
     print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
+    print()
 
 
 def run(data, cands, pop):
@@ -189,18 +191,18 @@ CAND_LIST = {
                 nat_glob= 39, 
                 env_eco= -1,
                 soc_cap= -5,
-                pac_mil= 10,
-                auth_ana= -14),
+                pac_mil= -5,
+                auth_ana= 14),
 
-        Candidate(7, "Theo Evison", "Social Democrat", 5,
+        Candidate(7, "Theo Evison", "Prevalence", 5,
                 prog_cons= 17, 
                 nat_glob= -3, 
-                env_eco= 62,
+                env_eco= 30,
                 soc_cap= 31,
                 pac_mil=  1,
                 auth_ana= -32),
 
-        Candidate(8, "Mehmet Altinel", "Turkiye", 5,
+        Candidate(8, "Mehmet Altinel", "Front", 5,
                 prog_cons= 80, 
                 nat_glob= -50, 
                 env_eco= 50,
@@ -214,14 +216,14 @@ CAND_LIST = {
     "RADICALS" : [
         Candidate(0, "Karl Max", "Communist America", 5, 
                 prog_cons=-100,
-                nat_glob= -100,
+                nat_glob= 100,
                 env_eco= -100,
                 soc_cap= -100,
                 pac_mil= -100,
                 auth_ana= -100),
         Candidate(0, "Jonathan Facsist", "America First", 5, 
                 prog_cons=100,
-                nat_glob= 100,
+                nat_glob= -100,
                 env_eco= 100,
                 soc_cap= 100,
                 pac_mil= 100,
