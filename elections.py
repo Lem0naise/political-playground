@@ -1,4 +1,4 @@
-import random, math, os, numpy
+import random, math, os, numpy, difflib
 from time import sleep
 
 
@@ -12,7 +12,7 @@ class Candidate:
         self.id = id
         self.name = name
         self.party = party
-        self.party_pop = (party_pop)*2
+        self.party_pop = (party_pop)*3
         self.vals = [prog_cons, nat_glob, env_eco, soc_cap, pac_mil, auth_ana]
 
 class Voter:
@@ -104,6 +104,7 @@ VOTING_DEMOS = {
     # progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist, authoritative-anarchist
     "UK": {"pop": 70_029_0, "vals": [-10, -15, 45, 85, -24, -17], "scale":100},
     "GERMANY 1936": {"pop": 61_024_1, "vals":[120, -68, 64, 87, 78, -98], "scale":100},
+    "GERMANY" : {"pop" : 85_029_5, "vals" : [-12, 34, 24, 12, 24, -1], "scale":100},
     "HAMPTON": {"pop": 1_546, "vals": [21, 0, 76, 12, -23, -30], "scale":1},
     "DENMARK": {"pop": 50_843, "vals": [-34, 46, 0, -2, -21, 42], "scale":100},
     "NORTH KOREA": {"pop": 25_083_4, "vals" : [56, -99, 35, -98, 70, -98], "scale":100},
@@ -111,13 +112,13 @@ VOTING_DEMOS = {
     "TURKEY" : {"pop": 87_000_0, "vals" : [50, -34, 21, 65, 34, -47], "scale":100},
     "FINLAND" : {"pop": 55_410, "vals" : [-2, 10, 12, -1, 12, 12], "scale":100},
     "RUSSIA" : {"pop": 143_000, "vals": [43, -62, 71, 69, 75, -61], "scale":1000},
-    "SOMALIA" : {"pop" : 17_000_0, "vals": [76, -46, 89, 85, 89, -57], "scale": 100}
+    "SOMALIA" : {"pop" : 17_000_0, "vals": [76, -46, 89, 85, 89, -57], "scale": 100},
     
 }
 
 for x in VOTING_DEMOS.keys():
     print(x)
-COUNTRY = input("\nPick a country from the list: ").upper().strip()
+COUNTRY = difflib.get_close_matches(input("\nPick a country from the list: ").upper().strip(), VOTING_DEMOS.keys(), 1)[0] # get closest country
 # SETTING SCALE FACTOR FOR COUNTRY POPULATION
 scale_factor = VOTING_DEMOS[COUNTRY]["scale"] # from population to real population
 scale_fac = len(str(scale_factor))-1
@@ -138,7 +139,7 @@ CAND_LIST = {
     "UK": [
         Candidate(0, "Rishi Sunak", "Conservative", 8, 65, -24, 76, 71, -2, -21),
         Candidate(1, "Ed Davey", "Lib Dems", 1, -32, 12, 24, 41, -40, -6),
-        Candidate(2, "Keir Starmer", "Labour", 10, -21, 41, -11, -15, 4, -1),
+        Candidate(2, "Keir Starmer", "Labour", 10, -21, 41, -11, 14, 4, -1),
         Candidate(5, "Hannah Sell", "Socialist Party", 1, -10, -11, 23, -41, -30, -5),
         Candidate(3, "Zack Polanski", "Green", 1, -67, 71, -94, -31, -40, 41),
         Candidate(4, "Nigel Farage", "Reform Party", 1, 95, -98, 65, 70, 90, -42),
@@ -218,7 +219,44 @@ CAND_LIST = {
                 env_eco = -50,
                 soc_cap = 65,
                 pac_mil = -30,
-                auth_ana = 25)
+                auth_ana = 25),
+            Candidate(15, "Billiam the Third", "Confetto", 5, 
+                prog_cons = 50,
+                nat_glob = -90,
+                env_eco = 79,
+                soc_cap = 60,
+                pac_mil = 85,
+                auth_ana = -95),
+    ],
+    "GERMANY" : [
+        Candidate(0, "Olaf Scholz", "SPD", 10, 
+                prog_cons= -31,
+                nat_glob= 45,
+                env_eco= 3,
+                soc_cap= -4,
+                pac_mil= 12,
+                auth_ana= 12),
+        Candidate(1, "Friedrich Merz", "CDU", 9, 
+                prog_cons= 24,
+                nat_glob= 44,
+                env_eco= 14,
+                soc_cap= 24,
+                pac_mil= 10,
+                auth_ana= -12),
+        Candidate(3, "Ricarda Lang", "Alliance 90", 7, 
+                prog_cons= -35,
+                nat_glob= 45,
+                env_eco= -45,
+                soc_cap= -1,
+                pac_mil= -23,
+                auth_ana= 34),
+        Candidate(4, "Tino Chrupalla", "AfD", 3,
+                prog_cons= 78,
+                nat_glob= -45,
+                env_eco= 45,
+                soc_cap= 45,
+                pac_mil= 45,
+                auth_ana= -45),
     ],
     "RADICALS" : [
         Candidate(0, "Karl Max", "Communist America", 5, 
@@ -235,6 +273,7 @@ CAND_LIST = {
                 soc_cap= 100,
                 pac_mil= 100,
                 auth_ana= 100),
+                
     ]
 }
 
@@ -244,7 +283,7 @@ CAND_LIST = {
 os.system('cls' if os.name == 'nt' else 'clear') # clear and then ask 
 for x in CAND_LIST.keys():
     print(x)
-CANDIDATES = CAND_LIST[input("\nPick a party group from the list above: ").upper().strip()] # SET CANDIDATE LIST TO USE
+CANDIDATES = CAND_LIST[difflib.get_close_matches(input("\nPick a party group from the list above: ").upper().strip(), CAND_LIST.keys(), 1)[0]] # SET CANDIDATE LIST TO USE
 for m in range(len(CANDIDATES)):
     CANDIDATES[m].id = m
 
