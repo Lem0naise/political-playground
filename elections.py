@@ -12,7 +12,7 @@ class Candidate:
         self.id = id
         self.name = name
         self.party = party
-        self.party_pop = (party_pop)*3
+        self.party_pop = (party_pop)
         self.vals = [prog_cons, nat_glob, env_eco, soc_cap, pac_mil, auth_ana]
 
 class Voter:
@@ -48,7 +48,6 @@ def print_results(RESULTS):
     os.system('cls' if os.name == 'nt' else 'clear')
     print(COUNTRY + "\n")
     for i in range(len(res)):
-        
         print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
     print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
     print()
@@ -94,6 +93,38 @@ def run(data, cands, pop):
     return sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
 
 
+def coalition(leader, results, parties):
+
+    results = sorted(results ,key=lambda l:l[1], reverse=True)
+    parties_in_order = [x[0] for x in results]
+    parties_in_order.pop(parties_in_order.index(leader)) # remove leader
+
+    # list of percentages
+    percs = [(results[x+1][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)) for x in range(len(parties_in_order))]
+    perc = results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) # current leader percentage
+
+    dists = []
+    for part in parties_in_order: # finding closest ideological party
+        euc_sum = 0
+        for o in range(len(leader.vals)): # sum square of each value
+            euc_sum += (leader.vals[o] - part.vals[o])**2
+        euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
+        euc_dist += part.party_pop*5 # take away party popularity from distance
+        dists.append(euc_dist) # add to distance list
+
+    #print([(parties_in_order[x].party, dists[x]) for x in range(len(parties_in_order))])
+    partners = []
+    while perc < 0.5: # while do not have a majority:
+        index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
+        partners.append(parties_in_order[index_min])
+        parties_in_order.pop(index_min)
+        dists.pop(index_min)
+        perc += percs[index_min]
+
+    #for p in partners:
+    #    parties_in_order.pop(parties_in_order.index(p)) # remove from list
+
+    return partners
 
 
 
@@ -131,7 +162,8 @@ for p in range(len(VOTING_DEMOS[COUNTRY])):
 
 # ~~~~~~~~~~ CUSTOM USER PARTIES ~~~~~~~~~~~~
 
-# progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist
+# progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist, 
+# authoritation - anarchist
 # the first number does not matter at all
 # party popularity is from 1 to 10
 
@@ -146,9 +178,27 @@ CAND_LIST = {
         Candidate(5, "Jeremy Corbyn", "Independent", 0.5, -50, 30, -40, -50, -10, -13),
     ],
     "USA": [
-        Candidate(0, "Donald Trump", "Republican", 10, 60, -40, 40, 95, 40, -33),
-        Candidate(1, "Joe Biden", "Democrat", 10, 20, 0, 30, 78, 10, -22),
-        Candidate(2, "Jo Jorgensen", "Libertarian Party", 2, 30, -50, 90, 90, -40, 71),
+        Candidate(0, "Donald Trump", "Republican", 10, 
+                prog_cons = 60,
+                nat_glob = -40,
+                env_eco = 40,
+                soc_cap =  95,
+                pac_mil= 40,
+                auth_ana= -43),
+        Candidate(1, "Joe Biden", "Democrat", 10,
+                prog_cons = 20,
+                nat_glob = 0,
+                env_eco = 30,
+                soc_cap = 78,
+                pac_mil= 10,
+                auth_ana= -22),
+        Candidate(2, "Jo Jorgensen", "Libertarian Party", 2,
+                prog_cons = 30,
+                nat_glob = -50,
+                env_eco = 90,
+                soc_cap = 90,
+                pac_mil= -40,
+                auth_ana= 12),
         Candidate(3, "Howie Hawkins", "Green Party", 1, -40, 35, -85, -10, -50, -21),
         Candidate(4, "Ron Edwards", "Christian C. Party", 3, 200, -50, 0, -20, 80, -67)
     ],
@@ -212,7 +262,7 @@ CAND_LIST = {
                 auth_ana= -78),
 
         Candidate(12, "William Greenfield", "Economic Reformists", 5, 80, 100, 100, 100, 0, -100),
-        Candidate(13, "Ivo Meldrum", "Monster Raving Loony", 5, -20, 40, -40, -10, -20, 10),
+        Candidate(13, "Ivo Meldrum", "MRL", 5, -20, 40, -40, -10, -20, 10),
         Candidate(14, "Alex Wicks", "Britain First", 5, 
                 prog_cons = -20,
                 nat_glob = 70,
@@ -298,10 +348,6 @@ not_voted = 0
 for cand in CANDIDATES:
     RESULTS.append([cand, 0])
 
-TIME = float(input("Delay : (0->50) ")) # seconds
-DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
-RUN_OFF_CANDIDATES = 2
-
 data = [ # create normal distributions for each value axis
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][0], scale = 50, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][1], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # nat - glob
@@ -311,35 +357,84 @@ data = [ # create normal distributions for each value axis
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][5], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
 ]
 
+
+
+TIME = float(input("Delay : (0->50) ")) # seconds
+DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
+
+
+
+# ~~~~~~~~~~ VOTING SYSTEMS ~~~~~~~~~
+
+os.system('cls' if os.name == 'nt' else 'clear')
+MODES = ["FPTP", "4 ROUND", "2 ROUND", "PROP REP"]
+for x in MODES:
+    print(x)
+
+mode = difflib.get_close_matches(input("\nWhich voting system do you want to simulate? ").strip().upper(), MODES, 1)[0] 
+
+if mode == "FPTP": # first past the post
+    for c in CANDIDATES:
+        c.party_pop *= 3  # make party size 3 times more affecting
+
+
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
 
-runoff_counter = 4 if len(CANDIDATES) > 4 else len(CANDIDATES)-1
 
-while results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) < 0.5: # if nobody has a majority:
-
-    # print plurality winner
-    print(f"The {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
-    print("No candidate has received a majority. The election will proceed to another round.")
-    input()
-    not_voted = 0 # reset not voted 
+if mode in ["4 ROUND", "2 ROUND"]:
 
 
-    # save old results as a dictionary
-    old_results = {RESULTS[x][0] : RESULTS[x][1] for x in range(len(RESULTS))} 
+    runoff_counter = 4 if len(CANDIDATES) > 4 else len(CANDIDATES)-1
+    if mode == "2 ROUND":
+        runoff_counter = 2
 
-    new_cands = [x[0] for x in results[:runoff_counter]] # knockout the lowest candidate
-    for x in range(len(new_cands)): # reset candidate ids
-        new_cands[x].id = x
+    while results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) < 0.5: # if nobody has a majority:
 
-    RESULTS = [] # reset RESULTS
-    for cand in new_cands:
-        RESULTS.append([cand, 0])
-
-
-    results = run(data, new_cands, VOTING_DEMOS[COUNTRY]['pop']) # run the elections again
-    runoff_counter -= 1
-    print_final_results(RESULTS, False, old_results)
+        # print plurality winner
+        print(f"The {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
+        print("No candidate has received a majority. The election will proceed to another round.")
+        input()
+        not_voted = 0 # reset not voted 
 
 
-print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
+        # save old results as a dictionary
+        old_results = {RESULTS[x][0] : RESULTS[x][1] for x in range(len(RESULTS))} 
+
+        new_cands = [x[0] for x in results[:runoff_counter]] # knockout the lowest candidate
+        for x in range(len(new_cands)): # reset candidate ids
+            new_cands[x].id = x
+
+        RESULTS = [] # reset RESULTS
+        for cand in new_cands:
+            RESULTS.append([cand, 0])
+
+
+        results = run(data, new_cands, VOTING_DEMOS[COUNTRY]['pop']) # run the elections again
+        runoff_counter -= 1
+        print_final_results(RESULTS, False, old_results)
+
+
+    print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
+
+elif mode in ["FPTP"]:
+
+    if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
+        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
+    else: # if just plurality
+        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")
+    
+elif mode in ["PROP REP"]:
+
+    if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
+        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
+    else:  # FORM COALITION
+        coal = coalition(results[0][0], RESULTS, CANDIDATES)
+
+        
+        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have formed a coalition with:")
+        for p in coal:
+            print(f"> {p.party} {('(' + p.name + ')') if (p.name!='') else ''}")
+        print(f"to form a majority government.")
+        
+
