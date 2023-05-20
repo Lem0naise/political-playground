@@ -333,7 +333,7 @@ CAND_LIST = {
                 soc_cap= 45,
                 pac_mil= 12,
                 auth_ana= -4),
-        Candidate(1, "Mary Lou McDonald", "Sinn Fein", 10, 
+        Candidate(1, "Mary Lou McDonald", "Sinn Fein", 9, 
                 prog_cons= -31,
                 nat_glob= -43,
                 env_eco= 31,
