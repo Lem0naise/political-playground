@@ -46,7 +46,7 @@ def print_results(RESULTS):
 
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     os.system('cls' if os.name == 'nt' else 'clear')
-    print(COUNTRY + "\n")
+    print(COUNTRY + " - " + mode + "\n")
     for i in range(len(res)):
         print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
     print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
@@ -56,7 +56,7 @@ def print_final_results(RESULTS, first=True, old_res = []):
 
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     os.system('cls' if os.name == 'nt' else 'clear')
-    print(COUNTRY + "\n")
+    print(COUNTRY + " - " + mode + "\n")
     for i in range(len(res)):
         if not first: # print with the percentage change
             print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} {str.ljust('[+' + str(round((res[i][1]-old_res[res[i][0]])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2)) + '%]', 10)}: {format_votes(res[i][1])} votes " )
@@ -144,6 +144,7 @@ VOTING_DEMOS = {
     "FINLAND" : {"pop": 55_410, "vals" : [-2, 10, 12, -1, 12, 12], "scale":100},
     "RUSSIA" : {"pop": 143_000, "vals": [43, -62, 71, 69, 75, -61], "scale":1000},
     "SOMALIA" : {"pop" : 17_000_0, "vals": [76, -46, 89, 85, 89, -57], "scale": 100},
+    "IRELAND" : {"pop": 60_123, "vals": [5, -1, 32, 14, 12, -4], "scale": 100}
     
 }
 
@@ -322,9 +323,38 @@ CAND_LIST = {
                 env_eco= 100,
                 soc_cap= 100,
                 pac_mil= 100,
-                auth_ana= 100),
-                
-    ]
+                auth_ana= 100),           
+    ],
+    "IRELAND" : [
+        Candidate(0, "Michael Martin", "Fianna Fail", 10, 
+                prog_cons= 41,
+                nat_glob= -12,
+                env_eco= 34,
+                soc_cap= 45,
+                pac_mil= 12,
+                auth_ana= -4),
+        Candidate(1, "Mary Lou McDonald", "Sinn Fein", 10, 
+                prog_cons= -31,
+                nat_glob= -43,
+                env_eco= 31,
+                soc_cap= -12,
+                pac_mil= 31,
+                auth_ana= 35),
+        Candidate(3, "Leo Varadkar", "Fine Gael", 9, 
+                prog_cons= 2,
+                nat_glob= 12,
+                env_eco= 30,
+                soc_cap= 65,
+                pac_mil= -12,
+                auth_ana= -10),
+        Candidate(4, "Eamon Ryan", "Green", 3,
+                prog_cons= -45,
+                nat_glob= 41,
+                env_eco= -46,
+                soc_cap= -4,
+                pac_mil= -31,
+                auth_ana= 29),
+    ],
 }
 
 
@@ -373,11 +403,6 @@ for x in MODES:
 
 mode = difflib.get_close_matches(input("\nWhich voting system do you want to simulate? ").strip().upper(), MODES, 1)[0] 
 
-if mode == "FPTP": # first past the post
-    for c in CANDIDATES:
-        c.party_pop *= 3  # make party size 3 times more affecting
-
-
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
 
@@ -419,6 +444,10 @@ if mode in ["4 ROUND", "2 ROUND"]:
 
 elif mode in ["FPTP"]:
 
+    for c in CANDIDATES:
+        c.party_pop *= 3  # make party size 3 times more affecting for FPTP
+
+
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
         print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
     else: # if just plurality
@@ -426,12 +455,13 @@ elif mode in ["FPTP"]:
     
 elif mode in ["PROP REP"]:
 
+
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
         print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
     else:  # FORM COALITION
-        coal = coalition(results[0][0], RESULTS, CANDIDATES)
 
-        
+
+        coal = coalition(results[0][0], RESULTS, CANDIDATES)
         print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have formed a coalition with:")
         for p in coal:
             print(f"> {p.party} {('(' + p.name + ')') if (p.name!='') else ''}")
