@@ -19,7 +19,7 @@ class Voter:
     def __init__(self, vals):
         self.vals = vals
 
-    def vote(self, candidates):
+    def vote(self, candidates, rand_pref):
         global not_voted
         dists = []
         for cand in candidates:
@@ -29,6 +29,9 @@ class Voter:
             euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
             euc_dist -= cand.party_pop # take away party popularity from distance
             dists.append(euc_dist) # add to distance list
+
+        dists[rand_pref] *= 0.95 # 0.95 by random preference of party
+
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
         if dists[index_min] <= 200: # if close enough to vote for them:
             RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
@@ -42,24 +45,35 @@ def format_votes(votes):
     global scale_factor, scale_fac
     return (f'{abs((votes*scale_factor + (random.randrange(0, int("0" + "9"*scale_fac)) if scale_fac > 1 else 0))):,}')
 
+STORED_RESULTS = None # for the increase or decrease
 def print_results(RESULTS):
+    global STORED_RESULTS
 
+    moves = ["" for _ in RESULTS]
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
+    if STORED_RESULTS: # once have a board already printed
+        for x in range(len(res)):
+            change = STORED_RESULTS.index(res[x]) - x
+            moves[x] = "▴" if change>0 else ("▾" if change < 0 else "")
+
     os.system('cls' if os.name == 'nt' else 'clear')
     print(COUNTRY + " - " + mode + "\n")
     for i in range(len(res)):
-        print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
-    print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
+        print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(moves[i], 1)}{str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
+    print(f"{str.ljust('Not voted', 53)} : {format_votes(not_voted)}")
     print()
 
-def print_final_results(RESULTS, first=True, old_res = []):
+    STORED_RESULTS = res
 
+def print_final_results(RESULTS, first=True, old_res = []):
+    global STORED_RESULTS
+    STORED_RESULTS = None
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     os.system('cls' if os.name == 'nt' else 'clear')
     print(COUNTRY + " - " + mode + "\n")
     for i in range(len(res)):
         if not first: # print with the percentage change
-            print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} {str.ljust('[+' + str(round((res[i][1]-old_res[res[i][0]])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2)) + '%]', 10)}: {format_votes(res[i][1])} votes " )
+            print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} {str.ljust(('[▴' if (res[i][1]-old_res[res[i][0]])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)>0 else '[▾') + str(round(abs(res[i][1]-old_res[res[i][0]])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2)) + '%]', 10)}: {format_votes(res[i][1])} votes " )
         else:
             print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
 
@@ -69,8 +83,14 @@ def print_final_results(RESULTS, first=True, old_res = []):
 
 def run(data, cands, pop):
 
-    loc_pop = VOTING_DEMOS[COUNTRY]["pop"]
-    for it in range(loc_pop): # population in tens of thousands
+    rand_pref = 0
+    cand_numbers = []
+    for x in range(len(cands)):
+        for _ in range(math.ceil(cands[x].party_pop)):
+            cand_numbers.append(x)
+    counter = 0
+
+    for it in range(1, pop): # population in tens of thousands
 
         vot = Voter(VOTING_DEMOS[COUNTRY]["vals"])
 
@@ -82,12 +102,19 @@ def run(data, cands, pop):
             if vot.vals[i] <= -100:
                 vot.vals[i] = -100
 
-        vot.vote(cands) # calling vote
+        vot.vote(cands, rand_pref) # calling vote
 
         # showing results
+
         if it % (pop//60 + 1) == 0:
             print_results(RESULTS)
             sleep(DELAY)
+            
+        if it % (pop // len(cand_numbers)) == 0:
+            cand_numbers.pop(cand_numbers.index(rand_pref))
+            if len(cand_numbers) != 0:
+                rand_pref = random.choice(cand_numbers)
+
 
     print_final_results(RESULTS)
     return sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
