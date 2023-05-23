@@ -86,7 +86,7 @@ def run(data, cands, pop):
     rand_pref = 0
     cand_numbers = []
     for x in range(len(cands)):
-        for _ in range(math.ceil(cands[x].party_pop)):
+        for _ in range((math.ceil(cands[x].party_pop)*10)+1):
             cand_numbers.append(x)
     counter = 0
 
@@ -114,6 +114,7 @@ def run(data, cands, pop):
             cand_numbers.pop(cand_numbers.index(rand_pref))
             if len(cand_numbers) != 0:
                 rand_pref = random.choice(cand_numbers)
+        
 
 
     print_final_results(RESULTS)
@@ -161,18 +162,17 @@ VOTING_DEMOS = {
     #COUNTRY: [pop in hundreds, prog_cons, nat_glob, env_eco, soc_cap, pac_mil]
     # progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist, authoritative-anarchist
     "UK": {"pop": 70_029_0, "vals": [-10, -15, 45, 85, -24, -17], "scale":100},
-    "GERMANY 1936": {"pop": 61_024_1, "vals":[120, -68, 64, 87, 78, -98], "scale":100},
+    "GERMANY 1936": {"pop": 61_024_1, "vals":[95, -68, 64, 4, 78, -56], "scale":100},
     "GERMANY" : {"pop" : 85_029_5, "vals" : [-12, 34, 24, 12, 24, -1], "scale":100},
     "HAMPTON": {"pop": 1_546, "vals": [21, 0, 76, 12, -23, -30], "scale":1},
     "DENMARK": {"pop": 50_843, "vals": [-34, 46, 0, -2, -21, 42], "scale":100},
-    "NORTH KOREA": {"pop": 25_083_4, "vals" : [56, -99, 35, -98, 70, -98], "scale":100},
+    "NORTH KOREA": {"pop": 25_083_4, "vals" : [56, -99, 35, -105, 70, -98], "scale":100},
     "USA" : {"pop": 350_000, "vals" : [20, -35, 20, 70, 60, 14], "scale":1000},
     "TURKEY" : {"pop": 87_000_0, "vals" : [50, -34, 21, 65, 34, -47], "scale":100},
     "FINLAND" : {"pop": 55_410, "vals" : [-2, 10, 12, -1, 12, 12], "scale":100},
     "RUSSIA" : {"pop": 143_000, "vals": [43, -62, 71, 69, 75, -61], "scale":1000},
     "SOMALIA" : {"pop" : 17_000_0, "vals": [76, -46, 89, 85, 89, -57], "scale": 100},
     "IRELAND" : {"pop": 60_123, "vals": [5, -1, 32, 14, 12, -4], "scale": 100}
-    
 }
 
 for x in VOTING_DEMOS.keys():
@@ -231,9 +231,9 @@ CAND_LIST = {
         Candidate(4, "Ron Edwards", "Christian C. Party", 3, 200, -50, 0, -20, 80, -67)
     ],
     "GERMANY 1936": [
-        Candidate(0, "Otto Wels", "SPD", 10, 12, -35, 24, -21, 36, 4),
-        Candidate(1, "Hadolf Itler", "NDSAP", 7, 98, -78, -1, -13, 86, -86),
-        Candidate(3, "Ernst Thalman", "KPD", 7, -34, -56, 24, -67, 78, 57),
+        Candidate(0, "Otto Wels", "SPD", 5, 12, -35, 24, -21, 36, 4),
+        Candidate(1, "Hadolf Itler", "NDSAP", 7, 98, -78, -1, 45, 86, -86),
+        Candidate(3, "Ernst Thalman", "KPD", 7, 57, -56, 24, -67, 78, 23),
         Candidate(0, "Ludwig Kaas", "Centre", 5, 0, -12, 41, 12, 6, -12),
     ],
     "NORTH KOREA": [
@@ -255,7 +255,7 @@ CAND_LIST = {
                 env_eco= -15,
                 soc_cap= -50,
                 pac_mil=  -24,
-                auth_ana= -12),
+                auth_ana= -77),
         
         Candidate(6, "Danil Eliasov", "Yes Please!", 5,
                 prog_cons= 90, 
@@ -291,7 +291,7 @@ CAND_LIST = {
 
         Candidate(12, "William Greenfield", "Economic Reformists", 5, 80, 100, 100, 100, 0, -100),
         Candidate(13, "Ivo Meldrum", "MRL", 5, -20, 40, -40, -10, -20, 10),
-        Candidate(14, "Alex Wicks", "Britain First", 5, 
+        Candidate(14, "Alex Wicks", "Nation First", 5, 
                 prog_cons = -20,
                 nat_glob = 70,
                 env_eco = -50,
@@ -305,6 +305,13 @@ CAND_LIST = {
                 soc_cap = 60,
                 pac_mil = 85,
                 auth_ana = -95),
+            Candidate(16, "Emperor Karl", "Imperius", 5, 
+                prog_cons = 75,
+                nat_glob = -90,
+                env_eco = -12,
+                soc_cap = 86,
+                pac_mil = 85,
+                auth_ana = -86)
     ],
     "GERMANY" : [
         Candidate(0, "Olaf Scholz", "SPD", 10, 
@@ -390,7 +397,9 @@ CAND_LIST = {
 os.system('cls' if os.name == 'nt' else 'clear') # clear and then ask 
 for x in CAND_LIST.keys():
     print(x)
-CANDIDATES = CAND_LIST[difflib.get_close_matches(input("\nPick a party group from the list above: ").upper().strip(), CAND_LIST.keys(), 1)[0]] # SET CANDIDATE LIST TO USE
+CHOICE = input("\nPick a party group from the list above: ")
+CHOICE = difflib.get_close_matches(CHOICE.upper().strip(), CAND_LIST.keys(), 1)[0]
+CANDIDATES = CAND_LIST[CHOICE] # SET CANDIDATE LIST TO USE
 for m in range(len(CANDIDATES)):
     CANDIDATES[m].id = m
 
@@ -430,8 +439,14 @@ for x in MODES:
 
 mode = difflib.get_close_matches(input("\nWhich voting system do you want to simulate? ").strip().upper(), MODES, 1)[0] 
 
+if COUNTRY != CHOICE: # discard party popularity if not the relevant country
+    for c in CANDIDATES:
+        c.party_pop *= 0 
+
+
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
+
 
 
 if mode in ["4 ROUND", "2 ROUND"]:
