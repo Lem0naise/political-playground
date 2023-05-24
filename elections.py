@@ -47,7 +47,7 @@ def format_votes(votes):
     return (f'{abs((votes*scale_factor + (random.randrange(0, int("0" + "9"*scale_fac)) if scale_fac > 1 else 0))):,}')
 
 STORED_RESULTS = None # for the increase or decrease
-def print_results(RESULTS):
+def print_results(RESULTS, rand_pref):
 
     global STORED_RESULTS
 
@@ -61,6 +61,7 @@ def print_results(RESULTS):
     os.system('cls' if os.name == 'nt' else 'clear')
     print(COUNTRY + " - " + mode + "\n")
     for i in range(len(res)):
+        # {str.ljust(('▴' if i == rand_pref else ''), 2)}
         print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(moves[i], 1)}{str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
     print(f"{str.ljust('Not voted', 53)} : {format_votes(not_voted)}")
     print()
@@ -117,7 +118,7 @@ def run(data, cands, pop):
         # showing results
 
         if it % (pop//60 + 1) == 0:
-            print_results(RESULTS)
+            print_results(RESULTS, rand_pref)
             sleep(DELAY)
             
         if it in regions:
@@ -170,19 +171,35 @@ def coalition(leader, results_a):
                 counter += 1
                 if counter >= len(parties_in_order):
                     return (new_leader, [])
-
                 new_leader = parties_in_order[counter]
                 perc = 0
                 cur_dists = dists # reset the distances back to original
-
                 break
 
             if cur_dists[index_min] == 0: # if it is the leader already
                 cur_dists[index_min] = 99999
-            else:
-                partners.append(parties_in_order[index_min])
-                cur_dists[index_min] = 999999 # already partnered with
-                perc += percs[index_min]
+            else: # if found a good new coalition partner
+
+                # the partner vetting all the preexisting partners and their relationships with them
+                partner = parties_in_order[index_min]
+                t_dists = []
+                for part in partners:
+                    euc_sum = 0
+                    for o in range(len(partner.vals)): # sum square of each value
+                        euc_sum += (partner.vals[o] - part.vals[o])**2
+                    euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
+                    t_dists.append(euc_dist) # add to distance list
+                #t_dists.sort()
+            
+                if len(t_dists) > 0 and t_dists[-1] > TOO_FAR_DISTANCE: # if any partner is over the too far distance
+                    t_dists, t_partners = (list(t) for t in zip(*sorted(zip(t_dists, partners))))
+
+                    #input(f'{partner.party} does not want to work with {t_partners[-1].party}')
+                    cur_dists[index_min] = 999999 # already partnered with so remove from list
+                else: # if satisfied
+                    partners.append(partner)
+                    cur_dists[index_min] = 999999 # already partnered with so remove from list
+                    perc += percs[index_min]
 
         if perc > 0.5:
             majority = True
@@ -553,7 +570,6 @@ if COUNTRY != CHOICE: # discard party popularity if not the relevant country
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
 
 
-
 if mode in ["4 ROUND", "2 ROUND"]:
 
 
@@ -606,8 +622,6 @@ elif mode in ["PROP REP"]:
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
         print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
     else:  # FORM COALITION
-
-
         leader, coal = coalition(results[0][0], RESULTS)
         if coal != []: # if a coalition was formed:
             print(f"\nThe {leader.party} party {('(led by ' + leader.name + ')') if (leader.name!='') else ''} have formed a coalition with:")
@@ -615,7 +629,23 @@ elif mode in ["PROP REP"]:
                 print(f"> {p.party} {('(' + p.name + ')') if (p.name!='') else ''}")
             print(f"to form a majority government.")
         else:
-            print(f"No parties could reach a coalition agreement. The country is in disarray.")
-            
-            
+            print(f"No parties could reach a coalition agreement.")
+            print("The election will proceed to a 2 round runoff.")
+            input()
 
+            not_voted = 0 # reset not voted 
+
+            # save old results as a dictionary
+            old_results = {RESULTS[x][0] : RESULTS[x][1] for x in range(len(RESULTS))} 
+
+            new_cands = [x[0] for x in results[:2]] # knockout the lowest candidate
+            for x in range(len(new_cands)): # reset candidate ids
+                new_cands[x].id = x
+
+            RESULTS = [] # reset RESULTS
+            for cand in new_cands:
+                RESULTS.append([cand, 0])
+
+
+            results = run(data, new_cands, VOTING_DEMOS[COUNTRY]['pop']) # run the elections again
+            print_final_results(RESULTS, False, old_results)
