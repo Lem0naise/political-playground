@@ -297,7 +297,7 @@ CAND_LIST = {
     ],
     "NORTH KOREA": [
         Candidate(0, "Kim Jong-Un", "Worker's Party", 70, 59, -90, 23, -99, 90, -99, 100),
-        Candidate(1, "Kim Ho-Chol", "Social Democrat", 20, -20, -20, -20, -60, 50, -150, 100)
+        Candidate(1, "Kim Ho-Chol", "Social Democrat", 20, -20, -20, -20, -60, 50, -52, 100)
     ],
     "FINLAND" : [
         Candidate(0, "", "Soc Dem", 10, -30, 20, -12, -12, -1, -10, 51),
