@@ -26,7 +26,7 @@ class Voter:
         for cand in candidates:
             euc_sum = 0
             for o in range(len(self.vals)): # sum square of each value
-                euc_sum += (self.vals[o] - cand.vals[o])**2
+                euc_sum += (self.vals[list(self.vals.keys())[o]] - cand.vals[o])**2
             euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
             euc_dist -= cand.party_pop # take away party popularity from distance
             dists.append(euc_dist) # add to distance list
@@ -107,11 +107,11 @@ def run(data, cands, pop):
 
         # setting voter values from massive dataset
         for i in range(len(vot.vals)):
-            vot.vals[i] = data[i][it] # go through each data set from leftmost to rightmost
-            if vot.vals[i] >= 100:
-                vot.vals[i] = 100
-            if vot.vals[i] <= -100:
-                vot.vals[i] = -100
+            vot.vals[list(vot.vals.keys())[i]] = data[i][it] # go through each data set from leftmost to rightmost
+            if vot.vals[list(vot.vals.keys())[i]] >= 100:
+                vot.vals[list(vot.vals.keys())[i]] = 100
+            if vot.vals[list(vot.vals.keys())[i]] <= -100:
+                vot.vals[list(vot.vals.keys())[i]] = -100
 
         vot.vote(cands, rand_pref) # calling vote
 
@@ -212,23 +212,115 @@ def coalition(leader, results_a):
 # ~~~~~~~~~~ CUSTOM USER COUNTRIES ~~~~~~~~~~~~
 
 VOTING_DEMOS = {
-    #COUNTRY: [pop in hundreds, prog_cons, nat_glob, env_eco, soc_cap, pac_mil]
-    # progressive-conservative, nationalist-globalist, 
-    # environmentalist-economical, socialist-capitalist, 
-    # pacifist-militarist, authoritative-anarchist
-    # religious-secular
-    "UK": {"pop": 70_029_0, "vals": [-10, -15, 45, 85, -24, -17, 23], "scale":100},
-    "GERMANY 1936": {"pop": 61_024_1, "vals":[95, -68, 64, 4, 78, -56, -54], "scale":100},
-    "GERMANY" : {"pop" : 85_029_5, "vals" : [-12, 34, 24, 12, 24, -1, -12], "scale":100},
-    "HAMPTON": {"pop": 1_546, "vals": [21, 0, 76, 12, -23, -30, 29], "scale":1},
-    "DENMARK": {"pop": 50_843, "vals": [-34, 46, 0, -2, -21, 42, 64], "scale":100},
-    "NORTH KOREA": {"pop": 25_083_4, "vals" : [56, -99, 35, -105, 70, -98, 99], "scale":100},
-    "USA" : {"pop": 350_000, "vals" : [20, -35, 20, 70, 60, 14, -31], "scale":1000},
-    "TURKEY" : {"pop": 87_000_0, "vals" : [38, -24, 21, 65, 34, -12, 22], "scale":100},
-    "FINLAND" : {"pop": 55_410, "vals" : [-2, 10, 12, -1, 12, 12, 45], "scale":100},
-    "RUSSIA" : {"pop": 143_000, "vals": [43, -62, 71, 69, 75, -61, -31], "scale":1000},
-    "SOMALIA" : {"pop" : 17_000_0, "vals": [76, -46, 89, 85, 89, -57, -64], "scale": 100},
-    "IRELAND" : {"pop": 60_123, "vals": [5, -1, 32, 14, 12, -4, -41], "scale": 100}
+    #COUNTRY: [pop in hundreds]
+    "UK": {"pop": 70_029_0, "vals": {
+                "prog_cons": -10,
+                "nat_glob": -15,
+                "env_eco": 45,
+                "soc_cap":  85,
+                "pac_mil": -24,
+                "auth_ana": -17,
+                "rel_sec": -23},
+                "scale":100},
+    "GERMANY 1936": {"pop": 61_024_1, "vals":{
+                "prog_cons": 95,
+                "nat_glob": -68,
+                "env_eco": 64,
+                "soc_cap":  4,
+                "pac_mil": 78,
+                "auth_ana": -56,
+                "rel_sec": -56},
+                "scale":100},
+    "GERMANY" : {"pop" : 85_029_5, "vals" : {
+                "prog_cons": -12,
+                "nat_glob": 34,
+                "env_eco": 24,
+                "soc_cap":  12,
+                "pac_mil": 24,
+                "auth_ana": -1,
+                "rel_sec": -12},
+                "scale":100},
+    "HAMPTON": {"pop": 1_546, "vals": {
+                "prog_cons": 21,
+                "nat_glob": 0,
+                "env_eco": 76,
+                "soc_cap":  12,
+                "pac_mil": -23,
+                "auth_ana": -30,
+                "rel_sec": 29},
+                "scale":1},
+    "DENMARK": {"pop": 50_843, "vals": {
+                "prog_cons": -34,
+                "nat_glob": 46,
+                "env_eco": 0,
+                "soc_cap":  -2,
+                "pac_mil": -21,
+                "auth_ana": 42,
+                "rel_sec": 64},
+                "scale":100},
+    "NORTH KOREA": {"pop": 25_083_4, "vals" : {
+                "prog_cons": 56,
+                "nat_glob": -99,
+                "env_eco": 35,
+                "soc_cap":  -105,
+                "pac_mil": 70,
+                "auth_ana": -98,
+                "rel_sec": 99},
+                "scale":100},
+    "USA" : {"pop": 350_000, "vals" : {
+                "prog_cons": 20,
+                "nat_glob": -35,
+                "env_eco": 20,
+                "soc_cap":  70,
+                "pac_mil": 60,
+                "auth_ana": 14,
+                "rel_sec": -31},
+                "scale":1000},
+    "TURKEY" : {"pop": 87_000_0, "vals" : {
+                "prog_cons": 38,
+                "nat_glob": -24,
+                "env_eco": 21,
+                "soc_cap":  65,
+                "pac_mil": 34,
+                "auth_ana": -12,
+                "rel_sec": 22},
+                "scale":100},
+    "FINLAND" : {"pop": 55_410, "vals" : {
+                "prog_cons": -2,
+                "nat_glob": 10,
+                "env_eco": 12,
+                "soc_cap":  -1,
+                "pac_mil": 12,
+                "auth_ana": 12,
+                "rel_sec": 45},
+                "scale":100},
+    "RUSSIA" : {"pop": 143_000, "vals": {
+                "prog_cons": 43,
+                "nat_glob": -62,
+                "env_eco": 71,
+                "soc_cap":  69,
+                "pac_mil": 75,
+                "auth_ana": -61,
+                "rel_sec": -31},
+                "scale":1000},
+    "SOMALIA" : {"pop" : 17_000_0, "vals": {
+                "prog_cons": 76,
+                "nat_glob": -46,
+                "env_eco": 89,
+                "soc_cap":  85,
+                "pac_mil": 89,
+                "auth_ana": -57,
+                "rel_sec": -64},
+                "scale":100},
+    "IRELAND" : {"pop": 60_123, "vals": {
+                "prog_cons": 5,
+                "nat_glob": -1,
+                "env_eco": 32,
+                "soc_cap":  14,
+                "pac_mil": 12,
+                "auth_ana": -4,
+                "rel_sec": -41},
+                "scale":100},
 }
 
 for x in VOTING_DEMOS.keys():
@@ -240,8 +332,8 @@ scale_fac = len(str(scale_factor))-1
 
 # SLIGHTLY RANDOMIZING VOTING DEMOGRAPHIC
 for p in range(len(VOTING_DEMOS[COUNTRY])):
-    VOTING_DEMOS[COUNTRY]["vals"][p] += round(20*(random.random()-0.5)) # randomise by 10 possibility each side
-
+   #VOTING_DEMOS[COUNTRY]["vals"][VOTING_DEMOS[COUNTRY]["vals"].keys()[p]]
+    VOTING_DEMOS[COUNTRY]["vals"][list(VOTING_DEMOS[COUNTRY]["vals"].keys())[p]] += round(20*(random.random()-0.5)) # randomise by 10 possibility each side
 
 
 # ~~~~~~~~~~ CUSTOM USER PARTIES ~~~~~~~~~~~~
@@ -353,12 +445,12 @@ CAND_LIST = {
                 auth_ana= -78,
                 rel_sec = 0),
         Candidate(8, "Luc Mason", "DdD", 5,
-            prog_cons= 21, 
-            nat_glob= -11, 
-            env_eco= 31,
-            soc_cap= 31,
-            pac_mil=  -12,
-            auth_ana= -12,
+            prog_cons= 42, 
+            nat_glob= -22, # doubled 
+            env_eco= 62,
+            soc_cap= 62,
+            pac_mil=  -24,
+            auth_ana= -24,
             rel_sec = 87),
 
         Candidate(12, "William Greenfield", "Economic Reformists", 5, 80, 100, 100, 100, 0, -100,
@@ -536,13 +628,13 @@ for cand in CANDIDATES:
     RESULTS.append([cand, 0])
 
 data = [ # create normal distributions for each value axis
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][0], scale = 50, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][1], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # nat - glob
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][2], scale = 150, size=VOTING_DEMOS[COUNTRY]["pop"]), # env - eco
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][3], scale = 70, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][4], scale = 120, size=VOTING_DEMOS[COUNTRY]["pop"]), # pac - mil
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][5], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"][6], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel - sec
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["prog_cons"], scale = 50, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["nat_glob"], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # nat - glob
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["env_eco"], scale = 150, size=VOTING_DEMOS[COUNTRY]["pop"]), # env - eco
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["soc_cap"], scale = 70, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["pac_mil"], scale = 120, size=VOTING_DEMOS[COUNTRY]["pop"]), # pac - mil
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel - sec
 ]
 
 
