@@ -1,7 +1,8 @@
 import random, math, os, numpy, difflib
 from time import sleep
 
-TOO_FAR_DISTANCE = 200 # adjust by how many values are added
+TOO_FAR_DISTANCE = 200 # adjust by how many values are added, reduce to make more people radical and less people vote
+COALITION_FACTOR = 0.8 # reducing the tolerance for parties in a coalition (lower is less tolerant)
 
 class Candidate:
     # -10 -> 10
@@ -166,7 +167,7 @@ def coalition(leader, results_a):
         while perc < 0.5: # while do not have a majority go through the list of parties:
             index_min = min(range(len(cur_dists)), key=dists.__getitem__) # find preferred candidate by closest distance
             
-            if cur_dists[index_min] > (TOO_FAR_DISTANCE*0.8): # if cannot get a satisfying majority for the leader
+            if cur_dists[index_min] > (TOO_FAR_DISTANCE*COALITION_FACTOR*1.1): # if cannot get a satisfying majority for the leader
                 # reset the leader to the second place candidate
                 counter += 1
                 if counter >= len(parties_in_order):
@@ -191,7 +192,7 @@ def coalition(leader, results_a):
                     t_dists.append(euc_dist) # add to distance list
                 #t_dists.sort()
             
-                if len(t_dists) > 0 and t_dists[-1] > TOO_FAR_DISTANCE: # if any partner is over the too far distance
+                if len(t_dists) > 0 and t_dists[-1] > TOO_FAR_DISTANCE*COALITION_FACTOR: # if any partner is over the too far distance
                     t_dists, t_partners = (list(t) for t in zip(*sorted(zip(t_dists, partners))))
 
                     #input(f'{partner.party} does not want to work with {t_partners[-1].party}')
@@ -216,12 +217,14 @@ VOTING_DEMOS = {
     "UK": {"pop": 70_029_0, "vals": {
                 "prog_cons": -10,
                 "nat_glob": -15,
-                "env_eco": 45,
-                "soc_cap":  85,
+                "env_eco": 35,
+                "soc_cap":  55,
                 "pac_mil": -24,
                 "auth_ana": -17,
                 "rel_sec": -23},
-                "scale":100},
+                "scale":100,
+                "hos":"King Charles III"},
+
     "GERMANY 1936": {"pop": 61_024_1, "vals":{
                 "prog_cons": 95,
                 "nat_glob": -68,
@@ -230,7 +233,8 @@ VOTING_DEMOS = {
                 "pac_mil": 78,
                 "auth_ana": -56,
                 "rel_sec": -56},
-                "scale":100},
+                "scale":100,
+                "hos":"Paul von Hindenburg"},
     "GERMANY" : {"pop" : 85_029_5, "vals" : {
                 "prog_cons": -12,
                 "nat_glob": 34,
@@ -239,7 +243,8 @@ VOTING_DEMOS = {
                 "pac_mil": 24,
                 "auth_ana": -1,
                 "rel_sec": -12},
-                "scale":100},
+                "scale":100,
+                "hos":"Frank-Walter Steinmeier"},
     "HAMPTON": {"pop": 1_546, "vals": {
                 "prog_cons": 21,
                 "nat_glob": 0,
@@ -248,7 +253,8 @@ VOTING_DEMOS = {
                 "pac_mil": -23,
                 "auth_ana": -30,
                 "rel_sec": 29},
-                "scale":1},
+                "scale":1,
+                "hos":"Kevin Knibbs"},
     "DENMARK": {"pop": 50_843, "vals": {
                 "prog_cons": -34,
                 "nat_glob": 46,
@@ -257,7 +263,8 @@ VOTING_DEMOS = {
                 "pac_mil": -21,
                 "auth_ana": 42,
                 "rel_sec": 64},
-                "scale":100},
+                "scale":100,
+                "hos":"Frank-Walter Steinmeier"},
     "NORTH KOREA": {"pop": 25_083_4, "vals" : {
                 "prog_cons": 56,
                 "nat_glob": -99,
@@ -266,7 +273,8 @@ VOTING_DEMOS = {
                 "pac_mil": 70,
                 "auth_ana": -98,
                 "rel_sec": 99},
-                "scale":100},
+                "scale":100,
+                "hos":"Queen Margrethe II"},
     "USA" : {"pop": 350_000, "vals" : {
                 "prog_cons": 20,
                 "nat_glob": -35,
@@ -275,7 +283,8 @@ VOTING_DEMOS = {
                 "pac_mil": 60,
                 "auth_ana": 14,
                 "rel_sec": -31},
-                "scale":1000},
+                "scale":1000,
+                "hos":"Chief Justice John Roberts"},
     "TURKEY" : {"pop": 87_000_0, "vals" : {
                 "prog_cons": 38,
                 "nat_glob": -24,
@@ -293,7 +302,8 @@ VOTING_DEMOS = {
                 "pac_mil": 12,
                 "auth_ana": 12,
                 "rel_sec": 45},
-                "scale":100},
+                "scale":100,
+                "hos":"Sauli Niinosto"},
     "RUSSIA" : {"pop": 143_000, "vals": {
                 "prog_cons": 43,
                 "nat_glob": -62,
@@ -302,7 +312,8 @@ VOTING_DEMOS = {
                 "pac_mil": 75,
                 "auth_ana": -61,
                 "rel_sec": -31},
-                "scale":1000},
+                "scale":1000,
+                "hos":"Vladimir Putin"},
     "SOMALIA" : {"pop" : 17_000_0, "vals": {
                 "prog_cons": 76,
                 "nat_glob": -46,
@@ -320,7 +331,8 @@ VOTING_DEMOS = {
                 "pac_mil": 12,
                 "auth_ana": -4,
                 "rel_sec": -41},
-                "scale":100},
+                "scale":100,
+                "hos":"Michael Higgins"},
 }
 
 for x in VOTING_DEMOS.keys():
@@ -446,7 +458,7 @@ CAND_LIST = {
                 rel_sec = 0),
         Candidate(8, "Luc Mason", "DdD", 5,
             prog_cons= 42, 
-            nat_glob= -22, # doubled 
+            nat_glob= -22,
             env_eco= 62,
             soc_cap= 62,
             pac_mil=  -24,
@@ -601,7 +613,34 @@ CAND_LIST = {
                 pac_mil= -31,
                 auth_ana= 29,
                 rel_sec = -78),
+    ],
+    "NOLANS" : [
+        Candidate(0, "Zac Nolan", "Federalist Party", 2,
+                prog_cons= -60,
+                nat_glob= 30,
+                env_eco= -5,
+                soc_cap= 15,
+                pac_mil= -10,
+                auth_ana= -15,
+                rel_sec = 85),
+        Candidate(1, "Juliet Nolan", "The Greens", 2,
+                prog_cons= -80,
+                nat_glob= 65,
+                env_eco= -95,
+                soc_cap= -45,
+                pac_mil= 0,
+                auth_ana= 75,
+                rel_sec = 95),
+        Candidate(2, "Dale Nolan", "Status", 2,
+                prog_cons= -12,
+                nat_glob= -1,
+                env_eco= -4,
+                soc_cap= 62,
+                pac_mil= 45,
+                auth_ana= -12,
+                rel_sec = 2),
     ]
+
 }
 
 
@@ -714,6 +753,10 @@ elif mode in ["PROP REP"]:
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
         print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
     else:  # FORM COALITION
+        print(f"The {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
+        print("No candidate has received a majority. A coalition will be formed.")
+
+        input()
         leader, coal = coalition(results[0][0], RESULTS)
         if coal != []: # if a coalition was formed:
             print(f"\nThe {leader.party} party {('(led by ' + leader.name + ')') if (leader.name!='') else ''} have formed a coalition with:")
@@ -722,6 +765,14 @@ elif mode in ["PROP REP"]:
             print(f"to form a majority government.")
         else:
             print(f"No parties could reach a coalition agreement.")
+            
+            try:
+                hos = VOTING_DEMOS[COUNTRY]['hos']
+            except KeyError:
+                hos = "the Head of State"
+            print(f"The goverment has been dissolved by {VOTING_DEMOS[COUNTRY]['hos']}. Run new elections.")
+            exit()
+        
             print("The election will proceed to a 2 round runoff.")
             input()
 
