@@ -1,5 +1,7 @@
 import random, math, os, numpy, difflib
 from time import sleep
+import plotext as plt
+import matplotlib.pyplot as mpl
 
 TOO_FAR_DISTANCE = 200 # adjust by how many values are added, reduce to make more people radical and less people vote
 COALITION_FACTOR = 0.8 # reducing the tolerance for parties in a coalition (lower is less tolerant)
@@ -48,28 +50,64 @@ def format_votes(votes):
     return (f'{abs((votes*scale_factor + (random.randrange(0, int("0" + "9"*scale_fac)) if scale_fac > 1 else 0))):,}')
 
 STORED_RESULTS = None # for the increase or decrease
-def print_results(RESULTS, rand_pref):
 
+
+def print_results(RESULTS, rand_pref):
     global STORED_RESULTS
+
 
     moves = ["" for _ in RESULTS]
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     if STORED_RESULTS: # once have a board already printed
+
         for x in range(len(res)):
             change = STORED_RESULTS.index(res[x]) - x
             moves[x] = "▴" if change>0 else ("▾" if change < 0 else "")
 
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print(COUNTRY + " - " + mode + "\n")
-    for i in range(len(res)):
-        # {str.ljust(('▴' if i == rand_pref else ''), 2)}
-        print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(moves[i], 1)}{str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
-    print(f"{str.ljust('Not voted', 53)} : {format_votes(not_voted)}")
-    print()
+        for x in range(len(STORED_RESULTS)): # adding to plot values 
+            new = STORED_RESULTS[x][0]
+            dat = STORED_RESULTS[x][1]
+            # get percentage of vote for line graph
+            dat = round((dat)/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)
+            ys[new].append(dat);
+
+        ys_values = list(ys.values())
+        lim = 60;
+
+
+        ys_keys = list(ys.keys())
+        total = 0
+        for x in ys_values: # going through all candidates
+            total+=x[-1]
+            for p in x: # going through each vote in candidates
+                if p > 60:
+                    lim = p;
+
+        for x in range(len(ys_values)):  # for each candidate
+            ys_values[x][-1] = (ys_values[x][-1] / total) * 100
+
+        plt.clear_data()
+        plt.ylim(0, lim)
+        
+        for x in range(len(ys)):
+            plt.plot(ys_values[x], label=ys_keys[x].party)
+        plt.show()
+
+    #os.system('cls' if os.name == 'nt' else 'clear')
+
+    #print(COUNTRY + " - " + mode + "\n")
+    #for i in range(len(res)):
+    #    # {str.ljust(('▴' if i == rand_pref else ''), 2)}
+    #    print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(moves[i], 1)}{str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
+    #print()
+    #print(f"{str.ljust('Not voted', 53)} : {format_votes(not_voted)}")
+    #print()
 
     STORED_RESULTS = res
 
 def print_final_results(RESULTS, first=True, old_res = []):
+    print("READY TO SHOW RESULTS")
+    input()
     global STORED_RESULTS
     STORED_RESULTS = None
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
@@ -80,7 +118,7 @@ def print_final_results(RESULTS, first=True, old_res = []):
             print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} {str.ljust(('[▴' if (res[i][1]-old_res[res[i][0]])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)>0 else '[▾') + str(round(abs(res[i][1]-old_res[res[i][0]])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2)) + '%]', 10)}: {format_votes(res[i][1])} votes " )
         else:
             print(f"{str.ljust(res[i][0].name, 20)} {str.ljust(res[i][0].party, 20)} : {str.ljust(str(round(res[i][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted)*100, 2))+'%', 8)} : {format_votes(res[i][1])} votes " )
-
+    print()
     print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
     print()
 
@@ -102,7 +140,7 @@ def run(data, cands, pop):
         regions.append(factor*i)
 
 
-    for it in range(1, pop): # population in tens of thousands
+    for it in range(1, pop): # population in tens of thousands ! must optimize
 
         vot = Voter(VOTING_DEMOS[COUNTRY]["vals"])
 
@@ -643,9 +681,12 @@ for x in CAND_LIST.keys():
     print(x)
 CHOICE = input("\nPick a party group from the list above: ")
 CHOICE = difflib.get_close_matches(CHOICE.upper().strip(), CAND_LIST.keys(), 1)[0]
+# SETTIG UP CANDIDATE LIST
+ys = {}
 CANDIDATES = CAND_LIST[CHOICE] # SET CANDIDATE LIST TO USE
 for m in range(len(CANDIDATES)):
     CANDIDATES[m].id = m
+    ys[CANDIDATES[m]] = []; # set y value to 0
 
 
 
@@ -691,10 +732,9 @@ if COUNTRY != CHOICE: # discard party popularity if not the relevant country
 
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
-
+input()
 
 if mode in ["4 ROUND", "2 ROUND"]:
-
 
     runoff_counter = 4 if len(CANDIDATES) > 4 else len(CANDIDATES)-1
     if mode == "2 ROUND":
