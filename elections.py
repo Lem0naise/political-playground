@@ -97,19 +97,28 @@ def print_results(RESULTS, rand_pref):
 
 
         total = 0
-        lim = 60;
+        lim = 20;
         for x in ys_values: # going through all candidates
             total+=x[-1]
-        for x in ys_values:
-            for p in x: # going through each vote in candidates
-                if (p/total * 100) > 50:
-                    lim = 100;
+            
+        ys_values_sorted = [x[-1] for x in ys_values] # get last value of each y_value
+        ys_values_sorted.sort()
+        p = ys_values_sorted[-1] # biggest current vote
+        if (p/total * 100) > 50:
+            lim = 100;
+        elif (p/total * 100) > 20:
+            lim = 50;
+        elif (p/total * 100) > 40:
+            lim = 60;
+        else:  
+            lim = 20;
         mpl.ylim(0, lim)
         
         for x in range(len(ys_values)):
             v = ys_values[x][-1]
             ys_values[x][-1] = (ys_values[x][-1] / total) * 100 # making percentage out of current total
             mpl.plot()
+            mpl.tick_params(axis='y', which='both', labelleft=False, labelright=True, left=False, right=True)
             lab = str.rjust(str.ljust(str(round(v, 2)) + "%", 8), 4, '0') # pad string of voting percentages
             mpl.plot(ys_values[x], label=  lab + ys_keys[x].party)
 
@@ -195,7 +204,6 @@ def run(data, cands, pop):
             cand_numbers.pop(cand_numbers.index(rand_pref))
             if len(cand_numbers) != 0:
                 rand_pref = random.choice(cand_numbers)
-        
 
 
     print_final_results(RESULTS)
