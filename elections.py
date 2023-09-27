@@ -2,6 +2,7 @@ import random, math, os, numpy, difflib
 from time import sleep
 import plotext as plt
 import matplotlib.pyplot as mpl
+mpl.ion()
 
 TOO_FAR_DISTANCE = 200 # adjust by how many values are added, reduce to make more people radical and less people vote
 COALITION_FACTOR = 0.8 # reducing the tolerance for parties in a coalition (lower is less tolerant)
@@ -72,26 +73,53 @@ def print_results(RESULTS, rand_pref):
             ys[new].append(dat);
 
         ys_values = list(ys.values())
-        lim = 60;
-
-
         ys_keys = list(ys.keys())
+
+
+        mpl.cla() # clear old data and legends
+        
+        order = []
+ 
+        for x in range(len(ys_values)): # for each candidate, plot their line
+            # add to the order for the legend ordering
+            if x==0: # add the first percentage index before starting
+                order.append(x) #first percentage
+            else:
+
+                n = ys_values[x][-1] # n is the currently iterated and not yet added
+                for i in range(len(order)): # go through the order list until found a bigger score
+                    past = ys_values[order[i]][-1] # currently iterated score in the order list
+                    if (n > past): 
+                        order.insert(i, x)
+                        break
+                    elif i+1 == len(order): # if reached the end
+                        order.append(x)
+
+
         total = 0
+        lim = 60;
         for x in ys_values: # going through all candidates
             total+=x[-1]
+        for x in ys_values:
             for p in x: # going through each vote in candidates
-                if p > 60:
-                    lim = p;
-
-        for x in range(len(ys_values)):  # for each candidate
-            ys_values[x][-1] = (ys_values[x][-1] / total) * 100
-
-        plt.clear_data()
-        plt.ylim(0, lim)
+                if (p/total * 100) > 50:
+                    lim = 100;
+        mpl.ylim(0, lim)
         
-        for x in range(len(ys)):
-            plt.plot(ys_values[x], label=ys_keys[x].party)
-        plt.show()
+        for x in range(len(ys_values)):
+            v = ys_values[x][-1]
+            ys_values[x][-1] = (ys_values[x][-1] / total) * 100 # making percentage out of current total
+            mpl.plot()
+            lab = str.rjust(str.ljust(str(round(v, 2)) + "%", 8), 4, '0') # pad string of voting percentages
+            mpl.plot(ys_values[x], label=  lab + ys_keys[x].party)
+
+        #reverse list of orders (because top down for percentage)
+        handles, labels = mpl.gca().get_legend_handles_labels()
+
+        mpl.legend([handles[idx] for idx in order],[labels[idx] for idx in order], loc="upper left", prop={'family': 'monospace'}) #order the legend
+        mpl.title(COUNTRY.title())
+        mpl.show()
+        mpl.pause(1e-10)
 
     #os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -106,8 +134,10 @@ def print_results(RESULTS, rand_pref):
     STORED_RESULTS = res
 
 def print_final_results(RESULTS, first=True, old_res = []):
+    mpl.pause(0.5)
     print("READY TO SHOW RESULTS")
     input()
+    mpl.close()
     global STORED_RESULTS
     STORED_RESULTS = None
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
@@ -138,7 +168,7 @@ def run(data, cands, pop):
 
     for i in range(len(cand_numbers)):
         regions.append(factor*i)
-
+    #print(cand_numbers)
 
     for it in range(1, pop): # population in tens of thousands ! must optimize
 
@@ -156,7 +186,7 @@ def run(data, cands, pop):
 
         # showing results
 
-        if it % (pop//60 + 1) == 0:
+        if it % (pop//600 + 1) == 0:
             print_results(RESULTS, rand_pref)
             sleep(DELAY)
             
@@ -311,8 +341,7 @@ VOTING_DEMOS = {
                 "pac_mil": 70,
                 "auth_ana": -98,
                 "rel_sec": 99},
-                "scale":100,
-                "hos":"Queen Margrethe II"},
+                "scale":100},
     "USA" : {"pop": 350_000, "vals" : {
                 "prog_cons": 20,
                 "nat_glob": -35,
@@ -429,7 +458,7 @@ CAND_LIST = {
                 auth_ana= 62,
                 rel_sec = 4),
         Candidate(3, "Howie Hawkins", "Green Party", 1, -40, 35, -85, -10, -50, -21, 65),
-        Candidate(4, "Ron Edwards", "Christian C. Party", 3, 200, -50, 0, -20, 80, -67, -56)
+        Candidate(4, "Ron Edwards", "Christian C. Party", 3, 200, -50, 0, -20, 80, -67, -90)
     ],
     "GERMANY 1936": [
         Candidate(0, "Otto Wels", "SPD", 5, 12, -35, 24, -21, 36, 4, 12),
@@ -708,6 +737,8 @@ data = [ # create normal distributions for each value axis
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel - sec
 ]
+for x in range(len(data)):
+    numpy.random.shuffle(data[x])
 
 
 
@@ -733,6 +764,7 @@ if COUNTRY != CHOICE: # discard party popularity if not the relevant country
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
 input()
+mpl.close()
 
 if mode in ["4 ROUND", "2 ROUND"]:
 
@@ -824,3 +856,5 @@ elif mode in ["PROP REP"]:
 
             results = run(data, new_cands, VOTING_DEMOS[COUNTRY]['pop']) # run the elections again
             print_final_results(RESULTS, False, old_results)
+
+mpl.close()
