@@ -1,6 +1,5 @@
 import random, math, os, numpy, difflib
 from time import sleep
-import plotext as plt
 import matplotlib.pyplot as mpl
 mpl.ion()
 
@@ -34,10 +33,10 @@ class Voter:
             for o in range(len(self.vals)): # sum square of each value
                 euc_sum += (self.vals[list(self.vals.keys())[o]] - cand.vals[o])**2
             euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
-            euc_dist -= cand.party_pop # take away party popularity from distance
+            euc_dist -= cand.party_pop*1 # take away party popularity from distance
             dists.append(euc_dist) # add to distance list
 
-        dists[rand_pref] *= 0.9 # 0.8 by random preference of party
+        dists[rand_pref] *= 0.85 # 0.85 by random preference of party
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
         if dists[index_min] <= TOO_FAR_DISTANCE: # if close enough to vote for them:
             RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
@@ -57,6 +56,7 @@ STORED_RESULTS = None # for the increase or decrease
 def print_results(RESULTS, rand_pref):
     global STORED_RESULTS
 
+   
     moves = ["" for _ in RESULTS]
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     if STORED_RESULTS: # once have a board already printed
@@ -94,37 +94,35 @@ def print_results(RESULTS, rand_pref):
 
 
         total = 0
-        lim = 20;
         for x in ys_values: # going through all candidates
             total+=x[-1]
             
+        lim = 20
         ys_values_sorted = [x[-1] for x in ys_values] # get last value of each y_value
         ys_values_sorted.sort()
         p = ys_values_sorted[-1] # biggest current vote
-        if (p/total * 100) > 50:
-            lim = 100;
+        if (p/total * 100) > 50: # if anyone is getting above 50% currently
+            if 100>lim:
+                lim = 100;
         elif (p/total * 100) > 20:
-            lim = 50;
-        elif (p/total * 100) > 30:
-            lim = 60;
+            if 60>lim:
+                lim = 60;
         else:  
-            lim = 20;
+            if 20>lim:
+                lim = 20;
         mpl.ylim(0, lim)
         
         for x in range(len(ys_values)):
             v = ys_values[x][-1]
             ys_values[x][-1] = (ys_values[x][-1] / total) * 100 # making percentage out of current total
-            mpl.plot()
-            mpl.tick_params(axis='y', which='both', labelleft=False, labelright=True, left=False, right=True)
             lab = str.rjust(str.ljust(str(round(v, 2)) + "%", 8), 4, '0') # pad string of voting percentages
             mpl.plot(ys_values[x], label=  lab + ys_keys[x].party)
-
+        
         #reverse list of orders (because top down for percentage)
         handles, labels = mpl.gca().get_legend_handles_labels()
 
         mpl.legend([handles[idx] for idx in order],[labels[idx] for idx in order], loc="upper left", prop={'family': 'monospace'}) #order the legend
         mpl.title(COUNTRY.title())
-        mpl.show()
         mpl.pause(1e-10)
 
     #os.system('cls' if os.name == 'nt' else 'clear')
@@ -160,12 +158,21 @@ def print_final_results(RESULTS, first=True, old_res = []):
 
 def run(data, cands, pop):
 
+    mpl.rcParams["figure.figsize"] = [5, 10]
+    mpl.rcParams["figure.autolayout"] = True
+    mpl.tick_params(axis='y', which='both', labelleft=False, labelright=True, left=False, right=True)
+    mpl.tick_params(axis='x', which='both', labelbottom=False, bottom=False)
+    
     rand_pref = 0
     cand_numbers = []
     REGION_NUMBER = 30 # increase this number to INCREASE the randomness / district - > more realistic patterns but slower
     # 20 is a good number
     for x in range(len(cands)):
-        for _ in range((math.ceil(cands[x].party_pop)*REGION_NUMBER)+1):
+        #pop = cands[x].party_pop
+        #pop = 0
+        #if pop==0:
+        #    pop = 10 # default pop if not the same country
+        for _ in range(REGION_NUMBER):
             cand_numbers.append(x)
 
     # each voter number at which the region (random preference) changes
@@ -194,14 +201,15 @@ def run(data, cands, pop):
 
         # showing results
 
-        if it % (pop//((DELAY+1)*50) + 1) == 0:
+        if it % (pop//(500) + 1) == 0:
             print_results(RESULTS, rand_pref)
-            #sleep(DELAY)
+            sleep(DELAY)
             
         if it in regions:
             # pick a new region
             cand_numbers.pop(cand_numbers.index(rand_pref))
             if len(cand_numbers) != 0:
+                random.seed() # seeding to make a proper random choice
                 rand_pref = random.choice(cand_numbers)
 
 
@@ -289,7 +297,7 @@ def coalition(leader, results_a):
 
 VOTING_DEMOS = {
     #COUNTRY: [pop in hundreds]
-    "UK": {"pop": 70_029_0, "vals": {
+    "UK": {"pop": 70_029, "vals": {
                 "prog_cons": -5,
                 "nat_glob": -15,
                 "env_eco": 35,
@@ -297,10 +305,10 @@ VOTING_DEMOS = {
                 "pac_mil": -24,
                 "auth_ana": -17,
                 "rel_sec": -23},
-                "scale":100,
+                "scale":1000,
                 "hos":"King Charles III"},
 
-    "GERMANY 1936": {"pop": 61_024_1, "vals":{
+    "GERMANY 1936": {"pop": 61_024, "vals":{
                 "prog_cons": 95,
                 "nat_glob": -68,
                 "env_eco": 64,
@@ -308,9 +316,9 @@ VOTING_DEMOS = {
                 "pac_mil": 78,
                 "auth_ana": -56,
                 "rel_sec": -56},
-                "scale":100,
+                "scale":1000,
                 "hos":"Paul von Hindenburg"},
-    "GERMANY" : {"pop" : 85_029_5, "vals" : {
+    "GERMANY" : {"pop" : 85_029, "vals" : {
                 "prog_cons": -12,
                 "nat_glob": 34,
                 "env_eco": 24,
@@ -318,7 +326,7 @@ VOTING_DEMOS = {
                 "pac_mil": 24,
                 "auth_ana": -1,
                 "rel_sec": -12},
-                "scale":100,
+                "scale":1000,
                 "hos":"Frank-Walter Steinmeier"},
     "HAMPTON": {"pop": 1_546, "vals": {
                 "prog_cons": 21,
@@ -355,11 +363,11 @@ VOTING_DEMOS = {
                 "env_eco": 20,
                 "soc_cap":  70,
                 "pac_mil": 60,
-                "auth_ana": 14,
+                "auth_ana": 12,
                 "rel_sec": -31},
                 "scale":1000,
                 "hos":"Chief Justice John Roberts"},
-    "TURKEY" : {"pop": 87_000_0, "vals" : {
+    "TURKEY" : {"pop": 87_000, "vals" : {
                 "prog_cons": 38,
                 "nat_glob": -24,
                 "env_eco": 21,
@@ -367,7 +375,7 @@ VOTING_DEMOS = {
                 "pac_mil": 34,
                 "auth_ana": -12,
                 "rel_sec": 22},
-                "scale":100},
+                "scale":1000},
     "FINLAND" : {"pop": 55_410, "vals" : {
                 "prog_cons": -2,
                 "nat_glob": 10,
@@ -382,7 +390,7 @@ VOTING_DEMOS = {
                 "prog_cons": 43,
                 "nat_glob": -62,
                 "env_eco": 71,
-                "soc_cap":  69,
+                "soc_cap":  0,
                 "pac_mil": 75,
                 "auth_ana": -61,
                 "rel_sec": -31},
@@ -392,12 +400,12 @@ VOTING_DEMOS = {
                 "prog_cons": 76,
                 "nat_glob": -46,
                 "env_eco": 89,
-                "soc_cap":  85,
+                "soc_cap":  -5,
                 "pac_mil": 89,
                 "auth_ana": -57,
                 "rel_sec": -64},
                 "scale":100},
-    "IRELAND" : {"pop": 60_123, "vals": {
+    "IRELAND" : {"pop": 60_12, "vals": {
                 "prog_cons": 5,
                 "nat_glob": -1,
                 "env_eco": 32,
@@ -405,7 +413,7 @@ VOTING_DEMOS = {
                 "pac_mil": 12,
                 "auth_ana": -4,
                 "rel_sec": -41},
-                "scale":100,
+                "scale":1000,
                 "hos":"Michael Higgins"},
 }
 
@@ -462,7 +470,7 @@ CAND_LIST = {
                 env_eco = 90,
                 soc_cap = 90,
                 pac_mil= -10,
-                auth_ana= 62,
+                auth_ana= 72,
                 rel_sec = 4),
         Candidate(3, "Howie Hawkins", "Green Party", 1, -40, 35, -85, -10, -50, -21, 65),
         Candidate(4, "Ron Edwards", "Christian C. Party", 3, 200, -50, 0, -20, 80, -67, -90)
@@ -485,6 +493,41 @@ CAND_LIST = {
         Candidate(4, "", "National Coalition", 9, 34, 30, 40, 75, 10, -45, -14),
         Candidate(5, "", "Finns Party", 9, 68, -30, 20, 60, 49, -79, -15),
     ],
+    "RUSSIA" : [
+        Candidate(8, "Vladimir Putin", "United Russia", 10,
+                prog_cons= 55, 
+                nat_glob= -60, 
+                env_eco= 32,
+                soc_cap= 12,
+                pac_mil=  65,
+                auth_ana= -65,
+                rel_sec = -50),
+        Candidate(6, "Gennady Zyuganov", "Communist Party", 6,
+                prog_cons= 34, 
+                nat_glob= -12, 
+                env_eco= 45,
+                soc_cap= -95,
+                pac_mil=  45,
+                auth_ana= -94,
+                rel_sec = 87),
+        Candidate(6, "Sergey Mironov", "A Just Russia", 3,
+                prog_cons= 34, 
+                nat_glob= -12, 
+                env_eco= 45,
+                soc_cap= 12,
+                pac_mil=  45,
+                auth_ana= -74,
+                rel_sec = 12),
+        Candidate(6, "Leonid Slutsky", "Liberal Democrats", 1,
+                prog_cons= 75, 
+                nat_glob= -97, 
+                env_eco= 63,
+                soc_cap= 98,
+                pac_mil=  84,
+                auth_ana= -74,
+                rel_sec = -89),
+    ],
+
     "HAMPTON" : [
         Candidate(8, "James Greenfield", "KPD", 5,
                 prog_cons= -10, 
@@ -756,7 +799,6 @@ for x in range(len(data)):
     numpy.random.shuffle(data[x])
 
 
-
 TIME = float(input("Delay : (0->50) ")) # seconds
 DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
 
@@ -765,27 +807,30 @@ DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
 # ~~~~~~~~~~ VOTING SYSTEMS ~~~~~~~~~
 
 os.system('cls' if os.name == 'nt' else 'clear')
-MODES = ["FPTP", "5 ROUND", "4 ROUND", "2 ROUND", "PROP REP"]
+MODES = ["FPTP", "RUNOFF", "PROP REP"]
 for x in MODES:
     print(x)
 
 mode = difflib.get_close_matches(input("\nWhich voting system do you want to simulate? ").strip().upper(), MODES, 1)[0] 
+if mode == "RUNOFF":
+    r_done = False
+    while not r_done:
+        r_count = input("\nHow many rounds do you want? ")
+        try: r_count = int(r_count); r_done = True
+        except: pass
 
 if COUNTRY != CHOICE: # discard party popularity if not the relevant country
     for c in CANDIDATES:
-        c.party_pop *= 0 
+        c.party_pop = 0 # reset popularity
 
 
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
 
-if mode in ["5 ROUND", "4 ROUND", "2 ROUND"]:
+if mode in ["RUNOFF"]:
+
     new_again = True
-    runoff_counter = 4 if len(CANDIDATES) > 4 else len(CANDIDATES)-1
-    if mode == "2 ROUND":
-        runoff_counter = 2
-    elif mode == "5 ROUND":
-        runoff_counter = 5
+    runoff_counter = r_count if len(CANDIDATES) > r_count else len(CANDIDATES)-1
 
     while results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) < 0.5: # if nobody has a majority:
 
