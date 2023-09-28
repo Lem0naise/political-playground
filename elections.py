@@ -4,6 +4,7 @@ import plotext as plt
 import matplotlib.pyplot as mpl
 mpl.ion()
 
+new_again = False
 TOO_FAR_DISTANCE = 200 # adjust by how many values are added, reduce to make more people radical and less people vote
 COALITION_FACTOR = 0.8 # reducing the tolerance for parties in a coalition (lower is less tolerant)
 
@@ -24,7 +25,8 @@ class Voter:
     def __init__(self, vals):
         self.vals = vals
 
-    def vote(self, candidates, rand_pref):
+    def vote(self, candidates, rand_pref, cands_length):
+
         global not_voted
         dists = []
         for cand in candidates:
@@ -35,8 +37,7 @@ class Voter:
             euc_dist -= cand.party_pop # take away party popularity from distance
             dists.append(euc_dist) # add to distance list
 
-        dists[rand_pref] *= 0.95 # 0.95 by random preference of party
-
+        dists[rand_pref] *= 0.9 # 0.8 by random preference of party
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
         if dists[index_min] <= TOO_FAR_DISTANCE: # if close enough to vote for them:
             RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
@@ -56,7 +57,6 @@ STORED_RESULTS = None # for the increase or decrease
 def print_results(RESULTS, rand_pref):
     global STORED_RESULTS
 
-
     moves = ["" for _ in RESULTS]
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     if STORED_RESULTS: # once have a board already printed
@@ -64,28 +64,25 @@ def print_results(RESULTS, rand_pref):
         for x in range(len(res)):
             change = STORED_RESULTS.index(res[x]) - x
             moves[x] = "▴" if change>0 else ("▾" if change < 0 else "")
-
         for x in range(len(STORED_RESULTS)): # adding to plot values 
             new = STORED_RESULTS[x][0]
             dat = STORED_RESULTS[x][1]
             # get percentage of vote for line graph
             dat = round((dat)/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)
             ys[new].append(dat);
-
         ys_values = list(ys.values())
         ys_keys = list(ys.keys())
 
 
         mpl.cla() # clear old data and legends
-        
-        order = []
- 
+        #print(ys_values)
+        order = []  
+
         for x in range(len(ys_values)): # for each candidate, plot their line
             # add to the order for the legend ordering
             if x==0: # add the first percentage index before starting
                 order.append(x) #first percentage
             else:
-
                 n = ys_values[x][-1] # n is the currently iterated and not yet added
                 for i in range(len(order)): # go through the order list until found a bigger score
                     past = ys_values[order[i]][-1] # currently iterated score in the order list
@@ -108,7 +105,7 @@ def print_results(RESULTS, rand_pref):
             lim = 100;
         elif (p/total * 100) > 20:
             lim = 50;
-        elif (p/total * 100) > 40:
+        elif (p/total * 100) > 30:
             lim = 60;
         else:  
             lim = 20;
@@ -144,9 +141,8 @@ def print_results(RESULTS, rand_pref):
 
 def print_final_results(RESULTS, first=True, old_res = []):
     mpl.pause(0.5)
-    print("READY TO SHOW RESULTS")
-    input()
-    mpl.close()
+
+
     global STORED_RESULTS
     STORED_RESULTS = None
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
@@ -166,19 +162,22 @@ def run(data, cands, pop):
 
     rand_pref = 0
     cand_numbers = []
+    REGION_NUMBER = 30 # increase this number to INCREASE the randomness / district - > more realistic patterns but slower
+    # 20 is a good number
     for x in range(len(cands)):
-        for _ in range((math.ceil(cands[x].party_pop)*2)+1):
+        for _ in range((math.ceil(cands[x].party_pop)*REGION_NUMBER)+1):
             cand_numbers.append(x)
 
     # each voter number at which the region (random preference) changes
     regions = [] # must be length of cand_numbers - 1
     factor = pop // len(cand_numbers) # round factor
     factor * len(cand_numbers) # estimate of population
-
+    
     for i in range(len(cand_numbers)):
         regions.append(factor*i)
     #print(cand_numbers)
 
+    cands_length = len(cands)
     for it in range(1, pop): # population in tens of thousands ! must optimize
 
         vot = Voter(VOTING_DEMOS[COUNTRY]["vals"])
@@ -191,13 +190,13 @@ def run(data, cands, pop):
             if vot.vals[list(vot.vals.keys())[i]] <= -100:
                 vot.vals[list(vot.vals.keys())[i]] = -100
 
-        vot.vote(cands, rand_pref) # calling vote
+        vot.vote(cands, rand_pref, cands_length) # calling vote
 
         # showing results
 
-        if it % (pop//600 + 1) == 0:
+        if it % (pop//((DELAY+1)*50) + 1) == 0:
             print_results(RESULTS, rand_pref)
-            sleep(DELAY)
+            #sleep(DELAY)
             
         if it in regions:
             # pick a new region
@@ -291,10 +290,10 @@ def coalition(leader, results_a):
 VOTING_DEMOS = {
     #COUNTRY: [pop in hundreds]
     "UK": {"pop": 70_029_0, "vals": {
-                "prog_cons": -10,
+                "prog_cons": -5,
                 "nat_glob": -15,
                 "env_eco": 35,
-                "soc_cap":  55,
+                "soc_cap":  25,
                 "pac_mil": -24,
                 "auth_ana": -17,
                 "rel_sec": -23},
@@ -420,7 +419,7 @@ scale_fac = len(str(scale_factor))-1
 # SLIGHTLY RANDOMIZING VOTING DEMOGRAPHIC
 for p in range(len(VOTING_DEMOS[COUNTRY])):
    #VOTING_DEMOS[COUNTRY]["vals"][VOTING_DEMOS[COUNTRY]["vals"].keys()[p]]
-    VOTING_DEMOS[COUNTRY]["vals"][list(VOTING_DEMOS[COUNTRY]["vals"].keys())[p]] += round(20*(random.random()-0.5)) # randomise by 10 possibility each side
+    VOTING_DEMOS[COUNTRY]["vals"][list(VOTING_DEMOS[COUNTRY]["vals"].keys())[p]] += round(10*(random.random()-0.5)) # randomise by 5 possibility each side
 
 
 # ~~~~~~~~~~ CUSTOM USER PARTIES ~~~~~~~~~~~~
@@ -450,7 +449,7 @@ CAND_LIST = {
                 auth_ana= -63,
                 rel_sec = -12),
         Candidate(1, "Joe Biden", "Democrat", 10,
-                prog_cons = 20,
+                prog_cons = -10,
                 nat_glob = 0,
                 env_eco = 30,
                 soc_cap = 78,
@@ -471,7 +470,7 @@ CAND_LIST = {
     "GERMANY 1936": [
         Candidate(0, "Otto Wels", "SPD", 5, 12, -35, 24, -21, 36, 4, 12),
         Candidate(1, "Hadolf Itler", "NDSAP", 7, 98, -78, -1, 45, 86, -86, -45),
-        Candidate(3, "Ernst Thalman", "KPD", 7, 57, -56, 24, -67, 78, 23, 41),
+        Candidate(3, "Ernst Thalman", "KPD", 7, 57, -56, 24, -67, 78, 23, 41), 
         Candidate(0, "Ludwig Kaas", "Centre", 5, 0, -12, 41, 12, 6, -12, 13),
     ],
     "NORTH KOREA": [
@@ -488,13 +487,13 @@ CAND_LIST = {
     ],
     "HAMPTON" : [
         Candidate(8, "James Greenfield", "KPD", 5,
-                prog_cons= -60, 
-                nat_glob= 20, 
-                env_eco= -15,
-                soc_cap= -50,
-                pac_mil=  -24,
-                auth_ana= -77,
-                rel_sec = 0),
+                prog_cons= -10, 
+                nat_glob= -60, 
+                env_eco= 0,
+                soc_cap= -80,
+                pac_mil=  35,
+                auth_ana= -5,
+                rel_sec = 50),
         
         Candidate(6, "Danil Eliasov", "Yes Please!", 5,
                 prog_cons= 90, 
@@ -537,13 +536,21 @@ CAND_LIST = {
         Candidate(13, "Ivo Meldrum", "MRL", 5, -20, 40, -40, -10, -20, 10,
                 rel_sec = 0),
         Candidate(14, "Alex Wicks", "Nation First", 5, 
-                prog_cons = -20,
+                prog_cons = 10,
                 nat_glob = -70,
                 env_eco = 85,
                 soc_cap = 65,
                 pac_mil = -30,
                 auth_ana = 25,
                 rel_sec = 0),
+            Candidate(14, "Luc Mason", "CCC", 5, 
+                prog_cons = 50,
+                nat_glob = -50,
+                env_eco = 25,
+                soc_cap = 10,
+                pac_mil = -10,
+                auth_ana = 20,
+                rel_sec = -25),
             Candidate(15, "Billiam the Third", "Confetto", 5, 
                 prog_cons = 50,
                 nat_glob = -90,
@@ -758,7 +765,7 @@ DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
 # ~~~~~~~~~~ VOTING SYSTEMS ~~~~~~~~~
 
 os.system('cls' if os.name == 'nt' else 'clear')
-MODES = ["FPTP", "4 ROUND", "2 ROUND", "PROP REP"]
+MODES = ["FPTP", "5 ROUND", "4 ROUND", "2 ROUND", "PROP REP"]
 for x in MODES:
     print(x)
 
@@ -771,14 +778,14 @@ if COUNTRY != CHOICE: # discard party popularity if not the relevant country
 
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
-input()
-mpl.close()
 
-if mode in ["4 ROUND", "2 ROUND"]:
-
+if mode in ["5 ROUND", "4 ROUND", "2 ROUND"]:
+    new_again = True
     runoff_counter = 4 if len(CANDIDATES) > 4 else len(CANDIDATES)-1
     if mode == "2 ROUND":
         runoff_counter = 2
+    elif mode == "5 ROUND":
+        runoff_counter = 5
 
     while results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) < 0.5: # if nobody has a majority:
 
@@ -786,6 +793,10 @@ if mode in ["4 ROUND", "2 ROUND"]:
         print(f"The {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
         print("No candidate has received a majority. The election will proceed to another round.")
         input()
+
+        mpl.clf()
+        mpl.cla()
+        mpl.close()
         not_voted = 0 # reset not voted 
 
 
@@ -795,18 +806,21 @@ if mode in ["4 ROUND", "2 ROUND"]:
         new_cands = [x[0] for x in results[:runoff_counter]] # knockout the lowest candidate
         for x in range(len(new_cands)): # reset candidate ids
             new_cands[x].id = x
-
+        
         RESULTS = [] # reset RESULTS
         for cand in new_cands:
             RESULTS.append([cand, 0])
 
-
+        ys = {}
+        for m in range(len(new_cands)):
+            ys[new_cands[m]] = []; # set y value to 0
+        
         results = run(data, new_cands, VOTING_DEMOS[COUNTRY]['pop']) # run the elections again
         runoff_counter -= 1
         print_final_results(RESULTS, False, old_results)
 
 
-    print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
+    print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
 
 elif mode in ["FPTP"]:
 
@@ -814,21 +828,29 @@ elif mode in ["FPTP"]:
         c.party_pop *= 3  # make party size 3 times more affecting for FPTP
 
 
+
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
-        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
+        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
     else: # if just plurality
         print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")
-    
+
+    input()
+    mpl.clf()
+    mpl.cla()
+    mpl.close()
 elif mode in ["PROP REP"]:
 
 
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
-        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}%!")
+        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
     else:  # FORM COALITION
         print(f"The {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
         print("No candidate has received a majority. A coalition will be formed.")
 
         input()
+        mpl.clf()
+        mpl.cla()
+        mpl.close()
         leader, coal = coalition(results[0][0], RESULTS)
         if coal != []: # if a coalition was formed:
             print(f"\nThe {leader.party} party {('(led by ' + leader.name + ')') if (leader.name!='') else ''} have formed a coalition with:")
