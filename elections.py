@@ -33,7 +33,7 @@ class Voter:
             for o in range(len(self.vals)): # sum square of each value
                 euc_sum += (self.vals[list(self.vals.keys())[o]] - cand.vals[o])**2
             euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
-            euc_dist -= cand.party_pop*1 # take away party popularity from distance
+            euc_dist -= cand.party_pop*5 # take away party popularity from distance
             dists.append(euc_dist) # add to distance list
 
         dists[rand_pref] *= 0.85 # 0.85 by random preference of party
@@ -52,10 +52,10 @@ def format_votes(votes):
 
 STORED_RESULTS = None # for the increase or decrease
 
-
+lim = 20
 def print_results(RESULTS, rand_pref):
+    global lim
     global STORED_RESULTS
-
    
     moves = ["" for _ in RESULTS]
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
@@ -97,7 +97,7 @@ def print_results(RESULTS, rand_pref):
         for x in ys_values: # going through all candidates
             total+=x[-1]
             
-        lim = 20
+
         ys_values_sorted = [x[-1] for x in ys_values] # get last value of each y_value
         ys_values_sorted.sort()
         p = ys_values_sorted[-1] # biggest current vote
@@ -111,18 +111,18 @@ def print_results(RESULTS, rand_pref):
             if 20>lim:
                 lim = 20;
         mpl.ylim(0, lim)
-        
+
         for x in range(len(ys_values)):
             v = ys_values[x][-1]
             ys_values[x][-1] = (ys_values[x][-1] / total) * 100 # making percentage out of current total
             lab = str.rjust(str.ljust(str(round(v, 2)) + "%", 8), 4, '0') # pad string of voting percentages
-            mpl.plot(ys_values[x], label=  lab + ys_keys[x].party)
-        
+            mpl.plot(ys_values[x], label= lab + ys_keys[x].party + (" - !WON!" if v>50 else "")) # legend label
+
         #reverse list of orders (because top down for percentage)
         handles, labels = mpl.gca().get_legend_handles_labels()
-
         mpl.legend([handles[idx] for idx in order],[labels[idx] for idx in order], loc="upper left", prop={'family': 'monospace'}) #order the legend
-        mpl.title(COUNTRY.title())
+        
+        mpl.title(COUNTRY.title().ljust(10) + str.rjust(str.ljust(str(round(total, 2)) + "%", 8), 4, '0'))
         mpl.pause(1e-10)
 
     #os.system('cls' if os.name == 'nt' else 'clear')
@@ -157,15 +157,19 @@ def print_final_results(RESULTS, first=True, old_res = []):
 
 
 def run(data, cands, pop):
-
-    mpl.rcParams["figure.figsize"] = [5, 10]
+    global lim
+    lim = 20
+    mpl.rcParams["figure.figsize"] = [7, 10]
     mpl.rcParams["figure.autolayout"] = True
+    mpl.rcParams['font.family'] = 'monospace'
     mpl.tick_params(axis='y', which='both', labelleft=False, labelright=True, left=False, right=True)
     mpl.tick_params(axis='x', which='both', labelbottom=False, bottom=False)
     
     rand_pref = 0
     cand_numbers = []
     REGION_NUMBER = 30 # increase this number to INCREASE the randomness / district - > more realistic patterns but slower
+    if new_again:
+        REGION_NUMBER = 90
     # 20 is a good number
     for x in range(len(cands)):
         #pop = cands[x].party_pop
@@ -415,6 +419,16 @@ VOTING_DEMOS = {
                 "rel_sec": -41},
                 "scale":1000,
                 "hos":"Michael Higgins"},
+    "AUSTRIA" : {"pop": 9_212, "vals": {
+            "prog_cons": 25,
+            "nat_glob": -16,
+            "env_eco": 2,
+            "soc_cap":  54,
+            "pac_mil": 0,
+            "auth_ana": -4,
+            "rel_sec": -32},
+            "scale":1000,
+            "hos":"Alexander van der Bellen"},
 }
 
 for x in VOTING_DEMOS.keys():
@@ -443,9 +457,9 @@ CAND_LIST = {
         Candidate(1, "Ed Davey", "Lib Dems", 1, -32, 12, 24, 41, -40, -6, 31),
         Candidate(2, "Keir Starmer", "Labour", 10, -21, 41, -11, 14, 4, -1, 74),
         Candidate(5, "Hannah Sell", "Socialist Party", 1, -10, -11, 23, -41, -30, -5, 86),
-        Candidate(3, "Zack Polanski", "Green", 1, -67, 71, -94, -31, -40, 41, 83),
-        Candidate(4, "Nigel Farage", "Reform Party", 1, 95, -98, 65, 70, 90, -42, -3),
-        Candidate(5, "Jeremy Corbyn", "Independent", 0.5, -50, 30, -40, -50, -10, -13, 95),
+        Candidate(3, "Zack Polanski", "Green", 5, -67, 71, -94, -31, -40, 41, 83),
+        Candidate(4, "Nigel Farage", "Reform Party", 2, 95, -98, 65, 70, 90, -42, -3),
+        Candidate(5, "", "Jeremy Corbyn", 0.5, -50, 30, -40, -50, -10, -13, 95),
     ],
     "USA": [
         Candidate(0, "Donald Trump", "Republican", 10, 
@@ -464,7 +478,7 @@ CAND_LIST = {
                 pac_mil= 10,
                 auth_ana= -22,
                 rel_sec = 3),
-        Candidate(2, "Jo Jorgensen", "Libertarian Party", 2,
+        Candidate(2, "Jo Jorgensen", "Libertarian Party", 1,
                 prog_cons = 30,
                 nat_glob = 0,
                 env_eco = 90,
@@ -473,25 +487,25 @@ CAND_LIST = {
                 auth_ana= 72,
                 rel_sec = 4),
         Candidate(3, "Howie Hawkins", "Green Party", 1, -40, 35, -85, -10, -50, -21, 65),
-        Candidate(4, "Ron Edwards", "Christian C. Party", 3, 200, -50, 0, -20, 80, -67, -90)
+        Candidate(4, "Ron Edwards", "Christian C. Party", 1, 200, -50, 0, -20, 80, -67, -90)
     ],
     "GERMANY 1936": [
-        Candidate(0, "Otto Wels", "SPD", 5, 12, -35, 24, -21, 36, 4, 12),
-        Candidate(1, "Hadolf Itler", "NDSAP", 7, 98, -78, -1, 45, 86, -86, -45),
+        Candidate(0, "Otto Wels", "SPD", 7, 12, -35, 24, -21, 36, 4, 12),
+        Candidate(1, "Hadolf Itler", "NDSAP", 7, 150, -78, -1, 45, 86, -86, -45),
         Candidate(3, "Ernst Thalman", "KPD", 7, 57, -56, 24, -67, 78, 23, 41), 
-        Candidate(0, "Ludwig Kaas", "Centre", 5, 0, -12, 41, 12, 6, -12, 13),
+        Candidate(0, "Ludwig Kaas", "Centre", 7, 0, -12, 41, 12, 6, -12, 13),
     ],
     "NORTH KOREA": [
-        Candidate(0, "Kim Jong-Un", "Worker's Party", 70, 59, -90, 23, -99, 90, -99, 100),
-        Candidate(1, "Kim Ho-Chol", "Social Democrat", 20, -20, -20, -20, -60, 50, -52, 100)
+        Candidate(0, "Kim Jong-Un", "Worker's Party", 7, 59, -90, 23, -99, 90, -99, 100),
+        Candidate(1, "Kim Ho-Chol", "Social Democrat", 2, -20, -20, -20, -60, 50, -52, 100)
     ],
     "FINLAND" : [
         Candidate(0, "", "Soc Dem", 10, -30, 20, -12, -12, -1, -10, 51),
         Candidate(1, "", "Centre Party", 9, 0, 2, 15, 10, -10, -31, 12),
-        Candidate(2, "", "Green League", -3, -67, 75, 40, 0, -10, 1, 73),
+        Candidate(2, "", "Green League", 1, -67, 75, 40, 0, -10, 1, 73),
         Candidate(3, "", "Left Alliance", 4, -30, 0, 10, -60, 0, -1, 68),
-        Candidate(4, "", "National Coalition", 9, 34, 30, 40, 75, 10, -45, -14),
-        Candidate(5, "", "Finns Party", 9, 68, -30, 20, 60, 49, -79, -15),
+        Candidate(4, "", "National Coalition", 4, 34, 30, 40, 75, 10, -45, -14),
+        Candidate(5, "", "Finns Party", 4, 68, -30, 20, 60, 49, -79, -15),
     ],
     "RUSSIA" : [
         Candidate(8, "Vladimir Putin", "United Russia", 10,
@@ -502,7 +516,7 @@ CAND_LIST = {
                 pac_mil=  65,
                 auth_ana= -65,
                 rel_sec = -50),
-        Candidate(6, "Gennady Zyuganov", "Communist Party", 6,
+        Candidate(6, "Gennady Zyuganov", "Communist Party", 4,
                 prog_cons= 34, 
                 nat_glob= -12, 
                 env_eco= 45,
@@ -510,7 +524,7 @@ CAND_LIST = {
                 pac_mil=  45,
                 auth_ana= -94,
                 rel_sec = 87),
-        Candidate(6, "Sergey Mironov", "A Just Russia", 3,
+        Candidate(6, "Sergey Mironov", "A Just Russia", 1,
                 prog_cons= 34, 
                 nat_glob= -12, 
                 env_eco= 45,
@@ -529,6 +543,14 @@ CAND_LIST = {
     ],
 
     "HAMPTON" : [
+                Candidate(0, "Donald Trump", "Republican", 5, 
+            prog_cons = 60,
+            nat_glob = -40,
+            env_eco = 40,
+            soc_cap =  95,
+            pac_mil= 40,
+            auth_ana= -63,
+            rel_sec = -12),
         Candidate(8, "James Greenfield", "KPD", 5,
                 prog_cons= -10, 
                 nat_glob= -60, 
@@ -620,7 +642,7 @@ CAND_LIST = {
                 pac_mil= 12,
                 auth_ana= 12,
                 rel_sec = 25),
-        Candidate(1, "Friedrich Merz", "CDU", 9, 
+        Candidate(1, "Friedrich Merz", "CDU", 10, 
                 prog_cons= 24,
                 nat_glob= 44,
                 env_eco= 14,
@@ -628,7 +650,7 @@ CAND_LIST = {
                 pac_mil= 10,
                 auth_ana= -12,
                 rel_sec = -12),
-        Candidate(3, "Ricarda Lang", "Alliance 90", 7, 
+        Candidate(3, "Ricarda Lang", "Alliance 90", 5, 
                 prog_cons= -35,
                 nat_glob= 45,
                 env_eco= -45,
@@ -680,7 +702,7 @@ CAND_LIST = {
                 pac_mil= 31,
                 auth_ana= 35,
                 rel_sec = -54),
-        Candidate(3, "Leo Varadkar", "Fine Gael", 9, 
+        Candidate(3, "Leo Varadkar", "Fine Gael", 10, 
                 prog_cons= 2,
                 nat_glob= 12,
                 env_eco= 30,
@@ -756,7 +778,61 @@ CAND_LIST = {
                 pac_mil= 45,
                 auth_ana= -12,
                 rel_sec = 2),
+    ],
+    "AUSTRIA" : [
+        Candidate(8, "Karl Nehammer", "ÖVP", 10,
+                prog_cons= 55, 
+                nat_glob= -30, 
+                env_eco= -2,
+                soc_cap= 65,
+                pac_mil=  15,
+                auth_ana= -25,
+                rel_sec = -50),
+        Candidate(6, "Werner Kogler", "Die Grune", 6,
+                prog_cons= -2, 
+                nat_glob= 23, 
+                env_eco= -62,
+                soc_cap= -2,
+                pac_mil=  0,
+                auth_ana= 39,
+                rel_sec = 12),
+        Candidate(6, "Andreas Babler", "SPÖ", 10,
+                prog_cons= -14, 
+                nat_glob= 12, 
+                env_eco= -5,
+                soc_cap= -2,
+                pac_mil=  5,
+                auth_ana= 2,
+                rel_sec = 23),
+        Candidate(6, "Herbet Kickl", "FPÖ", 1,
+                prog_cons= 75, 
+                nat_glob= -65, 
+                env_eco= 63,
+                soc_cap= -3,
+                pac_mil=  84,
+                auth_ana= -71,
+                rel_sec = -45),
+        Candidate(6, "Beta Reisinger", "NEOS", 1,
+                prog_cons= 13, 
+                nat_glob= -65, 
+                env_eco= 93,
+                soc_cap= 89,
+                pac_mil=  0,
+                auth_ana= 12,
+                rel_sec = 0),
+    ],
+    "CUSTOM" : [
+        Candidate(7, "Theo Evison", "Prevalence", 5,
+            prog_cons= 17, 
+            nat_glob= -3, 
+            env_eco= 30,
+            soc_cap= 31,
+            pac_mil=  1,
+            auth_ana= -32,
+            rel_sec = 0),
+        Candidate(0, "Rishi Sunak", "Conservative", 8, 65, -24, 76, 71, -2, -21, 11),
     ]
+    
 
 }
 
@@ -821,7 +897,7 @@ if mode == "RUNOFF":
 
 if COUNTRY != CHOICE: # discard party popularity if not the relevant country
     for c in CANDIDATES:
-        c.party_pop = 0 # reset popularity
+        c.party_pop *= 0.5 # reset popularity by 1/2
 
 
 # running main program
@@ -932,4 +1008,5 @@ elif mode in ["PROP REP"]:
             results = run(data, new_cands, VOTING_DEMOS[COUNTRY]['pop']) # run the elections again
             print_final_results(RESULTS, False, old_results)
 
+input()
 mpl.close()
