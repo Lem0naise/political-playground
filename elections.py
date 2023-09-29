@@ -46,6 +46,12 @@ class Voter:
         
 
 
+def format_results(results, majority=False):
+    if not majority: # if no majority
+        return(f"{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
+    else:
+        return(f"{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")    
+
 def format_votes(votes):
     global scale_factor, scale_fac
     return (f'{abs((votes*scale_factor + (random.randrange(0, int("0" + "9"*scale_fac)) if scale_fac > 1 else 0))):,}')
@@ -53,7 +59,7 @@ def format_votes(votes):
 STORED_RESULTS = None # for the increase or decrease
 
 lim = 20
-def print_results(RESULTS, rand_pref):
+def print_results(RESULTS, rand_pref, way):
     global lim
     global STORED_RESULTS
    
@@ -61,6 +67,7 @@ def print_results(RESULTS, rand_pref):
     res = sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
     if STORED_RESULTS: # once have a board already printed
 
+        cands = [x[0] for x in res]
         for x in range(len(res)):
             change = STORED_RESULTS.index(res[x]) - x
             moves[x] = "▴" if change>0 else ("▾" if change < 0 else "")
@@ -111,8 +118,13 @@ def print_results(RESULTS, rand_pref):
             if 20>lim:
                 lim = 20;
         mpl.ylim(0, lim)
-
+        
         for x in range(len(ys_values)):
+            #print(ys_values[x][-1])
+            ys_values[x][-1] += (random.random()-0.5)*0.2 * (cands[x].party_pop/10) * way*10 # TODO REMOVE THIS IS A RANDOM TO MAKE COOL PATTERNS IDEK LMFAO
+            # TODO ALSO MULTIPLY THIS BY THE PROGRESS SO IT KEEPS THE LEVEL OF CRAZINESS AS WE INCREASE
+
+            if ys_values[x][-1] < 0: ys_values[x][-1] = 0 # reset to 0 to prevent negative
             v = ys_values[x][-1]
             ys_values[x][-1] = (ys_values[x][-1] / total) * 100 # making percentage out of current total
             lab = str.rjust(str.ljust(str(round(v, 2)) + "%", 8), 4, '0') # pad string of voting percentages
@@ -122,7 +134,7 @@ def print_results(RESULTS, rand_pref):
         handles, labels = mpl.gca().get_legend_handles_labels()
         mpl.legend([handles[idx] for idx in order],[labels[idx] for idx in order], loc="upper left", prop={'family': 'monospace'}) #order the legend
         
-        mpl.title(COUNTRY.title().ljust(10) + str.rjust(str.ljust(str(round(total, 2)) + "%", 8), 4, '0'))
+        mpl.title(COUNTRY.title().ljust(20) + str.rjust(str.ljust(str(round(total, 2)) + "%", 8), 4, '0'))
         mpl.pause(1e-10)
 
     #os.system('cls' if os.name == 'nt' else 'clear')
@@ -155,8 +167,9 @@ def print_final_results(RESULTS, first=True, old_res = []):
     print(f"{str.ljust('Not voted', 52)} : {format_votes(not_voted)}")
     print()
 
-
+regions = []
 def run(data, cands, pop):
+    global regions
     global lim
     lim = 20
     mpl.rcParams["figure.figsize"] = [7, 10]
@@ -206,7 +219,7 @@ def run(data, cands, pop):
         # showing results
 
         if it % (pop//(500) + 1) == 0:
-            print_results(RESULTS, rand_pref)
+            print_results(RESULTS, rand_pref, it/pop)
             sleep(DELAY)
             
         if it in regions:
@@ -336,7 +349,7 @@ VOTING_DEMOS = {
                 "prog_cons": 21,
                 "nat_glob": 0,
                 "env_eco": 76,
-                "soc_cap":  12,
+                "soc_cap":  52,
                 "pac_mil": -23,
                 "auth_ana": -30,
                 "rel_sec": 29},
@@ -543,95 +556,66 @@ CAND_LIST = {
     ],
 
     "HAMPTON" : [
-                Candidate(0, "Donald Trump", "Republican", 5, 
-            prog_cons = 60,
-            nat_glob = -40,
-            env_eco = 40,
-            soc_cap =  95,
-            pac_mil= 40,
-            auth_ana= -63,
-            rel_sec = -12),
         Candidate(8, "James Greenfield", "KPD", 5,
                 prog_cons= -10, 
                 nat_glob= -60, 
                 env_eco= 0,
-                soc_cap= -80,
+                soc_cap= -100,
                 pac_mil=  35,
                 auth_ana= -5,
                 rel_sec = 50),
         
-        Candidate(6, "Danil Eliasov", "Yes Please!", 5,
-                prog_cons= 90, 
-                nat_glob= -90, 
-                env_eco= 90,
-                soc_cap= 95,
-                pac_mil=  100,
-                auth_ana= -100,
-                rel_sec = 0),
+        Candidate(6, "Danil Eliasov, Billiam the Third and Luc Mason", "CCC - Confetto Please", 5,
+                prog_cons= 75, 
+                nat_glob= -75, 
+                env_eco= 73,
+                soc_cap= 86,
+                pac_mil=  72,
+                auth_ana= -72,
+                rel_sec = 62),
 
-        Candidate(1, "Zac Nolan", "Peace and Prosperity", 5, 
+        Candidate(1, "Zac Nolan and Ivo Meldrum", "Peace and Prosperity - MRL", 5, 
                 prog_cons= -21, 
                 nat_glob= 39, 
                 env_eco= -1,
-                soc_cap= -5,
+                soc_cap= 15,
                 pac_mil= -5,
                 auth_ana= 14,
-                rel_sec = 0),
+                rel_sec = 12),
 
         Candidate(7, "Theo Evison", "Prevalence", 5,
-                prog_cons= 17, 
-                nat_glob= -3, 
-                env_eco= 30,
-                soc_cap= 31,
-                pac_mil=  1,
-                auth_ana= -32,
-                rel_sec = 0),
+            prog_cons= 17, 
+            nat_glob= -3, 
+            env_eco= 30,
+            soc_cap= 31,
+            pac_mil=  1,
+            auth_ana= -32,
+            rel_sec = 0),
 
-        Candidate(8, "Mehmet Altinel", "Front", 5,
-                prog_cons= 80, 
-                nat_glob= -50, 
-                env_eco= 50,
-                soc_cap= 98,
-                pac_mil=  30,
-                auth_ana= -78,
-                rel_sec = 0),
-
-        Candidate(12, "William Greenfield", "Economic Reformists", 5, 80, 100, 100, 100, 0, -100,
-                rel_sec = 0),
-        Candidate(13, "Ivo Meldrum", "MRL", 5, -20, 40, -40, -10, -20, 10,
-                rel_sec = 0),
-        Candidate(14, "Alex Wicks", "Nation First", 5, 
-                prog_cons = 10,
-                nat_glob = -70,
-                env_eco = 85,
-                soc_cap = 65,
-                pac_mil = -30,
-                auth_ana = 25,
-                rel_sec = 0),
-            Candidate(14, "Luc Mason", "CCC", 5, 
-                prog_cons = 50,
-                nat_glob = -50,
-                env_eco = 25,
-                soc_cap = 10,
-                pac_mil = -10,
-                auth_ana = 20,
-                rel_sec = -25),
-            Candidate(15, "Billiam the Third", "Confetto", 5, 
-                prog_cons = 50,
-                nat_glob = -90,
-                env_eco = 79,
-                soc_cap = 60,
-                pac_mil = 85,
-                auth_ana = -95,
-                rel_sec = 0),
-            Candidate(16, "Emperor Karl", "Imperius", 5, 
-                prog_cons = 75,
-                nat_glob = -90,
-                env_eco = -12,
-                soc_cap = 86,
-                pac_mil = 85,
-                auth_ana = -86,
-                rel_sec = 0)
+        Candidate(8, "Mehmet Altinel and Alex Wicks", "National Front", 5,
+            prog_cons= 55, 
+            nat_glob= -60, 
+            env_eco= 65,
+            soc_cap= 81,
+            pac_mil= 0,
+            auth_ana= -63,
+            rel_sec = -10),
+        Candidate(12, "William Greenfield", "Economic Reformists", 5,
+            prog_cons= 80, 
+            nat_glob= 100, 
+            env_eco= 100,
+            soc_cap= 100,
+            pac_mil= 0,
+            auth_ana= 90,
+            rel_sec = 0),
+        Candidate(16, "Emperor Karl", "Imperius", 5, 
+            prog_cons = 75,
+            nat_glob = -90,
+            env_eco = -12,
+            soc_cap = 86,
+            pac_mil = 85,
+            auth_ana = -86,
+            rel_sec = 0)
     ],
     "GERMANY" : [
         Candidate(0, "Olaf Scholz", "SPD", 10, 
@@ -820,20 +804,41 @@ CAND_LIST = {
                 pac_mil=  0,
                 auth_ana= 12,
                 rel_sec = 0),
+        Candidate(9, "Kurt Murfelschnigg", "KPÖ", 1,
+                prog_cons= 25, 
+                nat_glob= -85, 
+                env_eco= -2,
+                soc_cap= -92,
+                pac_mil=  45,
+                auth_ana= -72,
+                rel_sec = 98),
+        Candidate(10, "Ferdi Habsburg-Lorraine", "Die Monarchisten", 1,
+                prog_cons= 55, 
+                nat_glob= -45, 
+                env_eco= -2,
+                soc_cap= 64,
+                pac_mil=  45,
+                auth_ana= -64,
+                rel_sec = -40),
     ],
     "CUSTOM" : [
-        Candidate(7, "Theo Evison", "Prevalence", 5,
-            prog_cons= 17, 
-            nat_glob= -3, 
-            env_eco= 30,
-            soc_cap= 31,
-            pac_mil=  1,
-            auth_ana= -32,
-            rel_sec = 0),
-        Candidate(0, "Rishi Sunak", "Conservative", 8, 65, -24, 76, 71, -2, -21, 11),
+        Candidate(0, "", "Donald Trump", 10, 
+            prog_cons = 60,
+            nat_glob = -40,
+            env_eco = 40,
+            soc_cap =  95,
+            pac_mil= 40,
+            auth_ana= -63,
+            rel_sec = -12),
+        Candidate(0, "", "Nikki Haley", 10, 
+            prog_cons = 59,
+            nat_glob = -35,
+            env_eco = 65,
+            soc_cap =  85,
+            pac_mil= 45,
+            auth_ana= -55,
+            rel_sec = -2),
     ]
-    
-
 }
 
 
@@ -911,7 +916,7 @@ if mode in ["RUNOFF"]:
     while results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) < 0.5: # if nobody has a majority:
 
         # print plurality winner
-        print(f"The {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
+        print(f"{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
         print("No candidate has received a majority. The election will proceed to another round.")
         input()
 
@@ -941,7 +946,7 @@ if mode in ["RUNOFF"]:
         print_final_results(RESULTS, False, old_results)
 
 
-    print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
+    print(f"\n{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
 
 elif mode in ["FPTP"]:
 
@@ -951,9 +956,9 @@ elif mode in ["FPTP"]:
 
 
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
-        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
+        print(f"\n{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
     else: # if just plurality
-        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")
+        print(f"\n{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")
 
     input()
     mpl.clf()
@@ -963,9 +968,9 @@ elif mode in ["PROP REP"]:
 
 
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
-        print(f"\nThe {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
+        print(f"\n{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
     else:  # FORM COALITION
-        print(f"The {results[0][0].party} party {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
+        print(f" {results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
         print("No candidate has received a majority. A coalition will be formed.")
 
         input()
