@@ -1,4 +1,5 @@
 import random, math, os, numpy, difflib
+
 from time import sleep
 import matplotlib.pyplot as mpl
 mpl.ion()
@@ -30,13 +31,17 @@ class Voter:
 
         global not_voted
         dists = []
-        for cand in candidates:
+        for i in range(len(candidates)):
+            cand = candidates[i]
             euc_sum = 0
             for o in range(len(self.vals)): # sum square of each value
                 euc_sum += (self.vals[list(self.vals.keys())[o]] - cand.vals[o])**2
             euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
             euc_dist -= cand.party_pop*5 # take away party popularity from distance
+
+            #euc_dist /= ((RESULTS[i][1]+1 / 100000))
             dists.append(euc_dist) # add to distance list
+
 
         dists[rand_pref] *= 0.85 # 0.85 by random preference of party
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
@@ -191,6 +196,7 @@ def run(data, cands, pop):
     REGION_NUMBER = 30 # increase this number to INCREASE the randomness / district - > more realistic patterns but slower (too many districts means pure randomness of elections)
     if new_again:
         REGION_NUMBER = 40
+
     # 20 is a good number
     for x in range(len(cands)):
         #pop = cands[x].party_pop
@@ -259,13 +265,16 @@ def coalition(leader, results_a):
     while not majority:
 
         dists = []
-        for part in parties_in_order: # finding closest ideological party
+        for i in range(len(parties_in_order)): # finding closest ideological party
+            part = parties_in_order[i]
+
             euc_sum = 0
             for o in range(len(new_leader.vals)): # sum square of each value
                 euc_sum += (new_leader.vals[o] - part.vals[o])**2
             euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
             if euc_dist != 0: # if not same party
-                euc_dist += part.party_pop*5 # take away party popularity from distance (prefer smaller parties)
+                euc_dist += part.party_pop*5 # add party popularity from distance (prefer smaller parties)
+                euc_dist -= percs[i]*100 # minus party vote from distance (prefer higher voted parties)
             dists.append(euc_dist) # add to distance list
 
         # calculating from distance which partners to have
@@ -273,12 +282,17 @@ def coalition(leader, results_a):
         cur_dists = dists
 
         while perc < 0.5: # while do not have a majority go through the list of parties:
+
             index_min = min(range(len(cur_dists)), key=dists.__getitem__) # find preferred candidate by closest distance
-            
-            if cur_dists[index_min] > (TOO_FAR_DISTANCE*COALITION_FACTOR*1.1): # if cannot get a satisfying majority for the leader
+
+            if cur_dists[index_min] > (TOO_FAR_DISTANCE*COALITION_FACTOR): # if there is no party willing to form a coalition
                 # reset the leader to the second place candidate
+                print(f"\n{new_leader.party} is in negotiations with {parties_in_order[index_min].party}...")
+                sleep(2)
+                print(f"Negotiations have broken down.")
+                sleep(1)
                 counter += 1
-                if counter >= len(parties_in_order):
+                if counter >= len(parties_in_order): # if no coalition has been formed
                     return (new_leader, [])
                 new_leader = parties_in_order[counter]
                 perc = 0
@@ -288,6 +302,8 @@ def coalition(leader, results_a):
             if cur_dists[index_min] == 0: # if it is the leader already
                 cur_dists[index_min] = 99999
             else: # if found a good new coalition partner
+                print(f"\n{new_leader.party} is in negotiations with {parties_in_order[index_min].party}...")
+                sleep(2)
 
                 # the partner vetting all the preexisting partners and their relationships with them
                 partner = parties_in_order[index_min]
@@ -300,20 +316,27 @@ def coalition(leader, results_a):
                     t_dists.append(euc_dist) # add to distance list
                 #t_dists.sort()
             
-                if len(t_dists) > 0 and t_dists[-1] > TOO_FAR_DISTANCE*COALITION_FACTOR: # if any partner is over the too far distance
+                if len(t_dists) > 0 and t_dists[-1] > TOO_FAR_DISTANCE*COALITION_FACTOR: # if any other partner is over the too far distance
                     t_dists, t_partners = (list(t) for t in zip(*sorted(zip(t_dists, partners))))
-
-                    #input(f'{partner.party} does not want to work with {t_partners[-1].party}')
+                    print(f'{partner.party} refuses to form a coalition with {t_partners[-1].party} in.')
                     cur_dists[index_min] = 999999 # already partnered with so remove from list
                 else: # if satisfied
                     partners.append(partner)
+                    print(f'{partner.party} joined the coalition of {new_leader.party}.')
                     cur_dists[index_min] = 999999 # already partnered with so remove from list
                     perc += percs[index_min]
+                sleep(1)
 
+            os.system('cls' if os.name == 'nt' else 'clear') # clear and then ask 
+            print(f"Current Coalition Leader: {new_leader.party}")
+            print(f"Members: ")
+            for x in partners:
+                print(f"> {x.party}")
+            sleep(1)
         if perc > 0.5:
             majority = True
         
-
+    sleep(1)
     return (new_leader, partners)
 
 
@@ -326,7 +349,7 @@ VOTING_DEMOS = {
                 "prog_cons": -5,
                 "nat_glob": -15,
                 "env_eco": 35,
-                "soc_cap":  25,
+                "soc_cap":  15,
                 "pac_mil": -24,
                 "auth_ana": -17,
                 "rel_sec": -23},
@@ -356,7 +379,7 @@ VOTING_DEMOS = {
     "HAMPTON": {"pop": 1_546, "vals": {
                 "prog_cons": 21,
                 "nat_glob": 0,
-                "env_eco": 76,
+                "env_eco": -12,
                 "soc_cap":  52,
                 "pac_mil": -23,
                 "auth_ana": -30,
@@ -373,7 +396,7 @@ VOTING_DEMOS = {
                 "rel_sec": 64},
                 "scale":100,
                 "hos":"Frank-Walter Steinmeier"},
-    "NORTH KOREA": {"pop": 25_083_4, "vals" : {
+    "NORTH KOREA": {"pop": 25_083, "vals" : {
                 "prog_cons": 56,
                 "nat_glob": -99,
                 "env_eco": 35,
@@ -381,8 +404,8 @@ VOTING_DEMOS = {
                 "pac_mil": 70,
                 "auth_ana": -98,
                 "rel_sec": 99},
-                "scale":100},
-    "USA" : {"pop": 350_000, "vals" : {
+                "scale":1000},
+    "USA" : {"pop": 350_00, "vals" : {
                 "prog_cons": 20,
                 "nat_glob": -35,
                 "env_eco": 20,
@@ -390,7 +413,7 @@ VOTING_DEMOS = {
                 "pac_mil": 60,
                 "auth_ana": 12,
                 "rel_sec": -31},
-                "scale":1000,
+                "scale":10000,
                 "hos":"Chief Justice John Roberts"},
     "TURKEY" : {"pop": 87_000, "vals" : {
                 "prog_cons": 38,
@@ -421,7 +444,7 @@ VOTING_DEMOS = {
                 "rel_sec": -31},
                 "scale":10000,
                 "hos":"Vladimir Putin"},
-    "SOMALIA" : {"pop" : 17_000_0, "vals": {
+    "SOMALIA" : {"pop" : 17_000, "vals": {
                 "prog_cons": 76,
                 "nat_glob": -46,
                 "env_eco": 19,
@@ -429,7 +452,7 @@ VOTING_DEMOS = {
                 "pac_mil": 89,
                 "auth_ana": -17,
                 "rel_sec": -64},
-                "scale":100},
+                "scale":1000},
     "IRELAND" : {"pop": 60_12, "vals": {
                 "prog_cons": 5,
                 "nat_glob": -1,
@@ -450,6 +473,15 @@ VOTING_DEMOS = {
             "rel_sec": -32},
             "scale":1000,
             "hos":"Alexander van der Bellen"},
+    "FRANCE" : {"pop": 67_212, "vals": {
+            "prog_cons": 25,
+            "nat_glob": -26,
+            "env_eco": 2,
+            "soc_cap":  0,
+            "pac_mil": 12,
+            "auth_ana": -12,
+            "rel_sec": 0},
+            "scale":1000,},
 }
 
 for x in VOTING_DEMOS.keys():
@@ -482,7 +514,7 @@ CAND_LIST = {
             colour="red"),
         Candidate(5, "Hannah Sell", "Socialist Party", 1, -10, -11, 23, -41, -30, -5, 86,
             colour="firebrick"),
-        Candidate(3, "Zack Polanski", "Green", 5, -67, 71, -94, -31, -40, 41, 83,
+        Candidate(3, "Zack Polanski", "Green", 5, -37, 31, -54, -31, -10, 31, 13,
             colour="green"),
         Candidate(4, "Nigel Farage", "Reform Party", 2, 95, -98, 65, 70, 90, -42, -3,
             colour="black"),
@@ -584,7 +616,7 @@ CAND_LIST = {
             rel_sec = 50,
             colour="red"),
         
-        Candidate(6, "Danil Eliasov, Billiam the Third and Luc Mason", "4C Please", 5, #4C Please = CCC + Confetto + Yes Please
+        Candidate(6, "Danil Eliasov, Billiam the Third and Luc Mason", "4C Yes Please", 5, #4C Please = CCC + Confetto + Yes Please
             prog_cons= 75, 
             nat_glob= -75, 
             env_eco= 73,
@@ -609,7 +641,7 @@ CAND_LIST = {
             pac_mil= -5,
             auth_ana= 14,
             rel_sec = 12,
-            colour="blue"),
+            colour="skyblue"),
 
         Candidate(7, "Theo Evison", "Prevalence", 5,
             prog_cons= 17, 
@@ -715,6 +747,14 @@ CAND_LIST = {
                 pac_mil= -31,
                 auth_ana= 29,
                 rel_sec = 45),
+        Candidate(4, "", "Workers' Party", 0.1,
+                prog_cons= 15,
+                nat_glob= -61,
+                env_eco= -46,
+                soc_cap= -92,
+                pac_mil= 12,
+                auth_ana= -51,
+                rel_sec = 98),
     ],
     "TURKEY" : [
         Candidate(3, "Recep Erdogan", "AK", 9, 
@@ -851,6 +891,53 @@ CAND_LIST = {
             pac_mil= 45,
             auth_ana= -55,
             rel_sec = -2),
+    ],
+    "FRANCE" : [
+        Candidate(8, "Emmanuel Macron", "Renaissance", 7,
+                prog_cons= -12, 
+                nat_glob= 30, 
+                env_eco= -2,
+                soc_cap= 35,
+                pac_mil=  15,
+                auth_ana= -25,
+                rel_sec = 34,
+                colour="gold"),
+        Candidate(6, "Eric Ciotti", "Les Republicains", 4,
+                prog_cons= 12, 
+                nat_glob= -5, 
+                env_eco= 12,
+                soc_cap= 51,
+                pac_mil=  0,
+                auth_ana= -39,
+                rel_sec = -12,
+                colour="red"),
+        Candidate(6, "Marine Le Pen", "National Rally", 7,
+                prog_cons= 76, 
+                nat_glob= -51, 
+                env_eco= 12,
+                soc_cap= 45,
+                pac_mil=  12,
+                auth_ana= -10,
+                rel_sec = 0,
+                colour="navy"),
+        Candidate(6, "Jean-Luc Melenchon", "La France Insoumise", 7,
+                prog_cons= -34, 
+                nat_glob= -65, 
+                env_eco= 63,
+                soc_cap= -43,
+                pac_mil=  00,
+                auth_ana= 23,
+                rel_sec = 51,
+                colour="purple"),
+        Candidate(6, "Olivier Faure", "Socialistes", 1,
+                prog_cons= 33, 
+                nat_glob= -12, 
+                env_eco= -23,
+                soc_cap= -81,
+                pac_mil=  21,
+                auth_ana= -12,
+                rel_sec = 72,
+                colour="black"),
     ]
 }
 
@@ -861,7 +948,14 @@ os.system('cls' if os.name == 'nt' else 'clear') # clear and then ask
 for x in CAND_LIST.keys():
     print(x)
 CHOICE = input("\nPick a party group from the list above: ")
-CHOICE = difflib.get_close_matches(CHOICE.upper().strip(), CAND_LIST.keys(), 1)[0]
+if "+" in CHOICE:
+    CHOICES = CHOICE.split("+")
+    CHOICES[0] =  difflib.get_close_matches(CHOICES[0].upper().strip(), CAND_LIST.keys(), 1)[0]
+    CHOICES[1] =  difflib.get_close_matches(CHOICES[1].upper().strip(), CAND_LIST.keys(), 1)[0]
+    CAND_LIST["CUSTOM"] = CAND_LIST[CHOICES[0]] + CAND_LIST[CHOICES[1]]
+    CHOICE = "CUSTOM"
+else:
+    CHOICE = difflib.get_close_matches(CHOICE.upper().strip(), CAND_LIST.keys(), 1)[0]
 # SETTIG UP CANDIDATE LIST
 ys = {}
 CANDIDATES = CAND_LIST[CHOICE] # SET CANDIDATE LIST TO USE
@@ -881,21 +975,32 @@ for cand in CANDIDATES:
     RESULTS.append([cand, 0])
 
 data = [ # create normal distributions for each value axis
+    # 50, 100, 150, 70, 120, 160, 160
+    # the scale is kind of how spread it is / how much radicals are tolerated
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["prog_cons"], scale = 50, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["nat_glob"], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # nat - glob
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["env_eco"], scale = 150, size=VOTING_DEMOS[COUNTRY]["pop"]), # env - eco
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["soc_cap"], scale = 70, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
+    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["soc_cap"], scale = 50, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["pac_mil"], scale = 120, size=VOTING_DEMOS[COUNTRY]["pop"]), # pac - mil
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
     numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel - sec
 ]
+FACTORS = {
+    "prog_cons": 0,
+    "nat_glob": 0,
+    "env_eco": 0,
+    "soc_cap": 0,
+    "pac_mil": 0,
+    "auth_ana": 0,
+    "rel_sec": 0,
+}
+
 for x in range(len(data)):
     numpy.random.shuffle(data[x])
 
-
 TIME = float(input("Delay : (0->50) ")) # seconds
 DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
-
+POLL_COUNTER += int(input("Number of polls: (+/- 400): "))
 
 
 # ~~~~~~~~~~ VOTING SYSTEMS ~~~~~~~~~
@@ -915,7 +1020,7 @@ if mode == "RUNOFF":
 
 if COUNTRY != CHOICE: # discard party popularity if not the relevant country
     for c in CANDIDATES:
-        c.party_pop *= 0.5 # reset popularity by 1/2
+        c.party_pop *= 0.4 # reset popularity by 1/2
 
 
 # running main program
@@ -981,9 +1086,9 @@ elif mode in ["PROP REP"]:
 
 
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
-        print(f"\n{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
+        print(f"\n{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
     else:  # FORM COALITION
-        print(f" {results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} have won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
+        print(f"{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
         print("No candidate has received a majority. A coalition will be formed.")
 
         input()
@@ -991,8 +1096,10 @@ elif mode in ["PROP REP"]:
         mpl.cla()
         mpl.close()
         leader, coal = coalition(results[0][0], RESULTS)
+        os.system('cls' if os.name == 'nt' else 'clear') # clear and then ask 
         if coal != []: # if a coalition was formed:
-            print(f"\nThe {leader.party} party {('(led by ' + leader.name + ')') if (leader.name!='') else ''} have formed a coalition with:")
+            
+            print(f"\n{leader.party}{(' (led by ' + leader.name + ')') if (leader.name!='') else ''} formed a coalition with:")
             for p in coal:
                 print(f"> {p.party} {('(' + p.name + ')') if (p.name!='') else ''}")
             print(f"to form a majority government.")
@@ -1003,7 +1110,7 @@ elif mode in ["PROP REP"]:
                 hos = VOTING_DEMOS[COUNTRY]['hos']
             except KeyError:
                 hos = "the Head of State"
-            print(f"The goverment has been dissolved by {VOTING_DEMOS[COUNTRY]['hos']}. Run new elections.")
+            print(f"The goverment has been dissolved by {hos}. Run new elections.")
             exit()
         
             print("The election will proceed to a 2 round runoff.")

@@ -1,1 +1,1 @@
-            numpy.delete(data[i], ind) # remove that voter
+25
