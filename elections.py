@@ -4,13 +4,14 @@ from time import sleep
 import matplotlib.pyplot as mpl
 mpl.ion()
 
+DEBUG = False # print debug statements
 POLL_COUNTER = 400 # poll times (500 default)
 new_again = False
 TOO_FAR_DISTANCE = 185 # Non-voter distance, (Higher number -> More voters) (adjust when add more values)
-COALITION_FACTOR = 1.65 # Tolerance for coalition partners for Prop Rep (Higher number -> higher tolerance for coalitions)
+COALITION_FACTOR = 0.9 # 1.55 Tolerance for coalition partners for Prop Rep (Higher number -> higher tolerance for coalitions)
 #1.55 old /
 TOO_CLOSE_PARTY = 80 # Initial Party Merging (Higher number -> more merging)
-RAND_PREF_EFFECT = 0.85 # Effect of the random region on voting (Higher number / closer to 1 -> less effect)
+RAND_PREF_EFFECT = 0.7 # 0.85 Effect of the random region on voting (Higher number / closer to 1 -> less effect)
 
 VALUES = [
     "prog_cons", 
@@ -42,7 +43,7 @@ DESCRIPTORS = {
     "env_eco": {-100: "environmentalist", 0:None, 100: "anti-environmentalist"}, 
     "soc_cap" : {-60: "communist", -40: "socialist", -20: "left-leaning", 30:"right-leaning", 100: "corporatist"}, 
     "pac_mil" : {-100: "pacifist", 20:None, 70: "militarist", 100: "ultramilitaristic"}, 
-    "auth_ana" : {-100: "dictatorial", -50: "authoritarian", 0: None, 10:"liberal", 100: "anarchist"}, 
+    "auth_ana" : {-100: "dictatorial", -50: "authoritarian", 0: None, 30:"liberal", 100: "anarchist"}, 
     "rel_sec": {-100: "theocratic", -60: "religious", 0:None, 100: "secular"}, 
 }
 
@@ -59,8 +60,9 @@ class Voter:
             euc_sum = 0
             for o in range(len(self.vals)): # sum square of each value
                 euc_sum += (self.vals[list(self.vals.keys())[o]] - cand.vals[o])**2
-            euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
-            euc_dist -= cand.party_pop*5 # take away party popularity from distance
+            #euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
+            euc_dist = euc_sum
+            euc_dist -= (cand.party_pop*5)**2 # take away party popularity from distance
 
             #euc_dist /= ((RESULTS[i][1]+1 / 100000))
             dists.append(euc_dist) # add to distance list
@@ -68,7 +70,7 @@ class Voter:
 
         dists[rand_pref] *= RAND_PREF_EFFECT # 0.85 by random preference of party
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
-        if dists[index_min] <= TOO_FAR_DISTANCE: # if close enough to vote for them:
+        if dists[index_min] <= TOO_FAR_DISTANCE**2: # if close enough to vote for them:
             RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
         else: # if too radical for any party
             not_voted += 1 # do not vote
@@ -161,9 +163,10 @@ def print_results(RESULTS, rand_pref, way):
 
             if ys_values[x][-1] < 0: ys_values[x][-1] = 0 # reset to 0 to prevent negative
 
+        
             ys_values[x][-1] = (ys_values[x][-1] / total) * 100 # making percentage out of current total
 
-            #v = ys_values[x][-1] # TODO REMOVE - this changes the percentage from overall to current
+            #v = ys_values[x][-1] # TODO REMOVE - this changes the percentage from overall to current on label
             lab = str.rjust(str.ljust(str(round(v, 2)) + "%", 8), 4, '0') # pad string of voting percentages
 
             if ys_keys[x].colour: # if set colour
@@ -302,12 +305,15 @@ def coalition(leader, results_a):
             for o in range(len(new_leader.vals)): # sum square of each value
                 if (new_leader.vals[o] >0 and part.vals[o] < 0) or (new_leader.vals[0] < 0 and part.vals[0] > 0): # if any values are the other side of the spectrum
                     euc_sum += 2200 # they should have more effect (treat as if another ~30^2 difference)
+                    #print(f'the {VALUES[o]} is flipped for {new_leader.party} and {part.party}, adding {2200} ')
+                    if VALUES[o] == "soc_cap" : euc_sum += 500 # add more if it is capitalist / socialist flip
+                    #print(f'Capitalist / socialist, adding another 500')
                 euc_sum += (new_leader.vals[o] - part.vals[o])**2
 
             euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
             if euc_dist != 0: # if not same party
                 #euc_dist += part.party_pop*5 # add party popularity from distance (prefer smaller parties)
-                #euc_dist += percs[i]*1000 # minus party vote from distance (prefer higher voted parties)
+                #euc_dist -= percs[i]*1000 # minus party vote from distance (prefer higher voted parties)
                 pass
             dists.append(euc_dist) # add to distance list
 
@@ -320,11 +326,11 @@ def coalition(leader, results_a):
         while perc < 0.5: # while do not have a majority go through the list of parties:
 
             index_min = min(range(len(cur_dists)), key=dists.__getitem__) # find preferred candidate by closest distance
-
+            if DEBUG: print(f"DEBUG: {cur_dists[index_min] - TOO_FAR_DISTANCE*COALITION_FACTOR}")
             if cur_dists[index_min] > (TOO_FAR_DISTANCE*COALITION_FACTOR): # if there is no party willing to form a coalition
                 # reset the leader to the second place candidate
                 print(f"\n{new_leader.party} is in negotiations with {parties_in_order[index_min].party}...")
-                sleep(2)
+                sleep(0.5)
                 print(f"Negotiations have broken down.")
                 sleep(1)
                 counter += 1
@@ -339,7 +345,7 @@ def coalition(leader, results_a):
                 cur_dists[index_min] = 99999
             else: # if found a good new coalition partner
                 print(f"\n{new_leader.party} is in negotiations with {parties_in_order[index_min].party}...")
-                sleep(2)
+                sleep(1)
 
                 # the partner vetting all the preexisting partners and their relationships with them
                 partner = parties_in_order[index_min]
@@ -354,14 +360,21 @@ def coalition(leader, results_a):
             
                 if len(t_dists) > 0 and t_dists[-1] > TOO_FAR_DISTANCE*COALITION_FACTOR: # if any other partner is over the too far distance
                     t_dists, t_partners = (list(t) for t in zip(*sorted(zip(t_dists, partners))))
-                    print(f'{partner.party} refuses to form a coalition with {t_partners[-1].party} in.')
+                    print(f'{t_partners[-1].party} refuses to form a coalition with {partner.party} in.')
                     cur_dists[index_min] = 999999 # already partnered with so remove from list
                 else: # if satisfied
+                    if len(t_dists)>0:
+                        #print(t_dists[-1])
+                        #print(TOO_FAR_DISTANCE*COALITION_FACTOR)
+                        #print()
+                        #input()
+                        pass
                     partners.append(partner)
                     print(f'{partner.party} joined the coalition of {new_leader.party}.')
                     cur_dists[index_min] = 999999 # already partnered with so remove from list
                     perc += percs[index_min]
-                sleep(1)
+                sleep(0.5)
+                input("[...Continue...]")
 
             os.system('cls' if os.name == 'nt' else 'clear') # clear and then ask 
             print(f"Current Coalition Vote Percentage: {round(perc*100, 1)}%")
@@ -528,6 +541,15 @@ VOTING_DEMOS = {
             "auth_ana": -12,
             "rel_sec": 0},
             "scale":1000,},
+    "EU" : {"pop": 44_812, "vals": {
+            "prog_cons": 12,
+            "nat_glob": 3,
+            "env_eco": 2,
+            "soc_cap":  22,
+            "pac_mil": 2,
+            "auth_ana": -3,
+            "rel_sec": -1},
+            "scale":10000,},
     "SPAIN" : {"pop": 47_421, "vals": {
             "prog_cons": 5,
             "nat_glob": 1,
@@ -573,8 +595,7 @@ for p in range(len(VOTING_DEMOS[COUNTRY])):
 
 # ~~~~~~~~~~ CUSTOM USER PARTIES ~~~~~~~~~~~~
 
-# progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist, 
-# authoritation - anarchist
+# progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist, authoritation - anarchist
 # the first number does not matter at all
 # party popularity is from 1 to 10
 
@@ -582,13 +603,13 @@ CAND_LIST = {
     "UK": [
         Candidate(0, "Rishi Sunak", "Conservative", 8, 65, -24, 76, 71, -2, -21, 11,
             colour="blue"),
-        Candidate(1, "Ed Davey", "Lib Dems", 1, -32, 12, 24, 41, -40, -6, 31,
+        Candidate(1, "Ed Davey", "Liberal Democrats", 1, 2, -1, 24, 41, -40, -6, 31,
             colour="gold"),
         Candidate(2, "Keir Starmer", "Labour", 10, -21, 41, -11, -14, 4, -1, 74,
             colour="red"),
         Candidate(5, "Hannah Sell", "Socialist Party", 1, -10, -11, 23, -41, -30, -5, 86,
             colour="firebrick"),
-        Candidate(3, "Carla Denyer", "Green Party of England", 5, -37, 31, -54, -31, -10, 31, 13,
+        Candidate(3, "Carla Denyer", "Green Party", 5, -37, 31, -54, -31, -10, 31, 13,
             colour="green"),
         Candidate(4, "Nigel Farage", "Reform Party", 2, 95, -98, 65, 70, 90, -42, -3,
             colour="black"),
@@ -1194,7 +1215,7 @@ CAND_LIST = {
                 rel_sec = 11),       
     ],
     "OTH" : [
-        Candidate(0, "Indigo Westwood", "Party for Change", 5, 
+        Candidate(0, "Indigo Westwood", "People's Voice", 5, 
                 prog_cons= -41, 
                 nat_glob= 39, 
                 env_eco= -15,
@@ -1212,7 +1233,7 @@ CAND_LIST = {
                 auth_ana= -41,
                 rel_sec = -61,
                 colour="orange"),      
-        Candidate(2, "Sally McLaughlin", "People's Voice", 5, 
+        Candidate(2, "Sally McLaughlin", "Party for Change", 5, 
                 prog_cons= -32,
                 nat_glob= -41,
                 env_eco= 13,
@@ -1228,6 +1249,51 @@ CAND_LIST = {
                 pac_mil= 42,
                 auth_ana= -81,
                 rel_sec = 0),   
+    ],
+    "NI" : [
+        Candidate(1, "Michelle O'Neill", "Sinn Fein", 10, 
+                prog_cons= -31,
+                nat_glob= 23,
+                env_eco= 31,
+                soc_cap= -22,
+                pac_mil= 31,
+                auth_ana= 35,
+                rel_sec = -24,
+                colour="green"),
+        Candidate(6, "Sir Jeffrey Donaldson", "DUP", 10,
+                prog_cons= 61, 
+                nat_glob= -52, 
+                env_eco= 13,
+                soc_cap= 41,
+                pac_mil=  31,
+                auth_ana= 41,
+                rel_sec = -41,
+                colour="orange"),
+        Candidate(6, "Naomi Long", "APNI", 3,
+                prog_cons= 4, 
+                nat_glob= 12, 
+                env_eco= 41,
+                soc_cap= 45,
+                pac_mil= -25,
+                auth_ana= 14,
+                rel_sec = 72,
+                colour="yellow"),
+        Candidate(6, "Doug Beattie", "UUP", 1,
+                prog_cons= 51, 
+                nat_glob= -34, 
+                env_eco= 61,
+                soc_cap= 72,
+                pac_mil=  15,
+                auth_ana= -41,
+                rel_sec = -42),
+        Candidate(6, "Colum Eastwood", "SDLP", 3,
+                prog_cons= -15, 
+                nat_glob= -4, 
+                env_eco= 11,
+                soc_cap= 12,
+                pac_mil=  -14,
+                auth_ana= -3,
+                rel_sec = 12),
     ],
     "CURRENT": []
 }
@@ -1283,7 +1349,13 @@ def merge_party_names(party1, party2):
 
 x = 0
 
-# merging the two
+# merging the parties 
+if DEBUG: print(f"DEBUG: original value {TOO_CLOSE_PARTY}")
+if DEBUG: print(f"DEBUG: number of parties {len(CAND_LIST[CHOICE])}")
+if DEBUG: print(f"DEBUG:  multiplier {1+(((len(CAND_LIST[CHOICE])-4))/20)}")
+
+TOO_CLOSE_PARTY *= 1+(((len(CAND_LIST[CHOICE])-4))/10)
+if DEBUG: print(f"DEBUG: new value {TOO_CLOSE_PARTY}")
 while len(CAND_LIST[CHOICE]) > 0:
 
     dists = []
@@ -1306,12 +1378,9 @@ while len(CAND_LIST[CHOICE]) > 0:
         print(f"The electoral commission has ruled that {CAND_LIST[CHOICE][x].party} and {CAND_LIST[CHOICE][index_min].party} are too politically similar.")
         print(f"{CAND_LIST[CHOICE][x].party} and {CAND_LIST[CHOICE][index_min].party} have formed a coalition.")
 
-        #from difflib import SequenceMatcher
         sent1 = CAND_LIST[CHOICE][x].party
         sent2 = CAND_LIST[CHOICE][index_min].party
-        #match = SequenceMatcher(None, sent1, sent2).find_longest_match(0, len(sent1), 0, len(sent2))
-        #result = sent1[:match.a]+sent2[match.b:]
-        #print(result)
+
         nam = input("Enter a name for the merged parties (leave empty for a generated one): ").strip() 
         if nam == "":
             nam = merge_party_names(sent1, sent2)
@@ -1416,9 +1485,13 @@ FACTORS = {
 for x in range(len(data)):
     numpy.random.shuffle(data[x])
 
-TIME = float(input("Delay : (0->50) ")) # seconds
+try: TIME = float(input("Delay : (0->50) ")) # seconds
+except ValueError: TIME = 0
+
 DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
-POLL_COUNTER += int(input("Number of polls: (+/- 400): "))
+
+try: POLL_COUNTER += int(input("Number of polls: (+/- 400): "))
+except ValueError: pass
 
 
 # ~~~~~~~~~~ VOTING SYSTEMS ~~~~~~~~~
@@ -1438,9 +1511,18 @@ if mode == "RUNOFF":
 
 if COUNTRY != CHOICE: # discard party popularity if not the relevant country
     for c in CANDIDATES:
-        c.party_pop *= 0.4 # reset popularity by 1/2
+        c.party_pop *= 0.4 # reset popularity by 0.4
 
-
+def print_parliament(results, leaders):
+    seats = 400
+    print(CHOICE)
+    rows = 16
+    print(results)
+    print(leaders)
+    if len(leaders) == 1: #fptp or a majority
+        for seat in range(seats):
+            pass
+    else: pass
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
 
@@ -1501,6 +1583,7 @@ elif mode in ["FPTP"]:
     else: # if just plurality
         print(f"\n{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")
     print_gov_ideology(results, [results[0][0]])
+    print_parliament(results, [results[0][0]])
     input()
     mpl.clf()
     mpl.cla()
@@ -1516,10 +1599,8 @@ elif mode in ["PROP REP"]:
         print(f"{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
         print("No candidate has received a majority. A coalition will be formed.")
 
-        input()
-        mpl.clf()
-        mpl.cla()
-        mpl.close()
+        input("[...Continue...]")
+
         leader, coal = coalition(results[0][0], RESULTS)
         os.system('cls' if os.name == 'nt' else 'clear') # clear and then ask 
         if coal != []: # if a coalition was formed:
@@ -1529,6 +1610,7 @@ elif mode in ["PROP REP"]:
                 print(f"> {p.party} {('(' + p.name + ')') if (p.name!='') else ''}")
             print(f"to form a majority government.")
             print_gov_ideology(results, ([leader] + coal))
+            
 
         else:
             print(f"No parties could reach a coalition agreement.")
@@ -1538,6 +1620,9 @@ elif mode in ["PROP REP"]:
             except KeyError:
                 hos = "the Head of State"
             print(f"The goverment has been dissolved by {hos}. Run new elections.")
+            mpl.clf()
+            mpl.cla()
+            mpl.close()
             exit()
         
             print("The election will proceed to a 2 round runoff.")
@@ -1559,6 +1644,10 @@ elif mode in ["PROP REP"]:
 
             results = run(data, new_cands, VOTING_DEMOS[COUNTRY]['pop']) # run the elections again
             print_final_results(RESULTS, False, old_results)
-
+        mpl.clf()
+        mpl.cla()
+        mpl.close()
 input()
+mpl.clf()
+mpl.cla()
 mpl.close()
