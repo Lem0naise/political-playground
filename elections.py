@@ -10,7 +10,7 @@ new_again = False
 TOO_FAR_DISTANCE = 185 # Non-voter distance, (Higher number -> More voters) (adjust when add more values)
 COALITION_FACTOR = 0.9 # 1.55 Tolerance for coalition partners for Prop Rep (Higher number -> higher tolerance for coalitions)
 #1.55 old /
-TOO_CLOSE_PARTY = 80 # Initial Party Merging (Higher number -> more merging)
+TOO_CLOSE_PARTY = 75 # 80 Initial Party Merging (Higher number -> more merging)
 RAND_PREF_EFFECT = 0.7 # 0.85 Effect of the random region on voting (Higher number / closer to 1 -> less effect)
 
 VALUES = [
@@ -154,7 +154,7 @@ def print_results(RESULTS, rand_pref, way):
         for x in range(len(ys_values)): # for each candidate
             #(ys_values[x][-1]) si their most recent election poll result 
            
-            v = ys_values[x][-1]
+            v = ys_values[x][-1] # debug (the counterpart to the removable section)
 
             const_value = 10 # this increases the random jumping up and down in the polls
             if mode == "PROP REP":
@@ -165,6 +165,8 @@ def print_results(RESULTS, rand_pref, way):
 
         
             ys_values[x][-1] = (ys_values[x][-1] / total) * 100 # making percentage out of current total
+
+            v = ys_values[x][-1] # !!!!! debug: remove to change the percentage label NOT out of current total 
 
             #v = ys_values[x][-1] # TODO REMOVE - this changes the percentage from overall to current on label
             lab = str.rjust(str.ljust(str(round(v, 2)) + "%", 8), 4, '0') # pad string of voting percentages
@@ -179,7 +181,8 @@ def print_results(RESULTS, rand_pref, way):
         handles, labels = mpl.gca().get_legend_handles_labels()
         mpl.legend([handles[idx] for idx in order],[labels[idx] for idx in order], loc="upper left", prop={'family': 'monospace'}) #order the legend
         
-        mpl.title(COUNTRY.title().ljust(20) + str.rjust(str.ljust(str(round(total, 2)) + "%", 8), 4, '0'))
+        #mpl.title((COUNTRY + " Election Polling").title().ljust(20) + str.rjust(str.ljust(str(round(total, 2)) + "%", 8), 4, '0'))
+        mpl.title((COUNTRY + " Election Polling - ").title().ljust(20) + str.rjust(str.ljust(str(round((100-total)/2)) + " days until Election Day", 8), 4, '0'))
         mpl.pause(1e-10)
 
     #os.system('cls' if os.name == 'nt' else 'clear')
@@ -667,12 +670,12 @@ CAND_LIST = {
         Candidate(1, "Kim Ho-Chol", "Social Democrat", 1, -20, -20, -20, -60, 50, -52, 100)
     ],
     "FINLAND" : [
-        Candidate(0, "", "Soc Dem", 10, -30, 20, -12, -12, -1, -10, 51),
-        Candidate(1, "", "Centre Party", 9, 0, 2, 15, 10, -10, -31, 12),
-        Candidate(2, "", "Green League", 1, -67, 75, 40, 0, -10, 1, 73),
-        Candidate(3, "", "Left Alliance", 4, -30, 0, 10, -60, 0, -1, 68),
-        Candidate(4, "", "National Coalition", 4, 34, 30, 40, 75, 10, -45, -14),
-        Candidate(5, "", "Finns Party", 4, 68, -30, 20, 60, 49, -79, -15),
+        Candidate(0, "Antti Lindtman", "Social Democratic Party", 10, -30, 20, -12, -12, -1, -10, 51),
+        Candidate(1, "Annika Saarikko", "Centre Party", 9, 0, 2, 15, 10, -10, -31, 12),
+        Candidate(2, "Sofia Virta", "Green League", 1, -67, 75, 40, 0, -10, 1, 73),
+        Candidate(3, "Li Andersson", "Left Alliance", 4, -30, 0, 10, -60, 0, -1, 68),
+        Candidate(4, "Petteri Orpo", "National Coalition", 4, 34, 30, 40, 75, 10, -45, -14),
+        Candidate(5, "Riikka Purra", "Finns Party", 4, 68, -30, 20, 60, 49, -79, -15),
     ],
     "RUSSIA" : [
         Candidate(8, "Vladimir Putin", "United Russia", 10,
@@ -1352,9 +1355,9 @@ x = 0
 # merging the parties 
 if DEBUG: print(f"DEBUG: original value {TOO_CLOSE_PARTY}")
 if DEBUG: print(f"DEBUG: number of parties {len(CAND_LIST[CHOICE])}")
-if DEBUG: print(f"DEBUG:  multiplier {1+(((len(CAND_LIST[CHOICE])-4))/20)}")
+if DEBUG: print(f"DEBUG:  multiplier {1+(((len(CAND_LIST[CHOICE])-6))/20)}")
 
-TOO_CLOSE_PARTY *= 1+(((len(CAND_LIST[CHOICE])-4))/10)
+TOO_CLOSE_PARTY *= 1+(((len(CAND_LIST[CHOICE])-6))/10) # 6 being the standard party list (assumed)
 if DEBUG: print(f"DEBUG: new value {TOO_CLOSE_PARTY}")
 while len(CAND_LIST[CHOICE]) > 0:
 
