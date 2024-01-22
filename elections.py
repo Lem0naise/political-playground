@@ -1,4 +1,6 @@
 import random, math, os, numpy, difflib
+import poli_sci_kit as psk
+from poli_sci_kit import appointment
 
 from time import sleep
 import matplotlib.pyplot as mpl
@@ -608,7 +610,7 @@ CAND_LIST = {
             colour="blue"),
         Candidate(1, "Ed Davey", "Liberal Democrats", 1, 2, -1, 24, 41, -40, -6, 31,
             colour="gold"),
-        Candidate(2, "Keir Starmer", "Labour", 10, -21, 41, -11, -14, 4, -1, 74,
+        Candidate(2, "Keir Starmer", "Labour", 10, 1, 41, -11, 14, 4, -1, 74,
             colour="red"),
         Candidate(5, "Hannah Sell", "Socialist Party", 1, -10, -11, 23, -41, -30, -5, 86,
             colour="firebrick"),
@@ -873,7 +875,7 @@ CAND_LIST = {
                 prog_cons= -31,
                 nat_glob= 43,
                 env_eco= 31,
-                soc_cap= -22,
+                soc_cap= -32,
                 pac_mil= 31,
                 auth_ana= 35,
                 rel_sec = -54),
@@ -1517,14 +1519,123 @@ if COUNTRY != CHOICE: # discard party popularity if not the relevant country
         c.party_pop *= 0.4 # reset popularity by 0.4
 
 def print_parliament(results, leaders):
-    seats = 400
-    print(CHOICE)
+    mpl.clf()
+    mpl.cla()
+    mpl.close()
+
+    try: seat_num = int(input("Parliament seats: (%10) ")) 
+    except: seat_num = 30
+    rows = round(0.6 * math.sqrt(seat_num))
+    gov = []
+    gov_seats = []
+    opp = []
+    opp_seats = []
+
+    parties, vote_counts = zip(*results)
+    colours = []
+    g_tick = 00
+    r_tick = 00
+    for x in range(len(parties)):
+        #x.colour
+        if parties[x] in leaders:
+            gov_seats.append(x)
+            gov.append(parties[x].party)
+            colours.append(f"#{str(hex(g_tick))[2:].zfill(2)}{str(hex(255-g_tick))[2:].zfill(2)}{'00'.zfill(2)}") # varying greens
+            g_tick += round((255/len(parties)))
+        else:
+            opp_seats.append(x)
+            opp.append(parties[x].party)
+            #colours.append(f"#{str(hex(random.randrange(0, 2**24)))[2:]}")
+            colours.append(f"#{str(hex(255-r_tick))[2:].zfill(2)}{'00'.zfill(2)}{str(hex(r_tick))[2:].zfill(2)}") # varying reds
+            r_tick += round((255/len(parties)))
+
+
+    parties = [x.party for x in parties] # getting party names
+   
+
+    # Huntington-Hill is the method used to allocate House of Representatives seats to US states
+    ha_allocations = appointment.methods.highest_averages(
+        averaging_style="Huntington-Hill",
+        shares=vote_counts,
+        total_alloc=seat_num,
+        alloc_threshold=None,
+        min_alloc=1,
+        tie_break="majority",
+        majority_bonus=False,
+        modifier=None,
+    )
+
+    print(f"\nGovernment: {sum([ha_allocations[x] for x in gov_seats])} seats")
+    for x in range(len(gov)): 
+        print(f"> {gov[x]} ~ {ha_allocations[gov_seats[x]]} seats")
+    print(f"\nOpposition: {sum([ha_allocations[x] for x in opp_seats])} seats")
+    for x in range(len(opp)):
+        print(f"> {opp[x]} ~ {ha_allocations[opp_seats[x]]} seats")
+
+    #print(ha_allocations)
+    #print(parties)
+    fig, ax1 = mpl.subplots(nrows = 1, ncols=1)
+    ax1 = psk.plot.parliament(
+        allocations=ha_allocations,
+        labels=parties,
+        colors=colours,
+        style="rectangle",
+        num_rows=rows,
+        marker_size= round(60000/seat_num),
+        #301
+        speaker=False,
+        axis=ax1,
+    )
+    
+    input("Showing parliament...")
+    mpl.ion()
+    mpl.show()
+
+
+def print_parliament_old(results, leaders):
+
+    seat_num = 400
     rows = 16
-    print(results)
-    print(leaders)
-    if len(leaders) == 1: #fptp or a majority
-        for seat in range(seats):
-            pass
+
+    print("\n---" + COUNTRY.title() + " Parliament Seats---")
+
+    seats = {}
+    for p in results:
+        seats[p[0]] = 0
+
+    total_votes = 0
+    for x in results:
+        total_votes += x[1]
+    for x in results:
+        seats[x[0]] = round(x[1]/total_votes * seat_num)
+
+
+    #print(results)
+    #print(leaders)
+    
+    if len(leaders) == 1: #FPTP or a majority
+
+        print("\n - Government:")
+        party_num = 0
+        cur_seat = 0
+        for seat in range(seat_num-1):
+            if party_num >= len(results): break
+            if seats[results[party_num][0]] > 0:
+                print(".", end = "") # printing a seat
+                cur_seat += 1
+                seats[results[party_num][0]] -= 1
+                if cur_seat >= seat_num/rows: 
+                    cur_seat = 0
+                    print("\n", end="")
+            
+            else:
+                if party_num == 0: 
+                    print("\n - Opposition:")
+                party_num += 1
+            
+            
+                 
+
     else: pass
 # running main program
 results = run(data, CANDIDATES, VOTING_DEMOS[COUNTRY]['pop'])
@@ -1573,6 +1684,7 @@ if mode in ["RUNOFF"]:
     mpl.clf()
     mpl.cla()
     mpl.close()
+    print_parliament(results, [results[0][0]])
 
 elif mode in ["FPTP"]:
 
@@ -1598,6 +1710,7 @@ elif mode in ["PROP REP"]:
     if results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) > 0.5: # if the leader has a majority:
         print(f"\n{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won the election by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes) with a majority by a margin of {round((results[0][1]/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) - 0.5)*100, 2)}% ({format_votes(results[0][1]-(int(round(VOTING_DEMOS[COUNTRY]['pop']-not_voted)/2)))} votes)!")
         print_gov_ideology(results, [results[0][0]])
+        print_parliament(results, [results[0][0]])
     else:  # FORM COALITION
         print(f"{results[0][0].party} {('(led by ' + results[0][0].name + ')') if (results[0][0].name!='') else ''} won a plurality by a margin of {round((results[0][1]-results[1][1])/(VOTING_DEMOS[COUNTRY]['pop']-not_voted) * 100, 2)}% ({format_votes(results[0][1]-results[1][1])} votes)!")    
         print("No candidate has received a majority. A coalition will be formed.")
@@ -1613,7 +1726,7 @@ elif mode in ["PROP REP"]:
                 print(f"> {p.party} {('(' + p.name + ')') if (p.name!='') else ''}")
             print(f"to form a majority government.")
             print_gov_ideology(results, ([leader] + coal))
-            
+            print_parliament(results, ([leader] + coal))
 
         else:
             print(f"No parties could reach a coalition agreement.")
@@ -1650,6 +1763,7 @@ elif mode in ["PROP REP"]:
         mpl.clf()
         mpl.cla()
         mpl.close()
+        
 input()
 mpl.clf()
 mpl.cla()
