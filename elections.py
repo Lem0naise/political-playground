@@ -9,12 +9,12 @@ mpl.ion()
 DEBUG = False # print debug statements
 POLL_COUNTER = 400 # poll times (500 default)
 new_again = False
-TOO_FAR_DISTANCE = 185 # Non-voter distance, (Higher number -> More voters) (adjust when add more values)
-COALITION_FACTOR = 1.2 # 1.55 Tolerance for coalition partners for Prop Rep (Higher number -> higher tolerance for coalitions)
-#1.55 old /
-TOO_CLOSE_PARTY = 90 # 80 Initial Party Merging (Higher number -> more merging)
+TOO_FAR_DISTANCE = 185 # 185 Non-voter distance, (Higher number -> More voters) (adjust when add more values)
+COALITION_FACTOR = 1.1 # 1.55 Tolerance for coalition partners for Prop Rep (Higher number -> higher chance for coalitions)
+TOO_CLOSE_PARTY = 100 # 80 Initial Party Merging (Higher number -> more merging)
 RAND_PREF_EFFECT = 0.7 # 0.85 Effect of the random region on voting (Higher number / closer to 1 -> less effect)
 
+#TODO MAKE THE COALITION GOVERNMENT BASED ON SEATS and NOT PERCENTAGE POINTS
 
 
 VALUES = [
@@ -418,16 +418,26 @@ def coalition(leader, results_a):
 VOTING_DEMOS = {
     #COUNTRY: [pop in hundreds]
     "UK": {"pop": 70_029, "vals": {
-                "prog_cons": -5,
+                "prog_cons": 10,
                 "nat_glob": -15,
-                "env_eco": 35,
-                "soc_cap":  15,
+                "env_eco": 65,
+                "soc_cap":  25,
                 "pac_mil": -24,
                 "auth_ana": -17,
                 "rel_sec": -23},
                 "scale":1000,
                 "hos":"King Charles III"},
 
+    "MEXICO": {"pop": 127_70, "vals": {
+                "prog_cons": 5,
+                "nat_glob": -5,
+                "env_eco": 35,
+                "soc_cap":  5,
+                "pac_mil": 14,
+                "auth_ana": -17,
+                "rel_sec": 23},
+                "scale":10000,
+                "hos":"Manuel Lopez Obrador"},
     "GERMANY 1936": {"pop": 61_024, "vals":{
                 "prog_cons": 95,
                 "nat_glob": -68,
@@ -623,20 +633,16 @@ for p in range(len(VOTING_DEMOS[COUNTRY])):
 
 CAND_LIST = {
     "UK": [
-        Candidate(0, "Rishi Sunak", "Conservative", 8, 65, -24, 76, 71, -2, -21, 11,
+        Candidate(0, "Rishi Sunak", "Conservatives", 8, 65, -24, 76, 71, -2, -21, 11,
             colour="blue"),
         Candidate(1, "Ed Davey", "Liberal Democrats", 1, 2, -1, 24, 41, -40, -6, 31,
             colour="gold"),
         Candidate(2, "Keir Starmer", "Labour", 10, 1, 41, -11, 14, 4, -1, 74,
             colour="red"),
-        Candidate(5, "Hannah Sell", "Socialist Party", 1, -10, -11, 23, -41, -30, -5, 86,
-            colour="firebrick"),
         Candidate(3, "Carla Denyer", "Green Party", 1, -37, 31, -54, -31, -10, 31, 13,
             colour="green"),
-        Candidate(4, "Nigel Farage", "Reform Party", 2, 95, -98, 65, 70, 90, -42, -3,
+        Candidate(4, "Nigel Farage", "Reform Party", 1, 95, -98, 65, 70, 90, -42, -3,
             colour="black"),
-        Candidate(5, "Jeremy Corbyn", "Corbyn's Alternative", 0.5, -50, 30, -40, -50, -10, -13, 95,
-            colour="purple"),
     ],
     "US PRIMARIES": [
         Candidate(0, "Donald Trump", "Donald Trump", 10,
@@ -1036,6 +1042,44 @@ CAND_LIST = {
                 pac_mil= 45,
                 auth_ana= -12,
                 rel_sec = 2),
+    ],
+    "MEXICO" : [
+        Candidate(0, "Ismael Urena", "MORENA", 2,
+                prog_cons= 0,
+                nat_glob= -30,
+                env_eco= 5,
+                soc_cap= -35,
+                pac_mil= 0,
+                auth_ana= -15,
+                rel_sec = 35,
+                colour='red'),
+        Candidate(1, "Antonio Ramo Silva", "Partido Accion", 8,
+                prog_cons= 60,
+                nat_glob= -5,
+                env_eco= 25,
+                soc_cap= 55,
+                pac_mil= 0,
+                auth_ana= -5,
+                rel_sec = -20,
+                colour='blue'),
+        Candidate(2, "Jose Ocampo Rubio", "Partido Institucional", 8,
+                prog_cons= 12,
+                nat_glob= -35,
+                env_eco= 5,
+                soc_cap= -60,
+                pac_mil= 25,
+                auth_ana= -42,
+                rel_sec = -40,
+                colour='green'),
+        Candidate(2, "Alvaro Miralles Seco", "Ciudadano", 2,
+                prog_cons= -32,
+                nat_glob= 34,
+                env_eco= -10,
+                soc_cap= 21,
+                pac_mil= 0,
+                auth_ana= 0,
+                rel_sec = 10,
+                colour='yellow'),
     ],
     "AUSTRIA" : [
         Candidate(8, "Karl Nehammer", "ÖVP", 10,
@@ -1560,7 +1604,7 @@ if DEBUG: print(f"DEBUG: original value {TOO_CLOSE_PARTY}")
 if DEBUG: print(f"DEBUG: number of parties {len(CAND_LIST[CHOICE])}")
 if DEBUG: print(f"DEBUG:  multiplier {1+(((len(CAND_LIST[CHOICE])-6))/20)}")
 
-TOO_CLOSE_PARTY *= 1+(((len(CAND_LIST[CHOICE])-6))/10) # 6 being the standard party list (assumed)
+TOO_CLOSE_PARTY *= 1+(((len(CAND_LIST[CHOICE])-6))/8) # 6 being the standard party list (assumed)
 if DEBUG: print(f"DEBUG: new value {TOO_CLOSE_PARTY}")
 
 # merging the too close parties
@@ -1774,7 +1818,7 @@ def print_parliament(results, leaders):
         min_alloc=1,
         tie_break="majority",
         majority_bonus=False,
-        modifier=None,
+        modifier=12,
     )
 
     #lr_allocations = appointment.methods.largest_remainder(
