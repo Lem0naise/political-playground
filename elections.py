@@ -73,16 +73,18 @@ DESCRIPTORS = {
 class Voter:
     def __init__(self, ideos):
         self.ideos = {}
+        #print(ideos)
+        #input() TODO
         # temporary 1 TODO
 
-        
+
 
         for ideo in ideos.keys():
             if random.random() < ideos[ideo]:
-                self.ideos[ideo] = 1 
+                self.ideos[ideo] = numpy.random.uniform(0, 100)
 
     def vote(self, candidates, rand_pref, cands_length):
-        print(self.ideos)
+        #print(self.ideos)
 
         global not_voted
         scores = []
@@ -92,49 +94,62 @@ class Voter:
 
             if "social liberalism" in self.ideos.keys():
                 if "social liberalism" in cand.ideos.keys():
-                    score += cand.ideos["social liberalism"]
-                if "social conservatism" in cand.ideos.keys():
-                    score -= cand.ideos["social conservatism"]
-            if "social conservatism" in self.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["social liberalism"] - cand.ideos["social liberalism"])
                 if "social conservatism" in cand.ideos.keys():
                     score += cand.ideos["social conservatism"]
+            if "social conservatism" in self.ideos.keys():
+                if "social conservatism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["social conservatism"] - cand.ideos["social conservatism"])
                 if "social liberalism" in cand.ideos.keys():
-                    score -= cand.ideos["social liberalism"]
+                    score += cand.ideos["social liberalism"]
 
             if "economic progressivism" in self.ideos.keys():
                 if "economic progressivism" in cand.ideos.keys():
-                    score += cand.ideos["economic progressivism"]
+                    score -= 100
+                    score += abs(self.ideos["economic progressivism"] - cand.ideos["economic progressivism"])
                 if "social conservatism" in cand.ideos.keys():
-                    score -= cand.ideos["social conservatism"]
+                    score += cand.ideos["social conservatism"]
             if "economic liberalism" in self.ideos.keys():
                 if "economic liberalism" in cand.ideos.keys():
-                    score += cand.ideos["economic liberalism"]
+                    score -= 100
+                    score += abs(self.ideos["economic liberalism"] - cand.ideos["economic liberalism"])
                 if "economic progressivism" in cand.ideos.keys():
-                    score -= cand.ideos["economic progressivism"]
+                    score += cand.ideos["economic progressivism"]
 
             if "centrism" in self.ideos.keys():
                 if "centrism" in cand.ideos.keys():
-                    score += cand.ideos["centrism"]
+                    score -= 100
+                    score += abs(self.ideos["centrism"] - cand.ideos["centrism"])
 
             if "left-wing populism" in self.ideos.keys():
                 if "left-wing populism" in cand.ideos.keys():
-                    score += cand.ideos["left-wing populism"]
+                    score -= 100
+                    score += abs(self.ideos["left-wing populism"] - cand.ideos["left-wing populism"]) 
                 else:
-                    score -= 20
+                    score += 20
                 if "right-wing populism" in cand.ideos.keys():
-                    score -= cand.ideos["right-wing populism"]
+                    score += cand.ideos["right-wing populism"]
 
             if "right-wing populism" in self.ideos.keys():
                 if "right-wing populism" in cand.ideos.keys():
-                    score += cand.ideos["right-wing populism"]
+                    score -= 100
+                    score += abs(self.ideos["right-wing populism"] - cand.ideos["right-wing populism"])
                 else:
-                    score -= 20
+                    score += 20
                 if "left-wing populism" in cand.ideos.keys():
-                    score -= cand.ideos["left-wing populism"]
+                    score += cand.ideos["left-wing populism"]
 
             if "libertarianism" in self.ideos.keys():
                 if "libertarianism" in cand.ideos.keys():
-                    score += cand.ideos["libertarianism"]
+                    score -= 100
+                    score += abs(self.ideos["libertarianism"] - cand.ideos["libertarianism"])
+            
+            if "green" in self.ideos.keys():
+                if "green" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["green"] - cand.ideos["green"])
 
             #if cand.swing: score += cand.swing
 
@@ -143,14 +158,16 @@ class Voter:
 
         #print(scores) TODO PRINT SCORES
         scores[rand_pref] /= RAND_PREF_EFFECT # 0.85 by random preference of party TODO
-
-        index_max = max(range(len(scores)), key=scores.__getitem__) # find preferred candidate by closest distance
-        if (scores[index_max] >= TOO_FAR_DISTANCE) or (VOTE_MANDATE): # if close enough to vote for them:
+        #print(scores) TODO
+        #input()
+        index_max = min(range(len(scores)), key=scores.__getitem__) # find preferred candidate by closest distance
+        if (scores[index_max] != 129381203) or (VOTE_MANDATE): # if close enough to vote for them:
             RESULTS[index_max][1] += 1 # add one to vote count of preferred candidate
         else: # if too radical for any party
             not_voted += 1 # do not vote
-        print(RESULTS[index_max][0].party)
-        input()
+        #print(RESULTS[index_max][0].party) #TODO
+        #input() #TODO
+
         del self
 
 
@@ -530,13 +547,16 @@ VOTING_DEMOS = {
                 "scale":1000,
                 "hos":"Paul von Hindenburg"},
     "GERMANY" : {"pop" : 85_029, "vals" : {
-                "prog_cons": -12,
-                "nat_glob": 34,
-                "env_eco": 24,
-                "soc_cap":  12,
-                "est_pop": 24,
-                "auth_ana": -1,
-                "rel_sec": -12},
+                "social liberalism": 0.4,
+                "social conservatism": 0.4,
+                "economic progressivism": 0.5,
+                "economic liberalism": 0.5,
+                "centrism": 0.6,
+                "left-wing populism": 0.1,
+                "right-wing populism": 0.4,
+                "green": 0.2,
+                "libertarianism": 0.2},
+
                 "scale":1000,
                 "hos":"Frank-Walter Steinmeier"},
     "HAMPTON": {"pop": 1_546, "vals": {
@@ -723,9 +743,9 @@ scale_fac = len(str(scale_factor))-1
 
 # SLIGHTLY RANDOMIZING VOTING DEMOGRAPHIC
 for p in range(len(VOTING_DEMOS[COUNTRY])):
-   #VOTING_DEMOS[COUNTRY]["vals"][VOTING_DEMOS[COUNTRY]["vals"].keys()[p]]
-    VOTING_DEMOS[COUNTRY]["vals"][list(VOTING_DEMOS[COUNTRY]["vals"].keys())[p]] += round(10*(random.random()-0.5)) # randomise by 5 possibility each side
-
+    #VOTING_DEMOS[COUNTRY]["vals"][VOTING_DEMOS[COUNTRY]["vals"].keys()[p]]
+    #VOTING_DEMOS[COUNTRY]["vals"][list(VOTING_DEMOS[COUNTRY]["vals"].keys())[p]] += round(10*(random.random()-0.5)) # randomise by 5 possibility each side
+    pass
 
 # ~~~~~~~~~~ CUSTOM USER PARTIES ~~~~~~~~~~~~
 
@@ -919,47 +939,38 @@ CAND_LIST = {
                 },
                 colour='black'),
     ],
-#    "CANADA" : [
-#        Candidate(8, "Justin Trudeau", "Liberal Party", 10, # social democracy
-#                prog_cons= -25,
-#                nat_glob= 30,
-#                env_eco= 12,
-#                soc_cap= 10,
-#                est_pop=  5,
-#                auth_ana= 5,
-#                rel_sec = 0,
-#                colour='red',
-#                swing=-5),
-#        Candidate(6, "Pierre Poilievre", "Conservative Party", 10, # conservative liberalism
-#                prog_cons= 34,
-#                nat_glob= 2,
-#                env_eco= 13,
-#                soc_cap= 35,
-#                est_pop=  25,
-#                auth_ana= -14,
-#                rel_sec = -8,
-#                colour="blue",
-#                swing=10),
-#        Candidate(6, "Yves-Francois Blanchet", "Bloc Quebecois", 0.3, # nationalism
-#                prog_cons= 4,
-#                nat_glob= -32,
-#                env_eco= 45,
-#                soc_cap= -22,
-#                est_pop=  25,
-#                auth_ana= 41,
-#                rel_sec = 0,
-#                colour="turquoise",
-#                swing=-5),
-#        Candidate(6, "Jagmeet Singh", "New Democratic Party", 2, # democratic socialists
-#                prog_cons= -45,
-#                nat_glob= 31,
-#                env_eco= -29,
-#                soc_cap= -31,
-#                est_pop=  -24,
-#                auth_ana= 19,
-#                rel_sec = 21,
-#                colour="orange"),
-#    ],
+    "CANADA" : [
+       Candidate(8, "Justin Trudeau", "Liberal Party", 10, # social democracy
+                {
+                    "social liberalism": 50,
+                    "economic liberalism": 12,
+                    "centrism": 30
+                },
+                colour='red',
+                swing=-5),
+        Candidate(6, "Pierre Poilievre", "Conservative Party", 10, # conservative liberalism
+                {
+                    "social conservatism": 34,
+                    "economic liberalism": 40
+                },
+                colour="blue",
+                swing=10),
+        Candidate(6, "Yves-Francois Blanchet", "Bloc Quebecois", 0.3, # nationalism
+                {
+                    "right-wing populism": 40,
+                    "economic progressivism": 30
+                },
+                colour="turquoise",
+                swing=-5),
+        Candidate(6, "Jagmeet Singh", "New Democratic Party", 2, # democratic socialists
+                {
+                    "social liberalism": 64,
+                    "economic progressivism": 40,
+                    "left-wing populism": 53,
+                    "green": 10
+                },
+                colour="orange"),
+    ],
 #    "LATVIA" : [
 #        Candidate(8, "Krišjānis Kariņš", "New Unity", 10, # social democracy
 #                prog_cons= 5,
