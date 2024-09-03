@@ -92,6 +92,13 @@ class Voter:
             cand = candidates[i]
             score = 0
 
+            for ideo in self.ideos.keys():
+                if ideo in cand.ideos.keys():
+                    score += (100 - abs(self.ideos[ideo] - cand.ideos[ideo]))*(random.random()/2 + 0.5)
+                else:
+                    score -= self.ideos[ideo]
+
+            '''
             if "social liberalism" in self.ideos.keys():
                 if "social liberalism" in cand.ideos.keys():
                     score -= 100
@@ -151,17 +158,19 @@ class Voter:
                     score -= 100
                     score += abs(self.ideos["green"] - cand.ideos["green"])
 
+            '''
             #if cand.swing: score += cand.swing
 
             #euc_dist /= ((RESULTS[i][1]+1 / 100000))
             scores.append(score) # add to score list
 
-        #print(scores) TODO PRINT SCORES
+
+        #print(scores) # TODO
         scores[rand_pref] /= RAND_PREF_EFFECT # 0.85 by random preference of party TODO
-        #print(scores) TODO
-        #input()
-        index_max = min(range(len(scores)), key=scores.__getitem__) # find preferred candidate by closest distance
-        if (scores[index_max] != 129381203) or (VOTE_MANDATE): # if close enough to vote for them:
+        #print(scores) #TODO
+        #input() # TODO
+        index_max = max(range(len(scores)), key=scores.__getitem__) # find preferred candidate by closest distance
+        if (scores[index_max] >= 0) or (VOTE_MANDATE): # if close enough to vote for them:
             RESULTS[index_max][1] += 1 # add one to vote count of preferred candidate
         else: # if too radical for any party
             not_voted += 1 # do not vote
@@ -332,7 +341,7 @@ def run(data, cands, pop, r_count =0 ):
 
     rand_pref = 0
     cand_numbers = []
-    REGION_NUMBER = 30 # increase this number to INCREASE the randomness / district - > more realistic patterns but slower (too many districts means pure randomness of elections)
+    REGION_NUMBER = 4 # increase this number to INCREASE the randomness / district - > more realistic patterns but slower (too many districts means pure randomness of elections)
     if new_again:
         REGION_NUMBER = 40
 
@@ -380,7 +389,7 @@ def run(data, cands, pop, r_count =0 ):
                 random.seed() # seeding to make a proper random choice
                 rand_pref = random.choice(cand_numbers)
             # something good TODO
-            #if random.random() > 0.9: print(f'{cands[rand_pref].name} does something good')
+            if random.random() > 0.0: print(f'{cands[rand_pref].name} does something good')
 
     print_final_results(RESULTS, rand_pref=rand_pref, way=it/pop)
     return sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
@@ -576,7 +585,7 @@ VOTING_DEMOS = {
                 "economic liberalism": 0.5,
                 "centrism": 0.3,
                 "left-wing populism": 0.1,
-                "right-wing populism": 0.2,
+                "right-wing populism": 0.4,
                 "green": 0.2,
                 "libertarianism": 0.2},
 
