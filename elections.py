@@ -297,7 +297,7 @@ def run(data, cands, pop, r_count =0 ):
                 random.seed() # seeding to make a proper random choice
                 rand_pref = random.choice(cand_numbers)
             # something good TODO
-            #if random.random() > 0.9: print(f'{cands[rand_pref].name} does something good')
+            if random.random() > 0.9: print(f'Positive event for {cands[rand_pref].name}.')
 
     print_final_results(RESULTS, rand_pref=rand_pref, way=it/pop)
     return sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
