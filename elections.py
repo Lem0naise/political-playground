@@ -7,9 +7,9 @@ import matplotlib.pyplot as mpl
 mpl.ion()
 
 DEBUG = False # print debug statements
-POLL_COUNTER = 400 # poll times (500 default)
+POLL_COUNTER = 50 # poll times (500 default)
 new_again = False
-TOO_FAR_DISTANCE = 160 # 185 Non-voter distance, (Higher number -> More voters) (adjust when add more values)
+TOO_FAR_DISTANCE = 180 # 185 Non-voter distance, (Higher number -> More voters) (adjust when add more values)
 COALITION_FACTOR = 1 # 1.55 Tolerance for coalition partners for Prop Rep (Higher number -> higher chance for coalitions)
 TOO_CLOSE_PARTY = 100 # 80 Initial Party Merging (Higher number -> more merging)
 RAND_PREF_EFFECT = 0.8 # 0.85 Effect of the random region on voting (lower number / closer to 0 -> more effect)
@@ -28,6 +28,30 @@ VALUES = [
     "rel_sec"
 ]
 
+EVENTS = [ # add negative events i guess?
+    "{} performed well in a debate.",
+    "{} released a popular policy.",
+    "{} received an endorsement from a popular regional leader.",
+    "{} gained a major fundraising boost.",
+    "{} made a successful campaign stop.",
+    "{} was praised by a popular influencer.",
+    "{} gained positive media coverage.",
+    "{} had a highly effective ad campaign.",
+    "{} is engaging well with the youth.",
+    "{} secured a key foreign endorsement.",
+    "{} received an endorsement from a key newspaper",
+    "{} was featured positively in a high-profile interview.",
+    "{} successfully countered an attack.",
+    "{} won a pivotal local election.",
+    "{} made a compelling public appearance.",
+    "{} received a high approval rating from a recent poll.",
+    "{} successfully resolved a major campaign controversy.",
+    "{} received a large donation from a prominent supporter.",
+    "{} gained traction in a crucial battleground region.",
+    "{} successfully mobilized a large volunteer base.",
+    "{} received praise from an influential think tank.",
+    "{} was endorsed by an international organisation."
+]
 class Candidate:
     # -10 -> 10
     # progressive - conservative
@@ -297,7 +321,7 @@ def run(data, cands, pop, r_count =0 ):
                 random.seed() # seeding to make a proper random choice
                 rand_pref = random.choice(cand_numbers)
             # something good TODO
-            if random.random() > 0.9: print(f'Positive event for {cands[rand_pref].name}.')
+            if random.random() < (0.01 + (21-len(cands))/201): print("~ " + random.choice(EVENTS).replace('{}', (cands[rand_pref].name if random.random() > 0.4 else cands[rand_pref].party)))
 
     print_final_results(RESULTS, rand_pref=rand_pref, way=it/pop)
     return sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
@@ -531,7 +555,7 @@ VOTING_DEMOS = {
                 "rel_sec": 71},
                 "scale":10000},
     "USA" : {"pop": 350_00, "vals" : {
-                "prog_cons": 20,
+                "prog_cons": 10,
                 "nat_glob": -35,
                 "env_eco": 20,
                 "soc_cap":  70,
@@ -2062,12 +2086,12 @@ for x in range(len(data)):
 
 #start options
 
-try: TIME = float(input("Delay between polls : (0->50) ")) # seconds
-except ValueError: TIME = 0
+try: TIME = float(input("Delay between polls : (1->5) ")) # seconds
+except ValueError: TIME = 1
 
-DELAY = (TIME*5)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
+DELAY = (TIME*50)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
 
-try: POLL_COUNTER += int(input("Number of polls: (+/- 400): "))
+try: POLL_COUNTER += int(input("Number of polls: (+/- 50): "))
 except ValueError: pass
 
 
@@ -2076,6 +2100,7 @@ except ValueError: pass
 os.system('cls' if os.name == 'nt' else 'clear')
 MODES = ["FPTP", "RUNOFF", "PROP REP"]
 DESCRIPTORS_FOR_MODES = ["Biggest Party Wins", "Presidential", "Other Parliaments"]
+print("~"*40)
 for x in range(len(MODES)):
     print(MODES[x] + " (" + DESCRIPTORS_FOR_MODES[x] + ")")
 
