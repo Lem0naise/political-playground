@@ -1794,7 +1794,7 @@ CAND_LIST = {
             est_pop= 61,
             auth_ana= -75,
             rel_sec = -67),
-        Candidate(0, "Malenyevists", "Kommuniste Parte", 3,
+        Candidate(0, "Leon Malenyev", "Kommuniste Parte", 3,
             prog_cons = -12,
             nat_glob = -45,
             env_eco = -42,
