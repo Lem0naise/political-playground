@@ -689,6 +689,16 @@ VOTING_DEMOS = {
             "rel_sec": -15},
             "scale":1000,
             "hos":"General Iosef Lancea"},
+    "GEORGIA" : {"pop": 38_12, "vals": {
+            "prog_cons": 10,
+            "nat_glob": -12,
+            "env_eco": 10,
+            "soc_cap":  -15,
+            "est_pop": 12,
+            "auth_ana": 2,
+            "rel_sec": -15},
+            "scale":1000,
+            "hos":"General Iosef Lancea"},
 }
 
 
@@ -863,7 +873,7 @@ CAND_LIST = {
         Candidate(1, "Ri Myong-Chol", "Chondoist Party", 0.1, -20, -20, -30, -20, 10, -22, 40)
     ],
     "FINLAND" : [
-        Candidate(0, "Antti Lindtman", "Social Democratic Party", 10, -30, 20, -12, -12, -1, -10, 51),
+        Candidate(0, "Antti Lindtman", "Social Democratic Party", 10, -30, 20, -12, -12, -1, -10, 51,),
         Candidate(1, "Annika Saarikko", "Centre Party", 9, 0, 2, 15, 10, -10, -31, 12),
         Candidate(2, "Sofia Virta", "Green League", 1, -67, 75, 40, 0, -10, 1, 73),
         Candidate(3, "Li Andersson", "Left Alliance", 4, -30, 0, 10, -60, 0, -1, 68),
@@ -1079,6 +1089,53 @@ CAND_LIST = {
                 auth_ana= 22,
                 rel_sec =21,
                 colour="red"),
+    ],
+    "GEORGIA" : [
+        Candidate(8, "Irakli Kobakhidze", "Georgian Dream", 10, # national populism
+                prog_cons= 15,
+                nat_glob= -30,
+                env_eco= 2,
+                soc_cap= -15,
+                est_pop=  20,
+                auth_ana= -25,
+                rel_sec = -10,
+                colour='blue'),
+        Candidate(6, "Tina Bokuchava", "United National Movement", 10, # conservative liberalism
+                prog_cons= 4,
+                nat_glob= -21,
+                env_eco= 2,
+                soc_cap= 25,
+                est_pop= -10,
+                auth_ana= 4,
+                rel_sec = -8,
+                colour="red"),
+        Candidate(6, "Nika Gvaramia", "Coalition for Change", 1, # european progressivism
+                prog_cons= -31,
+                nat_glob= 42,
+                env_eco= 15,
+                soc_cap= 22,
+                est_pop= 25,
+                auth_ana= -31,
+                rel_sec = 21,
+                colour="green"),
+        Candidate(6, "Mamuka Khazaradze", "Strong Georgia", 1, # liberal
+                prog_cons= -35,
+                nat_glob= 41,
+                env_eco= 31,
+                soc_cap= 41,
+                est_pop=  11,
+                auth_ana= 12,
+                rel_sec = 21,
+                colour="yellow"),
+        Candidate(6, "Giorgi Gakharia", "For Us", 1, # right wing populist
+                prog_cons= 75,
+                nat_glob= -31,
+                env_eco= 31,
+                soc_cap= 1,
+                est_pop= 41,
+                auth_ana= -42,
+                rel_sec = -31,
+                colour="black"),
     ],
     "UKRAINE" : [
         Candidate(8, "Volodymyr Zelenskyy", "Servant of the People", 10, # social democracy
