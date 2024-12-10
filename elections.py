@@ -6,6 +6,8 @@ from time import sleep
 import matplotlib.pyplot as mpl
 mpl.ion()
 
+# ~~~~~ CONFIG ~~~~~
+
 DEBUG = False # print debug statements
 POLL_COUNTER = 26 # poll times
 new_again = False
@@ -15,8 +17,21 @@ TOO_CLOSE_PARTY = 100 # 80 Initial Party Merging (Higher number -> more merging)
 RAND_PREF_EFFECT = 0.8 # 0.85 Effect of the random region on voting (lower number / closer to 0 -> more effect)
 VOTE_MANDATE = False # mandatory voting
 
+# FIGURE SIZE
+SIZEX = 8 # 7 default
+SIZEY = 10 # 10 default
+
+print("yo whats a new word oh my goodness")
+
+
 #TODO MAKE THE COALITION GOVERNMENT BASED ON SEATS and NOT PERCENTAGE POINTS
 
+
+
+
+
+
+# ~~~~~ SETUP ~~~~~
 
 VALUES = [
     "prog_cons",
@@ -68,6 +83,7 @@ class Candidate:
         self.vals = [prog_cons, nat_glob, env_eco, soc_cap, est_pop, auth_ana, rel_sec]
         self.swing = swing
 
+# DESCRIPTORS WHEN DISPLAYING GOVERNMENT
 DESCRIPTORS = {
     "prog_cons": {-100: "very progressive", -30: "progressive", 0: None, 30:"conservative", 100: "ultraconservative"},
     "nat_glob": {-100: "ultranationalist", -30: "nationalist", 0 : None, 30:"globalist", 100: "internationalist"},
@@ -78,6 +94,9 @@ DESCRIPTORS = {
     "rel_sec": {-100: "theocratic", -30: "religious", 0:None, 70: "secular"},
 }
 
+
+
+# ~~~~~ CLASS SETUP ~~~~~
 class Voter:
     def __init__(self, vals):
         self.vals = vals
@@ -262,7 +281,7 @@ def run(data, cands, pop, r_count =0 ):
     global regions
     global lim
     lim = 20
-    mpl.rcParams["figure.figsize"] = [7, 10]
+    mpl.rcParams["figure.figsize"] = [SIZEX, SIZEY] # TO CHANGE
     mpl.rcParams["figure.autolayout"] = True
     mpl.rcParams['font.family'] = 'monospace'
     mpl.tick_params(axis='y', which='both', labelleft=False, labelright=True, left=False, right=True)
@@ -560,7 +579,7 @@ VOTING_DEMOS = {
                 "nat_glob": -5,
                 "env_eco": 20,
                 "soc_cap":  50,
-                "est_pop": 30,
+                "est_pop": 50,
                 "auth_ana": -12,
                 "rel_sec": -31},
                 "scale":10000,
@@ -1444,10 +1463,18 @@ CAND_LIST = {
                 prog_cons= -35,
                 nat_glob= 45,
                 env_eco= -45,
-                soc_cap= -1,
+                soc_cap= -11,
                 est_pop= -23,
                 auth_ana= 34,
                 rel_sec = 54),
+        Candidate(4, "Christian Lindner", "FDP", 3,
+                prog_cons= -5,
+                nat_glob= 45,
+                env_eco= 45,
+                soc_cap= 61,
+                est_pop= -33,
+                auth_ana= 34,
+                rel_sec = 40),
         Candidate(4, "Tino Chrupalla", "AfD", 3,
                 prog_cons= 78,
                 nat_glob= -45,
@@ -2290,6 +2317,8 @@ def gov_ideology(res, gov):
 
         if closest_d != None: return_descs.append(closest_d)
     return return_descs
+
+
 
 # ~~~~~~~~~~ MAIN ~~~~~~~~~~~~
 

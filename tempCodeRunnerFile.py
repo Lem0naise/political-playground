@@ -1,1 +1,1 @@
-                nat_glob= 43,
+wel
