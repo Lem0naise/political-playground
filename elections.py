@@ -1,6 +1,7 @@
 import random, math, os, numpy, difflib
 import poli_sci_kit as psk
 from poli_sci_kit import appointment
+import json
 
 from time import sleep
 import matplotlib.pyplot as mpl
@@ -14,20 +15,14 @@ new_again = False
 TOO_FAR_DISTANCE = 190 # 180 Non-voter distance, (Higher number -> More voters) (adjust when add more values)
 COALITION_FACTOR = 1.1 # 1.55 Tolerance for coalition partners for Prop Rep (Higher number -> higher chance for coalitions)
 TOO_CLOSE_PARTY = 100 # 80 Initial Party Merging (Higher number -> more merging)
-RAND_PREF_EFFECT = 0.8 # 0.85 Effect of the random region on voting (lower number / closer to 0 -> more effect)
+RAND_PREF_EFFECT = 0.7 # 0.8 Effect of the random region on voting (lower number / closer to 0 -> more effect)
 VOTE_MANDATE = False # mandatory voting
 
 # FIGURE SIZE
 SIZEX = 8 # 7 default
 SIZEY = 10 # 10 default
 
-print("yo whats a new word oh my goodness")
-
-
 #TODO MAKE THE COALITION GOVERNMENT BASED ON SEATS and NOT PERCENTAGE POINTS
-
-
-
 
 
 
@@ -190,17 +185,22 @@ def print_results(RESULTS, rand_pref, way, mode, rounds = 0):
 
         ys_values_sorted = [x[-1] for x in ys_values] # get last value of each y_value
         ys_values_sorted.sort()
-        p = ys_values_sorted[-1] # biggest current vote
-        if (p/total * 100) > 50: # if anyone is getting above 50% currently
+
+
+        # Setting the vertical scale based on the maximum vote.
+        p = ys_values_sorted[-1] # Largest current vote
+        if (p/total * 100) > 50: # If anyone is getting above 50% currently
             if 100>lim:
-                lim = 100;
+                lim = 100; # Set the scale to be 100%
         elif (p/total * 100) > 20:
             if 60>lim:
-                lim = 60;
+                lim = 60; # Set to be 60%
         else:
             if 20>lim:
-                lim = 20;
+                lim = 20; # Set to be 20%
         mpl.ylim(0, lim)
+        # ~
+
 
         for x in range(len(ys_values)): # for each candidate
             #(ys_values[x][-1]) si their most recent election poll result
@@ -472,256 +472,14 @@ def coalition(leader, results_a):
 
 
 
-# ~~~~~~~~~~ CUSTOM USER COUNTRIES ~~~~~~~~~~~~
+# ~~~~~~~~~~ READING CUSTOM USER COUNTRIES AND PARTIES ~~~~~~~~~~~~
 
-VOTING_DEMOS = {
-    #COUNTRY: [pop in hundreds]
-    "UK": {"pop": 70_029, "vals": {
-                "prog_cons": 10,
-                "nat_glob": -15,
-                "env_eco": 65,
-                "soc_cap":  25,
-                "est_pop": -24,
-                "auth_ana": -17,
-                "rel_sec": -23},
-                "scale":1000,
-                "hos":"King Charles III"},
-
-    "MEXICO": {"pop": 127_70, "vals": {
-                "prog_cons": 5,
-                "nat_glob": -5,
-                "env_eco": 35,
-                "soc_cap":  5,
-                "est_pop": 14,
-                "auth_ana": -17,
-                "rel_sec": 23},
-                "scale":10000,
-                "hos":"Manuel Lopez Obrador"},
-    "GERMANY 1936": {"pop": 61_024, "vals":{
-                "prog_cons": 95,
-                "nat_glob": -68,
-                "env_eco": 64,
-                "soc_cap":  4,
-                "est_pop": 78,
-                "auth_ana": -56,
-                "rel_sec": -56},
-                "scale":1000,
-                "hos":"Paul von Hindenburg"},
-    "GERMANY" : {"pop" : 85_029, "vals" : {
-                "prog_cons": -12,
-                "nat_glob": 34,
-                "env_eco": 24,
-                "soc_cap":  12,
-                "est_pop": 24,
-                "auth_ana": -1,
-                "rel_sec": -12},
-                "scale":1000,
-                "hos":"Frank-Walter Steinmeier"},
-    "HAMPTON": {"pop": 1_546, "vals": {
-                "prog_cons": 21,
-                "nat_glob": 0,
-                "env_eco": -12,
-                "soc_cap":  52,
-                "est_pop": -23,
-                "auth_ana": -30,
-                "rel_sec": 29},
-                "scale":1,
-                "hos":"Kevin Knibbs"},
-    "DENMARK": {"pop": 50_843, "vals": {
-                "prog_cons": -34,
-                "nat_glob": 36,
-                "env_eco": 0,
-                "soc_cap":  -2,
-                "est_pop": -21,
-                "auth_ana": 32,
-                "rel_sec": 44},
-                "scale":100,
-                "hos":"Frank-Walter Steinmeier"},
-    "BELGIUM": {"pop": 11_843, "vals": {
-            "prog_cons": 1,
-            "nat_glob": 6,
-            "env_eco": 0,
-            "soc_cap":  -2,
-            "est_pop": 2,
-            "auth_ana": 2,
-            "rel_sec": 4},
-            "scale":100,
-            "hos":"Frank-Walter Steinmeier"},
-    "NORTH KOREA": {"pop": 25_083, "vals" : {
-                "prog_cons": 56,
-                "nat_glob": -130,
-                "env_eco": 35,
-                "soc_cap":  -125,
-                "est_pop": 85,
-                "auth_ana": -98,
-                "rel_sec": 99},
-                "scale":1000},
-    "SOVIET UNION 1925": {"pop": 230_83, "vals" : {
-                "prog_cons": 26,
-                "nat_glob": -53,
-                "env_eco": 35,
-                "soc_cap":  -71,
-                "est_pop": 81,
-                "auth_ana": -58,
-                "rel_sec": 71},
-                "scale":10000},
-    "SOVIET UNION 1991": {"pop": 230_83, "vals" : {
-                "prog_cons": 46,
-                "nat_glob": 13,
-                "env_eco": 35,
-                "soc_cap":  -41,
-                "est_pop": 50,
-                "auth_ana": -38,
-                "rel_sec": 71},
-                "scale":10000},
-    "USA" : {"pop": 350_00, "vals" : {
-                "prog_cons": 10,
-                "nat_glob": -5,
-                "env_eco": 20,
-                "soc_cap":  50,
-                "est_pop": 50,
-                "auth_ana": -12,
-                "rel_sec": -31},
-                "scale":10000,
-                "hos":"Chief Justice John Roberts"},
-    "TURKEY" : {"pop": 87_000, "vals" : {
-                "prog_cons": 38,
-                "nat_glob": -24,
-                "env_eco": 21,
-                "soc_cap":  65,
-                "est_pop": 34,
-                "auth_ana": -12,
-                "rel_sec": 2},
-                "scale":1000},
-    "FINLAND" : {"pop": 55_410, "vals" : {
-                "prog_cons": -2,
-                "nat_glob": 10,
-                "env_eco": 12,
-                "soc_cap":  -1,
-                "est_pop": 12,
-                "auth_ana": 12,
-                "rel_sec": 45},
-                "scale":100,
-                "hos":"Sauli Niinosto"},
-    "UKRAINE" : {"pop": 38_410, "vals" : {
-                "prog_cons": -5,
-                "nat_glob": 10,
-                "env_eco": 1,
-                "soc_cap":  -1,
-                "est_pop": 22,
-                "auth_ana": 12,
-                "rel_sec": -15},
-                "scale":1000,
-                "hos":"Zelenskyy"},
-    "RUSSIA" : {"pop": 143_00, "vals": {
-                "prog_cons": 43,
-                "nat_glob": -62,
-                "env_eco": 71,
-                "soc_cap":  0,
-                "est_pop": -45,
-                "auth_ana": -61,
-                "rel_sec": -31},
-                "scale":10000,
-                "hos":"Vladimir Putin"},
-    "SOMALIA" : {"pop" : 17_000, "vals": {
-                "prog_cons": 76,
-                "nat_glob": -46,
-                "env_eco": 19,
-                "soc_cap":  -15,
-                "est_pop": 89,
-                "auth_ana": -17,
-                "rel_sec": -64},
-                "scale":1000},
-    "IRELAND" : {"pop": 60_12, "vals": {
-                "prog_cons": 5,
-                "nat_glob": -1,
-                "env_eco": 32,
-                "soc_cap":  14,
-                "est_pop": 12,
-                "auth_ana": -4,
-                "rel_sec": -41},
-                "scale":1000,
-                "hos":"Michael Higgins"},
-    "AUSTRIA" : {"pop": 9_212, "vals": {
-            "prog_cons": 25,
-            "nat_glob": -16,
-            "env_eco": 2,
-            "soc_cap":  54,
-            "est_pop": 0,
-            "auth_ana": -4,
-            "rel_sec": -32},
-            "scale":1000,
-            "hos":"Alexander van der Bellen"},
-    "FRANCE" : {"pop": 67_212, "vals": {
-            "prog_cons": 25,
-            "nat_glob": -26,
-            "env_eco": 2,
-            "soc_cap":  0,
-            "est_pop": 32,
-            "auth_ana": -12,
-            "rel_sec": 0},
-            "scale":1000,},
-    "EU" : {"pop": 44_812, "vals": {
-            "prog_cons": 12,
-            "nat_glob": 3,
-            "env_eco": 2,
-            "soc_cap":  22,
-            "est_pop": 2,
-            "auth_ana": -3,
-            "rel_sec": -1},
-            "scale":10000,},
-    "SPAIN" : {"pop": 47_421, "vals": {
-            "prog_cons": 5,
-            "nat_glob": 1,
-            "env_eco": 3,
-            "soc_cap":  2,
-            "est_pop": -5,
-            "auth_ana": -4,
-            "rel_sec": 2},
-            "scale":1000,},
-    "KRESIMIRIA" : {"pop": 80_21, "vals": {
-            "prog_cons": 25,
-            "nat_glob": 26,
-            "env_eco": -23,
-            "soc_cap":  -12,
-            "est_pop": 51,
-            "auth_ana": -32,
-            "rel_sec": -90},
-            "scale":10000,},
-    "SORDLAND" : {"pop": 35_12, "vals": {
-            "prog_cons": 33,
-            "nat_glob": -5,
-            "env_eco": 12,
-            "soc_cap":  -5,
-            "est_pop": 22,
-            "auth_ana": -4,
-            "rel_sec": -4},
-            "scale":10000,
-            "hos":"General Iosef Lancea"},
-    "ALBANIA" : {"pop": 27_12, "vals": {
-            "prog_cons": 0,
-            "nat_glob": 25,
-            "env_eco": 10,
-            "soc_cap":  -15,
-            "est_pop": -22,
-            "auth_ana": 2,
-            "rel_sec": -15},
-            "scale":1000,
-            "hos":"General Iosef Lancea"},
-    "GEORGIA" : {"pop": 38_12, "vals": {
-            "prog_cons": 10,
-            "nat_glob": -12,
-            "env_eco": 10,
-            "soc_cap":  -15,
-            "est_pop": 12,
-            "auth_ana": 2,
-            "rel_sec": -15},
-            "scale":1000,
-            "hos":"General Iosef Lancea"},
-}
+VOTING_DEMOS = {} # VOTING DEMOGRAPHICS
+with open("countries.json", "r") as countries:
+    VOTING_DEMOS = json.loads(countries.read())
 
 
-# def main(); 
+# TODO make a MAIN function
 
 def intro():
     print("\n>Welcome to the Electoral Simulator.")
@@ -750,11 +508,7 @@ for p in range(len(VOTING_DEMOS[COUNTRY])):
     VOTING_DEMOS[COUNTRY]["vals"][list(VOTING_DEMOS[COUNTRY]["vals"].keys())[p]] += round(10*(random.random()-0.5)) # randomise by 5 possibility each side
 
 
-# ~~~~~~~~~~ CUSTOM USER PARTIES ~~~~~~~~~~~~
 
-# progressive-conservative, nationalist-globalist, environmentalist-economical, socialist-capitalist, pacifist-militarist, authoritation - anarchist
-# the first number does not matter at all
-# party popularity is from 1 to 10
 
 CAND_LIST = {
     "UK": [
@@ -1710,6 +1464,17 @@ CAND_LIST = {
                 auth_ana= -100,
                 rel_sec = -40),
     ],
+    "AARON" : [
+        Candidate(8, "Professor Halford", "Hamptonian's Party", 5,
+            prog_cons= -30,
+            nat_glob= 30,
+            env_eco= -20,
+            soc_cap= 25,
+            est_pop=  -50,
+            auth_ana= 0,
+            rel_sec = 50,
+            colour="purple"),
+        ],
     "CUSTOM" : [
         Candidate(0, "Keir Starmer", "CLA", 5, # centre left
             prog_cons=-10,
@@ -2090,51 +1855,49 @@ CAND_LIST = {
                 auth_ana= -3,
                 rel_sec = 12),
     ],
-    "SCHOOL COUNCIL" : [
-        Candidate(1, "Xavier Zadeh", "Xavier Zadeh", 10,
-                prog_cons= 71,
-                nat_glob= -43,
-                env_eco= 31,
-                soc_cap= 52,
-                est_pop= 31,
-                auth_ana= -55,
-                rel_sec = -24,
-                colour="green"),
-        Candidate(6, "Nolan - Evison", "Nolan - Evison", 10,
-                prog_cons= 61,
-                nat_glob= -52,
-                env_eco= 13,
-                soc_cap= 41,
-                est_pop=  31,
-                auth_ana= 41,
-                rel_sec = -41,
-                colour="blue"),
-        Candidate(6, "Kristof Blantchford", "Christopher Blanchie", 3,
-                prog_cons= -71,
-                nat_glob= 61,
-                env_eco= -12,
-                soc_cap= -45,
-                est_pop= -25,
-                auth_ana= 24,
-                rel_sec = 72,
-                colour="yellow"),
-        Candidate(6, "Guy Baakre", "Guy Baker", 1,
-                prog_cons= -3,
-                nat_glob= -14,
-                env_eco= 11,
-                soc_cap= 12,
-                est_pop=  15,
-                auth_ana= -41,
-                rel_sec = 12),
-        Candidate(6, "Davlatsho Shirinbekov", "Davlatsho Shirinbekov", 3,
-                prog_cons= 75,
+    "SLOVENIA" : [
+        Candidate(6, "Robert Golob", "Freedom Movement", 6,
+                prog_cons= -35,
+                nat_glob= 46,
+                env_eco= -21,
+                soc_cap= -1,
+                est_pop=  14,
+                auth_ana= 13,
+                rel_sec = 22),
+        Candidate(6, "Janez Jansa", "Slovenian Democratic Party", 6,
+                prog_cons= 65,
                 nat_glob= -46,
+                env_eco= 41,
+                soc_cap= 5,
+                est_pop=  44,
+                auth_ana= -10,
+                rel_sec = -12),
+        Candidate(6, "Matej Tonin", "Christian Democrats", 1,
+                prog_cons= 35,
+                nat_glob= -26,
+                env_eco= 21,
+                soc_cap= 41,
+                est_pop=  -24,
+                auth_ana= -13,
+                rel_sec = -42),
+        Candidate(6, "Matjaz Han", "Social Democrats", 1,
+                prog_cons= -13,
+                nat_glob= 46,
+                env_eco= -1,
+                soc_cap= -11,
+                est_pop=  -14,
+                auth_ana= -3,
+                rel_sec = 22),
+        Candidate(6, "Asta Vrecko", "Levica", 1,
+                prog_cons= -15,
+                nat_glob= -26,
                 env_eco= 61,
                 soc_cap= -51,
-                est_pop=  44,
-                auth_ana= -53,
-                rel_sec = -92),
+                est_pop=  24,
+                auth_ana= 13,
+                rel_sec = 32),
     ],
+    # DO NOT TOUCH CURRENT
     "CURRENT": []
 }
 
