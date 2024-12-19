@@ -210,7 +210,9 @@ def print_results(RESULTS, rand_pref, way, mode, rounds = 0):
             const_value = 10 # this increases the random jumping up and down in the polls
             if mode == "PROP REP":
                 const_value = 11 # make it higher for prop rep as party_pop is reduced
-            ys_values[x][-1] += (random.random()-0.5)*0.2 * (cands[x].party_pop/10) * way*const_value # TODO REMOVE THIS IS A RANDOM TO MAKE COOL PATTERNS IDEK LMFAO
+            ys_values[x][-1] += (random.random()-0.5)*0.5 * (cands[x].party_pop/10) * way*const_value # TODO REMOVE THIS IS A RANDOM TO MAKE COOL PATTERNS IDEK LMFAO
+
+            # 2024-12-19 LAST CHANGE ys_values[x][-1] += (random.random()-0.5)*0.2 * (cands[x].party_pop/10) * way*const_value # TODO REMOVE THIS IS A RANDOM TO MAKE COOL PATTERNS IDEK LMFAO
 
             if ys_values[x][-1] < 0: ys_values[x][-1] = 0 # reset to 0 to prevent negative
 
@@ -290,8 +292,9 @@ def run(data, cands, pop, r_count =0 ):
     rand_pref = 0
     cand_numbers = []
     REGION_NUMBER = 30 # increase this number to INCREASE the randomness / district - > more realistic patterns but slower (too many districts means pure randomness of elections)
+    # standard is THIRTY
     if new_again:
-        REGION_NUMBER = 40
+        REGION_NUMBER = 20 # USED TO BE 40
 
     # 20 is a good number
     for x in range(len(cands)):
@@ -663,7 +666,7 @@ CAND_LIST = {
                 auth_ana= -65,
                 rel_sec = -50,
                 colour='blue'),
-        Candidate(6, "Gennady Zyuganov", "Communist Party of Russia", 4,
+        Candidate(6, "Gennady Zyuganov", "Communist Party of Russia", 1,
                 prog_cons= 34,
                 nat_glob= -12,
                 env_eco= 0,
@@ -1897,6 +1900,59 @@ CAND_LIST = {
                 auth_ana= 13,
                 rel_sec = 32),
     ],
+    "SOUTH AFRICA" : [
+    Candidate(1, "Cyril Ramaphosa", "African National Congress", 7,
+        prog_cons= 30,   # Centre-left
+        nat_glob= -30,   # Slightly nationalist
+        env_eco= 30,     # Moderate environmental focus
+        soc_cap= -30,    # Leaning towards socialism
+        est_pop= -20,    # Establishment
+        auth_ana= -10,    # Slightly authoritarian
+        rel_sec= 20),    # Moderately secular
+
+    Candidate(2, "John Steenhuisen", "Democratic Alliance", 6,
+        prog_cons= 10,   # Centre
+        nat_glob= 10,     # Balanced between nationalist and globalist
+        env_eco= 20,     # Moderate environmental focus
+        soc_cap= 20,     # Leaning towards capitalism
+        est_pop= -10,    # Slightly establishment
+        auth_ana= 10,   # Slightly libertarian
+        rel_sec= 30),    # Moderately secular
+
+    Candidate(3, "Julius Malema", "Economic Freedom Fighters", 5,
+        prog_cons= 40,  # Far-left
+        nat_glob= -40,   # Strongly nationalist
+        env_eco= 50,     # High environmental focus
+        soc_cap= -80,    # Strongly socialist
+        est_pop= 60,    # Populist
+        auth_ana= -30,    # Moderately authoritarian
+        rel_sec= 30),    # Slightly secular
+
+    Candidate(4, "Velenkosini Hlabisa", "Inkatha Freedom Party", 4,
+        prog_cons= 40,   # Right-wing
+        nat_glob= -30,   # Nationalist
+        env_eco= 10,     # Low environmental focus
+        soc_cap= 30,     # Leaning towards capitalism
+        est_pop= 10,    # Slightly populist
+        auth_ana= -20,    # Moderately authoritarian
+        rel_sec= -30),   # Moderately religious
+    Candidate(5, "Pieter Groenewald", "Freedom Front Plus", 3,
+        prog_cons= 60,   # Right-wing
+        nat_glob= -50,   # Strongly nationalist
+        env_eco= 0,      # Neutral on environmental issues
+        soc_cap= 40,     # Leaning towards capitalism
+        est_pop= 30,    # Populist
+        auth_ana= -40,    # Authoritarian
+        rel_sec= -30),   # Moderately religious
+    Candidate(7, "Kenneth Meshoe", "African Christian Democratic Party", 2,
+        prog_cons= 70,   # Right-wing
+        nat_glob= -30,   # Nationalist
+        env_eco= 10,     # Low environmental focus
+        soc_cap= 20,     # Leaning towards capitalism
+        est_pop= 10,    # Slightly populist
+        auth_ana= -30,    # Moderately authoritarian
+        rel_sec= -70),   # Strongly religious
+    ],
     # DO NOT TOUCH CURRENT
     "CURRENT": []
 }
@@ -1985,7 +2041,9 @@ def merge_too_close(x):
         index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
         if dists[index_min] < TOO_CLOSE_PARTY:
             
-            print(f"{COUNTRY} - PARTIES TO SORT: {len(CAND_LIST[CHOICE])-1} \nThe electoral commission has warned that {CAND_LIST[CHOICE][x].party} and {CAND_LIST[CHOICE][index_min].party} are too politically similar.\n")
+            print(f"{COUNTRY} - PARTIES TO SORT: {len(CAND_LIST[CHOICE])-1}")
+            print()
+            print(f"\nThe electoral commission has warned that {CAND_LIST[CHOICE][x].party} and {CAND_LIST[CHOICE][index_min].party} are too politically similar.\n")
 
             print(f"{CAND_LIST[CHOICE][x].party} and {CAND_LIST[CHOICE][index_min].party} have formed a coalition.")
 
@@ -2172,9 +2230,13 @@ if input("Is voting mandatory? (Y/N) [N]") in ['Y', 'y', 'yes']:
 # end options
 
 
+# this applies for EVERY time you use a combination of party lists
 if COUNTRY != CHOICE: # reduce predetermined party popularity if not the relevant country
     for c in CANDIDATES:
         c.party_pop *= 0.6 # change popularity to a factor of 0.6
+        #TODO REMOVE WTF
+        c.party_pop = random.uniform(0.1, 10) # TODO REMOVE
+        c.party_pop = 1
 
 def print_parliament(results, leaders):
     mpl.clf()
