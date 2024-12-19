@@ -208,13 +208,13 @@
     "RUSSIA": {
         "pop": 14300,
         "vals": {
-            "prog_cons": 43,
+            "prog_cons": 50,
             "nat_glob": -62,
-            "env_eco": 71,
+            "env_eco": 30,
             "soc_cap": 0,
             "est_pop": -45,
             "auth_ana": -61,
-            "rel_sec": -31
+            "rel_sec": -41
         },
         "scale": 10000,
         "hos": "Vladimir Putin"
