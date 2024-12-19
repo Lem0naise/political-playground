@@ -1,4 +1,5 @@
 import random, math, os, numpy, difflib
+
 import poli_sci_kit as psk
 from poli_sci_kit import appointment
 import json
@@ -24,6 +25,20 @@ SIZEY = 10 # 10 default
 
 #TODO MAKE THE COALITION GOVERNMENT BASED ON SEATS and NOT PERCENTAGE POINTS
 
+# social liberalism (progressive)
+# social conservatism (conservative)
+
+# economic progressivism (high taxes, spending)
+# economic liberalism (low taxes)
+
+# centrism 
+
+# left-wing populism
+# right-wing populism
+
+# green 
+
+# libertarianism
 
 
 # ~~~~~ SETUP ~~~~~
@@ -69,13 +84,14 @@ class Candidate:
     # environmentalist - economist
     # socialist - capitalist
     # swing from 
-    def __init__(self, id, name, party, party_pop, prog_cons, nat_glob, env_eco, soc_cap, est_pop, auth_ana, rel_sec, colour=None, swing=None):
+    def __init__(self, id, name, party, party_pop, ideos, colour=None, swing=None):
         self.colour = colour
         self.id = id
         self.name = name
         self.party = party
         self.party_pop = (party_pop)
-        self.vals = [prog_cons, nat_glob, env_eco, soc_cap, est_pop, auth_ana, rel_sec]
+        #self.vals = [prog_cons, nat_glob, env_eco, soc_cap, est_pop, auth_ana, rel_sec]
+        self.ideos = ideos
         self.swing = swing
 
 # DESCRIPTORS WHEN DISPLAYING GOVERNMENT
@@ -93,33 +109,112 @@ DESCRIPTORS = {
 
 # ~~~~~ CLASS SETUP ~~~~~
 class Voter:
-    def __init__(self, vals):
-        self.vals = vals
+    def __init__(self, ideos):
+        self.ideos = {}
+        #print(ideos)
+        #input() TODO
+        # temporary 1 TODO
+
+
+
+        for ideo in ideos.keys():
+            if random.random() < ideos[ideo]:
+                self.ideos[ideo] = numpy.random.uniform(0, 100)
 
     def vote(self, candidates, rand_pref, cands_length):
+        #print(self.ideos)
 
         global not_voted
-        dists = []
+        scores = []
         for i in range(len(candidates)):
             cand = candidates[i]
-            euc_sum = 0
-            for o in range(len(self.vals)): # sum square of each value
-                euc_sum += (self.vals[list(self.vals.keys())[o]] - cand.vals[o])**2
-            #euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
-            euc_dist = euc_sum
-            euc_dist -= (cand.party_pop*5)**2 # take away party popularity from distance
-            if cand.swing: euc_dist -= (cand.swing*5) * abs(cand.swing*5)
+            score = 0
+
+            for ideo in self.ideos.keys():
+                if ideo in cand.ideos.keys():
+                    score += (100 - abs(self.ideos[ideo] - cand.ideos[ideo]))*(random.random()/2 + 0.5)
+                else:
+                    score -= self.ideos[ideo]
+
+            '''
+            if "social liberalism" in self.ideos.keys():
+                if "social liberalism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["social liberalism"] - cand.ideos["social liberalism"])
+                if "social conservatism" in cand.ideos.keys():
+                    score += cand.ideos["social conservatism"]
+            if "social conservatism" in self.ideos.keys():
+                if "social conservatism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["social conservatism"] - cand.ideos["social conservatism"])
+                if "social liberalism" in cand.ideos.keys():
+                    score += cand.ideos["social liberalism"]
+
+            if "economic progressivism" in self.ideos.keys():
+                if "economic progressivism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["economic progressivism"] - cand.ideos["economic progressivism"])
+                if "social conservatism" in cand.ideos.keys():
+                    score += cand.ideos["social conservatism"]
+            if "economic liberalism" in self.ideos.keys():
+                if "economic liberalism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["economic liberalism"] - cand.ideos["economic liberalism"])
+                if "economic progressivism" in cand.ideos.keys():
+                    score += cand.ideos["economic progressivism"]
+
+            if "centrism" in self.ideos.keys():
+                if "centrism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["centrism"] - cand.ideos["centrism"])
+
+            if "left-wing populism" in self.ideos.keys():
+                if "left-wing populism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["left-wing populism"] - cand.ideos["left-wing populism"]) 
+                else:
+                    score += 20
+                if "right-wing populism" in cand.ideos.keys():
+                    score += cand.ideos["right-wing populism"]
+
+            if "right-wing populism" in self.ideos.keys():
+                if "right-wing populism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["right-wing populism"] - cand.ideos["right-wing populism"])
+                else:
+                    score += 20
+                if "left-wing populism" in cand.ideos.keys():
+                    score += cand.ideos["left-wing populism"]
+
+            if "libertarianism" in self.ideos.keys():
+                if "libertarianism" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["libertarianism"] - cand.ideos["libertarianism"])
+            
+            if "green" in self.ideos.keys():
+                if "green" in cand.ideos.keys():
+                    score -= 100
+                    score += abs(self.ideos["green"] - cand.ideos["green"])
+
+            '''
+            #if cand.swing: score += cand.swing
 
             #euc_dist /= ((RESULTS[i][1]+1 / 100000))
-            dists.append(euc_dist) # add to distance list
+            scores.append(score) # add to score list
 
 
-        dists[rand_pref] *= RAND_PREF_EFFECT # 0.85 by random preference of party
-        index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
-        if (dists[index_min] <= TOO_FAR_DISTANCE**2) or (VOTE_MANDATE): # if close enough to vote for them:
-            RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
+        #print(scores) # TODO
+        scores[rand_pref] /= RAND_PREF_EFFECT # 0.85 by random preference of party TODO
+        #print(scores) #TODO
+        #input() # TODO
+        index_max = max(range(len(scores)), key=scores.__getitem__) # find preferred candidate by closest distance
+        if (scores[index_max] >= 0) or (VOTE_MANDATE): # if close enough to vote for them:
+            RESULTS[index_max][1] += 1 # add one to vote count of preferred candidate
         else: # if too radical for any party
             not_voted += 1 # do not vote
+        #print(RESULTS[index_max][0].party) #TODO
+        #input() #TODO
+
         del self
 
 
@@ -315,19 +410,16 @@ def run(data, cands, pop, r_count =0 ):
     #print(cand_numbers)
 
     cands_length = len(cands)
-    for it in range(1, pop): # population in tens of thousands ! must optimize
+    for it in range(1, pop): # for each voter in population in tens of thousands ! must optimize
 
         vot = Voter(VOTING_DEMOS[COUNTRY]["vals"])
 
-        # setting voter values from massive dataset
-        for i in range(len(vot.vals)):
-            vot.vals[list(vot.vals.keys())[i]] = data[i][it] # go through each data set from leftmost to rightmost
-            if vot.vals[list(vot.vals.keys())[i]] >= 100:
-                vot.vals[list(vot.vals.keys())[i]] = 100
-            if vot.vals[list(vot.vals.keys())[i]] <= -100:
-                vot.vals[list(vot.vals.keys())[i]] = -100
+        # setting voter values from massive dataset (TODO, done inside voter module)
 
+            #vot.vals[list(vot.vals.keys())[i]] = data[i][it] # go through each data set from leftmost to rightmost
         vot.vote(cands, rand_pref, cands_length) # calling vote
+        
+        del vot # delete voter? TODO
 
         # showing results
         # wait til 4% of the polling is done before showing, makes nicer diagrams
@@ -343,7 +435,6 @@ def run(data, cands, pop, r_count =0 ):
                 random.seed() # seeding to make a proper random choice
                 rand_pref = random.choice(cand_numbers)
                 
-            # something good TODO
             if random.random() < (0.01 + (21-len(cands))/201): print("~ " + random.choice(EVENTS).replace('{}', ((cands[rand_pref].name.split('/')[0].strip() if random.random() > 0.3  else cands[rand_pref].party) if mode=="RUNOFF" else cands[rand_pref].party)))
 
     print_final_results(RESULTS, rand_pref=rand_pref, way=it/pop)
@@ -475,6 +566,7 @@ def coalition(leader, results_a):
 
 
 
+
 # ~~~~~~~~~~ READING CUSTOM USER COUNTRIES AND PARTIES ~~~~~~~~~~~~
 
 VOTING_DEMOS = {} # VOTING DEMOGRAPHICS
@@ -498,6 +590,9 @@ def intro():
 
 intro()
 
+# ~~~~~~~~~~ CUSTOM USER COUNTRIES ~~~~~~~~~~~~
+
+
 for x in VOTING_DEMOS.keys():
     print(x)
 COUNTRY = difflib.get_close_matches(input("\nPick a country from the list: ").upper().strip(), VOTING_DEMOS.keys(), 1)[0] # get closest country
@@ -507,13 +602,14 @@ scale_fac = len(str(scale_factor))-1
 
 # SLIGHTLY RANDOMIZING VOTING DEMOGRAPHIC
 for p in range(len(VOTING_DEMOS[COUNTRY])):
-   #VOTING_DEMOS[COUNTRY]["vals"][VOTING_DEMOS[COUNTRY]["vals"].keys()[p]]
-    VOTING_DEMOS[COUNTRY]["vals"][list(VOTING_DEMOS[COUNTRY]["vals"].keys())[p]] += round(10*(random.random()-0.5)) # randomise by 5 possibility each side
-
+    #VOTING_DEMOS[COUNTRY]["vals"][VOTING_DEMOS[COUNTRY]["vals"].keys()[p]]
+    #VOTING_DEMOS[COUNTRY]["vals"][list(VOTING_DEMOS[COUNTRY]["vals"].keys())[p]] += round(10*(random.random()-0.5)) # randomise by 5 possibility each side
+    pass
 
 
 
 CAND_LIST = {
+
     "UK": [
         Candidate(0, "Rishi Sunak", "Conservatives", 10, 
             prog_cons = 60,
@@ -692,42 +788,33 @@ CAND_LIST = {
                 auth_ana= -74,
                 rel_sec = -89),
     ],
+
     "DENMARK" : [
         Candidate(8, "Mette Frederiksen", "Social Democrats", 10, # social democracy
-                prog_cons= -25,
-                nat_glob= 20,
-                env_eco= -2,
-                soc_cap= -10,
-                est_pop=  5,
-                auth_ana= 5,
-                rel_sec = 0,
+                {
+                    "social liberalism": 50,
+                    "economic progressivism": 32, 
+                },
                 colour='red'),
         Candidate(6, "Troels Lund Poulsen", "Venstre", 4, # conservative liberalism
-                prog_cons= 34,
-                nat_glob= 32,
-                env_eco= 13,
-                soc_cap= 35,
-                est_pop=  15,
-                auth_ana= -14,
-                rel_sec = 7,
+                {
+                    "economic liberalism": 45,
+                    "social liberalism" : 2
+                },
                 colour="blue"),
         Candidate(6, "Lars Lokke Rasmussen", "Moderates", 1, # liberalism
-                prog_cons= 4,
-                nat_glob= 32,
-                env_eco= 45,
-                soc_cap= 32,
-                est_pop=  45,
-                auth_ana= -4,
-                rel_sec = 22,
+                {
+                    "centrism" : 50,
+                    "economic liberalism": 10
+                },
                 colour="purple"),
         Candidate(6, "Pia Olsen Dyhr", "Green Left", 1, # democratic socialists
-                prog_cons= -45,
-                nat_glob= -97,
-                env_eco= -29,
-                soc_cap= -41,
-                est_pop=  -24,
-                auth_ana= 19,
-                rel_sec = 21,
+                {
+                    "left-wing populism": 40,
+                    "green": 50, 
+                    "social liberalism": 40,
+                    "economic progressivism": 40
+                },
                 colour="green"),
         Candidate(8, "Inger Stojberg", "The Denmark Democrats", 10,
              prog_cons= 75,
@@ -740,34 +827,26 @@ CAND_LIST = {
                 colour='black'),
     ],
     "CANADA" : [
-        Candidate(8, "Justin Trudeau", "Liberal Party", 10, # social democracy
-                prog_cons= -25,
-                nat_glob= 30,
-                env_eco= 12,
-                soc_cap= 10,
-                est_pop=  5,
-                auth_ana= 5,
-                rel_sec = 0,
+       Candidate(8, "Justin Trudeau", "Liberal Party", 10, # social democracy
+                {
+                    "social liberalism": 50,
+                    "economic liberalism": 12,
+                    "centrism": 30
+                },
                 colour='red',
                 swing=-5),
         Candidate(6, "Pierre Poilievre", "Conservative Party", 10, # conservative liberalism
-                prog_cons= 34,
-                nat_glob= 2,
-                env_eco= 13,
-                soc_cap= 35,
-                est_pop=  25,
-                auth_ana= -14,
-                rel_sec = -8,
+                {
+                    "social conservatism": 34,
+                    "economic liberalism": 40
+                },
                 colour="blue",
                 swing=10),
         Candidate(6, "Yves-Francois Blanchet", "Bloc Quebecois", 0.3, # nationalism
-                prog_cons= 4,
-                nat_glob= -32,
-                env_eco= 45,
-                soc_cap= -22,
-                est_pop=  25,
-                auth_ana= 41,
-                rel_sec = 0,
+                {
+                    "right-wing populism": 40,
+                    "economic progressivism": 30
+                },
                 colour="turquoise",
                 swing=-5),
         Candidate(6, "Jagmeet Singh", "New Democratic Party", 2, # democratic socialists
@@ -1954,6 +2033,7 @@ CAND_LIST = {
         rel_sec= -70),   # Strongly religious
     ],
     # DO NOT TOUCH CURRENT
+ 
     "CURRENT": []
 }
 
@@ -2078,11 +2158,13 @@ def merge_too_close(x):
     
     return merges
 
+CAND_LIST["CURRENT"] = CAND_LIST[CHOICE] # TODO TEMPORARY FIX
 
-while merge_too_close(0) != 0:
-    CAND_LIST[CHOICE] = CAND_LIST["CURRENT"] # set the candidate lists back
-    CAND_LIST["CURRENT"] = [] # empty the final candidate lists
-    print("Still going!") # go again
+# TODO MERGE PARTIES!!!
+#while merge_too_close(0) != 0:
+#    CAND_LIST[CHOICE] = CAND_LIST["CURRENT"] # set the candidate lists back
+#    CAND_LIST["CURRENT"] = [] # empty the final candidate lists
+#    print("Still going!") # go again
 
 
 
@@ -2159,14 +2241,15 @@ data = [ # create normal distributions for each value axis
     #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["est_pop"]-100, VOTING_DEMOS[COUNTRY]["vals"]["est_pop"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # est - pop
     #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"]-100, VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
     #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"]-100, VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel -sec
-
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["prog_cons"], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["nat_glob"], scale = 120, size=VOTING_DEMOS[COUNTRY]["pop"]), # nat - glob
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["env_eco"], scale = 150, size=VOTING_DEMOS[COUNTRY]["pop"]), # env - eco
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["soc_cap"], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["est_pop"], scale = 120, size=VOTING_DEMOS[COUNTRY]["pop"]), # pac - mil
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
-    numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel - sec
+    
+    
+    #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["prog_cons"], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
+    #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["nat_glob"], scale = 120, size=VOTING_DEMOS[COUNTRY]["pop"]), # nat - glob
+    #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["env_eco"], scale = 150, size=VOTING_DEMOS[COUNTRY]["pop"]), # env - eco
+    #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["soc_cap"], scale = 100, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
+    #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["est_pop"], scale = 120, size=VOTING_DEMOS[COUNTRY]["pop"]), # pac - mil
+    #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
+    #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel - sec
 
     # OLD VALUES
     #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["prog_cons"], scale = 50, size=VOTING_DEMOS[COUNTRY]["pop"]), # prog - cons
