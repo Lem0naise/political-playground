@@ -2051,14 +2051,30 @@ def merge_too_close(x):
             sent2 = CAND_LIST[CHOICE][index_min].party
 
             nam = input("Enter a name for the merged parties (leave empty to refuse the coalition, 'a' to generate a name):\n").strip()
+
+
             if nam == '': pass
             else:
                 
                 if nam in ['a', 'A']:
                     nam = merge_party_names(sent1, sent2)
 
+                
+                new_party_leader = ""
+                while new_party_leader == "":
+                    try:
+                        choice = int(input(f"Who will lead this new party? \n(1) {CAND_LIST[CHOICE][x].name} \n(2) {CAND_LIST[CHOICE][index_min].name}\n").strip())
+                        if choice == 2:
+                            new_party_leader = CAND_LIST[CHOICE][index_min].name 
+                        else: 
+                            new_party_leader = CAND_LIST[CHOICE][x].name
+                    except: pass
+
+
                 CAND_LIST[CHOICE][x].party = nam
-                CAND_LIST[CHOICE][x].name = CAND_LIST[CHOICE][x].name + " / " + CAND_LIST[CHOICE][index_min].name
+                
+                CAND_LIST[CHOICE][x].name = new_party_leader 
+
                 CAND_LIST[CHOICE][x].party_pop = math.sqrt(CAND_LIST[CHOICE][x].party_pop**2  + CAND_LIST[CHOICE][index_min].party_pop**2)
                 
                 for v in range(len(CAND_LIST[CHOICE][x].vals)):
