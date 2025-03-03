@@ -9,14 +9,18 @@ mpl.ion()
 
 # ~~~~~ CONFIG ~~~~~
 
-DEBUG = False # print debug statements
-POLL_COUNTER = 26 # poll times
-new_again = False
-TOO_FAR_DISTANCE = 190 # 180 Non-voter distance, (Higher number -> More voters) (adjust when add more values)
-COALITION_FACTOR = 1.1 # 1.55 Tolerance for coalition partners for Prop Rep (Higher number -> higher chance for coalitions)
-TOO_CLOSE_PARTY = 100 # 80 Initial Party Merging (Higher number -> more merging)
-RAND_PREF_EFFECT = 0.7 # 0.8 Effect of the random region on voting (lower number / closer to 0 -> more effect)
-VOTE_MANDATE = False # mandatory voting
+# print debug statements
+DEBUG = False
+# 180 Non-voter distance, (Higher number -> More voters) (adjust when add more values)
+TOO_FAR_DISTANCE = 190 
+# 1.55 Tolerance for coalition partners for Prop Rep (Higher number -> higher chance for coalitions)
+COALITION_FACTOR = 1.1 
+# 80 Initial Party Merging (Higher number -> more merging)
+TOO_CLOSE_PARTY = 100
+# 0.8 Effect of the random region on voting (lower number / closer to 0 -> more effect)
+RAND_PREF_EFFECT = 0.7 
+# mandatory voting
+VOTE_MANDATE = False
 
 # FIGURE SIZE
 SIZEX = 8 # 7 default
@@ -24,6 +28,9 @@ SIZEY = 10 # 10 default
 
 #TODO MAKE THE COALITION GOVERNMENT BASED ON SEATS and NOT PERCENTAGE POINTS
 
+# ~~~~~ VARIABLE SETUP ~~~~~
+new_again = False # DO NOT CHANGE
+POLL_COUNTER = 26 
 
 
 # ~~~~~ SETUP ~~~~~
@@ -39,28 +46,51 @@ VALUES = [
 ]
 
 EVENTS = [ # add negative events i guess?
-    "{} performed well in a debate.",
-    "{} released a popular policy.",
-    "{} received an endorsement from a popular regional leader.",
-    "{} gained a major fundraising boost.",
-    "{} made a successful campaign stop.",
-    "{} was praised by a popular influencer.",
-    "{} gained positive media coverage.",
-    "{} had a highly effective ad campaign.",
-    "{} is engaging well with the youth.",
-    "{} secured a key foreign endorsement.",
-    "{} received an endorsement from a key newspaper",
-    "{} was featured positively in a high-profile interview.",
-    "{} successfully countered an attack.",
-    "{} won a pivotal local election.",
-    "{} made a compelling public appearance.",
-    "{} received a high approval rating from a recent poll.",
-    "{} successfully resolved a major campaign controversy.",
-    "{} received a large donation from a prominent supporter.",
-    "{} gained traction in a crucial battleground region.",
-    "{} successfully mobilized a large volunteer base.",
-    "{} received praise from an influential think tank.",
-    "{} was endorsed by an international organisation."
+    "{} Unveils 'Vision 2040' Plan",
+    "{} Launches 'Clean Energy for All' Initiative, Gains Bipartisan Backing",
+    "{} Dominates National Debate Stage",
+    "{} Smashes Debate Opponents",
+    "{} Hosts Youth Summit, Draws Record-Breaking Crowd",
+    "{} Rolls Out 'Safe Streets Policy', Praised by Experts",
+    "{} Announces Healthcare Plan, Resonates Nationwide",
+    "{} Secures Endorsement from Farmer's Union",
+    "{} Packs Freedom Square with Supporters",
+    "{} Praised for Climate Policies by UN",
+    "{} Introduces Education Excellence Program, Earns Union Support",
+    "{}'s Housing Plan Sparks Nationwide Conversation",
+    "{} Wins Praise After Powerful Interview on Morning Focus",
+    "{} Honored for Community Leadership with Prestigious Award",
+    "{} Emerges as Clear Winner in Pivotal Swing State Debate",
+    "{} Impresses Economists at Davos",
+    "{} Delivers Moving Veterans Day Memorial Speech",
+    "{} Gains Key Endorsement from Teacher's Union",
+    "{} Earns Standing Ovation at Party Conference",
+    "{} Outlines Digital Innovation Agenda at Tech Futures Conference",
+    "{} Partners with Healthcare Alliance to Expand Services",
+    "{} Gains Momentum with Breakthrough Performance in Key Debate",
+    "{} Highlights Diversity Efforts at Cultural Unity Fair",
+    "{} Secures Corporate Backing for Green Industry Initiative",
+    "{} Earns Praise for Job Growth Policies at Economic Forum",
+    "{} Addresses Rising Costs in Viral Video",
+    "{} Endorsed by Capital's Papers",
+    "{} Endorsed by The Times",
+    "{} Endorsed by The Daily Review",
+    "{} Endorsed by The Sunday Print",
+    "{} Endorsed by farmers' newspapers",
+    "{} Endorsed by rural newspapers",
+    "{} Endorsed by urban newspapers",
+    "{} Endorsed by popular newspapers",
+    "{} Endorsed by The Daily Telegraph",
+    "{} Endorsed by The Morning Star",
+    "{} Endorsed by The National Review",
+    "{} Rallies Support with Speech at March for Change",
+    "{} Champions Small Business at Entrepreneurial Expo",
+    "{} Wins Key Votes in Critical Local Election",
+    "{} Connects with Younger Voters in Podcast Interview",
+    "{} Rallies Support at SHOWCASE with Bold Policies",
+    "{} Proposes Landmark Equality Legislation",
+    "{} Secures Decisive Victory in National Debate Series",
+    "{} Donated Large Amounts to Oxfam, Revealed",
 ]
 class Candidate:
     # -10 -> 10
@@ -337,14 +367,17 @@ def run(data, cands, pop, r_count =0 ):
             sleep(DELAY)
 
         if it in regions:
-            # pick a new region
+            # pick a new region (random increase in preference)
+            random.seed() # seeding to make a proper random choice
+
             cand_numbers.pop(cand_numbers.index(rand_pref))
             if len(cand_numbers) != 0:
-                random.seed() # seeding to make a proper random choice
                 rand_pref = random.choice(cand_numbers)
                 
-            # something good TODO
-            if random.random() < (0.01 + (21-len(cands))/201): print("~ " + random.choice(EVENTS).replace('{}', ((cands[rand_pref].name.split('/')[0].strip() if random.random() > 0.3  else cands[rand_pref].party) if mode=="RUNOFF" else cands[rand_pref].party)))
+            # chance of printing a random positive event
+            EVENT_PRINT_CHANCE = 0.2 - len(cands)/101 
+            if random.random() < (EVENT_PRINT_CHANCE): 
+                print("~ " + random.choice(EVENTS).replace('{}', ((cands[rand_pref].name if random.random() > 0.5  else cands[rand_pref].party) if mode=="RUNOFF" else cands[rand_pref].party)))
 
     print_final_results(RESULTS, rand_pref=rand_pref, way=it/pop)
     return sorted(RESULTS,key=lambda l:l[1], reverse=True) # sort by vote count
@@ -2216,7 +2249,7 @@ except ValueError: TIME = 2 # default is delay of 2
 
 DELAY = (TIME*50)/(math.sqrt(VOTING_DEMOS[COUNTRY]["pop"]))
 
-try: POLL_COUNTER += ((int(input("Number of polls (0->10) (default 5) : ")))-5)*5
+try: POLL_COUNTER += ((int(input("Number of polls (0->10) [5] : ")))-5)*5
 except ValueError: pass # default is no change to polls (ie value of 5)
 
 
@@ -2420,9 +2453,6 @@ if mode in ["RUNOFF"]:
         print("No candidate has received a majority. The election will proceed to another round.")
         input()
 
-        mpl.clf()
-        mpl.cla()
-        mpl.close()
         not_voted = 0 # reset not voted
 
 

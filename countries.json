@@ -367,5 +367,19 @@
         },
 	"scale": 1000,
 	"hos": "General Iosef Lancea"
-    }
+    },
+    "SOUTH AFRICA" : {
+	"pop": 6041, 
+	"vals": {
+            "prog_cons": 10,
+            "nat_glob": -5,
+            "env_eco": 1,
+            "soc_cap": -5,
+            "est_pop": 2,
+            "auth_ana": 2,
+            "rel_sec": -15
+        },
+	"scale": 10000,
+	"hos": "General Iosef Lancea"
+	}
 }
