@@ -27,6 +27,20 @@
         "scale": 10000,
         "hos": "Manuel Lopez Obrador"
     },
+    "KINGDOM OF KRESIMIRIA" : {
+        "pop": 3124,
+        "vals" : {
+            "prog_cons" : -30,
+            "nat_glob" : 14,
+            "env_eco": -10,
+            "soc_cap" :  -15,
+            "est_pop" : 11,
+            "auth_ana" : -3,
+            "rel_sec":  -8
+        },
+        "scale": 1000,
+        "hos": "King Remus"
+    },
     "GERMANY 1936": {
         "pop": 61024,
         "vals": {
