@@ -1,0 +1,497 @@
+[
+    {
+        "title": "Major Debate Coming Up",
+        "description": "A crucial national debate is scheduled. How do you prepare?",
+        "choices": [
+            {"text": "Focus on attacking opponents", "effect": {"prog_cons": 8, "auth_ana": -5}, "boost": 15},
+            {"text": "Emphasize your policy platform", "effect": {"prog_cons": 0, "auth_ana": 3}, "boost": 10},
+            {"text": "Appeal to emotion and values", "effect": {"prog_cons": -3, "rel_sec": -5}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Economic Crisis Hits",
+        "description": "The economy is struggling with rising unemployment. What's your response?",
+        "choices": [
+            {"text": "Call for massive government intervention", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 20},
+            {"text": "Promote free market solutions", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 18},
+            {"text": "Blame the current administration", "effect": {"prog_cons": 5, "est_pop": 3}, "boost": 8}
+        ]
+    },
+    {
+        "title": "Environmental Disaster",
+        "description": "A major oil spill devastates the coastline. Your stance?",
+        "choices": [
+            {"text": "Push for immediate green energy transition", "effect": {"env_eco": -20, "prog_cons": -8}, "boost": 25},
+            {"text": "Balance environment with economic concerns", "effect": {"env_eco": -5, "soc_cap": 3}, "boost": 12},
+            {"text": "Focus on economic recovery and jobs first", "effect": {"env_eco": 12, "soc_cap": 8}, "boost": 15}
+        ]
+    },
+    {
+        "title": "Immigration Crisis at Border",
+        "description": "Thousands of migrants overwhelm border facilities. Your position?",
+        "choices": [
+            {"text": "Open borders and humanitarian aid", "effect": {"nat_glob": 15, "prog_cons": -10, "soc_cap": -8}, "boost": 22},
+            {"text": "Secure borders with military deployment", "effect": {"nat_glob": -18, "prog_cons": 12, "est_pop": 8}, "boost": 24},
+            {"text": "Expand legal immigration pathways", "effect": {"nat_glob": 5, "prog_cons": -3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Corruption Scandal Breaks",
+        "description": "High-ranking officials caught in bribery scheme. How do you respond?",
+        "choices": [
+            {"text": "Demand complete government transparency", "effect": {"auth_ana": 8, "prog_cons": -5}, "boost": 18},
+            {"text": "Call for swift prosecutions", "effect": {"auth_ana": 3, "prog_cons": 3}, "boost": 16},
+            {"text": "Focus on policy, not political theater", "effect": {"auth_ana": -3, "prog_cons": 5}, "boost": 10}
+        ]
+    },
+    {
+        "title": "Religious Freedom vs LGBTQ Rights",
+        "description": "Religious groups clash with LGBTQ advocates over discrimination laws.",
+        "choices": [
+            {"text": "Prioritize religious liberty protections", "effect": {"rel_sec": -15, "prog_cons": 12}, "boost": 20},
+            {"text": "Enforce strict anti-discrimination laws", "effect": {"rel_sec": 12, "prog_cons": -15}, "boost": 22},
+            {"text": "Seek compromise protecting both sides", "effect": {"rel_sec": 2, "prog_cons": 0}, "boost": 8}
+        ]
+    },
+    {
+        "title": "Youth Unemployment Soars",
+        "description": "Young people face 25% unemployment rate. What's your solution?",
+        "choices": [
+            {"text": "Massive government job creation program", "effect": {"soc_cap": -12, "prog_cons": -5}, "boost": 19},
+            {"text": "Tax breaks for businesses hiring youth", "effect": {"soc_cap": 8, "prog_cons": 5}, "boost": 15},
+            {"text": "Blame immigration for taking jobs", "effect": {"nat_glob": -8, "prog_cons": 8}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Healthcare System Collapse",
+        "description": "Hospitals overwhelmed, people dying due to lack of care. Your proposal?",
+        "choices": [
+            {"text": "Implement universal healthcare", "effect": {"soc_cap": -18, "auth_ana": -8}, "boost": 25},
+            {"text": "Expand private insurance options", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 18},
+            {"text": "Emergency funding for current system", "effect": {"soc_cap": -5, "auth_ana": -2}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Trade War Escalation",
+        "description": "Major trading partners impose severe tariffs. How do you respond?",
+        "choices": [
+            {"text": "Retaliate with even higher tariffs", "effect": {"nat_glob": -12, "soc_cap": -5}, "boost": 16},
+            {"text": "Negotiate multilateral free trade deals", "effect": {"nat_glob": 15, "auth_ana": 3}, "boost": 18},
+            {"text": "Focus on domestic manufacturing", "effect": {"nat_glob": -5, "env_eco": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Mass Protests and Civil Unrest",
+        "description": "Violent protests erupt in major cities over police brutality. Your response?",
+        "choices": [
+            {"text": "Stand with protesters, defund police", "effect": {"prog_cons": -15, "auth_ana": 12}, "boost": 28},
+            {"text": "Deploy security forces for law and order", "effect": {"prog_cons": 15, "auth_ana": -12}, "boost": 25},
+            {"text": "Call for peaceful dialogue and reform", "effect": {"prog_cons": -3, "auth_ana": 3}, "boost": 15}
+        ]
+    },
+    {
+        "title": "Foreign Cyberattack on Infrastructure",
+        "description": "Enemy hackers shut down power grids nationwide. What's your plan?",
+        "choices": [
+            {"text": "Launch retaliatory cyber warfare", "effect": {"est_pop": 15, "nat_glob": -8}, "boost": 22},
+            {"text": "Invest billions in cyber defense", "effect": {"soc_cap": -8, "auth_ana": -5}, "boost": 18},
+            {"text": "Pursue diplomatic resolution", "effect": {"est_pop": -12, "nat_glob": 8}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Energy Independence Crisis",
+        "description": "Oil prices triple overnight due to foreign conflicts. Your solution?",
+        "choices": [
+            {"text": "Emergency transition to renewables", "effect": {"env_eco": -18, "prog_cons": -8}, "boost": 24},
+            {"text": "Expand domestic oil and gas drilling", "effect": {"env_eco": 15, "nat_glob": -5}, "boost": 20},
+            {"text": "Negotiate with international allies", "effect": {"nat_glob": 8, "est_pop": -3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "School Shooting Epidemic",
+        "description": "Multiple mass shootings rock schools nationwide. Your response?",
+        "choices": [
+            {"text": "Ban assault weapons immediately", "effect": {"prog_cons": -18, "auth_ana": -8}, "boost": 35},
+            {"text": "Arm security and increase protection", "effect": {"prog_cons": 15, "auth_ana": -5}, "boost": 28},
+            {"text": "Focus on mental health programs", "effect": {"soc_cap": -5, "prog_cons": -3}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Pandemic Lockdown Debate",
+        "description": "New deadly virus spreads. Health experts demand lockdowns. Your decision?",
+        "choices": [
+            {"text": "Immediate nationwide lockdown", "effect": {"auth_ana": -15, "soc_cap": -8}, "boost": 32},
+            {"text": "Protect the economy, no lockdowns", "effect": {"auth_ana": 12, "soc_cap": 15}, "boost": 28},
+            {"text": "Targeted restrictions in hotspots", "effect": {"auth_ana": -3, "soc_cap": 3}, "boost": 18}
+        ]
+    },
+    {
+        "title": "High Court Vacancy",
+        "description": "A constitutional court justice dies, creating a crucial vacancy. Your nominee?",
+        "choices": [
+            {"text": "Nominate a young progressive activist", "effect": {"prog_cons": -18, "rel_sec": 8}, "boost": 25},
+            {"text": "Choose a conservative traditionalist", "effect": {"prog_cons": 18, "rel_sec": -8}, "boost": 25},
+            {"text": "Pick a moderate consensus candidate", "effect": {"prog_cons": 0, "auth_ana": 3}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Pension System Bankruptcy",
+        "description": "National pension fund will be empty in 2 years. What's your plan?",
+        "choices": [
+            {"text": "Raise taxes on the wealthy", "effect": {"soc_cap": -15, "prog_cons": -8}, "boost": 22},
+            {"text": "Gradually raise retirement age", "effect": {"soc_cap": 8, "prog_cons": 12}, "boost": 18},
+            {"text": "Privatize with personal accounts", "effect": {"soc_cap": 18, "prog_cons": 15}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Infrastructure Collapse",
+        "description": "Bridges crumble and water systems fail nationwide. Your infrastructure plan?",
+        "choices": [
+            {"text": "Massive government infrastructure spending", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "Public-private partnerships", "effect": {"soc_cap": 5, "prog_cons": 3}, "boost": 16},
+            {"text": "Leave it to local authorities", "effect": {"soc_cap": 8, "prog_cons": 8}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Voting Rights Under Attack",
+        "description": "Local authorities pass laws restricting voting access. Central response needed?",
+        "choices": [
+            {"text": "Central oversight of election laws", "effect": {"auth_ana": -12, "prog_cons": -8}, "boost": 22},
+            {"text": "Local autonomy to manage elections", "effect": {"auth_ana": 8, "prog_cons": 12}, "boost": 18},
+            {"text": "Minimum national standards only", "effect": {"auth_ana": -3, "prog_cons": 0}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Drug Overdose Crisis",
+        "description": "Fentanyl deaths reach record highs. What's your drug policy?",
+        "choices": [
+            {"text": "Decriminalize and treat as health issue", "effect": {"prog_cons": -12, "auth_ana": 8}, "boost": 20},
+            {"text": "Harsh penalties and enforcement", "effect": {"prog_cons": 12, "auth_ana": -8}, "boost": 18},
+            {"text": "Focus on treatment and prevention", "effect": {"soc_cap": -5, "prog_cons": -3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Big Tech Censorship Controversy",
+        "description": "Social media companies ban prominent political figures. Your response?",
+        "choices": [
+            {"text": "Break up social media monopolies", "effect": {"soc_cap": -8, "auth_ana": 5}, "boost": 20},
+            {"text": "Protect private companies' rights", "effect": {"soc_cap": 8, "auth_ana": 3}, "boost": 16},
+            {"text": "Regulate as public utilities", "effect": {"soc_cap": -5, "auth_ana": -3}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Teacher Strike Wave",
+        "description": "Teachers nationwide demand higher pay and better funding. Your stance?",
+        "choices": [
+            {"text": "Massive government education funding", "effect": {"soc_cap": -12, "prog_cons": -5}, "boost": 22},
+            {"text": "Support school choice and vouchers", "effect": {"soc_cap": 8, "prog_cons": 8}, "boost": 18},
+            {"text": "Let local authorities handle funding", "effect": {"soc_cap": 5, "prog_cons": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Housing Affordability Crisis",
+        "description": "Home prices skyrocket, making homeownership impossible for most. Your solution?",
+        "choices": [
+            {"text": "Massive public housing construction", "effect": {"soc_cap": -15, "prog_cons": -8}, "boost": 24},
+            {"text": "Reduce zoning and building regulations", "effect": {"soc_cap": 8, "auth_ana": 5}, "boost": 18},
+            {"text": "Tax breaks for first-time buyers", "effect": {"soc_cap": -3, "prog_cons": 3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Corporate Tax Avoidance Scandal",
+        "description": "Major corporations pay zero taxes while profits soar. Your response?",
+        "choices": [
+            {"text": "Close loopholes and raise corporate taxes", "effect": {"soc_cap": -12, "prog_cons": -8}, "boost": 26},
+            {"text": "Lower rates to encourage investment", "effect": {"soc_cap": 12, "prog_cons": 8}, "boost": 20},
+            {"text": "Simplify tax code with flat rate", "effect": {"soc_cap": 5, "prog_cons": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Rural Hospital Closures",
+        "description": "Small-town hospitals shut down, leaving communities without care. Your plan?",
+        "choices": [
+            {"text": "Government subsidies to keep hospitals open", "effect": {"soc_cap": -8, "prog_cons": -5}, "boost": 20},
+            {"text": "Telemedicine and mobile clinics", "effect": {"prog_cons": 3, "soc_cap": 3}, "boost": 16},
+            {"text": "Market-based solutions will emerge", "effect": {"soc_cap": 8, "prog_cons": 8}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Student Loan Debt Crisis",
+        "description": "Graduates crushed by massive student debt. Your solution?",
+        "choices": [
+            {"text": "Cancel all student debt immediately", "effect": {"soc_cap": -18, "prog_cons": -12}, "boost": 30},
+            {"text": "Income-based repayment reforms", "effect": {"soc_cap": -5, "prog_cons": -3}, "boost": 18},
+            {"text": "Personal responsibility, honor contracts", "effect": {"soc_cap": 8, "prog_cons": 12}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Minimum Wage Debate",
+        "description": "Workers demand higher minimum wage. Businesses threaten layoffs. Your stance?",
+        "choices": [
+            {"text": "Implement substantial minimum wage increase", "effect": {"soc_cap": -12, "prog_cons": -8}, "boost": 24},
+            {"text": "Let regions set their own minimums", "effect": {"soc_cap": 5, "prog_cons": 8}, "boost": 16},
+            {"text": "Abolish minimum wage entirely", "effect": {"soc_cap": 15, "prog_cons": 12}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Electoral System Controversy",
+        "description": "Candidate wins most votes but loses election due to electoral system. Reform needed?",
+        "choices": [
+            {"text": "Reform to direct popular vote", "effect": {"auth_ana": 8, "prog_cons": -8}, "boost": 22},
+            {"text": "Preserve traditional electoral system", "effect": {"auth_ana": -5, "prog_cons": 12}, "boost": 20},
+            {"text": "Modify system for better representation", "effect": {"auth_ana": 3, "prog_cons": -3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Mental Health Crisis",
+        "description": "Suicide rates spike and mental health services overwhelmed. Your response?",
+        "choices": [
+            {"text": "Universal mental healthcare", "effect": {"soc_cap": -12, "prog_cons": -5}, "boost": 22},
+            {"text": "Insurance mandate for mental health", "effect": {"soc_cap": -5, "prog_cons": 0}, "boost": 18},
+            {"text": "Community and faith-based solutions", "effect": {"rel_sec": -5, "prog_cons": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Gerrymandering Reform",
+        "description": "Districts drawn to guarantee party victories. Democratic representation at stake.",
+        "choices": [
+            {"text": "Independent redistricting commissions", "effect": {"auth_ana": 8, "prog_cons": -3}, "boost": 18},
+            {"text": "Courts should stay out of politics", "effect": {"auth_ana": -5, "prog_cons": 8}, "boost": 16},
+            {"text": "Algorithm-based district drawing", "effect": {"auth_ana": 5, "prog_cons": 0}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Climate Change Action",
+        "description": "Extreme weather devastates communities. Climate scientists demand action. Your plan?",
+        "choices": [
+            {"text": "Green transition and carbon taxes", "effect": {"env_eco": -20, "prog_cons": -12}, "boost": 28},
+            {"text": "Market-based innovation solutions", "effect": {"env_eco": -5, "soc_cap": 8}, "boost": 18},
+            {"text": "Adaptation instead of prevention", "effect": {"env_eco": 8, "prog_cons": 8}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Deepfake Disinformation",
+        "description": "AI-generated fake videos make truth impossible to determine. Your solution?",
+        "choices": [
+            {"text": "Criminalize deepfake creation", "effect": {"auth_ana": -12, "prog_cons": 5}, "boost": 22},
+            {"text": "Mandate detection technology", "effect": {"auth_ana": -5, "soc_cap": -3}, "boost": 18},
+            {"text": "Education about media literacy", "effect": {"auth_ana": 3, "soc_cap": -3}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Reproductive Rights Battle",
+        "description": "High court overturns protections. Regions ban abortion. Your response?",
+        "choices": [
+            {"text": "National law protecting reproductive access", "effect": {"prog_cons": -18, "rel_sec": 12}, "boost": 30},
+            {"text": "Support regional autonomy to decide", "effect": {"prog_cons": 15, "rel_sec": -8}, "boost": 25},
+            {"text": "Exceptions for rape, incest, and life", "effect": {"prog_cons": -3, "rel_sec": 3}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Mass Deportation Operation",
+        "description": "Immigration enforcement targets millions of undocumented immigrants. Families separated.",
+        "choices": [
+            {"text": "Stop all deportations immediately", "effect": {"nat_glob": 18, "prog_cons": -12}, "boost": 26},
+            {"text": "Accelerate deportation efforts", "effect": {"nat_glob": -15, "prog_cons": 15}, "boost": 24},
+            {"text": "Focus on criminals only", "effect": {"nat_glob": 3, "prog_cons": 3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Armed Citizen Stops Shooting",
+        "description": "Armed citizen stops mass shooter at public venue. Gun debate reignites.",
+        "choices": [
+            {"text": "More guns make us safer", "effect": {"prog_cons": 15, "auth_ana": 5}, "boost": 22},
+            {"text": "Proves need for gun control", "effect": {"prog_cons": -15, "auth_ana": -5}, "boost": 24},
+            {"text": "Focus on mental health screening", "effect": {"prog_cons": 0, "soc_cap": -3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Police Reform Referendum",
+        "description": "Voters decide whether to defund police and invest in social services.",
+        "choices": [
+            {"text": "Support defunding police", "effect": {"prog_cons": -18, "auth_ana": 12}, "boost": 28},
+            {"text": "Oppose reducing police funding", "effect": {"prog_cons": 15, "auth_ana": -8}, "boost": 25},
+            {"text": "Reform without defunding", "effect": {"prog_cons": -3, "auth_ana": 3}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Nuclear Crisis Abroad",
+        "description": "Hostile nation withdraws from nuclear deal and threatens allies. Military action?",
+        "choices": [
+            {"text": "Preemptive military strikes", "effect": {"est_pop": 18, "nat_glob": -12}, "boost": 26},
+            {"text": "Diplomatic negotiations", "effect": {"est_pop": -8, "nat_glob": 12}, "boost": 20},
+            {"text": "Economic sanctions only", "effect": {"est_pop": 3, "nat_glob": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Transgender Sports Controversy",
+        "description": "Transgender athletes dominate women's sports. Fairness questioned.",
+        "choices": [
+            {"text": "Full inclusion in chosen gender sports", "effect": {"prog_cons": -15, "rel_sec": 8}, "boost": 22},
+            {"text": "Biological sex determines sports category", "effect": {"prog_cons": 15, "rel_sec": -8}, "boost": 24},
+            {"text": "Create separate transgender leagues", "effect": {"prog_cons": 0, "rel_sec": 0}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Social Media Algorithm Bias",
+        "description": "Tech companies accused of censoring conservative voices. Bias proven.",
+        "choices": [
+            {"text": "Regulate algorithms for political neutrality", "effect": {"auth_ana": -8, "soc_cap": -5}, "boost": 20},
+            {"text": "Private companies can moderate content", "effect": {"auth_ana": 5, "soc_cap": 8}, "boost": 18},
+            {"text": "Create government social media platform", "effect": {"auth_ana": -12, "soc_cap": -8}, "boost": 22}
+        ]
+    },
+    {
+        "title": "Racial Justice Education in Schools",
+        "description": "Parents protest teaching about systemic racism. School boards divided.",
+        "choices": [
+            {"text": "Mandate teaching about racial justice", "effect": {"prog_cons": -15, "rel_sec": 8}, "boost": 24},
+            {"text": "Ban divisive racial curriculum", "effect": {"prog_cons": 15, "rel_sec": -5}, "boost": 22},
+            {"text": "Let local districts decide", "effect": {"prog_cons": 0, "auth_ana": 3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Foreign Power Trade Relations",
+        "description": "Major foreign power threatens allied nation. Trade war or military support?",
+        "choices": [
+            {"text": "Military alliance with threatened ally", "effect": {"est_pop": 15, "nat_glob": -10}, "boost": 24},
+            {"text": "Economic pressure on aggressor", "effect": {"est_pop": 5, "nat_glob": 3}, "boost": 18},
+            {"text": "Avoid confrontation through diplomacy", "effect": {"est_pop": -8, "nat_glob": 12}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Welfare Reform Debate",
+        "description": "Welfare rolls expand as poverty rises. Work requirements proposed.",
+        "choices": [
+            {"text": "Expand welfare benefits", "effect": {"soc_cap": -15, "prog_cons": -8}, "boost": 22},
+            {"text": "Strict work requirements", "effect": {"soc_cap": 12, "prog_cons": 12}, "boost": 20},
+            {"text": "Job training programs", "effect": {"soc_cap": -5, "prog_cons": 0}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Vaccine Mandate Resistance",
+        "description": "Workers refuse COVID vaccines. Mandates versus personal freedom.",
+        "choices": [
+            {"text": "Enforce strict vaccine mandates", "effect": {"auth_ana": -15, "prog_cons": -8}, "boost": 26},
+            {"text": "Personal choice, no mandates", "effect": {"auth_ana": 12, "prog_cons": 8}, "boost": 24},
+            {"text": "Testing alternative to vaccines", "effect": {"auth_ana": -3, "prog_cons": 0}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Historical Injustice Reparations",
+        "description": "Commission recommends massive reparations for historical oppression.",
+        "choices": [
+            {"text": "Full reparations payments", "effect": {"prog_cons": -20, "rel_sec": 8}, "boost": 28},
+            {"text": "Investment in affected communities", "effect": {"prog_cons": -8, "soc_cap": -5}, "boost": 20},
+            {"text": "No reparations needed", "effect": {"prog_cons": 15, "rel_sec": -5}, "boost": 22}
+        ]
+    },
+    {
+        "title": "Border Barrier Construction",
+        "description": "Border crossings surge. Calls to complete border barriers intensify.",
+        "choices": [
+            {"text": "Complete the border barrier", "effect": {"nat_glob": -15, "prog_cons": 12}, "boost": 24},
+            {"text": "Technology over physical barriers", "effect": {"nat_glob": -5, "prog_cons": 3}, "boost": 18},
+            {"text": "Remove existing barriers", "effect": {"nat_glob": 12, "prog_cons": -12}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Cryptocurrency Regulation",
+        "description": "Digital currency used for illegal activities and terrorism. Regulation needed?",
+        "choices": [
+            {"text": "Ban all cryptocurrencies", "effect": {"auth_ana": -12, "prog_cons": 5}, "boost": 20},
+            {"text": "Light-touch regulation", "effect": {"auth_ana": 3, "soc_cap": 5}, "boost": 16},
+            {"text": "Central bank digital currency", "effect": {"auth_ana": -8, "prog_cons": -3}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Religious Exemption Laws",
+        "description": "Businesses refuse service to same-sex couples citing religious beliefs.",
+        "choices": [
+            {"text": "Protect religious freedom", "effect": {"rel_sec": -12, "prog_cons": 15}, "boost": 22},
+            {"text": "Anti-discrimination laws supreme", "effect": {"rel_sec": 12, "prog_cons": -15}, "boost": 24},
+            {"text": "Case-by-case court decisions", "effect": {"rel_sec": 0, "auth_ana": -3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Cannabis Legalization",
+        "description": "Many regions legalize cannabis. National prohibition obsolete?",
+        "choices": [
+            {"text": "Legalize cannabis nationally", "effect": {"prog_cons": -12, "auth_ana": 8}, "boost": 24},
+            {"text": "Maintain national prohibition", "effect": {"prog_cons": 12, "auth_ana": -8}, "boost": 18},
+            {"text": "Medical use only", "effect": {"prog_cons": 0, "auth_ana": 0}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Military Conscription Reinstatement",
+        "description": "Military recruitment fails to meet needs. Mandatory service required?",
+        "choices": [
+            {"text": "Reinstate military conscription", "effect": {"est_pop": 15, "auth_ana": -8}, "boost": 22},
+            {"text": "Voluntary military only", "effect": {"est_pop": -5, "auth_ana": 8}, "boost": 18},
+            {"text": "National service alternative", "effect": {"est_pop": 3, "prog_cons": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Artificial Intelligence Job Loss",
+        "description": "AI eliminates white-collar jobs. Professionals replaced by algorithms.",
+        "choices": [
+            {"text": "Universal basic income", "effect": {"soc_cap": -20, "prog_cons": -12}, "boost": 30},
+            {"text": "Retrain workers for new economy", "effect": {"soc_cap": -8, "prog_cons": 3}, "boost": 20},
+            {"text": "Let market forces adapt", "effect": {"soc_cap": 12, "prog_cons": 8}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Foreign Election Interference",
+        "description": "Hostile nations interfere in elections through social media manipulation.",
+        "choices": [
+            {"text": "Cyber warfare retaliation", "effect": {"est_pop": 15, "nat_glob": -8}, "boost": 22},
+            {"text": "International cyber agreements", "effect": {"est_pop": -5, "nat_glob": 12}, "boost": 18},
+            {"text": "Domestic social media regulation", "effect": {"auth_ana": -8, "prog_cons": -3}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Homelessness Explosion",
+        "description": "Tent cities overwhelm major metropolitan areas. Public health crisis.",
+        "choices": [
+            {"text": "Housing first programs", "effect": {"soc_cap": -15, "prog_cons": -8}, "boost": 24},
+            {"text": "Involuntary commitment for addicted", "effect": {"auth_ana": -12, "prog_cons": 8}, "boost": 20},
+            {"text": "Let cities handle locally", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Space Defense Expansion",
+        "description": "Hostile nations militarize space. Space defense needs massive funding increase.",
+        "choices": [
+            {"text": "Dramatically expand space defense", "effect": {"est_pop": 18, "soc_cap": 8}, "boost": 22},
+            {"text": "International space cooperation", "effect": {"est_pop": -8, "nat_glob": 12}, "boost": 18},
+            {"text": "Focus on earth-based priorities", "effect": {"est_pop": -5, "soc_cap": -8}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Cancel Culture Backlash",
+        "description": "Celebrities and politicians 'canceled' for past statements. Free speech?",
+        "choices": [
+            {"text": "Protect free speech absolutely", "effect": {"auth_ana": 12, "prog_cons": 8}, "boost": 20},
+            {"text": "Consequences for harmful speech", "effect": {"auth_ana": -8, "prog_cons": -12}, "boost": 22},
+            {"text": "Context and intent matter", "effect": {"auth_ana": 3, "prog_cons": 0}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Nuclear Power Renaissance",
+        "description": "Climate goals require nuclear power expansion. Environmental groups split.",
+        "choices": [
+            {"text": "Massive nuclear power expansion", "effect": {"env_eco": -8, "prog_cons": 5}, "boost": 20},
+            {"text": "Renewables only, no nuclear", "effect": {"env_eco": -15, "prog_cons": -8}, "boost": 24},
+            {"text": "Small modular reactors", "effect": {"env_eco": -5, "prog_cons": 0}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Political Violence Escalation",
+        "description": "Armed protesters clash at rallies. Democracy under threat from extremists.",
+        "choices": [
+            {"text": "Crack down on all political violence", "effect": {"auth_ana": -12, "prog_cons": 0}, "boost": 24},
+            {"text": "Protect right to armed protest", "effect": {"auth_ana": 8, "prog_cons": 8}, "boost": 18},
+            {"text": "Focus on online radicalization", "effect": {"auth_ana": -5, "prog_cons": -3}, "boost": 20}
+        ]
+    }
+]
