@@ -7,6 +7,7 @@ import json
 from time import sleep
 
 # ~~~~~ CONFIG ~~~~~
+# todo: make coalitions more formal, add official positions etc
 
 # Print debug statements
 DEBUG = False
@@ -420,7 +421,7 @@ def merge_too_close(candidates_list, x):
     merges = 0
     current_list = candidates_list[:]
     
-    while len(current_list) > 0:
+    while len(current_list) > 1:  # Continue while there are parties to potentially merge
         dists = []
         if x >= len(current_list): 
             x = 0
@@ -451,7 +452,12 @@ def merge_too_close(candidates_list, x):
             nam = input("Enter a name for the merged parties (leave empty to refuse the coalition, 'a' to generate a name):\n").strip()
 
             if nam == '':
-                break
+                # User declined this merge, try next party
+                x = (x + 1) % len(current_list)
+                # If we've checked all parties as potential merge leaders, no more merges possible
+                if x == 0:
+                    break
+                continue
             else:
                 if nam in ['a', 'A']:
                     nam = merge_party_names(sent1, sent2)
@@ -478,12 +484,17 @@ def merge_too_close(candidates_list, x):
                 print(f"A new party, {nam}, has been formed.")
                 merges += 1
                 input("Press Enter to continue...")
+                
+                # Reset x to 0 to start checking from the beginning with the new party configuration
+                x = 0
+        else:
+            # No merge possible with current party as leader, try next party
+            x = (x + 1) % len(current_list)
+            # If we've checked all parties as potential merge leaders, no more merges possible
+            if x == 0:
+                break
 
-            os.system('cls' if os.name == 'nt' else 'clear')
-            return current_list, merges
-        
-        # Move to final list if no merge occurred
-        break
+        os.system('cls' if os.name == 'nt' else 'clear')
     
     return current_list, merges
 
