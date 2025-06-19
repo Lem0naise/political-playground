@@ -122,35 +122,38 @@ DESCRIPTORS = {
 
 
 # ~~~~~ CLASS SETUP ~~~~~
-class Voter:
-    def __init__(self, vals):
-        self.vals = vals
+# Voter class removed - voting logic moved to vote_for_candidate function
 
-    def vote(self, candidates, rand_pref, cands_length):
+def vote_for_candidate(voter_vals, candidates, rand_pref):
+    """
+    Calculate which candidate a voter with given values would vote for.
+    Returns the index of the preferred candidate, or None if they don't vote.
+    """
+    global not_voted
+    
+    dists = []
+    for i in range(len(candidates)):
+        cand = candidates[i]
+        euc_sum = 0
+        for o in range(len(voter_vals)): # sum square of each value
+            val_key = list(voter_vals.keys())[o]
+            euc_sum += (voter_vals[val_key] - cand.vals[o])**2
+        
+        # euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
+        euc_dist = euc_sum
+        euc_dist -= (cand.party_pop*5)**2 # take away party popularity from distance
+        if cand.swing: 
+            euc_dist -= (cand.swing*5) * abs(cand.swing*5)
 
-        global not_voted
-        dists = []
-        for i in range(len(candidates)):
-            cand = candidates[i]
-            euc_sum = 0
-            for o in range(len(self.vals)): # sum square of each value
-                euc_sum += (self.vals[list(self.vals.keys())[o]] - cand.vals[o])**2
-            #euc_dist = math.sqrt(euc_sum) # square root to find euclidean distance
-            euc_dist = euc_sum
-            euc_dist -= (cand.party_pop*5)**2 # take away party popularity from distance
-            if cand.swing: euc_dist -= (cand.swing*5) * abs(cand.swing*5)
+        dists.append(euc_dist) # add to distance list
 
-            #euc_dist /= ((RESULTS[i][1]+1 / 100000))
-            dists.append(euc_dist) # add to distance list
-
-
-        dists[rand_pref] *= RAND_PREF_EFFECT # 0.85 by random preference of party
-        index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
-        if (dists[index_min] <= TOO_FAR_DISTANCE**2) or (VOTE_MANDATE): # if close enough to vote for them:
-            RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
-        else: # if too radical for any party
-            not_voted += 1 # do not vote
-        del self
+    dists[rand_pref] *= RAND_PREF_EFFECT # 0.85 by random preference of party
+    index_min = min(range(len(dists)), key=dists.__getitem__) # find preferred candidate by closest distance
+    
+    if (dists[index_min] <= TOO_FAR_DISTANCE**2) or (VOTE_MANDATE): # if close enough to vote for them:
+        RESULTS[index_min][1] += 1 # add one to vote count of preferred candidate
+    else: # if too radical for any party
+        not_voted += 1 # do not vote
 
 
 
@@ -345,19 +348,25 @@ def run(data, cands, pop, r_count =0 ):
     #print(cand_numbers)
 
     cands_length = len(cands)
+    
     for it in range(1, pop): # population in tens of thousands ! must optimize
 
-        vot = Voter(VOTING_DEMOS[COUNTRY]["vals"])
+        # Create voter values directly from country demographics
+        voter_vals = VOTING_DEMOS[COUNTRY]["vals"].copy()
 
         # setting voter values from massive dataset
-        for i in range(len(vot.vals)):
-            vot.vals[list(vot.vals.keys())[i]] = data[i][it] # go through each data set from leftmost to rightmost
-            if vot.vals[list(vot.vals.keys())[i]] >= 100:
-                vot.vals[list(vot.vals.keys())[i]] = 100
-            if vot.vals[list(vot.vals.keys())[i]] <= -100:
-                vot.vals[list(vot.vals.keys())[i]] = -100
+        for i in range(len(voter_vals)):
+            val_key = list(voter_vals.keys())[i]
+            voter_vals[val_key] = data[i][it] # go through each data set from leftmost to rightmost
+            
+            # Clamp values to valid range
+            if voter_vals[val_key] >= 100:
+                voter_vals[val_key] = 100
+            if voter_vals[val_key] <= -100:
+                voter_vals[val_key] = -100
 
-        vot.vote(cands, rand_pref, cands_length) # calling vote
+        # Vote using the simplified function
+        vote_for_candidate(voter_vals, cands, rand_pref)
 
         # showing results
         # wait til 4% of the polling is done before showing, makes nicer diagrams
@@ -760,7 +769,7 @@ CAND_LIST = {
                 soc_cap= -41,
                 est_pop=  -24,
                 auth_ana= 19,
-                rel_sec = 21,
+                rel_sec= 21,
                 colour="green"),
         Candidate(8, "Inger Stojberg", "The Denmark Democrats", 10,
              prog_cons= 75,
@@ -769,7 +778,7 @@ CAND_LIST = {
                 soc_cap= 2,
                 est_pop= 61,
                 auth_ana= -31,
-                rel_sec = -40,
+                rel_sec= -40,
                 colour='black'),
     ],
     "POPE" : [
@@ -2357,7 +2366,7 @@ data = [ # create normal distributions for each value axis
     #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["nat_glob"]-100, VOTING_DEMOS[COUNTRY]["vals"]["nat_glob"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # nat - glob
     #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["env_eco"]-100, VOTING_DEMOS[COUNTRY]["vals"]["env_eco"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # env - eco
     #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["soc_cap"]-100, VOTING_DEMOS[COUNTRY]["vals"]["soc_cap"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # soc - cap
-    #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["est_pop"]-100, VOTING_DEMOS[COUNTRY]["vals"]["est_pop"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # est - pop
+    #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["est_pop"]-100, VOTING_DEMOS[COUNTRY]["vals"]["est_pop"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # pac - mil
     #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"]-100, VOTING_DEMOS[COUNTRY]["vals"]["auth_ana"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # auth - ana
     #numpy.random.uniform(VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"]-100, VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"]+100, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel -sec
 
@@ -2379,18 +2388,6 @@ data = [ # create normal distributions for each value axis
     #numpy.random.normal(loc = VOTING_DEMOS[COUNTRY]["vals"]["rel_sec"], scale = 160, size=VOTING_DEMOS[COUNTRY]["pop"]), # rel - sec
 
 ]
-
-# WHAT !!!!!! TODO REMOVE REMOVE REMOVE
-boborig= list(CAND_LIST.values())
-edward = list(CAND_LIST.keys())
-for p in range(len(boborig)):
-    for i in range(len(boborig[p])):
-        bob = boborig[p]
-        print(f'{edward[p]}, {bob[i].party}, {bob[i].name}, {bob[i].party_pop}, {bob[i].swing}, {bob[i].vals[0]}, {bob[i].vals[1]}, {bob[i].vals[2]}, {bob[i].vals[3]}, {bob[i].vals[4]}, {bob[i].vals[5]}, {bob[i].vals[6]}')
-
-input()
-
-# HERE REMOVE REMOVE ABOVE TODO ABOVE TODO
 
 FACTORS = {
     "prog_cons": 0,
@@ -2591,7 +2588,7 @@ def print_parliament_old(results, leaders):
                 cur_seat += 1
                 seats[results[party_num][0]] -= 1
                 if cur_seat >= seat_num/rows:
-                    cur_seat = 0
+                    cur_seat = 0;
                     print("\n", end="")
 
             else:
