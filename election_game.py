@@ -7,7 +7,7 @@ import json
 from time import sleep
 
 # ~~~~~ CONFIG ~~~~~
-# todo: make coalitions more formal, add official positions etc
+
 
 # Print debug statements
 DEBUG = False
@@ -22,7 +22,9 @@ VOTE_MANDATE = False
 # Reduced poll counter for interactive gameplay
 POLL_COUNTER = 30
 
-# TODO: MAKE THE COALITION GOVERNMENT BASED ON SEATS and NOT PERCENTAGE POINTS
+# TODO: MAKE THE COALITION GOVERNMENT MORE FORMAL, WITH CABINET POSITIONS ETC
+# TODO: ADJUST THE NUMBER OF POLLED VOTERS, WHEN TOO MANY IT IS SLOW
+# TODO: REDUCE COMPATIBILITY OF DIFFERENT PARTIES
 
 # ~~~~~ SETUP ~~~~~
 
@@ -99,7 +101,9 @@ def vote_for_candidate(voter_vals, candidates):
         euc_dist = euc_sum
         
         # Apply party popularity - this is the main way polling changes
-        popularity_effect = (cand['party_pop'] * 8)**2  # Increased effect for events to matter more
+        popularity_effect = (cand['party_pop'] * 4)**2 # TODO here is another place effect is increased  # Increased effect for events to matter more
+        # it used to be squared ^^ and now it's linear. think about this
+
         euc_dist -= popularity_effect
         
         if cand.get('swing'): 
@@ -278,9 +282,11 @@ def apply_event_effect(player_candidate, effect, boost):
             if DEBUG:
                 print(f"DEBUG: Changed {value_key} from {old_val} to {player_candidate['vals'][i]}")
     
+    # TODO increase numbers to make events less significant
+    # decrease numbers to make events more significant
     # Convert voter alignment to polling change with larger effects for events
-    base_change = voter_alignment / 15.0
-    polling_change = base_change * (boost / 8.0)
+    base_change = voter_alignment / 30.0 # 15
+    polling_change = base_change * (boost / 12.0) # 8
     
     # Add moderate randomness for event uncertainty
     random_factor = random.uniform(-1.0, 1.0)
