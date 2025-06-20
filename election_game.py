@@ -25,6 +25,9 @@ POLL_COUNTER = 30
 # TODO: MAKE THE COALITION GOVERNMENT MORE FORMAL, WITH CABINET POSITIONS ETC
 # TODO: ADJUST THE NUMBER OF POLLED VOTERS, WHEN TOO MANY IT IS SLOW
 # TODO: REDUCE COMPATIBILITY OF DIFFERENT PARTIES
+# TODO: DISPLAY NUMBER OF POLLING PEOPLE,  NOT TOTAL ELECTORATE
+# TODO: DISPLAY A FEEDBACK AFTER CHOOSING AN OPTION, ABOUT WHICH VALUE YOU AFFECTED
+# TODO: DISPLAY CHANGE FROM INITIAL POLLING AT END OF ELECTION
 
 # ~~~~~ SETUP ~~~~~
 
@@ -59,6 +62,7 @@ scale_factor = 1
 scale_fac = 1
 not_voted = 0
 previous_poll_results = {}  # Track previous poll percentages
+initial_poll_results = {}   # Track first poll percentages for campaign comparison
 
 # ~~~~~ CORE FUNCTIONS ~~~~~
 
@@ -182,7 +186,7 @@ def format_votes(votes):
 
 def print_poll_results(RESULTS, poll_num, total_polls):
     """Print current polling results in terminal"""
-    global previous_poll_results
+    global previous_poll_results, initial_poll_results
     
     os.system('cls' if os.name == 'nt' else 'clear')
     
@@ -190,10 +194,10 @@ def print_poll_results(RESULTS, poll_num, total_polls):
     total_support = sum([r[1] for r in res])
     weeks_left = total_polls - poll_num
     
-    print("="*95)
+    print("="*120)
     print(f"                         {COUNTRY.upper()} ELECTION POLLING")
     print(f"                      Poll {poll_num}/{total_polls} - {weeks_left} weeks until election")
-    print("="*95)
+    print("="*120)
     print()
     
     # Calculate current percentages and changes
@@ -219,14 +223,22 @@ def print_poll_results(RESULTS, poll_num, total_polls):
             change_str = "   --"
         
         player_indicator = " ◄ YOU" if candidate['is_player'] else ""
-        print(f"{i+1:2}. {candidate['party']:<35} │ {percentage:5.1f}% ({format_votes(support):>8}) │ {change_str:>6} │{player_indicator}")
+        print(f"{i+1:2}. {candidate['party']:<50} │ {percentage:5.1f}% {format_votes(support):>12} │ {change_str:>8} │{player_indicator}")
     
+ 
+    # Store initial results for final comparison
+    if poll_num == 1:
+        initial_poll_results = current_percentages.copy()
+        if DEBUG:
+            print("DEBUG: The poll number is currently 1. It is storing the initial numbers")
+            print(initial_poll_results)
+            input()
     # Update previous poll results for next time
     previous_poll_results = current_percentages.copy()
     
     print()
     print(f"Polling participation: {((total_support)/(VOTING_DEMOS[COUNTRY]['pop']))*100:.1f}%")
-    print("-"*95)
+    print("-"*120)
 
 
 def apply_event_effect(player_candidate, effect, boost):
@@ -604,10 +616,10 @@ def run_interactive_election(data, candidates, pop):
             input("\nPress Enter for next poll...")
     
     # Conduct the actual election (final poll with slightly higher participation)
-    print("\n" + "="*95)
+    print("\n" + "="*120)
     print("                             ELECTION DAY")
     print("                        Votes are being counted...")
-    print("="*95)
+    print("="*120)
     sleep(2)
     
     # For the election, increase participation very slightly
@@ -716,11 +728,17 @@ def calculate_party_compatibility(player_candidate, potential_partner):
     """Calculate ideological compatibility between parties (0-100)"""
     total_distance = 0
     for i in range(len(VALUES)):
-        distance = abs(player_candidate['vals'][i] - potential_partner['vals'][i])
+        player_val = player_candidate['vals'][i]
+        partner_val = potential_partner['vals'][i]
+        distance = abs(player_val - partner_val)
+
+        if (player_val > 0 and partner_val <0) or (player_val <0 and partner_val>0):
+            distance += 10 # add additional penalty if opposing views
+
         total_distance += distance
     
     # Convert to compatibility score (higher = more compatible)
-    max_possible_distance = len(VALUES) * 200  # Max distance if parties are at opposite extremes
+    max_possible_distance = len(VALUES) * 150  # Max distance if parties are at opposite extremes
     compatibility = 100 - (total_distance / max_possible_distance * 100)
     return max(0, min(100, compatibility))
 
@@ -1062,8 +1080,8 @@ def watch_coalition_formation(player_candidate, results, total_votes):
     print(f"\nPotential coalition partners (sorted by compatibility):")
     for i, (candidate, percentage, compatibility) in enumerate(potential_partners):
         status = "YOU" if candidate['is_player'] else "Other Party"
-        compat_text = "Highly Compatible" if compatibility > 70 else "Possible" if compatibility > 50 else "Difficult" if compatibility > 30 else "Impossible"
-        print(f"{i+1}. {candidate['party']:<25} {percentage:5.1f}% - {compat_text:<18} ({status})")
+        compat_text = "Highly Compatible" if compatibility > 70 else "Possible" if compatibility > 50 else "Difficult" if compatibility > 30 else "Practically Impossible"
+        print(f"{i+1}. {candidate['party']:<50} {percentage:5.1f}% - {compat_text:<18} ({status})")
     
     coalition_partners = [winner_candidate]
     current_percentage = winner_percentage
@@ -1159,8 +1177,8 @@ def interactive_coalition_formation(player_candidate, results, total_votes):
         partner_percentage = (votes / total_votes * 100) if total_votes > 0 else 0
         compatibility = calculate_party_compatibility(player_candidate, candidate)
         
-        print(f"{i}. {candidate['party']:<30} {partner_percentage:5.1f}% "
-              f"({'Compatible' if compatibility > 60 else 'Difficult' if compatibility > 40 else 'Incompatible'})")
+        print(f"{i}. {candidate['party']:<50} {partner_percentage:5.1f}% "
+              f"({'Highly Compatible' if compatibility > 70 else 'Possible' if compatibility > 50 else 'Difficult' if compatibility > 30 else 'Impossible'})")
         potential_partners.append((candidate, partner_percentage, compatibility))
     
     # Coalition building process
@@ -1214,7 +1232,7 @@ def interactive_coalition_formation(player_candidate, results, total_votes):
 
 def main():
     """Main function to run the electoral simulation"""
-    global COUNTRY, scale_factor, scale_fac, RESULTS, not_voted, previous_poll_results
+    global COUNTRY, scale_factor, scale_fac, RESULTS, not_voted, previous_poll_results, initial_poll_results
     
     # Load data files
     load_data_files()
@@ -1286,6 +1304,7 @@ def main():
     # Initialize results and reset previous poll tracking
     RESULTS = []
     previous_poll_results = {}
+    initial_poll_results = {}
     
     # Handle party merging
     CANDIDATES = handle_party_merging(CANDIDATES)
@@ -1315,19 +1334,34 @@ def main():
     
     # Print final election results
     os.system('cls' if os.name == 'nt' else 'clear')
-    print("="*95)
+    print("="*120)
     print("                           FINAL ELECTION RESULTS")
     print("                                ELECTION DAY")
-    print("="*95)
+    print("="*120)
     print()
     
     total_votes = sum([r[1] for r in results])
     
     for i, (candidate, votes) in enumerate(results):
         percentage = (votes / total_votes * 100) if total_votes > 0 else 0
+        
+        # Calculate campaign change from initial poll
+        if DEBUG:
+            print(initial_poll_results)
+        initial_percentage = initial_poll_results.get(candidate['party'], percentage)
+        campaign_change = percentage - initial_percentage
+        
+        # Format campaign change display
+        if campaign_change > 0:
+            campaign_change_str = f"+{campaign_change:4.1f}%"
+        elif campaign_change < 0:
+            campaign_change_str = f"{campaign_change:5.1f}%"
+        else:
+            campaign_change_str = "  0.0%"
+        
         player_indicator = " ◄ YOU" if candidate['is_player'] else ""
         winner_indicator = " ★ WINNER" if i == 0 else ""
-        print(f"{i+1:2}. {candidate['party']:<35} │ {percentage:5.1f}% ({format_votes(votes):>8}) │{player_indicator}{winner_indicator}")
+        print(f"{i+1:2}. {candidate['party']:<50} │ {percentage:5.1f}% {format_votes(votes):>12} │ {campaign_change_str:>8} │{player_indicator}{winner_indicator}")
     
     print()
     print(f"Final Turnout: {((total_votes + not_voted)/(VOTING_DEMOS[COUNTRY]['pop']))*100:.1f}%")
