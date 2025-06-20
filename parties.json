@@ -321,7 +321,7 @@
         {
             "id": 0,
             "name": "Mikhail Gorbachev",
-            "party": "Communist Party of the Soviet Union",
+            "party": "CPSU",
             "party_pop": 10,
             "prog_cons": -34,
             "nat_glob": 12,
@@ -1388,7 +1388,7 @@
         {
             "id": 1,
             "name": "Gennady Zyuganov",
-            "party": "Communist Party of the Russian Federation (KPRF)",
+            "party": "KPRF",
             "party_pop": 3,
             "prog_cons": 70,
             "nat_glob": -75,
