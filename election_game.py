@@ -452,82 +452,89 @@ def apply_event_effect(player_candidate, effect, boost):
                     print(f"DEBUG: {value_key}: voter={voter_position}, old={player_old_position}, new={player_new_position}")
                     print(f"DEBUG: distance_before={distance_before}, distance_after={distance_after}, alignment_change={alignment_change}")
                 
-                # Analyze voter preference trends for news - Very low threshold to catch all changes
-                if abs(change) >= 0.1:  # Very low threshold to catch almost all changes
+                print(abs(change)) # todo remove, print change
+                # Analyze voter preference trends for news - low threshold to catch almost all changes
+                if abs(change) >= 4: # war originally 0.1, which was a very low threshold to catch basically all changes
                     if DEBUG:
                         print(f"DEBUG: Change {change} meets threshold, alignment_change: {alignment_change}")
                     if alignment_change > 0:  # Moving closer to voter preference
+                        # Randomly choose between party name and leader name for headlines
+                        name_choice = random.choice([player_candidate['party'], player_candidate['name']])
+                        
                         if value_key == "soc_cap":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Voters favor more business-friendly economic policies")
+                                voter_preference_analysis.append(f"Voters favor more business-friendly economic policies following {name_choice}'s recent stance")
                             else:
-                                voter_preference_analysis.append("Public supports increased worker protections and social spending")
+                                voter_preference_analysis.append(f"Public supports increased worker protections and social spending after {name_choice}'s position")
                         elif value_key == "prog_cons":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Traditional values resonate strongly with the electorate")
+                                voter_preference_analysis.append(f"Traditional values resonate strongly with the electorate as {name_choice} connects with conservative voters")
                             else:
-                                voter_preference_analysis.append("Progressive social reforms gain popular support")
+                                voter_preference_analysis.append(f"Progressive social reforms gain popular support following {name_choice}'s advocacy")
                         elif value_key == "env_eco":
                             if voter_position < player_old_position:
-                                voter_preference_analysis.append("Environmental protection emerges as key voter priority")
+                                voter_preference_analysis.append(f"Environmental protection emerges as key voter priority after {name_choice}'s green stance")
                             else:
-                                voter_preference_analysis.append("Economic development concerns outweigh environmental issues")
+                                voter_preference_analysis.append(f"Economic development concerns outweigh environmental issues as voters support {name_choice}'s approach")
                         elif value_key == "nat_glob":
                             if voter_position < player_old_position:
-                                voter_preference_analysis.append("Nationalist sentiment grows stronger among voters")
+                                voter_preference_analysis.append(f"Nationalist sentiment grows stronger among voters responding to {name_choice}'s positions")
                             else:
-                                voter_preference_analysis.append("International cooperation finds favor with the public")
+                                voter_preference_analysis.append(f"International cooperation finds favor with the public as {name_choice} champions global engagement")
                         elif value_key == "auth_ana":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Voters prefer greater individual freedoms and limited government")
+                                voter_preference_analysis.append(f"Voters prefer greater individual freedoms and limited government, aligning with {name_choice}'s libertarian approach")
                             else:
-                                voter_preference_analysis.append("Public supports stronger government authority and order")
+                                voter_preference_analysis.append(f"Public supports stronger government authority and order following {name_choice}'s authoritarian stance")
                         elif value_key == "rel_sec":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Secular policies align with voter preferences")
+                                voter_preference_analysis.append(f"Secular policies align with voter preferences as {name_choice} advocates separation of church and state")
                             else:
-                                voter_preference_analysis.append("Religious values maintain strong public support")
+                                voter_preference_analysis.append(f"Religious values maintain strong public support following {name_choice}'s faith-based positions")
                         elif value_key == "est_pop":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Voters support stronger defense and security measures")
+                                voter_preference_analysis.append(f"Voters support stronger defense and security measures as {name_choice} takes hawkish stance")
                             else:
-                                voter_preference_analysis.append("Peace and diplomacy preferred over military solutions")
+                                voter_preference_analysis.append(f"Peace and diplomacy preferred over military solutions as public backs {name_choice}'s dovish approach")
                     else:  # Moving away from voter preference
+                        # Randomly choose between party name and leader name for headlines
+                        name_choice = random.choice([player_candidate['party'], player_candidate['name']])
+                        
                         if value_key == "soc_cap":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Socialist policies face public resistance")
+                                voter_preference_analysis.append(f"Socialist policies face public resistance as voters reject {name_choice}'s leftward shift")
                             else:
-                                voter_preference_analysis.append("Corporate-friendly positions meet voter skepticism")
+                                voter_preference_analysis.append(f"{name_choice}'s pro-business stance meets voter skepticism.")
                         elif value_key == "prog_cons":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Progressive agenda struggles to gain traction with voters")
+                                voter_preference_analysis.append(f"Progressive agenda struggles to gain traction with voters as {name_choice} faces conservative backlash")
                             else:
-                                voter_preference_analysis.append("Conservative positions face growing opposition")
+                                voter_preference_analysis.append(f"Conservative positions face growing opposition as {name_choice}'s recent policies alienate progressive voters")
                         elif value_key == "env_eco":
                             if voter_position < player_old_position:
-                                voter_preference_analysis.append("Anti-environmental stance criticized by concerned public")
+                                voter_preference_analysis.append(f"Anti-environmental stance criticized by concerned public as {name_choice} downplays climate action")
                             else:
-                                voter_preference_analysis.append("Green policies face economic skepticism from voters")
+                                voter_preference_analysis.append(f"Green policies face economic skepticism from voters questioning {name_choice}'s environmental priorities")
                         elif value_key == "nat_glob":
                             if voter_position < player_old_position:
-                                voter_preference_analysis.append("Globalist approach meets nationalist voter resistance")
+                                voter_preference_analysis.append(f"Globalist approach meets nationalist voter resistance as {name_choice}'s internationalism sparks backlash")
                             else:
-                                voter_preference_analysis.append("Isolationist policies worry internationally-minded voters")
+                                voter_preference_analysis.append(f"Isolationist policies worry internationally-minded voters concerned by {name_choice}'s inward turn")
                         elif value_key == "auth_ana":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Authoritarian tendencies alarm liberty-focused electorate")
+                                voter_preference_analysis.append(f"Authoritarian tendencies alarm liberty-focused electorate as {name_choice} advocates stronger state control")
                             else:
-                                voter_preference_analysis.append("Libertarian positions concern security-minded voters")
+                                voter_preference_analysis.append(f"Libertarian positions concern security-minded voters worried by {name_choice}'s soft stance")
                         elif value_key == "rel_sec":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Religious emphasis meets secular voter opposition")
+                                voter_preference_analysis.append(f"Religious emphasis meets secular voter opposition as {name_choice}'s faith-based agenda faces criticism")
                             else:
-                                voter_preference_analysis.append("Secular agenda faces resistance from religious voters")
+                                voter_preference_analysis.append(f"Secular agenda faces resistance from religious voters opposing {name_choice}'s anti-faith positions")
                         elif value_key == "est_pop":
                             if voter_position > player_old_position:
-                                voter_preference_analysis.append("Pacifist stance worries security-conscious public")
+                                voter_preference_analysis.append(f"Pacifist stance worries security-conscious public as {name_choice}'s dovish approach raises defense concerns")
                             else:
-                                voter_preference_analysis.append("Militaristic positions concern peace-minded voters")
+                                voter_preference_analysis.append(f"Militaristic positions concern peace-minded voters alarmed by {name_choice}'s aggressive foreign policy")
                 
                 if DEBUG:
                     print(f"DEBUG: {value_key}: voter={voter_position}, old={player_old_position}, new={player_new_position}")
