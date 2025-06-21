@@ -63,6 +63,8 @@ scale_fac = 1
 not_voted = 0
 previous_poll_results = {}  # Track previous poll percentages
 initial_poll_results = {}   # Track first poll percentages for campaign comparison
+political_news_events = []  # Track news events for display
+player_event_news = []  # Track player event news
 
 # ~~~~~ CORE FUNCTIONS ~~~~~
 
@@ -125,6 +127,8 @@ def vote_for_candidate(voter_vals, candidates):
 
 def apply_political_dynamics(candidates, poll_iteration):
     """Apply realistic political dynamics to party popularity"""
+    global political_news_events
+   
     if poll_iteration == 1:
         # First poll - minimal variation to establish baseline
         for candidate in candidates:
@@ -136,18 +140,24 @@ def apply_political_dynamics(candidates, poll_iteration):
                 candidate['momentum'] = 0.0
             if not hasattr(candidate, 'previous_popularity'):
                 candidate['previous_popularity'] = candidate['party_pop']
+        political_news_events.append("Campaign season officially begins as parties establish their platforms.")
         return
     
     # Calculate current standings for bandwagon effects
     current_standings = sorted(candidates, key=lambda x: x['party_pop'], reverse=True)
     leader = current_standings[0]
     
-    # Market volatility - occasional larger political shifts
+    # Market volatility - occasional larger political shifts (no generic news)
     market_volatility = 0.0
     if random.random() < 0.15:  # 15% chance of significant political event
         market_volatility = random.uniform(-1.5, 1.5)
+        # Remove generic volatility events - player event news will provide specific context
         if DEBUG:
             print(f"DEBUG: Market volatility event: {market_volatility:.2f}")
+    
+    # Track momentum and bandwagon effects for news
+    high_momentum_parties = []
+    declining_parties = []
     
     for i, candidate in enumerate(candidates):
         old_popularity = candidate['party_pop']
@@ -191,24 +201,63 @@ def apply_political_dynamics(candidates, poll_iteration):
         if candidate['party_pop'] < -50:
             candidate['party_pop'] = -50
         
+        # Track parties with significant momentum changes for news
+        if momentum_effect > 1.0:
+            high_momentum_parties.append(candidate['party'])
+        elif momentum_effect < -1.0:
+            declining_parties.append(candidate['party'])
+        
         if DEBUG and abs(total_change) > 0.5:
             print(f"DEBUG: {candidate['party']}: momentum={momentum_effect:.2f}, "
                   f"incumbency={incumbency_effect:.2f}, bandwagon={bandwagon_effect:.2f}, "
                   f"total_change={total_change:.2f}")
+    
+    # Generate momentum-based news events
+    if high_momentum_parties:
+        if len(high_momentum_parties) == 1:
+            political_news_events.append(f"{high_momentum_parties[0]} gains significant momentum in latest developments.")
+        else:
+            political_news_events.append(f"Multiple parties including {high_momentum_parties[0]} show strong upward trends.")
+    
+    if declining_parties:
+        if len(declining_parties) == 1:
+            political_news_events.append(f"{declining_parties[0]} faces challenges as support appears to waver.")
+        else:
+            political_news_events.append(f"Several parties experience declining support in recent developments.")
+    
+    # Bandwagon effect news
+    if leader['party_pop'] > 20:
+        political_news_events.append(f"{leader['party']} consolidates frontrunner status as voters rally behind clear leader.")
+    elif leader['party_pop'] < 5:
+        political_news_events.append("Close race continues with no clear frontrunner emerging.")
 
 def apply_voter_dynamics(data, poll_iteration):
     """Apply realistic voter opinion evolution"""
+    global political_news_events
+    
     if poll_iteration == 1:
         return  # No changes for baseline poll
     
     # Economic anxiety factor - affects economic issues more
     economic_anxiety = random.uniform(0.8, 1.2)
+    economic_crisis = False
     if random.random() < 0.1:  # 10% chance of significant economic uncertainty
         economic_anxiety = random.uniform(0.5, 1.8)
+        economic_crisis = True
+        if economic_anxiety > 1.4:
+            political_news_events.append("Economic uncertainty drives voter concerns about financial stability and jobs.")
+        elif economic_anxiety < 0.7:
+            political_news_events.append("Economic optimism grows as voters show increased confidence in financial outlook.")
     
     # Social polarization events
     polarization_event = random.random() < 0.08  # 8% chance
     polarization_strength = random.uniform(1.2, 2.0) if polarization_event else 1.0
+    
+    if polarization_event:
+        if polarization_strength > 1.5:
+            political_news_events.append("Social tensions rise as divisive issues dominate public discourse and voter attitudes harden.")
+        else:
+            political_news_events.append("Cultural debates intensify as voters become more entrenched in their social views.")
     
     for voter_index in range(len(data[0])):
         for i, value_key in enumerate(VALUES):
@@ -243,7 +292,7 @@ def apply_voter_dynamics(data, poll_iteration):
 
 def conduct_poll(data, candidates, poll_iteration=0):
     """Conduct a single poll of the entire electorate with realistic political dynamics"""
-    global not_voted
+    global not_voted, political_news_events, player_event_news
     
     # Reset results for this poll
     poll_results = [0] * len(candidates)
@@ -291,6 +340,7 @@ def format_votes(votes):
 def print_poll_results(RESULTS, poll_num, total_polls):
     """Print current polling results in terminal"""
     global previous_poll_results, initial_poll_results
+    global political_news_events
     
     os.system('cls' if os.name == 'nt' else 'clear')
     
@@ -343,16 +393,32 @@ def print_poll_results(RESULTS, poll_num, total_polls):
     print()
     print(f"Estimated turnout: {((total_support)/(VOTING_DEMOS[COUNTRY]['pop']))*100:.1f}%")
     print("-"*120)
+    
+    # Display political news if available
+    if 'political_news_events' in globals() and political_news_events:
+        print("\n📰 POLITICAL NEWS:")
+        for event in political_news_events[:3]:  # Show up to 3 news items
+            print(f"   • {event}")
+        print("-"*120)
+        
+    political_news_events = []  # Reset news events for this poll
+    
+        
+   
 
 
 def apply_event_effect(player_candidate, effect, boost):
     """Apply the effect of a player's choice to their candidate with larger impacts"""
+    global political_news_events, player_event_news
     
     # Calculate polling impact BEFORE applying the changes to avoid inversion
     voter_alignment = 0
     
     if DEBUG:
         print(f"DEBUG: Calculating voter alignment for effects: {effect}")
+    
+    # Store voter preferences analysis for news generation
+    voter_preference_analysis = []
     
     for value_key, change in effect.items():
         if value_key in VOTING_DEMOS[COUNTRY]["vals"]:
@@ -365,6 +431,8 @@ def apply_event_effect(player_candidate, effect, boost):
                     player_old_position = player_candidate['vals'][i]
                     break
             
+            if DEBUG:
+                print(f"DEBUG: The player_old_position is: {player_old_position}")
             if player_old_position is not None:
                 # Calculate NEW position after the change
                 player_new_position = player_old_position + change
@@ -378,13 +446,100 @@ def apply_event_effect(player_candidate, effect, boost):
                 voter_alignment += alignment_change
                 
                 if DEBUG:
+                    print(f"DEBUG: The change is: {abs(change)}")
+                if DEBUG:
+                    print(f"DEBUG: Change value: {change}, abs(change): {abs(change)}")
+                    print(f"DEBUG: {value_key}: voter={voter_position}, old={player_old_position}, new={player_new_position}")
+                    print(f"DEBUG: distance_before={distance_before}, distance_after={distance_after}, alignment_change={alignment_change}")
+                
+                # Analyze voter preference trends for news - Very low threshold to catch all changes
+                if abs(change) >= 0.1:  # Very low threshold to catch almost all changes
+                    if DEBUG:
+                        print(f"DEBUG: Change {change} meets threshold, alignment_change: {alignment_change}")
+                    if alignment_change > 0:  # Moving closer to voter preference
+                        if value_key == "soc_cap":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Voters favor more business-friendly economic policies")
+                            else:
+                                voter_preference_analysis.append("Public supports increased worker protections and social spending")
+                        elif value_key == "prog_cons":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Traditional values resonate strongly with the electorate")
+                            else:
+                                voter_preference_analysis.append("Progressive social reforms gain popular support")
+                        elif value_key == "env_eco":
+                            if voter_position < player_old_position:
+                                voter_preference_analysis.append("Environmental protection emerges as key voter priority")
+                            else:
+                                voter_preference_analysis.append("Economic development concerns outweigh environmental issues")
+                        elif value_key == "nat_glob":
+                            if voter_position < player_old_position:
+                                voter_preference_analysis.append("Nationalist sentiment grows stronger among voters")
+                            else:
+                                voter_preference_analysis.append("International cooperation finds favor with the public")
+                        elif value_key == "auth_ana":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Voters prefer greater individual freedoms and limited government")
+                            else:
+                                voter_preference_analysis.append("Public supports stronger government authority and order")
+                        elif value_key == "rel_sec":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Secular policies align with voter preferences")
+                            else:
+                                voter_preference_analysis.append("Religious values maintain strong public support")
+                        elif value_key == "est_pop":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Voters support stronger defense and security measures")
+                            else:
+                                voter_preference_analysis.append("Peace and diplomacy preferred over military solutions")
+                    else:  # Moving away from voter preference
+                        if value_key == "soc_cap":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Socialist policies face public resistance")
+                            else:
+                                voter_preference_analysis.append("Corporate-friendly positions meet voter skepticism")
+                        elif value_key == "prog_cons":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Progressive agenda struggles to gain traction with voters")
+                            else:
+                                voter_preference_analysis.append("Conservative positions face growing opposition")
+                        elif value_key == "env_eco":
+                            if voter_position < player_old_position:
+                                voter_preference_analysis.append("Anti-environmental stance criticized by concerned public")
+                            else:
+                                voter_preference_analysis.append("Green policies face economic skepticism from voters")
+                        elif value_key == "nat_glob":
+                            if voter_position < player_old_position:
+                                voter_preference_analysis.append("Globalist approach meets nationalist voter resistance")
+                            else:
+                                voter_preference_analysis.append("Isolationist policies worry internationally-minded voters")
+                        elif value_key == "auth_ana":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Authoritarian tendencies alarm liberty-focused electorate")
+                            else:
+                                voter_preference_analysis.append("Libertarian positions concern security-minded voters")
+                        elif value_key == "rel_sec":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Religious emphasis meets secular voter opposition")
+                            else:
+                                voter_preference_analysis.append("Secular agenda faces resistance from religious voters")
+                        elif value_key == "est_pop":
+                            if voter_position > player_old_position:
+                                voter_preference_analysis.append("Pacifist stance worries security-conscious public")
+                            else:
+                                voter_preference_analysis.append("Militaristic positions concern peace-minded voters")
+                
+                if DEBUG:
                     print(f"DEBUG: {value_key}: voter={voter_position}, old={player_old_position}, new={player_new_position}")
                     print(f"DEBUG: distance_before={distance_before}, distance_after={distance_after}, alignment_change={alignment_change}")
     
     if DEBUG:
         print(f"DEBUG: Total voter alignment: {voter_alignment}")
+        print(f"DEBUG: Generated voter preference analysis: {voter_preference_analysis}")
+        print(f"DEBUG: Number of preference analysis items: {len(voter_preference_analysis)}")
     
     # NOW apply the changes to the candidate
+    policy_shifts = []
     for i, value_key in enumerate(VALUES):
         if value_key in effect:
             old_val = player_candidate['vals'][i]
@@ -395,11 +550,28 @@ def apply_event_effect(player_candidate, effect, boost):
             if player_candidate['vals'][i] < -100:
                 player_candidate['vals'][i] = -100
             
+            # Track significant policy shifts for news
+            change_magnitude = abs(effect[value_key])
+            if change_magnitude >= 10:
+                direction = "more conservative" if effect[value_key] > 0 and value_key == "prog_cons" else \
+                           "more progressive" if effect[value_key] < 0 and value_key == "prog_cons" else \
+                           "pro-business" if effect[value_key] > 0 and value_key == "soc_cap" else \
+                           "pro-worker" if effect[value_key] < 0 and value_key == "soc_cap" else \
+                           "environmentalist" if effect[value_key] < 0 and value_key == "env_eco" else \
+                           "development-focused" if effect[value_key] > 0 and value_key == "env_eco" else \
+                           "nationalist" if effect[value_key] < 0 and value_key == "nat_glob" else \
+                           "internationalist" if effect[value_key] > 0 and value_key == "nat_glob" else \
+                           "authoritarian" if effect[value_key] < 0 and value_key == "auth_ana" else \
+                           "libertarian" if effect[value_key] > 0 and value_key == "auth_ana" else \
+                           "religious" if effect[value_key] < 0 and value_key == "rel_sec" else \
+                           "secular" if effect[value_key] > 0 and value_key == "rel_sec" else \
+                           "militaristic" if effect[value_key] > 0 and value_key == "est_pop" else \
+                           "pacifist" if effect[value_key] < 0 and value_key == "est_pop" else "centrist"
+                policy_shifts.append(direction)
+            
             if DEBUG:
                 print(f"DEBUG: Changed {value_key} from {old_val} to {player_candidate['vals'][i]}")
     
-    # TODO increase numbers to make events less significant
-    # decrease numbers to make events more significant
     # Convert voter alignment to polling change with larger effects for events
     base_change = voter_alignment / 30.0 # 15
     polling_change = base_change * (boost / 12.0) # 8
@@ -426,12 +598,48 @@ def apply_event_effect(player_candidate, effect, boost):
     if player_candidate['party_pop'] < -50:
         player_candidate['party_pop'] = -50
     
+    # Clear old player event news and generate new ones
+    player_event_news = []
+
+    # Generate news based on voter preference analysis (most important)
+    if voter_preference_analysis:
+        player_event_news.extend(voter_preference_analysis[:2])  # Max 2 voter preference items
+        if DEBUG:
+            print(f"DEBUG: Added voter preference news to player_event_news: {voter_preference_analysis[:2]}")
+    
+    # Generate news based on polling impact and policy shifts
+    if abs(polling_change) > 2:
+        if polling_change > 0:
+            player_event_news.append(f"{player_candidate['party']} surges as their stance connects with key voter concerns.")
+        else:
+            player_event_news.append(f"{player_candidate['party']} loses ground following controversial policy position.")
+    elif abs(polling_change) > 0.5:
+        if voter_alignment > 0:
+            player_event_news.append(f"{player_candidate['party']} adjusts strategy to better align with public opinion.")
+        else:
+            player_event_news.append(f"Mixed voter reaction to {player_candidate['party']}'s latest policy stance.")
+    
+    # Add policy shift news if significant
+    if policy_shifts and len(voter_preference_analysis) == 0:  # Only if no voter preference news
+        if len(policy_shifts) == 1:
+            player_event_news.append(f"Political observers note {player_candidate['party']}'s shift toward {policy_shifts[0]} positions.")
+        else:
+            player_event_news.append(f"{player_candidate['party']} repositions across multiple policy areas in strategic pivot.")
+    
+    # Add player event news to political news for next poll display
+    political_news_events.extend(player_event_news)
+    
+    if DEBUG:
+        print(f"DEBUG: Final player_event_news: {player_event_news}")
+        print(f"DEBUG: political_news_events now contains: {political_news_events}")
+    
     # Debug output to verify changes are being applied
     if DEBUG:
         print(f"DEBUG: Voter alignment: {voter_alignment:.2f}, Boost: {boost}")
         print(f"DEBUG: Base change: {base_change:.2f}, Random factor: {random_factor:.2f}")
         print(f"DEBUG: Final polling change: {polling_change:.2f}")
         print(f"DEBUG: Party popularity changed from {old_popularity:.2f} to {player_candidate['party_pop']:.2f}")
+        print(f"DEBUG: Generated voter preference news: {voter_preference_analysis}")
     
     return polling_change
 
