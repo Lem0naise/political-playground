@@ -36,7 +36,7 @@ VALUES = [
     "nat_glob", 
     "env_eco",
     "soc_cap",
-    "est_pop",
+    "pac_mil",
     "auth_ana",
     "rel_sec"
 ]
@@ -47,7 +47,7 @@ DESCRIPTORS = {
     "nat_glob": {-100: "ultranationalist", -30: "nationalist", 0: None, 30: "globalist", 100: "internationalist"},
     "env_eco": {-100: "environmentalist", 0: None, 50: None, 100: "anti-environmentalist"},
     "soc_cap": {-80: "far-left", -40: "left-wing", -20: "centre-left", 0: "centrist", 20: "centre-right", 100: "corporatist"},
-    "est_pop": {-100: "pacifist", 20: None, 60: "militarist", 100: "ultramilitaristic"},
+    "pac_mil": {-100: "pacifist", 20: None, 60: "militarist", 100: "ultramilitaristic"},
     "auth_ana": {-100: "dictatorial", -60: "authoritarian", -10: None, 60: "liberal", 100: "anarchist"},
     "rel_sec": {-100: "theocratic", -30: "religious", 0: None, 70: "secular"},
 }
@@ -68,14 +68,14 @@ player_event_news = []  # Track player event news
 
 # ~~~~~ CORE FUNCTIONS ~~~~~
 
-def create_candidate(id, name, party, party_pop, prog_cons, nat_glob, env_eco, soc_cap, est_pop, auth_ana, rel_sec, colour=None, swing=None):
+def create_candidate(id, name, party, party_pop, prog_cons, nat_glob, env_eco, soc_cap, pac_mil, auth_ana, rel_sec, colour=None, swing=None):
     """Create a candidate dictionary"""
     return {
         'id': id,
         'name': name,
         'party': party,
         'party_pop': party_pop,
-        'vals': [prog_cons, nat_glob, env_eco, soc_cap, est_pop, auth_ana, rel_sec],
+        'vals': [prog_cons, nat_glob, env_eco, soc_cap, pac_mil, auth_ana, rel_sec],
         'colour': colour,
         'swing': swing,
         'is_player': False
@@ -381,10 +381,10 @@ def print_poll_results(RESULTS, poll_num, total_polls):
     
  
     # Store initial results for final comparison
-    if poll_num == 1:
+    if poll_num == 2:
         initial_poll_results = current_percentages.copy()
         if DEBUG:
-            print("DEBUG: The poll number is currently 1. It is storing the initial numbers")
+            print("DEBUG: The poll number is currently 2. It is storing the initial numbers")
             print(initial_poll_results)
             input()
     # Update previous poll results for next time
@@ -452,7 +452,6 @@ def apply_event_effect(player_candidate, effect, boost):
                     print(f"DEBUG: {value_key}: voter={voter_position}, old={player_old_position}, new={player_new_position}")
                     print(f"DEBUG: distance_before={distance_before}, distance_after={distance_after}, alignment_change={alignment_change}")
                 
-                print(abs(change)) # todo remove, print change
                 # Analyze voter preference trends for news - low threshold to catch almost all changes
                 if abs(change) >= 4: # war originally 0.1, which was a very low threshold to catch basically all changes
                     if DEBUG:
@@ -485,13 +484,13 @@ def apply_event_effect(player_candidate, effect, boost):
                             if voter_position > player_old_position:
                                 voter_preference_analysis.append(f"Voters prefer greater individual freedoms and limited government, aligning with {name_choice}'s libertarian approach")
                             else:
-                                voter_preference_analysis.append(f"Public supports stronger government authority and order following {name_choice}'s authoritarian stance")
+                                voter_preference_analysis.append(f"Public supports stronger government authority and order following {name_choice}'s stance")
                         elif value_key == "rel_sec":
                             if voter_position > player_old_position:
                                 voter_preference_analysis.append(f"Secular policies align with voter preferences as {name_choice} advocates separation of church and state")
                             else:
                                 voter_preference_analysis.append(f"Religious values maintain strong public support following {name_choice}'s faith-based positions")
-                        elif value_key == "est_pop":
+                        elif value_key == "pac_mil":
                             if voter_position > player_old_position:
                                 voter_preference_analysis.append(f"Voters support stronger defense and security measures as {name_choice} takes hawkish stance")
                             else:
@@ -529,8 +528,8 @@ def apply_event_effect(player_candidate, effect, boost):
                             if voter_position > player_old_position:
                                 voter_preference_analysis.append(f"Religious emphasis meets secular voter opposition as {name_choice}'s faith-based agenda faces criticism")
                             else:
-                                voter_preference_analysis.append(f"Secular agenda faces resistance from religious voters opposing {name_choice}'s anti-faith positions")
-                        elif value_key == "est_pop":
+                                voter_preference_analysis.append(f"Secular agenda faces resistance from religious voters opposing {name_choice}'s recent anti-faith positions")
+                        elif value_key == "pac_mil":
                             if voter_position > player_old_position:
                                 voter_preference_analysis.append(f"Pacifist stance worries security-conscious public as {name_choice}'s dovish approach raises defense concerns")
                             else:
@@ -572,8 +571,8 @@ def apply_event_effect(player_candidate, effect, boost):
                            "libertarian" if effect[value_key] > 0 and value_key == "auth_ana" else \
                            "religious" if effect[value_key] < 0 and value_key == "rel_sec" else \
                            "secular" if effect[value_key] > 0 and value_key == "rel_sec" else \
-                           "militaristic" if effect[value_key] > 0 and value_key == "est_pop" else \
-                           "pacifist" if effect[value_key] < 0 and value_key == "est_pop" else "centrist"
+                           "militaristic" if effect[value_key] > 0 and value_key == "pac_mil" else \
+                           "pacifist" if effect[value_key] < 0 and value_key == "pac_mil" else "centrist"
                 policy_shifts.append(direction)
             
             if DEBUG:
@@ -904,8 +903,8 @@ def run_interactive_election(data, candidates, pop):
             
             # Present event every 2-3 polls more frequently
             if polls_since_event >= 2:
-                # Higher chance of event when eligible (60% instead of 30%)
-                if random.random() < 0.6:
+                # Higher chance of event when eligible (70% instead of 30%)
+                if random.random() < 0.7:
                     event_counter += 1
                     if event_counter <= len(EVENTS_DATA):
                         event = random.choice(EVENTS_DATA)
@@ -1053,12 +1052,13 @@ def calculate_party_compatibility(player_candidate, potential_partner):
         distance = abs(player_val - partner_val)
 
         if (player_val > 0 and partner_val <0) or (player_val <0 and partner_val>0):
-            distance += 10 # add additional penalty if opposing views
+            distance += 30 # add additional penalty if opposing views
 
         total_distance += distance
     
     # Convert to compatibility score (higher = more compatible)
-    max_possible_distance = len(VALUES) * 150  # Max distance if parties are at opposite extremes
+    # Increase the multiplier to make coalitioning easier, was 150
+    max_possible_distance = len(VALUES) * 100  # Max distance if parties are at opposite extremes
     compatibility = 100 - (total_distance / max_possible_distance * 100)
     return max(0, min(100, compatibility))
 
@@ -1595,7 +1595,7 @@ def main():
                     new_cand = create_candidate(
                         len(CANDIDATES), cand_data['name'], cand_data['party'], cand_data['party_pop'],
                         cand_data['prog_cons'], cand_data['nat_glob'], cand_data['env_eco'], 
-                        cand_data['soc_cap'], cand_data['est_pop'], cand_data['auth_ana'], 
+                        cand_data['soc_cap'], cand_data['pac_mil'], cand_data['auth_ana'], 
                         cand_data['rel_sec'], colour=cand_data.get('colour'), swing=cand_data.get('swing')
                     )
                     CANDIDATES.append(new_cand)
@@ -1605,7 +1605,7 @@ def main():
                 new_cand = create_candidate(
                     i, cand_data['name'], cand_data['party'], cand_data['party_pop'],
                     cand_data['prog_cons'], cand_data['nat_glob'], cand_data['env_eco'], 
-                    cand_data['soc_cap'], cand_data['est_pop'], cand_data['auth_ana'], 
+                    cand_data['soc_cap'], cand_data['pac_mil'], cand_data['auth_ana'], 
                     cand_data['rel_sec'], colour=cand_data.get('colour'), swing=cand_data.get('swing')
                 )
                 CANDIDATES.append(new_cand)
@@ -1616,7 +1616,7 @@ def main():
             new_cand = create_candidate(
                 i, cand_data['name'], cand_data['party'], cand_data['party_pop'],
                 cand_data['prog_cons'], cand_data['nat_glob'], cand_data['env_eco'], 
-                cand_data['soc_cap'], cand_data['est_pop'], cand_data['auth_ana'], 
+                cand_data['soc_cap'], cand_data['pac_mil'], cand_data['auth_ana'], 
                 cand_data['rel_sec'], colour=cand_data.get('colour'), swing=cand_data.get('swing')
             )
             CANDIDATES.append(new_cand)

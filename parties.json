@@ -9,7 +9,7 @@
             "nat_glob": -34,
             "env_eco": 66,
             "soc_cap": 61,
-            "est_pop": -20,
+            "pac_mil": -20,
             "auth_ana": -21,
             "rel_sec": 1,
             "colour": "blue"
@@ -23,7 +23,7 @@
             "nat_glob": 31,
             "env_eco": 12,
             "soc_cap": 45,
-            "est_pop": 0,
+            "pac_mil": 0,
             "auth_ana": 33,
             "rel_sec": 32,
             "colour": "gold"
@@ -37,7 +37,7 @@
             "nat_glob": 41,
             "env_eco": -11,
             "soc_cap": 14,
-            "est_pop": 4,
+            "pac_mil": 4,
             "auth_ana": -1,
             "rel_sec": 74,
             "colour": "red"
@@ -51,7 +51,7 @@
             "nat_glob": 31,
             "env_eco": -64,
             "soc_cap": -31,
-            "est_pop": -10,
+            "pac_mil": -10,
             "auth_ana": 31,
             "rel_sec": 13,
             "colour": "green"
@@ -65,7 +65,7 @@
             "nat_glob": -90,
             "env_eco": 65,
             "soc_cap": 80,
-            "est_pop": 90,
+            "pac_mil": 90,
             "auth_ana": -42,
             "rel_sec": -3,
             "colour": "black"
@@ -81,7 +81,7 @@
             "nat_glob": -40,
             "env_eco": 40,
             "soc_cap": 95,
-            "est_pop": 40,
+            "pac_mil": 40,
             "auth_ana": -63,
             "rel_sec": -12,
             "colour": "red"
@@ -95,7 +95,7 @@
             "nat_glob": -50,
             "env_eco": 50,
             "soc_cap": 95,
-            "est_pop": 60,
+            "pac_mil": 60,
             "auth_ana": -73,
             "rel_sec": -52,
             "colour": "blue"
@@ -109,7 +109,7 @@
             "nat_glob": -30,
             "env_eco": 40,
             "soc_cap": 95,
-            "est_pop": 30,
+            "pac_mil": 30,
             "auth_ana": -53,
             "rel_sec": -2,
             "colour": "yellow"
@@ -123,7 +123,7 @@
             "nat_glob": -30,
             "env_eco": 50,
             "soc_cap": 75,
-            "est_pop": 30,
+            "pac_mil": 30,
             "auth_ana": -33,
             "rel_sec": -62,
             "colour": "green"
@@ -139,7 +139,7 @@
             "nat_glob": -40,
             "env_eco": 40,
             "soc_cap": 95,
-            "est_pop": 40,
+            "pac_mil": 40,
             "auth_ana": -63,
             "rel_sec": -12,
             "colour": "red"
@@ -153,7 +153,7 @@
             "nat_glob": 42,
             "env_eco": 20,
             "soc_cap": 48,
-            "est_pop": 10,
+            "pac_mil": 10,
             "auth_ana": -2,
             "rel_sec": 3,
             "colour": "blue"
@@ -167,7 +167,7 @@
             "nat_glob": -71,
             "env_eco": 90,
             "soc_cap": 90,
-            "est_pop": 10,
+            "pac_mil": 10,
             "auth_ana": 72,
             "rel_sec": 4,
             "colour": "orange"
@@ -181,7 +181,7 @@
             "nat_glob": -40,
             "env_eco": -10,
             "soc_cap": -90,
-            "est_pop": 40,
+            "pac_mil": 40,
             "auth_ana": -72,
             "rel_sec": 76,
             "colour": "red"
@@ -195,7 +195,7 @@
             "nat_glob": 35,
             "env_eco": -85,
             "soc_cap": -10,
-            "est_pop": -50,
+            "pac_mil": -50,
             "auth_ana": -21,
             "rel_sec": 65,
             "colour": "green"
@@ -211,7 +211,7 @@
             "nat_glob": 42,
             "env_eco": 15,
             "soc_cap": 22,
-            "est_pop": 25,
+            "pac_mil": 25,
             "auth_ana": -31,
             "rel_sec": 21,
             "colour": "green"
@@ -225,7 +225,7 @@
             "nat_glob": 41,
             "env_eco": 31,
             "soc_cap": 41,
-            "est_pop": 11,
+            "pac_mil": 11,
             "auth_ana": 12,
             "rel_sec": 21,
             "colour": "yellow"
@@ -239,7 +239,7 @@
             "nat_glob": -31,
             "env_eco": 31,
             "soc_cap": 1,
-            "est_pop": 41,
+            "pac_mil": 41,
             "auth_ana": -42,
             "rel_sec": -31,
             "colour": "black"
@@ -255,7 +255,7 @@
             "nat_glob": 35,
             "env_eco": 22,
             "soc_cap": 40,
-            "est_pop": 35,
+            "pac_mil": 35,
             "auth_ana": 5,
             "rel_sec": 0,
             "colour": "springgreen"
@@ -269,7 +269,7 @@
             "nat_glob": 32,
             "env_eco": 43,
             "soc_cap": 45,
-            "est_pop": 15,
+            "pac_mil": 15,
             "auth_ana": 4,
             "rel_sec": -8,
             "colour": "yellow"
@@ -283,7 +283,7 @@
             "nat_glob": -52,
             "env_eco": 25,
             "soc_cap": 2,
-            "est_pop": 15,
+            "pac_mil": 15,
             "auth_ana": -31,
             "rel_sec": -1,
             "colour": "red"
@@ -297,7 +297,7 @@
             "nat_glob": -1,
             "env_eco": 3,
             "soc_cap": -23,
-            "est_pop": -4,
+            "pac_mil": -4,
             "auth_ana": 22,
             "rel_sec": 21,
             "colour": "purple"
@@ -311,7 +311,7 @@
             "nat_glob": 61,
             "env_eco": 59,
             "soc_cap": 41,
-            "est_pop": -24,
+            "pac_mil": -24,
             "auth_ana": -49,
             "rel_sec": -21,
             "colour": "red"
@@ -327,7 +327,7 @@
             "nat_glob": 12,
             "env_eco": 0,
             "soc_cap": -85,
-            "est_pop": 45,
+            "pac_mil": 45,
             "auth_ana": -84,
             "rel_sec": 87,
             "colour": "red"
@@ -341,7 +341,7 @@
             "nat_glob": -12,
             "env_eco": 0,
             "soc_cap": -12,
-            "est_pop": 35,
+            "pac_mil": 35,
             "auth_ana": -14,
             "rel_sec": 37
         },
@@ -354,7 +354,7 @@
             "nat_glob": -12,
             "env_eco": 0,
             "soc_cap": -62,
-            "est_pop": 45,
+            "pac_mil": 45,
             "auth_ana": -74,
             "rel_sec": -82
         }
@@ -369,7 +369,7 @@
             "nat_glob": 22,
             "env_eco": 31,
             "soc_cap": 35,
-            "est_pop": -25,
+            "pac_mil": -25,
             "auth_ana": -34,
             "rel_sec": -37,
             "colour": "blue"
@@ -383,7 +383,7 @@
             "nat_glob": -12,
             "env_eco": 31,
             "soc_cap": -32,
-            "est_pop": 15,
+            "pac_mil": 15,
             "auth_ana": 4,
             "rel_sec": 37,
             "colour": "pink"
@@ -397,7 +397,7 @@
             "nat_glob": 32,
             "env_eco": 2,
             "soc_cap": 2,
-            "est_pop": -5,
+            "pac_mil": -5,
             "auth_ana": 4,
             "rel_sec": 0,
             "colour": "pink"
@@ -411,7 +411,7 @@
             "nat_glob": -12,
             "env_eco": 0,
             "soc_cap": -72,
-            "est_pop": 15,
+            "pac_mil": 15,
             "auth_ana": -4,
             "rel_sec": 32,
             "colour": "red"
@@ -425,7 +425,7 @@
             "nat_glob": -62,
             "env_eco": 0,
             "soc_cap": -12,
-            "est_pop": 45,
+            "pac_mil": 45,
             "auth_ana": -74,
             "rel_sec": -2,
             "colour": "lightblue"
@@ -441,7 +441,7 @@
             "nat_glob": -60,
             "env_eco": 0,
             "soc_cap": -100,
-            "est_pop": 35,
+            "pac_mil": 35,
             "auth_ana": -85,
             "rel_sec": 95,
             "colour": "red"
@@ -455,7 +455,7 @@
             "nat_glob": -90,
             "env_eco": 73,
             "soc_cap": 41,
-            "est_pop": 82,
+            "pac_mil": 82,
             "auth_ana": -40,
             "rel_sec": 100
         },
@@ -468,7 +468,7 @@
             "nat_glob": -75,
             "env_eco": 65,
             "soc_cap": 81,
-            "est_pop": 72,
+            "pac_mil": 72,
             "auth_ana": -63,
             "rel_sec": -62
         },
@@ -481,7 +481,7 @@
             "nat_glob": 39,
             "env_eco": -1,
             "soc_cap": -2,
-            "est_pop": -5,
+            "pac_mil": -5,
             "auth_ana": 14,
             "rel_sec": 12,
             "colour": "skyblue"
@@ -495,7 +495,7 @@
             "nat_glob": -15,
             "env_eco": 40,
             "soc_cap": 61,
-            "est_pop": 12,
+            "pac_mil": 12,
             "auth_ana": -51,
             "rel_sec": 0,
             "colour": "purple"
@@ -509,7 +509,7 @@
             "nat_glob": 100,
             "env_eco": 100,
             "soc_cap": 100,
-            "est_pop": 0,
+            "pac_mil": 0,
             "auth_ana": 90,
             "rel_sec": 0
         }
@@ -524,7 +524,7 @@
             "nat_glob": 30,
             "env_eco": -20,
             "soc_cap": 25,
-            "est_pop": -50,
+            "pac_mil": -50,
             "auth_ana": 0,
             "rel_sec": 50,
             "colour": "purple"
@@ -538,7 +538,7 @@
             "nat_glob": 39,
             "env_eco": -1,
             "soc_cap": -2,
-            "est_pop": -5,
+            "pac_mil": -5,
             "auth_ana": 14,
             "rel_sec": 12,
             "colour": "skyblue"
@@ -552,7 +552,7 @@
             "nat_glob": -90,
             "env_eco": -10,
             "soc_cap": 100,
-            "est_pop": 0,
+            "pac_mil": 0,
             "auth_ana": -100,
             "rel_sec": 12,
             "colour": "red"
@@ -568,7 +568,7 @@
             "nat_glob": 100,
             "env_eco": -100,
             "soc_cap": -100,
-            "est_pop": -100,
+            "pac_mil": -100,
             "auth_ana": 100,
             "rel_sec": 100
         },
@@ -581,7 +581,7 @@
             "nat_glob": 0,
             "env_eco": 0,
             "soc_cap": 0,
-            "est_pop": 0,
+            "pac_mil": 0,
             "auth_ana": 0,
             "rel_sec": 0
         },
@@ -594,7 +594,7 @@
             "nat_glob": -100,
             "env_eco": 100,
             "soc_cap": 100,
-            "est_pop": 100,
+            "pac_mil": 100,
             "auth_ana": -100,
             "rel_sec": -100
         }
@@ -609,7 +609,7 @@
             "nat_glob": 14,
             "env_eco": -10,
             "soc_cap": -15,
-            "est_pop": 11,
+            "pac_mil": 11,
             "auth_ana": -3,
             "rel_sec": 4
         },
@@ -622,7 +622,7 @@
             "nat_glob": -24,
             "env_eco": 50,
             "soc_cap": 52,
-            "est_pop": -61,
+            "pac_mil": -61,
             "auth_ana": -63,
             "rel_sec": -58
         },
@@ -635,7 +635,7 @@
             "nat_glob": -64,
             "env_eco": 20,
             "soc_cap": -2,
-            "est_pop": 21,
+            "pac_mil": 21,
             "auth_ana": -73,
             "rel_sec": -18
         }
@@ -650,7 +650,7 @@
             "nat_glob": 42,
             "env_eco": -11,
             "soc_cap": -3,
-            "est_pop": -5,
+            "pac_mil": -5,
             "auth_ana": -13,
             "rel_sec": 18
         },
@@ -663,7 +663,7 @@
             "nat_glob": -158,
             "env_eco": 12,
             "soc_cap": -34,
-            "est_pop": 87,
+            "pac_mil": 87,
             "auth_ana": 45,
             "rel_sec": -67
         },
@@ -676,7 +676,7 @@
             "nat_glob": 15,
             "env_eco": 12,
             "soc_cap": 42,
-            "est_pop": -11,
+            "pac_mil": -11,
             "auth_ana": -5,
             "rel_sec": 17
         },
@@ -689,7 +689,7 @@
             "nat_glob": -35,
             "env_eco": 23,
             "soc_cap": -15,
-            "est_pop": -30,
+            "pac_mil": -30,
             "auth_ana": -50,
             "rel_sec": -26
         },
@@ -702,7 +702,7 @@
             "nat_glob": -15,
             "env_eco": 44,
             "soc_cap": 21,
-            "est_pop": -10,
+            "pac_mil": -10,
             "auth_ana": 10,
             "rel_sec": -56
         },
@@ -715,7 +715,7 @@
             "nat_glob": 2,
             "env_eco": -51,
             "soc_cap": -45,
-            "est_pop": 31,
+            "pac_mil": 31,
             "auth_ana": 12,
             "rel_sec": 36
         },
@@ -728,7 +728,7 @@
             "nat_glob": -53,
             "env_eco": 24,
             "soc_cap": -45,
-            "est_pop": 61,
+            "pac_mil": 61,
             "auth_ana": -62,
             "rel_sec": -56
         },
@@ -741,12 +741,12 @@
             "nat_glob": -83,
             "env_eco": 2,
             "soc_cap": -15,
-            "est_pop": 81,
+            "pac_mil": 81,
             "auth_ana": -72,
             "rel_sec": -96
         }
     ],
-    "SORLAND": [
+    "SORDLAND": [
         {
             "id": 0,
             "name": "Tarquin Soll",
@@ -756,7 +756,7 @@
             "nat_glob": -30,
             "env_eco": -11,
             "soc_cap": -51,
-            "est_pop": 12,
+            "pac_mil": 12,
             "auth_ana": -61,
             "rel_sec": 24
         },
@@ -769,7 +769,7 @@
             "nat_glob": 15,
             "env_eco": 20,
             "soc_cap": 22,
-            "est_pop": 4,
+            "pac_mil": 4,
             "auth_ana": 2,
             "rel_sec": 1
         },
@@ -782,7 +782,7 @@
             "nat_glob": -95,
             "env_eco": 35,
             "soc_cap": 12,
-            "est_pop": 61,
+            "pac_mil": 61,
             "auth_ana": -75,
             "rel_sec": -67
         },
@@ -795,7 +795,7 @@
             "nat_glob": -45,
             "env_eco": -42,
             "soc_cap": -98,
-            "est_pop": 12,
+            "pac_mil": 12,
             "auth_ana": -20,
             "rel_sec": 86
         }
@@ -810,7 +810,7 @@
             "nat_glob": -44,
             "env_eco": 4,
             "soc_cap": -61,
-            "est_pop": 19,
+            "pac_mil": 19,
             "auth_ana": -41,
             "rel_sec": 2
         },
@@ -823,7 +823,7 @@
             "nat_glob": 31,
             "env_eco": 23,
             "soc_cap": 41,
-            "est_pop": 12,
+            "pac_mil": 12,
             "auth_ana": 21,
             "rel_sec": -4
         },
@@ -836,7 +836,7 @@
             "nat_glob": 41,
             "env_eco": 43,
             "soc_cap": 71,
-            "est_pop": 22,
+            "pac_mil": 22,
             "auth_ana": -1,
             "rel_sec": 11
         }
@@ -851,7 +851,7 @@
             "nat_glob": -50,
             "env_eco": 41,
             "soc_cap": -30,
-            "est_pop": 39,
+            "pac_mil": 39,
             "auth_ana": 40,
             "rel_sec": 0
         },
@@ -864,7 +864,7 @@
             "nat_glob": 20,
             "env_eco": 12,
             "soc_cap": 10,
-            "est_pop": 30,
+            "pac_mil": 30,
             "auth_ana": -10,
             "rel_sec": 40
         },
@@ -877,7 +877,7 @@
             "nat_glob": -50,
             "env_eco": 41,
             "soc_cap": -20,
-            "est_pop": 40,
+            "pac_mil": 40,
             "auth_ana": -30,
             "rel_sec": -50
         }
@@ -892,7 +892,7 @@
             "nat_glob": 23,
             "env_eco": 31,
             "soc_cap": -22,
-            "est_pop": 31,
+            "pac_mil": 31,
             "auth_ana": 35,
             "rel_sec": -24,
             "colour": "green"
@@ -906,7 +906,7 @@
             "nat_glob": -52,
             "env_eco": 13,
             "soc_cap": 41,
-            "est_pop": 31,
+            "pac_mil": 31,
             "auth_ana": 41,
             "rel_sec": -41,
             "colour": "orange"
@@ -920,7 +920,7 @@
             "nat_glob": 12,
             "env_eco": 41,
             "soc_cap": 45,
-            "est_pop": -25,
+            "pac_mil": -25,
             "auth_ana": 14,
             "rel_sec": 72,
             "colour": "yellow"
@@ -934,7 +934,7 @@
             "nat_glob": -34,
             "env_eco": 61,
             "soc_cap": 72,
-            "est_pop": 15,
+            "pac_mil": 15,
             "auth_ana": -41,
             "rel_sec": -42
         },
@@ -947,7 +947,7 @@
             "nat_glob": -4,
             "env_eco": 11,
             "soc_cap": 12,
-            "est_pop": -14,
+            "pac_mil": -14,
             "auth_ana": -3,
             "rel_sec": 12
         }
@@ -962,7 +962,7 @@
             "nat_glob": 46,
             "env_eco": -21,
             "soc_cap": -1,
-            "est_pop": 14,
+            "pac_mil": 14,
             "auth_ana": 13,
             "rel_sec": 22
         },
@@ -975,7 +975,7 @@
             "nat_glob": -46,
             "env_eco": 41,
             "soc_cap": 5,
-            "est_pop": 44,
+            "pac_mil": 44,
             "auth_ana": -10,
             "rel_sec": -12
         },
@@ -988,7 +988,7 @@
             "nat_glob": -26,
             "env_eco": 21,
             "soc_cap": 41,
-            "est_pop": -24,
+            "pac_mil": -24,
             "auth_ana": -13,
             "rel_sec": -42
         },
@@ -1001,7 +1001,7 @@
             "nat_glob": 46,
             "env_eco": -1,
             "soc_cap": -11,
-            "est_pop": -14,
+            "pac_mil": -14,
             "auth_ana": -3,
             "rel_sec": 22
         },
@@ -1014,7 +1014,7 @@
             "nat_glob": -26,
             "env_eco": 61,
             "soc_cap": -51,
-            "est_pop": 24,
+            "pac_mil": 24,
             "auth_ana": 13,
             "rel_sec": 32
         }
@@ -1029,7 +1029,7 @@
             "nat_glob": -30,
             "env_eco": 30,
             "soc_cap": -30,
-            "est_pop": -20,
+            "pac_mil": -20,
             "auth_ana": -10,
             "rel_sec": 20
         },
@@ -1042,7 +1042,7 @@
             "nat_glob": 10,
             "env_eco": 20,
             "soc_cap": 20,
-            "est_pop": -10,
+            "pac_mil": -10,
             "auth_ana": 10,
             "rel_sec": 30
         },
@@ -1055,7 +1055,7 @@
             "nat_glob": -40,
             "env_eco": 50,
             "soc_cap": -80,
-            "est_pop": 60,
+            "pac_mil": 60,
             "auth_ana": -30,
             "rel_sec": 30
         },
@@ -1068,7 +1068,7 @@
             "nat_glob": -30,
             "env_eco": 10,
             "soc_cap": 30,
-            "est_pop": 10,
+            "pac_mil": 10,
             "auth_ana": -20,
             "rel_sec": -30
         },
@@ -1081,7 +1081,7 @@
             "nat_glob": -50,
             "env_eco": 0,
             "soc_cap": 40,
-            "est_pop": 30,
+            "pac_mil": 30,
             "auth_ana": -40,
             "rel_sec": -30
         },
@@ -1094,7 +1094,7 @@
             "nat_glob": -30,
             "env_eco": 10,
             "soc_cap": 20,
-            "est_pop": 10,
+            "pac_mil": 10,
             "auth_ana": -30,
             "rel_sec": -70
         }
@@ -1109,7 +1109,7 @@
             "nat_glob": 30,
             "env_eco": -20,
             "soc_cap": 25,
-            "est_pop": -50,
+            "pac_mil": -50,
             "auth_ana": 0,
             "rel_sec": 50,
             "colour": "purple"
@@ -1125,7 +1125,7 @@
             "nat_glob": 10,
             "env_eco": -10,
             "soc_cap": -1,
-            "est_pop": 0,
+            "pac_mil": 0,
             "auth_ana": 0,
             "rel_sec": 0
         },
@@ -1138,7 +1138,7 @@
             "nat_glob": -10,
             "env_eco": 10,
             "soc_cap": 20,
-            "est_pop": 10,
+            "pac_mil": 10,
             "auth_ana": -10,
             "rel_sec": 0
         },
@@ -1151,7 +1151,7 @@
             "nat_glob": -10,
             "env_eco": 20,
             "soc_cap": -60,
-            "est_pop": 0,
+            "pac_mil": 0,
             "auth_ana": 0,
             "rel_sec": 0
         },
@@ -1164,7 +1164,7 @@
             "nat_glob": -20,
             "env_eco": 20,
             "soc_cap": 60,
-            "est_pop": 20,
+            "pac_mil": 20,
             "auth_ana": -10,
             "rel_sec": 0
         }
@@ -1179,7 +1179,7 @@
             "nat_glob": -15,
             "env_eco": 40,
             "soc_cap": 61,
-            "est_pop": 12,
+            "pac_mil": 12,
             "auth_ana": -51,
             "rel_sec": 0,
             "colour": "purple"
@@ -1195,7 +1195,7 @@
             "nat_glob": 39,
             "env_eco": -15,
             "soc_cap": -2,
-            "est_pop": -5,
+            "pac_mil": -5,
             "auth_ana": 14,
             "rel_sec": 12,
             "colour": "skyblue"
@@ -1209,7 +1209,7 @@
             "nat_glob": -51,
             "env_eco": 53,
             "soc_cap": 61,
-            "est_pop": 42,
+            "pac_mil": 42,
             "auth_ana": -41,
             "rel_sec": -61,
             "colour": "orange"
@@ -1223,7 +1223,7 @@
             "nat_glob": -41,
             "env_eco": 13,
             "soc_cap": -71,
-            "est_pop": 22,
+            "pac_mil": 22,
             "auth_ana": 51,
             "rel_sec": 80
         },
@@ -1236,7 +1236,7 @@
             "nat_glob": -91,
             "env_eco": 71,
             "soc_cap": -5,
-            "est_pop": 42,
+            "pac_mil": 42,
             "auth_ana": -81,
             "rel_sec": 0
         }
@@ -1251,7 +1251,7 @@
             "nat_glob": 30,
             "env_eco": -5,
             "soc_cap": 15,
-            "est_pop": -10,
+            "pac_mil": -10,
             "auth_ana": -15,
             "rel_sec": 85
         },
@@ -1264,7 +1264,7 @@
             "nat_glob": 65,
             "env_eco": -95,
             "soc_cap": -45,
-            "est_pop": 0,
+            "pac_mil": 0,
             "auth_ana": 75,
             "rel_sec": 95
         },
@@ -1277,7 +1277,7 @@
             "nat_glob": -1,
             "env_eco": -4,
             "soc_cap": 62,
-            "est_pop": 45,
+            "pac_mil": 45,
             "auth_ana": -12,
             "rel_sec": 2
         }
@@ -1292,7 +1292,7 @@
             "nat_glob": -30,
             "env_eco": 20,
             "soc_cap": -25,
-            "est_pop": 50,
+            "pac_mil": 50,
             "auth_ana": -10,
             "rel_sec": -20,
             "colour": "purple"
@@ -1306,7 +1306,7 @@
             "nat_glob": 30,
             "env_eco": 10,
             "soc_cap": 25,
-            "est_pop": -10,
+            "pac_mil": -10,
             "auth_ana": 0,
             "rel_sec": 50
         },
@@ -1319,7 +1319,7 @@
             "nat_glob": 30,
             "env_eco": 10,
             "soc_cap": 25,
-            "est_pop": -10,
+            "pac_mil": -10,
             "auth_ana": 0,
             "rel_sec": 50
         }
@@ -1334,7 +1334,7 @@
             "nat_glob": -90,
             "env_eco": 0,
             "soc_cap": -95,
-            "est_pop": -100,
+            "pac_mil": -100,
             "auth_ana": -98,
             "rel_sec": 95,
             "colour": "red"
@@ -1350,7 +1350,7 @@
             "nat_glob": -70,
             "env_eco": 40,
             "soc_cap": 10,
-            "est_pop": 75,
+            "pac_mil": 75,
             "auth_ana": -60,
             "rel_sec": -85,
             "colour": "orange"
@@ -1364,7 +1364,7 @@
             "nat_glob": -10,
             "env_eco": -15,
             "soc_cap": -25,
-            "est_pop": -70,
+            "pac_mil": -70,
             "auth_ana": -20,
             "rel_sec": 50,
             "colour": "skyblue"
@@ -1380,7 +1380,7 @@
             "nat_glob": -85,
             "env_eco": 70,
             "soc_cap": -20,
-            "est_pop": -80,
+            "pac_mil": -80,
             "auth_ana": -95,
             "rel_sec": -60,
             "colour": "blue"
@@ -1394,7 +1394,7 @@
             "nat_glob": -75,
             "env_eco": 20,
             "soc_cap": -70,
-            "est_pop": -40,
+            "pac_mil": -40,
             "auth_ana": -70,
             "rel_sec": 20,
             "colour": "red"
@@ -1410,7 +1410,7 @@
             "nat_glob": 20,
             "env_eco": 50,
             "soc_cap": 40,
-            "est_pop": -90,
+            "pac_mil": -90,
             "auth_ana": -25,
             "rel_sec": 30,
             "colour": "red"
@@ -1424,7 +1424,7 @@
             "nat_glob": 15,
             "env_eco": -20,
             "soc_cap": -10,
-            "est_pop": -50,
+            "pac_mil": -50,
             "auth_ana": -5,
             "rel_sec": 40,
             "colour": "blue"
@@ -1440,7 +1440,7 @@
             "nat_glob": 65,
             "env_eco": -40,
             "soc_cap": 10,
-            "est_pop": -75,
+            "pac_mil": -75,
             "auth_ana": -10,
             "rel_sec": 55,
             "colour": "red"
@@ -1454,7 +1454,7 @@
             "nat_glob": -25,
             "env_eco": 70,
             "soc_cap": 65,
-            "est_pop": 60,
+            "pac_mil": 60,
             "auth_ana": -20,
             "rel_sec": 0,
             "colour": "blue"
@@ -1468,7 +1468,7 @@
             "nat_glob": 50,
             "env_eco": -50,
             "soc_cap": -55,
-            "est_pop": -20,
+            "pac_mil": -20,
             "auth_ana": 5,
             "rel_sec": 30,
             "colour": "orange"
@@ -1484,7 +1484,7 @@
             "nat_glob": 30,
             "env_eco": -30,
             "soc_cap": -20,
-            "est_pop": -65,
+            "pac_mil": -65,
             "auth_ana": -15,
             "rel_sec": 30,
             "colour": "red"
@@ -1498,7 +1498,7 @@
             "nat_glob": -30,
             "env_eco": 65,
             "soc_cap": 60,
-            "est_pop": -50,
+            "pac_mil": -50,
             "auth_ana": -40,
             "rel_sec": -10,
             "colour": "blue"
@@ -1512,7 +1512,7 @@
             "nat_glob": 40,
             "env_eco": -80,
             "soc_cap": -60,
-            "est_pop": -10,
+            "pac_mil": -10,
             "auth_ana": 20,
             "rel_sec": 60,
             "colour": "green"
@@ -1528,7 +1528,7 @@
             "nat_glob": -20,
             "env_eco": -60,
             "soc_cap": -65,
-            "est_pop": 30,
+            "pac_mil": 30,
             "auth_ana": -20,
             "rel_sec": 30,
             "colour": "red"
@@ -1542,7 +1542,7 @@
             "nat_glob": -80,
             "env_eco": 90,
             "soc_cap": 70,
-            "est_pop": 90,
+            "pac_mil": 90,
             "auth_ana": -70,
             "rel_sec": -80,
             "colour": "blue"
@@ -1558,7 +1558,7 @@
             "nat_glob": -70,
             "env_eco": 40,
             "soc_cap": 20,
-            "est_pop": 60,
+            "pac_mil": 60,
             "auth_ana": -50,
             "rel_sec": -65,
             "colour": "darkblue"
@@ -1572,7 +1572,7 @@
             "nat_glob": 65,
             "env_eco": -50,
             "soc_cap": -40,
-            "est_pop": -30,
+            "pac_mil": -30,
             "auth_ana": 0,
             "rel_sec": 50,
             "colour": "red"
@@ -1586,7 +1586,7 @@
             "nat_glob": -30,
             "env_eco": -30,
             "soc_cap": -35,
-            "est_pop": 70,
+            "pac_mil": 70,
             "auth_ana": -10,
             "rel_sec": 40,
             "colour": "yellow"
@@ -1602,7 +1602,7 @@
             "nat_glob": -75,
             "env_eco": 50,
             "soc_cap": 0,
-            "est_pop": 40,
+            "pac_mil": 40,
             "auth_ana": -85,
             "rel_sec": -80,
             "colour": "orange"
@@ -1616,7 +1616,7 @@
             "nat_glob": -40,
             "env_eco": 10,
             "soc_cap": -10,
-            "est_pop": -60,
+            "pac_mil": -60,
             "auth_ana": -30,
             "rel_sec": 85,
             "colour": "red"
@@ -1632,7 +1632,7 @@
             "nat_glob": -80,
             "env_eco": 60,
             "soc_cap": -50,
-            "est_pop": -100,
+            "pac_mil": -100,
             "auth_ana": -97,
             "rel_sec": -100,
             "colour": "green"
@@ -1648,7 +1648,7 @@
             "nat_glob": -75,
             "env_eco": 60,
             "soc_cap": 65,
-            "est_pop": 10,
+            "pac_mil": 10,
             "auth_ana": -55,
             "rel_sec": -30,
             "colour": "blue"
@@ -1662,7 +1662,7 @@
             "nat_glob": -10,
             "env_eco": 10,
             "soc_cap": 30,
-            "est_pop": -50,
+            "pac_mil": -50,
             "auth_ana": -10,
             "rel_sec": 70,
             "colour": "skyblue"
@@ -1676,7 +1676,7 @@
             "nat_glob": -90,
             "env_eco": 50,
             "soc_cap": 20,
-            "est_pop": 70,
+            "pac_mil": 70,
             "auth_ana": -70,
             "rel_sec": -95,
             "colour": "purple"
@@ -1692,7 +1692,7 @@
             "nat_glob": 70,
             "env_eco": 20,
             "soc_cap": 35,
-            "est_pop": -75,
+            "pac_mil": -75,
             "auth_ana": -20,
             "rel_sec": 25,
             "colour": "orange"
@@ -1706,7 +1706,7 @@
             "nat_glob": -75,
             "env_eco": 40,
             "soc_cap": -20,
-            "est_pop": 50,
+            "pac_mil": 50,
             "auth_ana": -65,
             "rel_sec": -75,
             "colour": "blue"
@@ -1722,7 +1722,7 @@
             "nat_glob": 60,
             "env_eco": -25,
             "soc_cap": -35,
-            "est_pop": -60,
+            "pac_mil": -60,
             "auth_ana": -20,
             "rel_sec": 60,
             "colour": "red"
@@ -1736,7 +1736,7 @@
             "nat_glob": 30,
             "env_eco": 50,
             "soc_cap": 55,
-            "est_pop": -70,
+            "pac_mil": -70,
             "auth_ana": -25,
             "rel_sec": -20,
             "colour": "blue"
@@ -1750,7 +1750,7 @@
             "nat_glob": -85,
             "env_eco": 60,
             "soc_cap": 50,
-            "est_pop": 80,
+            "pac_mil": 80,
             "auth_ana": -60,
             "rel_sec": -50,
             "colour": "green"
@@ -1766,7 +1766,7 @@
             "nat_glob": -30,
             "env_eco": 60,
             "soc_cap": 30,
-            "est_pop": -50,
+            "pac_mil": -50,
             "auth_ana": -40,
             "rel_sec": -20,
             "colour": "green"
@@ -1780,7 +1780,7 @@
             "nat_glob": -20,
             "env_eco": 50,
             "soc_cap": 20,
-            "est_pop": -60,
+            "pac_mil": -60,
             "auth_ana": -35,
             "rel_sec": -15,
             "colour": "red"
@@ -1794,7 +1794,7 @@
             "nat_glob": 0,
             "env_eco": 30,
             "soc_cap": 40,
-            "est_pop": 50,
+            "pac_mil": 50,
             "auth_ana": -10,
             "rel_sec": -30,
             "colour": "yellow"

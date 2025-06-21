@@ -6,7 +6,7 @@
             {"text": "Focus on attacking opponents", "effect": {"prog_cons": 8, "auth_ana": -5}, "boost": 15},
             {"text": "Emphasize your policy platform", "effect": {"prog_cons": 0, "auth_ana": 3}, "boost": 10},
             {"text": "Appeal to emotion and values", "effect": {"prog_cons": -3, "rel_sec": -5}, "boost": 12},
-            {"text": "Skip the debate entirely", "effect": {"est_pop": -8, "auth_ana": 5}, "boost": 5}
+            {"text": "Skip the debate entirely", "effect": {"pac_mil": -8, "auth_ana": 5}, "boost": 5}
         ]
     },
     {
@@ -15,7 +15,7 @@
         "choices": [
             {"text": "Call for massive government intervention", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 20},
             {"text": "Promote free market solutions", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 18},
-            {"text": "Blame the current administration", "effect": {"prog_cons": 5, "est_pop": 3}, "boost": 8},
+            {"text": "Blame the current administration", "effect": {"prog_cons": 5, "pac_mil": 3}, "boost": 8},
             {"text": "Form bipartisan economic task force", "effect": {"prog_cons": 0, "auth_ana": 0}, "boost": 14}
         ]
     },
@@ -34,7 +34,7 @@
         "description": "Thousands of migrants overwhelm border facilities. Your position?",
         "choices": [
             {"text": "Open borders and humanitarian aid", "effect": {"nat_glob": 15, "prog_cons": -10, "soc_cap": -8}, "boost": 22},
-            {"text": "Secure borders with military deployment", "effect": {"nat_glob": -18, "prog_cons": 12, "est_pop": 8}, "boost": 24},
+            {"text": "Secure borders with military deployment", "effect": {"nat_glob": -18, "prog_cons": 12, "pac_mil": 8}, "boost": 24},
             {"text": "Expand legal immigration pathways", "effect": {"nat_glob": 5, "prog_cons": -3}, "boost": 14},
             {"text": "Emergency humanitarian camps", "effect": {"nat_glob": 8, "prog_cons": -5, "soc_cap": -3}, "boost": 16}
         ]
@@ -103,10 +103,10 @@
         "title": "Foreign Cyberattack on Infrastructure",
         "description": "Enemy hackers shut down power grids nationwide. What's your plan?",
         "choices": [
-            {"text": "Launch retaliatory cyber warfare", "effect": {"est_pop": 15, "nat_glob": -8}, "boost": 22},
+            {"text": "Launch retaliatory cyber warfare", "effect": {"pac_mil": 15, "nat_glob": -8}, "boost": 22},
             {"text": "Invest billions in cyber defense", "effect": {"soc_cap": -8, "auth_ana": -5}, "boost": 18},
-            {"text": "Pursue diplomatic resolution", "effect": {"est_pop": -12, "nat_glob": 8}, "boost": 12},
-            {"text": "Strengthen public-private cyber partnerships", "effect": {"est_pop": 3, "prog_cons": 5}, "boost": 16}
+            {"text": "Pursue diplomatic resolution", "effect": {"pac_mil": -12, "nat_glob": 8}, "boost": 12},
+            {"text": "Strengthen public-private cyber partnerships", "effect": {"pac_mil": 3, "prog_cons": 5}, "boost": 16}
         ]
     },
     {
@@ -115,7 +115,7 @@
         "choices": [
             {"text": "Emergency transition to renewables", "effect": {"env_eco": -18, "prog_cons": -8}, "boost": 24},
             {"text": "Expand domestic oil and gas drilling", "effect": {"env_eco": 15, "nat_glob": -5}, "boost": 20},
-            {"text": "Negotiate with international allies", "effect": {"nat_glob": 8, "est_pop": -3}, "boost": 14},
+            {"text": "Negotiate with international allies", "effect": {"nat_glob": 8, "pac_mil": -3}, "boost": 14},
             {"text": "Implement energy conservation measures", "effect": {"env_eco": 5, "prog_cons": 3}, "boost": 18}
         ]
     },
@@ -353,10 +353,10 @@
         "title": "Nuclear Crisis Abroad",
         "description": "Hostile nation withdraws from nuclear deal and threatens allies. Military action?",
         "choices": [
-            {"text": "Preemptive military strikes", "effect": {"est_pop": 18, "nat_glob": -12}, "boost": 26},
-            {"text": "Diplomatic negotiations", "effect": {"est_pop": -8, "nat_glob": 12}, "boost": 20},
-            {"text": "Economic sanctions only", "effect": {"est_pop": 3, "nat_glob": 5}, "boost": 16},
-            {"text": "Strengthen military alliances", "effect": {"est_pop": 5, "prog_cons": 3}, "boost": 18}
+            {"text": "Preemptive military strikes", "effect": {"pac_mil": 18, "nat_glob": -12}, "boost": 26},
+            {"text": "Diplomatic negotiations", "effect": {"pac_mil": -8, "nat_glob": 12}, "boost": 20},
+            {"text": "Economic sanctions only", "effect": {"pac_mil": 3, "nat_glob": 5}, "boost": 16},
+            {"text": "Strengthen military alliances", "effect": {"pac_mil": 5, "prog_cons": 3}, "boost": 18}
         ]
     },
     {
@@ -393,10 +393,10 @@
         "title": "Foreign Power Trade Relations",
         "description": "Major foreign power threatens allied nation. Trade war or military support?",
         "choices": [
-            {"text": "Military alliance with threatened ally", "effect": {"est_pop": 15, "nat_glob": -10}, "boost": 24},
-            {"text": "Economic pressure on aggressor", "effect": {"est_pop": 5, "nat_glob": 3}, "boost": 18},
-            {"text": "Avoid confrontation through diplomacy", "effect": {"est_pop": -8, "nat_glob": 12}, "boost": 16},
-            {"text": "Increase military aid to allies", "effect": {"est_pop": 3, "prog_cons": 5}, "boost": 20}
+            {"text": "Military alliance with threatened ally", "effect": {"pac_mil": 15, "nat_glob": -10}, "boost": 24},
+            {"text": "Economic pressure on aggressor", "effect": {"pac_mil": 5, "nat_glob": 3}, "boost": 18},
+            {"text": "Avoid confrontation through diplomacy", "effect": {"pac_mil": -8, "nat_glob": 12}, "boost": 16},
+            {"text": "Increase military aid to allies", "effect": {"pac_mil": 3, "prog_cons": 5}, "boost": 20}
         ]
     },
     {
@@ -473,10 +473,10 @@
         "title": "Military Conscription Reinstatement",
         "description": "Military recruitment fails to meet needs. Mandatory service required?",
         "choices": [
-            {"text": "Reinstate military conscription", "effect": {"est_pop": 15, "auth_ana": -8}, "boost": 22},
-            {"text": "Voluntary military only", "effect": {"est_pop": -5, "auth_ana": 8}, "boost": 18},
-            {"text": "National service alternative", "effect": {"est_pop": 3, "prog_cons": -5}, "boost": 20},
-            {"text": "Increase military pay and benefits", "effect": {"est_pop": 5, "soc_cap": 3}, "boost": 16}
+            {"text": "Reinstate military conscription", "effect": {"pac_mil": 15, "auth_ana": -8}, "boost": 22},
+            {"text": "Voluntary military only", "effect": {"pac_mil": -5, "auth_ana": 8}, "boost": 18},
+            {"text": "National service alternative", "effect": {"pac_mil": 3, "prog_cons": -5}, "boost": 20},
+            {"text": "Increase military pay and benefits", "effect": {"pac_mil": 5, "soc_cap": 3}, "boost": 16}
         ]
     },
     {
@@ -493,8 +493,8 @@
         "title": "Foreign Election Interference",
         "description": "Hostile nations interfere in elections through social media manipulation.",
         "choices": [
-            {"text": "Cyber warfare retaliation", "effect": {"est_pop": 15, "nat_glob": -8}, "boost": 22},
-            {"text": "International cyber agreements", "effect": {"est_pop": -5, "nat_glob": 12}, "boost": 18},
+            {"text": "Cyber warfare retaliation", "effect": {"pac_mil": 15, "nat_glob": -8}, "boost": 22},
+            {"text": "International cyber agreements", "effect": {"pac_mil": -5, "nat_glob": 12}, "boost": 18},
             {"text": "Domestic social media regulation", "effect": {"auth_ana": -8, "prog_cons": -3}, "boost": 20},
             {"text": "Public awareness campaigns on disinformation", "effect": {"auth_ana": 5, "soc_cap": 3}, "boost": 16}
         ]
@@ -580,10 +580,10 @@
         ]
     },
     {
-        "title": "TikTok National Security Ban",
+        "title": "National Security Ban",
         "description": "Foreign-owned app accused of data harvesting and propaganda. National ban?",
         "choices": [
-            {"text": "Ban TikTok for national security", "effect": {"nat_glob": -8, "auth_ana": -5}, "boost": 20},
+            {"text": "Ban the foreign-owned app for national security", "effect": {"nat_glob": -8, "auth_ana": -5}, "boost": 20},
             {"text": "Force sale to domestic company", "effect": {"nat_glob": -3, "soc_cap": 3}, "boost": 18},
             {"text": "No restrictions on foreign apps", "effect": {"nat_glob": 12, "auth_ana": 8}, "boost": 16},
             {"text": "Negotiate data security guarantees", "effect": {"nat_glob": 5, "prog_cons": 0}, "boost": 14}
@@ -604,7 +604,7 @@
         "description": "Reporters jailed for protecting sources. Press freedom under attack.",
         "choices": [
             {"text": "Absolute protection for journalists", "effect": {"auth_ana": 12, "prog_cons": -5}, "boost": 22},
-            {"text": "National security exceptions allowed", "effect": {"auth_ana": -3, "est_pop": 5}, "boost": 18},
+            {"text": "National security exceptions allowed", "effect": {"auth_ana": -3, "pac_mil": 5}, "boost": 18},
             {"text": "No special privileges for media", "effect": {"auth_ana": -8, "prog_cons": 8}, "boost": 16},
             {"text": "Establish a press freedom index", "effect": {"auth_ana": 5, "prog_cons": 3}, "boost": 14}
         ]
@@ -763,10 +763,10 @@
         "title": "Corporate Espionage Response",
         "description": "Foreign companies steal American intellectual property worth billions.",
         "choices": [
-            {"text": "Cyber retaliation against thieves", "effect": {"est_pop": 12, "nat_glob": -8}, "boost": 22},
-            {"text": "Trade sanctions and tariffs", "effect": {"est_pop": 5, "nat_glob": -5}, "boost": 18},
-            {"text": "Strengthen domestic IP protections", "effect": {"est_pop": 0, "auth_ana": -3}, "boost": 16},
-            {"text": "Negotiate international IP agreements", "effect": {"est_pop": 3, "nat_glob": 5}, "boost": 14}
+            {"text": "Cyber retaliation against thieves", "effect": {"pac_mil": 12, "nat_glob": -8}, "boost": 22},
+            {"text": "Trade sanctions and tariffs", "effect": {"pac_mil": 5, "nat_glob": -5}, "boost": 18},
+            {"text": "Strengthen domestic IP protections", "effect": {"pac_mil": 0, "auth_ana": -3}, "boost": 16},
+            {"text": "Negotiate international IP agreements", "effect": {"pac_mil": 3, "nat_glob": 5}, "boost": 14}
         ]
     },
     {
@@ -813,10 +813,10 @@
         "title": "Quantum Computing Security",
         "description": "Quantum computers could break all current encryption. National security crisis?",
         "choices": [
-            {"text": "Massive government quantum program", "effect": {"est_pop": 15, "soc_cap": -8}, "boost": 22},
-            {"text": "International cooperation on standards", "effect": {"est_pop": -5, "nat_glob": 12}, "boost": 18},
-            {"text": "Private sector will solve it", "effect": {"est_pop": 0, "soc_cap": 8}, "boost": 16},
-            {"text": "Establish a quantum research and development fund", "effect": {"est_pop": 3, "prog_cons": 0}, "boost": 14}
+            {"text": "Massive government quantum program", "effect": {"pac_mil": 15, "soc_cap": -8}, "boost": 22},
+            {"text": "International cooperation on standards", "effect": {"pac_mil": -5, "nat_glob": 12}, "boost": 18},
+            {"text": "Private sector will solve it", "effect": {"pac_mil": 0, "soc_cap": 8}, "boost": 16},
+            {"text": "Establish a quantum research and development fund", "effect": {"pac_mil": 3, "prog_cons": 0}, "boost": 14}
         ]
     },
     {
@@ -833,10 +833,10 @@
         "title": "Ransomware Emergency Response",
         "description": "Hackers shut down hospitals and schools demanding millions. Response?",
         "choices": [
-            {"text": "Military cyber response unit", "effect": {"est_pop": 12, "auth_ana": -8}, "boost": 22},
-            {"text": "Never negotiate with cyber terrorists", "effect": {"est_pop": 8, "prog_cons": 5}, "boost": 20},
-            {"text": "Pay ransoms to restore services", "effect": {"est_pop": -8, "auth_ana": 3}, "boost": 16},
-            {"text": "Establish a national ransomware response team", "effect": {"est_pop": 3, "prog_cons": 0}, "boost": 14}
+            {"text": "Military cyber response unit", "effect": {"pac_mil": 12, "auth_ana": -8}, "boost": 22},
+            {"text": "Never negotiate with cyber terrorists", "effect": {"pac_mil": 8, "prog_cons": 5}, "boost": 20},
+            {"text": "Pay ransoms to restore services", "effect": {"pac_mil": -8, "auth_ana": 3}, "boost": 16},
+            {"text": "Establish a national ransomware response team", "effect": {"pac_mil": 3, "prog_cons": 0}, "boost": 14}
         ]
     },
     {

@@ -6,7 +6,7 @@
             "nat_glob": -15,
             "env_eco": 65,
             "soc_cap": 25,
-            "est_pop": -24,
+            "pac_mil": -24,
             "auth_ana": -17,
             "rel_sec": 30
         },
@@ -20,7 +20,7 @@
             "nat_glob": -5,
             "env_eco": 20,
             "soc_cap": 50,
-            "est_pop": 50,
+            "pac_mil": 40,
             "auth_ana": -12,
             "rel_sec": -31
         },
@@ -34,7 +34,7 @@
             "nat_glob": 40,
             "env_eco": -20,
             "soc_cap": -35,
-            "est_pop": -30,
+            "pac_mil": -30,
             "auth_ana": 35,
             "rel_sec": 50
         },
@@ -48,7 +48,7 @@
             "nat_glob": 20,
             "env_eco": 30,
             "soc_cap": 30,
-            "est_pop": 10,
+            "pac_mil": 10,
             "auth_ana": 25,
             "rel_sec": 45
         },
@@ -62,7 +62,7 @@
             "nat_glob": -5,
             "env_eco": 35,
             "soc_cap": 5,
-            "est_pop": 14,
+            "pac_mil": 14,
             "auth_ana": -17,
             "rel_sec": 23
         },
@@ -76,7 +76,7 @@
             "nat_glob": -20,
             "env_eco": 70,
             "soc_cap": 20,
-            "est_pop": 40,
+            "pac_mil": 40,
             "auth_ana": -15,
             "rel_sec": -40
         },
@@ -90,7 +90,7 @@
             "nat_glob": -35,
             "env_eco": 40,
             "soc_cap": 70,
-            "est_pop": 85,
+            "pac_mil": -10,
             "auth_ana": 20,
             "rel_sec": -10
         },
@@ -104,7 +104,7 @@
             "nat_glob": 15,
             "env_eco": -5,
             "soc_cap": 10,
-            "est_pop": 25,
+            "pac_mil": 25,
             "auth_ana": 15,
             "rel_sec": 20
         },
@@ -118,7 +118,7 @@
             "nat_glob": 55,
             "env_eco": -30,
             "soc_cap": -25,
-            "est_pop": -45,
+            "pac_mil": -45,
             "auth_ana": 20,
             "rel_sec": 40
         },
@@ -132,7 +132,7 @@
             "nat_glob": 10,
             "env_eco": -15,
             "soc_cap": -20,
-            "est_pop": 32,
+            "pac_mil": 32,
             "auth_ana": -12,
             "rel_sec": 65
         },
@@ -146,7 +146,7 @@
             "nat_glob": -30,
             "env_eco": 25,
             "soc_cap": 10,
-            "est_pop": 55,
+            "pac_mil": -10,
             "auth_ana": -5,
             "rel_sec": -25
         },
@@ -160,7 +160,7 @@
             "nat_glob": 25,
             "env_eco": -10,
             "soc_cap": -15,
-            "est_pop": -5,
+            "pac_mil": -5,
             "auth_ana": 10,
             "rel_sec": 35
         },
@@ -174,7 +174,7 @@
             "nat_glob": -40,
             "env_eco": 50,
             "soc_cap": 5,
-            "est_pop": 20,
+            "pac_mil": 60,
             "auth_ana": -20,
             "rel_sec": -70
         },
@@ -188,7 +188,7 @@
             "nat_glob": 60,
             "env_eco": -60,
             "soc_cap": -65,
-            "est_pop": -50,
+            "pac_mil": -10,
             "auth_ana": 50,
             "rel_sec": 75
         },
@@ -202,7 +202,7 @@
             "nat_glob": 45,
             "env_eco": -75,
             "soc_cap": -60,
-            "est_pop": -60,
+            "pac_mil": -20,
             "auth_ana": 45,
             "rel_sec": 60
         },
@@ -216,7 +216,7 @@
             "nat_glob": 25,
             "env_eco": -40,
             "soc_cap": -30,
-            "est_pop": -25,
+            "pac_mil": 10,
             "auth_ana": 30,
             "rel_sec": 65
         },
@@ -230,7 +230,7 @@
             "nat_glob": 30,
             "env_eco": -35,
             "soc_cap": -45,
-            "est_pop": -40,
+            "pac_mil": -10,
             "auth_ana": 35,
             "rel_sec": 55
         },
@@ -244,7 +244,7 @@
             "nat_glob": 65,
             "env_eco": -20,
             "soc_cap": -25,
-            "est_pop": -35,
+            "pac_mil": -35,
             "auth_ana": 20,
             "rel_sec": 30
         },
@@ -258,7 +258,7 @@
             "nat_glob": 50,
             "env_eco": -40,
             "soc_cap": 15,
-            "est_pop": 20,
+            "pac_mil": 20,
             "auth_ana": 55,
             "rel_sec": 50
         },
@@ -272,7 +272,7 @@
             "nat_glob": 80,
             "env_eco": -30,
             "soc_cap": 25,
-            "est_pop": -80,
+            "pac_mil": -80,
             "auth_ana": 60,
             "rel_sec": 40
         },
@@ -286,7 +286,7 @@
             "nat_glob": 25,
             "env_eco": -25,
             "soc_cap": 0,
-            "est_pop": -10,
+            "pac_mil": -40,
             "auth_ana": 15,
             "rel_sec": 5
         },
@@ -300,7 +300,7 @@
             "nat_glob": 10,
             "env_eco": -10,
             "soc_cap": -15,
-            "est_pop": 25,
+            "pac_mil": -30,
             "auth_ana": 5,
             "rel_sec": 10
         },
@@ -314,7 +314,7 @@
             "nat_glob": -25,
             "env_eco": 15,
             "soc_cap": 0,
-            "est_pop": 30,
+            "pac_mil": 60,
             "auth_ana": -10,
             "rel_sec": -60
         },
@@ -328,7 +328,7 @@
             "nat_glob": 30,
             "env_eco": -15,
             "soc_cap": -10,
-            "est_pop": 5,
+            "pac_mil": 5,
             "auth_ana": 20,
             "rel_sec": 15
         },
@@ -342,7 +342,7 @@
             "nat_glob": 85,
             "env_eco": -45,
             "soc_cap": -20,
-            "est_pop": -65,
+            "pac_mil": -65,
             "auth_ana": -5,
             "rel_sec": 45
         },
@@ -356,7 +356,7 @@
             "nat_glob": -85,
             "env_eco": 80,
             "soc_cap": -20,
-            "est_pop": -70,
+            "pac_mil": 85,
             "auth_ana": -80,
             "rel_sec": -55
         },
@@ -367,10 +367,10 @@
         "pop": 38410,
         "vals": {
             "prog_cons": 20,
-            "nat_glob": -70,
+            "nat_glob": -40,
             "env_eco": 60,
             "soc_cap": -5,
-            "est_pop": -5,
+            "pac_mil": 80,
             "auth_ana": -35,
             "rel_sec": -20
         },
@@ -384,7 +384,7 @@
             "nat_glob": -90,
             "env_eco": 70,
             "soc_cap": -85,
-            "est_pop": -95,
+            "pac_mil": 90,
             "auth_ana": -98,
             "rel_sec": 90
         },
@@ -398,7 +398,7 @@
             "nat_glob": -60,
             "env_eco": 75,
             "soc_cap": 10,
-            "est_pop": 45,
+            "pac_mil": 55,
             "auth_ana": -30,
             "rel_sec": -65
         },
@@ -412,7 +412,7 @@
             "nat_glob": 15,
             "env_eco": 0,
             "soc_cap": 35,
-            "est_pop": -75,
+            "pac_mil": -40,
             "auth_ana": 10,
             "rel_sec": 85
         },
@@ -426,7 +426,7 @@
             "nat_glob": 5,
             "env_eco": 10,
             "soc_cap": 30,
-            "est_pop": 15,
+            "pac_mil": 65,
             "auth_ana": 5,
             "rel_sec": 50
         },
@@ -440,7 +440,7 @@
             "nat_glob": -30,
             "env_eco": 50,
             "soc_cap": 15,
-            "est_pop": 20,
+            "pac_mil": 20,
             "auth_ana": -25,
             "rel_sec": -75
         },
@@ -454,7 +454,7 @@
             "nat_glob": -65,
             "env_eco": 40,
             "soc_cap": 10,
-            "est_pop": 60,
+            "pac_mil": 60,
             "auth_ana": -45,
             "rel_sec": -40
         },
@@ -468,7 +468,7 @@
             "nat_glob": -80,
             "env_eco": 60,
             "soc_cap": -50,
-            "est_pop": -85,
+            "pac_mil": 90,
             "auth_ana": -90,
             "rel_sec": -100
         },
@@ -482,7 +482,7 @@
             "nat_glob": -40,
             "env_eco": 95,
             "soc_cap": 40,
-            "est_pop": -90,
+            "pac_mil": 80,
             "auth_ana": -95,
             "rel_sec": -95
         },
@@ -496,7 +496,7 @@
             "nat_glob": -75,
             "env_eco": 10,
             "soc_cap": 40,
-            "est_pop": 20,
+            "pac_mil": 95,
             "auth_ana": -20,
             "rel_sec": -50
         },
@@ -510,7 +510,7 @@
             "nat_glob": -55,
             "env_eco": 65,
             "soc_cap": 0,
-            "est_pop": -60,
+            "pac_mil": 70,
             "auth_ana": -75,
             "rel_sec": -70
         },
@@ -524,7 +524,7 @@
             "nat_glob": -5,
             "env_eco": 25,
             "soc_cap": -20,
-            "est_pop": 35,
+            "pac_mil": 10,
             "auth_ana": -10,
             "rel_sec": -15
         },
@@ -538,7 +538,7 @@
             "nat_glob": -35,
             "env_eco": 80,
             "soc_cap": 25,
-            "est_pop": 50,
+            "pac_mil": 30,
             "auth_ana": -30,
             "rel_sec": -80
         },
@@ -552,7 +552,7 @@
             "nat_glob": -15,
             "env_eco": 40,
             "soc_cap": 20,
-            "est_pop": 25,
+            "pac_mil": 25,
             "auth_ana": -20,
             "rel_sec": -60
         },
@@ -566,7 +566,7 @@
             "nat_glob": -60,
             "env_eco": 50,
             "soc_cap": 10,
-            "est_pop": 70,
+            "pac_mil": 70,
             "auth_ana": 80,
             "rel_sec": -90
         },
@@ -580,7 +580,7 @@
             "nat_glob": -100,
             "env_eco": 90,
             "soc_cap": -100,
-            "est_pop": -100,
+            "pac_mil": 100,
             "auth_ana": -100,
             "rel_sec": 100
         },
@@ -594,7 +594,7 @@
             "nat_glob": 20,
             "env_eco": 85,
             "soc_cap": -95,
-            "est_pop": -80,
+            "pac_mil": 70,
             "auth_ana": -85,
             "rel_sec": 95
         },
@@ -608,7 +608,7 @@
             "nat_glob": -20,
             "env_eco": 70,
             "soc_cap": -60,
-            "est_pop": 50,
+            "pac_mil": 50,
             "auth_ana": -55,
             "rel_sec": 20
         },
@@ -622,7 +622,7 @@
             "nat_glob": -90,
             "env_eco": 20,
             "soc_cap": -40,
-            "est_pop": -85,
+            "pac_mil": 95,
             "auth_ana": -90,
             "rel_sec": 25
         },
@@ -636,7 +636,7 @@
             "nat_glob": -70,
             "env_eco": 90,
             "soc_cap": 50,
-            "est_pop": -90,
+            "pac_mil": 90,
             "auth_ana": -80,
             "rel_sec": -85
         },
@@ -650,7 +650,7 @@
             "nat_glob": -100,
             "env_eco": 100,
             "soc_cap": -100,
-            "est_pop": -100,
+            "pac_mil": 100,
             "auth_ana": -100,
             "rel_sec": 100
         },
@@ -664,7 +664,7 @@
             "nat_glob": -5,
             "env_eco": 12,
             "soc_cap": -5,
-            "est_pop": 22,
+            "pac_mil": 22,
             "auth_ana": -4,
             "rel_sec": -4
         },
@@ -678,7 +678,7 @@
             "nat_glob" : 14,
             "env_eco": -10,
             "soc_cap" :  -15,
-            "est_pop" : -70,
+            "pac_mil" : -70,
             "auth_ana" : -40,
             "rel_sec":  -8
         },
