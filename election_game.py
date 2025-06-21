@@ -237,7 +237,7 @@ def print_poll_results(RESULTS, poll_num, total_polls):
     previous_poll_results = current_percentages.copy()
     
     print()
-    print(f"Polling participation: {((total_support)/(VOTING_DEMOS[COUNTRY]['pop']))*100:.1f}%")
+    print(f"Estimated turnout: {((total_support)/(VOTING_DEMOS[COUNTRY]['pop']))*100:.1f}%")
     print("-"*120)
 
 
@@ -370,11 +370,11 @@ def present_event(event, player_candidate):
                 # Show significance/media attention
                 significance = chosen['boost']
                 if significance > 25:
-                    print(f"🔥 This becomes a MAJOR news story dominating headlines! This will have huge consequences!")
-                elif significance > 20:
-                    print(f"📰 This generates significant media coverage. Your popularity will be affected!")
+                    print(f"🔥 This becomes a MAJOR news story dominating headlines! Everybody is talking about it!")
+                elif significance > 21:
+                    print(f"📰 This generates significant media coverage. Major newspapers run stories on it.")
                 elif significance > 15:
-                    print(f"📺 This receives moderate news attention. It will have some effect!")
+                    print(f"📺 This receives moderate news attention. It will have a little effect.")
                 else:
                     print(f"📋 This gets limited media coverage. It won't affect much.")
                 
@@ -584,8 +584,8 @@ def run_interactive_election(data, candidates, pop):
             
             # Present event every 2-3 polls more frequently
             if polls_since_event >= 2:
-                # Higher chance of event when eligible (50% instead of 30%)
-                if random.random() < 0.5:
+                # Higher chance of event when eligible (60% instead of 30%)
+                if random.random() < 0.6:
                     event_counter += 1
                     if event_counter <= len(EVENTS_DATA):
                         event = random.choice(EVENTS_DATA)
@@ -1366,7 +1366,7 @@ def main():
     print()
     print(f"Final Turnout: {((total_votes + not_voted)/(VOTING_DEMOS[COUNTRY]['pop']))*100:.1f}%")
     print(f"Voting: {((total_votes)/(VOTING_DEMOS[COUNTRY]['pop']))*100:.1f}% │ Abstaining: {((not_voted)/(VOTING_DEMOS[COUNTRY]['pop']))*100:.1f}%")
-    
+    print("The change column is the difference from the very first poll of the campaign.")
     # Determine government formation
     winner = results[0][0]
     winner_percentage = (results[0][1] / total_votes * 100) if total_votes > 0 else 0    
