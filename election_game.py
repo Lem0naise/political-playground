@@ -123,43 +123,147 @@ def vote_for_candidate(voter_vals, candidates):
     else:  # if too radical for any party
         return None  # Don't participate in polling
 
+def apply_political_dynamics(candidates, poll_iteration):
+    """Apply realistic political dynamics to party popularity"""
+    if poll_iteration == 1:
+        # First poll - minimal variation to establish baseline
+        for candidate in candidates:
+            baseline_variation = random.uniform(-0.2, 0.2)
+            candidate['party_pop'] += baseline_variation
+            
+            # Initialize momentum tracking
+            if not hasattr(candidate, 'momentum'):
+                candidate['momentum'] = 0.0
+            if not hasattr(candidate, 'previous_popularity'):
+                candidate['previous_popularity'] = candidate['party_pop']
+        return
+    
+    # Calculate current standings for bandwagon effects
+    current_standings = sorted(candidates, key=lambda x: x['party_pop'], reverse=True)
+    leader = current_standings[0]
+    
+    # Market volatility - occasional larger political shifts
+    market_volatility = 0.0
+    if random.random() < 0.15:  # 15% chance of significant political event
+        market_volatility = random.uniform(-1.5, 1.5)
+        if DEBUG:
+            print(f"DEBUG: Market volatility event: {market_volatility:.2f}")
+    
+    for i, candidate in enumerate(candidates):
+        old_popularity = candidate['party_pop']
+        
+        # Calculate momentum from recent performance
+        if hasattr(candidate, 'previous_popularity'):
+            momentum_change = candidate['party_pop'] - candidate['previous_popularity']
+            # Momentum factor - carry forward 30% of recent change
+            candidate['momentum'] = candidate['momentum'] * 0.7 + momentum_change * 0.3
+        
+        # Incumbency effects - popular parties face erosion, struggling ones get recovery
+        if candidate['party_pop'] > 10:
+            incumbency_effect = -0.1 * (candidate['party_pop'] / 20)  # Voter fatigue
+        else:
+            incumbency_effect = 0.05  # Small recovery boost for struggling parties
+        
+        # Bandwagon effect - leading parties get small boost
+        bandwagon_effect = 0.0
+        if candidate == leader and candidate['party_pop'] > 15:
+            bandwagon_effect = 0.2
+        elif candidate['party_pop'] < -10:
+            bandwagon_effect = -0.1  # Additional losses for struggling parties
+        
+        # Apply momentum with decay
+        momentum_effect = candidate['momentum'] * 0.3  # 30% of momentum carries forward
+        candidate['momentum'] *= 0.85  # Momentum decays over time
+        
+        # Natural political variation (smaller than old random changes)
+        natural_variation = random.uniform(-0.3, 0.3)
+        
+        # Combine all effects
+        total_change = (incumbency_effect + bandwagon_effect + momentum_effect + 
+                       natural_variation + market_volatility)
+        
+        candidate['party_pop'] += total_change
+        
+        # Store previous popularity for next iteration
+        candidate['previous_popularity'] = old_popularity
+        
+        # Ensure it doesn't go below minimum threshold
+        if candidate['party_pop'] < -50:
+            candidate['party_pop'] = -50
+        
+        if DEBUG and abs(total_change) > 0.5:
+            print(f"DEBUG: {candidate['party']}: momentum={momentum_effect:.2f}, "
+                  f"incumbency={incumbency_effect:.2f}, bandwagon={bandwagon_effect:.2f}, "
+                  f"total_change={total_change:.2f}")
+
+def apply_voter_dynamics(data, poll_iteration):
+    """Apply realistic voter opinion evolution"""
+    if poll_iteration == 1:
+        return  # No changes for baseline poll
+    
+    # Economic anxiety factor - affects economic issues more
+    economic_anxiety = random.uniform(0.8, 1.2)
+    if random.random() < 0.1:  # 10% chance of significant economic uncertainty
+        economic_anxiety = random.uniform(0.5, 1.8)
+    
+    # Social polarization events
+    polarization_event = random.random() < 0.08  # 8% chance
+    polarization_strength = random.uniform(1.2, 2.0) if polarization_event else 1.0
+    
+    for voter_index in range(len(data[0])):
+        for i, value_key in enumerate(VALUES):
+            current_value = data[i][voter_index]
+            
+            # Gradual opinion evolution - slow drift in views
+            evolution_rate = 0.3  # Base rate of opinion change
+            opinion_drift = random.uniform(-evolution_rate, evolution_rate)
+            
+            # Economic issues become more volatile during uncertain times
+            if value_key in ['soc_cap', 'env_eco']:
+                opinion_drift *= economic_anxiety
+            
+            # Social polarization on certain issues
+            if value_key in ['prog_cons', 'rel_sec'] and polarization_event:
+                # Push toward extremes during polarization
+                if abs(current_value) > 10:  # Already have strong views
+                    polarization_push = 0.5 * polarization_strength
+                    if current_value > 0:
+                        opinion_drift += polarization_push
+                    else:
+                        opinion_drift -= polarization_push
+            
+            # Apply change
+            data[i][voter_index] += opinion_drift
+            
+            # Clamp to valid range
+            if data[i][voter_index] > 100:
+                data[i][voter_index] = 100
+            if data[i][voter_index] < -100:
+                data[i][voter_index] = -100
+
 def conduct_poll(data, candidates, poll_iteration=0):
-    """Conduct a single poll of the entire electorate with stable preferences"""
+    """Conduct a single poll of the entire electorate with realistic political dynamics"""
     global not_voted
     
     # Reset results for this poll
     poll_results = [0] * len(candidates)
     not_voted = 0
     
-    # Add small random polling volatility for natural variation
-    for candidate in candidates:
-        # Small random fluctuation in party popularity (±0.5 points max)
-        random_volatility = random.uniform(-0.5, 0.5)
-        candidate['party_pop'] += random_volatility
-        
-        # Ensure it doesn't go below minimum threshold
-        if candidate['party_pop'] < -50:
-            candidate['party_pop'] = -50
+    # Apply political dynamics to parties
+    apply_political_dynamics(candidates, poll_iteration)
     
-    # Add only very minimal polling noise to simulate margin of error
-    polling_noise = random.uniform(0.995, 1.005)  # Increased to ±0.5% polling variation
+    # Apply voter opinion evolution
+    apply_voter_dynamics(data, poll_iteration)
     
-    # Poll the entire electorate with stable preferences
+    # Add minimal polling noise to simulate margin of error
+    polling_noise = random.uniform(0.998, 1.002)  # ±0.2% polling variation
+    
+    # Poll the entire electorate
     for voter_index in range(len(data[0])):
-        # Create voter values for this person - these stay stable across polls
+        # Create voter values for this person
         voter_vals = {}
         for i, value_key in enumerate(VALUES):
             voter_vals[value_key] = data[i][voter_index]
-            
-            # Add very small random voter volatility (±2 points max on political positions)
-            voter_volatility = random.uniform(-2.0, 2.0)
-            voter_vals[value_key] += voter_volatility
-            
-            # Clamp values
-            if voter_vals[value_key] >= 100:
-                voter_vals[value_key] = 100
-            if voter_vals[value_key] <= -100:
-                voter_vals[value_key] = -100
         
         # Get this voter's choice
         choice = vote_for_candidate(voter_vals, candidates)
@@ -168,7 +272,7 @@ def conduct_poll(data, candidates, poll_iteration=0):
         else:
             not_voted += 1
     
-    # Apply polling noise to results
+    # Apply minimal polling noise to results
     for i in range(len(poll_results)):
         poll_results[i] = int(poll_results[i] * polling_noise)
     
@@ -558,7 +662,8 @@ def run_interactive_election(data, candidates, pop):
             player_candidate = cand
             break
     if player_candidate == None:
-        return # this won't happen.
+        # Return empty results if no player found (shouldn't happen)
+        return [(candidates[0], 0)] if candidates else []
 
     poll_count = 0
     event_counter = 0
