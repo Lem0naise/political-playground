@@ -41,6 +41,25 @@ VALUES = [
     "rel_sec"
 ]
 
+# Cabinet positions with their importance values and requirements
+CABINET_POSITIONS = {
+    "Deputy Prime Minister": {"importance": 30, "max_slots": 1, "description": "Second-in-command of the government"},
+    "Chancellor/Finance Minister": {"importance": 25, "max_slots": 1, "description": "Controls economic policy and budget"},
+    "Foreign Minister": {"importance": 20, "max_slots": 1, "description": "Leads international relations and diplomacy"},
+    "Defense Minister": {"importance": 18, "max_slots": 1, "description": "Oversees military and national security"},
+    "Home/Interior Minister": {"importance": 16, "max_slots": 1, "description": "Manages domestic security and law enforcement"},
+    "Health Minister": {"importance": 14, "max_slots": 1, "description": "Oversees healthcare system and public health"},
+    "Education Minister": {"importance": 12, "max_slots": 1, "description": "Manages education policy and schools"},
+    "Environment Minister": {"importance": 10, "max_slots": 1, "description": "Handles environmental policy and climate action"},
+    "Justice Minister": {"importance": 10, "max_slots": 1, "description": "Oversees legal system and courts"},
+    "Transport Minister": {"importance": 8, "max_slots": 1, "description": "Manages transportation infrastructure"},
+    "Junior Minister": {"importance": 5, "max_slots": 5, "description": "Supporting ministerial roles"},
+    "Parliamentary Secretary": {"importance": 3, "max_slots": 10, "description": "Administrative support positions"}
+}
+
+# Global cabinet allocation tracker
+allocated_positions = {}
+
 # DESCRIPTORS WHEN DISPLAYING GOVERNMENT
 DESCRIPTORS = {
     "prog_cons": {-100: "very progressive", -30: "progressive", 0: None, 30: "conservative", 100: "ultraconservative"},
@@ -1100,6 +1119,15 @@ def negotiate_coalition_partner(player_candidate, partner_candidate, player_perc
     print("="*70)
     
     compatibility = calculate_party_compatibility(player_candidate, partner_candidate)
+    partner_percentage = 0  # Will be calculated from context
+    
+    # For partner percentage, we need to calculate it from context
+    for i, (candidate, votes) in enumerate(RESULTS):
+        if candidate == partner_candidate:
+            total_votes = sum([r[1] for r in RESULTS])
+            partner_percentage = (votes / total_votes * 100) if total_votes > 0 else 0
+            break
+    
     base_willingness = compatibility
     
     # Adjust willingness based on player's performance
@@ -1111,6 +1139,7 @@ def negotiate_coalition_partner(player_candidate, partner_candidate, player_perc
         base_willingness -= 10  # Weak performance
     
     print(f"\nYou are meeting with {partner_candidate['party']} leadership...")
+    print(f"Party strength: {partner_percentage:.1f}% of the vote")
     print(f"Initial assessment: {'Favorable' if base_willingness > 60 else 'Cautious' if base_willingness > 40 else 'Skeptical'}")
     
     # Coalition questions based on ideological differences
@@ -1190,49 +1219,21 @@ def negotiate_coalition_partner(player_candidate, partner_candidate, player_perc
     for question in questions[:2]:  # Limit to 2 questions per partner
         appeal_gained += present_coalition_question(partner_candidate, question, player_candidate)
     
-    # Offer cabinet positions
-    print(f"\n{partner_candidate['party']} is also interested in cabinet positions...")
-    print("What can you offer them?")
-    print("1. Deputy Prime Minister and major ministry (Defense, Treasury, Foreign Affairs)")
-    print("2. Important ministry (Education, Health, Environment)")
-    print("3. Minor ministry or junior positions")
-    print("4. No cabinet positions, just policy influence")
+    # NEW: Parties make specific cabinet demands based on ideology
+    print(f"\n{partner_candidate['party']} has specific cabinet position interests...")
+    cabinet_importance = handle_partner_cabinet_demands(partner_candidate, player_candidate, partner_percentage)
     
-    while True:
-        try:
-            cabinet_choice = int(input("\nYour offer (1-4): "))
-            if 1 <= cabinet_choice <= 4:
-                cabinet_appeal = [25, 15, 5, -10][cabinet_choice - 1]
-                break
-            else:
-                print("Invalid choice. Please enter 1, 2, 3, or 4.")
-        except ValueError:
-            print("Invalid input. Please enter a number.")
+    # Calculate cabinet appeal based on actual positions offered
+    cabinet_appeal = calculate_cabinet_appeal(cabinet_importance, partner_percentage, compatibility)
     
     # Calculate final decision
-    final_appeal = base_willingness + appeal_gained + cabinet_appeal
+    final_appeal = base_willingness + appeal_gained + (cabinet_appeal / 3)  # Scale cabinet appeal
     
     print(f"\n{partner_candidate['party']} is deliberating...")
     sleep(1)
     
-    if final_appeal > 60:
-        print(f"✅ {partner_candidate['party']} accepts your coalition offer!")
-        print(f"'We look forward to working together for the good of {COUNTRY}.'")
-        return True
-    elif final_appeal > 35:
-        print(f"🤔 {partner_candidate['party']} is hesitant but might consider it...")
-        print("'We need some time to think about this. We'll get back to you.'")
-        # 50% chance of acceptance after hesitation
-        if random.random() > 0.5:
-            print(f"📞 Later: {partner_candidate['party']} calls back - they accept!")
-            return True
-        else:
-            print(f"📞 Later: {partner_candidate['party']} calls back - they decline.")
-            return False
-    else:
-        print(f"❌ {partner_candidate['party']} declines your coalition offer.")
-        print(f"'We're afraid our parties are too far apart on key issues.'")
-        return False
+    # Use the partner_considers_cabinet_offer function for consistency
+    return partner_considers_cabinet_offer(partner_candidate, cabinet_importance, partner_percentage, compatibility)
 
 def player_coalition_negotiations(player_candidate, winner_candidate, player_percentage, winner_percentage):
     """Handle coalition negotiations when the player is approached by the winner"""
@@ -1475,11 +1476,19 @@ def watch_coalition_formation(player_candidate, results, total_votes):
 
 def interactive_coalition_formation(player_candidate, results, total_votes):
     """Handle interactive coalition formation when player wins"""
+    # Reset cabinet for new government
+    reset_cabinet_allocations()
+    
+    # Reserve key positions for the leading party
+    allocate_position("Deputy Prime Minister", "Available")  # Will be decided by player
+    allocate_position("Chancellor/Finance Minister", player_candidate['party'])  # Leading party typically keeps finance
+    
     player_votes = results[0][1]
     player_percentage = (player_votes / total_votes * 100) if total_votes > 0 else 0
     
     if player_percentage > 50:
         print(f"\n🎉 You won with a majority! No coalition needed.")
+        print(f"\nAs the majority party, you control the entire cabinet.")
         return [player_candidate]
     
     print(f"\n" + "="*70)
@@ -1487,6 +1496,17 @@ def interactive_coalition_formation(player_candidate, results, total_votes):
     print("="*70)
     print(f"\nYou won {player_percentage:.1f}% of the vote, but need a coalition to govern.")
     print("You need to reach 50%+ to form a stable government.")
+    print(f"\nAs the leading party, you automatically receive:")
+    print(f"  • Prime Minister: {player_candidate['name']} ({player_candidate['party']})")
+    print(f"  • Chancellor/Finance Minister: {player_candidate['party']}")
+    
+    # Show what cabinet positions are available for negotiation
+    available_positions = get_available_positions()
+    if available_positions:
+        print(f"\nKey cabinet positions available for coalition partners:")
+        for pos in available_positions[:6]:  # Show top 6 most important available positions
+            print(f"  • {pos['name']} (Importance: {pos['importance']})")
+    
     print("\nAvailable potential partners:")
     
     # Show potential partners
@@ -1534,9 +1554,10 @@ def interactive_coalition_formation(player_candidate, results, total_votes):
                     coalition_partners.append(target_candidate)
                     current_coalition_percentage += target_percentage
                     print(f"\nCoalition strength is now {current_coalition_percentage:.1f}%")
-                    
+
                     if current_coalition_percentage >= 50:
                         print(f"\n🎉 You have formed a majority coalition!")
+                        input("Press Enter to continue...")
                         break
                 else:
                     print(f"\nNegotiations with {target_candidate['party']} failed.")
@@ -1548,8 +1569,315 @@ def interactive_coalition_formation(player_candidate, results, total_votes):
         except ValueError:
             print("Invalid input. Please enter a number.")
     
+    # Show final cabinet allocation
+    if len(coalition_partners) > 1:
+        print(f"\n" + "="*70)
+        print("                    FINAL CABINET")
+        print("="*70)
+        display_current_cabinet()
+    
     return coalition_partners
 
+def reset_cabinet_allocations():
+    """Reset the cabinet allocations for a new government"""
+    global allocated_positions
+    allocated_positions = {}
+
+def get_available_positions():
+    """Get list of available cabinet positions"""
+    available = []
+    for position, details in CABINET_POSITIONS.items():
+        allocated_list = allocated_positions.get(position, [])
+        allocated_count = len(allocated_list)  # Count the length of the list
+        if allocated_count < details["max_slots"]:
+            remaining = details["max_slots"] - allocated_count
+            for i in range(remaining):
+                available.append({
+                    "name": position,
+                    "importance": details["importance"],
+                    "description": details["description"]
+                })
+    return sorted(available, key=lambda x: x["importance"], reverse=True)
+
+def allocate_position(position_name, party_name):
+    """Allocate a cabinet position to a party"""
+    global allocated_positions
+    if position_name not in allocated_positions:
+        allocated_positions[position_name] = []
+    allocated_positions[position_name].append(party_name)
+
+def display_current_cabinet():
+    """Display the current cabinet allocation"""
+    if not allocated_positions:
+        print("No positions allocated yet.")
+        return
+    
+    print("\nCurrent Cabinet Allocation:")
+    for position, parties in allocated_positions.items():
+        for party in parties:
+            print(f"  • {position}: {party}")
+
+def offer_cabinet_positions_to_partner(partner_candidate, player_candidate):
+    """Interactive cabinet position negotiation"""
+    available = get_available_positions()
+    
+    if not available:
+        print(f"\n❌ No cabinet positions available to offer {partner_candidate['party']}!")
+        return 0
+    
+    print(f"\n" + "="*80)
+    print(f"                    CABINET NEGOTIATIONS")
+    print(f"               Offering positions to {partner_candidate['party']}")
+    print("="*80)
+    
+    display_current_cabinet()
+    
+    print(f"\nAvailable positions to offer (importance in parentheses):")
+    for i, pos in enumerate(available[:8], 1):  # Show top 8 available positions
+        print(f"{i}. {pos['name']} ({pos['importance']}) - {pos['description']}")
+    
+    print(f"{len(available[:8]) + 1}. Offer no cabinet positions (policy cooperation only)")
+    
+    total_importance = 0
+    positions_offered = []
+    
+    print(f"\nWhat cabinet positions do you want to offer {partner_candidate['party']}?")
+    print("You can offer multiple positions. Enter 0 when done, or choose the 'no positions' option.")
+    
+    while True:
+        try:
+            choice = int(input(f"\nChoose position to offer (1-{len(available[:8]) + 1}, or 0 to finish): "))
+            
+            if choice == 0:
+                break
+            elif choice == len(available[:8]) + 1:
+                # No positions offered
+                break
+            elif 1 <= choice <= len(available[:8]):
+                selected_pos = available[choice - 1]
+                positions_offered.append(selected_pos)
+                total_importance += selected_pos["importance"]
+                allocate_position(selected_pos["name"], partner_candidate['party'])
+                
+                print(f"✓ Offered {selected_pos['name']} to {partner_candidate['party']}")
+                
+                # Update available list for next iteration
+                available = get_available_positions()
+                
+                if not available:
+                    print("No more positions available to offer.")
+                    break
+                    
+                # Ask if they want to offer more
+                more = input("Offer another position? (y/n): ").lower().strip()
+                if more != 'y':
+                    break
+            else:
+                print("Invalid choice.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+    
+    if positions_offered:
+        print(f"\nTotal package offered to {partner_candidate['party']}:")
+        for pos in positions_offered:
+            print(f"  • {pos['name']}")
+        print(f"Total importance value: {total_importance}")
+    else:
+        print(f"\nNo cabinet positions offered to {partner_candidate['party']}.")
+    
+    return total_importance
+
+def calculate_cabinet_appeal(importance_offered, partner_percentage, compatibility):
+    """Calculate how appealing the cabinet offer is to the partner"""
+    # Base appeal from importance of positions
+    base_appeal = importance_offered * 1.5
+    
+    # Adjust based on party size - smaller parties are happier with smaller roles
+    if partner_percentage < 5:
+        base_appeal *= 1.2  # Smaller parties more grateful
+    elif partner_percentage > 15:
+        base_appeal *= 0.8  # Larger parties expect more
+    
+    # Adjust based on compatibility
+    if compatibility > 70:
+        base_appeal *= 1.1  # Compatible parties easier to please
+    elif compatibility < 40:
+        base_appeal *= 0.7  # Incompatible parties need more incentive
+    
+    return base_appeal
+
+def partner_considers_cabinet_offer(partner_candidate, importance_offered, partner_percentage, compatibility):
+    """Simulate partner's consideration of cabinet offer"""
+    appeal = calculate_cabinet_appeal(importance_offered, partner_percentage, compatibility)
+    
+    print(f"\n{partner_candidate['party']} leadership meets to consider your offer...")
+    sleep(1)
+    
+    # Decision thresholds
+    if importance_offered == 0:
+        appeal -= 20  # Penalty for no cabinet positions
+        
+    if appeal > 40:
+        print(f"✅ {partner_candidate['party']}: 'We accept your generous offer!'")
+        return True
+    elif appeal > 20:
+        print(f"🤔 {partner_candidate['party']}: 'This is a reasonable offer, we can work with this.'")
+        return True
+    elif appeal > 5:
+        print(f"😐 {partner_candidate['party']}: 'We're not entirely satisfied, but we'll consider it...'")
+        # 60% chance of acceptance for marginal offers
+        if random.random() < 0.6:
+            print(f"📞 After deliberation: 'We've decided to accept, despite our reservations.'")
+            return True
+        else:
+            print(f"📞 After deliberation: 'We cannot accept this offer as it stands.'")
+            return False
+    else:
+        print(f"❌ {partner_candidate['party']}: 'This offer is insufficient for our party's contribution.'")
+        return False
+
+def get_party_priority_positions(partner_candidate):
+    """Determine which cabinet positions a party would most want based on their ideology"""
+    priorities = []
+    vals = partner_candidate['vals']
+    
+    # Map political values to preferred ministries
+    # soc_cap (socialist-capitalist): index 3
+    if vals[3] < -30:  # Socialist-leaning
+        priorities.extend([("Chancellor/Finance Minister", 30), ("Health Minister", 25)])
+    elif vals[3] > 30:  # Capitalist-leaning
+        priorities.extend([("Chancellor/Finance Minister", 30), ("Transport Minister", 20)])
+    
+    # env_eco (environmental-economic): index 2
+    if vals[2] < -20:  # Environmental-leaning
+        priorities.append(("Environment Minister", 35))
+    
+    # pac_mil (pacifist-militarist): index 4
+    if vals[4] > 30:  # Militarist
+        priorities.append(("Defense Minister", 30))
+    elif vals[4] < -30:  # Pacifist
+        priorities.append(("Foreign Minister", 25))
+    
+    # nat_glob (nationalist-globalist): index 1
+    if vals[1] < -20:  # Nationalist
+        priorities.extend([("Home/Interior Minister", 25), ("Defense Minister", 20)])
+    elif vals[1] > 20:  # Globalist
+        priorities.append(("Foreign Minister", 30))
+    
+    # prog_cons (progressive-conservative): index 0
+    if vals[0] < -20:  # Progressive
+        priorities.extend([("Education Minister", 25), ("Justice Minister", 20)])
+    elif vals[0] > 20:  # Conservative
+        priorities.extend([("Justice Minister", 25), ("Home/Interior Minister", 20)])
+    
+    # Always interested in high-ranking positions
+    priorities.extend([("Deputy Prime Minister", 40), ("Chancellor/Finance Minister", 35)])
+    
+    # Sort by priority and remove duplicates while keeping highest priority
+    unique_priorities = {}
+    for position, priority in priorities:
+        if position not in unique_priorities or unique_priorities[position] < priority:
+            unique_priorities[position] = priority
+    
+    return sorted(unique_priorities.items(), key=lambda x: x[1], reverse=True)[:4]  # Top 4 preferences
+
+def partner_makes_cabinet_demands(partner_candidate, partner_percentage):
+    """Partner makes specific cabinet position demands based on their ideology"""
+    priorities = get_party_priority_positions(partner_candidate)
+    available = get_available_positions()
+    available_names = [pos['name'] for pos in available]
+    
+    # Filter priorities to only available positions
+    available_priorities = [(pos, priority) for pos, priority in priorities if pos in available_names]
+    
+    if not available_priorities:
+        return None, 0
+    
+    # Choose demand based on party size and compatibility
+    if partner_percentage > 15:  # Large party - demands top position
+        demanded_position = available_priorities[0][0]
+        fallback_positions = [pos for pos, _ in available_priorities[1:3]]
+    elif partner_percentage > 8:  # Medium party - wants significant role
+        if len(available_priorities) >= 2:
+            demanded_position = available_priorities[1][0]
+            fallback_positions = [pos for pos, _ in available_priorities[2:4]]
+        else:
+            demanded_position = available_priorities[0][0]
+            fallback_positions = []
+    else:  # Small party - happy with any ministerial role
+        demanded_position = available_priorities[-1][0] if available_priorities else None
+        fallback_positions = []
+    
+    return demanded_position, fallback_positions
+
+def handle_partner_cabinet_demands(partner_candidate, player_candidate, partner_percentage):
+    """Handle specific cabinet position demands from coalition partner"""
+    demanded_position, fallback_positions = partner_makes_cabinet_demands(partner_candidate, partner_percentage)
+    
+    if not demanded_position:
+        print(f"\n{partner_candidate['party']}: 'We're flexible on cabinet positions. Any ministerial role would be appreciated.'")
+        return offer_cabinet_positions_to_partner(partner_candidate, player_candidate)
+    
+    print(f"\n{partner_candidate['party']} has specific cabinet demands:")
+    print(f"'We must insist on the {demanded_position} position for our party.'")
+    
+    if fallback_positions:
+        print(f"'Alternatively, we could accept one of these positions: {', '.join(fallback_positions)}'")
+    
+    print("\nWhat is your response?")
+    print(f"1. Agree to give them {demanded_position}")
+    
+    if fallback_positions:
+        for i, pos in enumerate(fallback_positions[:2], 2):  # Max 2 fallback options
+            print(f"{i}. Offer {pos} instead")
+        next_option = len(fallback_positions[:2]) + 2
+    else:
+        next_option = 2
+    
+    print(f"{next_option}. Offer them a different position of your choosing")
+    print(f"{next_option + 1}. Refuse their demands - no major cabinet position")
+    
+    while True:
+        try:
+            choice = int(input(f"\nYour response (1-{next_option + 1}): "))
+            
+            if choice == 1:
+                # Accept their main demand
+                position_details = CABINET_POSITIONS[demanded_position]
+                allocate_position(demanded_position, partner_candidate['party'])
+                print(f"\n✅ You agree to give {partner_candidate['party']} the {demanded_position} position.")
+                return position_details['importance']
+                
+            elif choice >= 2 and choice < next_option and fallback_positions:
+                # Offer fallback position
+                fallback_pos = fallback_positions[choice - 2]
+                position_details = CABINET_POSITIONS[fallback_pos]
+                allocate_position(fallback_pos, partner_candidate['party'])
+                print(f"\n🤝 You counter-offer the {fallback_pos} position.")
+                
+                # Partner reaction to counter-offer
+                if partner_percentage > 12:
+                    print(f"{partner_candidate['party']}: 'This is not what we wanted, but we suppose it's acceptable.'")
+                    return position_details['importance'] * 0.8  # Reduced satisfaction
+                else:
+                    print(f"{partner_candidate['party']}: 'We appreciate this significant role. Thank you.'")
+                    return position_details['importance']
+                    
+            elif choice == next_option:
+                # Offer different position
+                return offer_cabinet_positions_to_partner(partner_candidate, player_candidate)
+                
+            elif choice == next_option + 1:
+                # Refuse major positions
+                print(f"\n❌ You refuse to give {partner_candidate['party']} a major cabinet position.")
+                print(f"{partner_candidate['party']}: 'This is very disappointing. We expected better treatment.'")
+                return -10  # Negative appeal for refusal
+                
+            else:
+                print("Invalid choice.")
+                
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 def main():
     """Main function to run the electoral simulation"""
     global COUNTRY, scale_factor, scale_fac, RESULTS, not_voted, previous_poll_results, initial_poll_results
@@ -1645,6 +1973,8 @@ def main():
     # Shuffle each dimension independently
     for x in range(len(data)):
         numpy.random.shuffle(data[x])
+
+
     
     print("Electorate generated! Starting campaign...")
     sleep(1)
