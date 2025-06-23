@@ -44,7 +44,7 @@ VALUES = [
 # Cabinet positions with their importance values and requirements
 CABINET_POSITIONS = {
     "Deputy Prime Minister": {"importance": 30, "max_slots": 1, "description": "Second-in-command of the government"},
-    "Chancellor/Finance Minister": {"importance": 25, "max_slots": 1, "description": "Controls economic policy and budget"},
+    "Finance Minister": {"importance": 25, "max_slots": 1, "description": "Controls economic policy and budget"},
     "Foreign Minister": {"importance": 20, "max_slots": 1, "description": "Leads international relations and diplomacy"},
     "Defense Minister": {"importance": 18, "max_slots": 1, "description": "Oversees military and national security"},
     "Home/Interior Minister": {"importance": 16, "max_slots": 1, "description": "Manages domestic security and law enforcement"},
@@ -478,6 +478,8 @@ def apply_event_effect(player_candidate, effect, boost):
                     if alignment_change > 0:  # Moving closer to voter preference
                         # Randomly choose between party name and leader name for headlines
                         name_choice = random.choice([player_candidate['party'], player_candidate['name']])
+                        
+                        # todo make it also so that it only shows if the difference is still significant - don't show if the voters are very similar to the party
                         
                         if value_key == "soc_cap":
                             if voter_position > player_old_position:
@@ -1429,8 +1431,8 @@ def watch_coalition_formation(player_candidate, results, total_votes):
     winner_percentage = (winner_votes / total_votes * 100) if total_votes > 0 else 0
     
     # Reserve key positions for the leading party
-    allocate_position("Deputy Prime Minister", "Available")  # Will be decided by winner
-    allocate_position("Chancellor/Finance Minister", winner_candidate['party'])  # Leading party typically keeps finance
+    #allocate_position("Deputy Prime Minister", "Available")  # Will be decided by winner
+    #allocate_position("Finance Minister", winner_candidate['party'])  # Leading party typically keeps finance
     
     # Find player's position and percentage
     player_percentage = 0
@@ -1451,7 +1453,8 @@ def watch_coalition_formation(player_candidate, results, total_votes):
     print("="*70)
     print(f"\n{winner_candidate['party']} won {winner_percentage:.1f}% but needs coalition partners to govern.")
     print("You watch as they approach potential partners...")
-    
+    input("\nPress Enter to continue...")
+
     # Show what cabinet positions are available for negotiation
     available_positions = get_available_positions()
     if available_positions:
@@ -1626,7 +1629,7 @@ def watch_coalition_formation(player_candidate, results, total_votes):
         print(f"\n" + "="*70)
         print("                    FINAL CABINET")
         print("="*70)
-        display_current_cabinet()
+        display_current_cabinet(player_candidate)
     
     return coalition_partners
 
@@ -1636,9 +1639,11 @@ def interactive_coalition_formation(player_candidate, results, total_votes):
     reset_cabinet_allocations()
     
     # Reserve key positions for the leading party
-    allocate_position("Deputy Prime Minister", player_candidate['party'])  # Will be decided by player
-    allocate_position("Chancellor/Finance Minister", player_candidate['party'])  # Leading party typically keeps finance
+    #allocate_position("Deputy Prime Minister", player_candidate['party'])  # Will be decided by player
+    #allocate_position("Chancellor/Finance Minister", player_candidate['party'])  # Leading party typically keeps finance
     
+    # todo removing
+
     player_votes = results[0][1]
     player_percentage = (player_votes / total_votes * 100) if total_votes > 0 else 0
     
@@ -1652,9 +1657,10 @@ def interactive_coalition_formation(player_candidate, results, total_votes):
     print("="*70)
     print(f"\nYou won {player_percentage:.1f}% of the vote, but need a coalition to govern.")
     print("You need to reach 50%+ to form a stable government.")
+    input("\nPress Enter to continue...")
+
     print(f"\nAs the leading party, you automatically receive:")
     print(f"  • Prime Minister: {player_candidate['name']} ({player_candidate['party']})")
-    print(f"  • Chancellor/Finance Minister: {player_candidate['party']}")
     
     # Show what cabinet positions are available for negotiation
     available_positions = get_available_positions()
@@ -1730,7 +1736,7 @@ def interactive_coalition_formation(player_candidate, results, total_votes):
         print(f"\n" + "="*70)
         print("                    FINAL CABINET")
         print("="*70)
-        display_current_cabinet()
+        display_current_cabinet(player_candidate)
     
     return coalition_partners
 
@@ -1762,16 +1768,18 @@ def allocate_position(position_name, party_name):
         allocated_positions[position_name] = []
     allocated_positions[position_name].append(party_name)
 
-def display_current_cabinet():
+def display_current_cabinet(player_candidate):
     """Display the current cabinet allocation"""
     if not allocated_positions:
         print("No positions allocated yet.")
         return
     
     print("\nCurrent Cabinet Allocation:")
+    print(f"  • Prime Minister: {player_candidate['name']} ({player_candidate['party']})")
     for position, parties in allocated_positions.items():
         for party in parties:
             print(f"  • {position}: {party}")
+    
 
 def offer_cabinet_positions_to_partner(partner_candidate, player_candidate):
     """Interactive cabinet position negotiation"""
@@ -1786,7 +1794,7 @@ def offer_cabinet_positions_to_partner(partner_candidate, player_candidate):
     print(f"               Offering positions to {partner_candidate['party']}")
     print("="*80)
     
-    display_current_cabinet()
+    display_current_cabinet(player_candidate)
     
     print(f"\nAvailable positions to offer (importance in parentheses):")
     for i, pos in enumerate(available[:8], 1):  # Show top 8 available positions
@@ -1882,6 +1890,7 @@ def partner_considers_cabinet_offer(partner_candidate, importance_offered, partn
     elif appeal > 5:
         print(f"😐 {partner_candidate['party']}: 'We're not entirely satisfied, but we'll consider it...'")
         # 60% chance of acceptance for marginal offers
+        sleep(1)
         if random.random() < 0.6:
             print(f"📞 After deliberation: 'We've decided to accept, despite our reservations.'")
             return True
@@ -1900,9 +1909,9 @@ def get_party_priority_positions(partner_candidate):
     # Map political values to preferred ministries
     # soc_cap (socialist-capitalist): index 3
     if vals[3] < -30:  # Socialist-leaning
-        priorities.extend([("Chancellor/Finance Minister", 30), ("Health Minister", 25)])
+        priorities.extend([("Finance Minister", 30), ("Health Minister", 25)])
     elif vals[3] > 30:  # Capitalist-leaning
-        priorities.extend([("Chancellor/Finance Minister", 30), ("Transport Minister", 20)])
+        priorities.extend([("Finance Minister", 30), ("Transport Minister", 20)])
     
     # env_eco (environmental-economic): index 2
     if vals[2] < -20:  # Environmental-leaning
@@ -1927,7 +1936,7 @@ def get_party_priority_positions(partner_candidate):
         priorities.extend([("Justice Minister", 25), ("Home/Interior Minister", 20)])
     
     # Always interested in high-ranking positions
-    priorities.extend([("Deputy Prime Minister", 40), ("Chancellor/Finance Minister", 35)])
+    priorities.extend([("Deputy Prime Minister", 40), ("Finance Minister", 35)])
     
     # Sort by priority and remove duplicates while keeping highest priority
     unique_priorities = {}
