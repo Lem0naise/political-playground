@@ -14,8 +14,7 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="bg-white rounded-lg shadow-2xl w-full max-h-[80vh] overflow-y-auto border-2 border-red-200">
         {/* Header */}
         <div className="bg-red-600 text-white p-6 rounded-t-lg">
           <h2 className="text-2xl font-bold mb-2">🚨 BREAKING NEWS</h2>
@@ -79,6 +78,5 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
           </div>
         </div>
       </div>
-    </div>
   );
 }

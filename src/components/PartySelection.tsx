@@ -84,7 +84,7 @@ export default function PartySelection() {
                     <div className="font-medium text-gray-800">{party.party}</div>
                     <div className="text-sm text-gray-600">{party.name}</div>
                     <div className="text-xs text-gray-500">
-                      Support: {party.party_pop > 1 ? `${party.party_pop}%` : `${(party.party_pop * 100).toFixed(1)}%`}
+                      Support: {party.party_pop >= 1 ? `${party.party_pop.toFixed(1)}%` : `${(party.party_pop * 100).toFixed(1)}%`}
                     </div>
                   </div>
                 </div>

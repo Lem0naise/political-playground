@@ -165,8 +165,10 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     // Store previous popularity for next iteration
     candidate.previous_popularity = oldPopularity;
     
-    // Ensure it doesn't go below minimum threshold
-    if (candidate.party_pop < -50) {
+    // Ensure party popularity doesn't go extreme values
+    if (candidate.party_pop > 100) {
+      candidate.party_pop = 100;
+    } else if (candidate.party_pop < -50) {
       candidate.party_pop = -50;
     }
     
@@ -244,9 +246,10 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
   // Apply small random changes to voter opinions
   for (let voterIndex = 0; voterIndex < data[0].length; voterIndex++) {
     for (let i = 0; i < VALUES.length; i++) {
-      if (Math.random() < 0.02) { // 2% chance per voter per issue
-        const change = (Math.random() - 0.5) * 4; // Small change
-        data[i][voterIndex] = Math.max(-100, Math.min(100, data[i][voterIndex] + change));
+      if (Math.random() < 0.015) { // 1.5% chance per voter per issue
+        const change = (Math.random() - 0.5) * 3; // Smaller change range
+        const newValue = data[i][voterIndex] + change;
+        data[i][voterIndex] = Math.max(-100, Math.min(100, newValue));
       }
     }
   }
@@ -272,8 +275,8 @@ export function conductPoll(
   // Combine news events
   const allNewsEvents = [...politicalNews, ...voterNews];
   
-  // Add minimal polling noise to simulate margin of error
-  const pollingNoise = 0.998 + Math.random() * 0.004; // 0.998 to 1.002
+  // Apply minimal polling noise to simulate margin of error
+  const pollingNoise = 0.995 + Math.random() * 0.01; // 0.995 to 1.005
   
   // Poll the entire electorate
   for (let voterIndex = 0; voterIndex < data[0].length; voterIndex++) {
@@ -285,9 +288,12 @@ export function conductPoll(
     }
   }
   
-  // Apply minimal polling noise to results
-  for (let i = 0; i < pollResults.length; i++) {
-    pollResults[i] *= pollingNoise;
+  // Apply minimal polling noise to results (only if there are votes)
+  const totalRawVotes = pollResults.reduce((sum, votes) => sum + votes, 0);
+  if (totalRawVotes > 0) {
+    for (let i = 0; i < pollResults.length; i++) {
+      pollResults[i] = Math.max(0, pollResults[i] * pollingNoise);
+    }
   }
   
   // Calculate total votes and percentages
@@ -296,9 +302,21 @@ export function conductPoll(
   // Return results as array of objects with percentages
   const results = candidates.map((candidate, index) => ({
     candidate,
-    votes: pollResults[index],
+    votes: Math.round(pollResults[index]), // Round to whole votes
     percentage: totalVotes > 0 ? (pollResults[index] / totalVotes) * 100 : 0
   }));
+  
+  // Ensure percentages add up to 100% (handle rounding errors)
+  if (totalVotes > 0) {
+    const totalPercentage = results.reduce((sum, result) => sum + result.percentage, 0);
+    if (Math.abs(totalPercentage - 100) > 0.01) {
+      // Find the candidate with the most votes and adjust their percentage
+      const maxIndex = results.findIndex(r => r.votes === Math.max(...results.map(res => res.votes)));
+      if (maxIndex !== -1) {
+        results[maxIndex].percentage += (100 - totalPercentage);
+      }
+    }
+  }
   
   return { results, newsEvents: allNewsEvents };
 }
@@ -414,12 +432,14 @@ export function applyEventEffect(
   // Cap maximum polling change
   pollingChange = Math.max(-5.0, Math.min(5.0, pollingChange));
   
-  // Apply polling change
+  // Apply polling change with proper bounds checking
   const oldPopularity = playerCandidate.party_pop;
   playerCandidate.party_pop += pollingChange;
   
-  // Ensure party popularity doesn't go below minimum threshold
-  if (playerCandidate.party_pop < -50) {
+  // Ensure party popularity stays within reasonable bounds
+  if (playerCandidate.party_pop > 100) {
+    playerCandidate.party_pop = 100;
+  } else if (playerCandidate.party_pop < -50) {
     playerCandidate.party_pop = -50;
   }
   

@@ -17,7 +17,7 @@ export default function PollResults() {
 
   const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
   const totalVotes = state.pollResults.reduce((sum, result) => sum + result.votes, 0);
-  const turnout = ((totalVotes / state.countryData.pop) * 100);
+  const turnout = totalVotes > 0 ? ((totalVotes / state.countryData.pop) * 100) : 0;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
@@ -68,7 +68,7 @@ export default function PollResults() {
                   <div className="font-bold text-lg text-gray-900">
                     {result.percentage.toFixed(1)}%
                   </div>
-                  {Math.abs(change) > 0.1 && (
+                  {Math.abs(change) > 0.05 && (
                     <div className={`text-sm ${change > 0 ? 'text-green-600' : 'text-red-600'}`}>
                       {change > 0 ? '+' : ''}{change.toFixed(1)}%
                     </div>
@@ -81,7 +81,7 @@ export default function PollResults() {
                   className="h-2 rounded-full transition-all duration-300"
                   style={{ 
                     backgroundColor: result.candidate.colour,
-                    width: `${Math.max(2, result.percentage)}%`
+                    width: `${Math.max(0.5, Math.min(100, result.percentage))}%`
                   }}
                 ></div>
               </div>

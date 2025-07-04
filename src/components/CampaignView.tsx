@@ -35,6 +35,7 @@ export default function CampaignView() {
 
   const handleEventChoice = (event: Event, choice: EventChoice) => {
     actions.handleEvent(event, choice);
+    actions.nextPoll();
     setCurrentEvent(null);
   };
 
@@ -101,6 +102,7 @@ export default function CampaignView() {
             )}
 
             {/* Next Poll Button */}
+            {!currentEvent && (
             <div className="bg-white rounded-lg shadow-lg p-6">
               <div className="text-center">
                 {state.currentPoll === 0 ? (
@@ -123,7 +125,16 @@ export default function CampaignView() {
                   </button>
                 )}
               </div>
-            </div>
+            </div>)}
+
+            {/* Event Modal - positioned below Next Poll button */}
+            {currentEvent && (
+              <EventModal
+                event={currentEvent}
+                onChoice={(choice) => handleEventChoice(currentEvent, choice)}
+                onClose={() => setCurrentEvent(null)}
+              />
+            )}
           </div>
 
           {/* Sidebar - Poll Results */}
@@ -132,15 +143,6 @@ export default function CampaignView() {
           </div>
         </div>
       </div>
-
-      {/* Event Modal */}
-      {currentEvent && (
-        <EventModal
-          event={currentEvent}
-          onChoice={(choice) => handleEventChoice(currentEvent, choice)}
-          onClose={() => setCurrentEvent(null)}
-        />
-      )}
     </div>
   );
 }

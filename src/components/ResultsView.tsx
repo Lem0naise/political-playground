@@ -24,7 +24,7 @@ export default function ResultsView() {
 
   const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
   const totalVotes = state.pollResults.reduce((sum, result) => sum + result.votes, 0);
-  const turnout = ((totalVotes / state.countryData.pop) * 100);
+  const turnout = totalVotes > 0 ? ((totalVotes / state.countryData.pop) * 100) : 0;
   
   const winner = sortedResults[0];
   const playerResult = sortedResults.find(r => r.candidate.is_player);

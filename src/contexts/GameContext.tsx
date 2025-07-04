@@ -38,7 +38,7 @@ const initialState: GameState = {
   candidates: [],
   playerCandidate: null,
   currentPoll: 0,
-  totalPolls: 30,
+  totalPolls: 52,
   pollResults: [],
   previousPollResults: {},
   initialPollResults: {},
@@ -150,19 +150,26 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'HANDLE_EVENT':
       if (!state.playerCandidate) return state;
       
+      // Create a copy of the player candidate to modify
+      const updatedPlayerCandidate = { ...state.playerCandidate };
+      
       const { pollingChange, newsEvents: eventNews } = applyEventEffect(
-        state.playerCandidate,
+        updatedPlayerCandidate,
         action.payload.choice.effect,
         action.payload.choice.boost,
         state.countryData
       );
       
+      // Update the candidates array with the modified player candidate
+      const candidatesAfterEvent = state.candidates.map(candidate => 
+        candidate.id === state.playerCandidate?.id ? updatedPlayerCandidate : candidate
+      );
+      
       return {
         ...state,
-        playerEventNews: eventNews,
-        candidates: state.candidates.map(candidate => 
-          candidate.id === state.playerCandidate?.id ? state.playerCandidate : candidate
-        )
+        playerCandidate: updatedPlayerCandidate,
+        candidates: candidatesAfterEvent,
+        playerEventNews: eventNews
       };
       
     case 'RESET_GAME':
