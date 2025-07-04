@@ -1,0 +1,114 @@
+{
+    "UK": {
+        "pop": 70029,
+        "vals": {
+            "prog_cons": 10,
+            "nat_glob": -15,
+            "env_eco": 65,
+            "soc_cap": 25,
+            "pac_mil": -24,
+            "auth_ana": -17,
+            "rel_sec": 30
+        },
+        "scale": 1000,
+        "hos": "King Charles III"
+    },
+    "USA": {
+        "pop": 35000,
+        "vals": {
+            "prog_cons": 10,
+            "nat_glob": -5,
+            "env_eco": 20,
+            "soc_cap": 50,
+            "pac_mil": 40,
+            "auth_ana": -12,
+            "rel_sec": -31
+        },
+        "scale": 10000,
+        "hos": "Joe Biden"
+    },
+    "CANADA": {
+        "pop": 38250,
+        "vals": {
+            "prog_cons": -55,
+            "nat_glob": 40,
+            "env_eco": -20,
+            "soc_cap": -35,
+            "pac_mil": -30,
+            "auth_ana": 35,
+            "rel_sec": 50
+        },
+        "scale": 1000,
+        "hos": "King Charles III"
+    },
+    "AUSTRALIA": {
+        "pop": 26000,
+        "vals": {
+            "prog_cons": -30,
+            "nat_glob": 20,
+            "env_eco": 30,
+            "soc_cap": 30,
+            "pac_mil": 10,
+            "auth_ana": 25,
+            "rel_sec": 45
+        },
+        "scale": 1000,
+        "hos": "King Charles III"
+    },
+    "GERMANY": {
+        "pop": 85029,
+        "vals": {
+            "prog_cons": -40,
+            "nat_glob": 55,
+            "env_eco": -30,
+            "soc_cap": -25,
+            "pac_mil": -45,
+            "auth_ana": 20,
+            "rel_sec": 40
+        },
+        "scale": 1000,
+        "hos": "Frank-Walter Steinmeier"
+    },
+    "FRANCE": {
+        "pop": 67212,
+        "vals": {
+            "prog_cons": -25,
+            "nat_glob": 10,
+            "env_eco": -15,
+            "soc_cap": -20,
+            "pac_mil": 32,
+            "auth_ana": -12,
+            "rel_sec": 65
+        },
+        "scale": 1000,
+        "hos": "Emmanuel Macron"
+    },
+    "ITALY": {
+        "pop": 59110,
+        "vals": {
+            "prog_cons": 35,
+            "nat_glob": -30,
+            "env_eco": 25,
+            "soc_cap": 10,
+            "pac_mil": -10,
+            "auth_ana": -5,
+            "rel_sec": -25
+        },
+        "scale": 1000,
+        "hos": "Sergio Mattarella"
+    },
+    "SPAIN": {
+        "pop": 47421,
+        "vals": {
+            "prog_cons": -35,
+            "nat_glob": 25,
+            "env_eco": -10,
+            "soc_cap": -15,
+            "pac_mil": -5,
+            "auth_ana": 10,
+            "rel_sec": 35
+        },
+        "scale": 1000,
+        "hos": "King Felipe VI"
+    }
+}

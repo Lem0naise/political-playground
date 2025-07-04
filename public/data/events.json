@@ -1,0 +1,92 @@
+[
+    {
+        "title": "Major Debate Coming Up",
+        "description": "A crucial national debate is scheduled. How do you prepare?",
+        "choices": [
+            {"text": "Focus on attacking opponents", "effect": {"prog_cons": 8, "auth_ana": -5}, "boost": 15},
+            {"text": "Emphasize your policy platform", "effect": {"prog_cons": 0, "auth_ana": 3}, "boost": 10},
+            {"text": "Appeal to emotion and values", "effect": {"prog_cons": -3, "rel_sec": -5}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Economic Crisis Hits",
+        "description": "The economy is struggling with rising unemployment. What's your response?",
+        "choices": [
+            {"text": "Call for massive government intervention", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 20},
+            {"text": "Promote free market solutions", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 18},
+            {"text": "Form bipartisan economic task force", "effect": {"prog_cons": 0, "auth_ana": 0}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Environmental Disaster",
+        "description": "A major oil spill devastates the coastline. Your stance?",
+        "choices": [
+            {"text": "Push for immediate green energy transition", "effect": {"env_eco": -20, "prog_cons": -8}, "boost": 25},
+            {"text": "Balance environment with economic concerns", "effect": {"env_eco": -5, "soc_cap": 3}, "boost": 12},
+            {"text": "Focus on economic recovery and jobs first", "effect": {"env_eco": 12, "soc_cap": 8}, "boost": 15}
+        ]
+    },
+    {
+        "title": "Immigration Crisis at Border",
+        "description": "Thousands of migrants overwhelm border facilities. Your position?",
+        "choices": [
+            {"text": "Open borders and humanitarian aid", "effect": {"nat_glob": 15, "prog_cons": -10, "soc_cap": -8}, "boost": 22},
+            {"text": "Secure borders with military deployment", "effect": {"nat_glob": -18, "prog_cons": 12, "pac_mil": 8}, "boost": 24},
+            {"text": "Expand legal immigration pathways", "effect": {"nat_glob": 5, "prog_cons": -3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Corruption Scandal Breaks",
+        "description": "High-ranking officials caught in bribery scheme. How do you respond?",
+        "choices": [
+            {"text": "Demand complete government transparency", "effect": {"auth_ana": 8, "prog_cons": -5}, "boost": 18},
+            {"text": "Call for swift prosecutions", "effect": {"auth_ana": 3, "prog_cons": 3}, "boost": 16},
+            {"text": "Create independent ethics commission", "effect": {"auth_ana": 5, "prog_cons": -8}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Healthcare System Crisis",
+        "description": "Hospitals are overwhelmed and healthcare costs are soaring. Your solution?",
+        "choices": [
+            {"text": "Implement universal healthcare", "effect": {"soc_cap": -20, "prog_cons": -10}, "boost": 22},
+            {"text": "Increase private healthcare competition", "effect": {"soc_cap": 15, "auth_ana": 8}, "boost": 18},
+            {"text": "Expand current public programs gradually", "effect": {"soc_cap": -5, "prog_cons": 0}, "boost": 12}
+        ]
+    },
+    {
+        "title": "International Trade War",
+        "description": "Foreign powers impose tariffs on your country's exports. Your response?",
+        "choices": [
+            {"text": "Retaliate with our own tariffs", "effect": {"nat_glob": -12, "pac_mil": 8}, "boost": 16},
+            {"text": "Seek multilateral trade agreements", "effect": {"nat_glob": 15, "auth_ana": 5}, "boost": 18},
+            {"text": "Focus on domestic production", "effect": {"nat_glob": -8, "soc_cap": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Social Media Regulation Debate",
+        "description": "Calls grow to regulate big tech companies. What's your position?",
+        "choices": [
+            {"text": "Break up tech monopolies", "effect": {"soc_cap": -12, "auth_ana": -8}, "boost": 20},
+            {"text": "Let the free market regulate itself", "effect": {"soc_cap": 10, "auth_ana": 12}, "boost": 15},
+            {"text": "Create balanced oversight framework", "effect": {"auth_ana": 0, "prog_cons": -3}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Energy Independence Crisis",
+        "description": "Energy prices spike due to international tensions. Your energy policy?",
+        "choices": [
+            {"text": "Massive investment in renewable energy", "effect": {"env_eco": -18, "soc_cap": -8}, "boost": 22},
+            {"text": "Expand domestic fossil fuel production", "effect": {"env_eco": 15, "nat_glob": -10}, "boost": 20},
+            {"text": "Diversify energy sources and suppliers", "effect": {"nat_glob": 8, "env_eco": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Education Funding Crisis",
+        "description": "Schools are underfunded and teacher strikes spread nationwide. Your solution?",
+        "choices": [
+            {"text": "Dramatically increase education spending", "effect": {"soc_cap": -15, "prog_cons": -8}, "boost": 18},
+            {"text": "Promote school choice and vouchers", "effect": {"soc_cap": 12, "auth_ana": 8}, "boost": 16},
+            {"text": "Reform education administration", "effect": {"auth_ana": 3, "prog_cons": 0}, "boost": 12}
+        ]
+    }
+]
