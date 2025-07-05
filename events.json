@@ -533,8 +533,8 @@
         "title": "Political Violence Escalation",
         "description": "Armed protesters clash at rallies. Democracy under threat from extremists.",
         "choices": [
-            {"text": "Crack down on all political violence", "effect": {"auth_ana": -12, "prog_cons": 0}, "boost": 24},
-            {"text": "Protect right to armed protest", "effect": {"auth_ana": 8, "prog_cons": 8}, "boost": 18},
+            {"text": "Crack down on all political violence", "effect": {"auth_ana": -12, "prog_cons": 5}, "boost": 24},
+            {"text": "Protect right to armed protest", "effect": {"auth_ana": 8, "prog_cons": -8}, "boost": 18},
             {"text": "Focus on online radicalization", "effect": {"auth_ana": -5, "prog_cons": -3}, "boost": 20},
             {"text": "Promote civil discourse and engagement", "effect": {"auth_ana": 5, "prog_cons": 3}, "boost": 16}
         ]
@@ -684,7 +684,7 @@
         "description": "Insulin and cancer drugs cost thousands. Government price regulation?",
         "choices": [
             {"text": "Direct government price controls", "effect": {"soc_cap": -15, "auth_ana": -8}, "boost": 26},
-            {"text": "Negotiate prices through insurance", "effect": {"soc_cap": -5, "prog_cons": 0}, "boost": 18},
+            {"text": "Negotiate prices through insurance", "effect": {"soc_cap": 2, "prog_cons": 0}, "boost": 18},
             {"text": "Reduce regulations to increase competition", "effect": {"soc_cap": 8, "auth_ana": 5}, "boost": 16},
             {"text": "Implement a national formulary", "effect": {"soc_cap": -3, "prog_cons": 3}, "boost": 14}
         ]
@@ -761,7 +761,7 @@
     },
     {
         "title": "Corporate Espionage Response",
-        "description": "Foreign companies steal American intellectual property worth billions.",
+        "description": "Foreign companies steal intellectual property worth billions.",
         "choices": [
             {"text": "Cyber retaliation against thieves", "effect": {"pac_mil": 12, "nat_glob": -8}, "boost": 22},
             {"text": "Trade sanctions and tariffs", "effect": {"pac_mil": 5, "nat_glob": -5}, "boost": 18},
@@ -773,7 +773,7 @@
         "title": "Digital Privacy Rights",
         "description": "Tech companies track every online action. Comprehensive privacy law needed?",
         "choices": [
-            {"text": "Strict data protection like Europe", "effect": {"auth_ana": 8, "soc_cap": -5}, "boost": 20},
+            {"text": "Strict data protection", "effect": {"auth_ana": 8, "soc_cap": -5}, "boost": 20},
             {"text": "Industry self-regulation sufficient", "effect": {"auth_ana": -5, "soc_cap": 8}, "boost": 16},
             {"text": "Complete ban on data collection", "effect": {"auth_ana": 12, "soc_cap": -8}, "boost": 22},
             {"text": "Establish a digital bill of rights", "effect": {"auth_ana": 5, "prog_cons": 3}, "boost": 18}

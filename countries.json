@@ -282,13 +282,13 @@
     "IRELAND": {
         "pop": 6012,
         "vals": {
-            "prog_cons": -20,
+            "prog_cons": 0,
             "nat_glob": 25,
-            "env_eco": -25,
+            "env_eco": -5,
             "soc_cap": 0,
             "pac_mil": -40,
-            "auth_ana": 15,
-            "rel_sec": 5
+            "auth_ana": 20,
+            "rel_sec": -12
         },
         "scale": 1000,
         "hos": "Michael D. Higgins"
@@ -551,9 +551,9 @@
             "prog_cons": 50,
             "nat_glob": -15,
             "env_eco": 40,
-            "soc_cap": 20,
+            "soc_cap": -30,
             "pac_mil": 25,
-            "auth_ana": -20,
+            "auth_ana": -30,
             "rel_sec": -60
         },
         "scale": 10000,
@@ -616,7 +616,7 @@
         "hos": "Mikhail Gorbachev"
     },
     "GERMANY 1936": {
-        "pop": 67500,
+        "pop": 6750,
         "vals": {
             "prog_cons": 95,
             "nat_glob": -90,
@@ -626,7 +626,7 @@
             "auth_ana": -90,
             "rel_sec": 25
         },
-        "scale": 1000,
+        "scale": 10000,
         "hos": "Adolf Hitler"
     },
     "ROMAN EMPIRE 117 AD": {
@@ -661,12 +661,12 @@
         "pop": 3512,
         "vals": {
             "prog_cons": 33,
-            "nat_glob": -5,
+            "nat_glob": -25,
             "env_eco": 12,
-            "soc_cap": -5,
-            "pac_mil": 22,
-            "auth_ana": -4,
-            "rel_sec": -4
+            "soc_cap": -25,
+            "pac_mil": 42,
+            "auth_ana": -15,
+            "rel_sec": 12
         },
         "scale": 10000,
         "hos": "Anton Rayne"
