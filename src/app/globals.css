@@ -1,26 +1,70 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Oswald:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: #f8f6f0;
+  --foreground: #1a1a1a;
+  --newspaper-bg: #fefdfb;
+  --campaign-red: #dc2626;
+  --campaign-blue: #1d4ed8;
+  --campaign-gold: #d97706;
+  --ink-black: #0f172a;
+  --paper-cream: #fefce8;
+  --urgent-red: #991b1b;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #1a1a1a;
+    --foreground: #f8f6f0;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Crimson Text', serif;
+  line-height: 1.6;
+}
+
+/* Custom newspaper/campaign HQ styles */
+.newspaper-header {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.campaign-status {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.news-body {
+  font-family: 'Crimson Text', serif;
+  line-height: 1.8;
+}
+
+.urgent-banner {
+  background: linear-gradient(45deg, var(--urgent-red), #dc2626);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.9; }
+}
+
+.vintage-border {
+  border: 3px double var(--ink-black);
+  box-shadow: inset 0 0 0 1px var(--ink-black);
+}
+
+.campaign-board {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+  border: 2px solid #64748b;
+  box-shadow: 
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 4px 20px rgba(0,0,0,0.3);
 }

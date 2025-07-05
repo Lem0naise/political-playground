@@ -3,8 +3,8 @@ import "./globals.css";
 import { GameProvider } from "@/contexts/GameContext";
 
 export const metadata: Metadata = {
-  title: "Election Campaign Simulator",
-  description: "Interactive electoral simulation game where you manage a political campaign",
+  title: "The Campaign Tribune - Election Simulator",
+  description: "Live election coverage and campaign headquarters simulation",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-100 antialiased">
+      <body className="min-h-screen bg-stone-100 antialiased" style={{ background: 'var(--background)' }}>
         <GameProvider>
           {children}
         </GameProvider>

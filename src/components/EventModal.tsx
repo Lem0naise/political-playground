@@ -11,49 +11,62 @@ interface EventModalProps {
 export default function EventModal({ event, onChoice, onClose }: EventModalProps) {
   const handleChoice = (choice: EventChoice) => {
     onChoice(choice);
-  };
-
-  return (
-    <div className="bg-white rounded-lg shadow-2xl w-full max-h-[80vh] overflow-y-auto border-2 border-red-200">
-        {/* Header */}
-        <div className="bg-red-600 text-white p-6 rounded-t-lg">
-          <h2 className="text-2xl font-bold mb-2">🚨 BREAKING NEWS</h2>
-          <h3 className="text-xl">{event.title}</h3>
+  };  return (
+    <div className="vintage-border w-full max-h-[60vh] overflow-y-auto relative" style={{ background: 'var(--newspaper-bg)' }}>
+      {/* Urgent News Header */}
+      <div className="urgent-banner text-white p-3 relative">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative">
+          <div className="flex items-center justify-center mb-1">
+            <div className="bg-white text-red-700 px-2 py-0.5 text-xs font-bold uppercase tracking-widest mr-3">
+              URGENT
+            </div>
+            <h2 className="newspaper-header text-xl font-black tracking-tight">
+              🚨 BREAKING NEWS ALERT
+            </h2>
+          </div>
+          <h3 className="news-body text-lg text-center font-bold">{event.title}</h3>
         </div>
-
-        {/* Content */}
-        <div className="p-6">
-          <p className="text-gray-700 text-lg mb-6 leading-relaxed">
+      </div>      {/* News Story Content */}
+      <div className="p-4 bg-stone-50">
+        <div className="border-l-2 border-red-600 pl-3 mb-4">
+          <p className="news-body text-slate-800 text-sm leading-snug font-medium">
             {event.description}
           </p>
+          <div className="text-xs text-slate-500 mt-1 font-mono uppercase tracking-wide">
+            Tribune Political Desk • Developing Story
+          </div>
+        </div>
 
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">
-            How do you respond?
+        <div className="border-t border-slate-800 pt-3">
+          <h4 className="newspaper-header text-lg font-bold text-slate-900 mb-3">
+            CAMPAIGN RESPONSE OPTIONS
           </h4>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {event.choices.map((choice, index) => (
               <button
                 key={index}
                 onClick={() => handleChoice(choice)}
-                className="w-full p-4 text-left bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-lg transition-all duration-200 group"
+                className="w-full p-3 text-left bg-stone-100 hover:bg-yellow-50 vintage-border hover:border-yellow-600 transition-all duration-200 group relative overflow-hidden"
               >
-                <div className="flex items-start space-x-3">
-                  <div className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mt-0.5">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-yellow-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                <div className="relative flex items-start space-x-3">
+                  <div className="bg-slate-800 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-0.5 group-hover:bg-yellow-600 transition-colors duration-200">
                     {index + 1}
                   </div>
                   <div className="flex-1">
-                    <p className="text-gray-800 group-hover:text-blue-800">
+                    <p className="news-body text-slate-800 group-hover:text-slate-900 font-medium text-sm leading-snug">
                       {choice.text}
                     </p>
                     {choice.boost > 20 && (
-                      <div className="text-xs text-orange-600 mt-1 font-medium">
-                        🔥 High media attention
+                      <div className="inline-block bg-red-600 text-white px-1 py-0.5 text-xs font-bold uppercase tracking-wide mt-1 rounded">
+                        🔥 HIGH IMPACT
                       </div>
                     )}
                     {choice.boost > 15 && choice.boost <= 20 && (
-                      <div className="text-xs text-blue-600 mt-1">
-                        📺 Moderate coverage
+                      <div className="inline-block bg-blue-600 text-white px-1 py-0.5 text-xs font-bold uppercase tracking-wide mt-1 rounded">
+                        📺 MEDIA COVERAGE
                       </div>
                     )}
                   </div>
@@ -62,21 +75,20 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
             ))}
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="bg-gray-50 px-6 py-4 rounded-b-lg">
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-600">
-              Your choice will affect your political positions and polling.
-            </p>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-sm"
-            >
-              Skip Event
-            </button>
-          </div>
+      </div>      {/* Editorial Footer */}
+      <div className="bg-slate-800 text-white px-4 py-2 border-t border-slate-700">
+        <div className="flex justify-between items-center">
+          <p className="text-xs text-slate-300 font-mono">
+            Tribune Editorial: Strategic decisions will impact polling and voter sentiment.
+          </p>
+          <button
+            onClick={onClose}
+            className="text-slate-400 hover:text-white text-xs font-bold uppercase tracking-wide transition-colors duration-200"
+          >
+            [Skip Event]
+          </button>
         </div>
+      </div>
       </div>
   );
 }

@@ -27,46 +27,58 @@ export default function MainMenu() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 flex items-center justify-center">
-      <div className="max-w-4xl mx-auto px-6 py-12">
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
+      <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold text-white mb-4">
-            Election Campaign Simulator
+          <h1 className="newspaper-header text-7xl font-black text-white mb-4 tracking-tight">
+            THE CAMPAIGN TRIBUNE
           </h1>
-          <p className="text-xl text-blue-200 mb-8">
-            Lead your party to victory in a dynamic political landscape
+          <div className="border-t-4 border-b-4 border-red-500 py-4 my-6">
+            <p className="campaign-status text-xl text-red-200 tracking-widest">
+              INTERACTIVE ELECTION SIMULATOR
+            </p>
+          </div>
+          <p className="news-body text-xl text-stone-300 mb-8 max-w-2xl mx-auto">
+            Step into the shoes of a political strategist and navigate the complex world of campaign management
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-2xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">How to Play</h2>
-          <div className="grid md:grid-cols-3 gap-6 text-gray-700">
+        <div className="vintage-border p-8 mb-8 relative overflow-hidden" style={{ background: 'var(--newspaper-bg)' }}>
+          <div className="absolute top-0 left-0 bg-red-700 text-white px-4 py-2 text-sm font-bold">
+            GUIDE
+          </div>
+          <h2 className="newspaper-header text-3xl font-black text-slate-900 mb-8 mt-4 border-b-2 border-slate-800 pb-2">
+            CAMPAIGN PLAYBOOK
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 text-slate-800">
             <div className="text-center">
-              <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">1</span>
+              <div className="campaign-board w-20 h-20 flex items-center justify-center mx-auto mb-4 rounded-lg">
+                <span className="campaign-status text-2xl font-bold text-green-400">1</span>
               </div>
-              <h3 className="font-semibold mb-2">Choose Your Country</h3>
-              <p className="text-sm">Select a country to get voting demographics and population data</p>
+              <h3 className="campaign-status text-lg font-bold mb-3">SELECT TERRITORY</h3>
+              <p className="news-body text-sm">Choose your electoral battleground with unique demographics and voting patterns</p>
             </div>
             <div className="text-center">
-              <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-green-600">2</span>
+              <div className="campaign-board w-20 h-20 flex items-center justify-center mx-auto mb-4 rounded-lg">
+                <span className="campaign-status text-2xl font-bold text-green-400">2</span>
               </div>
-              <h3 className="font-semibold mb-2">Pick Your Parties</h3>
-              <p className="text-sm">Choose a party list and select which party you want to lead</p>
+              <h3 className="campaign-status text-lg font-bold mb-3">CHOOSE PARTIES</h3>
+              <p className="news-body text-sm">Select your opposition and pick which party banner you'll carry to victory</p>
             </div>
             <div className="text-center">
-              <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-purple-600">3</span>
+              <div className="campaign-board w-20 h-20 flex items-center justify-center mx-auto mb-4 rounded-lg">
+                <span className="campaign-status text-2xl font-bold text-green-400">3</span>
               </div>
-              <h3 className="font-semibold mb-2">Run Your Campaign</h3>
-              <p className="text-sm">Face events, make strategic choices, and watch the polls change</p>
+              <h3 className="campaign-status text-lg font-bold mb-3">CAMPAIGN TRAIL</h3>
+              <p className="news-body text-sm">Navigate breaking news events and strategic decisions that shape voter sentiment</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-2xl p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Select Your Country</h2>
+        <div className="campaign-board p-8 rounded-lg">
+          <h2 className="campaign-status text-2xl font-bold text-yellow-400 mb-6 text-center">
+            🗺️ ELECTORAL MAP SELECTION
+          </h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {Object.entries(countries).map(([countryCode, countryData]) => (
@@ -75,15 +87,15 @@ export default function MainMenu() {
                 onClick={() => setSelectedCountry(countryCode)}
                 className={`p-4 rounded-lg border-2 transition-all duration-200 ${
                   selectedCountry === countryCode
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                    ? 'border-yellow-400 bg-yellow-900/30 text-yellow-400'
+                    : 'border-slate-600 bg-slate-800/50 text-white hover:border-yellow-600 hover:bg-slate-700/50'
                 }`}
               >
-                <div className="font-semibold text-gray-800">{countryCode}</div>
-                <div className="text-sm text-gray-600">
+                <div className="campaign-status font-bold">{countryCode}</div>
+                <div className="text-sm text-slate-300 font-mono">
                   {countryData.pop?.toLocaleString()} voters
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-slate-400">
                   {countryData.hos}
                 </div>
               </button>
@@ -91,12 +103,12 @@ export default function MainMenu() {
           </div>
 
           {selectedCountry && (
-            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <h3 className="font-semibold text-gray-800 mb-2">Country Details: {selectedCountry}</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
-                <div>Population: {countries[selectedCountry]?.pop?.toLocaleString()}</div>
-                <div>Scale: {countries[selectedCountry]?.scale}</div>
-                <div className="col-span-2">Head of State: {countries[selectedCountry]?.hos}</div>
+            <div className="mb-6 p-4 bg-slate-800/50 border border-slate-600 rounded-lg">
+              <h3 className="campaign-status font-bold text-yellow-400 mb-3">TERRITORY INTEL: {selectedCountry}</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-slate-300 font-mono">
+                <div>POPULATION: {countries[selectedCountry]?.pop?.toLocaleString()}</div>
+                <div>SCALE: {countries[selectedCountry]?.scale}</div>
+                <div className="col-span-2">HEAD OF STATE: {countries[selectedCountry]?.hos}</div>
               </div>
             </div>
           )}
@@ -104,15 +116,15 @@ export default function MainMenu() {
           <button
             onClick={handleCountrySelect}
             disabled={!selectedCountry}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-4 px-6 rounded-lg transition-colors duration-200"
+            className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-6 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status text-lg"
           >
-            {selectedCountry ? `Continue with ${selectedCountry}` : 'Select a Country'}
+            {selectedCountry ? `🚀 LAUNCH CAMPAIGN IN ${selectedCountry}` : 'SELECT YOUR BATTLEGROUND'}
           </button>
         </div>
 
         <div className="text-center mt-8">
-          <p className="text-blue-200 text-sm">
-            Created by Indigo • Inspired by The Campaign Trail
+          <p className="text-slate-400 text-sm font-mono">
+            Tribune Interactive • Political Simulation Division
           </p>
         </div>
       </div>

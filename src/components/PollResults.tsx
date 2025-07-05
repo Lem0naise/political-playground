@@ -8,9 +8,9 @@ export default function PollResults() {
 
   if (state.pollResults.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Current Polling</h2>
-        <p className="text-gray-500">No polling data available yet. Start the campaign to see results.</p>
+      <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 text-white">
+        <h2 className="campaign-status text-sm font-bold text-yellow-400 mb-2">POLLING STATUS</h2>
+        <p className="text-slate-300 font-mono text-xs">AWAITING DATA... START CAMPAIGN TO INITIALIZE POLLING</p>
       </div>
     );
   }
@@ -20,17 +20,17 @@ export default function PollResults() {
   const turnout = totalVotes > 0 ? ((totalVotes / state.countryData.pop) * 100) : 0;
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">
-        📊 Current Polling
+    <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 text-white">
+      <h2 className="campaign-status text-sm font-bold text-yellow-400 mb-2">
+        📊 LIVE POLLING DATA
         {state.currentPoll > 0 && (
-          <span className="text-sm font-normal text-gray-600 ml-2">
-            (Poll {state.currentPoll}/{state.totalPolls})
+          <span className="text-xs font-normal text-slate-300 ml-2 font-mono">
+            (WAVE {state.currentPoll}/{state.totalPolls})
           </span>
         )}
       </h2>
 
-      <div className="space-y-3 mb-6">
+      <div className="space-y-2 mb-3">
         {sortedResults.map((result, index) => {
           const isPlayer = result.candidate.is_player;
           const change = result.change || 0;
@@ -38,75 +38,80 @@ export default function PollResults() {
           return (
             <div
               key={result.candidate.id}
-              className={`p-3 rounded-lg border-2 ${
+              className={`p-2 rounded-lg border relative overflow-hidden ${
                 isPlayer 
-                  ? 'border-blue-400 bg-blue-50' 
-                  : 'border-gray-200 bg-gray-50'
+                  ? 'border-yellow-400 bg-yellow-900/20' 
+                  : 'border-slate-600 bg-slate-800/50'
               }`}
             >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-lg font-bold text-gray-700">
-                      {index + 1}.
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1">
+                    <span className="campaign-status text-xs font-bold text-green-400">
+                      #{index + 1}
                     </span>
                     <div 
-                      className="w-4 h-4 rounded-full"
+                      className="w-3 h-3 rounded-full border border-white"
                       style={{ backgroundColor: result.candidate.colour }}
                     ></div>
                   </div>
                   <div>
-                    <div className={`font-semibold ${isPlayer ? 'text-blue-800' : 'text-gray-800'}`}>
+                    <div className={`font-bold text-sm ${isPlayer ? 'text-yellow-400' : 'text-white'}`}>
                       {result.candidate.party}
                       {isPlayer && ' ◄ YOU'}
                       {index === 0 && ' ★'}
                     </div>
-                    <div className="text-sm text-gray-600">{result.candidate.name}</div>
+                    <div className="text-xs text-slate-300 font-mono">{result.candidate.name}</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-lg text-gray-900">
+                  <div className="campaign-status text-sm font-bold text-green-400">
                     {result.percentage.toFixed(1)}%
                   </div>
                   {Math.abs(change) > 0.05 && (
-                    <div className={`text-sm ${change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {change > 0 ? '+' : ''}{change.toFixed(1)}%
+                    <div className={`text-xs font-mono ${change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {change > 0 ? '▲' : '▼'}{Math.abs(change).toFixed(1)}%
                     </div>
                   )}
                 </div>
               </div>
               
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-slate-600 rounded-full h-1 mb-1">
                 <div 
-                  className="h-2 rounded-full transition-all duration-300"
+                  className="h-1 rounded-full transition-all duration-500 relative overflow-hidden"
                   style={{ 
                     backgroundColor: result.candidate.colour,
                     width: `${Math.max(0.5, Math.min(100, result.percentage))}%`
                   }}
-                ></div>
+                >
+                  <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+                </div>
               </div>
               
-              <div className="text-xs text-gray-500 mt-1">
-                {formatVotes(result.votes, state.countryData.scale)} votes
+              <div className="text-xs text-slate-400 font-mono">
+                {formatVotes(result.votes, state.countryData.scale)} VOTES
               </div>
             </div>
           );
         })}
       </div>
 
-      <div className="pt-4 border-t border-gray-200">
-        <div className="text-sm text-gray-600">
-          <div>Estimated Turnout: {turnout.toFixed(1)}%</div>
-          <div className="text-xs text-gray-500 mt-1">
-            {formatVotes(totalVotes, state.countryData.scale)} of {state.countryData.pop.toLocaleString()} voters
+      <div className="pt-2 border-t border-slate-600">
+        <div className="text-xs text-slate-300 font-mono">
+          <div className="flex justify-between">
+            <span>TURNOUT:</span>
+            <span className="text-green-400 font-bold">{turnout.toFixed(1)}%</span>
+          </div>
+          <div className="text-xs text-slate-400 mt-0.5">
+            {formatVotes(totalVotes, state.countryData.scale)} OF {state.countryData.pop.toLocaleString()} REGISTERED
           </div>
         </div>
       </div>
 
       {state.currentPoll === 2 && (
-        <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <p className="text-sm text-yellow-800">
-            📈 Initial baseline established! Changes from this point will be tracked throughout the campaign.
+        <div className="mt-2 p-2 bg-yellow-900/30 border border-yellow-600 rounded-lg">
+          <p className="text-xs text-yellow-300 font-mono">
+            📈 BASELINE ESTABLISHED - TRACKING MOMENTUM
           </p>
         </div>
       )}
