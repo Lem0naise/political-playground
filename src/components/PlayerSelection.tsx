@@ -45,7 +45,7 @@ export default function PlayerSelection() {
 
               <div className="mb-3 sm:mb-4">
                 <div className="text-xs sm:text-sm text-slate-600 mb-2 font-mono">
-                  CURRENT SUPPORT: {candidate.party_pop >= 1 ? `${candidate.party_pop.toFixed(1)}%` : `${(candidate.party_pop * 100).toFixed(1)}%`}
+                  SUPPORT LEVEL: {candidate.party_pop >= 1 ? `${candidate.party_pop.toFixed(1)}` : `${(candidate.party_pop * 100).toFixed(1)}`}
                 </div>
                 <div className="w-full bg-slate-300 rounded-full h-2 sm:h-3 border border-slate-400">
                   <div 

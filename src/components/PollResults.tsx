@@ -111,7 +111,7 @@ export default function PollResults() {
       {state.currentPoll === 2 && (
         <div className="mt-1 sm:mt-2 p-1.5 sm:p-2 bg-yellow-900/30 border border-yellow-600 rounded-lg">
           <p className="text-xs text-yellow-300 font-mono">
-            📈 BASELINE ESTABLISHED - TRACKING MOMENTUM
+            BASELINE ESTABLISHED - TRACKING MOMENTUM
           </p>
         </div>
       )}

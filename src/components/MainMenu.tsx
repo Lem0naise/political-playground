@@ -77,7 +77,7 @@ export default function MainMenu() {
 
         <div className="campaign-board p-4 sm:p-6 lg:p-8 rounded-lg">
           <h2 className="campaign-status text-xl sm:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6 text-center">
-            🗺️ ELECTORAL MAP SELECTION
+            LOCATION SELECTION
           </h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
@@ -93,7 +93,7 @@ export default function MainMenu() {
               >
                 <div className="campaign-status font-bold text-base sm:text-lg">{countryCode}</div>
                 <div className="text-xs sm:text-sm text-slate-300 font-mono">
-                  {countryData.pop?.toLocaleString()} voters
+                  {(countryData.pop * countryData.scale).toLocaleString()} voters
                 </div>
                 <div className="text-xs text-slate-400 truncate">
                   {countryData.hos}
@@ -106,8 +106,7 @@ export default function MainMenu() {
             <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-slate-800/50 border border-slate-600 rounded-lg">
               <h3 className="campaign-status font-bold text-yellow-400 mb-2 sm:mb-3 text-sm sm:text-base">TERRITORY INTEL: {selectedCountry}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 text-xs sm:text-sm text-slate-300 font-mono">
-                <div>POPULATION: {countries[selectedCountry]?.pop?.toLocaleString()}</div>
-                <div>SCALE: {countries[selectedCountry]?.scale}</div>
+                <div>POPULATION: {(countries[selectedCountry]?.pop*countries[selectedCountry]?.scale).toLocaleString()}</div>
                 <div className="sm:col-span-2">HEAD OF STATE: {countries[selectedCountry]?.hos}</div>
               </div>
             </div>

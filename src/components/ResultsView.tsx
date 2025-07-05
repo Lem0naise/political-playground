@@ -54,7 +54,7 @@ export default function ResultsView() {
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-900 to-purple-900 py-8 sm:py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">🗳️ FINAL ELECTION RESULTS</h1>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">FINAL ELECTION RESULTS</h1>
           <h2 className="text-xl sm:text-2xl mb-2">{state.country.toUpperCase()}</h2>
           <p className="text-base sm:text-lg text-blue-200">Election Day - All Votes Counted</p>
         </div>
@@ -64,7 +64,7 @@ export default function ResultsView() {
         {/* Winner Announcement */}
         <div className="bg-gradient-to-r from-yellow-600 to-yellow-500 rounded-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-yellow-900 mb-3 sm:mb-4">
-            🏆 ELECTION WINNER
+            ELECTION WINNER
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
             <div 
@@ -89,7 +89,7 @@ export default function ResultsView() {
                 : 'bg-gradient-to-r from-gray-600 to-gray-500'
           }`}>
             <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
-              {playerWon ? '🎉 CONGRATULATIONS!' : playerPosition <= 3 ? '👏 Good Campaign!' : '😔 Better Luck Next Time'}
+              {playerWon ? 'CONGRATULATIONS!' : playerPosition <= 3 ? 'Good Campaign!' : 'Better Luck Next Time'}
             </h2>
             <div className="text-base sm:text-lg">
               {playerWon 
@@ -206,7 +206,7 @@ export default function ResultsView() {
             onClick={actions.resetGame}
             className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors duration-200"
           >
-            🎮 Play Again
+            Play Again
           </button>
         </div>
 
