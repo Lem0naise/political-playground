@@ -8,8 +8,8 @@ export default function PollResults() {
 
   if (state.pollResults.length === 0) {
     return (
-      <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 text-white">
-        <h2 className="campaign-status text-sm font-bold text-yellow-400 mb-2">POLLING STATUS</h2>
+      <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white">
+        <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2">POLLING STATUS</h2>
         <p className="text-slate-300 font-mono text-xs">AWAITING DATA... START CAMPAIGN TO INITIALIZE POLLING</p>
       </div>
     );
@@ -20,17 +20,17 @@ export default function PollResults() {
   const turnout = totalVotes > 0 ? ((totalVotes / state.countryData.pop) * 100) : 0;
 
   return (
-    <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 text-white">
-      <h2 className="campaign-status text-sm font-bold text-yellow-400 mb-2">
+    <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white">
+      <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2">
         📊 LIVE POLLING DATA
         {state.currentPoll > 0 && (
-          <span className="text-xs font-normal text-slate-300 ml-2 font-mono">
+          <span className="text-xs font-normal text-slate-300 ml-1 sm:ml-2 font-mono">
             (WAVE {state.currentPoll}/{state.totalPolls})
           </span>
         )}
       </h2>
 
-      <div className="space-y-2 mb-3">
+      <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
         {sortedResults.map((result, index) => {
           const isPlayer = result.candidate.is_player;
           const change = result.change || 0;
@@ -38,14 +38,14 @@ export default function PollResults() {
           return (
             <div
               key={result.candidate.id}
-              className={`p-2 rounded-lg border relative overflow-hidden ${
+              className={`p-1.5 sm:p-2 rounded-lg border relative overflow-hidden ${
                 isPlayer 
                   ? 'border-yellow-400 bg-yellow-900/20' 
                   : 'border-slate-600 bg-slate-800/50'
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 sm:space-x-2">
                   <div className="flex items-center space-x-1">
                     <span className="campaign-status text-xs font-bold text-green-400">
                       #{index + 1}
@@ -56,7 +56,7 @@ export default function PollResults() {
                     ></div>
                   </div>
                   <div>
-                    <div className={`font-bold text-sm ${isPlayer ? 'text-yellow-400' : 'text-white'}`}>
+                    <div className={`font-bold text-xs sm:text-sm ${isPlayer ? 'text-yellow-400' : 'text-white'}`}>
                       {result.candidate.party}
                       {isPlayer && ' ◄ YOU'}
                       {index === 0 && ' ★'}
@@ -65,7 +65,7 @@ export default function PollResults() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="campaign-status text-sm font-bold text-green-400">
+                  <div className="campaign-status text-xs sm:text-sm font-bold text-green-400">
                     {result.percentage.toFixed(1)}%
                   </div>
                   {Math.abs(change) > 0.05 && (
@@ -96,7 +96,7 @@ export default function PollResults() {
         })}
       </div>
 
-      <div className="pt-2 border-t border-slate-600">
+      <div className="pt-1 sm:pt-2 border-t border-slate-600">
         <div className="text-xs text-slate-300 font-mono">
           <div className="flex justify-between">
             <span>TURNOUT:</span>
@@ -109,7 +109,7 @@ export default function PollResults() {
       </div>
 
       {state.currentPoll === 2 && (
-        <div className="mt-2 p-2 bg-yellow-900/30 border border-yellow-600 rounded-lg">
+        <div className="mt-1 sm:mt-2 p-1.5 sm:p-2 bg-yellow-900/30 border border-yellow-600 rounded-lg">
           <p className="text-xs text-yellow-300 font-mono">
             📈 BASELINE ESTABLISHED - TRACKING MOMENTUM
           </p>

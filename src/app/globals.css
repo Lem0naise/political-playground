@@ -1,5 +1,6 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Oswald:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
 
 :root {
   --background: #f8f6f0;

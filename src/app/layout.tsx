@@ -3,7 +3,7 @@ import "./globals.css";
 import { GameProvider } from "@/contexts/GameContext";
 
 export const metadata: Metadata = {
-  title: "The Campaign Tribune - Election Simulator",
+  title: "The Political Playground",
   description: "Live election coverage and campaign headquarters simulation",
 };
 

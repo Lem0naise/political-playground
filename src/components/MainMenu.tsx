@@ -28,74 +28,74 @@ export default function MainMenu() {
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="text-center mb-12">
-          <h1 className="newspaper-header text-7xl font-black text-white mb-4 tracking-tight">
-            THE CAMPAIGN TRIBUNE
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="newspaper-header text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-4 tracking-tight">
+            THE POLITICAL PLAYGROUND
           </h1>
-          <div className="border-t-4 border-b-4 border-red-500 py-4 my-6">
-            <p className="campaign-status text-xl text-red-200 tracking-widest">
+          <div className="border-t-4 border-b-4 border-red-500 py-3 sm:py-4 my-4 sm:my-6">
+            <p className="campaign-status text-base sm:text-xl text-red-200 tracking-widest">
               INTERACTIVE ELECTION SIMULATOR
             </p>
           </div>
-          <p className="news-body text-xl text-stone-300 mb-8 max-w-2xl mx-auto">
+          <p className="news-body text-lg sm:text-xl text-stone-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
             Step into the shoes of a political strategist and navigate the complex world of campaign management
           </p>
         </div>
 
-        <div className="vintage-border p-8 mb-8 relative overflow-hidden" style={{ background: 'var(--newspaper-bg)' }}>
-          <div className="absolute top-0 left-0 bg-red-700 text-white px-4 py-2 text-sm font-bold">
+        <div className="vintage-border p-4 sm:p-8 mb-6 sm:mb-8 relative overflow-hidden" style={{ background: 'var(--newspaper-bg)' }}>
+          <div className="absolute top-0 left-0 bg-red-700 text-white px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-bold">
             GUIDE
           </div>
-          <h2 className="newspaper-header text-3xl font-black text-slate-900 mb-8 mt-4 border-b-2 border-slate-800 pb-2">
+          <h2 className="newspaper-header text-2xl sm:text-3xl font-black text-slate-900 mb-6 sm:mb-8 mt-4 border-b-2 border-slate-800 pb-2">
             CAMPAIGN PLAYBOOK
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 text-slate-800">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 text-slate-800">
             <div className="text-center">
-              <div className="campaign-board w-20 h-20 flex items-center justify-center mx-auto mb-4 rounded-lg">
-                <span className="campaign-status text-2xl font-bold text-green-400">1</span>
+              <div className="campaign-board w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center mx-auto mb-3 sm:mb-4 rounded-lg">
+                <span className="campaign-status text-xl sm:text-2xl font-bold text-green-400">1</span>
               </div>
-              <h3 className="campaign-status text-lg font-bold mb-3">SELECT TERRITORY</h3>
-              <p className="news-body text-sm">Choose your electoral battleground with unique demographics and voting patterns</p>
+              <h3 className="campaign-status text-base sm:text-lg font-bold mb-2 sm:mb-3">SELECT TERRITORY</h3>
+              <p className="news-body text-xs sm:text-sm">Choose your electoral battleground with unique demographics and voting patterns</p>
             </div>
             <div className="text-center">
-              <div className="campaign-board w-20 h-20 flex items-center justify-center mx-auto mb-4 rounded-lg">
-                <span className="campaign-status text-2xl font-bold text-green-400">2</span>
+              <div className="campaign-board w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center mx-auto mb-3 sm:mb-4 rounded-lg">
+                <span className="campaign-status text-xl sm:text-2xl font-bold text-green-400">2</span>
               </div>
-              <h3 className="campaign-status text-lg font-bold mb-3">CHOOSE PARTIES</h3>
-              <p className="news-body text-sm">Select your opposition and pick which party banner you'll carry to victory</p>
+              <h3 className="campaign-status text-base sm:text-lg font-bold mb-2 sm:mb-3">CHOOSE PARTIES</h3>
+              <p className="news-body text-xs sm:text-sm">Select your opposition and pick which party banner you'll carry to victory</p>
             </div>
             <div className="text-center">
-              <div className="campaign-board w-20 h-20 flex items-center justify-center mx-auto mb-4 rounded-lg">
-                <span className="campaign-status text-2xl font-bold text-green-400">3</span>
+              <div className="campaign-board w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center mx-auto mb-3 sm:mb-4 rounded-lg">
+                <span className="campaign-status text-xl sm:text-2xl font-bold text-green-400">3</span>
               </div>
-              <h3 className="campaign-status text-lg font-bold mb-3">CAMPAIGN TRAIL</h3>
-              <p className="news-body text-sm">Navigate breaking news events and strategic decisions that shape voter sentiment</p>
+              <h3 className="campaign-status text-base sm:text-lg font-bold mb-2 sm:mb-3">CAMPAIGN TRAIL</h3>
+              <p className="news-body text-xs sm:text-sm">Navigate breaking news events and strategic decisions that shape voter sentiment</p>
             </div>
           </div>
         </div>
 
-        <div className="campaign-board p-8 rounded-lg">
-          <h2 className="campaign-status text-2xl font-bold text-yellow-400 mb-6 text-center">
+        <div className="campaign-board p-4 sm:p-6 lg:p-8 rounded-lg">
+          <h2 className="campaign-status text-xl sm:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6 text-center">
             🗺️ ELECTORAL MAP SELECTION
           </h2>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
             {Object.entries(countries).map(([countryCode, countryData]) => (
               <button
                 key={countryCode}
                 onClick={() => setSelectedCountry(countryCode)}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                className={`p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 min-h-[80px] sm:min-h-[90px] ${
                   selectedCountry === countryCode
                     ? 'border-yellow-400 bg-yellow-900/30 text-yellow-400'
                     : 'border-slate-600 bg-slate-800/50 text-white hover:border-yellow-600 hover:bg-slate-700/50'
                 }`}
               >
-                <div className="campaign-status font-bold">{countryCode}</div>
-                <div className="text-sm text-slate-300 font-mono">
+                <div className="campaign-status font-bold text-base sm:text-lg">{countryCode}</div>
+                <div className="text-xs sm:text-sm text-slate-300 font-mono">
                   {countryData.pop?.toLocaleString()} voters
                 </div>
-                <div className="text-xs text-slate-400">
+                <div className="text-xs text-slate-400 truncate">
                   {countryData.hos}
                 </div>
               </button>
@@ -103,12 +103,12 @@ export default function MainMenu() {
           </div>
 
           {selectedCountry && (
-            <div className="mb-6 p-4 bg-slate-800/50 border border-slate-600 rounded-lg">
-              <h3 className="campaign-status font-bold text-yellow-400 mb-3">TERRITORY INTEL: {selectedCountry}</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-slate-300 font-mono">
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-slate-800/50 border border-slate-600 rounded-lg">
+              <h3 className="campaign-status font-bold text-yellow-400 mb-2 sm:mb-3 text-sm sm:text-base">TERRITORY INTEL: {selectedCountry}</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 text-xs sm:text-sm text-slate-300 font-mono">
                 <div>POPULATION: {countries[selectedCountry]?.pop?.toLocaleString()}</div>
                 <div>SCALE: {countries[selectedCountry]?.scale}</div>
-                <div className="col-span-2">HEAD OF STATE: {countries[selectedCountry]?.hos}</div>
+                <div className="sm:col-span-2">HEAD OF STATE: {countries[selectedCountry]?.hos}</div>
               </div>
             </div>
           )}
@@ -116,14 +116,14 @@ export default function MainMenu() {
           <button
             onClick={handleCountrySelect}
             disabled={!selectedCountry}
-            className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-6 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status text-lg"
+            className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-4 sm:py-6 px-4 sm:px-8 rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status text-base sm:text-lg"
           >
             {selectedCountry ? `🚀 LAUNCH CAMPAIGN IN ${selectedCountry}` : 'SELECT YOUR BATTLEGROUND'}
           </button>
         </div>
 
-        <div className="text-center mt-8">
-          <p className="text-slate-400 text-sm font-mono">
+        <div className="text-center mt-6 sm:mt-8">
+          <p className="text-slate-400 text-xs sm:text-sm font-mono">
             Tribune Interactive • Political Simulation Division
           </p>
         </div>
