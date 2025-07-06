@@ -19,6 +19,8 @@ interface GameContextType {
     nextPoll: () => void;
     handleEvent: (event: Event, choice: EventChoice) => void;
     resetGame: () => void;
+    setPendingParties: (parties: any[]) => void;
+    setGamePhase: (phase: GameState['phase']) => void;
   };
 }
 
@@ -29,7 +31,9 @@ type GameAction =
   | { type: 'START_CAMPAIGN' }
   | { type: 'NEXT_POLL' }
   | { type: 'HANDLE_EVENT'; payload: { event: Event; choice: EventChoice } }
-  | { type: 'RESET_GAME' };
+  | { type: 'RESET_GAME' }
+  | { type: 'SET_PENDING_PARTIES'; payload: { parties: any[] } }
+  | { type: 'SET_GAME_PHASE'; payload: { phase: GameState['phase'] } };
 
 const initialState: GameState = {
   country: '',
@@ -45,6 +49,7 @@ const initialState: GameState = {
   politicalNews: [],
   playerEventNews: [],
   votingData: [],
+  pendingParties: [],
   phase: 'setup'
 };
 
@@ -175,6 +180,18 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'RESET_GAME':
       return initialState;
       
+    case 'SET_PENDING_PARTIES':
+      return {
+        ...state,
+        pendingParties: action.payload.parties
+      };
+      
+    case 'SET_GAME_PHASE':
+      return {
+        ...state,
+        phase: action.payload.phase
+      };
+      
     default:
       return state;
   }
@@ -212,6 +229,14 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     
     resetGame: useCallback(() => {
       dispatch({ type: 'RESET_GAME' });
+    }, []),
+    
+    setPendingParties: useCallback((parties: any[]) => {
+      dispatch({ type: 'SET_PENDING_PARTIES', payload: { parties } });
+    }, []),
+    
+    setGamePhase: useCallback((phase: GameState['phase']) => {
+      dispatch({ type: 'SET_GAME_PHASE', payload: { phase } });
     }, [])
   };
   

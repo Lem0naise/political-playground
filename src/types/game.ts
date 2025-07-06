@@ -61,7 +61,8 @@ export interface GameState {
   politicalNews: string[];
   playerEventNews: string[];
   votingData: number[][];
-  phase: 'setup' | 'party-selection' | 'player-selection' | 'campaign' | 'results' | 'coalition';
+  pendingParties?: any[];
+  phase: 'setup' | 'party-selection' | 'partyMerging' | 'player-selection' | 'campaign' | 'results' | 'coalition';
 }
 
 export interface CabinetPosition {

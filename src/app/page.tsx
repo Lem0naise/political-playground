@@ -3,6 +3,7 @@
 import { useGame } from '@/contexts/GameContext';
 import MainMenu from '@/components/MainMenu';
 import PartySelection from '@/components/PartySelection';
+import PartyMerging from '@/components/PartyMerging';
 import PlayerSelection from '@/components/PlayerSelection';
 import CampaignView from '@/components/CampaignView';
 import ResultsView from '@/components/ResultsView';
@@ -16,6 +17,8 @@ export default function Home() {
         return <MainMenu />;
       case 'party-selection':
         return <PartySelection />;
+      case 'partyMerging':
+        return <PartyMerging />;
       case 'player-selection':
         return <PlayerSelection />;
       case 'campaign':

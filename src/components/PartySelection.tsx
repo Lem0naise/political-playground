@@ -6,7 +6,7 @@ import { useGame } from '@/contexts/GameContext';
 export default function PartySelection() {
   const { state, actions } = useGame();
   const [partyLists, setPartyLists] = useState<Record<string, any[]>>({});
-  const [selectedList, setSelectedList] = useState('');
+  const [selectedLists, setSelectedLists] = useState<string[]>([]);
 
   useEffect(() => {
     fetch('/data/parties.json')
@@ -15,9 +15,19 @@ export default function PartySelection() {
       .catch(err => console.error('Failed to load parties:', err));
   }, []);
 
-  const handlePartyListSelect = () => {
-    if (selectedList && partyLists[selectedList]) {
-      actions.setPartyList(selectedList, partyLists[selectedList]);
+  const handlePartyListToggle = (listName: string) => {
+    setSelectedLists(prev => 
+      prev.includes(listName) 
+        ? prev.filter(name => name !== listName)
+        : [...prev, listName]
+    );
+  };
+
+  const handleProceedToMerging = () => {
+    if (selectedLists.length > 0) {
+      const combinedParties = selectedLists.flatMap(listName => partyLists[listName]);
+      actions.setPendingParties(combinedParties);
+      actions.setGamePhase('partyMerging');
     }
   };
 
@@ -30,7 +40,7 @@ export default function PartySelection() {
           </h1>
           <div className="border-t-2 border-b-2 border-red-500 py-2 sm:py-3 my-3 sm:my-4">
             <p className="campaign-status text-base sm:text-lg text-red-200">
-              OPPOSITION SELECTION • {state.country}
+              OPPOSITION SELECTION • {state.country} • {selectedLists.length} LISTS SELECTED
             </p>
           </div>
         </div>
@@ -40,14 +50,21 @@ export default function PartySelection() {
             <div
               key={listName}
               className={`vintage-border p-4 sm:p-6 cursor-pointer transition-all duration-200 ${
-                selectedList === listName
+                selectedLists.includes(listName)
                   ? 'border-yellow-400 bg-yellow-900/20 transform scale-105'
                   : 'border-slate-600 bg-slate-800/50 hover:border-yellow-600 hover:bg-slate-700/50'
               }`}
-              onClick={() => setSelectedList(listName)}
-              style={{ background: selectedList === listName ? 'rgba(251, 191, 36, 0.1)' : 'rgba(30, 41, 59, 0.8)' }}
+              onClick={() => handlePartyListToggle(listName)}
+              style={{ background: selectedLists.includes(listName) ? 'rgba(251, 191, 36, 0.1)' : 'rgba(30, 41, 59, 0.8)' }}
             >
-              <h3 className="newspaper-header text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">{listName}</h3>
+              <div className="flex justify-between items-start mb-3">
+                <h3 className="newspaper-header text-xl sm:text-2xl font-bold text-white">{listName}</h3>
+                {selectedLists.includes(listName) && (
+                  <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+                    <span className="text-black font-bold text-sm">✓</span>
+                  </div>
+                )}
+              </div>
               <p className="text-slate-300 mb-3 sm:mb-4 font-mono text-sm">{parties.length} PARTIES</p>
               
               <div className="space-y-2">
@@ -73,25 +90,16 @@ export default function PartySelection() {
           ))}
         </div>
 
-        {selectedList && (
+        {selectedLists.length > 0 && (
           <div className="vintage-border p-4 sm:p-6 mb-6 sm:mb-8" style={{ background: 'var(--newspaper-bg)' }}>
             <h3 className="newspaper-header text-xl sm:text-2xl font-black text-slate-900 mb-3 sm:mb-4 border-b-2 border-slate-800 pb-2">
-              PARTY ROSTER: {selectedList}
+              SELECTED OPPOSITION ({selectedLists.reduce((total, listName) => total + partyLists[listName].length, 0)} PARTIES)
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {partyLists[selectedList].map((party, index) => (
-                <div key={index} className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-slate-100 border border-slate-300 rounded-lg">
-                  <div 
-                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-600 flex-shrink-0"
-                    style={{ backgroundColor: party.colour || 'gray' }}
-                  ></div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold text-sm sm:text-base text-slate-900 truncate">{party.party}</div>
-                    <div className="text-xs sm:text-sm text-slate-700 truncate">{party.name}</div>
-                    <div className="text-xs text-slate-600 font-mono">
-                      SUPPORT LEVEL: {party.party_pop >= 1 ? `${party.party_pop.toFixed(1)}` : `${(party.party_pop * 100).toFixed(1)}`}
-                    </div>
-                  </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+              {selectedLists.map(listName => (
+                <div key={listName} className="p-2 bg-slate-200 border border-slate-400 rounded">
+                  <div className="font-bold text-sm text-slate-900">{listName}</div>
+                  <div className="text-xs text-slate-600">{partyLists[listName].length} parties</div>
                 </div>
               ))}
             </div>
@@ -107,11 +115,11 @@ export default function PartySelection() {
           </button>
           
           <button
-            onClick={handlePartyListSelect}
-            disabled={!selectedList}
+            onClick={handleProceedToMerging}
+            disabled={selectedLists.length === 0}
             className="px-8 sm:px-12 py-3 sm:py-4 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status"
           >
-            {selectedList ? `🚀 DEPLOY WITH ${selectedList}` : 'SELECT OPPOSITION'}
+            {selectedLists.length > 0 ? `🔀 PROCEED TO PARTY MERGING` : 'SELECT PARTY LISTS'}
           </button>
         </div>
       </div>
