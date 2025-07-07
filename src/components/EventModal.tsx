@@ -12,7 +12,7 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
   const handleChoice = (choice: EventChoice) => {
     onChoice(choice);
   };  return (
-    <div className="vintage-border w-full max-h-[70vh] sm:max-h-[60vh] overflow-y-auto relative" style={{ background: 'var(--newspaper-bg)' }}>
+    <div className="vintage-border w-full overflow-y-auto relative" style={{ background: 'var(--newspaper-bg)' }}>
       {/* Urgent News Header */}
       <div className="urgent-banner text-white p-2 sm:p-3 relative">
         <div className="absolute inset-0 bg-black/10"></div>

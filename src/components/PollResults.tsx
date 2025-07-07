@@ -99,11 +99,11 @@ export default function PollResults() {
       <div className="pt-1 sm:pt-2 border-t border-slate-600">
         <div className="text-xs text-slate-300 font-mono">
           <div className="flex justify-between">
-            <span>TURNOUT:</span>
+            <span>ESTIMATED TURNOUT:</span>
             <span className="text-green-400 font-bold">{turnout.toFixed(1)}%</span>
           </div>
           <div className="text-xs text-slate-400 mt-0.5">
-            {formatVotes(totalVotes, state.countryData.scale)} OF {state.countryData.pop.toLocaleString()} REGISTERED
+            {formatVotes(totalVotes, state.countryData.scale)} OF {formatVotes(state.countryData.pop, state.countryData.scale)} REGISTERED
           </div>
         </div>
       </div>
