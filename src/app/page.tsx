@@ -7,6 +7,7 @@ import PartyMerging from '@/components/PartyMerging';
 import PlayerSelection from '@/components/PlayerSelection';
 import CampaignView from '@/components/CampaignView';
 import ResultsView from '@/components/ResultsView';
+import CoalitionFormation from '@/components/CoalitionFormation';
 
 export default function Home() {
   const { state } = useGame();
@@ -23,6 +24,8 @@ export default function Home() {
         return <PlayerSelection />;
       case 'campaign':
         return <CampaignView />;
+      case 'coalition':
+        return <CoalitionFormation />;
       case 'results':
         return <ResultsView />;
       default:

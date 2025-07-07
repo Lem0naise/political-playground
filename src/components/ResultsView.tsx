@@ -30,6 +30,9 @@ export default function ResultsView() {
   const playerResult = sortedResults.find(r => r.candidate.is_player);
   const playerPosition = sortedResults.findIndex(r => r.candidate.is_player) + 1;
   const playerWon = playerResult?.candidate === winner.candidate;
+  
+  // Check if coalition is needed
+  const needsCoalition = winner.percentage <= 50;
 
   // Calculate campaign changes from initial poll
   const campaignChanges = sortedResults.map(result => {
@@ -62,9 +65,15 @@ export default function ResultsView() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Winner Announcement */}
-        <div className="bg-gradient-to-r from-yellow-600 to-yellow-500 rounded-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-yellow-900 mb-3 sm:mb-4">
-            ELECTION WINNER
+        <div className={`rounded-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 text-center ${
+          needsCoalition 
+            ? 'bg-gradient-to-r from-orange-600 to-orange-500'
+            : 'bg-gradient-to-r from-yellow-600 to-yellow-500'
+        }`}>
+          <h2 className={`text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 ${
+            needsCoalition ? 'text-orange-900' : 'text-yellow-900'
+          }`}>
+            {needsCoalition ? 'HUNG PARLIAMENT' : 'ELECTION WINNER'}
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
             <div 
@@ -72,9 +81,18 @@ export default function ResultsView() {
               style={{ backgroundColor: winner.candidate.colour }}
             ></div>
             <div className="text-center sm:text-left">
-              <h3 className="text-xl sm:text-2xl font-bold text-yellow-900">{winner.candidate.party}</h3>
-              <p className="text-base sm:text-lg text-yellow-800">Led by {winner.candidate.name}</p>
-              <p className="text-lg sm:text-xl font-bold text-yellow-900">{winner.percentage.toFixed(1)}% of the vote</p>
+              <h3 className={`text-xl sm:text-2xl font-bold ${
+                needsCoalition ? 'text-orange-900' : 'text-yellow-900'
+              }`}>{winner.candidate.party}</h3>
+              <p className={`text-base sm:text-lg ${
+                needsCoalition ? 'text-orange-800' : 'text-yellow-800'
+              }`}>Led by {winner.candidate.name}</p>
+              <p className={`text-lg sm:text-xl font-bold ${
+                needsCoalition ? 'text-orange-900' : 'text-yellow-900'
+              }`}>{winner.percentage.toFixed(1)}% of the vote</p>
+              {needsCoalition && (
+                <p className="text-orange-800 text-sm mt-1">Coalition needed to govern</p>
+              )}
             </div>
           </div>
         </div>
@@ -201,7 +219,15 @@ export default function ResultsView() {
         </div>
 
         {/* Action Buttons */}
-        <div className="text-center mt-6 sm:mt-8">
+        <div className="text-center mt-6 sm:mt-8 space-y-4">
+          {needsCoalition && (
+            <button
+              onClick={actions.startCoalitionFormation}
+              className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg transition-colors duration-200 mr-4"
+            >
+              🏛️ Form Coalition Government
+            </button>
+          )}
           <button
             onClick={actions.resetGame}
             className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors duration-200"

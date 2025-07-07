@@ -1,13 +1,14 @@
 'use client';
 
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice } from '@/types/game';
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState } from '@/types/game';
 import { 
   generateVotingData, 
   conductPoll, 
   applyEventEffect, 
   createCandidate 
 } from '@/lib/gameEngine';
+import { calculatePartyCompatibility } from '@/lib/coalitionEngine';
 
 interface GameContextType {
   state: GameState;
@@ -21,6 +22,10 @@ interface GameContextType {
     resetGame: () => void;
     setPendingParties: (parties: any[]) => void;
     setGamePhase: (phase: GameState['phase']) => void;
+    startCoalitionFormation: () => void;
+    addCoalitionPartner: (partner: Candidate) => void;
+    allocateCabinetPosition: (position: string, party: string) => void;
+    completeCoalitionFormation: () => void;
   };
 }
 
@@ -33,7 +38,11 @@ type GameAction =
   | { type: 'HANDLE_EVENT'; payload: { event: Event; choice: EventChoice } }
   | { type: 'RESET_GAME' }
   | { type: 'SET_PENDING_PARTIES'; payload: { parties: any[] } }
-  | { type: 'SET_GAME_PHASE'; payload: { phase: GameState['phase'] } };
+  | { type: 'SET_GAME_PHASE'; payload: { phase: GameState['phase'] } }
+  | { type: 'START_COALITION_FORMATION' }
+  | { type: 'ADD_COALITION_PARTNER'; payload: { partner: Candidate } }
+  | { type: 'ALLOCATE_CABINET_POSITION'; payload: { position: string; party: string } }
+  | { type: 'COMPLETE_COALITION_FORMATION' };
 
 const initialState: GameState = {
   country: '',
@@ -42,7 +51,7 @@ const initialState: GameState = {
   candidates: [],
   playerCandidate: null,
   currentPoll: 0,
-  totalPolls: 52,
+  totalPolls: 52, // POLL COUNTER, 52 DEFAULT
   pollResults: [],
   previousPollResults: {},
   initialPollResults: {},
@@ -50,6 +59,7 @@ const initialState: GameState = {
   playerEventNews: [],
   votingData: [],
   pendingParties: [],
+  coalitionState: undefined,
   phase: 'setup'
 };
 
@@ -192,6 +202,89 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         phase: action.payload.phase
       };
       
+    case 'START_COALITION_FORMATION':
+      const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
+      const winningParty = sortedResults[0].candidate;
+      const winningPercentage = sortedResults[0].percentage;
+      
+      // Check if coalition is needed
+      if (winningPercentage > 50) {
+        return {
+          ...state,
+          phase: 'results' // Skip coalition if majority achieved
+        };
+      }
+      
+      // Determine available partners (excluding the winning party)
+      const availablePartners = sortedResults
+        .slice(1)
+        .map(result => result.candidate)
+        .filter(candidate => candidate.id !== winningParty.id);
+      
+      // Sort by compatibility with winning party
+      const partnersWithCompatibility = availablePartners.map(partner => ({
+        ...partner,
+        compatibility: calculatePartyCompatibility(winningParty, partner)
+      })).sort((a, b) => b.compatibility - a.compatibility);
+      
+      return {
+        ...state,
+        phase: 'coalition',
+        coalitionState: {
+          coalitionPartners: [winningParty],
+          currentCoalitionPercentage: winningPercentage,
+          availablePartners: partnersWithCompatibility,
+          cabinetAllocations: {},
+          isPlayerLead: winningParty.is_player,
+          negotiationPhase: 'partner-selection'
+        }
+      };
+      
+    case 'ADD_COALITION_PARTNER':
+      if (!state.coalitionState) return state;
+      
+      const partnerResult = state.pollResults.find(r => r.candidate.id === action.payload.partner.id);
+      const partnerPercentage = partnerResult ? partnerResult.percentage : 0;
+      const newTotalPercentage = state.coalitionState.currentCoalitionPercentage + partnerPercentage;
+      
+      return {
+        ...state,
+        coalitionState: {
+          ...state.coalitionState,
+          coalitionPartners: [...state.coalitionState.coalitionPartners, action.payload.partner],
+          currentCoalitionPercentage: newTotalPercentage,
+          availablePartners: state.coalitionState.availablePartners.filter(p => p.id !== action.payload.partner.id),
+          // If we reach 50%+, mark as complete instead of cabinet-negotiation
+          negotiationPhase: newTotalPercentage >= 50 ? 'complete' : 'partner-selection'
+        }
+      };
+      
+    case 'ALLOCATE_CABINET_POSITION':
+      if (!state.coalitionState) return state;
+      
+      const currentAllocations = { ...state.coalitionState.cabinetAllocations };
+      if (!currentAllocations[action.payload.position]) {
+        currentAllocations[action.payload.position] = [];
+      }
+      currentAllocations[action.payload.position].push(action.payload.party);
+      
+      return {
+        ...state,
+        coalitionState: {
+          ...state.coalitionState,
+          cabinetAllocations: currentAllocations
+        }
+      };
+      
+    case 'COMPLETE_COALITION_FORMATION':
+      return {
+        ...state,
+        coalitionState: {
+          ...state.coalitionState!,
+          negotiationPhase: 'complete'
+        }
+      };
+      
     default:
       return state;
   }
@@ -237,6 +330,22 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     
     setGamePhase: useCallback((phase: GameState['phase']) => {
       dispatch({ type: 'SET_GAME_PHASE', payload: { phase } });
+    }, []),
+    
+    startCoalitionFormation: useCallback(() => {
+      dispatch({ type: 'START_COALITION_FORMATION' });
+    }, []),
+    
+    addCoalitionPartner: useCallback((partner: Candidate) => {
+      dispatch({ type: 'ADD_COALITION_PARTNER', payload: { partner } });
+    }, []),
+    
+    allocateCabinetPosition: useCallback((position: string, party: string) => {
+      dispatch({ type: 'ALLOCATE_CABINET_POSITION', payload: { position, party } });
+    }, []),
+    
+    completeCoalitionFormation: useCallback(() => {
+      dispatch({ type: 'COMPLETE_COALITION_FORMATION' });
     }, [])
   };
   

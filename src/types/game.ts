@@ -62,7 +62,18 @@ export interface GameState {
   playerEventNews: string[];
   votingData: number[][];
   pendingParties?: any[];
+  coalitionState?: CoalitionState;
   phase: 'setup' | 'party-selection' | 'partyMerging' | 'player-selection' | 'campaign' | 'results' | 'coalition';
+}
+
+export interface CoalitionState {
+  coalitionPartners: Candidate[];
+  currentCoalitionPercentage: number;
+  availablePartners: Candidate[];
+  cabinetAllocations: Record<string, string[]>;
+  isPlayerLead: boolean;
+  negotiationPhase: 'partner-selection' | 'cabinet-negotiation' | 'complete';
+  currentNegotiatingPartner?: Candidate;
 }
 
 export interface CabinetPosition {
