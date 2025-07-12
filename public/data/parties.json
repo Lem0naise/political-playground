@@ -514,50 +514,7 @@
             "rel_sec": 0
         }
     ],
-    "UNIVERSITY": [
-        {
-            "id": 0,
-            "name": "Professor Halford",
-            "party": "Hard Workers' Party",
-            "party_pop": 5,
-            "prog_cons": -30,
-            "nat_glob": 30,
-            "env_eco": -20,
-            "soc_cap": 25,
-            "pac_mil": -50,
-            "auth_ana": 0,
-            "rel_sec": 50,
-            "colour": "purple"
-        },
-        {
-            "id": 1,
-            "name": "Indigo Nolan",
-            "party": "P&P",
-            "party_pop": 5,
-            "prog_cons": -21,
-            "nat_glob": 39,
-            "env_eco": -1,
-            "soc_cap": -2,
-            "pac_mil": -5,
-            "auth_ana": 14,
-            "rel_sec": 12,
-            "colour": "skyblue"
-        },
-        {
-            "id": 2,
-            "name": "Tyler Liccia-Byrne",
-            "party": "Winners Party",
-            "party_pop": 5,
-            "prog_cons": 90,
-            "nat_glob": -90,
-            "env_eco": -10,
-            "soc_cap": 100,
-            "pac_mil": 0,
-            "auth_ana": -100,
-            "rel_sec": 12,
-            "colour": "red"
-        }
-    ],
+   
     "RADICALS": [
         {
             "id": 0,
@@ -599,7 +556,7 @@
             "rel_sec": -100
         }
     ],
-    "KINGDOM OF KRESIMIRIA": [
+    "KRESIMIRIA, KINGDOM OF": [
         {
             "id": 0,
             "name": "King Remus Toran",
@@ -640,7 +597,7 @@
             "rel_sec": -18
         }
     ],
-    "KRESIMIRIA": [
+    "KRESIMIRIA, REPUBLIC OF": [
         {
             "id": 0,
             "name": "Juraj Milovan",
@@ -1115,80 +1072,10 @@
             "colour": "purple"
         }
     ],
-    "CUSTOM": [
+    "RANDOM": [
         {
             "id": 0,
-            "name": "Keir Starmer",
-            "party": "CLA",
-            "party_pop": 5,
-            "prog_cons": -10,
-            "nat_glob": 10,
-            "env_eco": -10,
-            "soc_cap": -1,
-            "pac_mil": 0,
-            "auth_ana": 0,
-            "rel_sec": 0
-        },
-        {
-            "id": 1,
-            "name": "David Cameron",
-            "party": "CRF",
-            "party_pop": 5,
-            "prog_cons": 10,
-            "nat_glob": -10,
-            "env_eco": 10,
-            "soc_cap": 20,
-            "pac_mil": 10,
-            "auth_ana": -10,
-            "rel_sec": 0
-        },
-        {
-            "id": 2,
-            "name": "Jeremy Corbyn",
-            "party": "FLA",
-            "party_pop": 5,
-            "prog_cons": -30,
-            "nat_glob": -10,
-            "env_eco": 20,
-            "soc_cap": -60,
-            "pac_mil": 0,
-            "auth_ana": 0,
-            "rel_sec": 0
-        },
-        {
-            "id": 3,
-            "name": "Rishi Sunak",
-            "party": "FRA",
-            "party_pop": 5,
-            "prog_cons": 30,
-            "nat_glob": -20,
-            "env_eco": 20,
-            "soc_cap": 60,
-            "pac_mil": 20,
-            "auth_ana": -10,
-            "rel_sec": 0
-        }
-    ],
-    "COMBINATION": [
-        {
-            "id": 0,
-            "name": "Theo Evison",
-            "party": "Prevalence",
-            "party_pop": 5,
-            "prog_cons": 27,
-            "nat_glob": -15,
-            "env_eco": 40,
-            "soc_cap": 61,
-            "pac_mil": 12,
-            "auth_ana": -51,
-            "rel_sec": 0,
-            "colour": "purple"
-        }
-    ],
-    "OTH": [
-        {
-            "id": 0,
-            "name": "Indigo Westwood",
+            "name": "Violet Westwood",
             "party": "People's Voice",
             "party_pop": 5,
             "prog_cons": -41,
@@ -1241,89 +1128,6 @@
             "rel_sec": 0
         }
     ],
-    "NOLANS": [
-        {
-            "id": 0,
-            "name": "Indigo Nolan",
-            "party": "Federalist Party",
-            "party_pop": 2,
-            "prog_cons": -60,
-            "nat_glob": 30,
-            "env_eco": -5,
-            "soc_cap": 15,
-            "pac_mil": -10,
-            "auth_ana": -15,
-            "rel_sec": 85
-        },
-        {
-            "id": 1,
-            "name": "Juliet Nolan",
-            "party": "The Greens",
-            "party_pop": 2,
-            "prog_cons": -80,
-            "nat_glob": 65,
-            "env_eco": -95,
-            "soc_cap": -45,
-            "pac_mil": 0,
-            "auth_ana": 75,
-            "rel_sec": 95
-        },
-        {
-            "id": 2,
-            "name": "Dale Nolan",
-            "party": "Status",
-            "party_pop": 2,
-            "prog_cons": -12,
-            "nat_glob": -1,
-            "env_eco": -4,
-            "soc_cap": 62,
-            "pac_mil": 45,
-            "auth_ana": -12,
-            "rel_sec": 2
-        }
-    ],
-    "RUNOFFTEST": [
-        {
-            "id": 0,
-            "name": "Professor Halford",
-            "party": "Anti-Work Party",
-            "party_pop": 5,
-            "prog_cons": 30,
-            "nat_glob": -30,
-            "env_eco": 20,
-            "soc_cap": -25,
-            "pac_mil": 50,
-            "auth_ana": -10,
-            "rel_sec": -20,
-            "colour": "purple"
-        },
-        {
-            "id": 1,
-            "name": "Mario Mario",
-            "party": "Hard Workers' Party",
-            "party_pop": 5,
-            "prog_cons": -10,
-            "nat_glob": 30,
-            "env_eco": 10,
-            "soc_cap": 25,
-            "pac_mil": -10,
-            "auth_ana": 0,
-            "rel_sec": 50
-        },
-        {
-            "id": 2,
-            "name": "Luigi Mario",
-            "party": "Working Hard Party",
-            "party_pop": 5,
-            "prog_cons": -10,
-            "nat_glob": 30,
-            "env_eco": 10,
-            "soc_cap": 25,
-            "pac_mil": -10,
-            "auth_ana": 0,
-            "rel_sec": 50
-        }
-    ],
     "CHINA": [
         {
             "id": 0,
@@ -1368,7 +1172,35 @@
             "auth_ana": -20,
             "rel_sec": 50,
             "colour": "skyblue"
-        }
+        },
+        {
+        "id": 2,
+        "name": "Arvind Kejriwal",
+        "party": "Aam Aadmi Party (AAP)",
+        "party_pop": 7,
+        "prog_cons": 0,
+        "nat_glob": -40,
+        "env_eco": -30,
+        "soc_cap": -70,
+        "pac_mil": 0,
+        "auth_ana": -50,
+        "rel_sec": 40,
+        "colour": "white"
+    },
+    {
+        "id": 3,
+        "name": "Mamata Banerjee",
+        "party": "All India Trinamool Congress (TMC)",
+        "party_pop": 5,
+        "prog_cons": -10,
+        "nat_glob": -60,
+        "env_eco": -25,
+        "soc_cap": -60,
+        "pac_mil": 5,
+        "auth_ana": -70,
+        "rel_sec": 60,
+        "colour": "green"
+    }
     ],
     "RUSSIA": [
         {
@@ -1398,7 +1230,35 @@
             "auth_ana": -70,
             "rel_sec": 20,
             "colour": "red"
-        }
+        },
+         {
+        "id": 2,
+        "name": "Leonid Slutsky",
+        "party": "Liberal Democratic Party of Russia (LDPR)",
+        "party_pop": 4,
+        "prog_cons": 90,
+        "nat_glob": -95,
+        "env_eco": 60,
+        "soc_cap": 20,
+        "pac_mil": 90,
+        "auth_ana": -85,
+        "rel_sec": -60,
+        "colour": "blue"
+    },
+    {
+        "id": 3,
+        "name": "Sergey Mironov",
+        "party": "A Just Russia — For Truth",
+        "party_pop": 3,
+        "prog_cons": 30,
+        "nat_glob": -60,
+        "env_eco": -30,
+        "soc_cap": -65,
+        "pac_mil": 50,
+        "auth_ana": -50,
+        "rel_sec": -20,
+        "colour": "gold"
+    }
     ],
     "JAPAN": [
         {
