@@ -38,9 +38,6 @@ export default function MainMenu() {
               INTERACTIVE ELECTION SIMULATOR
             </p>
           </div>
-          <p className="news-body text-lg sm:text-xl text-stone-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
-            Step into the shoes of a political strategist and navigate the complex world of campaign management
-          </p>
         </div>
 
         <div className="vintage-border p-4 sm:p-8 mb-6 sm:mb-8 relative overflow-hidden" style={{ background: 'var(--newspaper-bg)' }}>
@@ -122,8 +119,46 @@ export default function MainMenu() {
         </div>
 
         <div className="text-center mt-6 sm:mt-8">
-          <p className="text-slate-400 text-xs sm:text-sm font-mono">
+          <p className="text-slate-400 text-xs sm:text-sm font-mono mb-2">
             Tribune Interactive • Political Simulation Division
+          </p>
+          
+          <div className="max-w-4xl mx-auto bg-slate-800/30 border border-slate-600 rounded-lg p-4 sm:p-6 mb-4">
+            <div className="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3 sm:p-4 mb-4">
+              <p className="text-yellow-400 font-bold text-sm sm:text-base mb-2">
+                ⚠️ IMPORTANT DISCLAIMER
+              </p>
+              <p className="text-yellow-200 text-xs sm:text-sm">
+                This is a work of fiction for entertainment and educational purposes only.
+              </p>
+            </div>
+
+            <div className="space-y-3 text-slate-300 text-xs sm:text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <p><strong className="text-white">Fictional Simulation:</strong> This game is a simplified, fictional representation of political processes and does not accurately reflect real-world politics.</p>
+                </div>
+                <div>
+                  <p><strong className="text-white">No Political Endorsement:</strong> The parties, candidates, and positions shown are fictional. No real political entities are being endorsed or criticized.</p>
+                </div>
+                <div>
+                  <p><strong className="text-white">Educational Purpose:</strong> Designed to demonstrate basic concepts of campaigning and political strategy in an accessible format.</p>
+                </div>
+                <div>
+                  <p><strong className="text-white">Not Political Advice:</strong> This game should not influence real voting decisions. Please research actual candidates and issues for real elections.</p>
+                </div>
+              </div>
+              
+              <div className="border border-blue-600 rounded-lg p-3 mt-4">
+                <p className="text-blue-200 text-xs sm:text-sm">
+                  <strong>Remember:</strong> Real democracy involves complex issues. I strongly encourage you to engage with real political processes through voting, volunteering, and staying informed.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <p className="text-slate-500 text-xs">
+            All content is simplified for gameplay and should not influence real voting decisions.
           </p>
         </div>
       </div>

@@ -114,4 +114,11 @@ export const TOO_CLOSE_PARTY = 100;
 export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
 
+// Disclaimer constants
+export const DISCLAIMER_TEXT = {
+  SHORT: "Fictional simulation for entertainment purposes only",
+  FULL: "This is a fictional political simulation for entertainment and educational purposes. It does not accurately represent real political processes, parties, or voting systems.",
+  FOOTER: "This simulation does not reflect real politics or endorse any political views. Political opinions are subjective and complex."
+} as const;
+
 export type PoliticalValueKey = keyof PoliticalValues;
