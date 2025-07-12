@@ -53,7 +53,7 @@ export default function CampaignView() {
             </h1>
             <div className="border-t border-b border-red-500 py-1 my-1">
               <p className="campaign-status text-xs sm:text-sm text-red-200 tracking-widest">
-                LIVE ELECTION COVERAGE • CAMPAIGN HEADQUARTERS
+                LIVE ELECTION COVERAGE • CAMPAIGN HEADQUARTERS • FICTIONAL SIMULATION
               </p>
             </div>
           </div>
@@ -170,6 +170,14 @@ export default function CampaignView() {
               <PollResults />
             </div>
           </div>
+        </div>
+
+        {/* Add disclaimer footer */}
+        <div className="mt-6 text-center border-t border-gray-300 pt-4">
+          <p className="text-gray-500 text-xs max-w-2xl mx-auto">
+            <strong>Simulation Notice:</strong> This is a fictional political simulation for entertainment and educational purposes. 
+            Events and outcomes are simplified and do not reflect real political complexity or accurate demographic data.
+          </p>
         </div>
       </div>
     </div>

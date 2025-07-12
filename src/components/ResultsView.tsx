@@ -237,9 +237,17 @@ export default function ResultsView() {
         </div>
 
         <div className="text-center mt-6 sm:mt-8">
-          <p className="text-gray-400 text-xs sm:text-sm px-4">
+          <p className="text-gray-400 text-xs sm:text-sm px-4 mb-4">
             Thanks for playing! Change from initial polling is calculated from Poll 2 baseline.
           </p>
+          <div className="border-t border-gray-600 pt-4">
+            <p className="text-gray-500 text-xs max-w-3xl mx-auto">
+              <strong>Important Disclaimer:</strong> This simulation is fictional and for entertainment purposes only. 
+              It does not accurately represent real political processes, parties, or voting systems. 
+              The scenarios, candidates, and outcomes are simplified for gameplay and should not be used to form real political opinions or voting decisions. 
+              Political ideologies are complex and subjective - please research actual candidates and issues when participating in real elections.
+            </p>
+          </div>
         </div>
       </div>
     </div>
