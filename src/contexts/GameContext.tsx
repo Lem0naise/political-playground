@@ -51,7 +51,7 @@ const initialState: GameState = {
   candidates: [],
   playerCandidate: null,
   currentPoll: 0,
-  totalPolls: 8, // POLL COUNTER, 52 DEFAULT
+  totalPolls: 52, // POLL COUNTER, 52 DEFAULT
   pollResults: [],
   previousPollResults: {},
   initialPollResults: {},
