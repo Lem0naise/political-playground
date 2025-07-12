@@ -71,64 +71,7 @@
             "colour": "black"
         }
     ],
-    "US PRIMARIES": [
-        {
-            "id": 0,
-            "name": "Donald Trump",
-            "party": "Donald Trump",
-            "party_pop": 10,
-            "prog_cons": 60,
-            "nat_glob": -40,
-            "env_eco": 40,
-            "soc_cap": 95,
-            "pac_mil": 40,
-            "auth_ana": -63,
-            "rel_sec": -12,
-            "colour": "red"
-        },
-        {
-            "id": 1,
-            "name": "Ron DeSantis",
-            "party": "Ron DeSantis",
-            "party_pop": 10,
-            "prog_cons": 80,
-            "nat_glob": -50,
-            "env_eco": 50,
-            "soc_cap": 95,
-            "pac_mil": 60,
-            "auth_ana": -73,
-            "rel_sec": -52,
-            "colour": "blue"
-        },
-        {
-            "id": 2,
-            "name": "Nikki Haley",
-            "party": "Nikki Haley",
-            "party_pop": 10,
-            "prog_cons": 40,
-            "nat_glob": -30,
-            "env_eco": 40,
-            "soc_cap": 95,
-            "pac_mil": 30,
-            "auth_ana": -53,
-            "rel_sec": -2,
-            "colour": "yellow"
-        },
-        {
-            "id": 3,
-            "name": "Chris Christie",
-            "party": "Chris Christie",
-            "party_pop": 10,
-            "prog_cons": 40,
-            "nat_glob": -30,
-            "env_eco": 50,
-            "soc_cap": 75,
-            "pac_mil": 30,
-            "auth_ana": -33,
-            "rel_sec": -62,
-            "colour": "green"
-        }
-    ],
+   
     "USA": [
         {
             "id": 0,
@@ -431,10 +374,10 @@
             "colour": "lightblue"
         }
     ],
-    "HAMPTON": [
+    "PEOPLEPOLITICS": [
         {
             "id": 0,
-            "name": "James Greenfield",
+            "name": "James Bluesky",
             "party": "KPD",
             "party_pop": 5,
             "prog_cons": -10,
@@ -448,7 +391,7 @@
         },
         {
             "id": 1,
-            "name": "Danil Eliasov / Billiam the Third / Luc Mason",
+            "name": "Daniel Mason the Third",
             "party": "4C Yes Please",
             "party_pop": 5,
             "prog_cons": 90,
@@ -461,7 +404,7 @@
         },
         {
             "id": 2,
-            "name": "Mehmet Altinel",
+            "name": "Mehmet Allianceinel",
             "party": "National Imperial Front",
             "party_pop": 5,
             "prog_cons": 55,
@@ -474,7 +417,7 @@
         },
         {
             "id": 3,
-            "name": "Indigo Nolan",
+            "name": "Violet Sonnet",
             "party": "P&P",
             "party_pop": 5,
             "prog_cons": -21,
@@ -488,7 +431,7 @@
         },
         {
             "id": 4,
-            "name": "Theo Evison",
+            "name": "Doric Evison",
             "party": "Prevalence",
             "party_pop": 5,
             "prog_cons": 27,
@@ -502,7 +445,7 @@
         },
         {
             "id": 5,
-            "name": "William Greenfield",
+            "name": "Bill Redfield",
             "party": "Economic Reformists",
             "party_pop": 5,
             "prog_cons": 80,
@@ -512,6 +455,34 @@
             "pac_mil": 0,
             "auth_ana": 90,
             "rel_sec": 0
+        },
+        {
+            "id": 0,
+            "name": "Professor Halford",
+            "party": "Hamptonian's Party",
+            "party_pop": 5,
+            "prog_cons": -30,
+            "nat_glob": 30,
+            "env_eco": -20,
+            "soc_cap": 25,
+            "pac_mil": -50,
+            "auth_ana": 0,
+            "rel_sec": 50,
+            "colour": "blue"
+        },
+        {
+            "id": 0,
+            "name": "Josh WilPolitics",
+            "party": "WilOfThePeople Party",
+            "party_pop": 5,
+            "prog_cons": 70,
+            "nat_glob": -50,
+            "env_eco": 90,
+            "soc_cap": 60,
+            "pac_mil": 30,
+            "auth_ana": -40,
+            "rel_sec": -20,
+            "colour": "purple"
         }
     ],
    
@@ -1054,22 +1025,6 @@
             "pac_mil": 10,
             "auth_ana": -30,
             "rel_sec": -70
-        }
-    ],
-    "AARON": [
-        {
-            "id": 0,
-            "name": "Professor Halford",
-            "party": "Hamptonian's Party",
-            "party_pop": 5,
-            "prog_cons": -30,
-            "nat_glob": 30,
-            "env_eco": -20,
-            "soc_cap": 25,
-            "pac_mil": -50,
-            "auth_ana": 0,
-            "rel_sec": 50,
-            "colour": "purple"
         }
     ],
     "RANDOM": [
