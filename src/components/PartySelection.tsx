@@ -46,7 +46,9 @@ export default function PartySelection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          {Object.entries(partyLists).map(([listName, parties]) => (
+          {Object.entries(partyLists)
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([listName, parties]) => (
             <div
               key={listName}
               className={`vintage-border p-4 sm:p-6 cursor-pointer transition-all duration-200 ${

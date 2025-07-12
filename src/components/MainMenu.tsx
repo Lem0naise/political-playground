@@ -78,7 +78,9 @@ export default function MainMenu() {
           </h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
-            {Object.entries(countries).map(([countryCode, countryData]) => (
+            {Object.entries(countries)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([countryCode, countryData]) => (
               <button
                 key={countryCode}
                 onClick={() => setSelectedCountry(countryCode)}
