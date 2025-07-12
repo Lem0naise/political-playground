@@ -8,7 +8,11 @@ import {
   getAvailableCabinetPositions,
   getPartyPriorityPositions,
   generateCoalitionPolicyQuestion,
-  simulateCoalitionNegotiation
+  simulateCoalitionNegotiation,
+  findBestCoalitionPartners,
+  simulateAICoalitionNegotiation,
+  generatePlayerApproachOffer,
+  evaluatePlayerResponse
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
 
@@ -242,19 +246,212 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
   return null;
 }
 
+function PlayerApproachModal({ 
+  leadParty, 
+  playerParty, 
+  leadPercentage, 
+  playerPercentage, 
+  offer,
+  onComplete, 
+  onReject 
+}: {
+  leadParty: Candidate;
+  playerParty: Candidate;
+  leadPercentage: number;
+  playerPercentage: number;
+  offer: any;
+  onComplete: (success: boolean, positions: string[], responses: number[]) => void;
+  onReject: () => void;
+}) {
+  const [currentStep, setCurrentStep] = useState<'offer' | 'policy' | 'cabinet'>('offer');
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [policyResponses, setPolicyResponses] = useState<number[]>([]);
+  const [acceptedPositions, setAcceptedPositions] = useState<string[]>([]);
+
+  const handleAcceptOffer = () => {
+    if (offer.questions.length > 0) {
+      setCurrentStep('policy');
+    } else {
+      setCurrentStep('cabinet');
+    }
+  };
+
+  const handlePolicyResponse = (appeal: number) => {
+    const newResponses = [...policyResponses, appeal];
+    setPolicyResponses(newResponses);
+    
+    if (currentQuestionIndex + 1 < offer.questions.length) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      setCurrentStep('cabinet');
+    }
+  };
+
+  const handleCabinetResponse = () => {
+    onComplete(true, acceptedPositions, policyResponses);
+  };
+
+  if (currentStep === 'offer') {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
+          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+            Coalition Invitation from {leadParty.party}
+          </h3>
+          <div className="mb-6">
+            <p className="text-slate-700 mb-4">{offer.message}</p>
+            
+            {offer.offeredPositions.length > 0 && (
+              <div className="mb-4">
+                <h4 className="font-semibold text-slate-800 mb-2">Offered Cabinet Positions:</h4>
+                <ul className="list-disc list-inside text-slate-700 space-y-1">
+                  {offer.offeredPositions.map((pos: string) => (
+                    <li key={pos}>{pos}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            <div className="flex items-center space-x-3 p-3 bg-slate-100 rounded-lg">
+              <div 
+                className="w-8 h-8 rounded-full border-2 border-slate-600"
+                style={{ backgroundColor: leadParty.colour }}
+              ></div>
+              <div>
+                <div className="font-bold text-slate-900">{leadParty.party}</div>
+                <div className="text-sm text-slate-600">{leadParty.name} - {leadPercentage.toFixed(1)}% support</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-between">
+            <button
+              onClick={onReject}
+              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg"
+            >
+              Decline Invitation
+            </button>
+            <button
+              onClick={handleAcceptOffer}
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg"
+            >
+              Consider Offer
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentStep === 'policy' && offer.questions.length > 0) {
+    const currentQuestion = offer.questions[currentQuestionIndex];
+    
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
+          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+            Policy Discussion with {leadParty.party}
+          </h3>
+          <div className="mb-6">
+            <h4 className="text-lg font-semibold text-slate-800 mb-2">{currentQuestion.topic}</h4>
+            <p className="text-slate-700 mb-4">"{currentQuestion.question}"</p>
+            <div className="space-y-3">
+              {currentQuestion.options.map((option: any, index: number) => (
+                <button
+                  key={index}
+                  onClick={() => handlePolicyResponse(option.appeal)}
+                  className="w-full p-4 text-left border-2 border-slate-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all"
+                >
+                  <div className="font-medium text-slate-900">{option.text}</div>
+                  <div className="text-sm text-slate-600 mt-1">
+                    Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="text-sm text-slate-600">
+            Question {currentQuestionIndex + 1} of {offer.questions.length}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentStep === 'cabinet') {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
+          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+            Cabinet Position Negotiation
+          </h3>
+          
+          <div className="mb-6">
+            <h4 className="text-lg font-semibold text-slate-800 mb-3">
+              {leadParty.party} offers these positions:
+            </h4>
+            <div className="space-y-2">
+              {offer.offeredPositions.map((position: string) => (
+                <div
+                  key={position}
+                  onClick={() => {
+                    if (acceptedPositions.includes(position)) {
+                      setAcceptedPositions(acceptedPositions.filter(p => p !== position));
+                    } else {
+                      setAcceptedPositions([...acceptedPositions, position]);
+                    }
+                  }}
+                  className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                    acceptedPositions.includes(position)
+                      ? 'border-green-500 bg-green-50'
+                      : 'border-slate-300 hover:border-slate-400'
+                  }`}
+                >
+                  <div className="font-medium text-slate-900">{position}</div>
+                  <div className="text-sm text-slate-600">
+                    {acceptedPositions.includes(position) ? 'Accepted' : 'Click to accept'}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-between">
+            <button
+              onClick={onReject}
+              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg"
+            >
+              Reject Offer
+            </button>
+            <button
+              onClick={handleCabinetResponse}
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg"
+            >
+              Accept ({acceptedPositions.length} positions)
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 export default function CoalitionFormation() {
   const { state, actions } = useGame();
   const [selectedPartner, setSelectedPartner] = useState<Candidate | null>(null);
-  const [currentQuestion, setCurrentQuestion] = useState<any>(null);
-  const [policyResponses, setPolicyResponses] = useState<number[]>([]);
-  const [offeredPositions, setOfferedPositions] = useState<string[]>([]);
-  const [negotiationResult, setNegotiationResult] = useState<any>(null);
   const [showNegotiationDetails, setShowNegotiationDetails] = useState(false);
+  const [aiNegotiationLog, setAiNegotiationLog] = useState<string[]>([]);
+  const [playerApproachOffer, setPlayerApproachOffer] = useState<any>(null);
+  const [showPlayerApproach, setShowPlayerApproach] = useState(false);
 
   const coalitionState = state.coalitionState;
   const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
   const winningParty = sortedResults[0].candidate;
   const winningPercentage = sortedResults[0].percentage;
+  const playerResult = sortedResults.find(r => r.candidate.is_player);
+  const isPlayerWinner = winningParty.is_player;
 
   useEffect(() => {
     if (!coalitionState && winningPercentage <= 50) {
@@ -262,18 +459,105 @@ export default function CoalitionFormation() {
     }
   }, [coalitionState, winningPercentage, actions]);
 
+  // AI Coalition Formation Logic
+  useEffect(() => {
+    if (coalitionState && 
+        coalitionState.negotiationPhase === 'partner-selection' && 
+        !coalitionState.isPlayerLead && 
+        coalitionState.currentCoalitionPercentage < 50) {
+      
+      const timer = setTimeout(() => {
+        const bestPartners = findBestCoalitionPartners(
+          winningParty,
+          coalitionState.availablePartners,
+          sortedResults
+        );
+        
+        if (bestPartners.length > 0) {
+          const nextPartner = bestPartners[0];
+          
+          // Check if approaching the player
+          if (nextPartner.candidate.is_player) {
+            const offer = generatePlayerApproachOffer(
+              winningParty,
+              nextPartner.candidate,
+              winningPercentage,
+              nextPartner.percentage
+            );
+            setPlayerApproachOffer(offer);
+            setShowPlayerApproach(true);
+          } else {
+            // AI-to-AI negotiation
+            const result = simulateAICoalitionNegotiation(
+              winningParty,
+              nextPartner.candidate,
+              winningPercentage,
+              nextPartner.percentage
+            );
+            
+            const logMessage = `${winningParty.party} approached ${nextPartner.candidate.party}: ${result.message}`;
+            setAiNegotiationLog(prev => [...prev, logMessage]);
+            
+            if (result.success) {
+              actions.addCoalitionPartner(nextPartner.candidate);
+              result.cabinetPositions.forEach(position => {
+                actions.allocateCabinetPosition(position, nextPartner.candidate.party);
+              });
+            } else {
+              // Remove from available partners if negotiation failed
+              const updatedPartners = coalitionState.availablePartners.filter(
+                p => p.id !== nextPartner.candidate.id
+              );
+              // Note: You'll need to add this action to update available partners
+            }
+          }
+        }
+      }, 2000); // 2 second delay for dramatic effect
+      
+      return () => clearTimeout(timer);
+    }
+  }, [coalitionState, winningParty, sortedResults, actions]);
+
   // Auto-complete coalition when majority is reached
   useEffect(() => {
     if (coalitionState && 
         coalitionState.negotiationPhase === 'partner-selection' && 
         coalitionState.currentCoalitionPercentage >= 50) {
-      // Small delay to show the updated percentage before completing
       const timer = setTimeout(() => {
         actions.completeCoalitionFormation();
       }, 1500);
       return () => clearTimeout(timer);
     }
   }, [coalitionState, actions]);
+
+  const handlePlayerApproachResponse = (success: boolean, positions: string[], responses: number[]) => {
+    if (success && playerResult) {
+      const evaluation = evaluatePlayerResponse(
+        winningParty,
+        playerResult.candidate,
+        winningPercentage,
+        playerResult.percentage,
+        responses,
+        positions
+      );
+      
+      const logMessage = `${winningParty.party} approached ${playerResult.candidate.party}: ${evaluation.message}`;
+      setAiNegotiationLog(prev => [...prev, logMessage]);
+      
+      if (evaluation.success) {
+        actions.addCoalitionPartner(playerResult.candidate);
+        positions.forEach(position => {
+          actions.allocateCabinetPosition(position, playerResult.candidate.party);
+        });
+      }
+    } else {
+      const logMessage = `${winningParty.party} approached ${playerResult?.candidate.party}: Offer declined.`;
+      setAiNegotiationLog(prev => [...prev, logMessage]);
+    }
+    
+    setShowPlayerApproach(false);
+    setPlayerApproachOffer(null);
+  };
 
   if (!coalitionState) {
     return (
@@ -367,12 +651,26 @@ export default function CoalitionFormation() {
             </h1>
             <div className="border-t-2 border-b-2 border-yellow-500 py-3 my-4">
               <p className="campaign-status text-lg text-yellow-200">
-                {coalitionState.isPlayerLead ? 'BUILD YOUR COALITION' : 'WATCHING COALITION TALKS'} • 
+                {coalitionState.isPlayerLead ? 'BUILD YOUR COALITION' : `${winningParty.party} FORMING COALITION`} • 
                 CURRENT SUPPORT: {coalitionState.currentCoalitionPercentage.toFixed(1)}% • 
                 NEED: {coalitionState.currentCoalitionPercentage >= 50 ? 'MAJORITY ACHIEVED!' : `${(50 - coalitionState.currentCoalitionPercentage).toFixed(1)}% MORE`}
               </p>
             </div>
           </div>
+
+          {/* AI Negotiation Log */}
+          {!coalitionState.isPlayerLead && aiNegotiationLog.length > 0 && (
+            <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Coalition Negotiations</h2>
+              <div className="space-y-2 max-h-32 overflow-y-auto">
+                {aiNegotiationLog.map((log, index) => (
+                  <div key={index} className="text-sm text-slate-700 p-2 bg-slate-100 rounded">
+                    {log}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Current Coalition */}
           <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
@@ -500,13 +798,24 @@ export default function CoalitionFormation() {
                 }
                 setShowNegotiationDetails(false);
                 setSelectedPartner(null);
-                setOfferedPositions([]);
-                setPolicyResponses([]);
               }}
               onCancel={() => {
                 setShowNegotiationDetails(false);
                 setSelectedPartner(null);
               }}
+            />
+          )}
+
+          {/* Player Approach Modal */}
+          {showPlayerApproach && playerApproachOffer && playerResult && (
+            <PlayerApproachModal
+              leadParty={winningParty}
+              playerParty={playerResult.candidate}
+              leadPercentage={winningPercentage}
+              playerPercentage={playerResult.percentage}
+              offer={playerApproachOffer}
+              onComplete={handlePlayerApproachResponse}
+              onReject={() => handlePlayerApproachResponse(false, [], [])}
             />
           )}
 

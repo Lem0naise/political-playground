@@ -211,11 +211,160 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
   return newsEvents;
 }
 
+const RANDOM_NEWS_EVENTS = [
+  // General Political Events
+  "Former Treasury Secretary's leaked emails reveal behind-the-scenes campaign strategy discussions.",
+  "Bipartisan Infrastructure Reform Act gains unexpected support from 12 swing district representatives.",
+  "Voter registration surges by 34% in college towns following TikTok mobilization campaign.",
+  "Presidential debate commission announces controversial town hall format with live fact-checking display.",
+  "Popular independent mayor Sarah Chen endorses surprise candidate after months of speculation.",
+  "Secret coalition negotiations revealed as three minor parties discuss joint manifesto.",
+  "Campaign Finance Transparency Bill passes committee vote 8-5 despite fierce lobbying opposition.",
+  "Political advertising spending hits $2.3 billion mark, breaking all previous election records.",
+  "University of Westfield reports 89% student registration rate following campus voter drives.",
+  "Rural farming communities unite against proposed urban development tax incentives.",
+  
+  // Economic Events
+  "TechCorp shares plummet 23% amid fears of pension fund exposure to volatile markets.",
+  "Regional unemployment drops to 4.2% while metropolitan areas struggle at 7.8%.",
+  "Local Chamber of Commerce confidence index reaches 78-point high following tax reform announcements.",
+  "Average home prices soar to $847,000 as City Council debates emergency rent control measures.",
+  "Free trade negotiations with Northland Republic enter final phase despite tariff disputes.",
+  "Silicon Valley tech jobs grow 15% annually while manufacturing employment stagnates at -2%.",
+  "Consumer Price Index rises 0.7% monthly as energy costs spike following pipeline maintenance.",
+  "Agricultural exports face 18% tariff increase following trade dispute over fishing rights.",
+  "Midwest Manufacturing announces $450 million expansion creating 3,200 jobs over two years.",
+  "Tourism revenue rebounds to 94% of pre-pandemic levels following festival season success.",
+  
+  // Social Issues
+  "Emergency room wait times average 4.7 hours as healthcare becomes defining campaign issue.",
+  "Teachers' union mobilizes 15,000 members for education funding march on State Capitol.",
+  "Immigration processing backlog reaches 180,000 cases as border town mayors demand federal action.",
+  "Deepfake political advertisements prompt emergency session on election integrity measures.",
+  "Archbishop Martinez calls for interfaith dialogue following vandalism at three local mosques.",
+  "Equal Pay Initiative gains momentum with endorsements from 47 major corporations.",
+  "Mental Health First Aid programs receive $23 million federal expansion funding.",
+  "International Folk Festival draws record 85,000 visitors celebrating 40 different cultures.",
+  "Professional soccer star Marcus Rodriguez's arrest overshadows policy debate for third consecutive day.",
+  "Grammy winner Luna Vasquez endorsement video reaches 12 million views in 48 hours.",
+  
+  // International Affairs
+  "G7 Climate Summit concludes with heated exchanges over carbon credit trading mechanisms.",
+  "Border patrol agents report 23% increase in smuggling attempts following neighboring country's economic collapse.",
+  "Foreign aid allocation of $2.8 billion faces opposition from deficit hawks citing domestic priorities.",
+  "International election observers from 12 countries praise new voter verification technology.",
+  "State-sponsored cyber attacks target power grid infrastructure in three metropolitan areas.",
+  "Global Climate Accord negotiations stall over developing nation compensation demands.",
+  "Syrian refugee crisis intensifies as 50,000 displaced persons seek emergency humanitarian assistance.",
+  "Pacific Trade Partnership negotiations face setbacks over intellectual property protections.",
+  "NATO joint exercises involve 15,000 troops demonstrating regional defense capabilities.",
+  "Student exchange programs with European Union expand to include 50 additional universities.",
+  
+  // Environmental Issues
+  "Category 4 Hurricane Miranda highlights coastal infrastructure vulnerabilities and adaptation funding gaps.",
+  "Riverside County residents protest planned 400-megawatt solar installation over habitat concerns.",
+  "Metropolitan water authority implements Stage 3 restrictions following reservoir levels dropping to 31%.",
+  "Spotted owl protection laws trigger heated debate between conservationists and timber industry representatives.",
+  "Offshore wind energy costs drop to $0.07 per kilowatt-hour, reaching grid parity milestone.",
+  "Air quality alerts issued for sixth consecutive day as particulate matter exceeds federal standards.",
+  "Yellowstone National Park funding faces $127 million shortfall threatening visitor services.",
+  "Electric vehicle charging network expands by 340 stations following federal infrastructure investment.",
+  "Municipal recycling programs achieve 73% diversion rate, surpassing state mandates two years early.",
+  "International Ocean Cleanup Project removes 12 tons of plastic from Pacific garbage patch.",
+  
+  // Technology & Innovation
+  "Federal AI Ethics Commission proposes mandatory algorithm audits for platforms with over 10 million users.",
+  "Data breach at MegaCorp exposes personal information of 2.3 million citizens, triggering privacy law debate.",
+  "5G network rollout reaches 67% coverage but faces resistance in 23 rural counties.",
+  "Online voting pilot program in Jefferson County reports 94% satisfaction rate but faces security scrutiny.",
+  "Venture capital funding for local startups reaches $340 million, highest quarterly total in state history.",
+  "Digital homework gap affects 1.2 million students lacking reliable broadband access.",
+  "Federal Reserve explores digital dollar proposal while crypto regulation remains in legislative limbo.",
+  "SocialPlatform faces congressional hearing over political content moderation algorithms.",
+  "Innovation District attracts $890 million international investment in biotechnology research facilities.",
+  "Electronic health records upgrade affects 340 hospitals, improving patient data sharing capabilities.",
+  
+  // Local/Regional Events
+  "Regional Development Authority approves $150 million fund allocation sparking fierce inter-city competition.",
+  "Metro Rail expansion adds 23 miles of track, promising 18-minute downtown commute reduction.",
+  "Chronicle Media Group files bankruptcy, threatening closure of 14 local newspapers.",
+  "Riverside Community Center faces closure as city budget cuts eliminate $2.3 million social services funding.",
+  "Historic Cathedral District receives $8.7 million federal preservation grant for 19th-century restoration.",
+  "Public transportation fares increase 12% to $3.25, prompting commuter advocacy group protests.",
+  "State University expansion plans include 4,500 additional students but face $67 million budget shortfall.",
+  "Harvest Festival generates $12.4 million tourism revenue, boosting regional economic indicators.",
+  "Municipal elections see 23% turnout, lowest in 16 years despite competitive mayoral race.",
+  "Neighborhood watch programs report 31% crime reduction following community policing initiative.",
+  
+  // Campaign-Specific Events
+  "Senator Patricia Williams withdraws candidacy citing family health concerns, reshuffling party primary.",
+  "Grassroots volunteer network reaches 45,000 registered members, exceeding organizational targets by 280%.",
+  "Campaign merchandise sales generate $1.8 million, with 'Unity Forward' slogan leading popularity polls.",
+  "Candidate James Morrison's college scholarship controversy resurfaces through opposition research leak.",
+  "Former Environmental Secretary Lisa Chang accused of policy reversal on mining regulations.",
+  "Citizens for Democracy rally draws 23,000 supporters to State Capitol demanding election reform.",
+  "Polling methodology faces criticism after three major surveys show 8-point variance in results.",
+  "Campaign bus tour through Midwest generates unexpected enthusiasm in traditionally safe districts.",
+  "Attack advertisements reach saturation point with voters reporting 'ad fatigue' in focus groups.",
+  "Independent candidate Maria Santos gains 15% support following viral debate performance clip.",
+  
+  // Media & Information
+  "FactCheck Alliance expands election coverage team by 40%, hiring specialists in economic policy analysis.",
+  "Public Broadcasting funding becomes political flashpoint with $89 million budget under review.",
+  "KWXR Radio implements equal airtime policy, providing 30-minute blocks to all qualified candidates.",
+  "Investigative journalism uncovers $2.1 million unreported campaign expenditure through shell companies.",
+  "Algorithm changes on social platforms affect political content reach for 12 million users.",
+  "Regional newspaper circulation drops 34% as readership shifts to digital-only subscriptions.",
+  "Political podcast 'Democracy Now' reaches 2.8 million weekly downloads, influencing mainstream discourse.",
+  "Press freedom advocates rally against proposed journalist shield law restrictions affecting 230 reporters.",
+  "Civic education initiative targets 180,000 first-time voters with nonpartisan information campaigns.",
+  "Media bias study reveals 67% of voters consume news primarily from ideologically aligned sources."
+];
+
+const ECONOMIC_CRISIS_EVENTS = [
+  "GlobalManufacturing announces closure of three plants affecting 12,000 workers across industrial corridor.",
+  "First National Bank restricts commercial lending as credit default rates climb to 8.3%.",
+  "Semiconductor shortage forces automotive assembly lines to reduce production by 40% through Q4.",
+  "National currency weakens 12% against international basket, driving import costs up $2,400 per household.",
+  "Commercial real estate values drop 18% as downtown occupancy rates fall to 52% post-pandemic levels.",
+  "Main Street businesses report 34% revenue decline following supply chain disruptions and energy costs.",
+  "Federal debt-to-GDP ratio reaches 127%, triggering automatic spending review mechanisms.",
+  "Economic growth projections revised from 2.4% to -0.8% following three consecutive months of contraction."
+];
+
+const ECONOMIC_OPTIMISM_EVENTS = [
+  "international automotive giant announces $2.3 billion electric vehicle plant creating 8,500 manufacturing jobs.",
+  "Unemployment plummets to 3.1%, lowest rate since 1969, as job openings exceed available workers.",
+  "Manufacturing export orders surge 28% following successful trade mission to Southeast Asian markets.",
+  "AI productivity revolution boosts worker output 15% while reducing operational costs across service sectors.",
+  "Consumer confidence reaches 142-point high as household savings rates stabilize at healthy 8.2%.",
+  "Community bank lending increases 23% supporting 2,400 small business expansion projects.",
+  "Infrastructure investment program creates 45,000 construction jobs rebuilding bridges, roads, and broadband networks.",
+  "Economic indicators signal sustained 3.2% annual growth driven by innovation and international competitiveness."
+];
+
+const POLARIZATION_EVENTS = [
+  "Supreme Court's 6-3 decision on reproductive rights triggers massive demonstrations in 47 state capitals.",
+  "Religious Freedom Protection Act sparks interfaith tensions as religious leaders issue competing statements.",
+  "Immigration enforcement raids in five cities create community standoffs between federal agents and local officials.",
+  "Professor Jonathan Mitchell's free speech lecture at State University cancelled following 2,000-person protest.",
+  "Traditional Marriage Coalition clashes with LGBTQ+ advocacy groups over adoption agency policies.",
+  "Constitutional Convention debate intensifies as 28 states consider Article V amendment process.",
+  "Columbus Day vs. Indigenous Peoples' Day controversy splits City Council in heated 6-5 vote.",
+  "Confederate monument removal in downtown square prompts counter-protests and 47 arrests."
+];
+
 export function applyVoterDynamics(data: number[][], pollIteration: number): string[] {
   const newsEvents: string[] = [];
   
   if (pollIteration === 1) {
     return newsEvents; // No changes for baseline poll
+  }
+  
+  // Add random flavor news events (30% chance)
+  if (Math.random() < 0.3) {
+    const randomEvent = RANDOM_NEWS_EVENTS[Math.floor(Math.random() * RANDOM_NEWS_EVENTS.length)];
+    newsEvents.push(randomEvent);
   }
   
   // Economic anxiety factor - affects economic issues more
@@ -225,9 +374,11 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
     economicAnxiety = 0.5 + Math.random() * 1.3; // 0.5 to 1.8
     economicCrisis = true;
     if (economicAnxiety > 1.4) {
-      newsEvents.push("Economic turmoil creates uncertainty as markets decline and unemployment rises.");
+      const crisisEvent = ECONOMIC_CRISIS_EVENTS[Math.floor(Math.random() * ECONOMIC_CRISIS_EVENTS.length)];
+      newsEvents.push(crisisEvent);
     } else if (economicAnxiety < 0.7) {
-      newsEvents.push("Economic optimism grows as positive indicators emerge across key sectors.");
+      const optimismEvent = ECONOMIC_OPTIMISM_EVENTS[Math.floor(Math.random() * ECONOMIC_OPTIMISM_EVENTS.length)];
+      newsEvents.push(optimismEvent);
     }
   }
   
@@ -236,11 +387,8 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
   const polarizationStrength = polarizationEvent ? 1.2 + Math.random() * 0.8 : 1.0; // 1.2 to 2.0
   
   if (polarizationEvent) {
-    if (polarizationStrength > 1.5) {
-      newsEvents.push("Social tensions rise as polarizing issues dominate public discourse.");
-    } else {
-      newsEvents.push("Ideological divides become more pronounced in political discussions.");
-    }
+    const polarizationNews = POLARIZATION_EVENTS[Math.floor(Math.random() * POLARIZATION_EVENTS.length)];
+    newsEvents.push(polarizationNews);
   }
   
   // Apply small random changes to voter opinions

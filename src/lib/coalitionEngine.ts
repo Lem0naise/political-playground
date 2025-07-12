@@ -291,3 +291,171 @@ export function simulateCoalitionNegotiation(
     };
   }
 }
+
+export function findBestCoalitionPartners(
+  leadParty: Candidate,
+  availableParties: Candidate[],
+  results: Array<{ candidate: Candidate; percentage: number }>
+): Array<{ candidate: Candidate; compatibility: number; willingness: number; percentage: number }> {
+  const leadResult = results.find(r => r.candidate.id === leadParty.id);
+  const leadPercentage = leadResult?.percentage || 0;
+  
+  return availableParties
+    .map(party => {
+      const result = results.find(r => r.candidate.id === party.id);
+      const percentage = result?.percentage || 0;
+      const compatibility = calculatePartyCompatibility(leadParty, party);
+      const willingness = calculateCoalitionWillingness(leadParty, party, leadPercentage, percentage);
+      
+      return { candidate: party, compatibility, willingness, percentage };
+    })
+    .sort((a, b) => {
+      // Sort by willingness first, then compatibility
+      if (Math.abs(a.willingness - b.willingness) < 5) {
+        return b.compatibility - a.compatibility;
+      }
+      return b.willingness - a.willingness;
+    });
+}
+
+export function simulateAICoalitionNegotiation(
+  leadParty: Candidate,
+  partnerParty: Candidate,
+  leadPercentage: number,
+  partnerPercentage: number
+): {
+  success: boolean;
+  cabinetPositions: string[];
+  message: string;
+} {
+  const compatibility = calculatePartyCompatibility(leadParty, partnerParty);
+  const priorityPositions = getPartyPriorityPositions(partnerParty);
+  const availablePositions = getAvailableCabinetPositions({});
+  
+  // AI offers positions based on party size and compatibility
+  let positionsToOffer: string[] = [];
+  
+  if (partnerPercentage > 15) {
+    // Large party gets important positions
+    positionsToOffer = priorityPositions.slice(0, 2).filter(pos => 
+      availablePositions.some(ap => ap.name === pos)
+    );
+  } else if (partnerPercentage > 8) {
+    // Medium party gets one important position
+    positionsToOffer = priorityPositions.slice(0, 1).filter(pos => 
+      availablePositions.some(ap => ap.name === pos)
+    );
+  } else if (partnerPercentage > 3) {
+    // Small party gets junior position
+    positionsToOffer = ['Junior Minister'];
+  }
+  
+  const totalImportance = positionsToOffer.reduce((sum, pos) => {
+    const position = availablePositions.find(p => p.name === pos);
+    return sum + (position?.importance || 10);
+  }, 0);
+  
+  // Generate policy responses (AI assumes moderate positions)
+  const policyResponses = [5, 3]; // Moderate appeal scores
+  
+  const result = simulateCoalitionNegotiation(
+    leadParty,
+    partnerParty,
+    leadPercentage,
+    partnerPercentage,
+    totalImportance,
+    policyResponses
+  );
+  
+  return {
+    success: result.success,
+    cabinetPositions: result.success ? positionsToOffer : [],
+    message: result.message
+  };
+}
+
+export function generatePlayerApproachOffer(
+  leadParty: Candidate,
+  playerParty: Candidate,
+  leadPercentage: number,
+  playerPercentage: number
+): {
+  message: string;
+  offeredPositions: string[];
+  totalImportance: number;
+  questions: Array<{
+    topic: string;
+    question: string;
+    options: Array<{
+      text: string;
+      appeal: number;
+      ideologyShift: number;
+    }>;
+  }>;
+} {
+  const priorityPositions = getPartyPriorityPositions(playerParty);
+  const availablePositions = getAvailableCabinetPositions({});
+  
+  // Determine positions to offer based on player party size
+  let offeredPositions: string[] = [];
+  
+  if (playerPercentage > 15) {
+    offeredPositions = priorityPositions.slice(0, 2).filter(pos => 
+      availablePositions.some(ap => ap.name === pos)
+    );
+  } else if (playerPercentage > 8) {
+    offeredPositions = priorityPositions.slice(0, 1).filter(pos => 
+      availablePositions.some(ap => ap.name === pos)
+    );
+  } else if (playerPercentage > 3) {
+    offeredPositions = ['Junior Minister'];
+  }
+  
+  const totalImportance = offeredPositions.reduce((sum, pos) => {
+    const position = availablePositions.find(p => p.name === pos);
+    return sum + (position?.importance || 10);
+  }, 0);
+  
+  // Generate questions for the player
+  const questions = [];
+  const question1 = generateCoalitionPolicyQuestion(leadParty, playerParty);
+  if (question1) questions.push(question1);
+  
+  const question2 = generateCoalitionPolicyQuestion(playerParty, leadParty);
+  if (question2 && question2.topic !== question1?.topic) questions.push(question2);
+  
+  return {
+    message: `${leadParty.party} is forming a coalition and would like ${playerParty.party} to join.`,
+    offeredPositions,
+    totalImportance,
+    questions
+  };
+}
+
+export function evaluatePlayerResponse(
+  leadParty: Candidate,
+  playerParty: Candidate,
+  leadPercentage: number,
+  playerPercentage: number,
+  policyResponses: number[],
+  acceptedPositions: string[]
+): {
+  success: boolean;
+  message: string;
+  finalAppeal: number;
+} {
+  const acceptedImportance = acceptedPositions.reduce((sum, pos) => {
+    const availablePositions = getAvailableCabinetPositions({});
+    const position = availablePositions.find(p => p.name === pos);
+    return sum + (position?.importance || 10);
+  }, 0);
+  
+  return simulateCoalitionNegotiation(
+    leadParty,
+    playerParty,
+    leadPercentage,
+    playerPercentage,
+    acceptedImportance,
+    policyResponses
+  );
+}
