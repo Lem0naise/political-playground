@@ -135,13 +135,13 @@ export default function PartyMerging() {
                 </div>
               </div>
               {false && (<div className="grid grid-cols-2 gap-1 text-xs">
-                <div>P/C: {currentMerge.party1.prog_cons}</div>
-                <div>N/G: {currentMerge.party1.nat_glob}</div>
-                <div>E/E: {currentMerge.party1.env_eco}</div>
-                <div>S/C: {currentMerge.party1.soc_cap}</div>
-                <div>P/M: {currentMerge.party1.pac_mil}</div>
-                <div>A/A: {currentMerge.party1.auth_ana}</div>
-                <div>R/S: {currentMerge.party1.rel_sec}</div>
+                <div>P/C: {currentMerge?.party1.prog_cons}</div>
+                <div>N/G: {currentMerge?.party1.nat_glob}</div>
+                <div>E/E: {currentMerge?.party1.env_eco}</div>
+                <div>S/C: {currentMerge?.party1.soc_cap}</div>
+                <div>P/M: {currentMerge?.party1.pac_mil}</div>
+                <div>A/A: {currentMerge?.party1.auth_ana}</div>
+                <div>R/S: {currentMerge?.party1.rel_sec}</div>
               </div>)}
             </div>
           </div>
@@ -163,13 +163,13 @@ export default function PartyMerging() {
                 </div>
               </div>
               {false && (<div className="grid grid-cols-2 gap-1 text-xs">
-                <div>P/C: {currentMerge.party2.prog_cons}</div>
-                <div>N/G: {currentMerge.party2.nat_glob}</div>
-                <div>E/E: {currentMerge.party2.env_eco}</div>
-                <div>S/C: {currentMerge.party2.soc_cap}</div>
-                <div>P/M: {currentMerge.party2.pac_mil}</div>
-                <div>A/A: {currentMerge.party2.auth_ana}</div>
-                <div>R/S: {currentMerge.party2.rel_sec}</div>
+                <div>P/C: {currentMerge?.party2.prog_cons}</div>
+                <div>N/G: {currentMerge?.party2.nat_glob}</div>
+                <div>E/E: {currentMerge?.party2.env_eco}</div>
+                <div>S/C: {currentMerge?.party2.soc_cap}</div>
+                <div>P/M: {currentMerge?.party2.pac_mil}</div>
+                <div>A/A: {currentMerge?.party2.auth_ana}</div>
+                <div>R/S: {currentMerge?.party2.rel_sec}</div>
               </div>)}
             </div>
           </div>
