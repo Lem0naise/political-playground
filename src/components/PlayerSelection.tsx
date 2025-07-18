@@ -105,6 +105,12 @@ export default function PlayerSelection() {
             ◄ RETURN TO SETUP
           </button>
         </div>
+        
+        <div className="text-center mt-4">
+          <p className="text-slate-300 text-xs">
+            Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 underline transition-colors">Indigo Nolan</a>
+          </p>
+        </div>
       </div>
     </div>
   );

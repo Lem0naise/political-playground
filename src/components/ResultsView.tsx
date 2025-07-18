@@ -238,7 +238,7 @@ export default function ResultsView() {
 
         <div className="text-center mt-6 sm:mt-8">
           <p className="text-gray-400 text-xs sm:text-sm px-4 mb-4">
-            Thanks for playing! Change from initial polling is calculated from Poll 2 baseline.
+            Thanks for playing! Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">Indigo Nolan</a>. Check out some of my other projects!
           </p>
           <div className="border-t border-gray-600 pt-4">
             <p className="text-gray-500 text-xs max-w-3xl mx-auto">
@@ -246,6 +246,9 @@ export default function ResultsView() {
               It does not accurately represent real political processes, parties, or voting systems. 
               The scenarios, candidates, and outcomes are simplified for gameplay and should not be used to form real political opinions or voting decisions. 
               Political ideologies are complex and subjective - please research actual candidates and issues when participating in real elections.
+            </p>
+            <p className="text-gray-400 text-xs mt-3">
+              Visit <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline font-medium transition-colors">indigonolan.com</a> for more projects
             </p>
           </div>
         </div>

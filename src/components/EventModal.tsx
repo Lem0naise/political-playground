@@ -83,7 +83,7 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
       <div className="bg-slate-800 text-white px-3 sm:px-4 py-2 border-t border-slate-700">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
           <p className="text-xs text-slate-300 font-mono">
-            Tribune Editorial: Strategic decisions will impact polling and voter sentiment.
+            Tribune Editorial: Strategic decisions will impact polling and voter sentiment. • <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-200 underline transition-colors">indigonolan.com</a>
           </p>
           <button
             onClick={onClose}

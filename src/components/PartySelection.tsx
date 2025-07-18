@@ -124,6 +124,12 @@ export default function PartySelection() {
             {selectedLists.length > 0 ? `🔀 PROCEED TO PARTY MERGING` : 'SELECT PARTY LISTS'}
           </button>
         </div>
+        
+        <div className="text-center mt-4">
+          <p className="text-slate-400 text-xs">
+            Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">Indigo Nolan</a>
+          </p>
+        </div>
       </div>
     </div>
   );

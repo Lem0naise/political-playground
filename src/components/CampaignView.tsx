@@ -178,6 +178,9 @@ export default function CampaignView() {
             <strong>Simulation Notice:</strong> This is a fictional political simulation for entertainment and educational purposes. 
             Events and outcomes are simplified and do not reflect real political complexity or accurate demographic data.
           </p>
+          <p className="text-gray-400 text-xs mt-2">
+            Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 underline font-medium transition-colors">Indigo Nolan</a>
+          </p>
         </div>
       </div>
     </div>

@@ -122,7 +122,7 @@ export default function MainMenu() {
 
         <div className="text-center mt-6 sm:mt-8">
           <p className="text-slate-400 text-xs sm:text-sm font-mono mb-2">
-            Tribune Interactive • Political Simulation Division
+            Tribune Interactive • Political Simulation Division • Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">Indigo Nolan</a>
           </p>
           
           <div className="max-w-4xl mx-auto bg-slate-800/30 border border-slate-600 rounded-lg p-4 sm:p-6 mb-4">
@@ -160,7 +160,7 @@ export default function MainMenu() {
           </div>
           
           <p className="text-slate-500 text-xs">
-            All content is simplified for gameplay and should not influence real voting decisions.
+            All content is simplified for gameplay and should not influence real voting decisions. • <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-300 underline">indigonolan.com</a>
           </p>
         </div>
       </div>

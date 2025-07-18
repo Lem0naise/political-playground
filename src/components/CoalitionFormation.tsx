@@ -635,6 +635,9 @@ export default function CoalitionFormation() {
             >
               🏛️ VIEW FINAL RESULTS
             </button>
+            <p className="text-slate-300 text-xs mt-4">
+              Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 underline transition-colors">Indigo Nolan</a>
+            </p>
           </div>
         </div>
       </div>
