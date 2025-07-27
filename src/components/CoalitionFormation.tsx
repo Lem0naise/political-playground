@@ -748,7 +748,10 @@ export default function CoalitionFormation() {
                         ? 'hover:border-blue-500 hover:bg-blue-50' 
                         : 'border-slate-300'
                     }`}
-                    onClick={() => coalitionState.isPlayerLead && setSelectedPartner(partner)}
+                    onClick={() => {
+                      if (coalitionState.isPlayerLead)  setSelectedPartner(partner);
+                      setShowNegotiationDetails(true);
+                    }}
                   >
                     <div className="flex items-center space-x-3 mb-3">
                       <div 
@@ -773,29 +776,6 @@ export default function CoalitionFormation() {
               })}
             </div>
           </div>
-
-          {/* Partner Selection */}
-          {coalitionState.isPlayerLead && selectedPartner && !showNegotiationDetails && (
-            <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">
-                Negotiate with {selectedPartner.party}
-              </h3>
-              <div className="flex justify-between">
-                <button
-                  onClick={() => setShowNegotiationDetails(true)}
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
-                >
-                  Start Negotiations
-                </button>
-                <button
-                  onClick={() => setSelectedPartner(null)}
-                  className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-lg"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          )}
 
           {/* Detailed Negotiations */}
           {showNegotiationDetails && selectedPartner && (
