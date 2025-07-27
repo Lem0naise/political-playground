@@ -107,16 +107,6 @@ export const CABINET_POSITIONS: Record<string, CabinetPosition> = {
   "Parliamentary Secretary": { importance: 3, max_slots: 10, description: "Administrative support positions" }
 };
 
-export const DESCRIPTORS: Record<string, Record<string, string | null>> = {
-  "prog_cons": {"-100": "very progressive", "-30": "progressive", "0": null, "30": "conservative", "100": "ultraconservative"},
-  "nat_glob": {"-100": "ultranationalist", "-30": "nationalist", "0": null, "30": "globalist", "100": "internationalist"},
-  "env_eco": {"-100": "environmentalist", "0": null, "50": null, "100": "anti-environmentalist"},
-  "soc_cap": {"-80": "far-left", "-40": "left-wing", "-20": "centre-left", "0": "centrist", "20": "centre-right", "100": "corporatist"},
-  "pac_mil": {"-100": "pacifist", "20": null, "60": "militarist", "100": "ultramilitaristic"},
-  "auth_ana": {"-100": "dictatorial", "-60": "authoritarian", "-10": null, "60": "liberal", "100": "anarchist"},
-  "rel_sec": {"-100": "theocratic", "-30": "religious", "0": null, "70": "secular"},
-};
-
 // Game configuration constants
 export const DEBUG = false;
 export const TOO_FAR_DISTANCE = 190;

@@ -2,6 +2,9 @@
 
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
+import { VALUES } from '@/types/game';
+import { DESCRIPTORS, getIdeologyProfile } from '@/lib/ideologyProfiler';
+import { CABINET_POSITIONS } from '@/types/game'; // <-- Add this import
 
 export default function ResultsView() {
   const { state, actions } = useGame();
@@ -43,6 +46,94 @@ export default function ResultsView() {
     };
   });
 
+  // Government ideology calculation
+  let governmentIdeology: number[] = [];
+  let governmentDescriptors: { [key: string]: string | null } = {};
+
+  // If coalitionState exists and is complete, use coalition partners and cabinet allocations; else use winner only
+  const coalitionComplete = state.coalitionState && state.coalitionState.negotiationPhase === 'complete';
+  const governmentPartners = coalitionComplete
+    ? state.coalitionState?.coalitionPartners ?? []
+    : [winner.candidate];
+
+  // Debug: log coalition state and partners
+  console.log('DEBUG coalitionState:', state.coalitionState);
+  console.log('DEBUG coalitionComplete:', coalitionComplete);
+  console.log('DEBUG governmentPartners:', governmentPartners);
+
+  if (governmentPartners.length > 0) {
+    // Cabinet-weighted ideology calculation if coalition is complete
+    if (coalitionComplete) {
+      // Calculate total importance for each party in coalition
+      const allocations = state.coalitionState?.cabinetAllocations || {};
+      const partyImportance: Record<string, number> = {};
+      let totalImportance = 0;
+
+      // Assign importance for each party based on cabinet posts
+      for (const [position, parties] of Object.entries(allocations)) {
+        const importance = CABINET_POSITIONS[position]?.importance || 10;
+        parties.forEach(partyName => {
+          const partner = governmentPartners.find(p => p.party === partyName);
+          if (partner) {
+            partyImportance[partner.id] = (partyImportance[partner.id] || 0) + importance;
+            totalImportance += importance;
+          }
+        });
+      }
+      // Debug: log cabinet allocations and importance
+      console.log('DEBUG cabinetAllocations:', allocations);
+      console.log('DEBUG partyImportance:', partyImportance, 'totalImportance:', totalImportance);
+
+      // Fallback: if no posts allocated, treat all partners equally
+      if (totalImportance === 0) {
+        governmentIdeology = VALUES.map((_, idx) => {
+          const sum = governmentPartners.reduce((acc, partner) => acc + (partner.vals?.[idx] ?? 0), 0);
+          return sum / governmentPartners.length;
+        });
+        console.log('DEBUG fallback governmentIdeology:', governmentIdeology);
+      } else {
+        // Weighted average
+        governmentIdeology = VALUES.map((_, idx) => {
+          let sum = 0;
+          governmentPartners.forEach(partner => {
+            const weight = partyImportance[partner.id] || 0;
+            sum += (partner.vals?.[idx] ?? 0) * (weight / totalImportance);
+          });
+          return sum;
+        });
+        console.log('DEBUG weighted governmentIdeology:', governmentIdeology);
+      }
+    } else {
+      // No coalition or not complete: average each value across government partners
+      governmentIdeology = VALUES.map((_, idx) => {
+        const sum = governmentPartners.reduce((acc, partner) => acc + (partner.vals?.[idx] ?? 0), 0);
+        return sum / governmentPartners.length;
+      });
+      console.log('DEBUG simple average governmentIdeology:', governmentIdeology);
+    }
+
+    // Map to descriptors
+    governmentDescriptors = {};
+    VALUES.forEach((key, idx) => {
+      const val = governmentIdeology[idx];
+      const descMap = DESCRIPTORS[key];
+      let best: string | null = null;
+      let bestKey: number | null = null;
+      for (const k in descMap) {
+        if (descMap[k]) {
+          const numK = Number(k);
+          if (bestKey === null || Math.abs(val - numK) < Math.abs(val - bestKey)) {
+            bestKey = numK;
+            best = descMap[k];
+          }
+        }
+      }
+      governmentDescriptors[key] = best;
+    });
+    // Debug: log descriptors
+    console.log('DEBUG governmentDescriptors:', governmentDescriptors);
+  }
+
   const getOrdinalSuffix = (num: number) => {
     const j = num % 10;
     const k = num % 100;
@@ -73,7 +164,11 @@ export default function ResultsView() {
           <h2 className={`text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 ${
             needsCoalition ? 'text-orange-900' : 'text-yellow-900'
           }`}>
-            {needsCoalition ? 'HUNG PARLIAMENT' : 'ELECTION WINNER'}
+            {coalitionComplete
+              ? 'COALITION GOVERNMENT FORMED'
+              : needsCoalition
+                ? 'HUNG PARLIAMENT'
+                : 'ELECTION WINNER'}
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
             <div 
@@ -90,12 +185,67 @@ export default function ResultsView() {
               <p className={`text-lg sm:text-xl font-bold ${
                 needsCoalition ? 'text-orange-900' : 'text-yellow-900'
               }`}>{winner.percentage.toFixed(1)}% of the vote</p>
-              {needsCoalition && (
+              {coalitionComplete && (
+                <p className="text-green-200 text-sm mt-1">Coalition government formed</p>
+              )}
+              {!coalitionComplete && needsCoalition && (
                 <p className="text-orange-800 text-sm mt-1">Coalition needed to govern</p>
               )}
             </div>
           </div>
         </div>
+
+        {/* Coalition Government Block */}
+        {coalitionComplete && (
+          <div className="rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 bg-gradient-to-r from-green-900 to-green-700">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-white">
+              Coalition Government
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 font-mono">
+              {state.coalitionState?.coalitionPartners.map((partner, idx) => {
+                const result = sortedResults.find(r => r.candidate.id === partner.id);
+                return (
+                  <div key={partner.id} className="flex items-center space-x-3 p-3 bg-slate-100 border border-slate-300 rounded-lg">
+                    <div 
+                      className="w-8 h-8 rounded-full border-2 border-slate-600"
+                      style={{ backgroundColor: partner.colour }}
+                    ></div>
+                    <div className="flex-1">
+                      <div className="font-bold text-slate-900">{partner.party}</div>
+                      <div className="text-sm text-slate-700">{partner.name}</div>
+                      <div className="text-xs text-slate-600">
+                        {result?.percentage.toFixed(1)}% of vote
+                        {idx === 0 && ' (Lead Party)'}
+                        {partner.is_player && ' (You)'}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mb-2 text-base sm:text-lg font-semibold">
+                  {getIdeologyProfile(governmentIdeology)}
+                </div>
+            {/* Cabinet Allocations */}
+            {(state.coalitionState && Object.keys(state.coalitionState.cabinetAllocations).length > 0) && (
+              <div className="mb-2 font-mono">
+                <h3 className="font-semibold text-white mb-2">Cabinet Positions:</h3>
+                <div className="space-y-1">
+                  <div className="p-2 bg-green-100 border border-green-300 rounded-lg text-green-900">
+                    <span className="font-bold">Prime Minister:</span> {winner.candidate.name} ({winner.candidate.party})
+                  </div>
+                  {Object.entries(state.coalitionState.cabinetAllocations).map(([position, parties]) => (
+                    <div key={position} className="p-2 bg-slate-100 border border-slate-300 rounded-lg text-slate-900">
+                      <span className="font-bold">{position}:</span> {parties.join(', ')}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+      
 
         {/* Player Performance */}
         {playerResult && (
@@ -220,7 +370,7 @@ export default function ResultsView() {
 
         {/* Action Buttons */}
         <div className="text-center mt-6 sm:mt-8 space-y-4">
-          {needsCoalition && (
+          {(needsCoalition && !coalitionComplete) && (
             <button
               onClick={actions.startCoalitionFormation}
               className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg transition-colors duration-200 mr-4"

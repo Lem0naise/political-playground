@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { findMergeCandidates, mergeParties, type Party, type MergeCandidate } from '@/lib/partyMerger';
+import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 
 export default function PartyMerging() {
   const { state, actions } = useGame();
@@ -137,6 +138,18 @@ export default function PartyMerging() {
                   <div className="text-xs text-slate-600">Support: {(currentMerge.party1.party_pop * 100).toFixed(1)}%</div>
                 </div>
               </div>
+              <div className="text-xs mt-1">
+                <span className="font-semibold text-slate-700">Ideology: </span>
+                {getIdeologyProfile([
+                  currentMerge.party1.prog_cons,
+                  currentMerge.party1.nat_glob,
+                  currentMerge.party1.env_eco,
+                  currentMerge.party1.soc_cap,
+                  currentMerge.party1.pac_mil,
+                  currentMerge.party1.auth_ana,
+                  currentMerge.party1.rel_sec
+                ])}
+              </div>
               {false && (<div className="grid grid-cols-2 gap-1 text-xs">
                 <div>P/C: {currentMerge?.party1.prog_cons}</div>
                 <div>N/G: {currentMerge?.party1.nat_glob}</div>
@@ -164,6 +177,18 @@ export default function PartyMerging() {
                   <div className="font-bold text-sm text-slate-900 truncate">{currentMerge.party2.name}</div>
                   <div className="text-xs text-slate-600">Support: {(currentMerge.party2.party_pop * 100).toFixed(1)}%</div>
                 </div>
+              </div>
+              <div className="text-xs mt-1">
+                <span className="font-semibold text-slate-700">Ideology: </span>
+                {getIdeologyProfile([
+                  currentMerge.party2.prog_cons,
+                  currentMerge.party2.nat_glob,
+                  currentMerge.party2.env_eco,
+                  currentMerge.party2.soc_cap,
+                  currentMerge.party2.pac_mil,
+                  currentMerge.party2.auth_ana,
+                  currentMerge.party2.rel_sec
+                ])}
               </div>
               {false && (<div className="grid grid-cols-2 gap-1 text-xs">
                 <div>P/C: {currentMerge?.party2.prog_cons}</div>
