@@ -7,6 +7,7 @@ export default function MainMenu() {
   const { actions } = useGame();
   const [countries, setCountries] = useState<Record<string, any>>({});
   const [selectedCountry, setSelectedCountry] = useState('');
+  const [totalPolls, setTotalPolls] = useState(52); // Add state for total polls
 
   useEffect(() => {
     fetch('/data/countries.json')
@@ -22,7 +23,7 @@ export default function MainMenu() {
       for (const key in countryData.vals) {
         countryData.vals[key] += Math.round(10 * (Math.random() - 0.5));
       }
-      actions.setCountry(selectedCountry, countryData);
+      actions.setCountry(selectedCountry, { ...countryData, totalPolls }); // Pass totalPolls
     }
   };
 
@@ -76,7 +77,29 @@ export default function MainMenu() {
           <h2 className="campaign-status text-xl sm:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6 text-center">
             LOCATION SELECTION
           </h2>
-          
+
+          {/* Add slider for total polls */}
+          <div className="mb-6 sm:mb-8 flex flex-col items-center">
+            <label className="campaign-status font-bold text-slate-200 mb-2" htmlFor="weeks-slider">
+              CAMPAIGN LENGTH: <span className="text-yellow-400">{totalPolls} weeks</span>
+            </label>
+            <input
+              id="weeks-slider"
+              type="range"
+              min={8}
+              max={104}
+              step={1}
+              value={totalPolls}
+              onChange={e => setTotalPolls(Number(e.target.value))}
+              className="w-full sm:w-2/3 lg:w-1/2 accent-yellow-400"
+            />
+            <div className="flex justify-between w-full sm:w-2/3 lg:w-1/2 text-xs text-slate-400 mt-1">
+              <span>Short (8)</span>
+              <span>Medium (52)</span>
+              <span>Long (104)</span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
             {Object.entries(countries)
               .sort(([a], [b]) => a.localeCompare(b))

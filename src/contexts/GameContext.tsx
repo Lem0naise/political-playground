@@ -53,7 +53,7 @@ const initialState: GameState = {
   candidates: [],
   playerCandidate: null,
   currentPoll: 0,
-  totalPolls: 4, // POLL COUNTER, 52 DEFAULT
+  totalPolls: 52, // POLL COUNTER, 52 DEFAULT
   pollResults: [],
   previousPollResults: {},
   initialPollResults: {},
@@ -72,6 +72,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...state,
         country: action.payload.country,
         countryData: action.payload.countryData,
+        totalPolls: action.payload.countryData.totalPolls || 52, // Use totalPolls if provided
         phase: 'party-selection'
       };
       
@@ -385,4 +386,3 @@ export function useGame() {
   }
   return context;
 }
-  
