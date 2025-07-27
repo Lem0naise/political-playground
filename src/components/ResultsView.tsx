@@ -53,7 +53,7 @@ export default function ResultsView() {
   // If coalitionState exists and is complete, use coalition partners and cabinet allocations; else use winner only
   const coalitionComplete = state.coalitionState && state.coalitionState.negotiationPhase === 'complete';
   const governmentPartners = coalitionComplete
-    ? state.coalitionState.coalitionPartners
+    ? state.coalitionState?.coalitionPartners ?? []
     : [winner.candidate];
 
   // Debug: log coalition state and partners
@@ -202,7 +202,7 @@ export default function ResultsView() {
               Coalition Government
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 font-mono">
-              {state.coalitionState.coalitionPartners.map((partner, idx) => {
+              {state.coalitionState?.coalitionPartners.map((partner, idx) => {
                 const result = sortedResults.find(r => r.candidate.id === partner.id);
                 return (
                   <div key={partner.id} className="flex items-center space-x-3 p-3 bg-slate-100 border border-slate-300 rounded-lg">
@@ -227,7 +227,7 @@ export default function ResultsView() {
                   {getIdeologyProfile(governmentIdeology)}
                 </div>
             {/* Cabinet Allocations */}
-            {Object.keys(state.coalitionState.cabinetAllocations).length > 0 && (
+            {(state.coalitionState && Object.keys(state.coalitionState.cabinetAllocations).length > 0) && (
               <div className="mb-2 font-mono">
                 <h3 className="font-semibold text-white mb-2">Cabinet Positions:</h3>
                 <div className="space-y-1">
