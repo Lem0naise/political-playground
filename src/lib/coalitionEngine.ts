@@ -18,6 +18,7 @@ export function calculatePartyCompatibility(party1: Candidate, party2: Candidate
   // Convert to compatibility score (0-100, higher = more compatible)
   const maxPossibleDistance = VALUES.length * 200; // Max if parties are at opposite extremes
   const compatibility = 100 - (totalDistance / maxPossibleDistance * 100);
+  console.log('DEBUG: calculatePartyCompatibility', { party1: party1.party, party2: party2.party, compatibility });
   return Math.max(0, Math.min(100, compatibility));
 }
 
@@ -49,8 +50,18 @@ export function calculateCoalitionWillingness(
   
   // Cabinet position appeal
   const cabinetAppeal = calculateCabinetAppeal(cabinetImportanceOffered, partnerPercentage, compatibility);
-  
-  return Math.max(0, Math.min(100, baseWillingness + cabinetAppeal));
+  const willingness = Math.max(0, Math.min(100, baseWillingness + cabinetAppeal));
+  console.log('DEBUG: calculateCoalitionWillingness', {
+    leadParty: leadParty.party,
+    partnerParty: partnerParty.party,
+    leadPercentage,
+    partnerPercentage,
+    baseWillingness,
+    cabinetImportanceOffered,
+    cabinetAppeal,
+    willingness
+  });
+  return willingness;
 }
 
 export function calculateCabinetAppeal(
@@ -264,6 +275,18 @@ export function simulateCoalitionNegotiation(
   const policyAppeal = policyResponses.reduce((sum, response) => sum + response, 0);
   
   const finalAppeal = baseWillingness + cabinetAppeal + policyAppeal;
+  console.log('DEBUG: simulateCoalitionNegotiation', {
+    leadParty: leadParty.party,
+    partnerParty: partnerParty.party,
+    leadPercentage,
+    partnerPercentage,
+    baseWillingness,
+    cabinetImportanceOffered,
+    cabinetAppeal,
+    policyResponses,
+    policyAppeal,
+    finalAppeal
+  });
   
   if (finalAppeal > 60) {
     return {
@@ -366,6 +389,15 @@ export function simulateAICoalitionNegotiation(
     totalImportance,
     policyResponses
   );
+  console.log('DEBUG: simulateAICoalitionNegotiation', {
+    leadParty: leadParty.party,
+    partnerParty: partnerParty.party,
+    leadPercentage,
+    partnerPercentage,
+    positionsToOffer,
+    totalImportance,
+    policyResponses
+  });
   
   return {
     success: result.success,
@@ -449,6 +481,16 @@ export function evaluatePlayerResponse(
     const position = availablePositions.find(p => p.name === pos);
     return sum + (position?.importance || 10);
   }, 0);
+  
+  console.log('DEBUG: evaluatePlayerResponse', {
+    leadParty: leadParty.party,
+    playerParty: playerParty.party,
+    leadPercentage,
+    playerPercentage,
+    policyResponses,
+    acceptedPositions,
+    acceptedImportance
+  });
   
   return simulateCoalitionNegotiation(
     leadParty,

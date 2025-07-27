@@ -455,6 +455,7 @@ export default function CoalitionFormation() {
 
   useEffect(() => {
     if (!coalitionState && winningPercentage <= 50) {
+      console.log('DEBUG: Starting coalition formation');
       actions.startCoalitionFormation();
     }
   }, [coalitionState, winningPercentage, actions]);
@@ -467,14 +468,17 @@ export default function CoalitionFormation() {
         coalitionState.currentCoalitionPercentage < 50) {
       
       const timer = setTimeout(() => {
+        console.log('DEBUG: AI coalition formation, available partners:', coalitionState.availablePartners);
         const bestPartners = findBestCoalitionPartners(
           winningParty,
           coalitionState.availablePartners,
           sortedResults
         );
+        console.log('DEBUG: Best partners:', bestPartners);
         
         if (bestPartners.length > 0) {
           const nextPartner = bestPartners[0];
+          console.log('DEBUG: Next partner:', nextPartner);
           
           // Check if approaching the player
           if (nextPartner.candidate.is_player) {
@@ -484,6 +488,7 @@ export default function CoalitionFormation() {
               winningPercentage,
               nextPartner.percentage
             );
+            console.log('DEBUG: AI approaching player with offer:', offer);
             setPlayerApproachOffer(offer);
             setShowPlayerApproach(true);
           } else {
@@ -494,6 +499,7 @@ export default function CoalitionFormation() {
               winningPercentage,
               nextPartner.percentage
             );
+            console.log('DEBUG: AI-to-AI negotiation result:', result);
             
             const logMessage = `${winningParty.party} approached ${nextPartner.candidate.party}: ${result.message}`;
             setAiNegotiationLog(prev => [...prev, logMessage]);
@@ -502,12 +508,14 @@ export default function CoalitionFormation() {
               actions.addCoalitionPartner(nextPartner.candidate);
               result.cabinetPositions.forEach(position => {
                 actions.allocateCabinetPosition(position, nextPartner.candidate.party);
+                console.log('DEBUG: Allocating cabinet position', position, 'to', nextPartner.candidate.party);
               });
             } else {
               // Remove from available partners if negotiation failed
               const updatedPartners = coalitionState.availablePartners.filter(
                 p => p.id !== nextPartner.candidate.id
               );
+              console.log('DEBUG: Removing failed partner from availablePartners:', nextPartner.candidate);
               // Note: You'll need to add this action to update available partners
             }
           }
@@ -523,6 +531,7 @@ export default function CoalitionFormation() {
     if (coalitionState && 
         coalitionState.negotiationPhase === 'partner-selection' && 
         coalitionState.currentCoalitionPercentage >= 50) {
+      console.log('DEBUG: Coalition majority reached, completing formation');
       const timer = setTimeout(() => {
         actions.completeCoalitionFormation();
       }, 1500);
@@ -531,6 +540,7 @@ export default function CoalitionFormation() {
   }, [coalitionState, actions]);
 
   const handlePlayerApproachResponse = (success: boolean, positions: string[], responses: number[]) => {
+    console.log('DEBUG: Player approach response', { success, positions, responses });
     if (success && playerResult) {
       const evaluation = evaluatePlayerResponse(
         winningParty,
@@ -540,6 +550,7 @@ export default function CoalitionFormation() {
         responses,
         positions
       );
+      console.log('DEBUG: Player evaluation result:', evaluation);
       
       const logMessage = `${winningParty.party} approached ${playerResult.candidate.party}: ${evaluation.message}`;
       setAiNegotiationLog(prev => [...prev, logMessage]);
@@ -548,6 +559,7 @@ export default function CoalitionFormation() {
         actions.addCoalitionPartner(playerResult.candidate);
         positions.forEach(position => {
           actions.allocateCabinetPosition(position, playerResult.candidate.party);
+          console.log('DEBUG: Allocating cabinet position', position, 'to', playerResult.candidate.party);
         });
       }
     } else {
