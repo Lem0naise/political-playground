@@ -15,11 +15,19 @@ export function calculatePartyCompatibility(party1: Candidate, party2: Candidate
     totalDistance += diff;
   }
   
-  // Convert to compatibility score (0-100, higher = more compatible)
-  const maxPossibleDistance = VALUES.length * 200; // Max if parties are at opposite extremes
-  const compatibility = 100 - (totalDistance / maxPossibleDistance * 100);
+  // Make compatibility drop off more sharply for large distances
+  // Increase the divisor to 300 (was 200), so maxPossibleDistance is larger and compatibility drops faster
+  const maxPossibleDistance = VALUES.length * 300;
+  let compatibility = 100 - (totalDistance / maxPossibleDistance * 100);
+
+  // Further penalize very large distances (if > 60% of max distance, apply extra penalty)
+  if (totalDistance > maxPossibleDistance * 0.6) {
+    compatibility -= 20;
+  }
+  // Clamp to [0, 100]
+  compatibility = Math.max(0, Math.min(100, compatibility));
   console.log('DEBUG: calculatePartyCompatibility', { party1: party1.party, party2: party2.party, compatibility });
-  return Math.max(0, Math.min(100, compatibility));
+  return compatibility;
 }
 
 export function calculateCoalitionWillingness(
@@ -31,7 +39,14 @@ export function calculateCoalitionWillingness(
 ): number {
   const compatibility = calculatePartyCompatibility(leadParty, partnerParty);
   let baseWillingness = compatibility;
-  
+
+  // Add a strong penalty for low compatibility
+  if (compatibility < 40) {
+    baseWillingness -= 20;
+  } else if (compatibility < 60) {
+    baseWillingness -= 10;
+  }
+
   // Adjust based on lead party's strength
   if (leadPercentage > 40) {
     baseWillingness += 10; // Attractive to join strong party

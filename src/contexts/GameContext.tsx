@@ -24,6 +24,7 @@ interface GameContextType {
     setGamePhase: (phase: GameState['phase']) => void;
     startCoalitionFormation: () => void;
     addCoalitionPartner: (partner: Candidate) => void;
+    removePotentialPartner: (partner: Candidate) => void;
     allocateCabinetPosition: (position: string, party: string) => void;
     completeCoalitionFormation: () => void;
   };
@@ -41,6 +42,7 @@ type GameAction =
   | { type: 'SET_GAME_PHASE'; payload: { phase: GameState['phase'] } }
   | { type: 'START_COALITION_FORMATION' }
   | { type: 'ADD_COALITION_PARTNER'; payload: { partner: Candidate } }
+  | { type: 'REMOVE_POTENTIAL_PARTNER'; payload: { partner: Candidate } }
   | { type: 'ALLOCATE_CABINET_POSITION'; payload: { position: string; party: string } }
   | { type: 'COMPLETE_COALITION_FORMATION' };
 
@@ -259,6 +261,22 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
       };
       
+    case 'REMOVE_POTENTIAL_PARTNER':
+      if (!state.coalitionState) return state;
+      // Don't allow removing the lead party (first in coalitionPartners) from availablePartners
+      if (action.payload.partner.id === state.coalitionState.coalitionPartners[0].id) return state;
+      const updatedAvailablePartners = state.coalitionState.availablePartners.filter(
+        p => p.id !== action.payload.partner.id
+      );
+      return {
+        ...state,
+        coalitionState: {
+          ...state.coalitionState,
+          availablePartners: updatedAvailablePartners,
+          negotiationPhase: 'partner-selection'
+        }
+      };
+      
     case 'ALLOCATE_CABINET_POSITION':
       if (!state.coalitionState) return state;
       
@@ -339,7 +357,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     addCoalitionPartner: useCallback((partner: Candidate) => {
       dispatch({ type: 'ADD_COALITION_PARTNER', payload: { partner } });
     }, []),
-    
+
+    removePotentialPartner: useCallback((partner: Candidate) => {
+      dispatch({ type: 'REMOVE_POTENTIAL_PARTNER', payload: { partner } });
+    }, []),
+
     allocateCabinetPosition: useCallback((position: string, party: string) => {
       dispatch({ type: 'ALLOCATE_CABINET_POSITION', payload: { position, party } });
     }, []),
@@ -363,3 +385,4 @@ export function useGame() {
   }
   return context;
 }
+  

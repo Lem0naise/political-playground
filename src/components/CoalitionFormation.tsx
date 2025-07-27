@@ -465,11 +465,12 @@ export default function CoalitionFormation() {
     if (coalitionState && 
         coalitionState.negotiationPhase === 'partner-selection' && 
         !coalitionState.isPlayerLead && 
-        coalitionState.currentCoalitionPercentage < 50) {
+        coalitionState.currentCoalitionPercentage < 50 &&
+        !showPlayerApproach) {
       
       const timer = setTimeout(() => {
         console.log('DEBUG: AI coalition formation, available partners:', coalitionState.availablePartners);
-        const bestPartners = findBestCoalitionPartners(
+        let bestPartners = findBestCoalitionPartners(
           winningParty,
           coalitionState.availablePartners,
           sortedResults
@@ -512,11 +513,9 @@ export default function CoalitionFormation() {
               });
             } else {
               // Remove from available partners if negotiation failed
-              const updatedPartners = coalitionState.availablePartners.filter(
-                p => p.id !== nextPartner.candidate.id
-              );
               console.log('DEBUG: Removing failed partner from availablePartners:', nextPartner.candidate);
-              // Note: You'll need to add this action to update available partners
+              actions.removePotentialPartner(nextPartner.candidate);
+              // add action to remove
             }
           }
         }
@@ -524,7 +523,7 @@ export default function CoalitionFormation() {
       
       return () => clearTimeout(timer);
     }
-  }, [coalitionState, winningParty, sortedResults, actions]);
+  }, [coalitionState, winningParty, sortedResults, actions, showPlayerApproach]);
 
   // Auto-complete coalition when majority is reached
   useEffect(() => {
@@ -564,6 +563,7 @@ export default function CoalitionFormation() {
       }
     } else {
       const logMessage = `${winningParty.party} approached ${playerResult?.candidate.party}: Offer declined.`;
+      if (playerResult) actions.removePotentialPartner(playerResult.candidate);
       setAiNegotiationLog(prev => [...prev, logMessage]);
     }
     

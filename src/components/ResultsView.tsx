@@ -370,7 +370,7 @@ export default function ResultsView() {
 
         {/* Action Buttons */}
         <div className="text-center mt-6 sm:mt-8 space-y-4">
-          {needsCoalition && (
+          {(needsCoalition && !coalitionComplete) && (
             <button
               onClick={actions.startCoalitionFormation}
               className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg transition-colors duration-200 mr-4"
