@@ -1,6 +1,7 @@
 'use client';
 
 import { useGame } from '@/contexts/GameContext';
+import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 
 export default function PlayerSelection() {
   const { state, actions } = useGame();
@@ -60,34 +61,9 @@ export default function PlayerSelection() {
                 </div>
               </div>
 
-              <div className="space-y-2 sm:space-y-3 text-sm">
-                <h4 className="campaign-status font-bold text-slate-800 border-b border-slate-400 pb-1 text-xs sm:text-sm">POLITICAL PROFILE:</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs font-mono">
-                  <div className="flex justify-between bg-slate-200 p-1.5 sm:p-2 rounded">
-                    <span className="truncate pr-1">SOCIAL:</span>
-                    <span className={`font-bold truncate ${candidate.vals[0] > 20 ? 'text-red-700' : candidate.vals[0] < -20 ? 'text-blue-700' : 'text-slate-700'}`}>
-                      {candidate.vals[0] > 20 ? 'CONSERVATIVE' : candidate.vals[0] < -20 ? 'PROGRESSIVE' : 'MODERATE'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between bg-slate-200 p-1.5 sm:p-2 rounded">
-                    <span className="truncate pr-1">ECONOMIC:</span>
-                    <span className={`font-bold truncate ${candidate.vals[3] > 20 ? 'text-green-700' : candidate.vals[3] < -20 ? 'text-red-700' : 'text-slate-700'}`}>
-                      {candidate.vals[3] > 20 ? 'CAPITALIST' : candidate.vals[3] < -20 ? 'SOCIALIST' : 'MIXED'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between bg-slate-200 p-1.5 sm:p-2 rounded">
-                    <span className="truncate pr-1">FOREIGN:</span>
-                    <span className={`font-bold truncate ${candidate.vals[1] > 20 ? 'text-blue-700' : candidate.vals[1] < -20 ? 'text-red-700' : 'text-slate-700'}`}>
-                      {candidate.vals[1] > 20 ? 'GLOBALIST' : candidate.vals[1] < -20 ? 'NATIONALIST' : 'BALANCED'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between bg-slate-200 p-1.5 sm:p-2 rounded">
-                    <span className="truncate pr-1">ENVIRONMENT:</span>
-                    <span className={`font-bold truncate ${candidate.vals[2] < -20 ? 'text-green-700' : candidate.vals[2] > 20 ? 'text-amber-700' : 'text-slate-700'}`}>
-                      {candidate.vals[2] < -20 ? 'GREEN' : candidate.vals[2] > 20 ? 'PRO-BUSINESS' : 'MODERATE'}
-                    </span>
-                  </div>
-                </div>
+              <div className="mb-2">
+                <span className="font-semibold text-slate-700 text-xs">Ideology: </span>
+                {getIdeologyProfile(candidate.vals)}
               </div>
 
               <button className="w-full mt-4 sm:mt-6 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status text-sm sm:text-base">

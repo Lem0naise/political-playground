@@ -2,6 +2,8 @@
 
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
+import { VALUES } from '@/types/game';
+import { DESCRIPTORS, getIdeologyProfile } from '@/lib/ideologyProfiler';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
@@ -42,6 +44,42 @@ export default function ResultsView() {
       campaignChange: result.percentage - initialPercentage
     };
   });
+
+  // Government ideology calculation
+  let governmentIdeology: number[] = [];
+  let governmentDescriptors: { [key: string]: string | null } = {};
+
+  // If coalitionState exists and is complete, use coalition partners; else use winner only
+  const governmentPartners = state.coalitionState && state.coalitionState.negotiationPhase === 'complete'
+    ? state.coalitionState.coalitionPartners
+    : [winner.candidate];
+
+  if (governmentPartners.length > 0) {
+    // Average each value across coalition partners
+    governmentIdeology = VALUES.map((_, idx) => {
+      const sum = governmentPartners.reduce((acc, partner) => acc + (partner.vals?.[idx] ?? 0), 0);
+      return sum / governmentPartners.length;
+    });
+
+    // Map to descriptors
+    governmentDescriptors = {};
+    VALUES.forEach((key, idx) => {
+      const val = governmentIdeology[idx];
+      const descMap = DESCRIPTORS[key];
+      let best: string | null = null;
+      let bestKey: number | null = null;
+      for (const k in descMap) {
+        if (descMap[k]) {
+          const numK = Number(k);
+          if (bestKey === null || Math.abs(val - numK) < Math.abs(val - bestKey)) {
+            bestKey = numK;
+            best = descMap[k];
+          }
+        }
+      }
+      governmentDescriptors[key] = best;
+    });
+  }
 
   const getOrdinalSuffix = (num: number) => {
     const j = num % 10;
@@ -96,6 +134,22 @@ export default function ResultsView() {
             </div>
           </div>
         </div>
+
+        {/* Government Ideology Block */}
+        {governmentIdeology.length > 0 && (
+          <div className="rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 bg-gradient-to-r from-blue-900 to-purple-900">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-white">
+              Government Ideology Profile
+            </h2>
+            <div className="mb-2 text-base sm:text-lg font-semibold">
+              {getIdeologyProfile(governmentIdeology)}
+            </div>
+            
+            <div className="text-xs text-blue-200 mt-2">
+              Ideology is the average of all government parties' positions.
+            </div>
+          </div>
+        )}
 
         {/* Player Performance */}
         {playerResult && (
