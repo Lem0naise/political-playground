@@ -16,8 +16,8 @@ export function calculatePartyCompatibility(party1: Candidate, party2: Candidate
   }
   
   // Make compatibility drop off more sharply for large distances
-  // Increase the divisor to 300 (was 200), so maxPossibleDistance is larger and compatibility drops faster
-  const maxPossibleDistance = VALUES.length * 300;
+  // If you increase the 110, parties will be more compatible
+  const maxPossibleDistance = VALUES.length * 110;
   let compatibility = 100 - (totalDistance / maxPossibleDistance * 100);
 
   // Further penalize very large distances (if > 60% of max distance, apply extra penalty)
@@ -289,7 +289,14 @@ export function simulateCoalitionNegotiation(
   // Policy response appeal
   const policyAppeal = policyResponses.reduce((sum, response) => sum + response, 0);
   
-  const finalAppeal = baseWillingness + cabinetAppeal + policyAppeal;
+
+  // new: scale benefits by compatibility
+  // Scale benefits by compatibility (0-1)
+  const compatibilityFactor = compatibility !== 0 ? Math.max(0, compatibility / 100) : 0;
+  const scaledAppeal = (cabinetAppeal + policyAppeal) * compatibilityFactor;
+
+  const finalAppeal = baseWillingness + scaledAppeal;
+
   console.log('DEBUG: simulateCoalitionNegotiation', {
     leadParty: leadParty.party,
     partnerParty: partnerParty.party,
