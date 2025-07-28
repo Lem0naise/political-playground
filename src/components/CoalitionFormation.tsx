@@ -487,7 +487,8 @@ export default function CoalitionFormation() {
               winningParty,
               nextPartner.candidate,
               winningPercentage,
-              nextPartner.percentage
+              nextPartner.percentage,
+              coalitionState.cabinetAllocations // pass allocations
             );
             console.log('DEBUG: AI approaching player with offer:', offer);
             setPlayerApproachOffer(offer);
@@ -498,7 +499,8 @@ export default function CoalitionFormation() {
               winningParty,
               nextPartner.candidate,
               winningPercentage,
-              nextPartner.percentage
+              nextPartner.percentage,
+              coalitionState.cabinetAllocations // pass allocations
             );
             console.log('DEBUG: AI-to-AI negotiation result:', result);
             
@@ -540,14 +542,15 @@ export default function CoalitionFormation() {
 
   const handlePlayerApproachResponse = (success: boolean, positions: string[], responses: number[]) => {
     console.log('DEBUG: Player approach response', { success, positions, responses });
-    if (success && playerResult) {
+    if (success && playerResult && coalitionState) {
       const evaluation = evaluatePlayerResponse(
         winningParty,
         playerResult.candidate,
         winningPercentage,
         playerResult.percentage,
         responses,
-        positions
+        positions,
+        coalitionState.cabinetAllocations // pass allocations
       );
       console.log('DEBUG: Player evaluation result:', evaluation);
       
@@ -570,6 +573,69 @@ export default function CoalitionFormation() {
     setShowPlayerApproach(false);
     setPlayerApproachOffer(null);
   };
+
+  // Helper: Get total cabinet slots (excluding Prime Minister, which is always the lead)
+  function getTotalCabinetSlots() {
+    const allPositions = getAvailableCabinetPositions({});
+    return allPositions.reduce((sum, pos) => sum + pos.max_slots, 0);
+  }
+
+  // Helper: Get number of slots already allocated to the lead party
+  function getLeadPartyAllocatedSlots() {
+    if (!coalitionState) return 0;
+    let count = 0;
+    for (const [position, parties] of Object.entries(coalitionState.cabinetAllocations)) {
+      for (const party of parties) {
+        if (party === winningParty.party) count += 1;
+      }
+    }
+    return count;
+  }
+
+  // Helper: Get number of slots already allocated to all coalition partners except lead
+  function getNonLeadAllocatedSlots() {
+    if (!coalitionState) return 0;
+    let count = 0;
+    for (const [position, parties] of Object.entries(coalitionState.cabinetAllocations)) {
+      for (const party of parties) {
+        if (party !== winningParty.party) count += 1;
+      }
+    }
+    return count;
+  }
+
+  // Helper: Get all unallocated positions (excluding Junior Minister)
+  function getUnallocatedPositions() {
+    const allocations = coalitionState?.cabinetAllocations || {};
+    const allPositions = getAvailableCabinetPositions({});
+    return allPositions.filter(pos => 
+      pos.name !== 'Junior Minister' &&
+      ((allocations[pos.name]?.length || 0) < pos.max_slots)
+    );
+  }
+
+  // When coalition formation is complete, allocate all unassigned (non-Junior Minister) positions to the lead party
+  useEffect(() => {
+    if (
+      coalitionState &&
+      coalitionState.negotiationPhase === 'complete'
+    ) {
+      const allocations = coalitionState.cabinetAllocations;
+      const unallocated = getUnallocatedPositions();
+      for (const pos of unallocated) {
+        const alreadyAllocated = allocations[pos.name]?.length || 0;
+        for (let i = alreadyAllocated; i < pos.max_slots; i++) {
+          actions.allocateCabinetPosition(pos.name, winningParty.party);
+        }
+      }
+    }
+    // Only run when coalitionState.negotiationPhase changes to 'complete'
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coalitionState?.negotiationPhase]);
+
+  // When offering positions to partners, ensure the lead party keeps ~50% of cabinet slots
+  // This logic should be enforced in the AI and player offer logic, but for now, you can add a comment/reminder:
+  // When calling generatePlayerApproachOffer or simulateAICoalitionNegotiation, ensure that the sum of all offered positions to partners does not exceed 50% of total slots.
 
   if (!coalitionState) {
     return (
