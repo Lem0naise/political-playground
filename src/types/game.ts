@@ -96,13 +96,13 @@ export const CABINET_POSITIONS: Record<string, CabinetPosition> = {
   "Deputy Prime Minister": { importance: 35, max_slots: 1, description: "Second-in-command of the government" },
   "Finance Minister": { importance: 28, max_slots: 1, description: "Controls economic policy and budget" },
   "Foreign Minister": { importance: 27, max_slots: 1, description: "Leads international relations and diplomacy" },
-  "Defense Minister": { importance: 20, max_slots: 1, description: "Oversees military and national security" },
+  "Defence Minister": { importance: 20, max_slots: 1, description: "Oversees military and national security" },
   "Interior Minister": { importance: 20, max_slots: 1, description: "Manages domestic security and law enforcement" },
   "Health Minister": { importance: 10, max_slots: 1, description: "Oversees healthcare system and public health" },
   "Education Minister": { importance: 10, max_slots: 1, description: "Manages education policy and schools" },
   "Environment Minister": { importance: 10, max_slots: 1, description: "Handles environmental policy and climate action" },
   "Justice Minister": { importance: 10, max_slots: 1, description: "Oversees legal system and courts" },
-  "Transport Minister": { importance: 8, max_slots: 1, description: "Manages transportation infrastructure" },
+  "Transport Minister": { importance: 10, max_slots: 1, description: "Manages transportation infrastructure" },
   "Junior Minister": { importance: 5, max_slots: 8, description: "Supporting ministerial roles" },
 };
 

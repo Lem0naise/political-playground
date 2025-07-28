@@ -138,9 +138,9 @@ export function getPartyPriorityPositions(candidate: Candidate): string[] {
   
   // Map political values to preferred ministries
   // soc_cap (socialist-capitalist): index 3
-  if (vals[3] < -30) {
+  if (vals[3] > -30) {
     priorities.push('Finance Minister', 'Junior Minister');
-  } else if (vals[3] > 30) {
+  } else if (vals[3] < 30) {
     priorities.push('Finance Minister', 'Transport Minister');
   }
   
@@ -153,19 +153,19 @@ export function getPartyPriorityPositions(candidate: Candidate): string[] {
   if (vals[4] < -30) {
     priorities.push('Foreign Minister');
   } else if (vals[4] > 30) {
-    priorities.push('Defense Minister');
+    priorities.push('Defence Minister', 'Foreign Minister');
   }
   
   // prog_cons (progressive-conservative): index 0
   if (vals[0] < -20) {
     priorities.push('Education Minister', 'Health Minister');
   } else if (vals[0] > 20) {
-    priorities.push('Home/Interior Minister', 'Justice Minister');
+    priorities.push('Interior Minister', 'Justice Minister');
   }
   
   // Default fallback positions
   if (priorities.length === 0) {
-    priorities.push('Junior Minister', 'Parliamentary Secretary');
+    priorities.push('Junior Minister');
   }
   
   return priorities;

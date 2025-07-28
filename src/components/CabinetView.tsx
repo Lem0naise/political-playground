@@ -62,6 +62,15 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
     return squished;
   }
 
+  // Font sizes for descending importance (largest for most important)
+  const fontSizes = [
+    "text-sm sm:text-xl",
+    "text-sm sm:text-lg",
+    "text-xs sm:text-base",
+    "text-xs sm:text-base",
+    "text-xs sm:text-xs"
+  ];
+
   const squishedGroups = getSquishedCabinetGroups();
 
   return (
@@ -71,7 +80,7 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
       </h2>
       <div className="space-y-2">
         {/* Prime Minister */}
-        <div className="flex items-center p-3 bg-green-100 border border-green-300 rounded-lg mb-2">
+        <div className={`flex items-center p-3 bg-green-100 border border-green-300 rounded-lg mb-2 font-extrabold text-sm sm:text-xl`}>
           <div
             className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-green-700 mr-3"
             style={{ backgroundColor: winningParty.colour }}
@@ -88,7 +97,7 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
             const deputy = getCandidateByParty(deputyParty);
             if (!deputy) return null;
             return (
-              <div className="flex items-center p-3 bg-blue-100 border border-blue-300 rounded-lg mb-2">
+              <div className={`flex items-center p-3 bg-blue-100 border border-blue-300 rounded-lg mb-2 font-bold text-sm sm:text-lg`}>
                 <div
                   className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-blue-700 mr-3"
                   style={{ backgroundColor: deputy.colour }}
@@ -99,7 +108,7 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
             );
           })()}
         {/* Squished Cabinet Positions */}
-        {squishedGroups.map(({ importance, partyGroups }) =>
+        {squishedGroups.map(({ importance, partyGroups }, groupIdx) =>
           partyGroups.map(({ parties, positions }, idx) => {
             // Skip Deputy PM if shown above
             if (
@@ -114,18 +123,35 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
             // Get candidate for color (if single party)
             const party = parties.length === 1 ? parties[0] : null;
             const cand = party ? getCandidateByParty(party) : null;
+
+            // Pick font size based on importance order
+            // Find the index of this importance in the sorted list of unique importances
+            // so that the largest importance gets the largest font
+            const uniqueImportances = squishedGroups.map(g => g.importance);
+            const importanceIdx = uniqueImportances.indexOf(importance);
+            const fontSizeClass = fontSizes[importanceIdx] || fontSizes[fontSizes.length - 1];
+            
+            console.log(positions);
+            console.log(uniqueImportances);
+            console.log(importanceIdx)
+            console.log(fontSizes);
+            console.log(fontSizeClass);
+
             return (
-              <div key={positions.join(',') + parties.join(',') + idx} className="flex items-center p-3 bg-slate-100 border border-slate-300 rounded-lg">
-                <span className="font-bold mr-2">
+              <div
+                key={positions.join(',') + parties.join(',') + idx}
+                className={`flex items-center p-3 bg-slate-100 border border-slate-300 rounded-lg font-bold ${fontSizeClass}`}
+              >
+                <span
+                    className="w-4 h-4 sm:w-5 sm:h-6 rounded-full border border-slate-600 mr-1 flex-shrink-0 flex-none"
+                    style={{ backgroundColor: cand?.colour || '#ccc' }}
+                ></span>
+                <span className="font-bold mr-2 text-left ml-1">
                   {positions.join(', ')}:
                 </span>
                 <span className="flex items-center">
                   {party && (
                     <>
-                      <span
-                        className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-slate-600 mr-1"
-                        style={{ backgroundColor: cand?.colour || '#ccc' }}
-                      ></span>
                       <span className="font-semibold">{party}</span>
                     </>
                   )}
