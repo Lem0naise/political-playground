@@ -156,11 +156,7 @@ export default function ResultsView() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Winner Announcement */}
-        <div className={`rounded-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 text-center ${
-          needsCoalition 
-            ? 'bg-gradient-to-r from-orange-600 to-orange-500'
-            : 'bg-gradient-to-r from-yellow-600 to-yellow-500'
-        }`}>
+        <div className={`rounded-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 text-center newspaper-header bg-[var(--paper-cream)]`}>
           <h2 className={`text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 ${
             needsCoalition ? 'text-orange-900' : 'text-yellow-900'
           }`}>
@@ -193,13 +189,11 @@ export default function ResultsView() {
               )}
             </div>
           </div>
-        </div>
-
-        {/* Coalition Government Block */}
-        {coalitionComplete && (
-          <div className="rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 bg-gradient-to-r from-green-900 to-green-700">
+          {/* Coalition Government Block */}
+        {(coalitionComplete || !needsCoalition) && (
+          <div className="rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
             <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-white">
-              Coalition Government
+              {coalitionComplete ? "Coalition Government" : ""}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 font-mono">
               {state.coalitionState?.coalitionPartners.map((partner, idx) => {
@@ -245,6 +239,9 @@ export default function ResultsView() {
           </div>
         )}
 
+        </div>
+
+        
       
 
         {/* Player Performance */}

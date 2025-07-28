@@ -103,7 +103,7 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
       if (!candidate.momentum) candidate.momentum = 0;
       if (!candidate.previous_popularity) candidate.previous_popularity = candidate.party_pop;
     }
-    newsEvents.push("Campaign season officially begins as parties establish their platforms.");
+    newsEvents.push("ELECTION SEASON OFFICIALLY BEGINS.");
     return newsEvents;
   }
   
@@ -205,112 +205,112 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
 }
 
 const RANDOM_NEWS_EVENTS = [
-// General Political Events
-"Leaked messages from former Finance Minister reveal clandestine negotiations with corporate lobbyists.",
-"Cross-party infrastructure bill gains unexpected support from deputies in marginal constituencies.",
-"Voter registration surges by 34% in university towns following a viral social media mobilization campaign.",
-"Electoral commission announces a controversial multi-party debate format with live, AI-powered fact-checking.",
-"The 'Green Alliance' party endorses a rival candidate, fracturing the environmental voting bloc.",
-"Secret coalition negotiations revealed as three minor parties discuss forming a 'government of national unity'.",
-"Campaign Finance Transparency Act passes a key legislative hurdle despite fierce opposition.",
-"A snap election is called after the government loses a crucial no-confidence vote by a single ballot.",
-"The nation's High Court agrees to hear a case challenging the legality of new voter ID laws.",
-"Rural communities form a political action group to protest new agricultural water usage quotas.",
-"The Head of State's ceremonial visit to a former colony is met with protests demanding reparations.",
-"Anti-corruption prosecutor files charges against three sitting Members of Parliament (MPs).",
-"Debate rages over lowering the national voting age to 16, splitting the ruling coalition.",
+  // General Politics
+  "LEAK: Ex-Finance Minister's Messages Show Secret Talks With Corporate Lobbyists",
+  "INFRASTRUCTURE BILL GAINS SURPRISE SUPPORT FROM DEPUTIES IN MARGINAL SEATS",
+  "VIRAL CAMPAIGN SPARKS 34% YOUTH VOTER REGISTRATION SURGE IN UNIVERSITY TOWNS",
+  "ELECTORAL COMMISSION UNVEILS CONTROVERSIAL DEBATE FORMAT WITH LIVE AI FACT-CHECKING",
+  "GREEN ALLIANCE ENDORSES RIVAL, FRACTURING ENVIRONMENTAL VOTING BLOC",
+  "SECRET TALKS REVEALED: THREE MINOR PARTIES PLOT 'GOVERNMENT OF NATIONAL UNITY'",
+  "CAMPAIGN FINANCE ACT PASSES KEY HURDLE DESPITE FIERCE LOBBYING",
+  "GOVERNMENT COLLAPSES BY 1 VOTE; SNAP ELECTION CALLED",
+  "HIGH COURT TO HEAR LEGAL CHALLENGE TO NEW VOTER ID LAWS",
+  "FARMERS FORM PROTEST GROUP OVER NEW AGRICULTURAL WATER QUOTAS",
+  "HEAD OF STATE'S VISIT TO FORMER COLONY MET WITH REPARATIONS PROTESTS",
+  "ANTI-CORRUPTION PROSECUTOR CHARGES THREE SITTING MPS",
+  "PROPOSAL TO LOWER VOTING AGE TO 16 SPLITS RULING COALITION",
 
-// Economic Events
-"Global tech giant 'OmniCorp' shares plummet 23% amid fears of pension fund exposure to volatile crypto markets.",
-"Unemployment in former industrial regions drops to 4.2%, while capital city unemployment climbs to 7.8%.",
-"The National Chamber of Commerce confidence index reaches an 18-month high following deregulation announcements.",
-"Average home prices soar to 847,000 local currency units as the government debates a foreign buyer's tax.",
-"Trade negotiations with the 'East Pacific Trade Bloc' enter a final, tense phase over fishing rights.",
-"The 'Silicon Steppe' tech hub reports 15% annual job growth, while traditional manufacturing stagnates.",
-"Consumer Price Index rises 0.9% in a month as energy costs spike following a major port workers' strike.",
-"Agricultural exports face a new 20% tariff after a diplomatic dispute over intellectual property.",
-"Discovery of massive rare earth mineral deposits sparks an economic boom in a remote northern province.",
-"Tourism revenue rebounds to 94% of pre-pandemic levels following the successful 'World Expo' event.",
-"The central bank unexpectedly raises interest rates by 50 basis points to combat spiraling inflation.",
+  // Economy
+  "OMNICORP SHARES PLUMMET 23% ON PENSION FUND'S CRYPTO EXPOSURE FEARS",
+  "JOB GAP WIDENS: UNEMPLOYMENT AT 4.2% IN RUST BELT, 7.8% IN CAPITAL",
+  "BUSINESS CONFIDENCE HITS 18-MONTH HIGH AFTER DEREGULATION MOVES",
+  "HOME PRICES SOAR TO 847K AVERAGE; GOV'T DEBATES FOREIGN BUYER TAX",
+  "TRADE TALKS WITH EAST PACIFIC BLOC STALL OVER DISPUTED FISHING RIGHTS",
+  "'SILICON STEPPE' TECH JOBS GROW 15%; TRADITIONAL MANUFACTURING STAGNATES",
+  "INFLATION SPIKES 0.9% IN A MONTH AS PORT STRIKE DRIVES UP ENERGY COSTS",
+  "DIPLOMATIC ROW OVER IP TRIGGERS NEW 20% TARIFF ON FARM EXPORTS",
+  "MASSIVE RARE EARTH MINERAL DISCOVERY SPARKS BOOM IN NORTHERN PROVINCE",
+  "TOURISM REVENUE HITS 94% OF PRE-PANDEMIC LEVELS AFTER WORLD EXPO SUCCESS",
+  "CENTRAL BANK IN SHOCK MOVE, RAISES INTEREST RATES 50 BPS TO FIGHT INFLATION",
 
-// Social & Cultural Issues
-"Emergency room wait times average 6 hours, making healthcare reform the defining election issue.",
-"The National Teachers' Union mobilizes 25,000 members for a march on the capital demanding better pay.",
-"A national debate erupts over revising history textbooks to include the state's role in colonial-era atrocities.",
-"Deepfake videos of political leaders prompt an emergency session on misinformation and election integrity.",
-"A prominent religious leader calls for interfaith dialogue following politically motivated vandalism at a historic temple.",
-"The national language preservation society receives a major grant to digitize ancient and dying dialects.",
-"The national symphony orchestra faces closure due to funding cuts, sparking public outcry and a private donation drive.",
-"Internationally acclaimed musician's endorsement video reaches 15 million views, shifting youth opinion polls.",
-"The country's most famous football star is arrested on tax evasion charges, dominating the news cycle.",
-"Archaeological dig unearths ruins of a previously unknown ancient civilization, forcing a halt to a major dam project.",
+  // Society & Culture
+  "6-HOUR ER WAITS MAKE HEALTHCARE REFORM TOP ELECTION ISSUE",
+  "25,000 TEACHERS MARCH ON CAPITAL DEMANDING BETTER PAY",
+  "NATIONAL DEBATE ERUPTS OVER REVISING TEXTBOOKS ON COLONIAL-ERA ROLE",
+  "DEEPFAKE VIDEOS OF LEADERS PROMPT EMERGENCY SESSION ON ELECTION MISINFORMATION",
+  "RELIGIOUS LEADER URGES INTERFAITH DIALOGUE AFTER VANDALS HIT HISTORIC TEMPLE",
+  "LANGUAGE SOCIETY WINS MAJOR GRANT TO DIGITIZE ANCIENT, DYING DIALECTS",
+  "NATIONAL SYMPHONY FACES CLOSURE FROM FUNDING CUTS; PUBLIC RALLIES TO SAVE IT",
+  "MUSICIAN'S ENDORSEMENT VIDEO HITS 15M VIEWS, SWAYS YOUTH POLLS",
+  "NATION'S TOP FOOTBALL STAR ARRESTED ON TAX EVASION CHARGES",
+  "ANCIENT RUINS HALT MAJOR DAM PROJECT AFTER UNEXPECTED DISCOVERY",
 
-// International & Geopolitical Affairs
-"A Global Climate Summit concludes with heated exchanges over carbon credit trading and aid to developing nations.",
-"Border authorities report a sharp increase in smuggling attempts following a neighboring country's economic collapse.",
-"The foreign aid budget faces opposition from nationalist parties citing domestic priorities.",
-"International election observers from 20 countries praise the nation's new biometric voter verification system.",
-"A state-sponsored cyberattack targets the national power grid, causing rolling blackouts in three major cities.",
-"Amnesty report on human rights abuses in a neighboring state strains diplomatic ties and threatens a trade deal.",
-"Tensions rise over disputed fishing waters in the Cerulean Sea after a naval patrol vessel is rammed.",
-"The nation recalls its ambassador from a regional power following public accusations of espionage.",
-"Joint military exercises by the 'Jade Dragon Alliance' demonstrate new drone and hypersonic capabilities.",
-"Student exchange programs with a bloc of 15 nations expand to include vocational and technical training.",
+  // International & Geopolitics
+  "CLIMATE SUMMIT ENDS IN DEADLOCK OVER CARBON CREDITS, DEVELOPING NATION AID",
+  "NEIGHBOR'S ECONOMIC COLLAPSE SPARKS SHARP RISE IN BORDER SMUGGLING",
+  "NATIONALIST PARTIES OPPOSE FOREIGN AID BUDGET, CITE DOMESTIC NEEDS",
+  "INTERNATIONAL OBSERVERS FROM 20 NATIONS PRAISE NEW BIOMETRIC VOTER SYSTEM",
+  "STATE-SPONSORED CYBERATTACK ON POWER GRID CAUSES BLACKOUTS IN 3 CITIES",
+  "AMNESTY REPORT ON NEIGHBOR'S ABUSES STRAINS TIES, THREATENS TRADE DEAL",
+  "NAVAL VESSEL RAMMED IN CERULEAN SEA; TENSIONS RISE OVER FISHING WATERS",
+  "AMBASSADOR RECALLED FROM REGIONAL POWER AMID PUBLIC SPYING ACCUSATIONS",
+  "'JADE DRAGON ALLIANCE' SHOWCASES NEW DRONE, HYPERSONIC TECH IN WARGAMES",
+  "STUDENT EXCHANGE WITH 15-NATION BLOC EXPANDS TO VOCATIONAL TRAINING",
 
-// Environmental & Scientific Issues
-"Category 5 Typhoon 'Amihan' highlights coastal infrastructure vulnerabilities and slow government response.",
-"Residents of the Verde Valley protest a planned 400-megawatt solar installation over loss of fertile farmland.",
-"The capital's water authority implements Stage 4 restrictions as reservoir levels drop to a record 28% capacity.",
-"Laws protecting the critically endangered mountain gorilla trigger debate between conservationists and mining interests.",
-"A sudden, unexplained decline in bee populations threatens the nation's multi-billion dollar agricultural sector.",
-"Air quality alerts issued for the eighth consecutive day as smoke from continental wildfires blankets major cities.",
-"A volcanic eruption in the Azure Islands disrupts global air travel for weeks, stranding thousands.",
-"The international space agency announces a joint mission with two other nations to land humans on Mars.",
-"Scientific journal retracts a landmark study on AI consciousness after accusations of data fabrication.",
-"Ocean cleanup initiative removes 15 tons of plastic from a major river delta before it can reach the sea.",
+  // Environment & Science
+  "TYPHOON AMIHAN EXPOSES COASTAL WEAKNESSES, SLOW GOV'T RESPONSE",
+  "VERDE VALLEY RESIDENTS PROTEST 400-MEGAWATT SOLAR FARM ON FERTILE LAND",
+  "CAPITAL FACES STAGE 4 WATER RESTRICTIONS; RESERVOIRS AT RECORD 28% LOW",
+  "GORILLA PROTECTION LAWS SPARK CLASH BETWEEN CONSERVATIONISTS & MINING FIRMS",
+  "MYSTERY BEE DECLINE THREATENS MULTI-BILLION DOLLAR FARM SECTOR",
+  "WILDFIRE SMOKE TRIGGERS 8TH STRAIGHT DAY OF AIR QUALITY ALERTS",
+  "AZURE ISLANDS VOLCANO ERUPTS, STRANDING THOUSANDS, DISRUPTING GLOBAL AIR TRAVEL",
+  "INTERNATIONAL SPACE AGENCY ANNOUNCES JOINT 3-NATION MANNED MISSION TO MARS",
+  "LANDMARK AI CONSCIOUSNESS STUDY RETRACTED OVER FABRICATED DATA CLAIMS",
+  "CLEANUP CREWS REMOVE 15 TONS OF PLASTIC FROM MAJOR RIVER DELTA",
 
-// Technology & Random Events
-"The national AI oversight board proposes mandatory algorithm audits for all public-facing government services.",
-"A massive, coordinated cyber-heist drains millions from the national banking system, forcing a temporary shutdown.",
-"A strange atmospheric phenomenon creates stunning, unexplained auroras visible across the entire country.",
-"National 'cheese crisis' looms as a bacterial blight affects 90% of the country's dairy herds.",
-"A cryptic online puzzle posted by an anonymous user captivates millions, with participants collaborating to solve it.",
-"The rollout of a national digital ID system is paused after a data breach exposes 500,000 citizens' information.",
-"A sudden fashion trend for wearing traditional folk hats, sparked by a pop star, causes a nationwide shortage.",
-"The beloved giant panda at the National Zoo gives birth to twins, providing a rare moment of national unity.",
-"A 400-year-old shipwreck containing priceless artifacts is discovered by a commercial fishing vessel.",
-"A flock of migratory birds, thousands strong, unexpectedly diverts and settles in the capital city's main park.",
+  // Technology & Random
+  "AI WATCHDOG PROPOSES MANDATORY ALGORITHM AUDITS FOR GOV'T SERVICES",
+  "MASSIVE CYBER-HEIST DRAINS MILLIONS; NATIONAL BANKING SYSTEM HALTED",
+  "STRANGE ATMOSPHERIC EVENT CREATES UNEXPLAINED AURORAS NATIONWIDE",
+  "NATIONAL 'CHEESE CRISIS' LOOMS AS BACTERIAL BLIGHT HITS 90% OF DAIRY HERDS",
+  "MYSTERY ONLINE PUZZLE CAPTIVATES MILLIONS IN GLOBAL COLLABORATION",
+  "NATIONAL DIGITAL ID ROLLOUT PAUSED AFTER 500K CITIZENS' DATA BREACHED",
+  "POP STAR SPARKS NATIONWIDE SHORTAGE OF TRADITIONAL FOLK HATS",
+  "BELOVED GIANT PANDA AT NATIONAL ZOO GIVES BIRTH TO TWINS",
+  "FISHING BOAT DISCOVERS 400-YEAR-OLD SHIPWRECK FILLED WITH ARTIFACTS",
+  "THOUSANDS OF MIGRATORY BIRDS UNEXPECTEDLY DESCEND ON CAPITAL CITY PARK"
 ];
 
 const ECONOMIC_CRISIS_EVENTS = [
-"GlobalManufacturing announces the closure of three plants, affecting 12,000 workers across the industrial heartland.",
-"The nation's largest bank restricts all new commercial lending as credit default rates climb to a decade high of 9.1%.",
-"A critical semiconductor shortage forces automotive and electronics assembly lines to halt production indefinitely.",
-"The national currency weakens 15% against a basket of international currencies, causing import costs to skyrocket.",
-"Commercial real estate values drop 25% as remote work policies leave downtown office towers half-empty.",
-"Small and medium-sized enterprises (SMEs) report a 40% revenue decline due to supply chain and energy cost crises.",
-"The national debt-to-GDP ratio reaches 130%, triggering an automatic, painful review of all public spending.",
-"Economic growth projections are slashed from 2.1% to -1.5% following a second consecutive quarter of contraction.",
+  "RECESSION FEARS MOUNT AS GLOBALMANUFACTURING CLOSES 3 PLANTS, CUTS 12,000 JOBS",
+  "CREDIT CRUNCH: LARGEST BANK HALTS BUSINESS LENDING AS DEFAULTS HIT 9.1%",
+  "CHIP SHORTAGE FORCES INDEFINITE HALT TO AUTO, ELECTRONICS PRODUCTION",
+  "CURRENCY PLUNGES 15%; SKYROCKETING IMPORT COSTS HIT HOUSEHOLDS",
+  "COMMERCIAL REAL ESTATE VALUES COLLAPSE 25% AS OFFICE TOWERS SIT EMPTY",
+  "SME REVENUES DOWN 40% AMID SUPPLY CHAIN, ENERGY PRICE CHAOS",
+  "DEBT-TO-GDP HITS 130%, TRIGGERING AUTOMATIC, PAINFUL SPENDING CUTS",
+  "ECONOMY SHRINKS AGAIN; GROWTH FORECAST SLASHED FROM 2.1% TO -1.5%"
 ];
 
 const ECONOMIC_OPTIMISM_EVENTS = [
-"An international automotive giant announces a 3 billion-credit electric vehicle battery plant, creating 9,000 jobs.",
-"Unemployment plummets to 2.9%, a 50-year low, as job openings far exceed the number of available workers.",
-"Manufacturing export orders surge 30% following a landmark new trade agreement with a major economic bloc.",
-"AI-driven productivity tools boost worker output by 18% across the service sector, leading to wage growth.",
-"Consumer confidence reaches a 20-year high as household savings rates stabilize and inflation fears recede.",
-"Domestic bank lending to small businesses increases 25%, funding thousands of local expansion projects.",
-"A massive national infrastructure program begins, creating 50,000 jobs to rebuild rail lines, ports, and grids.",
-"Economic indicators signal sustained 3.5% annual growth, driven by innovation and strong export performance.",
+  "AUTO GIANT TO BUILD 3B-CREDIT EV BATTERY PLANT, CREATING 9,000 JOBS",
+  "BOOM TIMES: UNEMPLOYMENT HITS 50-YEAR LOW AT 2.9% AMID LABOR SHORTAGE",
+  "MANUFACTURING EXPORTS SURGE 30% AFTER LANDMARK TRADE DEAL SIGNED",
+  "AI TOOLS BOOST WORKER OUTPUT 18%, SPARKING WAGE GROWTH IN SERVICE SECTOR",
+  "CONSUMER CONFIDENCE SOARS TO 20-YEAR HIGH; SAVINGS RATES STABILIZE",
+  "BANKS BOOST SMALL BUSINESS LENDING 25%, FUNDING THOUSANDS OF PROJECTS",
+  "NATIONAL INFRASTRUCTURE PLAN KICKS OFF, CREATING 50,000 CONSTRUCTION JOBS",
+  "INDICATORS POINT TO SUSTAINED 3.5% GROWTH DRIVEN BY INNOVATION, EXPORTS"
 ];
 
 const POLARIZATION_EVENTS = [
-"The High Court's narrow 5-4 ruling on abortion access triggers massive, competing demonstrations across the country.",
-"A proposed 'Religious Freedom Act' sparks interfaith tensions, with leaders issuing contradictory public letters.",
-"Immigration enforcement raids in three cities create community standoffs between national police and local residents.",
-"A controversial professor's lecture on national identity is cancelled after violent clashes erupt on campus.",
-"Heated debates over same-sex marriage rights intensify as the issue heads for a binding national referendum.",
-"Calls for a 'Constituent Assembly' to rewrite the constitution gain traction, deeply dividing political parties.",
+  "NATION DIVIDED AS HIGH COURT'S 5-4 ABORTION RULING TRIGGERS MASS PROTESTS",
+  "PROPOSED 'RELIGIOUS FREEDOM ACT' SPARKS PUBLIC FEUD BETWEEN FAITH LEADERS",
+  "IMMIGRATION RAIDS LEAD TO STANDOFFS BETWEEN NATIONAL POLICE, LOCAL OFFICIALS",
+  "VIOLENT CLASHES AT UNIVERSITY FORCE CANCELLATION OF PROFESSOR'S LECTURE",
+  "SAME-SEX MARRIAGE DEBATE INTENSIFIES AS NATION HEADS FOR BINDING REFERENDUM",
+  "CALLS FOR CONSTITUTIONAL REWRITE GAIN TRACTION, DEEPLY DIVIDING PARTIES"
 ];
 
 export function applyVoterDynamics(data: number[][], pollIteration: number): string[] {
@@ -481,7 +481,7 @@ export function applyEventEffect(
                 if (voterPosition > playerOldPosition) {
                   voterPreferenceAnalysis.push(`${nameChoice}'s pro-business stance is praised by voters as a key driver for economic growth and job creation.`);
                 } else {
-                  voterPreferenceAnalysis.push(`Voters applaud ${nameChoice}'s commitment to increased social spending and worker protections as a move toward a fairer society.`);
+                  voterPreferenceAnalysis.push(`Voters applaud ${nameChoice}'s commitment to increased social spending as a move toward a fairer society.`);
                 }
                 break;
               case "prog_cons":
@@ -537,7 +537,7 @@ export function applyEventEffect(
                 if (voterPosition < playerOldPosition) {
                   voterPreferenceAnalysis.push(`Voters criticize ${nameChoice}'s recent stance as too favorable to big business at the expense of workers.`);
                 } else {
-                  voterPreferenceAnalysis.push(`Concerns rise over ${nameChoice}'s push for increased social spending and worker protections, with critics warning of economic drawbacks.`);
+                  voterPreferenceAnalysis.push(`Concerns rise over ${nameChoice}'s push for increased social spending with critics warning of economic drawbacks.`);
                 }
                 break;
               case "prog_cons":
@@ -643,34 +643,34 @@ export function applyEventEffect(
   if (Math.abs(pollingChange) > 2) {
     if (pollingChange > 0) {
       const surgeMessages = [
-        `${playerCandidate.party} surges as their stance connects with key voter concerns.`,
-        `${playerCandidate.party} enjoys a wave of support following recent campaign moves.`,
-        `Polls show a sharp rise for ${playerCandidate.party} after their latest announcement.`,
-        `Momentum shifts in favor of ${playerCandidate.party} as voters respond positively.`
+        `${playerCandidate.party} surges in polls`,
+        `${playerCandidate.party} enjoys a new wave of support`,
+        `Polls show a sharp rise for ${playerCandidate.party}`,
+        `Momentum shifts in favor of ${playerCandidate.party}`
       ];
       newsEvents.push(surgeMessages[Math.floor(Math.random() * surgeMessages.length)]);
     } else {
       const loseMessages = [
-        `${playerCandidate.party} loses ground following controversial policy position.`,
-        `Support for ${playerCandidate.party} drops sharply after recent missteps.`,
-        `Polls show a significant decline for ${playerCandidate.party} amid public backlash.`,
-        `${playerCandidate.party} faces criticism as their popularity takes a hit.`
+        `${playerCandidate.party} loses ground following controversial policy`,
+        `Support for ${playerCandidate.party} drops sharply`,
+        `Polls decline for ${playerCandidate.party} amid public backlash`,
+        `${playerCandidate.party} faces harsh criticism `
       ];
       newsEvents.push(loseMessages[Math.floor(Math.random() * loseMessages.length)]);
     }
   } else if (Math.abs(pollingChange) > 0.5) {
     if (voterAlignment > 0) {
       const adjustMessages = [
-        `${playerCandidate.party} is improving their strategy to better align with public opinion.`,
-        `${playerCandidate.party} tweaks campaign messaging in response to voter feedback.`,
-        `Analysts note ${playerCandidate.party} is shifting positions to appeal to more voters.`,
-        `${playerCandidate.party} makes clear changes to connect with the electorate.`
+        `${playerCandidate.party} steadily climbs in polls`,
+        `${playerCandidate.party} wins local elections`,
+        `Analysts say ${playerCandidate.party} shifting policy positions`,
+        `${playerCandidate.party} makes clear changes to connect with voters`
       ];
       newsEvents.push(adjustMessages[Math.floor(Math.random() * adjustMessages.length)]);
     } else {
       const mixedMessages = [
-        `Mixed voter reaction to ${playerCandidate.party}'s latest policy stance.`,
-        `Public opinion is divided over ${playerCandidate.party}'s recent announcement.`,
+        `Mixed voter reaction to ${playerCandidate.party}'s latest policy`,
+        `Public opinion divided over ${playerCandidate.party}'s recent announcement.`,
         `Voters express uncertainty about ${playerCandidate.party}'s direction.`,
         `The electorate remains split on ${playerCandidate.party}'s new proposals.`
       ];

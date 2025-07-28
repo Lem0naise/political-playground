@@ -25,14 +25,14 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
               🚨 BREAKING NEWS ALERT
             </h2>
           </div>
-          <h3 className="news-body text-base sm:text-lg text-center font-bold">{event.title}</h3>
+          <h3 className="news-body text-base sm:text-lg text-center font-bold uppercase">{event.title}</h3>
         </div>
       </div>
 
       {/* News Story Content */}
       <div className="p-3 sm:p-4 bg-stone-50">
         <div className="border-l-2 border-red-600 pl-2 sm:pl-3 mb-3 sm:mb-4">
-          <p className="news-body text-slate-800 text-lg sm:text-xl font-extrabold leading-snug font-medium">
+          <p className="news-body text-slate-800 text-lg sm:text-xl font-extrabold leading-snug">
             {event.description}
           </p>
           <div className="text-xs text-slate-500 mt-1 font-mono uppercase tracking-wide">

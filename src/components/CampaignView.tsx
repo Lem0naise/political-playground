@@ -102,7 +102,7 @@ export default function CampaignView() {
 
             {/* Political News - Newspaper Style */}
             {state.politicalNews.length > 0 && (
-              <div className="bg-stone-50 vintage-border p-3 sm:p-4 relative newspaper-section" style={{ background: 'var(--newspaper-bg)' }}>
+              <div className="uppercase bg-stone-50 vintage-border p-3 sm:p-4 relative newspaper-section" style={{ background: 'var(--newspaper-bg)' }}>
                 <div className="absolute top-0 left-0 bg-red-700 text-white px-2 py-0.5 text-xs font-bold tracking-widest shadow">
                   BREAKING
                 </div>
@@ -113,7 +113,7 @@ export default function CampaignView() {
                   {/* Headline Story */}
                   <div className="flex-1">
                     <div className="border-l-4 border-red-700 pl-3 py-2 mb-2 bg-white/80 rounded shadow newspaper-headline">
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight mb-1 font-serif">
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight mb-1 font-serif uppercase">
                         {state.politicalNews[0]}
                       </h3>
                       <div className="text-xs text-slate-500 font-mono uppercase tracking-wide">
