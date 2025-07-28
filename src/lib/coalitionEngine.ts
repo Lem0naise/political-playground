@@ -544,3 +544,28 @@ export function evaluatePlayerResponse(
     policyResponses
   );
 }
+
+/**
+ * Auto-allocate any unfilled cabinet positions (except multi-slot Junior Ministers)
+ * to the lead party. Modifies the allocations object in-place.
+ * @param allocations Current allocations: { [position]: [party ids] }
+ * @param leadPartyId The id of the lead party
+ */
+export function autoAllocateUnfilledCabinetPositions(
+  allocations: Record<string, string[]>,
+  leadPartyId: string
+): void {
+  for (const [position, details] of Object.entries(CABINET_POSITIONS)) {
+    // Skip multi-slot Junior Ministers
+    if (position === 'Junior Minister' && details.max_slots > 1) continue;
+    const allocated = allocations[position] || [];
+    const unfilledSlots = details.max_slots - allocated.length;
+    if (unfilledSlots > 0) {
+      // Fill all unallocated slots with the lead party
+      allocations[position] = [
+        ...allocated,
+        ...Array(unfilledSlots).fill(leadPartyId)
+      ];
+    }
+  }
+}

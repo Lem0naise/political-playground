@@ -12,7 +12,8 @@ import {
   findBestCoalitionPartners,
   simulateAICoalitionNegotiation,
   generatePlayerApproachOffer,
-  evaluatePlayerResponse
+  evaluatePlayerResponse,
+  autoAllocateUnfilledCabinetPositions
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
 
@@ -574,69 +575,7 @@ export default function CoalitionFormation() {
     setPlayerApproachOffer(null);
   };
 
-  // Helper: Get total cabinet slots (excluding Prime Minister, which is always the lead)
-  function getTotalCabinetSlots() {
-    const allPositions = getAvailableCabinetPositions({});
-    return allPositions.reduce((sum, pos) => sum + pos.max_slots, 0);
-  }
-
-  // Helper: Get number of slots already allocated to the lead party
-  function getLeadPartyAllocatedSlots() {
-    if (!coalitionState) return 0;
-    let count = 0;
-    for (const [position, parties] of Object.entries(coalitionState.cabinetAllocations)) {
-      for (const party of parties) {
-        if (party === winningParty.party) count += 1;
-      }
-    }
-    return count;
-  }
-
-  // Helper: Get number of slots already allocated to all coalition partners except lead
-  function getNonLeadAllocatedSlots() {
-    if (!coalitionState) return 0;
-    let count = 0;
-    for (const [position, parties] of Object.entries(coalitionState.cabinetAllocations)) {
-      for (const party of parties) {
-        if (party !== winningParty.party) count += 1;
-      }
-    }
-    return count;
-  }
-
-  // Helper: Get all unallocated positions (excluding Junior Minister)
-  function getUnallocatedPositions() {
-    const allocations = coalitionState?.cabinetAllocations || {};
-    const allPositions = getAvailableCabinetPositions({});
-    return allPositions.filter(pos => 
-      pos.name !== 'Junior Minister' &&
-      ((allocations[pos.name]?.length || 0) < pos.max_slots)
-    );
-  }
-
-  // When coalition formation is complete, allocate all unassigned (non-Junior Minister) positions to the lead party
-  useEffect(() => {
-    if (
-      coalitionState &&
-      coalitionState.negotiationPhase === 'complete'
-    ) {
-      const allocations = coalitionState.cabinetAllocations;
-      const unallocated = getUnallocatedPositions();
-      for (const pos of unallocated) {
-        const alreadyAllocated = allocations[pos.name]?.length || 0;
-        for (let i = alreadyAllocated; i < pos.max_slots; i++) {
-          actions.allocateCabinetPosition(pos.name, winningParty.party);
-        }
-      }
-    }
-    // Only run when coalitionState.negotiationPhase changes to 'complete'
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coalitionState?.negotiationPhase]);
-
-  // When offering positions to partners, ensure the lead party keeps ~50% of cabinet slots
-  // This logic should be enforced in the AI and player offer logic, but for now, you can add a comment/reminder:
-  // When calling generatePlayerApproachOffer or simulateAICoalitionNegotiation, ensure that the sum of all offered positions to partners does not exceed 50% of total slots.
-
+  
   if (!coalitionState) {
     return (
       <div className="min-h-screen p-6" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
@@ -646,6 +585,22 @@ export default function CoalitionFormation() {
       </div>
     );
   }
+
+  // Ensure all unallocated positions are assigned to the lead party when coalition is complete
+  useEffect(() => {
+    if (
+      coalitionState &&
+      coalitionState.negotiationPhase === 'complete' &&
+      Object.keys(coalitionState.cabinetAllocations).length > 0
+    ) {
+      // Defensive: only run once per completion
+      // Use a ref or a state if you want to avoid double-calling in strict mode
+      autoAllocateUnfilledCabinetPositions(
+        coalitionState.cabinetAllocations,
+        sortedResults[0].candidate.party // or .id if you use id for allocations
+      );
+    }
+  }, [coalitionState, sortedResults]);
 
   if (coalitionState.negotiationPhase === 'complete') {
     return (
