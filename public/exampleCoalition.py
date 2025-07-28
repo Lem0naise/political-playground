@@ -854,7 +854,7 @@ def get_party_priority_positions(partner_candidate):
     
     # pac_mil (pacifist-militarist): index 4
     if vals[4] > 30:  # Militarist
-        priorities.append(("Defense Minister", 30))
+        priorities.append(("Defence Minister", 30))
     elif vals[4] < -30:  # Pacifist
         priorities.append(("Foreign Minister", 25))
     

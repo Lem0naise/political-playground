@@ -12,9 +12,11 @@ import {
   findBestCoalitionPartners,
   simulateAICoalitionNegotiation,
   generatePlayerApproachOffer,
-  evaluatePlayerResponse
+  evaluatePlayerResponse,
+  autoAllocateUnfilledCabinetPositions
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
+import CabinetView from './CabinetView';
 
 interface NegotiationModalProps {
   leadParty: Candidate;
@@ -487,7 +489,8 @@ export default function CoalitionFormation() {
               winningParty,
               nextPartner.candidate,
               winningPercentage,
-              nextPartner.percentage
+              nextPartner.percentage,
+              coalitionState.cabinetAllocations // pass allocations
             );
             console.log('DEBUG: AI approaching player with offer:', offer);
             setPlayerApproachOffer(offer);
@@ -498,7 +501,8 @@ export default function CoalitionFormation() {
               winningParty,
               nextPartner.candidate,
               winningPercentage,
-              nextPartner.percentage
+              nextPartner.percentage,
+              coalitionState.cabinetAllocations // pass allocations
             );
             console.log('DEBUG: AI-to-AI negotiation result:', result);
             
@@ -540,14 +544,15 @@ export default function CoalitionFormation() {
 
   const handlePlayerApproachResponse = (success: boolean, positions: string[], responses: number[]) => {
     console.log('DEBUG: Player approach response', { success, positions, responses });
-    if (success && playerResult) {
+    if (success && playerResult && coalitionState) {
       const evaluation = evaluatePlayerResponse(
         winningParty,
         playerResult.candidate,
         winningPercentage,
         playerResult.percentage,
         responses,
-        positions
+        positions,
+        coalitionState.cabinetAllocations // pass allocations
       );
       console.log('DEBUG: Player evaluation result:', evaluation);
       
@@ -571,6 +576,7 @@ export default function CoalitionFormation() {
     setPlayerApproachOffer(null);
   };
 
+  
   if (!coalitionState) {
     return (
       <div className="min-h-screen p-6" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
@@ -580,6 +586,22 @@ export default function CoalitionFormation() {
       </div>
     );
   }
+
+  // Ensure all unallocated positions are assigned to the lead party when coalition is complete
+  useEffect(() => {
+    if (
+      coalitionState &&
+      coalitionState.negotiationPhase === 'complete' &&
+      Object.keys(coalitionState.cabinetAllocations).length > 0
+    ) {
+      // Defensive: only run once per completion
+      // Use a ref or a state if you want to avoid double-calling in strict mode
+      autoAllocateUnfilledCabinetPositions(
+        coalitionState.cabinetAllocations,
+        sortedResults[0].candidate.party // or .id if you use id for allocations
+      );
+    }
+  }, [coalitionState, sortedResults]);
 
   if (coalitionState.negotiationPhase === 'complete') {
     return (
@@ -622,23 +644,6 @@ export default function CoalitionFormation() {
               })}
             </div>
           </div>
-
-          {/* Cabinet Allocation */}
-          {Object.keys(coalitionState.cabinetAllocations).length > 0 && (
-            <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Cabinet Positions</h2>
-              <div className="space-y-2">
-                <div className="p-3 bg-green-100 border border-green-300 rounded-lg">
-                  <span className="font-bold">Prime Minister:</span> {winningParty.name} ({winningParty.party})
-                </div>
-                {Object.entries(coalitionState.cabinetAllocations).map(([position, parties]) => (
-                  <div key={position} className="p-3 bg-slate-100 border border-slate-300 rounded-lg">
-                    <span className="font-bold">{position}:</span> {parties.join(', ')}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           <div className="text-center">
             <button
