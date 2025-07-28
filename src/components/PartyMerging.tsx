@@ -1,9 +1,34 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { findMergeCandidates, mergeParties, type Party, type MergeCandidate } from '@/lib/partyMerger';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
+
+
+// Helper to generate better party name suggestions
+function generatePartyNameSuggestions(p1: Party, p2: Party): string[] {
+  const names = [
+    // Retain either party's name
+    p1.party,
+    p2.party,
+    // Acronym of both names
+    [p1.party, p2.party].map(n => n.split(/\s+/).map(w => w[0]).join('')).join('-'),
+    // Blend: first word of p1 + last word of p2
+    `${p1.party.split(' ')[0]} ${p2.party.split(' ').slice(-1)[0]}`,
+    // "Alliance" or "Coalition" suffix
+    `${p1.party}-${p2.party} Alliance`,
+    `${p1.party} & ${p2.party} Coalition`,
+    // Shortest unique word from each
+    (() => {
+      const p1w = p1.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      const p2w = p2.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      return `${p1w}-${p2w} Bloc`;
+    })(),
+  ];
+  // Remove duplicates and empty
+  return Array.from(new Set(names.filter(Boolean)));
+}
 
 export default function PartyMerging() {
   const { state, actions } = useGame();
@@ -13,6 +38,12 @@ export default function PartyMerging() {
   const [newPartyName, setNewPartyName] = useState('');
   const [selectedLeader, setSelectedLeader] = useState<Party | null>(null);
 
+  // Memoize suggestions for current merge
+  const nameSuggestions = useMemo(() => {
+    if (!currentMerge) return [];
+    return generatePartyNameSuggestions(currentMerge.party1, currentMerge.party2);
+  }, [currentMerge]);
+
   useEffect(() => {
     if (state.pendingParties) {
       setParties(state.pendingParties);
@@ -20,7 +51,9 @@ export default function PartyMerging() {
       setMergeCandidates(candidates);
       if (candidates.length > 0) {
         setCurrentMerge(candidates[0]);
-        setNewPartyName(`${candidates[0].party1.party}-${candidates[0].party2.party} Alliance`);
+        // Use first suggestion as default
+        const suggestions = generatePartyNameSuggestions(candidates[0].party1, candidates[0].party2);
+        setNewPartyName(suggestions[0] || `${candidates[0].party1.party}-${candidates[0].party2.party} Alliance`);
         setSelectedLeader(candidates[0].party1);
       }
     }
@@ -201,7 +234,6 @@ export default function PartyMerging() {
 
         {/* Merger Options */}
         <div className="vintage-border p-3 sm:p-4 mb-4 sm:mb-6" style={{ background: 'var(--newspaper-bg)' }}>
-    
           <div className="space-y-4">
             <div>
               <label className="block text-md font-bold text-black mb-1 font-mono">New Party Name:</label>
@@ -209,9 +241,28 @@ export default function PartyMerging() {
                 type="text"
                 value={newPartyName}
                 onChange={(e) => setNewPartyName(e.target.value)}
-                className="w-full p-2 border border-slate-400 rounded font-mono text-sm"
+                className="w-full p-2 border border-slate-400 rounded font-mono text-sm mb-2"
                 placeholder="Enter new party name..."
               />
+              <div className="flex flex-wrap gap-2 mt-1">
+                {nameSuggestions.map((suggestion, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`px-2 py-1 rounded border text-xs font-mono transition-colors ${
+                      newPartyName === suggestion
+                        ? 'bg-blue-600 text-white border-blue-700'
+                        : 'bg-slate-100 border-slate-300 hover:bg-slate-200'
+                    }`}
+                    onClick={() => setNewPartyName(suggestion)}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+              <div className="text-xs text-slate-500 mt-1">
+                Tip: You can keep either party's name, or pick a suggested blend/acronym.
+              </div>
             </div>
 
             <div>
