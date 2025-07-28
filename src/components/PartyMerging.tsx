@@ -163,7 +163,7 @@ export default function PartyMerging() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-4 sm:mb-6">
           <h1 className="newspaper-header text-2xl sm:text-3xl font-black text-white mb-2">
-            PARTY MERGER NEGOTIATIONS
+            {state.country} PARTY MERGING
           </h1>
           <div className="border-t-2 border-b-2 border-yellow-500 py-1 sm:py-2 my-2">
             <p className="campaign-status text-sm sm:text-base text-yellow-200">
@@ -318,7 +318,7 @@ export default function PartyMerging() {
             onClick={handleSkipMerge}
             className="px-4 sm:px-6 py-2 sm:py-3 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition-colors duration-200 text-sm"
           >
-            SKIP MERGER
+            DON'T MERGE THESE PARTIES
           </button>
           
           <button
@@ -326,7 +326,7 @@ export default function PartyMerging() {
             disabled={!newPartyName.trim() || !selectedLeader}
             className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 text-sm"
           >
-            🤝 CONFIRM MERGER
+            CONFIRM
           </button>
         </div>
       </div>
