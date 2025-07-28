@@ -16,6 +16,7 @@ import {
   autoAllocateUnfilledCabinetPositions
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
+import CabinetView from './CabinetView';
 
 interface NegotiationModalProps {
   leadParty: Candidate;
@@ -643,23 +644,6 @@ export default function CoalitionFormation() {
               })}
             </div>
           </div>
-
-          {/* Cabinet Allocation */}
-          {Object.keys(coalitionState.cabinetAllocations).length > 0 && (
-            <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Cabinet Positions</h2>
-              <div className="space-y-2">
-                <div className="p-3 bg-green-100 border border-green-300 rounded-lg">
-                  <span className="font-bold">Prime Minister:</span> {winningParty.name} ({winningParty.party})
-                </div>
-                {Object.entries(coalitionState.cabinetAllocations).map(([position, parties]) => (
-                  <div key={position} className="p-3 bg-slate-100 border border-slate-300 rounded-lg">
-                    <span className="font-bold">{position}:</span> {parties.join(', ')}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           <div className="text-center">
             <button

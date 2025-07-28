@@ -35,6 +35,9 @@ body {
   letter-spacing: 0.05em;
 }
 
+.font-oswald {
+    font-family: 'Oswald', monospace;
+}
 .news-body {
   font-family: 'Crimson Text', serif;
   line-height: 1.8;

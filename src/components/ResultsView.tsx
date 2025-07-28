@@ -5,6 +5,7 @@ import { formatVotes } from '@/lib/gameEngine';
 import { VALUES } from '@/types/game';
 import { DESCRIPTORS, getIdeologyProfile } from '@/lib/ideologyProfiler';
 import { CABINET_POSITIONS } from '@/types/game'; // <-- Add this import
+import CabinetView from './CabinetView';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
@@ -214,25 +215,14 @@ export default function ResultsView() {
                 );
               })}
             </div>
-            <div className="mb-2 text-base sm:text-lg font-semibold">
+            <div className="mb-8 text-base sm:text-lg font-semibold">
                   {getIdeologyProfile(governmentIdeology)}
-                </div>
-            {/* Cabinet Allocations */}
-            {(state.coalitionState && Object.keys(state.coalitionState.cabinetAllocations).length > 0) && (
-              <div className="mb-2 font-mono">
-                <h3 className="font-semibold text-[var(--ink-black)] mb-2 mt-5">Cabinet Positions:</h3>
-                <div className="space-y-1">
-                  <div className="p-2 bg-green-100 border border-green-300 rounded-lg text-green-900">
-                    <span className="font-bold">Prime Minister:</span> {winner.candidate.name} ({winner.candidate.party})
-                  </div>
-                  {Object.entries(state.coalitionState.cabinetAllocations).map(([position, parties]) => (
-                    <div key={position} className="p-2 bg-slate-100 border border-slate-300 rounded-lg text-slate-900">
-                      <span className="font-bold">{position}:</span> {parties.join(', ')}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            </div>
+            {state.coalitionState && (<CabinetView
+              cabinetAllocations={state.coalitionState.cabinetAllocations}
+              winningParty={sortedResults[0].candidate}
+              candidates={state.candidates}
+            />)}
           </div>
         )}
 
