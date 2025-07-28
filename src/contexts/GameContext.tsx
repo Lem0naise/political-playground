@@ -134,7 +134,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         initialPollResults: initialResults,
         previousPollResults: initialResults,
         currentPoll: 1,
-        politicalNews: ["Campaign season officially begins as parties establish their platforms."]
+        politicalNews: ["ELECTION SEASON OFFICIALLY BEGINS.."]
       };
       
     case 'NEXT_POLL':

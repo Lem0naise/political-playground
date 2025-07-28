@@ -86,7 +86,7 @@ export default function MainMenu() {
             <input
               id="weeks-slider"
               type="range"
-              min={8}
+              min={4}
               max={104}
               step={1}
               value={totalPolls}
@@ -94,9 +94,9 @@ export default function MainMenu() {
               className="w-full sm:w-2/3 lg:w-1/2 accent-yellow-400"
             />
             <div className="flex justify-between w-full sm:w-2/3 lg:w-1/2 text-xs text-slate-400 mt-1">
-              <span>Short (8)</span>
+              <span>Very Short (4)</span>
               <span>Medium (52)</span>
-              <span>Long (104)</span>
+              <span>Very Long (104)</span>
             </div>
           </div>
 
@@ -117,7 +117,7 @@ export default function MainMenu() {
                 <div className="text-xs sm:text-sm text-slate-300 font-mono">
                   {(countryData.pop * countryData.scale).toLocaleString()} voters
                 </div>
-                <div className="text-xs text-slate-400 truncate">
+                <div className="text-xs text-slate-400">
                   {countryData.hos}
                 </div>
               </button>
@@ -151,23 +151,20 @@ export default function MainMenu() {
           <div className="max-w-4xl mx-auto bg-slate-800/30 border border-slate-600 rounded-lg p-4 sm:p-6 mb-4">
             <div className="bg-yellow-900/30 border border-yellow-600 rounded-lg p-3 sm:p-4 mb-4">
               <p className="text-yellow-400 font-bold text-sm sm:text-base mb-2">
-                ⚠️ IMPORTANT DISCLAIMER
+                DISCLAIMER
               </p>
               <p className="text-yellow-200 text-xs sm:text-sm">
-                This is a work of fiction for entertainment and educational purposes only.
+                This is a work of fiction for entertainment purposes only.
               </p>
             </div>
 
             <div className="space-y-3 text-slate-300 text-xs sm:text-sm">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <p><strong className="text-white">Fictional Simulation:</strong> This game is a simplified, fictional representation of political processes and does not accurately reflect real-world politics.</p>
+                  <p><strong className="text-white">Fictional Simulation:</strong> This game is a heavily, heavily simplified representation of political processes and does not accurately reflect real-world politics.</p>
                 </div>
                 <div>
                   <p><strong className="text-white">No Political Endorsement:</strong> The parties, candidates, and positions shown are fictional. No real political entities are being endorsed or criticized.</p>
-                </div>
-                <div>
-                  <p><strong className="text-white">Educational Purpose:</strong> Designed to demonstrate basic concepts of campaigning and political strategy in an accessible format.</p>
                 </div>
                 <div>
                   <p><strong className="text-white">Not Political Advice:</strong> This game should not influence real voting decisions. Please research actual candidates and issues for real elections.</p>

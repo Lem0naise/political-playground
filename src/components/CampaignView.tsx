@@ -102,24 +102,40 @@ export default function CampaignView() {
 
             {/* Political News - Newspaper Style */}
             {state.politicalNews.length > 0 && (
-              <div className="bg-stone-50 vintage-border p-3 sm:p-4 relative" style={{ background: 'var(--newspaper-bg)' }}>
-                <div className="absolute top-0 left-0 bg-red-700 text-white px-2 py-0.5 text-xs font-bold">
+              <div className="uppercase bg-stone-50 vintage-border p-3 sm:p-4 relative newspaper-section" style={{ background: 'var(--newspaper-bg)' }}>
+                <div className="absolute top-0 left-0 bg-red-700 text-white px-2 py-0.5 text-xs font-bold tracking-widest shadow">
                   BREAKING
                 </div>
-                <h2 className="newspaper-header text-lg sm:text-xl font-black text-slate-900 mb-2 sm:mb-3 mt-2 border-b border-slate-800 pb-1">
+                <h2 className="newspaper-header text-lg sm:text-xl font-black text-slate-900 mb-2 sm:mb-3 mt-2 border-b border-slate-800 pb-1 tracking-tight">
                   📰 POLITICAL BULLETIN
                 </h2>
-                <div className="space-y-2">
-                  {state.politicalNews.slice(0, 2).map((news, index) => (
-                    <article key={index} className="border-l-2 border-red-600 pl-2 sm:pl-3 py-1">
-                      <p className="news-body text-slate-800 text-xs sm:text-sm leading-tight font-medium">
-                        {news}
-                      </p>
-                      <div className="text-xs text-slate-500 mt-1 font-mono uppercase tracking-wide">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {/* Headline Story */}
+                  <div className="flex-1">
+                    <div className="border-l-4 border-red-700 pl-3 py-2 mb-2 bg-white/80 rounded shadow newspaper-headline">
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight mb-1 font-serif uppercase">
+                        {state.politicalNews[0]}
+                      </h3>
+                      <div className="text-xs text-slate-500 font-mono uppercase tracking-wide">
                         Tribune Political Desk • Week {state.currentPoll}
                       </div>
-                    </article>
-                  ))}
+                    </div>
+                  </div>
+                  {/* Sub-stories */}
+                  {state.politicalNews.length > 1 && (
+                    <div className="flex-1 flex flex-col gap-2">
+                      {state.politicalNews.slice(1, 3).map((news, idx) => (
+                        <article key={idx} className="border-l-2 border-slate-400 pl-2 py-1 bg-white/60 rounded newspaper-substory">
+                          <h4 className="text-base sm:text-lg font-bold text-slate-800 mb-0.5 font-serif">
+                            {news}
+                          </h4>
+                          <div className="text-xs text-slate-400 font-mono uppercase tracking-wide">
+                            Week {state.currentPoll}
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -175,7 +191,7 @@ export default function CampaignView() {
         {/* Add disclaimer footer */}
         <div className="mt-6 text-center border-t border-gray-300 pt-4">
           <p className="text-gray-500 text-xs max-w-2xl mx-auto">
-            <strong>Simulation Notice:</strong> This is a fictional political simulation for entertainment and educational purposes. 
+            <strong>Simulation Notice:</strong> This is a fictional political simulation purely for entertainment purposes. 
             Events and outcomes are simplified and do not reflect real political complexity or accurate demographic data.
           </p>
           <p className="text-gray-400 text-xs mt-2">

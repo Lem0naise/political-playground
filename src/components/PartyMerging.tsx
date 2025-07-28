@@ -1,9 +1,52 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { findMergeCandidates, mergeParties, type Party, type MergeCandidate } from '@/lib/partyMerger';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
+
+
+// Helper to generate better party name suggestions
+function generatePartyNameSuggestions(p1: Party, p2: Party): string[] {
+  const names = [
+    // Retain either party's name
+    p1.party,
+    p2.party,
+    // Acronym of both names
+    [p1.party, p2.party].map(n => n.split(/\s+/).map(w => w[0]).join('')).join('-'),
+    // Blend: first word of p1 + last word of p2
+    `${p1.party.split(' ')[0]} ${p2.party.split(' ').slice(-1)[0]}`,
+    // "Alliance" or "Coalition" suffix
+    `${p1.party}-${p2.party} Bloc`,
+    `${p1.party} & ${p2.party} Coalition`,
+    // Shortest unique word from each
+    (() => {
+      const p1w = p1.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      const p2w = p2.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      return `${p1w} ${p2w} Alliance`;
+    })(),
+    // Longest unique word from each
+    (() => {
+      const p1w = p1.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      const p2w = p2.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      return `${p1w} ${p2w} Party`;
+    })(),
+    // Shortest unique word from each
+    (() => {
+      const p1w = p1.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      const p2w = p2.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      return `${p2w} ${p1w} Alliance`;
+    })(),
+    // Longest unique word from each
+    (() => {
+      const p1w = p1.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      const p2w = p2.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      return `${p2w} ${p1w} Party`;
+    })(),
+  ];
+  // Remove duplicates and empty
+  return Array.from(new Set(names.filter(Boolean)));
+}
 
 export default function PartyMerging() {
   const { state, actions } = useGame();
@@ -13,6 +56,12 @@ export default function PartyMerging() {
   const [newPartyName, setNewPartyName] = useState('');
   const [selectedLeader, setSelectedLeader] = useState<Party | null>(null);
 
+  // Memoize suggestions for current merge
+  const nameSuggestions = useMemo(() => {
+    if (!currentMerge) return [];
+    return generatePartyNameSuggestions(currentMerge.party1, currentMerge.party2);
+  }, [currentMerge]);
+
   useEffect(() => {
     if (state.pendingParties) {
       setParties(state.pendingParties);
@@ -20,7 +69,9 @@ export default function PartyMerging() {
       setMergeCandidates(candidates);
       if (candidates.length > 0) {
         setCurrentMerge(candidates[0]);
-        setNewPartyName(`${candidates[0].party1.party}-${candidates[0].party2.party} Alliance`);
+        // Use first suggestion as default
+        const suggestions = generatePartyNameSuggestions(candidates[0].party1, candidates[0].party2);
+        setNewPartyName(suggestions[0] || `${candidates[0].party1.party}-${candidates[0].party2.party} Alliance`);
         setSelectedLeader(candidates[0].party1);
       }
     }
@@ -85,8 +136,8 @@ export default function PartyMerging() {
                     style={{ backgroundColor: party.colour }}
                   ></div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-bold text-sm text-slate-900 truncate">{party.party}</div>
-                    <div className="text-xs text-slate-700 truncate">{party.name}</div>
+                    <div className="font-bold text-sm text-slate-900">{party.party}</div>
+                    <div className="text-xs text-slate-700">{party.name}</div>
                     <div className="text-xs text-slate-600">{(party.party_pop * 100).toFixed(1)}%</div>
                   </div>
                 </div>
@@ -112,7 +163,7 @@ export default function PartyMerging() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-4 sm:mb-6">
           <h1 className="newspaper-header text-2xl sm:text-3xl font-black text-white mb-2">
-            PARTY MERGER NEGOTIATIONS
+            {state.country} PARTY MERGING
           </h1>
           <div className="border-t-2 border-b-2 border-yellow-500 py-1 sm:py-2 my-2">
             <p className="campaign-status text-sm sm:text-base text-yellow-200">
@@ -121,7 +172,7 @@ export default function PartyMerging() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6 font-mono">
           {/* Party 1 */}
           <div className="vintage-border p-3 sm:p-4" style={{ background: 'var(--newspaper-bg)' }}>
             <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 border-b border-slate-800 pb-1">
@@ -134,12 +185,10 @@ export default function PartyMerging() {
                   style={{ backgroundColor: currentMerge.party1.colour }}
                 ></div>
                 <div className="min-w-0">
-                  <div className="font-bold text-sm text-slate-900 truncate">{currentMerge.party1.name}</div>
-                  <div className="text-xs text-slate-600">Support: {(currentMerge.party1.party_pop * 100).toFixed(1)}%</div>
+                  <div className="font-bold text-sm text-slate-900">{currentMerge.party1.name}</div>
                 </div>
               </div>
               <div className="text-xs mt-1">
-                <span className="font-semibold text-slate-700">Ideology: </span>
                 {getIdeologyProfile([
                   currentMerge.party1.prog_cons,
                   currentMerge.party1.nat_glob,
@@ -174,12 +223,10 @@ export default function PartyMerging() {
                   style={{ backgroundColor: currentMerge.party2.colour }}
                 ></div>
                 <div className="min-w-0">
-                  <div className="font-bold text-sm text-slate-900 truncate">{currentMerge.party2.name}</div>
-                  <div className="text-xs text-slate-600">Support: {(currentMerge.party2.party_pop * 100).toFixed(1)}%</div>
+                  <div className="font-bold text-sm text-slate-900">{currentMerge.party2.name}</div>
                 </div>
               </div>
               <div className="text-xs mt-1">
-                <span className="font-semibold text-slate-700">Ideology: </span>
                 {getIdeologyProfile([
                   currentMerge.party2.prog_cons,
                   currentMerge.party2.nat_glob,
@@ -205,18 +252,35 @@ export default function PartyMerging() {
 
         {/* Merger Options */}
         <div className="vintage-border p-3 sm:p-4 mb-4 sm:mb-6" style={{ background: 'var(--newspaper-bg)' }}>
-          <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3">Merger Details</h3>
-          
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-bold text-black mb-1">New Party Name:</label>
+              <label className="block text-md font-bold text-black mb-1 font-mono">New Party Name:</label>
               <input
                 type="text"
                 value={newPartyName}
                 onChange={(e) => setNewPartyName(e.target.value)}
-                className="w-full p-2 border border-slate-400 rounded font-mono text-sm"
+                className="w-full p-2 border border-slate-400 rounded font-mono text-sm mb-2"
                 placeholder="Enter new party name..."
               />
+              <div className="flex flex-wrap gap-2 mt-1">
+                {nameSuggestions.map((suggestion, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`px-2 py-1 rounded border text-xs font-mono transition-colors ${
+                      newPartyName === suggestion
+                        ? 'bg-blue-600 text-white border-blue-700'
+                        : 'bg-slate-100 border-slate-300 hover:bg-slate-200'
+                    }`}
+                    onClick={() => setNewPartyName(suggestion)}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+              <div className="text-xs text-slate-500 mt-1">
+                Tip: You can keep either party's name, or pick a suggested blend/acronym.
+              </div>
             </div>
 
             <div>
@@ -238,8 +302,8 @@ export default function PartyMerging() {
                         style={{ backgroundColor: party.colour }}
                       ></div>
                       <div className="min-w-0">
-                        <div className="font-bold text-sm text-slate-900 truncate">{party.name}</div>
-                        <div className="text-xs text-slate-600 truncate">from {party.party}</div>
+                        <div className="font-bold text-sm text-slate-900">{party.name}</div>
+                        <div className="text-xs text-slate-600">from {party.party}</div>
                       </div>
                     </div>
                   </div>
@@ -254,7 +318,7 @@ export default function PartyMerging() {
             onClick={handleSkipMerge}
             className="px-4 sm:px-6 py-2 sm:py-3 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition-colors duration-200 text-sm"
           >
-            SKIP MERGER
+            DON'T MERGE THESE PARTIES
           </button>
           
           <button
@@ -262,7 +326,7 @@ export default function PartyMerging() {
             disabled={!newPartyName.trim() || !selectedLeader}
             className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 text-sm"
           >
-            🤝 CONFIRM MERGER
+            CONFIRM
           </button>
         </div>
       </div>

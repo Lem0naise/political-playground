@@ -39,8 +39,8 @@ export default function PlayerSelection() {
                   style={{ backgroundColor: candidate.colour }}
                 ></div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="newspaper-header text-lg sm:text-xl font-bold text-slate-900 truncate">{candidate.party}</h3>
-                  <p className="text-slate-700 font-medium text-sm truncate">Led by {candidate.name}</p>
+                  <h3 className="newspaper-header text-lg sm:text-xl font-bold text-slate-900">{candidate.party}</h3> 
+                  <p className="text-slate-700 font-medium text-sm">Led by {candidate.name}</p>
                 </div>
               </div>
 

@@ -490,7 +490,7 @@
         {
             "id": 0,
             "name": "Karl Max",
-            "party": "Maxists (P)",
+            "party": "Maxists",
             "party_pop": 5,
             "prog_cons": -100,
             "nat_glob": 100,
@@ -799,7 +799,7 @@
         {
             "id": 2,
             "name": "Hersi Ali Hassan",
-            "party": "National Party (Waddani)",
+            "party": "National Party",
             "party_pop": 10,
             "prog_cons": 41,
             "nat_glob": -50,
@@ -1087,7 +1087,7 @@
         {
             "id": 0,
             "name": "Xi Jinping",
-            "party": "Communist Party of China (CCP)",
+            "party": "Communist Party of China",
             "party_pop": 10,
             "prog_cons": 85,
             "nat_glob": -90,
@@ -1103,7 +1103,7 @@
         {
             "id": 0,
             "name": "Narendra Modi",
-            "party": "Bharatiya Janata Party (BJP)",
+            "party": "Bharatiya Janata Party",
             "party_pop": 10,
             "prog_cons": 70,
             "nat_glob": -70,
@@ -1117,7 +1117,7 @@
         {
             "id": 1,
             "name": "Rahul Gandhi",
-            "party": "Indian National Congress (INC)",
+            "party": "Indian National Congress",
             "party_pop": 6,
             "prog_cons": -10,
             "nat_glob": -10,
@@ -1131,7 +1131,7 @@
         {
         "id": 2,
         "name": "Arvind Kejriwal",
-        "party": "Aam Aadmi Party (AAP)",
+        "party": "Aam Aadmi Party",
         "party_pop": 7,
         "prog_cons": 0,
         "nat_glob": -40,
@@ -1145,7 +1145,7 @@
     {
         "id": 3,
         "name": "Mamata Banerjee",
-        "party": "All India Trinamool Congress (TMC)",
+        "party": "All India Trinamool Congress",
         "party_pop": 5,
         "prog_cons": -10,
         "nat_glob": -60,
@@ -1189,7 +1189,7 @@
          {
         "id": 2,
         "name": "Leonid Slutsky",
-        "party": "Liberal Democratic Party of Russia (LDPR)",
+        "party": "Liberal Democratic Party of Russia",
         "party_pop": 4,
         "prog_cons": 90,
         "nat_glob": -95,
@@ -1219,7 +1219,7 @@
         {
             "id": 0,
             "name": "Fumio Kishida",
-            "party": "Liberal Democratic Party (LDP)",
+            "party": "Liberal Democratic Party",
             "party_pop": 10,
             "prog_cons": 55,
             "nat_glob": 20,
@@ -1233,7 +1233,7 @@
         {
             "id": 1,
             "name": "Kenta Izumi",
-            "party": "Constitutional Democratic Party (CDP)",
+            "party": "Constitutional Democratic Party",
             "party_pop": 4,
             "prog_cons": -30,
             "nat_glob": 15,
@@ -1277,7 +1277,7 @@
         {
             "id": 2,
             "name": "Jagmeet Singh",
-            "party": "New Democratic Party (NDP)",
+            "party": "New Democratic Party",
             "party_pop": 4,
             "prog_cons": -65,
             "nat_glob": 50,
@@ -1337,7 +1337,7 @@
         {
             "id": 0,
             "name": "Lula da Silva",
-            "party": "Workers' Party (PT)",
+            "party": "Workers' Party",
             "party_pop": 9,
             "prog_cons": -40,
             "nat_glob": -20,
@@ -1351,7 +1351,7 @@
         {
             "id": 1,
             "name": "Jair Bolsonaro",
-            "party": "Liberal Party (PL)",
+            "party": "Liberal Party",
             "party_pop": 9,
             "prog_cons": 90,
             "nat_glob": -80,
@@ -1367,7 +1367,7 @@
         {
             "id": 0,
             "name": "Giorgia Meloni",
-            "party": "Brothers of Italy (FdI)",
+            "party": "Brothers of Italy",
             "party_pop": 9,
             "prog_cons": 80,
             "nat_glob": -70,
@@ -1381,7 +1381,7 @@
         {
             "id": 1,
             "name": "Elly Schlein",
-            "party": "Democratic Party (PD)",
+            "party": "Democratic Party",
             "party_pop": 6,
             "prog_cons": -60,
             "nat_glob": 65,
@@ -1395,7 +1395,7 @@
         {
             "id": 2,
             "name": "Giuseppe Conte",
-            "party": "Five Star Movement (M5S)",
+            "party": "Five Star Movement",
             "party_pop": 5,
             "prog_cons": -20,
             "nat_glob": -30,
@@ -1411,7 +1411,7 @@
         {
             "id": 0,
             "name": "Recep Tayyip Erdoğan",
-            "party": "Justice and Development Party (AKP)",
+            "party": "Justice and Development Party",
             "party_pop": 10,
             "prog_cons": 85,
             "nat_glob": -75,
@@ -1425,7 +1425,7 @@
         {
             "id": 1,
             "name": "Özgür Özel",
-            "party": "Republican People's Party (CHP)",
+            "party": "Republican People's Party",
             "party_pop": 7,
             "prog_cons": -5,
             "nat_glob": -40,
@@ -1440,7 +1440,7 @@
     "IRAN": [
         {
             "id": 0,
-            "name": "Ali Khamenei (Supreme Leader)",
+            "name": "Ali Khamenei",
             "party": "Principlists",
             "party_pop": 10,
             "prog_cons": 98,
@@ -1501,7 +1501,7 @@
         {
             "id": 0,
             "name": "Donald Tusk",
-            "party": "Civic Platform (KO)",
+            "party": "Civic Platform",
             "party_pop": 8,
             "prog_cons": -15,
             "nat_glob": 70,
@@ -1515,7 +1515,7 @@
         {
             "id": 1,
             "name": "Jarosław Kaczyński",
-            "party": "Law and Justice (PiS)",
+            "party": "Law and Justice",
             "party_pop": 8,
             "prog_cons": 85,
             "nat_glob": -75,
@@ -1545,7 +1545,7 @@
         {
             "id": 1,
             "name": "Alberto Núñez Feijóo",
-            "party": "People's Party (PP)",
+            "party": "People's Party",
             "party_pop": 8,
             "prog_cons": 50,
             "nat_glob": 30,
@@ -1575,7 +1575,7 @@
         {
             "id": 0,
             "name": "Bola Tinubu",
-            "party": "All Progressives Congress (APC)",
+            "party": "All Progressives Congress",
             "party_pop": 9,
             "prog_cons": 40,
             "nat_glob": -30,
@@ -1589,7 +1589,7 @@
         {
             "id": 1,
             "name": "Atiku Abubakar",
-            "party": "People's Democratic Party (PDP)",
+            "party": "People's Democratic Party",
             "party_pop": 8,
             "prog_cons": 30,
             "nat_glob": -20,
@@ -1603,7 +1603,7 @@
         {
             "id": 2,
             "name": "Peter Obi",
-            "party": "Labour Party (LP)",
+            "party": "Labour Party",
             "party_pop": 6,
             "prog_cons": 10,
             "nat_glob": 0,
@@ -1619,7 +1619,7 @@
         {
             "id": 0,
             "name": "Olaf Scholz",
-            "party": "Social Democratic Party (SPD)",
+            "party": "Social Democratic Party",
             "party_pop": 7,
             "prog_cons": -30,
             "nat_glob": 50,
@@ -1633,7 +1633,7 @@
         {
             "id": 1,
             "name": "Friedrich Merz",
-            "party": "Christian Democratic Union (CDU/CSU)",
+            "party": "Christian Democratic Union",
             "party_pop": 9,
             "prog_cons": 45,
             "nat_glob": 30,
@@ -1661,7 +1661,7 @@
         {
             "id": 3,
             "name": "Alice Weidel",
-            "party": "Alternative for Germany (AfD)",
+            "party": "Alternative for Germany",
             "party_pop": 6,
             "prog_cons": 90,
             "nat_glob": -85,
@@ -1675,7 +1675,7 @@
         {
             "id": 4,
             "name": "Christian Lindner",
-            "party": "Free Democratic Party (FDP)",
+            "party": "Free Democratic Party",
             "party_pop": 2,
             "prog_cons": 10,
             "nat_glob": 40,
@@ -1705,7 +1705,7 @@
         {
             "id": 1,
             "name": "Marine Le Pen",
-            "party": "National Rally (RN)",
+            "party": "National Rally",
             "party_pop": 9,
             "prog_cons": 85,
             "nat_glob": -80,
@@ -1719,7 +1719,7 @@
         {
             "id": 2,
             "name": "Jean-Luc Mélenchon",
-            "party": "La France Insoumise (LFI)",
+            "party": "La France Insoumise",
             "party_pop": 6,
             "prog_cons": -70,
             "nat_glob": -20,
@@ -1733,7 +1733,7 @@
         {
             "id": 3,
             "name": "Éric Ciotti",
-            "party": "The Republicans (LR)",
+            "party": "The Republicans",
             "party_pop": 3,
             "prog_cons": 60,
             "nat_glob": 10,
@@ -1749,7 +1749,7 @@
         {
             "id": 0,
             "name": "Geert Wilders",
-            "party": "Party for Freedom (PVV)",
+            "party": "Party for Freedom",
             "party_pop": 9,
             "prog_cons": 80,
             "nat_glob": -90,
@@ -1777,7 +1777,7 @@
         {
             "id": 2,
             "name": "Dilan Yeşilgöz-Zegerius",
-            "party": "People's Party for Freedom and Democracy (VVD)",
+            "party": "People's Party for Freedom and Democracy",
             "party_pop": 7,
             "prog_cons": 20,
             "nat_glob": 50,
@@ -1791,7 +1791,7 @@
         {
             "id": 3,
             "name": "Pieter Omtzigt",
-            "party": "New Social Contract (NSC)",
+            "party": "New Social Contract",
             "party_pop": 6,
             "prog_cons": 30,
             "nat_glob": 20,
@@ -1821,7 +1821,7 @@
         {
             "id": 1,
             "name": "Xóchitl Gálvez",
-            "party": "Broad Front for Mexico (PAN/PRI/PRD)",
+            "party": "Broad Front for Mexico",
             "party_pop": 7,
             "prog_cons": 20,
             "nat_glob": 20,
@@ -1835,7 +1835,7 @@
         {
             "id": 2,
             "name": "Jorge Álvarez Máynez",
-            "party": "Citizens' Movement (MC)",
+            "party": "Citizens' Movement",
             "party_pop": 4,
             "prog_cons": -30,
             "nat_glob": 10,
@@ -2129,7 +2129,7 @@
         {
             "id": 0,
             "name": "Shehbaz Sharif",
-            "party": "Pakistan Muslim League (N)",
+            "party": "Pakistan Muslim League",
             "party_pop": 8,
             "prog_cons": 65,
             "nat_glob": -30,
@@ -2143,7 +2143,7 @@
         {
             "id": 1,
             "name": "Imran Khan",
-            "party": "Pakistan Tehreek-e-Insaf (PTI)",
+            "party": "Pakistan Tehreek-e-Insaf",
             "party_pop": 10,
             "prog_cons": 40,
             "nat_glob": -50,
@@ -2157,7 +2157,7 @@
         {
             "id": 2,
             "name": "Bilawal Bhutto Zardari",
-            "party": "Pakistan People's Party (PPP)",
+            "party": "Pakistan People's Party",
             "party_pop": 6,
             "prog_cons": -20,
             "nat_glob": 10,
@@ -2321,7 +2321,7 @@
         {
             "id": 0,
             "name": "Lai Ching-te",
-            "party": "Democratic Progressive Party (DPP)",
+            "party": "Democratic Progressive Party",
             "party_pop": 9,
             "prog_cons": -50,
             "nat_glob": -60,
@@ -2335,7 +2335,7 @@
         {
             "id": 1,
             "name": "Hou Yu-ih",
-            "party": "Kuomintang (KMT)",
+            "party": "Kuomintang",
             "party_pop": 8,
             "prog_cons": 40,
             "nat_glob": 20,
@@ -2349,7 +2349,7 @@
         {
             "id": 2,
             "name": "Ko Wen-je",
-            "party": "Taiwan People's Party (TPP)",
+            "party": "Taiwan People's Party",
             "party_pop": 5,
             "prog_cons": 0,
             "nat_glob": 0,
@@ -2365,7 +2365,7 @@
         {
             "id": 0,
             "name": "Anwar Ibrahim",
-            "party": "Pakatan Harapan (PH)",
+            "party": "Pakatan Harapan",
             "party_pop": 8,
             "prog_cons": -30,
             "nat_glob": 20,
@@ -2379,7 +2379,7 @@
         {
             "id": 1,
             "name": "Muhyiddin Yassin",
-            "party": "Perikatan Nasional (PN)",
+            "party": "Perikatan Nasional",
             "party_pop": 7,
             "prog_cons": 60,
             "nat_glob": -60,
@@ -2393,7 +2393,7 @@
         {
             "id": 2,
             "name": "Ahmad Zahid Hamidi",
-            "party": "Barisan Nasional (BN)",
+            "party": "Barisan Nasional",
             "party_pop": 5,
             "prog_cons": 50,
             "nat_glob": -50,
@@ -2409,7 +2409,7 @@
         {
             "id": 0,
             "name": "Karl Nehammer",
-            "party": "Austrian People's Party (ÖVP)",
+            "party": "Austrian People's Party",
             "party_pop": 7,
             "prog_cons": 50,
             "nat_glob": 20,
@@ -2423,7 +2423,7 @@
         {
             "id": 1,
             "name": "Herbert Kickl",
-            "party": "Freedom Party of Austria (FPÖ)",
+            "party": "Freedom Party of Austria",
             "party_pop": 9,
             "prog_cons": 85,
             "nat_glob": -80,
@@ -2437,7 +2437,7 @@
         {
             "id": 2,
             "name": "Andreas Babler",
-            "party": "Social Democratic Party (SPÖ)",
+            "party": "Social Democratic Party",
             "party_pop": 7,
             "prog_cons": -40,
             "nat_glob": 40,
@@ -2453,7 +2453,7 @@
         {
             "id": 0,
             "name": "Marco Chiesa",
-            "party": "Swiss People's Party (SVP/UDC)",
+            "party": "Swiss People's Party",
             "party_pop": 9,
             "prog_cons": 75,
             "nat_glob": -85,
@@ -2467,7 +2467,7 @@
         {
             "id": 1,
             "name": "Cédric Wermuth",
-            "party": "Social Democratic Party (SP/PS)",
+            "party": "Social Democratic Party",
             "party_pop": 7,
             "prog_cons": -60,
             "nat_glob": 60,
@@ -2481,7 +2481,7 @@
         {
             "id": 2,
             "name": "Thierry Burkart",
-            "party": "The Liberals (FDP/PLR)",
+            "party": "The Liberals",
             "party_pop": 6,
             "prog_cons": 10,
             "nat_glob": 50,
@@ -2495,7 +2495,7 @@
         {
             "id": 3,
             "name": "Gerhard Pfister",
-            "party": "The Centre (Die Mitte/Le Centre)",
+            "party": "The Centre",
             "party_pop": 6,
             "prog_cons": 20,
             "nat_glob": 40,
@@ -2511,7 +2511,7 @@
         {
             "id": 0,
             "name": "Luís Montenegro",
-            "party": "Social Democratic Party (PSD)",
+            "party": "Social Democratic Party",
             "party_pop": 8,
             "prog_cons": 25,
             "nat_glob": 50,
@@ -2525,7 +2525,7 @@
         {
             "id": 1,
             "name": "Pedro Nuno Santos",
-            "party": "Socialist Party (PS)",
+            "party": "Socialist Party",
             "party_pop": 8,
             "prog_cons": -40,
             "nat_glob": 60,
@@ -2569,7 +2569,7 @@
         {
             "id": 1,
             "name": "Péter Magyar",
-            "party": "Respect and Freedom Party (TISZA)",
+            "party": "Respect and Freedom Party",
             "party_pop": 6,
             "prog_cons": 10,
             "nat_glob": 40,
@@ -2583,7 +2583,7 @@
         {
             "id": 2,
             "name": "Klára Dobrev",
-            "party": "Democratic Coalition (DK)",
+            "party": "Democratic Coalition",
             "party_pop": 4,
             "prog_cons": -40,
             "nat_glob": 70,
@@ -2745,7 +2745,7 @@
         {
             "id": 1,
             "name": "Bart De Wever",
-            "party": "New Flemish Alliance (N-VA)",
+            "party": "New Flemish Alliance",
             "party_pop": 7,
             "prog_cons": 50,
             "nat_glob": -70,
@@ -2759,7 +2759,7 @@
         {
             "id": 2,
             "name": "Paul Magnette",
-            "party": "Socialist Party (PS)",
+            "party": "Socialist Party",
             "party_pop": 6,
             "prog_cons": -50,
             "nat_glob": 40,
