@@ -144,19 +144,19 @@ export default function ResultsView() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+    <div className="min-h-screen bg-black text-[var(--foreground)]">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-900 to-purple-900 py-8 sm:py-12">
+      <div className="bg-[var(--ink-black)] py-8 sm:py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">FINAL ELECTION RESULTS</h1>
-          <h2 className="text-xl sm:text-2xl mb-2">{state.country.toUpperCase()}</h2>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 newspaper-header text-white">FINAL ELECTION RESULTS</h1>
+          <h2 className="text-xl sm:text-2xl mb-2 text-white">{state.country.toUpperCase()}</h2>
           <p className="text-base sm:text-lg text-blue-200">Election Day - All Votes Counted</p>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Winner Announcement */}
-        <div className={`rounded-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 text-center newspaper-header bg-[var(--paper-cream)]`}>
+        <div className="rounded-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 text-center newspaper-header bg-[var(--paper-cream)] vintage-border shadow-lg">
           <h2 className={`text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 ${
             needsCoalition ? 'text-orange-900' : 'text-yellow-900'
           }`}>
@@ -168,7 +168,7 @@ export default function ResultsView() {
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
             <div 
-              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex-shrink-0"
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex-shrink-0 border-2 border-[var(--ink-black)]"
               style={{ backgroundColor: winner.candidate.colour }}
             ></div>
             <div className="text-center sm:text-left">
@@ -181,9 +181,6 @@ export default function ResultsView() {
               <p className={`text-lg sm:text-xl font-bold ${
                 needsCoalition ? 'text-orange-900' : 'text-yellow-900'
               }`}>{winner.percentage.toFixed(1)}% of the vote</p>
-              {coalitionComplete && (
-                <p className="text-green-200 text-sm mt-1">Coalition government formed</p>
-              )}
               {!coalitionComplete && needsCoalition && (
                 <p className="text-orange-800 text-sm mt-1">Coalition needed to govern</p>
               )}
@@ -191,8 +188,8 @@ export default function ResultsView() {
           </div>
           {/* Coalition Government Block */}
         {(coalitionComplete || !needsCoalition) && (
-          <div className="rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-white">
+          <div className="rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 mt-4 bg-[var(--newspaper-bg)] border border-[var(--ink-black)] shadow newspaper-header">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-[var(--ink-black)]">
               {coalitionComplete ? "Coalition Government" : ""}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 font-mono">
@@ -223,7 +220,7 @@ export default function ResultsView() {
             {/* Cabinet Allocations */}
             {(state.coalitionState && Object.keys(state.coalitionState.cabinetAllocations).length > 0) && (
               <div className="mb-2 font-mono">
-                <h3 className="font-semibold text-white mb-2">Cabinet Positions:</h3>
+                <h3 className="font-semibold text-[var(--ink-black)] mb-2 mt-5">Cabinet Positions:</h3>
                 <div className="space-y-1">
                   <div className="p-2 bg-green-100 border border-green-300 rounded-lg text-green-900">
                     <span className="font-bold">Prime Minister:</span> {winner.candidate.name} ({winner.candidate.party})
@@ -241,19 +238,16 @@ export default function ResultsView() {
 
         </div>
 
-        
-      
-
         {/* Player Performance */}
         {playerResult && (
-          <div className={`rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 ${
+          <div className={`rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 newspaper-header shadow-lg vintage-border ${
             playerWon 
-              ? 'bg-gradient-to-r from-green-600 to-green-500' 
+              ? 'bg-gradient-to-r from-green-100 to-green-50' 
               : playerPosition <= 3 
-                ? 'bg-gradient-to-r from-blue-600 to-blue-500'
-                : 'bg-gradient-to-r from-gray-600 to-gray-500'
+                ? 'bg-gradient-to-r from-blue-100 to-blue-50'
+                : 'bg-gradient-to-r from-gray-100 to-gray-50'
           }`}>
-            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-[var(--ink-black)]">
               {playerWon ? 'CONGRATULATIONS!' : playerPosition <= 3 ? 'Good Campaign!' : 'Better Luck Next Time'}
             </h2>
             <div className="text-base sm:text-lg">
@@ -269,8 +263,8 @@ export default function ResultsView() {
         )}
 
         {/* Full Results Table */}
-        <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="bg-gray-800 text-white px-4 sm:px-6 py-3 sm:py-4">
+        <div className="bg-[var(--ink-black)] rounded-lg shadow-2xl overflow-hidden vintage-border">
+          <div className="bg-gray-800 text-white px-4 sm:px-6 py-3 sm:py-4 newspaper-header">
             <h2 className="text-lg sm:text-xl font-bold">Complete Election Results</h2>
           </div>
           
@@ -295,7 +289,7 @@ export default function ResultsView() {
                     <tr 
                       key={result.candidate.id}
                       className={`border-b ${
-                        isPlayer ? 'bg-blue-50' : 'hover:bg-gray-50'
+                        isPlayer ? 'bg-blue-50' : 'bg-[var(--paper-cream)] hover:bg-gray-200'
                       }`}
                     >
                       <td className="px-3 sm:px-6 py-3 sm:py-4">
@@ -308,7 +302,7 @@ export default function ResultsView() {
                       <td className="px-3 sm:px-6 py-3 sm:py-4">
                         <div className="flex items-center space-x-2 sm:space-x-3">
                           <div 
-                            className="w-4 h-4 sm:w-6 sm:h-6 rounded-full flex-shrink-0"
+                            className="w-4 h-4 sm:w-6 sm:h-6 rounded-full flex-shrink-0 border border-[var(--ink-black)]"
                             style={{ backgroundColor: result.candidate.colour }}
                           ></div>
                           <span className={`font-semibold text-xs sm:text-sm ${isPlayer ? 'text-blue-800' : 'text-gray-800'}`}>
@@ -344,7 +338,7 @@ export default function ResultsView() {
 
         {/* Election Statistics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
-          <div className="bg-white rounded-lg p-4 sm:p-6 text-gray-800">
+          <div className="bg-[var(--paper-cream)] rounded-lg p-4 sm:p-6 text-[var(--ink-black)] vintage-border shadow">
             <h3 className="text-base sm:text-lg font-bold mb-2">Voter Turnout</h3>
             <p className="text-2xl sm:text-3xl font-bold text-blue-600">{turnout.toFixed(1)}%</p>
             <p className="text-xs sm:text-sm text-gray-600">
@@ -352,13 +346,13 @@ export default function ResultsView() {
             </p>
           </div>
           
-          <div className="bg-white rounded-lg p-4 sm:p-6 text-gray-800">
+          <div className="bg-[var(--paper-cream)] rounded-lg p-4 sm:p-6 text-[var(--ink-black)] vintage-border shadow">
             <h3 className="text-base sm:text-lg font-bold mb-2">Campaign Length</h3>
             <p className="text-2xl sm:text-3xl font-bold text-green-600">{state.totalPolls}</p>
             <p className="text-xs sm:text-sm text-gray-600">weeks of campaigning</p>
           </div>
           
-          <div className="bg-white rounded-lg p-4 sm:p-6 text-gray-800">
+          <div className="bg-[var(--paper-cream)] rounded-lg p-4 sm:p-6 text-[var(--ink-black)] vintage-border shadow">
             <h3 className="text-base sm:text-lg font-bold mb-2">Competing Parties</h3>
             <p className="text-2xl sm:text-3xl font-bold text-purple-600">{state.candidates.length}</p>
             <p className="text-xs sm:text-sm text-gray-600">political parties</p>
