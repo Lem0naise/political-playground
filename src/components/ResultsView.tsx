@@ -314,7 +314,7 @@ export default function ResultsView() {
                             className="w-4 h-4 sm:w-6 sm:h-6 rounded-full flex-shrink-0"
                             style={{ backgroundColor: result.candidate.colour }}
                           ></div>
-                          <span className={`font-semibold text-xs sm:text-sm ${isPlayer ? 'text-blue-800' : 'text-gray-800'} truncate`}>
+                          <span className={`font-semibold text-xs sm:text-sm ${isPlayer ? 'text-blue-800' : 'text-gray-800'}`}>
                             {result.candidate.party}
                           </span>
                         </div>

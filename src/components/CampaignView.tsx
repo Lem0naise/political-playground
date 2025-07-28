@@ -175,7 +175,7 @@ export default function CampaignView() {
         {/* Add disclaimer footer */}
         <div className="mt-6 text-center border-t border-gray-300 pt-4">
           <p className="text-gray-500 text-xs max-w-2xl mx-auto">
-            <strong>Simulation Notice:</strong> This is a fictional political simulation for entertainment and educational purposes. 
+            <strong>Simulation Notice:</strong> This is a fictional political simulation purely for entertainment purposes. 
             Events and outcomes are simplified and do not reflect real political complexity or accurate demographic data.
           </p>
           <p className="text-gray-400 text-xs mt-2">

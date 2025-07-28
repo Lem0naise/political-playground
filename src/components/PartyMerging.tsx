@@ -136,8 +136,8 @@ export default function PartyMerging() {
                     style={{ backgroundColor: party.colour }}
                   ></div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-bold text-sm text-slate-900 truncate">{party.party}</div>
-                    <div className="text-xs text-slate-700 truncate">{party.name}</div>
+                    <div className="font-bold text-sm text-slate-900">{party.party}</div>
+                    <div className="text-xs text-slate-700">{party.name}</div>
                     <div className="text-xs text-slate-600">{(party.party_pop * 100).toFixed(1)}%</div>
                   </div>
                 </div>
@@ -185,7 +185,7 @@ export default function PartyMerging() {
                   style={{ backgroundColor: currentMerge.party1.colour }}
                 ></div>
                 <div className="min-w-0">
-                  <div className="font-bold text-sm text-slate-900 truncate">{currentMerge.party1.name}</div>
+                  <div className="font-bold text-sm text-slate-900">{currentMerge.party1.name}</div>
                 </div>
               </div>
               <div className="text-xs mt-1">
@@ -223,7 +223,7 @@ export default function PartyMerging() {
                   style={{ backgroundColor: currentMerge.party2.colour }}
                 ></div>
                 <div className="min-w-0">
-                  <div className="font-bold text-sm text-slate-900 truncate">{currentMerge.party2.name}</div>
+                  <div className="font-bold text-sm text-slate-900">{currentMerge.party2.name}</div>
                 </div>
               </div>
               <div className="text-xs mt-1">
@@ -302,8 +302,8 @@ export default function PartyMerging() {
                         style={{ backgroundColor: party.colour }}
                       ></div>
                       <div className="min-w-0">
-                        <div className="font-bold text-sm text-slate-900 truncate">{party.name}</div>
-                        <div className="text-xs text-slate-600 truncate">from {party.party}</div>
+                        <div className="font-bold text-sm text-slate-900">{party.name}</div>
+                        <div className="text-xs text-slate-600">from {party.party}</div>
                       </div>
                     </div>
                   </div>

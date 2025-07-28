@@ -77,8 +77,8 @@ export default function PartySelection() {
                       style={{ backgroundColor: party.colour || 'gray' }}
                     ></div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-xs text-white truncate">{party.party}</div>
-                      <div className="text-xs text-slate-400 truncate">{party.name}</div>
+                      <div className="font-medium text-xs text-white">{party.party}</div>
+                      <div className="text-xs text-slate-400">{party.name}</div>
                     </div>
                   </div>
                 ))}
