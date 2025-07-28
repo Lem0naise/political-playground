@@ -121,7 +121,7 @@ export default function PartyMerging() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6 font-mono">
           {/* Party 1 */}
           <div className="vintage-border p-3 sm:p-4" style={{ background: 'var(--newspaper-bg)' }}>
             <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 border-b border-slate-800 pb-1">
@@ -135,11 +135,9 @@ export default function PartyMerging() {
                 ></div>
                 <div className="min-w-0">
                   <div className="font-bold text-sm text-slate-900 truncate">{currentMerge.party1.name}</div>
-                  <div className="text-xs text-slate-600">Support: {(currentMerge.party1.party_pop * 100).toFixed(1)}%</div>
                 </div>
               </div>
               <div className="text-xs mt-1">
-                <span className="font-semibold text-slate-700">Ideology: </span>
                 {getIdeologyProfile([
                   currentMerge.party1.prog_cons,
                   currentMerge.party1.nat_glob,
@@ -175,11 +173,9 @@ export default function PartyMerging() {
                 ></div>
                 <div className="min-w-0">
                   <div className="font-bold text-sm text-slate-900 truncate">{currentMerge.party2.name}</div>
-                  <div className="text-xs text-slate-600">Support: {(currentMerge.party2.party_pop * 100).toFixed(1)}%</div>
                 </div>
               </div>
               <div className="text-xs mt-1">
-                <span className="font-semibold text-slate-700">Ideology: </span>
                 {getIdeologyProfile([
                   currentMerge.party2.prog_cons,
                   currentMerge.party2.nat_glob,
@@ -205,11 +201,10 @@ export default function PartyMerging() {
 
         {/* Merger Options */}
         <div className="vintage-border p-3 sm:p-4 mb-4 sm:mb-6" style={{ background: 'var(--newspaper-bg)' }}>
-          <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3">Merger Details</h3>
-          
+    
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-bold text-black mb-1">New Party Name:</label>
+              <label className="block text-md font-bold text-black mb-1 font-mono">New Party Name:</label>
               <input
                 type="text"
                 value={newPartyName}

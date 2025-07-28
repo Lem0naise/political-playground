@@ -86,7 +86,7 @@ export default function MainMenu() {
             <input
               id="weeks-slider"
               type="range"
-              min={8}
+              min={4}
               max={104}
               step={1}
               value={totalPolls}
@@ -94,9 +94,9 @@ export default function MainMenu() {
               className="w-full sm:w-2/3 lg:w-1/2 accent-yellow-400"
             />
             <div className="flex justify-between w-full sm:w-2/3 lg:w-1/2 text-xs text-slate-400 mt-1">
-              <span>Short (8)</span>
+              <span>Very Short (4)</span>
               <span>Medium (52)</span>
-              <span>Long (104)</span>
+              <span>Very Long (104)</span>
             </div>
           </div>
 

@@ -44,6 +44,7 @@ const COLOR_MAP: Record<string, string> = {
 
 export function getIdeologyDescriptors(vals: number[]): Array<{ key: string, desc: string, color: string }> {
   const descriptors: Array<{ key: string, desc: string, color: string }> = [];
+  let orderTemplate: number[] = [];
   VALUES.forEach((key, idx) => {
     const val = vals[idx];
     const descMap = DESCRIPTORS[key];
@@ -68,10 +69,22 @@ export function getIdeologyDescriptors(vals: number[]): Array<{ key: string, des
           desc,
           color: COLOR_MAP[desc] || 'text-slate-700'
         });
+        orderTemplate.push(Math.abs(val));
       }
     }
   });
-  return descriptors;
+  const sortedDescriptors = [...descriptors];
+
+  sortedDescriptors.sort((a, b) => {
+    const indexA = descriptors.indexOf(a)
+    const indexB = descriptors.indexOf(b)
+    const comparison = orderTemplate[indexB] - orderTemplate[indexA];
+    if (comparison === 0) {
+      return indexA - indexB; // Preserve original order for ties
+    }
+    return comparison;
+  })
+  return sortedDescriptors;
 }
 
 export function getIdeologyProfile(vals: number[]) {
