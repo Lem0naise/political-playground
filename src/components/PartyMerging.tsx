@@ -17,13 +17,31 @@ function generatePartyNameSuggestions(p1: Party, p2: Party): string[] {
     // Blend: first word of p1 + last word of p2
     `${p1.party.split(' ')[0]} ${p2.party.split(' ').slice(-1)[0]}`,
     // "Alliance" or "Coalition" suffix
-    `${p1.party}-${p2.party} Alliance`,
+    `${p1.party}-${p2.party} Bloc`,
     `${p1.party} & ${p2.party} Coalition`,
     // Shortest unique word from each
     (() => {
       const p1w = p1.party.split(' ').sort((a,b)=>a.length-b.length)[0];
       const p2w = p2.party.split(' ').sort((a,b)=>a.length-b.length)[0];
-      return `${p1w}-${p2w} Bloc`;
+      return `${p1w} ${p2w} Alliance`;
+    })(),
+    // Longest unique word from each
+    (() => {
+      const p1w = p1.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      const p2w = p2.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      return `${p1w} ${p2w} Party`;
+    })(),
+    // Shortest unique word from each
+    (() => {
+      const p1w = p1.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      const p2w = p2.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      return `${p2w} ${p1w} Alliance`;
+    })(),
+    // Longest unique word from each
+    (() => {
+      const p1w = p1.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      const p2w = p2.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      return `${p2w} ${p1w} Party`;
     })(),
   ];
   // Remove duplicates and empty
