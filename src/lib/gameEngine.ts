@@ -201,157 +201,116 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     }
   }
   
-  // Bandwagon effect news
-  if (leader.party_pop > 20) {
-    newsEvents.push(`${leader.party} consolidates frontrunner status as voters rally behind clear leader.`);
-  } else if (leader.party_pop < 5) {
-    newsEvents.push("Close race continues with no clear frontrunner emerging.");
-  }
-  
   return newsEvents;
 }
 
 const RANDOM_NEWS_EVENTS = [
-  // General Political Events
-  "Former Treasury Secretary's leaked emails reveal behind-the-scenes campaign strategy discussions.",
-  "Bipartisan Infrastructure Reform Act gains unexpected support from 12 swing district representatives.",
-  "Voter registration surges by 34% in college towns following TikTok mobilization campaign.",
-  "Presidential debate commission announces controversial town hall format with live fact-checking display.",
-  "Popular independent mayor Sarah Chen endorses surprise candidate after months of speculation.",
-  "Secret coalition negotiations revealed as three minor parties discuss joint manifesto.",
-  "Campaign Finance Transparency Bill passes committee vote 8-5 despite fierce lobbying opposition.",
-  "Political advertising spending hits $2.3 billion mark, breaking all previous election records.",
-  "University of Westfield reports 89% student registration rate following campus voter drives.",
-  "Rural farming communities unite against proposed urban development tax incentives.",
-  
-  // Economic Events
-  "TechCorp shares plummet 23% amid fears of pension fund exposure to volatile markets.",
-  "Regional unemployment drops to 4.2% while metropolitan areas struggle at 7.8%.",
-  "Local Chamber of Commerce confidence index reaches 78-point high following tax reform announcements.",
-  "Average home prices soar to $847,000 as City Council debates emergency rent control measures.",
-  "Free trade negotiations with Northland Republic enter final phase despite tariff disputes.",
-  "Silicon Valley tech jobs grow 15% annually while manufacturing employment stagnates at -2%.",
-  "Consumer Price Index rises 0.7% monthly as energy costs spike following pipeline maintenance.",
-  "Agricultural exports face 18% tariff increase following trade dispute over fishing rights.",
-  "Midwest Manufacturing announces $450 million expansion creating 3,200 jobs over two years.",
-  "Tourism revenue rebounds to 94% of pre-pandemic levels following festival season success.",
-  
-  // Social Issues
-  "Emergency room wait times average 4.7 hours as healthcare becomes defining campaign issue.",
-  "Teachers' union mobilizes 15,000 members for education funding march on State Capitol.",
-  "Immigration processing backlog reaches 180,000 cases as border town mayors demand federal action.",
-  "Deepfake political advertisements prompt emergency session on election integrity measures.",
-  "Archbishop Martinez calls for interfaith dialogue following vandalism at three local mosques.",
-  "Equal Pay Initiative gains momentum with endorsements from 47 major corporations.",
-  "Mental Health First Aid programs receive $23 million federal expansion funding.",
-  "International Folk Festival draws record 85,000 visitors celebrating 40 different cultures.",
-  "Professional soccer star Marcus Rodriguez's arrest overshadows policy debate for third consecutive day.",
-  "Grammy winner Luna Vasquez endorsement video reaches 12 million views in 48 hours.",
-  
-  // International Affairs
-  "G7 Climate Summit concludes with heated exchanges over carbon credit trading mechanisms.",
-  "Border patrol agents report 23% increase in smuggling attempts following neighboring country's economic collapse.",
-  "Foreign aid allocation of $2.8 billion faces opposition from deficit hawks citing domestic priorities.",
-  "International election observers from 12 countries praise new voter verification technology.",
-  "State-sponsored cyber attacks target power grid infrastructure in three metropolitan areas.",
-  "Global Climate Accord negotiations stall over developing nation compensation demands.",
-  "Syrian refugee crisis intensifies as 50,000 displaced persons seek emergency humanitarian assistance.",
-  "Pacific Trade Partnership negotiations face setbacks over intellectual property protections.",
-  "NATO joint exercises involve 15,000 troops demonstrating regional defense capabilities.",
-  "Student exchange programs with European Union expand to include 50 additional universities.",
-  
-  // Environmental Issues
-  "Category 4 Hurricane Miranda highlights coastal infrastructure vulnerabilities and adaptation funding gaps.",
-  "Riverside County residents protest planned 400-megawatt solar installation over habitat concerns.",
-  "Metropolitan water authority implements Stage 3 restrictions following reservoir levels dropping to 31%.",
-  "Spotted owl protection laws trigger heated debate between conservationists and timber industry representatives.",
-  "Offshore wind energy costs drop to $0.07 per kilowatt-hour, reaching grid parity milestone.",
-  "Air quality alerts issued for sixth consecutive day as particulate matter exceeds federal standards.",
-  "Yellowstone National Park funding faces $127 million shortfall threatening visitor services.",
-  "Electric vehicle charging network expands by 340 stations following federal infrastructure investment.",
-  "Municipal recycling programs achieve 73% diversion rate, surpassing state mandates two years early.",
-  "International Ocean Cleanup Project removes 12 tons of plastic from Pacific garbage patch.",
-  
-  // Technology & Innovation
-  "Federal AI Ethics Commission proposes mandatory algorithm audits for platforms with over 10 million users.",
-  "Data breach at MegaCorp exposes personal information of 2.3 million citizens, triggering privacy law debate.",
-  "5G network rollout reaches 67% coverage but faces resistance in 23 rural counties.",
-  "Online voting pilot program in Jefferson County reports 94% satisfaction rate but faces security scrutiny.",
-  "Venture capital funding for local startups reaches $340 million, highest quarterly total in state history.",
-  "Digital homework gap affects 1.2 million students lacking reliable broadband access.",
-  "Federal Reserve explores digital dollar proposal while crypto regulation remains in legislative limbo.",
-  "SocialPlatform faces congressional hearing over political content moderation algorithms.",
-  "Innovation District attracts $890 million international investment in biotechnology research facilities.",
-  "Electronic health records upgrade affects 340 hospitals, improving patient data sharing capabilities.",
-  
-  // Local/Regional Events
-  "Regional Development Authority approves $150 million fund allocation sparking fierce inter-city competition.",
-  "Metro Rail expansion adds 23 miles of track, promising 18-minute downtown commute reduction.",
-  "Chronicle Media Group files bankruptcy, threatening closure of 14 local newspapers.",
-  "Riverside Community Center faces closure as city budget cuts eliminate $2.3 million social services funding.",
-  "Historic Cathedral District receives $8.7 million federal preservation grant for 19th-century restoration.",
-  "Public transportation fares increase 12% to $3.25, prompting commuter advocacy group protests.",
-  "State University expansion plans include 4,500 additional students but face $67 million budget shortfall.",
-  "Harvest Festival generates $12.4 million tourism revenue, boosting regional economic indicators.",
-  "Municipal elections see 23% turnout, lowest in 16 years despite competitive mayoral race.",
-  "Neighborhood watch programs report 31% crime reduction following community policing initiative.",
-  
-  // Campaign-Specific Events
-  "Senator Patricia Williams withdraws candidacy citing family health concerns, reshuffling party primary.",
-  "Grassroots volunteer network reaches 45,000 registered members, exceeding organizational targets by 280%.",
-  "Campaign merchandise sales generate $1.8 million, with 'Unity Forward' slogan leading popularity polls.",
-  "Candidate James Morrison's college scholarship controversy resurfaces through opposition research leak.",
-  "Former Environmental Secretary Lisa Chang accused of policy reversal on mining regulations.",
-  "Citizens for Democracy rally draws 23,000 supporters to State Capitol demanding election reform.",
-  "Polling methodology faces criticism after three major surveys show 8-point variance in results.",
-  "Campaign bus tour through Midwest generates unexpected enthusiasm in traditionally safe districts.",
-  "Attack advertisements reach saturation point with voters reporting 'ad fatigue' in focus groups.",
-  "Independent candidate Maria Santos gains 15% support following viral debate performance clip.",
-  
-  // Media & Information
-  "FactCheck Alliance expands election coverage team by 40%, hiring specialists in economic policy analysis.",
-  "Public Broadcasting funding becomes political flashpoint with $89 million budget under review.",
-  "KWXR Radio implements equal airtime policy, providing 30-minute blocks to all qualified candidates.",
-  "Investigative journalism uncovers $2.1 million unreported campaign expenditure through shell companies.",
-  "Algorithm changes on social platforms affect political content reach for 12 million users.",
-  "Regional newspaper circulation drops 34% as readership shifts to digital-only subscriptions.",
-  "Political podcast 'Democracy Now' reaches 2.8 million weekly downloads, influencing mainstream discourse.",
-  "Press freedom advocates rally against proposed journalist shield law restrictions affecting 230 reporters.",
-  "Civic education initiative targets 180,000 first-time voters with nonpartisan information campaigns.",
-  "Media bias study reveals 67% of voters consume news primarily from ideologically aligned sources."
+// General Political Events
+"Leaked messages from former Finance Minister reveal clandestine negotiations with corporate lobbyists.",
+"Cross-party infrastructure bill gains unexpected support from deputies in marginal constituencies.",
+"Voter registration surges by 34% in university towns following a viral social media mobilization campaign.",
+"Electoral commission announces a controversial multi-party debate format with live, AI-powered fact-checking.",
+"The 'Green Alliance' party endorses a rival candidate, fracturing the environmental voting bloc.",
+"Secret coalition negotiations revealed as three minor parties discuss forming a 'government of national unity'.",
+"Campaign Finance Transparency Act passes a key legislative hurdle despite fierce opposition.",
+"A snap election is called after the government loses a crucial no-confidence vote by a single ballot.",
+"The nation's High Court agrees to hear a case challenging the legality of new voter ID laws.",
+"Rural communities form a political action group to protest new agricultural water usage quotas.",
+"The Head of State's ceremonial visit to a former colony is met with protests demanding reparations.",
+"Anti-corruption prosecutor files charges against three sitting Members of Parliament (MPs).",
+"Debate rages over lowering the national voting age to 16, splitting the ruling coalition.",
+
+// Economic Events
+"Global tech giant 'OmniCorp' shares plummet 23% amid fears of pension fund exposure to volatile crypto markets.",
+"Unemployment in former industrial regions drops to 4.2%, while capital city unemployment climbs to 7.8%.",
+"The National Chamber of Commerce confidence index reaches an 18-month high following deregulation announcements.",
+"Average home prices soar to 847,000 local currency units as the government debates a foreign buyer's tax.",
+"Trade negotiations with the 'East Pacific Trade Bloc' enter a final, tense phase over fishing rights.",
+"The 'Silicon Steppe' tech hub reports 15% annual job growth, while traditional manufacturing stagnates.",
+"Consumer Price Index rises 0.9% in a month as energy costs spike following a major port workers' strike.",
+"Agricultural exports face a new 20% tariff after a diplomatic dispute over intellectual property.",
+"Discovery of massive rare earth mineral deposits sparks an economic boom in a remote northern province.",
+"Tourism revenue rebounds to 94% of pre-pandemic levels following the successful 'World Expo' event.",
+"The central bank unexpectedly raises interest rates by 50 basis points to combat spiraling inflation.",
+
+// Social & Cultural Issues
+"Emergency room wait times average 6 hours, making healthcare reform the defining election issue.",
+"The National Teachers' Union mobilizes 25,000 members for a march on the capital demanding better pay.",
+"A national debate erupts over revising history textbooks to include the state's role in colonial-era atrocities.",
+"Deepfake videos of political leaders prompt an emergency session on misinformation and election integrity.",
+"A prominent religious leader calls for interfaith dialogue following politically motivated vandalism at a historic temple.",
+"The national language preservation society receives a major grant to digitize ancient and dying dialects.",
+"The national symphony orchestra faces closure due to funding cuts, sparking public outcry and a private donation drive.",
+"Internationally acclaimed musician's endorsement video reaches 15 million views, shifting youth opinion polls.",
+"The country's most famous football star is arrested on tax evasion charges, dominating the news cycle.",
+"Archaeological dig unearths ruins of a previously unknown ancient civilization, forcing a halt to a major dam project.",
+
+// International & Geopolitical Affairs
+"A Global Climate Summit concludes with heated exchanges over carbon credit trading and aid to developing nations.",
+"Border authorities report a sharp increase in smuggling attempts following a neighboring country's economic collapse.",
+"The foreign aid budget faces opposition from nationalist parties citing domestic priorities.",
+"International election observers from 20 countries praise the nation's new biometric voter verification system.",
+"A state-sponsored cyberattack targets the national power grid, causing rolling blackouts in three major cities.",
+"Amnesty report on human rights abuses in a neighboring state strains diplomatic ties and threatens a trade deal.",
+"Tensions rise over disputed fishing waters in the Cerulean Sea after a naval patrol vessel is rammed.",
+"The nation recalls its ambassador from a regional power following public accusations of espionage.",
+"Joint military exercises by the 'Jade Dragon Alliance' demonstrate new drone and hypersonic capabilities.",
+"Student exchange programs with a bloc of 15 nations expand to include vocational and technical training.",
+
+// Environmental & Scientific Issues
+"Category 5 Typhoon 'Amihan' highlights coastal infrastructure vulnerabilities and slow government response.",
+"Residents of the Verde Valley protest a planned 400-megawatt solar installation over loss of fertile farmland.",
+"The capital's water authority implements Stage 4 restrictions as reservoir levels drop to a record 28% capacity.",
+"Laws protecting the critically endangered mountain gorilla trigger debate between conservationists and mining interests.",
+"A sudden, unexplained decline in bee populations threatens the nation's multi-billion dollar agricultural sector.",
+"Air quality alerts issued for the eighth consecutive day as smoke from continental wildfires blankets major cities.",
+"A volcanic eruption in the Azure Islands disrupts global air travel for weeks, stranding thousands.",
+"The international space agency announces a joint mission with two other nations to land humans on Mars.",
+"Scientific journal retracts a landmark study on AI consciousness after accusations of data fabrication.",
+"Ocean cleanup initiative removes 15 tons of plastic from a major river delta before it can reach the sea.",
+
+// Technology & Random Events
+"The national AI oversight board proposes mandatory algorithm audits for all public-facing government services.",
+"A massive, coordinated cyber-heist drains millions from the national banking system, forcing a temporary shutdown.",
+"A strange atmospheric phenomenon creates stunning, unexplained auroras visible across the entire country.",
+"National 'cheese crisis' looms as a bacterial blight affects 90% of the country's dairy herds.",
+"A cryptic online puzzle posted by an anonymous user captivates millions, with participants collaborating to solve it.",
+"The rollout of a national digital ID system is paused after a data breach exposes 500,000 citizens' information.",
+"A sudden fashion trend for wearing traditional folk hats, sparked by a pop star, causes a nationwide shortage.",
+"The beloved giant panda at the National Zoo gives birth to twins, providing a rare moment of national unity.",
+"A 400-year-old shipwreck containing priceless artifacts is discovered by a commercial fishing vessel.",
+"A flock of migratory birds, thousands strong, unexpectedly diverts and settles in the capital city's main park.",
 ];
 
 const ECONOMIC_CRISIS_EVENTS = [
-  "GlobalManufacturing announces closure of three plants affecting 12,000 workers across industrial corridor.",
-  "First National Bank restricts commercial lending as credit default rates climb to 8.3%.",
-  "Semiconductor shortage forces automotive assembly lines to reduce production by 40% through Q4.",
-  "National currency weakens 12% against international basket, driving import costs up $2,400 per household.",
-  "Commercial real estate values drop 18% as downtown occupancy rates fall to 52% post-pandemic levels.",
-  "Main Street businesses report 34% revenue decline following supply chain disruptions and energy costs.",
-  "Federal debt-to-GDP ratio reaches 127%, triggering automatic spending review mechanisms.",
-  "Economic growth projections revised from 2.4% to -0.8% following three consecutive months of contraction."
+"GlobalManufacturing announces the closure of three plants, affecting 12,000 workers across the industrial heartland.",
+"The nation's largest bank restricts all new commercial lending as credit default rates climb to a decade high of 9.1%.",
+"A critical semiconductor shortage forces automotive and electronics assembly lines to halt production indefinitely.",
+"The national currency weakens 15% against a basket of international currencies, causing import costs to skyrocket.",
+"Commercial real estate values drop 25% as remote work policies leave downtown office towers half-empty.",
+"Small and medium-sized enterprises (SMEs) report a 40% revenue decline due to supply chain and energy cost crises.",
+"The national debt-to-GDP ratio reaches 130%, triggering an automatic, painful review of all public spending.",
+"Economic growth projections are slashed from 2.1% to -1.5% following a second consecutive quarter of contraction.",
 ];
 
 const ECONOMIC_OPTIMISM_EVENTS = [
-  "international automotive giant announces $2.3 billion electric vehicle plant creating 8,500 manufacturing jobs.",
-  "Unemployment plummets to 3.1%, lowest rate since 1969, as job openings exceed available workers.",
-  "Manufacturing export orders surge 28% following successful trade mission to Southeast Asian markets.",
-  "AI productivity revolution boosts worker output 15% while reducing operational costs across service sectors.",
-  "Consumer confidence reaches 142-point high as household savings rates stabilize at healthy 8.2%.",
-  "Community bank lending increases 23% supporting 2,400 small business expansion projects.",
-  "Infrastructure investment program creates 45,000 construction jobs rebuilding bridges, roads, and broadband networks.",
-  "Economic indicators signal sustained 3.2% annual growth driven by innovation and international competitiveness."
+"An international automotive giant announces a 3 billion-credit electric vehicle battery plant, creating 9,000 jobs.",
+"Unemployment plummets to 2.9%, a 50-year low, as job openings far exceed the number of available workers.",
+"Manufacturing export orders surge 30% following a landmark new trade agreement with a major economic bloc.",
+"AI-driven productivity tools boost worker output by 18% across the service sector, leading to wage growth.",
+"Consumer confidence reaches a 20-year high as household savings rates stabilize and inflation fears recede.",
+"Domestic bank lending to small businesses increases 25%, funding thousands of local expansion projects.",
+"A massive national infrastructure program begins, creating 50,000 jobs to rebuild rail lines, ports, and grids.",
+"Economic indicators signal sustained 3.5% annual growth, driven by innovation and strong export performance.",
 ];
 
 const POLARIZATION_EVENTS = [
-  "Supreme Court's 6-3 decision on reproductive rights triggers massive demonstrations in 47 state capitals.",
-  "Religious Freedom Protection Act sparks interfaith tensions as religious leaders issue competing statements.",
-  "Immigration enforcement raids in five cities create community standoffs between federal agents and local officials.",
-  "Professor Jonathan Mitchell's free speech lecture at State University cancelled following 2,000-person protest.",
-  "Traditional Marriage Coalition clashes with LGBTQ+ advocacy groups over adoption agency policies.",
-  "Constitutional Convention debate intensifies as 28 states consider Article V amendment process.",
-  "Columbus Day vs. Indigenous Peoples' Day controversy splits City Council in heated 6-5 vote.",
-  "Confederate monument removal in downtown square prompts counter-protests and 47 arrests."
+"The High Court's narrow 5-4 ruling on abortion access triggers massive, competing demonstrations across the country.",
+"A proposed 'Religious Freedom Act' sparks interfaith tensions, with leaders issuing contradictory public letters.",
+"Immigration enforcement raids in three cities create community standoffs between national police and local residents.",
+"A controversial professor's lecture on national identity is cancelled after violent clashes erupt on campus.",
+"Heated debates over same-sex marriage rights intensify as the issue heads for a binding national referendum.",
+"Calls for a 'Constituent Assembly' to rewrite the constitution gain traction, deeply dividing political parties.",
 ];
 
 export function applyVoterDynamics(data: number[][], pollIteration: number): string[] {
@@ -513,30 +472,114 @@ export function applyEventEffect(
         }
         
         // Analyze voter preference trends for news
-        if (Math.abs(change) >= 4) {
+        if (Math.abs(change) >= 5) { // this is an absolute number from -100 to 100 of the change of the corresponding value
           if (alignmentChange > 0) { // Moving closer to voter preference
             const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
             
             switch (valueKey) {
               case "soc_cap":
                 if (voterPosition > playerOldPosition) {
-                  voterPreferenceAnalysis.push(`Voters favor more business-friendly economic policies following ${nameChoice}'s recent stance`);
+                  voterPreferenceAnalysis.push(`${nameChoice}'s pro-business stance is praised by voters as a key driver for economic growth and job creation.`);
                 } else {
-                  voterPreferenceAnalysis.push(`Public supports increased worker protections and social spending after ${nameChoice}'s position`);
+                  voterPreferenceAnalysis.push(`Voters applaud ${nameChoice}'s commitment to increased social spending and worker protections as a move toward a fairer society.`);
                 }
                 break;
               case "prog_cons":
                 if (voterPosition > playerOldPosition) {
-                  voterPreferenceAnalysis.push(`Traditional values resonate strongly with the electorate as ${nameChoice} connects with conservative voters`);
+                  voterPreferenceAnalysis.push(`${nameChoice}'s messaging on traditional values resonates with voters seeking stability and a strong moral foundation.`);
                 } else {
-                  voterPreferenceAnalysis.push(`Progressive social reforms gain popular support following ${nameChoice}'s advocacy`);
+                  voterPreferenceAnalysis.push(`Progressive reforms advocated by ${nameChoice} are embraced by voters as a step towards a more inclusive, forward-thinking society.`);
                 }
                 break;
               case "env_eco":
                 if (voterPosition < playerOldPosition) {
-                  voterPreferenceAnalysis.push(`Environmental protection emerges as key voter priority after ${nameChoice}'s green stance`);
+                  voterPreferenceAnalysis.push(`Environmental protection proposals by ${nameChoice} are hailed as a responsible and necessary approach for a sustainable future.`);
                 } else {
-                  voterPreferenceAnalysis.push(`Economic development concerns outweigh environmental issues as voters support ${nameChoice}'s approach`);
+                  voterPreferenceAnalysis.push(`Voters support ${nameChoice}'s focus on economic development, believing it will bring prosperity and new opportunities.`);
+                }
+                break;
+              case "nat_glob":
+                if (voterPosition < playerOldPosition) {
+                  voterPreferenceAnalysis.push(`${nameChoice}'s 'nation-first' approach is popular with voters who want to prioritize domestic issues and strengthen national identity.`);
+                } else {
+                  voterPreferenceAnalysis.push(`A stance favoring global cooperation by ${nameChoice} is commended by voters as essential for addressing worldwide challenges.`);
+                }
+                break;
+              case "pac_mil":
+                if (voterPosition > playerOldPosition) {
+                  voterPreferenceAnalysis.push(`Calls for a stronger defense from ${nameChoice} gain support from voters who see it as vital for ensuring national security.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Peace advocacy from ${nameChoice} is praised by voters as the most effective path to long-term stability and international respect.`);
+                }
+                break;
+              case "auth_ana":
+                if (voterPosition < playerOldPosition) {
+                  voterPreferenceAnalysis.push(`${nameChoice}'s strong law-and-order platform is popular with voters who desire safer communities and public stability.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Libertarian-leaning proposals by ${nameChoice} energize voters who champion individual freedom and limited government.`);
+                }
+                break;
+              case "rel_sec":
+                if (voterPosition < playerOldPosition) {
+                  voterPreferenceAnalysis.push(`An emphasis on religious values by ${nameChoice} connects with voters who appreciate a focus on moral and ethical principles.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Secular policy positions from ${nameChoice} gain favor with voters who support inclusive governance for all beliefs.`);
+                }
+                break;
+              // Add more cases as needed
+            }
+          }
+          else { // If alignment change is negative, away from the voters
+            const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
+            
+            switch (valueKey) {
+              case "soc_cap":
+                if (voterPosition < playerOldPosition) {
+                  voterPreferenceAnalysis.push(`Voters criticize ${nameChoice}'s recent stance as too favorable to big business at the expense of workers.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Concerns rise over ${nameChoice}'s push for increased social spending and worker protections, with critics warning of economic drawbacks.`);
+                }
+                break;
+              case "prog_cons":
+                if (voterPosition < playerOldPosition) {
+                  voterPreferenceAnalysis.push(`Traditional values messaging from ${nameChoice} is met with skepticism, as many voters see it as out of touch with modern society.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Progressive reforms advocated by ${nameChoice} face backlash from segments of the electorate wary of rapid social change.`);
+                }
+                break;
+              case "env_eco":
+                if (voterPosition > playerOldPosition) {
+                  voterPreferenceAnalysis.push(`Environmental protection proposals by ${nameChoice} are criticized as unrealistic and potentially harmful to economic growth.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Economic development focus from ${nameChoice} draws criticism for neglecting urgent environmental concerns.`);
+                }
+                break;
+              case "nat_glob":
+                if (voterPosition > playerOldPosition) {
+                  voterPreferenceAnalysis.push(`Nationalist rhetoric from ${nameChoice} sparks fears of isolationism and international backlash.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Global cooperation stance by ${nameChoice} is criticized as undermining national sovereignty and local interests.`);
+                }
+                break;
+              case "pac_mil":
+                if (voterPosition < playerOldPosition) {
+                  voterPreferenceAnalysis.push(`Calls for stronger defense by ${nameChoice} are seen as warmongering and risk escalating conflicts.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Peace advocacy from ${nameChoice} is criticized as naive and potentially weakening national security.`);
+                }
+                break;
+              case "auth_ana":
+                if (voterPosition > playerOldPosition) {
+                  voterPreferenceAnalysis.push(`Law-and-order promises from ${nameChoice} raise concerns about overreach and threats to civil liberties.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Libertarian-leaning proposals by ${nameChoice} are criticized for potentially undermining effective governance.`);
+                }
+                break;
+              case "rel_sec":
+                if (voterPosition > playerOldPosition) {
+                  voterPreferenceAnalysis.push(`Emphasis on religious values by ${nameChoice} is met with criticism for alienating secular voters and minority faiths.`);
+                } else {
+                  voterPreferenceAnalysis.push(`Secular policy positions from ${nameChoice} spark backlash among religious communities who feel their traditions are being sidelined.`);
                 }
                 break;
               // Add more cases as needed
@@ -599,15 +642,39 @@ export function applyEventEffect(
   // Generate news based on polling impact
   if (Math.abs(pollingChange) > 2) {
     if (pollingChange > 0) {
-      newsEvents.push(`${playerCandidate.party} surges as their stance connects with key voter concerns.`);
+      const surgeMessages = [
+        `${playerCandidate.party} surges as their stance connects with key voter concerns.`,
+        `${playerCandidate.party} enjoys a wave of support following recent campaign moves.`,
+        `Polls show a sharp rise for ${playerCandidate.party} after their latest announcement.`,
+        `Momentum shifts in favor of ${playerCandidate.party} as voters respond positively.`
+      ];
+      newsEvents.push(surgeMessages[Math.floor(Math.random() * surgeMessages.length)]);
     } else {
-      newsEvents.push(`${playerCandidate.party} loses ground following controversial policy position.`);
+      const loseMessages = [
+        `${playerCandidate.party} loses ground following controversial policy position.`,
+        `Support for ${playerCandidate.party} drops sharply after recent missteps.`,
+        `Polls show a significant decline for ${playerCandidate.party} amid public backlash.`,
+        `${playerCandidate.party} faces criticism as their popularity takes a hit.`
+      ];
+      newsEvents.push(loseMessages[Math.floor(Math.random() * loseMessages.length)]);
     }
   } else if (Math.abs(pollingChange) > 0.5) {
     if (voterAlignment > 0) {
-      newsEvents.push(`${playerCandidate.party} adjusts strategy to better align with public opinion.`);
+      const adjustMessages = [
+        `${playerCandidate.party} is improving their strategy to better align with public opinion.`,
+        `${playerCandidate.party} tweaks campaign messaging in response to voter feedback.`,
+        `Analysts note ${playerCandidate.party} is shifting positions to appeal to more voters.`,
+        `${playerCandidate.party} makes clear changes to connect with the electorate.`
+      ];
+      newsEvents.push(adjustMessages[Math.floor(Math.random() * adjustMessages.length)]);
     } else {
-      newsEvents.push(`Mixed voter reaction to ${playerCandidate.party}'s latest policy stance.`);
+      const mixedMessages = [
+        `Mixed voter reaction to ${playerCandidate.party}'s latest policy stance.`,
+        `Public opinion is divided over ${playerCandidate.party}'s recent announcement.`,
+        `Voters express uncertainty about ${playerCandidate.party}'s direction.`,
+        `The electorate remains split on ${playerCandidate.party}'s new proposals.`
+      ];
+      newsEvents.push(mixedMessages[Math.floor(Math.random() * mixedMessages.length)]);
     }
   }
   
