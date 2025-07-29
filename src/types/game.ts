@@ -103,7 +103,7 @@ export const CABINET_POSITIONS: Record<string, CabinetPosition> = {
   "Environment Minister": { importance: 10, max_slots: 1, description: "Handles environmental policy and climate action" },
   "Justice Minister": { importance: 10, max_slots: 1, description: "Oversees legal system and courts" },
   "Transport Minister": { importance: 10, max_slots: 1, description: "Manages transportation infrastructure" },
-  "Junior Minister": { importance: 5, max_slots: 8, description: "Supporting ministerial roles" },
+  "Junior Ministers": { importance: 5, max_slots: 8, description: "Supporting ministerial roles" },
 };
 
 // Game configuration constants

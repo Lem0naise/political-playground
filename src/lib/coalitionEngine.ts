@@ -139,7 +139,7 @@ export function getPartyPriorityPositions(candidate: Candidate): string[] {
   // Map political values to preferred ministries
   // soc_cap (socialist-capitalist): index 3
   if (vals[3] > -30) {
-    priorities.push('Finance Minister', 'Junior Minister');
+    priorities.push('Finance Minister', 'Junior Ministers');
   } else if (vals[3] < 30) {
     priorities.push('Finance Minister', 'Transport Minister');
   }
@@ -165,7 +165,7 @@ export function getPartyPriorityPositions(candidate: Candidate): string[] {
   
   // Default fallback positions
   if (priorities.length === 0) {
-    priorities.push('Junior Minister');
+    priorities.push('Junior Ministers');
   }
   
   return priorities;
@@ -557,7 +557,7 @@ export function autoAllocateUnfilledCabinetPositions(
 ): void {
   for (const [position, details] of Object.entries(CABINET_POSITIONS)) {
     // Skip multi-slot Junior Ministers
-    if (position === 'Junior Minister' && details.max_slots > 1) continue;
+    if (position === 'Junior Ministers' && details.max_slots > 1) continue;
     const allocated = allocations[position] || [];
     const unfilledSlots = details.max_slots - allocated.length;
     if (unfilledSlots > 0) {
