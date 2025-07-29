@@ -265,7 +265,7 @@ export default function PartyMerging() {
         <div className="vintage-border p-3 sm:p-4 mb-4 sm:mb-6" style={{ background: 'var(--newspaper-bg)' }}>
           <div className="space-y-4">
             <div>
-              <label className="block text-md font-bold text-black mb-1 font-mono">New Party Name:</label>
+              <label className="block text-base font-bold text-black mb-1 font-mono">New Party Name:</label>
               <input
                 type="text"
                 value={newPartyName}

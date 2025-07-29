@@ -684,7 +684,7 @@ export default function CoalitionFormation() {
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Coalition Negotiations</h2>
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {aiNegotiationLog.map((log, index) => (
-                  <div key={index} className="text-sm text-slate-700 p-2 bg-slate-100 rounded">
+                  <div key={index} className="text-base text-slate-700 p-2 bg-slate-100 rounded">
                     {log}
                   </div>
                 ))}
