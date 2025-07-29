@@ -101,6 +101,11 @@ export default function PartyMerging() {
     }
   };
 
+  const handleSkipAll = () => {
+    setMergeCandidates(mergeCandidates.slice(mergeCandidates.length));
+    setCurrentMerge(null);
+  }
+
   const handleSkipMerge = () => {
     const remainingCandidates = mergeCandidates.slice(1);
     setMergeCandidates(remainingCandidates);
@@ -166,6 +171,12 @@ export default function PartyMerging() {
             {state.country} PARTY MERGING
           </h1>
           <div className="border-t-2 border-b-2 border-yellow-500 py-1 sm:py-2 my-2">
+             <button
+              onClick={handleSkipAll}
+              className="px-4 sm:px-6 py-2 sm:py-3 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition-colors duration-200 text-sm mb-2"
+            >
+              SKIP ALL MERGERS
+          </button>
             <p className="campaign-status text-sm sm:text-base text-yellow-200">
               MERGER {mergeCandidates.length > 1 ? `1 OF ${mergeCandidates.length}` : 'FINAL'} • SIMILARITY: {(currentMerge.similarityScore * 100).toFixed(0)}%
             </p>
@@ -254,7 +265,7 @@ export default function PartyMerging() {
         <div className="vintage-border p-3 sm:p-4 mb-4 sm:mb-6" style={{ background: 'var(--newspaper-bg)' }}>
           <div className="space-y-4">
             <div>
-              <label className="block text-md font-bold text-black mb-1 font-mono">New Party Name:</label>
+              <label className="block text-base font-bold text-black mb-1 font-mono">New Party Name:</label>
               <input
                 type="text"
                 value={newPartyName}
