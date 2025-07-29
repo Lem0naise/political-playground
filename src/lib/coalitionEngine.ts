@@ -49,18 +49,18 @@ export function calculateCoalitionWillingness(
 
   // Adjust based on lead party's strength
   if (leadPercentage > 40) {
-    baseWillingness += 10; // Attractive to join strong party
+    baseWillingness += 5; // Attractive to join strong party
   } else if (leadPercentage > 30) {
-    baseWillingness += 5;
+    baseWillingness += 2;
   } else {
     baseWillingness -= 10; // Risky to join weak party
   }
   
   // Adjust based on partner's strength
   if (partnerPercentage > 15) {
-    baseWillingness -= 5; // Larger parties are harder to convince
+    baseWillingness -= 20; // Larger parties are harder to convince
   } else if (partnerPercentage < 5) {
-    baseWillingness += 10; // Smaller parties are more willing
+    baseWillingness += 5; // Smaller parties are more willing
   }
   
   // Cabinet position appeal
@@ -137,6 +137,9 @@ export function getPartyPriorityPositions(candidate: Candidate): string[] {
   const vals = candidate.vals;
   
   // Map political values to preferred ministries
+
+  // Every party wants Deputy Prime Minister
+  priorities.push('Deputy Prime Minister')
   // soc_cap (socialist-capitalist): index 3
   if (vals[3] > -30) {
     priorities.push('Finance Minister', 'Junior Ministers');
@@ -313,7 +316,7 @@ export function simulateCoalitionNegotiation(
   if (finalAppeal > 60) {
     return {
       success: true,
-      message: `${partnerParty.party} enthusiastically agrees to join the coalition!`,
+      message: `${partnerParty.party} agrees to join the coalition!`,
       finalAppeal
     };
   } else if (finalAppeal > 40) {

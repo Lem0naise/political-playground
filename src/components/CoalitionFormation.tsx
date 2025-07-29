@@ -25,14 +25,16 @@ interface NegotiationModalProps {
   partnerPercentage: number;
   onComplete: (success: boolean, positions: string[]) => void;
   onCancel: () => void;
+  cabinetAllocations: Record<string, string[]>;
 }
 
-function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPercentage, onComplete, onCancel }: NegotiationModalProps) {
+function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPercentage, onComplete, onCancel , cabinetAllocations}: NegotiationModalProps) {
   const [currentStep, setCurrentStep] = useState<'policy' | 'cabinet' | 'result'>('policy');
   const [policyResponses, setPolicyResponses] = useState<number[]>([]);
   const [offeredPositions, setOfferedPositions] = useState<string[]>([]);
   const [negotiationResult, setNegotiationResult] = useState<any>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
 
   // Generate policy questions
   const policyQuestions = [];
@@ -43,7 +45,8 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
   const question2 = generateCoalitionPolicyQuestion(partnerParty, leadParty);
   if (question2 && question2.topic !== question1?.topic) policyQuestions.push(question2);
 
-  const availablePositions = getAvailableCabinetPositions({});
+  const availablePositions = getAvailableCabinetPositions(cabinetAllocations);
+  
   const priorityPositions = getPartyPriorityPositions(partnerParty);
 
   const handlePolicyResponse = (appeal: number) => {
@@ -120,22 +123,15 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
           </h3>
           
           <div className="mb-6">
-            <h4 className="text-lg font-semibold text-slate-800 mb-3">
-              {partnerParty.party} Priority Positions:
+            <h4 className="text-base font-normal text-slate-800 mb-3">
+              {partnerParty.party}: {Math.round(partnerPercentage*100)/100}%
             </h4>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {priorityPositions.map(pos => (
-                <span key={pos} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                  {pos}
-                </span>
-              ))}
-            </div>
           </div>
 
           <div className="mb-6">
-            <h4 className="text-lg font-semibold text-slate-800 mb-3">Available Positions:</h4>
+            <h4 className="text-lg font-semibold text-slate-800 mb-3">Available Positions with Priorities Highlighted:</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {availablePositions.slice(0, 8).map(position => (
+              {availablePositions.map(position => (
                 <div
                   key={position.name}
                   onClick={() => {
@@ -148,8 +144,11 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
                   className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
                     offeredPositions.includes(position.name)
                       ? 'border-green-500 bg-green-50'
+                      : priorityPositions.includes(position.name) ? 
+                      'border-blue-500 bg-blue-50'
                       : 'border-slate-300 hover:border-slate-400'
-                  }`}
+                  }
+                  `}
                 >
                   <div className="font-medium text-slate-900">{position.name}</div>
                   <div className="text-sm text-slate-600">Importance: {position.importance}</div>
@@ -785,6 +784,7 @@ export default function CoalitionFormation() {
           {/* Detailed Negotiations */}
           {showNegotiationDetails && selectedPartner && (
             <NegotiationModal
+              cabinetAllocations = {coalitionState.cabinetAllocations}
               leadParty={winningParty}
               partnerParty={selectedPartner}
               leadPercentage={winningPercentage}
