@@ -180,7 +180,7 @@ export default function MainMenu() {
           </div>
           
           <p className="text-slate-500 text-xs">
-            All content is simplified for gameplay and should not influence real voting decisions. • <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-300 underline">indigonolan.com</a> • v0.4.3
+            All content is simplified for gameplay and should not influence real voting decisions. • <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-300 underline">indigonolan.com</a> • v0.5.0
           </p>
         </div>
       </div>
