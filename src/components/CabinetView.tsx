@@ -80,13 +80,13 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
       </h2>
       <div className="space-y-2">
         {/* Prime Minister */}
-        <div className={`flex items-center p-3 bg-green-100 border border-green-300 rounded-lg mb-2 font-extrabold text-sm sm:text-xl`}>
+        <div className={`flex items-center p-3 bg-green-100 border border-green-300 rounded-lg mb-2 font-extrabold text-sm sm:text-xl text-left`}>
           <div
             className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-green-700 mr-3"
             style={{ backgroundColor: winningParty.colour }}
           ></div>
-          <span className="font-bold mr-2 text-green-900">Prime Minister:</span>
-          <span className="font-semibold">{winningParty.name} ({winningParty.party})</span>
+          <span className="font-bold mr-2 text-green-900 uppercase">Prime Minister:</span>
+          <span className="font-medium">{winningParty.name} ({winningParty.party})</span>
         </div>
         {/* Deputy Prime Minister (special display only if different party) */}
         {cabinetAllocations['Deputy Prime Minister'] &&
@@ -97,13 +97,13 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
             const deputy = getCandidateByParty(deputyParty);
             if (!deputy) return null;
             return (
-              <div className={`flex items-center p-3 bg-blue-100 border border-blue-300 rounded-lg mb-2 font-bold text-sm sm:text-lg`}>
+              <div className={`flex items-center p-3 bg-blue-100 border border-blue-300 rounded-lg mb-2 font-bold text-sm sm:text-lg text-left`}>
                 <div
                   className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-blue-700 mr-3"
                   style={{ backgroundColor: deputy.colour }}
                 ></div>
-                <span className="font-bold mr-2 text-blue-900">Deputy Prime Minister:</span>
-                <span className="font-semibold">{deputy.name} ({deputy.party})</span>
+                <span className="font-bold mr-2 text-blue-900 uppercase ">Deputy Prime Minister:</span>
+                <span className="font-medium">{deputy.name} ({deputy.party})</span>
               </div>
             );
           })()}
@@ -142,17 +142,31 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
                 key={positions.join(',') + parties.join(',') + idx}
                 className={`flex items-center p-3 bg-slate-100 border border-slate-300 rounded-lg font-bold ${fontSizeClass}`}
               >
-                <span
+                {party && (<span
                     className="w-4 h-4 sm:w-5 sm:h-6 rounded-full border border-slate-600 mr-1 flex-shrink-0 flex-none"
                     style={{ backgroundColor: cand?.colour || '#ccc' }}
-                ></span>
-                <span className="font-bold mr-2 text-left ml-1">
+                ></span>)}
+                {!party && (
+                  <>
+                  {parties.map((p, i) => {
+                    const c = getCandidateByParty(p);
+                    return (
+                      <span
+                        key={p}
+                        className="w-3 h-4 sm:w-4 sm:h-5 rounded-full border border-slate-600 mr-1"
+                        style={{ backgroundColor: c?.colour || '#ccc' }}
+                     ></span>
+                    )
+                  })}
+                  </>
+                )}
+                <span className="font-bold mr-2 text-left ml-1 uppercase">
                   {positions.join(', ')}:
                 </span>
-                <span className="flex items-center">
+                <span className="font-normal">
                   {party && (
                     <>
-                      <span className="font-semibold">{party}</span>
+                      <span className="font-normal">{party}</span>
                     </>
                   )}
                   {!party && (
@@ -160,13 +174,9 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
                       {parties.map((p, i) => {
                         const c = getCandidateByParty(p);
                         return (
-                          <span key={p} className="flex items-center mr-2">
-                            <span
-                              className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-slate-600 mr-1"
-                              style={{ backgroundColor: c?.colour || '#ccc' }}
-                            ></span>
-                            <span className="font-semibold">{p}</span>
-                            {i < parties.length - 1 && <span className="mx-1">,</span>}
+                          <span key={p}>
+                            <span className="font-normal">{p}</span>
+                            {i < parties.length - 1 && <span>{`, `}</span>}
                           </span>
                         );
                       })}
