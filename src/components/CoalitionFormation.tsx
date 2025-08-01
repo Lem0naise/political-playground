@@ -711,7 +711,7 @@ export default function CoalitionFormation() {
                       style={{ backgroundColor: partner.colour }}
                     ></div>
                     <div className="flex-1">
-                      <div className="font-bold text-slate-900">{partner.party}</div>
+                      <div className="font-bold text-slate-900 font-mono">{partner.party}</div>
                       <div className="text-sm text-slate-700">{partner.name}</div>
                       <div className="text-xs text-slate-600">
                         {result?.percentage.toFixed(1)}% of vote
@@ -739,7 +739,7 @@ export default function CoalitionFormation() {
               {coalitionState.isPlayerLead ? 'Choose Coalition Partners' : 'Potential Partners'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {coalitionState.availablePartners.slice(0, 6).map((partner) => {
+              {coalitionState.availablePartners.map((partner) => {
                 const result = sortedResults.find(r => r.candidate.id === partner.id);
                 const compatibility = calculatePartyCompatibility(winningParty, partner);
                 const willingness = calculateCoalitionWillingness(winningParty, partner, winningPercentage, result?.percentage || 0);
@@ -757,13 +757,13 @@ export default function CoalitionFormation() {
                       setShowNegotiationDetails(true);
                     }}
                   >
-                    <div className="flex items-center space-x-3 mb-3">
+                    <div className="flex items-center space-x-3 mb-2">
                       <div 
                         className="w-8 h-8 rounded-full border-2 border-slate-600"
                         style={{ backgroundColor: partner.colour }}
                       ></div>
                       <div className="flex-1">
-                        <div className="font-bold text-slate-900">{partner.party}</div>
+                        <div className="font-bold font-mono text-slate-900">{partner.party}</div>
                         <div className="text-sm text-slate-700">{partner.name}</div>
                         <div className="text-xs text-slate-600">
                           {result?.percentage.toFixed(1)}% of vote
@@ -771,7 +771,7 @@ export default function CoalitionFormation() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-sm space-y-1">
+                    <div className="text-sm space-y-1 font-mono uppercase">
                       <div>Compatibility: <span className={compatibility > 60 ? 'text-green-600' : compatibility > 40 ? 'text-yellow-600' : 'text-red-600'}>{compatibility.toFixed(0)}%</span></div>
                       <div>Willingness: <span className={willingness > 60 ? 'text-green-600' : willingness > 40 ? 'text-yellow-600' : 'text-red-600'}>{willingness.toFixed(0)}%</span></div>
                     </div>

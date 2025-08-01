@@ -332,7 +332,7 @@ export default function ResultsView() {
             <h3 className="text-base sm:text-lg font-bold mb-2">Voter Turnout</h3>
             <p className="text-2xl sm:text-3xl font-bold text-blue-600">{turnout.toFixed(1)}%</p>
             <p className="text-xs sm:text-sm text-gray-600">
-              {formatVotes(totalVotes, state.countryData.scale)} of {state.countryData.pop.toLocaleString()} voters
+              {formatVotes(totalVotes, state.countryData.scale)} of {formatVotes(state.countryData.pop, state.countryData.scale)} voters
             </p>
           </div>
           
