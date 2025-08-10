@@ -153,7 +153,7 @@ export default function PartyMerging() {
             onClick={handleFinish}
             className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 text-sm"
           >
-            🚀 LAUNCH CAMPAIGN
+            CHOOSE YOUR PARTY
           </button>
           <p className="text-slate-300 text-xs mt-4">
             Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 underline transition-colors">Indigo Nolan</a>
