@@ -154,13 +154,84 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...result,
         change: result.percentage - (state.previousPollResults[result.candidate.party] || result.percentage)
       }));
-      
+
+      // --- BEGIN: Add news for all parties with polling surges/drops ---
+      const partyPollingNews: string[] = [];
+      resultsWithChange.forEach(result => {
+
+        const newsTitle = (Math.random() < 0.7 ? result.candidate.party : result.candidate.name )
+        
+    
+        if (Math.random() < 0.6 || (result.candidate === state.playerCandidate)) {
+          if (Math.abs(result.change) > 2.5) {
+              if (result.change > 0) {
+                const surgeMessages = [
+                  `${newsTitle} surges in polls`,
+                  `${newsTitle} enjoys a new wave of support`,
+                  `Polls show a sharp rise for ${newsTitle}`,
+                  `Momentum shifts in favor of ${newsTitle}`
+                ];
+                partyPollingNews.push(surgeMessages[Math.floor(Math.random() * surgeMessages.length)]);
+              } else {
+                const loseMessages = [
+                  `${newsTitle} loses ground following controversial policy`,
+                  `Support for ${newsTitle} drops sharply`,
+                  `Polls decline for ${newsTitle} amid public backlash`,
+                  `${newsTitle} faces harsh criticism `
+                ];
+                partyPollingNews.push(loseMessages[Math.floor(Math.random() * loseMessages.length)]);
+              }
+            } else if (Math.abs(result.change) > 1) {
+              if (result.change > 0) {
+                const steadyMessages = [
+                  `${newsTitle} steadily climbs`,
+                  `${newsTitle} wins local elections`,
+                  `policy platform of ${newsTitle} released`,
+                  `${newsTitle} clear winner in debate`
+                ];
+                partyPollingNews.push(steadyMessages[Math.floor(Math.random() * steadyMessages.length)]);
+              } else {
+                const mixedMessages = [
+                  `Mixed voter reaction to ${newsTitle}'s latest policy`,
+                  `Public opinion divided over ${newsTitle}'s recent announcement`,
+                  `Voters express uncertainty about ${newsTitle}'s direction`,
+                  `The electorate remains split on ${newsTitle}'s new proposals`
+                ];
+                newsEvents.push(mixedMessages[Math.floor(Math.random() * mixedMessages.length)]);
+              }
+            }
+        }
+
+        
+        // Generate news based on polling impact
+  
+
+       
+      });
+      // --- END: Add news for all parties with polling surges/drops ---
+
+      // Combine all news sources into a single array first
+      const allNewsItems = [
+        ...state.playerEventNews, 
+        ...newsEvents, 
+        ...partyPollingNews
+      ];
+
+      // Sort the combined array by word count in ascending order.
+      const sortedPoliticalNews = allNewsItems.sort((a, b) => {
+        if (Math.random() < 0.6) {
+          return (a.split(' ').length - b.split(' ').length);
+        }
+        else { return 1;}
+
+      });
+
       return {
         ...state,
         currentPoll: nextPollNum,
         pollResults: resultsWithChange,
         previousPollResults: newPreviousResults,
-        politicalNews: [...state.playerEventNews, ...newsEvents],
+        politicalNews: sortedPoliticalNews,
         playerEventNews: [],
         phase: nextPollNum >= state.totalPolls ? 'results' : 'campaign'
       };
