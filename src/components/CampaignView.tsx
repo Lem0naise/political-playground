@@ -107,36 +107,37 @@ export default function CampaignView() {
                   BREAKING
                 </div>
                 <h2 className="newspaper-header text-lg sm:text-xl font-black text-slate-900 mb-2 sm:mb-3 mt-2 border-b border-slate-800 pb-1 tracking-tight">
-                  📰 POLITICAL BULLETIN
+                  📰 HEADLINES AROUND THE COUNTRY
                 </h2>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  {/* Headline Story */}
-                  <div className="flex-1">
-                    <div className="border-l-4 border-red-700 pl-3 py-2 mb-2 bg-white/80 rounded shadow newspaper-headline">
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight mb-1 font-serif uppercase">
-                        {state.politicalNews[0]}
-                      </h3>
-                      <div className="text-xs text-slate-500 font-mono uppercase tracking-wide">
-                        Tribune Political Desk • Week {state.currentPoll}
-                      </div>
-                    </div>
-                  </div>
-                  {/* Sub-stories */}
-                  {state.politicalNews.length > 1 && (
-                    <div className="flex-1 flex flex-col gap-2">
-                      {state.politicalNews.slice(1, 3).map((news, idx) => (
-                        <article key={idx} className="border-l-2 border-slate-400 pl-2 py-1 bg-white/60 rounded newspaper-substory">
-                          <h4 className="text-base sm:text-lg font-bold text-slate-800 mb-0.5 font-serif">
-                            {news}
-                          </h4>
-                          <div className="text-xs text-slate-400 font-mono uppercase tracking-wide">
-                            Week {state.currentPoll}
-                          </div>
-                        </article>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  {/* 2. Map over the ENTIRE politicalNews array (up to 7 items) */}
+  {state.politicalNews.slice(0, 7).map((news, idx) => {
+    
+    {/* 3. Check if it's the first item (index === 0) to render the main headline */}
+    if (idx === 0) {
+      return (
+        <div key={idx} className="sm:col-span-2 lg:col-span-2 border-l-4 border-red-700 pl-3 py-2 bg-white/80 rounded shadow">
+          {/* Main headline content */}
+          <h3 className={`${news.split(' ').length > 10 ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-3xl'} font-extrabold text-slate-900 leading-tight mb-1 font-serif uppercase`}>
+            {news}
+          </h3>
+          <div className="text-xs text-slate-500 font-mono uppercase tracking-wide">
+            breaking news • Week {state.currentPoll}
+          </div>
+        </div>
+      );
+    }
+    
+    {/* 4. For all other items, render the smaller sub-story article */}
+    return (
+      <article key={idx} className="border-l-2 border-slate-400 pl-2 py-1 bg-white/60 rounded">
+        <h4 className="text-base sm:text-lg font-bold text-slate-800 mb-0.5 font-serif">
+          {news}
+        </h4>
+      </article>
+    );
+  })}
+</div>
               </div>
             )}
 

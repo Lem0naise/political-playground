@@ -162,7 +162,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         const newsTitle = (Math.random() < 0.7 ? result.candidate.party : result.candidate.name )
         
     
-        if (Math.random() < 0.6 || (result.candidate === state.playerCandidate)) {
+        if (Math.random() < 0.4 || (result.candidate === state.playerCandidate)) {
           if (Math.abs(result.change) > 2.5) {
               if (result.change > 0) {
                 const surgeMessages = [
