@@ -673,7 +673,7 @@ else { // If alignment change is negative, away from the voters
         }
       } else {
         if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Libertarian Push Criticized as 'Recipe for Chaos'`);
+          voterPreferenceAnalysis.push(`Think Tank: ${nameChoice}'s Libertarian Push Is 'Recipe for Chaos'`);
         } else {
           voterPreferenceAnalysis.push(`Voters Question if ${nameChoice}'s 'Freedom' Agenda is Practical`);
         }

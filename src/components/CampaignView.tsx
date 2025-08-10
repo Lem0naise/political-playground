@@ -162,7 +162,7 @@ export default function CampaignView() {
                     onClick={actions.nextPoll}
                     className="px-6 sm:px-8 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
                   >
-                    {state.currentPoll === state.totalPolls - 1 ? '📊 FINAL POLLING' : '📊 NEXT POLL'}
+                    {state.currentPoll === state.totalPolls - 1 ? '📊 FINAL POLLING' : '📊 CONTINUE'}
                   </button>
                 )}
               </div>

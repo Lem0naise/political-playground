@@ -74,6 +74,7 @@ export default function PlayerSelection() {
 
     console.log(state.candidates);
     setShowCreator(false);
+    setCreating(false);
   };
 
   return (
