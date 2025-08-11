@@ -167,35 +167,42 @@ function gameReducer(state: GameState, action: GameAction): GameState {
               if (result.change > 0) {
                 const surgeMessages = [
                   `${newsTitle} surges in polls`,
-                  `${newsTitle} enjoys a new wave of support`,
-                  `Polls show a sharp rise for ${newsTitle}`,
-                  `Momentum shifts in favor of ${newsTitle}`
+                  `${newsTitle} enjoys new wave of support`,
+                  `Polls show sharp rise for ${newsTitle}`,
+                  `Momentum shifts to ${newsTitle}`,
+                  `${newsTitle} gaining ground`,
+                  `Is ${newsTitle} the new people's party?`
+
                 ];
                 partyPollingNews.push(surgeMessages[Math.floor(Math.random() * surgeMessages.length)]);
               } else {
                 const loseMessages = [
-                  `${newsTitle} loses ground following controversial policy`,
+                  `${newsTitle} loses ground following controversy`,
                   `Support for ${newsTitle} drops sharply`,
                   `Polls decline for ${newsTitle} amid public backlash`,
-                  `${newsTitle} faces harsh criticism `
+                  `${newsTitle} faces harsh criticism`,
+                  `Polls plummet for ${newsTitle}`
                 ];
                 partyPollingNews.push(loseMessages[Math.floor(Math.random() * loseMessages.length)]);
               }
             } else if (Math.abs(result.change) > 1) {
               if (result.change > 0) {
                 const steadyMessages = [
-                  `${newsTitle} steadily climbs`,
+                  `${newsTitle} climbing as unemployment rises`,
                   `${newsTitle} wins local elections`,
-                  `policy platform of ${newsTitle} released`,
-                  `${newsTitle} clear winner in debate`
+                  `Popular policy platform of ${newsTitle} released`,
+                  `${newsTitle} clear winner in debate`,
+                  `${newsTitle} sees steady rise in local support`,
+                  `The UN endorses ${newsTitle}'s policy platform`
                 ];
                 partyPollingNews.push(steadyMessages[Math.floor(Math.random() * steadyMessages.length)]);
               } else {
                 const mixedMessages = [
-                  `Mixed voter reaction to ${newsTitle}'s latest policy`,
-                  `Public opinion divided over ${newsTitle}'s recent announcement`,
+                  `Mixed pundit reaction to ${newsTitle}`,
+                  `Support slipping for ${newsTitle}`,
+                  `Public opinion divided over ${newsTitle}`,
                   `Voters express uncertainty about ${newsTitle}'s direction`,
-                  `The electorate remains split on ${newsTitle}'s new proposals`
+                  `The UN slams ${newsTitle}'s new proposal`
                 ];
                 newsEvents.push(mixedMessages[Math.floor(Math.random() * mixedMessages.length)]);
               }

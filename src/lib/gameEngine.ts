@@ -509,32 +509,35 @@ export function applyEventEffect(
             switch (valueKey) {
               case "soc_cap":
                 if (voterPosition > playerOldPosition) {
-                  if (Math.random() < 0.5) {
-                    voterPreferenceAnalysis.push(`${nameChoice}'s Pro-Business Stance Boosts Voter Confidence`);
-                  } else {
-                    voterPreferenceAnalysis.push(`Voters Applaud ${nameChoice}'s Economic Growth Agenda`);
-                  }
+                  const votPrefNews = [
+                    `${nameChoice}'s Pro-Business Stance Boosts Voter Confidence`,
+                    `Voters Applaud ${nameChoice}'s Economic Growth Agenda`
+                  ]                   
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
                 } else {
-                  if (Math.random() < 0.5) {
-                    voterPreferenceAnalysis.push(`${nameChoice}'s Social Spending Push Resonates with Voters`);
-                  } else {
-                    voterPreferenceAnalysis.push(`Public Backs ${nameChoice}'s Vision for a Fairer Society`);
-                  }
+                  const votPrefNews = [
+                    `${nameChoice}'s Social Spending Push Resonates with Voters`,
+                    `Public Backs ${nameChoice}'s Vision for a Fairer Society`
+                  ]                   
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                  
                 }
                 break;
               case "prog_cons":
                 if (voterPosition > playerOldPosition) {
-                  if (Math.random() < 0.5) {
-                    voterPreferenceAnalysis.push(`Voters Rally Around ${nameChoice}'s Traditional Values Platform`);
-                  } else {
-                    voterPreferenceAnalysis.push(`${nameChoice}'s 'Moral Foundation' Message Strikes a Chord`);
-                  }
+                  const votPrefNews = [
+                    `Voters Rally Around ${nameChoice}'s Traditional Values Platform`,
+                    `${nameChoice}'s 'Moral Foundation' Message Strikes a Chord`
+                  ]                   
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                  
                 } else {
-                  if (Math.random() < 0.5) {
-                    voterPreferenceAnalysis.push(`${nameChoice}'s Progressive Reforms Lauded as 'Forward-Thinking'`);
-                  } else {
-                    voterPreferenceAnalysis.push(`Voters Embrace ${nameChoice}'s Push for an Inclusive Society`);
-                  }
+                  const votPrefNews = [
+                    `${nameChoice}'s Progressive Reforms Lauded as 'Forward-Thinking'`,
+                    `Voters Embrace ${nameChoice}'s Push for an Inclusive Society`
+                  ]                   
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                
                 }
                 break;
               case "env_eco":
