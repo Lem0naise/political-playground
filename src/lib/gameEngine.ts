@@ -450,273 +450,6 @@ export function applyEventEffect(
   
   const voterPreferenceAnalysis: string[] = [];
   
-  for (const [valueKey, change] of Object.entries(effect)) {
-    if (valueKey in countryData.vals && change !== undefined) {
-      const voterPosition = countryData.vals[valueKey as keyof PoliticalValues];
-      
-      // Find player's CURRENT position on this issue
-      const valueIndex = VALUES.indexOf(valueKey as any);
-      if (valueIndex !== -1) {
-        const playerOldPosition = playerCandidate.vals[valueIndex];
-        const playerNewPosition = Math.max(-100, Math.min(100, playerOldPosition + change));
-        
-        // Calculate how much closer/further this moves player to voter center
-        const distanceBefore = Math.abs(voterPosition - playerOldPosition);
-        const distanceAfter = Math.abs(voterPosition - playerNewPosition);
-        const alignmentChange = distanceBefore - distanceAfter;
-        voterAlignment += alignmentChange;
-        
-        if (DEBUG) {
-          console.log(`DEBUG: ${valueKey}: voter=${voterPosition}, old=${playerOldPosition}, new=${playerNewPosition}`);
-          console.log(`DEBUG: distance_before=${distanceBefore}, distance_after=${distanceAfter}, alignment_change=${alignmentChange}`);
-        }
-        
-        // Analyze voter preference trends for news
-        if (Math.abs(change) >= 5) { // this is an absolute number from -100 to 100 of the change of the corresponding value
-          if (alignmentChange > 0) { // Moving closer to voter preference
-  const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
-  
-  switch (valueKey) {
-    case "soc_cap":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Pro-Business Stance Boosts Voter Confidence`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Applaud ${nameChoice}'s Economic Growth Agenda`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Social Spending Push Resonates with Voters`);
-        } else {
-          voterPreferenceAnalysis.push(`Public Backs ${nameChoice}'s Vision for a Fairer Society`);
-        }
-      }
-      break;
-    case "prog_cons":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Voters Rally Around ${nameChoice}'s Traditional Values Platform`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice}'s 'Moral Foundation' Message Strikes a Chord`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Progressive Reforms Lauded as 'Forward-Thinking'`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Embrace ${nameChoice}'s Push for an Inclusive Society`);
-        }
-      }
-      break;
-    case "env_eco":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Green Policies Hailed as Key to Sustainable Future`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Support ${nameChoice}'s Strong Stance on Environment`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Pro-Development Focus Promises Prosperity`);
-        } else {
-          voterPreferenceAnalysis.push(`Economic Development a Winning Issue for ${nameChoice}, Say Voters`);
-        }
-      }
-      break;
-    case "nat_glob":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`'Nation-First' Agenda from ${nameChoice} Gains Traction`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Back ${nameChoice}'s 'Domestic First' Approach`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Global Cooperation Stance Seen as Essential`);
-        } else {
-          voterPreferenceAnalysis.push(`Support Grows for ${nameChoice}'s Internationalist Vision`);
-        }
-      }
-      break;
-    case "pac_mil":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Voters Back ${nameChoice}'s Call for Stronger National Defense`);
-        } else {
-          voterPreferenceAnalysis.push(`Public Support Grows for ${nameChoice}'s Military Readiness Push`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Peace-First Policy by ${nameChoice} Earns Widespread Praise`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters See ${nameChoice}'s Diplomacy Push as Path to Stability`);
-        }
-      }
-      break;
-    case "auth_ana":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Law-and-Order Platform Resonates in Polls`);
-        } else {
-          voterPreferenceAnalysis.push(`Public Backs ${nameChoice}'s Pledge for Safer Communities`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`'Individual Freedom' a Rallying Cry for ${nameChoice}'s Supporters`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Libertarian Stance Energizes Voter Base`);
-        }
-      }
-      break;
-    case "rel_sec":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Emphasis on Faith and Values Connects with Voters`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Applaud ${nameChoice}'s Focus on a Moral Compass`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Support for Secular Governance Grows with ${nameChoice}'s Policies`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Inclusive Stance Wins Favor with Secular Voters`);
-        }
-      }
-      break;
-      // Add more cases as needed
-  }
-}
-else { // If alignment change is negative, away from the voters
-  const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
-  
-  switch (valueKey) {
-    case "soc_cap":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice} Under Fire for Being 'Too Pro-Business'`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Say ${nameChoice} Favors Big Business Over Workers`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Spending Plans Raise Economic Red Flags`);
-        } else {
-          voterPreferenceAnalysis.push(`Critics Blast ${nameChoice}'s Spending Push as 'Reckless'`);
-        }
-      }
-      break;
-    case "prog_cons":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Traditional Values Message Seen as 'Out of Touch'`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Skeptical of ${nameChoice}'s Conservative Pivot`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Backlash Grows Against ${nameChoice}'s Progressive Reforms`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice} Accused of Pushing 'Too Much, Too Fast' on Social Change`);
-        }
-      }
-      break;
-    case "env_eco":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Green Agenda Slammed as 'Job-Killer'`);
-        } else {
-          voterPreferenceAnalysis.push(`Critics Warn ${nameChoice}'s Eco-Policies Will Harm Economy`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice} Criticized for Prioritizing Economy Over Environment`);
-        } else {
-          voterPreferenceAnalysis.push(`Environmental Groups Denounce ${nameChoice}'s 'Development-First' Stance`);
-        }
-      }
-      break;
-    case "nat_glob":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s 'Nation-First' Rhetoric Sparks Isolationism Fears`);
-        } else {
-          voterPreferenceAnalysis.push(`Critics Warn ${nameChoice}'s Nationalism Risks Global Standing`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice} Attacked for 'Globalist' Agenda, Undermining Sovereignty`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Fear ${nameChoice} Puts Global Interests Before National Ones`);
-        }
-      }
-      break;
-    case "pac_mil":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Critics Label ${nameChoice}'s Defense Stance as 'Warmongering'`);
-        } else {
-          voterPreferenceAnalysis.push(`Fears of Conflict Escalate Over ${nameChoice}'s Hawkish Tone`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Peace Advocacy Slammed as 'Naive' and 'Weak'`);
-        } else {
-          voterPreferenceAnalysis.push(`National Security Concerns Rise Over ${nameChoice}'s Pacifist Stance`);
-        }
-      }
-      break;
-    case "auth_ana":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Civil Liberties Fears Mount Over ${nameChoice}'s 'Law-and-Order' Platform`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice} Accused of 'Authoritarian Creep' by Critics`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Think Tank: ${nameChoice}'s Libertarian Push Is 'Recipe for Chaos'`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Question if ${nameChoice}'s 'Freedom' Agenda is Practical`);
-        }
-      }
-      break;
-    case "rel_sec":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice} Faces Backlash for Blurring Line Between Church and State`);
-        } else {
-          voterPreferenceAnalysis.push(`Critics: ${nameChoice}'s Religious Focus Alienates Voters`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Secular Stance Sparks Outcry from Religious Groups`);
-        } else {
-          voterPreferenceAnalysis.push(`Faith Communities Feel 'Sidelined' by ${nameChoice}'s Policies`);
-        }
-      }
-      break;
-      // Add more cases as needed
-  }
-}
-        }
-      }
-    }
-  }
-  
-  // NOW apply the changes to the candidate
-  for (let i = 0; i < VALUES.length; i++) {
-    const valueKey = VALUES[i];
-    if (valueKey in effect && effect[valueKey] !== undefined) {
-      const oldVal = playerCandidate.vals[i];
-      playerCandidate.vals[i] += effect[valueKey]!;
-      // Clamp values to valid range
-      playerCandidate.vals[i] = Math.max(-100, Math.min(100, playerCandidate.vals[i]));
-      
-      if (DEBUG) {
-        console.log(`DEBUG: Changed ${valueKey} from ${oldVal} to ${playerCandidate.vals[i]}`);
-      }
-    }
-  }
-  
   // Convert voter alignment to polling change
   const baseChange = voterAlignment / 30.0;
   let pollingChange = baseChange * (boost / 12.0);
@@ -745,6 +478,275 @@ else { // If alignment change is negative, away from the voters
   } else if (playerCandidate.party_pop < -50) {
     playerCandidate.party_pop = -50;
   }
+
+  for (const [valueKey, change] of Object.entries(effect)) {
+    if (valueKey in countryData.vals && change !== undefined) {
+      const voterPosition = countryData.vals[valueKey as keyof PoliticalValues];
+      
+      // Find player's CURRENT position on this issue
+      const valueIndex = VALUES.indexOf(valueKey as any);
+      if (valueIndex !== -1) {
+        const playerOldPosition = playerCandidate.vals[valueIndex];
+        const playerNewPosition = Math.max(-100, Math.min(100, playerOldPosition + change));
+        
+        // Calculate how much closer/further this moves player to voter center
+        const distanceBefore = Math.abs(voterPosition - playerOldPosition);
+        const distanceAfter = Math.abs(voterPosition - playerNewPosition);
+        const alignmentChange = distanceBefore - distanceAfter;
+        voterAlignment += alignmentChange;
+        
+        if (DEBUG) {
+          console.log(`DEBUG: ${valueKey}: voter=${voterPosition}, old=${playerOldPosition}, new=${playerNewPosition}`);
+          console.log(`DEBUG: distance_before=${distanceBefore}, distance_after=${distanceAfter}, alignment_change=${alignmentChange}`);
+        }
+        
+       
+
+        // Analyze voter preference trends for news
+        if (Math.abs(change) >= 5 && Math.random() < 0.8) { // this is an absolute number from -100 to 100 of the change of the corresponding value
+          if (alignmentChange > 0) { // Moving closer to voter preference
+            const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;  
+            switch (valueKey) {
+              case "soc_cap":
+                if (voterPosition > playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Pro-Business Stance Boosts Voter Confidence`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Applaud ${nameChoice}'s Economic Growth Agenda`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Social Spending Push Resonates with Voters`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Public Backs ${nameChoice}'s Vision for a Fairer Society`);
+                  }
+                }
+                break;
+              case "prog_cons":
+                if (voterPosition > playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`Voters Rally Around ${nameChoice}'s Traditional Values Platform`);
+                  } else {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s 'Moral Foundation' Message Strikes a Chord`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Progressive Reforms Lauded as 'Forward-Thinking'`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Embrace ${nameChoice}'s Push for an Inclusive Society`);
+                  }
+                }
+                break;
+              case "env_eco":
+                if (voterPosition < playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Green Policies Hailed as Key to Sustainable Future`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Support ${nameChoice}'s Strong Stance on Environment`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Pro-Development Focus Promises Prosperity`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Economic Development a Winning Issue for ${nameChoice}, Say Voters`);
+                  }
+                }
+                break;
+              case "nat_glob":
+                if (voterPosition < playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`'Nation-First' Agenda from ${nameChoice} Gains Traction`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Back ${nameChoice}'s 'Domestic First' Approach`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Global Cooperation Stance Seen as Essential`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Support Grows for ${nameChoice}'s Internationalist Vision`);
+                  }
+                }
+                break;
+              case "pac_mil":
+                if (voterPosition > playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`Voters Back ${nameChoice}'s Call for Stronger National Defense`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Public Support Grows for ${nameChoice}'s Military Readiness Push`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`Peace-First Policy by ${nameChoice} Earns Widespread Praise`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters See ${nameChoice}'s Diplomacy Push as Path to Stability`);
+                  }
+                }
+                break;
+              case "auth_ana":
+                if (voterPosition < playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Law-and-Order Platform Resonates in Polls`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Public Backs ${nameChoice}'s Pledge for Safer Communities`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`'Individual Freedom' a Rallying Cry for ${nameChoice}'s Supporters`);
+                  } else {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Libertarian Stance Energizes Voter Base`);
+                  }
+                }
+                break;
+              case "rel_sec":
+                if (voterPosition < playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Emphasis on Faith and Values Connects with Voters`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Applaud ${nameChoice}'s Focus on a Moral Compass`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`Support for Secular Governance Grows with ${nameChoice}'s Policies`);
+                  } else {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Inclusive Stance Wins Favor with Secular Voters`);
+                  }
+                }
+                break;
+                // Add more cases as needed
+            }
+          }
+          else { // If alignment change is negative, away from the voters
+            const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
+            
+            switch (valueKey) {
+              case "soc_cap":
+                if (voterPosition < playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice} Under Fire for Being 'Too Pro-Business'`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Say ${nameChoice} Favors Big Business Over Workers`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Spending Plans Raise Economic Red Flags`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Critics Blast ${nameChoice}'s Spending Push as 'Reckless'`);
+                  }
+                }
+                break;
+              case "prog_cons":
+                if (voterPosition < playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Traditional Values Message Seen as 'Out of Touch'`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Skeptical of ${nameChoice}'s Conservative Pivot`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`Backlash Grows Against ${nameChoice}'s Progressive Reforms`);
+                  } else {
+                    voterPreferenceAnalysis.push(`${nameChoice} Accused of Pushing 'Too Much, Too Fast' on Social Change`);
+                  }
+                }
+                break;
+              case "env_eco":
+                if (voterPosition > playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Green Agenda Slammed as 'Job-Killer'`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Critics Warn ${nameChoice}'s Eco-Policies Will Harm Economy`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice} Criticized for Prioritizing Economy Over Environment`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Environmental Groups Denounce ${nameChoice}'s 'Development-First' Stance`);
+                  }
+                }
+                break;
+              case "nat_glob":
+                if (voterPosition > playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s 'Nation-First' Rhetoric Sparks Isolationism Fears`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Critics Warn ${nameChoice}'s Nationalism Risks Global Standing`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice} Attacked for 'Globalist' Agenda, Undermining Sovereignty`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Fear ${nameChoice} Puts Global Interests Before National Ones`);
+                  }
+                }
+                break;
+              case "pac_mil":
+                if (voterPosition < playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`Critics Label ${nameChoice}'s Defense Stance as 'Warmongering'`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Fears of Conflict Escalate Over ${nameChoice}'s Hawkish Tone`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Peace Advocacy Slammed as 'Naive' and 'Weak'`);
+                  } else {
+                    voterPreferenceAnalysis.push(`National Security Concerns Rise Over ${nameChoice}'s Pacifist Stance`);
+                  }
+                }
+                break;
+              case "auth_ana":
+                if (voterPosition > playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`Civil Liberties Fears Mount Over ${nameChoice}'s 'Law-and-Order' Platform`);
+                  } else {
+                    voterPreferenceAnalysis.push(`${nameChoice} Accused of 'Authoritarian Creep' by Critics`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`Think Tank: ${nameChoice}'s Libertarian Push Is 'Recipe for Chaos'`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Voters Question if ${nameChoice}'s 'Freedom' Agenda is Practical`);
+                  }
+                }
+                break;
+              case "rel_sec":
+                if (voterPosition > playerOldPosition) {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice} Faces Backlash for Blurring Line Between Church and State`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Critics: ${nameChoice}'s Religious Focus Alienates Voters`);
+                  }
+                } else {
+                  if (Math.random() < 0.5) {
+                    voterPreferenceAnalysis.push(`${nameChoice}'s Secular Stance Sparks Outcry from Religious Groups`);
+                  } else {
+                    voterPreferenceAnalysis.push(`Faith Communities Feel 'Sidelined' by ${nameChoice}'s Policies`);
+                  }
+                }
+                break;
+                // Add more cases as needed
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // NOW apply the changes to the candidate
+  for (let i = 0; i < VALUES.length; i++) {
+    const valueKey = VALUES[i];
+    if (valueKey in effect && effect[valueKey] !== undefined) {
+      const oldVal = playerCandidate.vals[i];
+      playerCandidate.vals[i] += effect[valueKey]!;
+      // Clamp values to valid range
+      playerCandidate.vals[i] = Math.max(-100, Math.min(100, playerCandidate.vals[i]));
+      
+      if (DEBUG) {
+        console.log(`DEBUG: Changed ${valueKey} from ${oldVal} to ${playerCandidate.vals[i]}`);
+      }
+    }
+  }
+  
   
   // Generate news based on voter preference analysis
   if (voterPreferenceAnalysis.length > 0) {
