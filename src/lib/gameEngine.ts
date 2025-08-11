@@ -450,273 +450,6 @@ export function applyEventEffect(
   
   const voterPreferenceAnalysis: string[] = [];
   
-  for (const [valueKey, change] of Object.entries(effect)) {
-    if (valueKey in countryData.vals && change !== undefined) {
-      const voterPosition = countryData.vals[valueKey as keyof PoliticalValues];
-      
-      // Find player's CURRENT position on this issue
-      const valueIndex = VALUES.indexOf(valueKey as any);
-      if (valueIndex !== -1) {
-        const playerOldPosition = playerCandidate.vals[valueIndex];
-        const playerNewPosition = Math.max(-100, Math.min(100, playerOldPosition + change));
-        
-        // Calculate how much closer/further this moves player to voter center
-        const distanceBefore = Math.abs(voterPosition - playerOldPosition);
-        const distanceAfter = Math.abs(voterPosition - playerNewPosition);
-        const alignmentChange = distanceBefore - distanceAfter;
-        voterAlignment += alignmentChange;
-        
-        if (DEBUG) {
-          console.log(`DEBUG: ${valueKey}: voter=${voterPosition}, old=${playerOldPosition}, new=${playerNewPosition}`);
-          console.log(`DEBUG: distance_before=${distanceBefore}, distance_after=${distanceAfter}, alignment_change=${alignmentChange}`);
-        }
-        
-        // Analyze voter preference trends for news
-        if (Math.abs(change) >= 5) { // this is an absolute number from -100 to 100 of the change of the corresponding value
-          if (alignmentChange > 0) { // Moving closer to voter preference
-  const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
-  
-  switch (valueKey) {
-    case "soc_cap":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Pro-Business Stance Boosts Voter Confidence`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Applaud ${nameChoice}'s Economic Growth Agenda`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Social Spending Push Resonates with Voters`);
-        } else {
-          voterPreferenceAnalysis.push(`Public Backs ${nameChoice}'s Vision for a Fairer Society`);
-        }
-      }
-      break;
-    case "prog_cons":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Voters Rally Around ${nameChoice}'s Traditional Values Platform`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice}'s 'Moral Foundation' Message Strikes a Chord`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Progressive Reforms Lauded as 'Forward-Thinking'`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Embrace ${nameChoice}'s Push for an Inclusive Society`);
-        }
-      }
-      break;
-    case "env_eco":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Green Policies Hailed as Key to Sustainable Future`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Support ${nameChoice}'s Strong Stance on Environment`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Pro-Development Focus Promises Prosperity`);
-        } else {
-          voterPreferenceAnalysis.push(`Economic Development a Winning Issue for ${nameChoice}, Say Voters`);
-        }
-      }
-      break;
-    case "nat_glob":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`'Nation-First' Agenda from ${nameChoice} Gains Traction`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Back ${nameChoice}'s 'Domestic First' Approach`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Global Cooperation Stance Seen as Essential`);
-        } else {
-          voterPreferenceAnalysis.push(`Support Grows for ${nameChoice}'s Internationalist Vision`);
-        }
-      }
-      break;
-    case "pac_mil":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Voters Back ${nameChoice}'s Call for Stronger National Defense`);
-        } else {
-          voterPreferenceAnalysis.push(`Public Support Grows for ${nameChoice}'s Military Readiness Push`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Peace-First Policy by ${nameChoice} Earns Widespread Praise`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters See ${nameChoice}'s Diplomacy Push as Path to Stability`);
-        }
-      }
-      break;
-    case "auth_ana":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Law-and-Order Platform Resonates in Polls`);
-        } else {
-          voterPreferenceAnalysis.push(`Public Backs ${nameChoice}'s Pledge for Safer Communities`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`'Individual Freedom' a Rallying Cry for ${nameChoice}'s Supporters`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Libertarian Stance Energizes Voter Base`);
-        }
-      }
-      break;
-    case "rel_sec":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Emphasis on Faith and Values Connects with Voters`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Applaud ${nameChoice}'s Focus on a Moral Compass`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Support for Secular Governance Grows with ${nameChoice}'s Policies`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Inclusive Stance Wins Favor with Secular Voters`);
-        }
-      }
-      break;
-      // Add more cases as needed
-  }
-}
-else { // If alignment change is negative, away from the voters
-  const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
-  
-  switch (valueKey) {
-    case "soc_cap":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice} Under Fire for Being 'Too Pro-Business'`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Say ${nameChoice} Favors Big Business Over Workers`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Spending Plans Raise Economic Red Flags`);
-        } else {
-          voterPreferenceAnalysis.push(`Critics Blast ${nameChoice}'s Spending Push as 'Reckless'`);
-        }
-      }
-      break;
-    case "prog_cons":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Traditional Values Message Seen as 'Out of Touch'`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Skeptical of ${nameChoice}'s Conservative Pivot`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Backlash Grows Against ${nameChoice}'s Progressive Reforms`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice} Accused of Pushing 'Too Much, Too Fast' on Social Change`);
-        }
-      }
-      break;
-    case "env_eco":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Green Agenda Slammed as 'Job-Killer'`);
-        } else {
-          voterPreferenceAnalysis.push(`Critics Warn ${nameChoice}'s Eco-Policies Will Harm Economy`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice} Criticized for Prioritizing Economy Over Environment`);
-        } else {
-          voterPreferenceAnalysis.push(`Environmental Groups Denounce ${nameChoice}'s 'Development-First' Stance`);
-        }
-      }
-      break;
-    case "nat_glob":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s 'Nation-First' Rhetoric Sparks Isolationism Fears`);
-        } else {
-          voterPreferenceAnalysis.push(`Critics Warn ${nameChoice}'s Nationalism Risks Global Standing`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice} Attacked for 'Globalist' Agenda, Undermining Sovereignty`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Fear ${nameChoice} Puts Global Interests Before National Ones`);
-        }
-      }
-      break;
-    case "pac_mil":
-      if (voterPosition < playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Critics Label ${nameChoice}'s Defense Stance as 'Warmongering'`);
-        } else {
-          voterPreferenceAnalysis.push(`Fears of Conflict Escalate Over ${nameChoice}'s Hawkish Tone`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Peace Advocacy Slammed as 'Naive' and 'Weak'`);
-        } else {
-          voterPreferenceAnalysis.push(`National Security Concerns Rise Over ${nameChoice}'s Pacifist Stance`);
-        }
-      }
-      break;
-    case "auth_ana":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Civil Liberties Fears Mount Over ${nameChoice}'s 'Law-and-Order' Platform`);
-        } else {
-          voterPreferenceAnalysis.push(`${nameChoice} Accused of 'Authoritarian Creep' by Critics`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`Think Tank: ${nameChoice}'s Libertarian Push Is 'Recipe for Chaos'`);
-        } else {
-          voterPreferenceAnalysis.push(`Voters Question if ${nameChoice}'s 'Freedom' Agenda is Practical`);
-        }
-      }
-      break;
-    case "rel_sec":
-      if (voterPosition > playerOldPosition) {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice} Faces Backlash for Blurring Line Between Church and State`);
-        } else {
-          voterPreferenceAnalysis.push(`Critics: ${nameChoice}'s Religious Focus Alienates Voters`);
-        }
-      } else {
-        if (Math.random() < 0.5) {
-          voterPreferenceAnalysis.push(`${nameChoice}'s Secular Stance Sparks Outcry from Religious Groups`);
-        } else {
-          voterPreferenceAnalysis.push(`Faith Communities Feel 'Sidelined' by ${nameChoice}'s Policies`);
-        }
-      }
-      break;
-      // Add more cases as needed
-  }
-}
-        }
-      }
-    }
-  }
-  
-  // NOW apply the changes to the candidate
-  for (let i = 0; i < VALUES.length; i++) {
-    const valueKey = VALUES[i];
-    if (valueKey in effect && effect[valueKey] !== undefined) {
-      const oldVal = playerCandidate.vals[i];
-      playerCandidate.vals[i] += effect[valueKey]!;
-      // Clamp values to valid range
-      playerCandidate.vals[i] = Math.max(-100, Math.min(100, playerCandidate.vals[i]));
-      
-      if (DEBUG) {
-        console.log(`DEBUG: Changed ${valueKey} from ${oldVal} to ${playerCandidate.vals[i]}`);
-      }
-    }
-  }
-  
   // Convert voter alignment to polling change
   const baseChange = voterAlignment / 30.0;
   let pollingChange = baseChange * (boost / 12.0);
@@ -745,6 +478,519 @@ else { // If alignment change is negative, away from the voters
   } else if (playerCandidate.party_pop < -50) {
     playerCandidate.party_pop = -50;
   }
+
+  for (const [valueKey, change] of Object.entries(effect)) {
+    if (valueKey in countryData.vals && change !== undefined) {
+      const voterPosition = countryData.vals[valueKey as keyof PoliticalValues];
+      
+      // Find player's CURRENT position on this issue
+      const valueIndex = VALUES.indexOf(valueKey as any);
+      if (valueIndex !== -1) {
+        const playerOldPosition = playerCandidate.vals[valueIndex];
+        const playerNewPosition = Math.max(-100, Math.min(100, playerOldPosition + change));
+        
+        // Calculate how much closer/further this moves player to voter center
+        const distanceBefore = Math.abs(voterPosition - playerOldPosition);
+        const distanceAfter = Math.abs(voterPosition - playerNewPosition);
+        const alignmentChange = distanceBefore - distanceAfter;
+        voterAlignment += alignmentChange;
+        
+        if (DEBUG) {
+          console.log(`DEBUG: ${valueKey}: voter=${voterPosition}, old=${playerOldPosition}, new=${playerNewPosition}`);
+          console.log(`DEBUG: distance_before=${distanceBefore}, distance_after=${distanceAfter}, alignment_change=${alignmentChange}`);
+        }
+        
+       
+
+        // Analyze voter preference trends for news
+        if (Math.abs(change) >= 5 && Math.random() < 0.8) { // this is an absolute number from -100 to 100 of the change of the corresponding value
+          if (alignmentChange > 0) { // Moving closer to voter preference
+            const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;  
+            switch (valueKey) {
+              case "soc_cap":
+                if (voterPosition > playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice}'s Pro-Business Stance Boosts Voter Confidence`,
+                    `Voters Applaud ${nameChoice}'s Economic Growth Agenda`,
+                    `${nameChoice} Declares: 'Let the Market Decide!'`,
+                    `Wall Street Cheers as ${nameChoice} Slashes Red Tape`,
+                    `Big Business Backs ${nameChoice}—But What About Workers?`,
+                    `Critics Warn: ${nameChoice}'s Tax Cuts Only Help the Top 1%`,
+                    `${nameChoice} Touts 'Trickle-Down'—Skeptics See Empty Promises`,
+                    `Small Businesses Left Behind in ${nameChoice}'s Corporate Bonanza`,
+                    `Stock Market Soars, Wages Stagnate Under ${nameChoice}'s Watch`,
+                    `${nameChoice} Rolls Out Red Carpet for Billionaires`,
+                    `Main Street or Wall Street? ${nameChoice} Makes Their Choice Clear`,
+                    `Analysts: ${nameChoice}'s Deregulation a Gift to Polluters and Profiteers`,
+                    `Workers Demand Fair Share as ${nameChoice} Celebrates CEO Bonuses`,
+                    `Is ${nameChoice} Building Prosperity or Just Profits?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice}'s Social Spending Push Resonates with Voters`,
+                    `Public Backs ${nameChoice}'s Vision for a Fairer Society`,
+                    `${nameChoice} Promises 'Healthcare for All'—Crowds Erupt in Cheers`,
+                    `Universal Childcare Plan from ${nameChoice} Draws Widespread Support`,
+                    `'No One Left Behind': ${nameChoice} Unveils Ambitious Welfare Expansion`,
+                    `Critics Call ${nameChoice}'s Tax-the-Rich Plan a 'Bold Step for Justice'`,
+                    `Voters Rally as ${nameChoice} Pledges to End Poverty Wages`,
+                    `${nameChoice} Champions Free College—Youth Turn Out in Record Numbers`,
+                    `Big Pharma on Notice as ${nameChoice} Demands Drug Price Controls`,
+                    `'People Over Profits': ${nameChoice} Doubles Down on Social Safety Net`,
+                    `Analysts: ${nameChoice}'s Redistribution Plan Could Reshape the Economy`,
+                    `Opponents Warn of 'Runaway Spending' as ${nameChoice} Pushes New Benefits`,
+                    `Support Surges for ${nameChoice}'s Promise of Affordable Housing for All`,
+                    `Is ${nameChoice} Sparking a New Era of Economic Fairness?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "prog_cons":
+                if (voterPosition > playerOldPosition) {
+                  const votPrefNews = [
+                    `Voters Rally Around ${nameChoice}'s Traditional Values Platform`,
+                    `${nameChoice}'s 'Moral Foundation' Message Strikes a Chord`,
+                    `${nameChoice} Promises to Restore 'Family First' Principles`,
+                    `Support Surges for ${nameChoice}'s Stand Against 'Cultural Decay'`,
+                    `${nameChoice} Champions 'Back to Basics' in Schools and Society`,
+                    `'Common Sense Values' Drive ${nameChoice}'s Campaign Momentum`,
+                    `Faith Leaders Praise ${nameChoice}'s Commitment to Tradition`,
+                    `${nameChoice} Vows to Defend Heritage Against 'Radical Change'`,
+                    `Polls Show Growing Trust in ${nameChoice}'s Conservative Vision`,
+                    `${nameChoice} Taps Into Nostalgia for 'Better Times'`,
+                    `Critics Call ${nameChoice} Outdated - Voters Call It 'Real Leadership'`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice}'s Progressive Reforms Lauded as 'Forward-Thinking'`,
+                    `Voters Embrace ${nameChoice}'s Push for an Inclusive Society`,
+                    `${nameChoice} Champions Equality—Minority Groups Rally in Support`,
+                    `Bold Social Change: ${nameChoice} Pledges to Expand Civil Rights`,
+                    `Youth Turn Out in Record Numbers for ${nameChoice}'s Progressive Vision`,
+                    `Critics Call ${nameChoice}'s Reforms 'Radical'—Supporters Say 'Long Overdue'`,
+                    `${nameChoice} Pushes for Gender Parity in Government and Business`,
+                    `Universal Basic Income Plan from ${nameChoice} Ignites National Debate`,
+                    `LGBTQ+ Advocates Applaud ${nameChoice}'s Commitment to Inclusion`,
+                    `Analysts: ${nameChoice}'s Social Agenda Could Redefine the Nation`,
+                    `Opponents Warn of 'Culture Shock' as ${nameChoice} Drives Rapid Change`,
+                    `Support Surges for ${nameChoice}'s Promise of Justice for All`,
+                    `Is ${nameChoice} Ushering in a New Era of Social Progress?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "env_eco":
+                if (voterPosition < playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice}'s Green Policies Hailed as Key to Sustainable Future`,
+                    `Voters Support ${nameChoice}'s Strong Stance on Environment`,
+                    `${nameChoice} Leads Charge for a Carbon-Free Economy`,
+                    `Climate Action Plan from ${nameChoice} Wins Over Young Voters`,
+                    `Scientists Applaud ${nameChoice}'s Ambitious Emissions Targets`,
+                    `${nameChoice} Pledges to End Fossil Fuel Subsidies—Industry on Edge`,
+                    `Green Jobs Boom Expected Under ${nameChoice}'s Leadership`,
+                    `Environmental Groups Rally Behind ${nameChoice}'s Clean Energy Push`,
+                    `Polls Show Surging Support for ${nameChoice}'s Climate Agenda`,
+                    `${nameChoice} Declares: 'The Future Is Renewable'`,
+                    `Critics Call ${nameChoice}'s Eco-Policies 'Bold and Necessary'`,
+                    `Wildlife Advocates Praise ${nameChoice}'s Conservation Commitments`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice}'s Pro-Development Focus Promises Prosperity`,
+                    `Economic Development a Winning Issue for ${nameChoice}, Say Voters`,
+                    `${nameChoice} Champions Jobs Over 'Green Red Tape'`,
+                    `Industry Leaders Praise ${nameChoice}'s Growth-First Agenda`,
+                    `${nameChoice} Pledges to Unleash Economic Potential—Environmentalists Worry`,
+                    `Voters Back ${nameChoice}'s Push for New Infrastructure and Industry`,
+                    `Critics Say ${nameChoice}'s Policies Put Economy Ahead of Ecology`,
+                    `Boom Times Predicted Under ${nameChoice}'s Development Drive`,
+                    `${nameChoice} Declares: 'It's Time to Build, Not Block'`,
+                    `Support Surges for ${nameChoice}'s Promise of Prosperity Through Progress`,
+                    `Environmental Rules Rolled Back as ${nameChoice} Prioritizes Growth`,
+                    `Analysts: ${nameChoice}'s Pro-Business Stance Could Spark Economic Revival`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "nat_glob":
+                if (voterPosition < playerOldPosition) {
+                  const votPrefNews = [
+                    `'Nation-First' Agenda from ${nameChoice} Gains Traction`,
+                    `Voters Back ${nameChoice}'s 'Domestic First' Approach`,
+                    `${nameChoice} Promises to Put Country Above All Else`,
+                    `Borders, Jobs, and Pride: ${nameChoice}'s Nationalist Message Resounds`,
+                    `${nameChoice} Declares: 'No More Outsourcing Our Future!'`,
+                    `Patriotic Surge as ${nameChoice} Champions Local Industry`,
+                    `Voters Rally Behind ${nameChoice}'s Call to Protect National Identity`,
+                    `${nameChoice} Pledges to Defend Borders and Traditions`,
+                    `Critics Say ${nameChoice}'s Nationalism Is 'What the Country Needs'`,
+                    `Polls Show Growing Support for ${nameChoice}'s Sovereignty Agenda`,
+                    `${nameChoice} Touts 'Homegrown Solutions for Homegrown Problems'`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice}'s Global Cooperation Stance Seen as Essential`,
+                    `Support Grows for ${nameChoice}'s Internationalist Vision`,
+                    `${nameChoice} Champions Open Borders and Shared Prosperity`,
+                    `Allies Praise ${nameChoice}'s Commitment to Global Partnerships`,
+                    `${nameChoice} Pushes for Stronger International Institutions`,
+                    `Voters Back ${nameChoice}'s Embrace of Multilateral Solutions`,
+                    `Analysts: ${nameChoice}'s Diplomacy Strengthens National Influence Abroad`,
+                    `${nameChoice} Declares: 'We Succeed Together, Not Alone'`,
+                    `Global Markets Respond Positively to ${nameChoice}'s Outreach`,
+                    `Support Surges for ${nameChoice}'s Vision of a Connected World`,
+                    `${nameChoice}'s Globalism 'Bold and Necessary for the Future'`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "pac_mil":
+                if (voterPosition > playerOldPosition) {
+                  const votPrefNews = [
+                    `Voters Back ${nameChoice}'s Call for Stronger National Defense`,
+                    `Public Support Grows for ${nameChoice}'s Military Readiness Push`,
+                    `${nameChoice} Pledges to Rebuild Armed Forces—Voters Approve`,
+                    `National Security Tops Agenda as ${nameChoice} Calls for More Defense Spending`,
+                    `Polls Show Rising Trust in ${nameChoice}'s Tough Stance on Security`,
+                    `${nameChoice} Declares: 'Peace Through Strength'`,
+                    `Military Leaders Endorse ${nameChoice}'s Commitment to Readiness`,
+                    `Voters Rally Behind ${nameChoice}'s Promise to Protect the Nation`,
+                    `Critics Call ${nameChoice}'s Defense Plan 'Bold and Necessary'`,
+                    `Support Surges for ${nameChoice}'s Push to Modernize the Military`,
+                    `${nameChoice} Warns: 'We Must Be Prepared for Any Threat'`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `Peace-First Policy by ${nameChoice} Earns Widespread Praise`,
+                    `Voters See ${nameChoice}'s Diplomacy Push as Path to Stability`,
+                    `${nameChoice} Says: 'Talk, Not Tanks'—Public Cheers`,
+                    `Diplomacy Wins: ${nameChoice} Brokers Historic Ceasefire`,
+                    `'Make Peace, Not War': ${nameChoice}'s Slogan Goes Viral`,
+                    `Critics Call ${nameChoice} 'Soft'—Voters Call It 'Smart'`,
+                    `Rivals Mock ${nameChoice}'s Pacifism, But Polls Tell a Different Story`,
+                    `Peace Dividend? ${nameChoice} Promises to Reinvest Military Savings`,
+                    `'No More Endless Wars': ${nameChoice} Draws Applause at Rally`,
+                    `${nameChoice} MP Hugs Foreign Leader, Internet Explodes`,
+                    `${nameChoice}'s Diplomacy Could Redefine National Security`,
+                    `'Doves Over Hawks': ${nameChoice}'s Approach Gains Momentum`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "auth_ana":
+                if (voterPosition < playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice}'s Law-and-Order Platform Resonates in Polls`,
+                    `Public Backs ${nameChoice}'s Pledge for Safer Communities`,
+                    `${nameChoice} Promises Crackdown on Crime—Voters Cheer`,
+                    `'Zero Tolerance': ${nameChoice}'s Tough Stance Wins Support`,
+                    `Polls Surge as ${nameChoice} Vows to Restore Order`,
+                    `Curfews and Patrols: ${nameChoice}'s Security Plan Gains Traction`,
+                    `${nameChoice} Declares 'Enough Is Enough!'—Demands Action Now`,
+                    `Analysts: ${nameChoice}'s Authoritarian Approach Strikes a Nerve`,
+                    `Opponents Warn of 'Police State' as ${nameChoice} Pushes New Laws`,
+                    `Supporters Say ${nameChoice} Is 'The Only One Who Can Keep Us Safe'`,
+                    `Public Divided: Is ${nameChoice} Protecting Freedom or Crushing It?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `'Individual Freedom' a Rallying Cry for ${nameChoice}'s Supporters`,
+                    `${nameChoice}'s Libertarian Stance Energizes Voter Base`,
+                    `${nameChoice} Promises to Cut Red Tape and Expand Personal Freedoms`,
+                    `Voters Cheer ${nameChoice}'s Stand Against Government Overreach`,
+                    `'Live and Let Live': ${nameChoice}'s Message Goes Viral`,
+                    `Entrepreneurs Back ${nameChoice}'s Deregulation Drive`,
+                    `Polls Surge as ${nameChoice} Champions Civil Liberties`,
+                    `${nameChoice} Declares: 'Your Life, Your Choices'`,
+                    `Analysts: ${nameChoice}'s Freedom Agenda Strikes a Chord with Youth`,
+                    `Support Swells for ${nameChoice}'s Push to End Surveillance State`,
+                    `${nameChoice} Says 'Let the People Decide!'—Crowds Roar Approval`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "rel_sec":
+                if (voterPosition < playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice}'s Emphasis on Faith and Values Connects with Voters`,
+                    `Voters Applaud ${nameChoice}'s Focus on a Moral Compass`,
+                    `${nameChoice} Pledges to Restore Faith to the Heart of Politics`,
+                    `'Guided by God': ${nameChoice}'s Message Sparks National Conversation`,
+                    `Faith Leaders Endorse ${nameChoice}'s Moral Vision`,
+                    `${nameChoice}'s MP Spotted at Sunrise Prayer—Supporters Rejoice`,
+                    `Voters Flock to ${nameChoice}'s 'Family and Faith' Rallies`,
+                    `${nameChoice} Declares: 'A Nation Under God Is a Nation United'`,
+                    `Polls Surge as ${nameChoice} Champions Religious Traditions`,
+                    `Critics Call ${nameChoice} 'Principled'`,
+                    `Sunday Sermons Echo ${nameChoice}'s Call for a Moral Revival`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `Support for Secular Governance Grows with ${nameChoice}'s Policies`,
+                    `${nameChoice}'s Inclusive Stance Wins Favor with Secular Voters`,
+                    `${nameChoice} Champions Separation of Church and State—Voters Approve`,
+                    `Faith and Politics: ${nameChoice} Draws Line in the Sand`,
+                    `Polls Surge as ${nameChoice} Defends Secular Traditions`,
+                    `${nameChoice} MP Skips Prayer, Sparks Debate`,
+                    `Analysts: ${nameChoice}'s Secular Push Resonates with Modern Electorate`,
+                    `Voters Praise ${nameChoice} for Keeping Religion Out of Policy`,
+                    `Critics Call ${nameChoice} 'Godless'`,
+                    `${nameChoice} Declares: 'Government for All, Not Just the Faithful'`,
+                    `Secular Groups Rally Behind ${nameChoice}'s Vision for Inclusive Governance`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+                // Add more cases as needed
+            }
+          }
+          else { // If alignment change is negative, away from the voters
+            const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
+            switch (valueKey) {
+              case "soc_cap":
+                if (voterPosition < playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice} Under Fire for Being 'Too Pro-Business'`,
+                    `Voters Say ${nameChoice} Favors Big Business Over Workers`,
+                    `Critics Slam ${nameChoice} for Ignoring Working Families`,
+                    `'Corporate Puppet?' Accusations Fly at ${nameChoice}`,
+                    `The People Are Left Behind by ${nameChoice}'s Boardroom Buddies`,
+                    `Protests Erupt Over ${nameChoice}'s Tax Breaks for Billionaires`,
+                    `Workers Demand Answers as ${nameChoice} Courts Wall Street`,
+                    `${nameChoice} MP Spotted at Gala with Top CEOs—Voters Outraged`,
+                    `Poll: Majority Believe ${nameChoice} Puts Profits Before People`,
+                    `Small Businesses Cry Foul Over ${nameChoice}'s Corporate Giveaways`,
+                    `Is ${nameChoice} Governing for the People, or Just the Powerful?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice}'s Spending Plans Raise Economic Red Flags`,
+                    `Critics Blast ${nameChoice}'s Spending Push as 'Reckless'`,
+                    `Economists Warn: ${nameChoice}'s Promises Could Bankrupt the Nation`,
+                    `'Tax-and-Spend' Label Sticks as ${nameChoice} Unveils New Welfare Schemes`,
+                    `Voters Fear Soaring Debt Under ${nameChoice}'s Social Agenda`,
+                    `Business Leaders Slam ${nameChoice}'s 'Unrealistic' Redistribution Plans`,
+                    `${nameChoice} Wants to Give Away Your Paycheck`,
+                    `Critics Say ${nameChoice} Is 'Buying Votes' with Costly Giveaways`,
+                    `Poll: Majority Doubt ${nameChoice}'s Plans Are Sustainable`,
+                    `Opponents Warn of 'Runaway Spending' and Economic Meltdown`,
+                    `Is ${nameChoice} Turning the Country Into a Nanny State?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "prog_cons":
+                if (voterPosition < playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice}'s Traditional Values Message Seen as 'Out of Touch'`,
+                    `Voters Skeptical of ${nameChoice}'s Conservative Pivot`,
+                    `Critics Say ${nameChoice} Wants to Turn Back the Clock`,
+                    `Young Voters Reject ${nameChoice}'s 'Old-Fashioned' Agenda`,
+                    `${nameChoice} Calls for Return to 'The Good Old Days'—Backlash Ensues`,
+                    `Analysts Warn: ${nameChoice}'s Platform Alienates Modern Families`,
+                    `Protests Erupt Over ${nameChoice}'s Push for 'Traditional Morality'`,
+                    `Is ${nameChoice} Out of Step with Today's Society?`,
+                    `Opponents Accuse ${nameChoice} of Ignoring Social Progress`,
+                    `Poll: Majority See ${nameChoice}'s Values as 'Outdated'`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `Backlash Grows Against ${nameChoice}'s Progressive Reforms`,
+                    `${nameChoice} Accused of Pushing 'Too Much, Too Fast'`,
+                    `Critics Say ${nameChoice} Is Out of Touch With Everyday Concerns`,
+                    `Voters Worry About 'Radical' Social Experiments by ${nameChoice}`,
+                    `${nameChoice}'s Reforms Spark Culture War in Parliament`,
+                    `Traditional Groups Protest ${nameChoice}'s 'Extreme' Social Agenda`,
+                    `Poll: Majority Say ${nameChoice} Is Moving Society Too Quickly`,
+                    `Opponents Warn of 'Unintended Consequences' from ${nameChoice}'s Policies`,
+                    `Is ${nameChoice} Dividing the Nation With Progressive Overreach?`,
+                    `Backlash as ${nameChoice} Pushes for Sweeping Social Change`,
+                    `${nameChoice}'s Agenda Risks Alienating Moderate Voters`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "env_eco":
+                if (voterPosition > playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice}'s Green Agenda Slammed as 'Job-Killer'`,
+                    `${nameChoice}'s Eco-Policies Will Harm Economy`,
+                    `${nameChoice} Threatens Thousands of Jobs`,
+                    `${nameChoice}'s Climate Plan 'A Disaster for Workers'`,
+                    `Voters Will Face Higher Bills Under ${nameChoice}`,
+                    `Industry Groups Blast ${nameChoice} for 'Choking Growth'`,
+                    `Strikes Erupt Over ${nameChoice}'s Fossil Fuel Crackdown`,
+                    `${nameChoice}'s Eco-Policies Could Trigger Recession`,
+                    `Is ${nameChoice} Putting the Planet Before People?`,
+                    `Critics Claim ${nameChoice}'s Agenda Will 'Send Industry Overseas'`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice} Criticized for Prioritizing Economy Over Environment`,
+                    `Environmental Groups Denounce ${nameChoice}'s 'Development-First' Stance`,
+                    `Protests Erupt Over ${nameChoice}'s Rollback of Green Regulations`,
+                    `${nameChoice} Labeled 'Enemy of the Environment' by Activists`,
+                    `${nameChoice}'s Policies Threaten Climate Goals`,
+                    `${nameChoice} Sides with Big Industry Over Nature`,
+                    `${nameChoice} - 'Mortgaging the Future for Short-Term Gains'`,
+                    `Wildlife Groups Slam ${nameChoice}'s Push for More Drilling and Mining`,
+                    `Is ${nameChoice} Sacrificing Clean Air and Water for Economic Growth?`,
+                    `${nameChoice}'s Agenda Could Trigger Ecological Crisis`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "nat_glob":
+                if (voterPosition > playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice}'s 'Nation-First' Rhetoric Sparks Isolationism Fears`,
+                    `Critics Warn ${nameChoice}'s Nationalism Risks Global Standing`,
+                    `${nameChoice} Pushes Racist Agenda`,
+                    `${nameChoice} Is The New Face of Nationalism`,
+                    `International Allies Alarmed by ${nameChoice}'s Hardline Borders`,
+                    `Protests Erupt Over ${nameChoice}'s Anti-Immigrant Policies`,
+                    `${nameChoice}'s Nationalism Could Trigger Trade Wars`,
+                    `${nameChoice} Pushes Divisive Agenda, Critics Say`,
+                    `Diplomats Warn ${nameChoice} Risks Turning Country Into a Pariah`,
+                    `Minority Groups Fear Marginalization Under ${nameChoice}`,
+                    `Is ${nameChoice} Fueling Division for Political Gain?`,
+                    `Is ${nameChoice} The New Mussolini?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice} Attacked for 'Globalist' Agenda, Undermining Sovereignty`,
+                    `Voters Fear ${nameChoice} Puts Global Interests Before National Ones`,
+                    `Vote ${nameChoice} To Destroy Our Country`,
+                    `${nameChoice} Will Rip Up Our Patriotism`,
+                    `Vote ${nameChoice} To Destroy Our Country`,
+                    `Critics Slam ${nameChoice} for Siding with Foreign Powers`,
+                    `${nameChoice} Wants Open Borders, Say Opponents`,
+                    `National Identity at Risk Under ${nameChoice}'s Global Vision`,
+                    `Protests Erupt Over ${nameChoice}'s International Concessions`,
+                    `Analysts Warn: ${nameChoice} Could Weaken National Security`,
+                    `Is ${nameChoice} Selling Out Our Country?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "pac_mil":
+                if (voterPosition < playerOldPosition) {
+                  const votPrefNews = [
+                    `Critics Label ${nameChoice}'s Defense Stance as 'Warmongering'`,
+                    `${nameChoice} Warmongers At Inter-Nation Conference`,
+                    `Fears of Conflict Escalate Over ${nameChoice}'s Hawkish Tone`,
+                    `${nameChoice} - New Military Industrial Complex`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice}'s Peace Advocacy Slammed as 'Naive' and 'Weak'`,
+                    `National Security Concerns Rise Over ${nameChoice}'s Pacifist Stance`,
+                    `${nameChoice} Branded Peace Hippies`,
+                    `Let's Bow Down To Our Enemies, Says ${nameChoice}`,
+                    `${nameChoice} Pushes Disarmament`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "auth_ana":
+                if (voterPosition > playerOldPosition) {
+                  const votPrefNews = [
+                    `Civil Liberties Fears Mount Over ${nameChoice}'s Platform`,
+                    `Crackdown Now, Says ${nameChoice}`,
+                    `${nameChoice} Accused of 'Authoritarian Creep'`,
+                    `${nameChoice} Wants A Police State`,
+                    `Ban Protests, Says MP of ${nameChoice}`,
+                    `${nameChoice} Plots Curfew for Dissenters`,
+                    `Opponents Warn: ${nameChoice} Would Silence Critics`,
+                    `Analysts Say ${nameChoice}'s Agenda Threatens Democracy`,
+                    `Protests Erupt Over ${nameChoice}'s 'Iron Fist' Policies`,
+                    `Is ${nameChoice} Turning the Country Into a Surveillance State?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `Think Tank: ${nameChoice}'s Libertarian Push Is 'Recipe for Chaos'`,
+                    `Is ${nameChoice}'s 'Freedom' Agenda Practical?`,
+                    `Want Chaos? Vote For ${nameChoice}`,
+                    `Vote For ${nameChoice} To Increase Crime`,
+                    `Critics Warn: ${nameChoice}'s Deregulation Means No Rules, No Order`,
+                    `${nameChoice}'s 'Hands-Off' Approach Sparks Safety Fears`,
+                    `Analysts Say ${nameChoice}'s Libertarianism Could Gut Public Services`,
+                    `Voters Fear ${nameChoice} Would Let Corporations Run Wild`,
+                    `Is ${nameChoice} Putting Ideology Before Public Safety?`,
+                    `Opponents Claim ${nameChoice} Would Turn Society Into a Free-For-All`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+              case "rel_sec":
+                if (voterPosition > playerOldPosition) {
+                  const votPrefNews = [
+                    `${nameChoice} Faces Backlash for Blurring Line Between Church and State`,
+                    `Critics: ${nameChoice}'s Religious Focus Alienates Voters`,
+                    `${nameChoice} Blasted for Taking Donations from Church`,
+                    `Concerns Rise Over ${nameChoice}'s Plans to Fund Religious Schools`,
+                    `Debate Erupts as ${nameChoice} Calls for Prayer in Public Institutions`,
+                    `Opponents Warn: ${nameChoice}'s Agenda Threatens Religious Freedom for All`,
+                    `Poll: Majority Oppose ${nameChoice}'s Efforts to Expand Religious Influence`,
+                    `Legal Experts Question Constitutionality of ${nameChoice}'s Faith Initiatives`,
+                    `Minority Faith Leaders Say ${nameChoice} Marginalizes Non-Majority Religions`,
+                    `Backlash Grows as ${nameChoice} Links Policy to Religious Doctrine`,
+                    `Civil Rights Groups Slam ${nameChoice} for Undermining Secular Traditions`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                } else {
+                  const votPrefNews = [
+                    `${nameChoice}'s Secular Stance Sparks Outcry from Religious Groups`,
+                    `Faith Communities Feel 'Sidelined' by ${nameChoice}'s Policies`,
+                    `Archbishop: Support for ${nameChoice} blasphemous`,
+                    `${nameChoice} Accused of 'Waging War on Faith'`,
+                    `Religious Leaders Condemn ${nameChoice}'s Push for Secular Laws`,
+                    `Protests Erupt Over ${nameChoice}'s Removal of Religious Symbols`,
+                    `Critics Say ${nameChoice} Is 'Erasing Tradition for Modernity'`,
+                    `Faith Groups Warn: ${nameChoice}'s Agenda Threatens Religious Freedom`,
+                    `Voters Divided as ${nameChoice} Champions Church-State Separation`,
+                    `Is ${nameChoice} Alienating Believers for Political Gain?`
+                  ];
+                  voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
+                }
+                break;
+                // Add more cases as needed
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // NOW apply the changes to the candidate
+  for (let i = 0; i < VALUES.length; i++) {
+    const valueKey = VALUES[i];
+    if (valueKey in effect && effect[valueKey] !== undefined) {
+      const oldVal = playerCandidate.vals[i];
+      playerCandidate.vals[i] += effect[valueKey]!;
+      // Clamp values to valid range
+      playerCandidate.vals[i] = Math.max(-100, Math.min(100, playerCandidate.vals[i]));
+      
+      if (DEBUG) {
+        console.log(`DEBUG: Changed ${valueKey} from ${oldVal} to ${playerCandidate.vals[i]}`);
+      }
+    }
+  }
+  
   
   // Generate news based on voter preference analysis
   if (voterPreferenceAnalysis.length > 0) {
@@ -760,3 +1006,4 @@ else { // If alignment change is negative, away from the voters
   
   return { pollingChange, newsEvents };
 }
+  

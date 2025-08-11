@@ -285,8 +285,6 @@ export default function ResultsView() {
                       <td className="px-3 sm:px-6 py-3 sm:py-4">
                         <div className="flex items-center space-x-1 sm:space-x-2">
                           <span className="font-bold text-gray-700 text-sm sm:text-base">{index + 1}</span>
-                          {isWinner && <span className="text-yellow-500 text-xs sm:text-sm">⭐</span>}
-                          {isPlayer && <span className="text-blue-500 text-xs sm:text-sm">👤</span>}
                         </div>
                       </td>
                       <td className="px-3 sm:px-6 py-3 sm:py-4">
