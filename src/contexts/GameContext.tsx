@@ -171,7 +171,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
                   `Polls show sharp rise for ${newsTitle}`,
                   `Momentum shifts to ${newsTitle}`,
                   `${newsTitle} gaining ground`,
-                  `Is ${newsTitle} the new people's party?`
+                  `Is ${newsTitle} the new people's party?`,
+                  `Voters flock to ${newsTitle} after stunning debate performance`,
+                  `Social media buzz: ${newsTitle} trending nationwide`,
+                  `Analysts stunned by ${newsTitle}'s meteoric rise`,
+                  `Rival parties scramble as ${newsTitle} dominates headlines`,
+                  `${newsTitle} fever sweeps the nation!`,
+                  `Is this the start of a new era for ${newsTitle}?`
 
                 ];
                 partyPollingNews.push(surgeMessages[Math.floor(Math.random() * surgeMessages.length)]);
@@ -181,7 +187,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
                   `Support for ${newsTitle} drops sharply`,
                   `Polls decline for ${newsTitle} amid public backlash`,
                   `${newsTitle} faces harsh criticism`,
-                  `Polls plummet for ${newsTitle}`
+                  `Polls plummet for ${newsTitle}`,
+                  `Scandal rocks ${newsTitle} campaign—voters flee`,
+                  `${newsTitle} in meltdown after disastrous interview`,
+                  `Analysts: ${newsTitle} struggles to recover from backlash`,
+                  `Rival parties surge as ${newsTitle} stumbles`,
+                  `Is this the end of the road for ${newsTitle}?`
                 ];
                 partyPollingNews.push(loseMessages[Math.floor(Math.random() * loseMessages.length)]);
               }
@@ -193,7 +204,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
                   `Popular policy platform of ${newsTitle} released`,
                   `${newsTitle} clear winner in debate`,
                   `${newsTitle} sees steady rise in local support`,
-                  `The UN endorses ${newsTitle}'s policy platform`
+                  `The UN endorses ${newsTitle}'s policy platform`,
+                  `${newsTitle} quietly gaining momentum`,
+                  `Analysts note consistent growth for ${newsTitle}`,
+                  `Grassroots movement boosts ${newsTitle}`,
+                  `Voters warming to ${newsTitle}'s message`
                 ];
                 partyPollingNews.push(steadyMessages[Math.floor(Math.random() * steadyMessages.length)]);
               } else {
@@ -202,7 +217,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
                   `Support slipping for ${newsTitle}`,
                   `Public opinion divided over ${newsTitle}`,
                   `Voters express uncertainty about ${newsTitle}'s direction`,
-                  `The UN slams ${newsTitle}'s new proposal`
+                  `The UN slams ${newsTitle}'s new proposal`,
+                `${newsTitle} struggles to find momentum`,
+                  `Analysts: ${newsTitle} can't shake off negative headlines`,
+                  `Voters lukewarm on ${newsTitle} as rivals gain ground`,
+                  `${newsTitle} faces uphill battle to win back trust`,
+                  `Polls show ${newsTitle} losing steam week after week`
                 ];
                 newsEvents.push(mixedMessages[Math.floor(Math.random() * mixedMessages.length)]);
               }
