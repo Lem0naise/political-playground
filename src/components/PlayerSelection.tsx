@@ -34,6 +34,23 @@ export default function PlayerSelection() {
     setCustomParty(prev => ({ ...prev, [field]: value }));
   };
 
+  // Reset form to initial state
+  const resetCustomPartyForm = () => {
+    setCustomParty({
+      party: '',
+      name: '',
+      colour: '#e11d48',
+      party_pop: 7,
+      prog_cons: 0,
+      nat_glob: 0,
+      env_eco: 0,
+      soc_cap: 0,
+      pac_mil: 0,
+      auth_ana: 0,
+      rel_sec: 0,
+    });
+  };
+
   // Submit handler
   const handleCreateParty = () => {
     if (!customParty.party || !customParty.name) return;
@@ -73,6 +90,7 @@ export default function PlayerSelection() {
       );
 
     console.log(state.candidates);
+    resetCustomPartyForm(); // Reset the form after successful creation
     setShowCreator(false);
     setCreating(false);
   };
@@ -248,7 +266,10 @@ export default function PlayerSelection() {
                 {creating ? 'Creating...' : 'Add This Party'}
               </button>
               <button
-                onClick={() => setShowCreator(false)}
+                onClick={() => {
+                  resetCustomPartyForm(); // Reset form when canceling
+                  setShowCreator(false);
+                }}
                 className="px-6 py-3 bg-slate-400 hover:bg-slate-500 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-base"
               >
                 Cancel
