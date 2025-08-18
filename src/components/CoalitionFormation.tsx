@@ -522,6 +522,16 @@ export default function CoalitionFormation() {
               // add action to remove
             }
           }
+        } else {
+          // No more partners available - form minority government
+          console.log('DEBUG: No more available partners, AI forming minority government');
+          const logMessage = `${winningParty.party} has exhausted all coalition options and will form a minority government.`;
+          setAiNegotiationLog(prev => [...prev, logMessage]);
+          
+          // Add a short delay before completing to show the message
+          setTimeout(() => {
+            actions.completeCoalitionFormation();
+          }, 3000);
         }
       }, 2000); // 2 second delay for dramatic effect
       
@@ -670,9 +680,14 @@ export default function CoalitionFormation() {
             </h1>
             <div className="border-t-2 border-b-2 border-yellow-500 py-3 my-4">
               <p className="campaign-status text-lg text-yellow-200">
-                {coalitionState.isPlayerLead ? 'BUILD YOUR COALITION' : `${winningParty.party} FORMING COALITION`} • 
+                {coalitionState.isPlayerLead ? 'BUILD YOUR COALITION' : 
+                 coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 ? 
+                 `${winningParty.party} FORMING MINORITY GOVERNMENT` : 
+                 `${winningParty.party} FORMING COALITION`} • 
                 CURRENT SUPPORT: {coalitionState.currentCoalitionPercentage.toFixed(1)}% • 
-                NEED: {coalitionState.currentCoalitionPercentage >= 50 ? 'MAJORITY ACHIEVED!' : `${(50 - coalitionState.currentCoalitionPercentage).toFixed(1)}% MORE`}
+                NEED: {coalitionState.currentCoalitionPercentage >= 50 ? 'MAJORITY ACHIEVED!' : 
+                       coalitionState.availablePartners.length === 0 && !coalitionState.isPlayerLead ? 'MINORITY GOVERNMENT' :
+                       `${(50 - coalitionState.currentCoalitionPercentage).toFixed(1)}% MORE`}
               </p>
             </div>
           </div>
@@ -698,6 +713,11 @@ export default function CoalitionFormation() {
               {coalitionState.currentCoalitionPercentage >= 50 && (
                 <span className="ml-3 px-3 py-1 bg-green-500 text-white text-sm rounded-full">
                   MAJORITY ACHIEVED!
+                </span>
+              )}
+              {coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 && !coalitionState.isPlayerLead && (
+                <span className="ml-3 px-3 py-1 bg-orange-500 text-white text-sm rounded-full">
+                  FORMING MINORITY GOVERNMENT
                 </span>
               )}
             </h2>
@@ -728,6 +748,14 @@ export default function CoalitionFormation() {
               <div className="mt-4 p-3 bg-green-100 border border-green-300 rounded-lg">
                 <p className="text-green-800 font-semibold">
                   🎉 Coalition has achieved a stable majority! Finalizing government formation...
+                </p>
+              </div>
+            )}
+            
+            {coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 && !coalitionState.isPlayerLead && (
+              <div className="mt-4 p-3 bg-orange-100 border border-orange-300 rounded-lg">
+                <p className="text-orange-800 font-semibold">
+                  No more viable coalition partners available. {winningParty.party} will form a minority government with {coalitionState.currentCoalitionPercentage.toFixed(1)}% support.
                 </p>
               </div>
             )}

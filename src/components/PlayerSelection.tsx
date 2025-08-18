@@ -200,7 +200,7 @@ export default function PlayerSelection() {
                 />
               </div>
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Support Level</label>
+                <label className="block font-bold text-slate-700 mb-1">Support Level (0-10)</label>
                 <input
                   type="number"
                   min={1}
