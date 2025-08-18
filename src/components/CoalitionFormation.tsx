@@ -556,8 +556,8 @@ export default function CoalitionFormation() {
       );
       console.log('DEBUG: Player evaluation result:', evaluation);
       
-      const logMessage = `${winningParty.party} approached ${playerResult.candidate.party}: ${evaluation.message}`;
-      setAiNegotiationLog(prev => [...prev, logMessage]);
+      const logMessage = `${evaluation.message}`;
+      setAiNegotiationLog(prev => [logMessage, ...prev]);
       
       if (evaluation.success) {
         actions.addCoalitionPartner(playerResult.candidate);
@@ -571,7 +571,6 @@ export default function CoalitionFormation() {
       if (playerResult) actions.removePotentialPartner(playerResult.candidate);
       setAiNegotiationLog(prev => [...prev, logMessage]);
     }
-    
     setShowPlayerApproach(false);
     setPlayerApproachOffer(null);
   };
@@ -684,7 +683,7 @@ export default function CoalitionFormation() {
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Coalition Negotiations</h2>
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {aiNegotiationLog.map((log, index) => (
-                  <div key={index} className="text-base text-slate-700 p-2 bg-slate-100 rounded">
+                  <div key={index} className="text-base font-mono text-slate-700 p-2 bg-slate-100 rounded">
                     {log}
                   </div>
                 ))}
@@ -737,7 +736,7 @@ export default function CoalitionFormation() {
           {/* Available Partners */}
           <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
             <h2 className="text-2xl font-bold text-slate-900 mb-4">
-              {coalitionState.isPlayerLead ? 'Choose Coalition Partners' : 'Potential Partners'}
+              {coalitionState.isPlayerLead ? 'Choose Your Coalition Partners' : 'Potential Other Partners'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {coalitionState.availablePartners.map((partner) => {
@@ -772,7 +771,7 @@ export default function CoalitionFormation() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-md space-y-1 font-mono uppercase mb-3">
+                    <div className="text-base space-y-1 font-mono uppercase mb-3">
                       <div>Willingness: <span className={willingness > 60 ? 'text-green-600' : willingness > 40 ? 'text-yellow-600' : 'text-red-600'}>{willingness.toFixed(0)}%</span></div>
                     </div>
                     {getIdeologyProfile(partner.vals)}

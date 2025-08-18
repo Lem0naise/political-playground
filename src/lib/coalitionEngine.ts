@@ -313,6 +313,7 @@ export function simulateCoalitionNegotiation(
     finalAppeal
   });
   
+  
   if (finalAppeal > 100) {
     return {
       success: true,
@@ -538,14 +539,11 @@ export function evaluatePlayerResponse(
     acceptedImportance
   });
 
-  return simulateCoalitionNegotiation(
-    leadParty,
-    playerParty,
-    leadPercentage,
-    playerPercentage,
-    acceptedImportance,
-    policyResponses
-  );
+  return {
+    success: true,
+    message: `${playerParty.party} agrees to join the coalition!`,
+    finalAppeal: 100
+  }
 }
 
 /**

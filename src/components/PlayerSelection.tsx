@@ -204,7 +204,7 @@ export default function PlayerSelection() {
                 <input
                   type="number"
                   min={1}
-                  max={10}
+                  max={100}
                   step={0.1}
                   className="w-full p-2 border border-slate-400 rounded"
                   value={customParty.party_pop}
