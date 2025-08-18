@@ -17,6 +17,7 @@ import {
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
 import CabinetView from './CabinetView';
+import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 
 interface NegotiationModalProps {
   leadParty: Candidate;
@@ -771,10 +772,10 @@ export default function CoalitionFormation() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-sm space-y-1 font-mono uppercase">
-                      <div>Compatibility: <span className={compatibility > 60 ? 'text-green-600' : compatibility > 40 ? 'text-yellow-600' : 'text-red-600'}>{compatibility.toFixed(0)}%</span></div>
+                    <div className="text-md space-y-1 font-mono uppercase mb-3">
                       <div>Willingness: <span className={willingness > 60 ? 'text-green-600' : willingness > 40 ? 'text-yellow-600' : 'text-red-600'}>{willingness.toFixed(0)}%</span></div>
                     </div>
+                    {getIdeologyProfile(partner.vals)}
                   </div>
                 );
               })}
