@@ -2,10 +2,13 @@
 
 import { useGame } from '@/contexts/GameContext';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export default function PlayerSelection() {
   const { state, actions } = useGame();
+  
+  // Add ref for the creator form
+  const creatorFormRef = useRef<HTMLDivElement>(null);
 
   const handlePlayerSelect = (candidateId: number) => {
     actions.setPlayerCandidate(candidateId);
@@ -15,6 +18,7 @@ export default function PlayerSelection() {
   // --- Custom Party Creator State ---
   const [showCreator, setShowCreator] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [editingPartyId, setEditingPartyId] = useState<number | null>(null);
   const [customParty, setCustomParty] = useState({
     party: '',
     name: '',
@@ -34,28 +38,83 @@ export default function PlayerSelection() {
     setCustomParty(prev => ({ ...prev, [field]: value }));
   };
 
+  // Reset form to initial state
+  const resetCustomPartyForm = () => {
+    setCustomParty({
+      party: '',
+      name: '',
+      colour: '#e11d48',
+      party_pop: 7,
+      prog_cons: 0,
+      nat_glob: 0,
+      env_eco: 0,
+      soc_cap: 0,
+      pac_mil: 0,
+      auth_ana: 0,
+      rel_sec: 0,
+    });
+    setEditingPartyId(null);
+  };
+
+  // Handle editing existing party with scroll
+  const handleEditParty = (candidate: any) => {
+    setCustomParty({
+      party: candidate.party,
+      name: candidate.name,
+      colour: candidate.colour,
+      party_pop: candidate.party_pop,
+      prog_cons: candidate.vals[0],
+      nat_glob: candidate.vals[1],
+      env_eco: candidate.vals[2],
+      soc_cap: candidate.vals[3],
+      pac_mil: candidate.vals[4],
+      auth_ana: candidate.vals[5],
+      rel_sec: candidate.vals[6],
+    });
+    setEditingPartyId(candidate.id);
+    setShowCreator(true);
+    
+    // Scroll to the form after a brief delay to ensure it's rendered
+    setTimeout(() => {
+      creatorFormRef.current?.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }, 100);
+  };
+
   // Submit handler
   const handleCreateParty = () => {
     if (!customParty.party || !customParty.name) return;
     setCreating(true);
-    const newParty = {
-      id: 999,
-      name: customParty.name,
-      party: customParty.party,
-      party_pop: customParty.party_pop,
-      prog_cons: customParty.prog_cons,
-      nat_glob: customParty.nat_glob,
-      env_eco: customParty.env_eco,
-      soc_cap: customParty.soc_cap,
-      pac_mil: customParty.pac_mil,
-      auth_ana: customParty.auth_ana,
-      rel_sec: customParty.rel_sec,
-      colour: customParty.colour,
-      swing: 0,
-    };
-    actions.setPartyList(
-        "With Custom Party",
-        [...state.candidates.map(c => ({
+    
+    if (editingPartyId !== null) {
+      // Update existing party
+      const updatedCandidates = state.candidates.map(c => {
+        if (c.id === editingPartyId) {
+          return {
+            ...c,
+            name: customParty.name,
+            party: customParty.party,
+            party_pop: customParty.party_pop,
+            vals: [
+              customParty.prog_cons,
+              customParty.nat_glob,
+              customParty.env_eco,
+              customParty.soc_cap,
+              customParty.pac_mil,
+              customParty.auth_ana,
+              customParty.rel_sec
+            ],
+            colour: customParty.colour,
+          };
+        }
+        return c;
+      });
+      
+      actions.setPartyList(
+        "With Updated Party",
+        updatedCandidates.map(c => ({
           id: c.id,
           name: c.name,
           party: c.party,
@@ -69,10 +128,47 @@ export default function PlayerSelection() {
           rel_sec: c.vals[6],
           colour: c.colour,
           swing: c.swing || 0
-        })), newParty]
+        }))
       );
+    } else {
+      // Create new party
+      const newParty = {
+        id: 999,
+        name: customParty.name,
+        party: customParty.party,
+        party_pop: customParty.party_pop,
+        prog_cons: customParty.prog_cons,
+        nat_glob: customParty.nat_glob,
+        env_eco: customParty.env_eco,
+        soc_cap: customParty.soc_cap,
+        pac_mil: customParty.pac_mil,
+        auth_ana: customParty.auth_ana,
+        rel_sec: customParty.rel_sec,
+        colour: customParty.colour,
+        swing: 0,
+      };
+      actions.setPartyList(
+          "With Custom Party",
+          [...state.candidates.map(c => ({
+            id: c.id,
+            name: c.name,
+            party: c.party,
+            party_pop: c.party_pop,
+            prog_cons: c.vals[0],
+            nat_glob: c.vals[1],
+            env_eco: c.vals[2],
+            soc_cap: c.vals[3],
+            pac_mil: c.vals[4],
+            auth_ana: c.vals[5],
+            rel_sec: c.vals[6],
+            colour: c.colour,
+            swing: c.swing || 0
+          })), newParty]
+        );
+    }
 
     console.log(state.candidates);
+    resetCustomPartyForm(); // Reset the form after successful creation
     setShowCreator(false);
     setCreating(false);
   };
@@ -96,9 +192,8 @@ export default function PlayerSelection() {
           {state.candidates.map((candidate) => (
             <div
               key={candidate.id}
-              className="vintage-border p-4 sm:p-6 cursor-pointer transition-all duration-200 hover:border-yellow-400 hover:bg-yellow-900/10 transform hover:scale-105"
+              className="vintage-border p-4 sm:p-6 transition-all duration-200 hover:border-yellow-400 hover:bg-yellow-900/10 transform hover:scale-105"
               style={{ background: 'var(--newspaper-bg)' }}
-              onClick={() => handlePlayerSelect(candidate.id)}
             >
               <div className="flex items-center space-x-3 sm:space-x-4 mb-3 sm:mb-4">
                 <div 
@@ -109,6 +204,16 @@ export default function PlayerSelection() {
                   <h3 className="newspaper-header text-lg sm:text-xl font-bold text-slate-900">{candidate.party}</h3> 
                   <p className="text-slate-700 font-medium text-sm">Led by {candidate.name}</p>
                 </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditParty(candidate);
+                  }}
+                  className="font-mono px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded transition-colors duration-200 flex-shrink-0"
+                  title="Edit Party"
+                >
+                  Edit
+                </button>
               </div>
 
               <div className="mb-3 sm:mb-4">
@@ -133,7 +238,10 @@ export default function PlayerSelection() {
                 {getIdeologyProfile(candidate.vals)}
               </div>
 
-              <button className="w-full mt-4 sm:mt-6 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status text-sm sm:text-base">
+              <button 
+                onClick={() => handlePlayerSelect(candidate.id)}
+                className="w-full mt-4 sm:mt-6 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status text-sm sm:text-base"
+              >
                 🚀 CAMPAIGN AS {candidate.party.toUpperCase()}
               </button>
             </div>
@@ -158,16 +266,20 @@ export default function PlayerSelection() {
               </div>
             </div>
             <button className="w-full mt-4 sm:mt-6 bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status text-sm sm:text-base">
-              ✨ CREATE YOUR OWN PARTY
+              CREATE YOUR OWN PARTY
             </button>
           </div>
         </div>
 
         {/* --- Inline Party Creator --- */}
         {showCreator && (
-          <div className="vintage-border p-4 sm:p-6 mb-6 sm:mb-8" style={{ background: 'var(--newspaper-bg)' }}>
+          <div 
+            ref={creatorFormRef}
+            className="vintage-border p-4 sm:p-6 mb-6 sm:mb-8" 
+            style={{ background: 'var(--newspaper-bg)' }}
+          >
             <h3 className="newspaper-header text-xl font-black text-slate-900 mb-4 border-b-2 border-slate-800 pb-2">
-              Create Your Own Party
+              {editingPartyId !== null ? 'Edit Party' : 'Create Your Own Party'}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
@@ -200,11 +312,11 @@ export default function PlayerSelection() {
                 />
               </div>
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Support Level</label>
+                <label className="block font-bold text-slate-700 mb-1">Support Level (0-10)</label>
                 <input
                   type="number"
                   min={1}
-                  max={10}
+                  max={100}
                   step={0.1}
                   className="w-full p-2 border border-slate-400 rounded"
                   value={customParty.party_pop}
@@ -245,10 +357,13 @@ export default function PlayerSelection() {
                 disabled={!customParty.party || !customParty.name || creating}
                 className="px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 campaign-status text-base"
               >
-                {creating ? 'Creating...' : 'Add This Party'}
+                {creating ? (editingPartyId !== null ? 'Saving...' : 'Creating...') : (editingPartyId !== null ? 'Save Changes' : 'Add This Party')}
               </button>
               <button
-                onClick={() => setShowCreator(false)}
+                onClick={() => {
+                  resetCustomPartyForm(); // Reset form when canceling
+                  setShowCreator(false);
+                }}
                 className="px-6 py-3 bg-slate-400 hover:bg-slate-500 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-base"
               >
                 Cancel

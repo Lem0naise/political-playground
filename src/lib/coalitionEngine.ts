@@ -84,9 +84,9 @@ export function calculateCabinetAppeal(
   partnerPercentage: number,
   compatibility: number
 ): number {
-  if (importanceOffered === 0) return -20; // Penalty for no positions
+  if (importanceOffered === 0) return -40; // Penalty for no positions
   
-  let appeal = importanceOffered * 1.5;
+  let appeal = importanceOffered * 1;
   
   // Smaller parties are happier with smaller roles
   if (partnerPercentage < 5) {
@@ -102,7 +102,7 @@ export function calculateCabinetAppeal(
     appeal -= 35;
   }
   
-  return Math.max(-30, Math.min(50, appeal));
+  return Math.max(-30, Math.min(60, appeal));
 }
 
 export function getAvailableCabinetPositions(allocations: Record<string, string[]>): Array<{
@@ -313,19 +313,20 @@ export function simulateCoalitionNegotiation(
     finalAppeal
   });
   
-  if (finalAppeal > 60) {
+  
+  if (finalAppeal > 100) {
     return {
       success: true,
       message: `${partnerParty.party} agrees to join the coalition!`,
       finalAppeal
     };
-  } else if (finalAppeal > 40) {
+  } else if (finalAppeal > 90) {
     return {
       success: true,
-      message: `${partnerParty.party} agrees to join the coalition after careful consideration.`,
+      message: `${partnerParty.party} agrees to join the coalition after very careful consideration.`,
       finalAppeal
     };
-  } else if (finalAppeal > 20) {
+  } else if (finalAppeal > 40) {
     return {
       success: false,
       message: `${partnerParty.party} is interested but requires better terms.`,
@@ -538,14 +539,11 @@ export function evaluatePlayerResponse(
     acceptedImportance
   });
 
-  return simulateCoalitionNegotiation(
-    leadParty,
-    playerParty,
-    leadPercentage,
-    playerPercentage,
-    acceptedImportance,
-    policyResponses
-  );
+  return {
+    success: true,
+    message: `${playerParty.party} agrees to join the coalition!`,
+    finalAppeal: 100
+  }
 }
 
 /**

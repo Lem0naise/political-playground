@@ -17,6 +17,7 @@ import {
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
 import CabinetView from './CabinetView';
+import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 
 interface NegotiationModalProps {
   leadParty: Candidate;
@@ -521,6 +522,16 @@ export default function CoalitionFormation() {
               // add action to remove
             }
           }
+        } else {
+          // No more partners available - form minority government
+          console.log('DEBUG: No more available partners, AI forming minority government');
+          const logMessage = `${winningParty.party} has exhausted all coalition options and will form a minority government.`;
+          setAiNegotiationLog(prev => [...prev, logMessage]);
+          
+          // Add a short delay before completing to show the message
+          setTimeout(() => {
+            actions.completeCoalitionFormation();
+          }, 3000);
         }
       }, 2000); // 2 second delay for dramatic effect
       
@@ -555,8 +566,8 @@ export default function CoalitionFormation() {
       );
       console.log('DEBUG: Player evaluation result:', evaluation);
       
-      const logMessage = `${winningParty.party} approached ${playerResult.candidate.party}: ${evaluation.message}`;
-      setAiNegotiationLog(prev => [...prev, logMessage]);
+      const logMessage = `${evaluation.message}`;
+      setAiNegotiationLog(prev => [logMessage, ...prev]);
       
       if (evaluation.success) {
         actions.addCoalitionPartner(playerResult.candidate);
@@ -570,7 +581,6 @@ export default function CoalitionFormation() {
       if (playerResult) actions.removePotentialPartner(playerResult.candidate);
       setAiNegotiationLog(prev => [...prev, logMessage]);
     }
-    
     setShowPlayerApproach(false);
     setPlayerApproachOffer(null);
   };
@@ -670,9 +680,14 @@ export default function CoalitionFormation() {
             </h1>
             <div className="border-t-2 border-b-2 border-yellow-500 py-3 my-4">
               <p className="campaign-status text-lg text-yellow-200">
-                {coalitionState.isPlayerLead ? 'BUILD YOUR COALITION' : `${winningParty.party} FORMING COALITION`} • 
+                {coalitionState.isPlayerLead ? 'BUILD YOUR COALITION' : 
+                 coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 ? 
+                 `${winningParty.party} FORMING MINORITY GOVERNMENT` : 
+                 `${winningParty.party} FORMING COALITION`} • 
                 CURRENT SUPPORT: {coalitionState.currentCoalitionPercentage.toFixed(1)}% • 
-                NEED: {coalitionState.currentCoalitionPercentage >= 50 ? 'MAJORITY ACHIEVED!' : `${(50 - coalitionState.currentCoalitionPercentage).toFixed(1)}% MORE`}
+                NEED: {coalitionState.currentCoalitionPercentage >= 50 ? 'MAJORITY ACHIEVED!' : 
+                       coalitionState.availablePartners.length === 0 && !coalitionState.isPlayerLead ? 'MINORITY GOVERNMENT' :
+                       `${(50 - coalitionState.currentCoalitionPercentage).toFixed(1)}% MORE`}
               </p>
             </div>
           </div>
@@ -683,7 +698,7 @@ export default function CoalitionFormation() {
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Coalition Negotiations</h2>
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {aiNegotiationLog.map((log, index) => (
-                  <div key={index} className="text-base text-slate-700 p-2 bg-slate-100 rounded">
+                  <div key={index} className="text-base font-mono text-slate-700 p-2 bg-slate-100 rounded">
                     {log}
                   </div>
                 ))}
@@ -698,6 +713,11 @@ export default function CoalitionFormation() {
               {coalitionState.currentCoalitionPercentage >= 50 && (
                 <span className="ml-3 px-3 py-1 bg-green-500 text-white text-sm rounded-full">
                   MAJORITY ACHIEVED!
+                </span>
+              )}
+              {coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 && !coalitionState.isPlayerLead && (
+                <span className="ml-3 px-3 py-1 bg-orange-500 text-white text-sm rounded-full">
+                  FORMING MINORITY GOVERNMENT
                 </span>
               )}
             </h2>
@@ -731,12 +751,20 @@ export default function CoalitionFormation() {
                 </p>
               </div>
             )}
+            
+            {coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 && !coalitionState.isPlayerLead && (
+              <div className="mt-4 p-3 bg-orange-100 border border-orange-300 rounded-lg">
+                <p className="text-orange-800 font-semibold">
+                  No more viable coalition partners available. {winningParty.party} will form a minority government with {coalitionState.currentCoalitionPercentage.toFixed(1)}% support.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Available Partners */}
           <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
             <h2 className="text-2xl font-bold text-slate-900 mb-4">
-              {coalitionState.isPlayerLead ? 'Choose Coalition Partners' : 'Potential Partners'}
+              {coalitionState.isPlayerLead ? 'Choose Your Coalition Partners' : 'Potential Other Partners'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {coalitionState.availablePartners.map((partner) => {
@@ -771,10 +799,10 @@ export default function CoalitionFormation() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-sm space-y-1 font-mono uppercase">
-                      <div>Compatibility: <span className={compatibility > 60 ? 'text-green-600' : compatibility > 40 ? 'text-yellow-600' : 'text-red-600'}>{compatibility.toFixed(0)}%</span></div>
+                    <div className="text-base space-y-1 font-mono uppercase mb-3">
                       <div>Willingness: <span className={willingness > 60 ? 'text-green-600' : willingness > 40 ? 'text-yellow-600' : 'text-red-600'}>{willingness.toFixed(0)}%</span></div>
                     </div>
+                    {getIdeologyProfile(partner.vals)}
                   </div>
                 );
               })}
