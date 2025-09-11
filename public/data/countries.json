@@ -678,9 +678,9 @@
             "nat_glob" : 14,
             "env_eco": -10,
             "soc_cap" :  -15,
-            "pac_mil" : -70,
-            "auth_ana" : -40,
-            "rel_sec":  -8
+            "pac_mil" : -10,
+            "auth_ana" : -30,
+            "rel_sec":  -28
         },
         "scale": 1000,
         "hos": "King Remus"
