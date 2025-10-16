@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Political Playground",
+  "name": "The Political Playground - Interactive Election Simulator",
+  "description": "A fictional political simulation game for entertainment purposes",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,8 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#dc2626",
+  "background_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "categories": ["games", "entertainment", "education"]
 }
