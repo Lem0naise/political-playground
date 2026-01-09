@@ -1,5 +1,3 @@
-'use client';
-
 import { Event, EventChoice } from '@/types/game';
 
 interface EventModalProps {
@@ -11,7 +9,9 @@ interface EventModalProps {
 export default function EventModal({ event, onChoice, onClose }: EventModalProps) {
   const handleChoice = (choice: EventChoice) => {
     onChoice(choice);
-  };  return (
+  };
+
+  return (
     <div className="vintage-border w-full overflow-y-auto relative" style={{ background: 'var(--newspaper-bg)' }}>
       {/* Urgent News Header */}
       <div className="urgent-banner text-white p-2 sm:p-3 relative">

@@ -1,4 +1,3 @@
-'use client';
 
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';

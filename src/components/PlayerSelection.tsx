@@ -1,5 +1,3 @@
-'use client';
-
 import { useGame } from '@/contexts/GameContext';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 import { useState, useRef } from 'react';
