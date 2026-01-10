@@ -51,7 +51,7 @@ export default function CampaignView() {
             </h1>
             <div className="border-t border-b border-red-500 py-1 my-1">
               <p className="campaign-status text-xs sm:text-sm text-red-200 tracking-widest">
-                LIVE ELECTION COVERAGE • CAMPAIGN HEADQUARTERS • FICTIONAL SIMULATION
+                LIVE ELECTION COVERAGE • CAMPAIGN HEADQUARTERS 
               </p>
             </div>
           </div>

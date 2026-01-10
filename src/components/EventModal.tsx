@@ -19,14 +19,13 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
         <div className="relative">
           <div className="flex flex-col sm:flex-row items-center justify-center mb-1 gap-1 sm:gap-0">
             <div className="bg-white text-red-700 px-2 py-0.5 text-xs font-bold uppercase tracking-widest sm:mr-3">
-              URGENT
+              BREAKING NEWS
             </div>
-            <h2 className="newspaper-header text-lg sm:text-xl font-black tracking-tight text-center">
-              🚨 BREAKING NEWS ALERT
+            <h2 className="newspaper-header uppercase text-lg sm:text-xl font-black tracking-tight text-center">
+              {event.title}
             </h2>
           </div>
-          <h3 className="news-body text-base sm:text-lg text-center font-bold uppercase">{event.title}</h3>
-        </div>
+          </div>
       </div>
 
       {/* News Story Content */}
@@ -35,15 +34,11 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
           <p className="news-body text-slate-800 text-lg sm:text-xl font-extrabold leading-snug">
             {event.description}
           </p>
-          <div className="text-xs text-slate-500 mt-1 font-mono uppercase tracking-wide">
-            Tribune Political Desk • Developing Story
-          </div>
+       
         </div>
 
         <div className="border-t border-slate-800 pt-2 sm:pt-3">
-          <h4 className="newspaper-header text-base sm:text-lg font-bold text-slate-900 mb-2 sm:mb-3">
-            CAMPAIGN RESPONSE OPTIONS
-          </h4>
+         
 
           <div className="space-y-2">
             {event.choices.map((choice, index) => (
@@ -63,12 +58,17 @@ export default function EventModal({ event, onChoice, onClose }: EventModalProps
                     </p>
                     {choice.boost > 20 && (
                       <div className="inline-block bg-red-600 text-white px-1 py-0.5 text-xs font-bold uppercase tracking-wide mt-1 rounded">
-                        🔥 HIGH IMPACT
+                        HIGH MEDIA COVERAGE
                       </div>
                     )}
                     {choice.boost > 15 && choice.boost <= 20 && (
                       <div className="inline-block bg-blue-600 text-white px-1 py-0.5 text-xs font-bold uppercase tracking-wide mt-1 rounded">
-                        📺 MEDIA COVERAGE
+                        MEDIUM MEDIA COVERAGE
+                      </div>
+                    )}
+                    {choice.boost > 10 && choice.boost <= 15 && (
+                      <div className="inline-block bg-yellow-600 text-white px-1 py-0.5 text-xs font-bold uppercase tracking-wide mt-1 rounded">
+                        LOW MEDIA COVERAGE
                       </div>
                     )}
                   </div>
