@@ -1,3 +1,3 @@
-[https://politicalplayground.sherpa.software](https://politicalplayground.sherpa.software) to play!
+[https://pp.indigo.spot](https://pp.indigo.spot) to play!
 
-[https://indigonolan.com](https://indigonolan.com) for more.
+[https://indigo.spot](https://indigo.spot) for more.
