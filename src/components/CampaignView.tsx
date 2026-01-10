@@ -212,16 +212,11 @@ export default function CampaignView() {
           </div>
         </div>
 
-        {/* Add disclaimer footer */}
-        <div className="mt-6 text-center border-t border-gray-300 pt-4">
-          <p className="text-gray-500 text-xs max-w-2xl mx-auto">
-            <strong>Simulation Notice:</strong> This is a fictional political simulation purely for entertainment purposes. 
-            Events and outcomes are simplified and do not reflect real political complexity or accurate demographic data.
-          </p>
-          <p className="text-gray-400 text-xs mt-2">
-            Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 underline font-medium transition-colors">Indigo Nolan</a>
-          </p>
-        </div>
+        <div className="text-center text-xs text-slate-400 space-y-1 mt-10">
+            <p>Political Playground © 2025-2026</p>
+            <p>Fictional simulator. No real-world accuracy, endorsement or advice.</p>
+            <p>Created by <a href="https://indigo.spot">Indigo Nolan</a></p>
+          </div>
       </div>
       {showPollingGraph && (
         <PollingGraphModal

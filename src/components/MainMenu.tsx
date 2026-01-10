@@ -54,7 +54,7 @@ export default function MainMenu() {
       <div className="w-full max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
         <div className="flex flex-col gap-6">
           <div className="text-center space-y-4">
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-4">
               <a
                 href="https://indigo.spot"
                 target="_blank"
@@ -62,6 +62,14 @@ export default function MainMenu() {
                 className="campaign-status text-xs sm:text-sm text-yellow-300 bg-slate-900/40 border border-yellow-500/40 rounded-full px-3 py-1 hover:text-yellow-200 transition-colors"
               >
                 Built by Indigo
+              </a>
+               <a
+                href="https://indigo.spot/politicalplayground"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="campaign-status text-xs sm:text-sm text-yellow-300 bg-slate-900/40 border border-yellow-500/40 rounded-full px-3 py-1 hover:text-yellow-200 transition-colors"
+              >
+                What is this?
               </a>
             </div>
             <h1 className="newspaper-header text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight">

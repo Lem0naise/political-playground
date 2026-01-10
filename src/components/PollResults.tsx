@@ -38,12 +38,8 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
     <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white relative">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-2">
         <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 flex items-center">
-          📊 LIVE POLLING DATA
-          {state.currentPoll > 0 && (
-            <span className="text-xs font-normal text-slate-300 ml-1 sm:ml-2 font-mono">
-              (WAVE {state.currentPoll}/{state.totalPolls})
-            </span>
-          )}
+          LIVE POLLING DATA
+          
         </h2>
         <button
           type="button"
