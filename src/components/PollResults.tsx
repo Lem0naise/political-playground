@@ -22,7 +22,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             className="text-[10px] sm:text-xs font-semibold text-slate-300 border border-slate-500 rounded px-2 py-1 opacity-60 cursor-not-allowed"
             disabled
           >
-            view polling graph
+            View graph
           </button>
         </div>
         <p className="text-slate-300 font-mono text-xs">AWAITING DATA... START CAMPAIGN TO INITIALIZE POLLING</p>
@@ -55,7 +55,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
               : 'border-slate-600 text-slate-400 opacity-60 cursor-not-allowed'
           }`}
         >
-          view polling graph
+          View graph
         </button>
       </div>
 

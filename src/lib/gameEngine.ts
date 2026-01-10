@@ -1,4 +1,4 @@
-import { Candidate, Country, VALUES, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE } from '@/types/game';
+import { Candidate, Country, VALUES, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey } from '@/types/game';
 
 // Generate random normal distribution using Box-Muller transform
 function randomNormal(mean: number = 0, std: number = 1): number {
@@ -33,6 +33,495 @@ export function createCandidate(
     colour: colour || 'gray',
     swing,
     is_player: false
+  };
+}
+
+const TREND_INTERVAL_MIN = 4;
+const TREND_INTERVAL_MAX = 6;
+const TREND_VOTER_NOISE = 0.35;
+
+const TREND_DEFINITIONS: TrendDefinition[] = [
+  {
+    id: 'border_backlash',
+    title: 'Border Backlash',
+    description: 'Immigration talk shows ignite fears about porous frontiers.',
+    valueKey: 'nat_glob',
+    direction: -1,
+    directionLabel: 'toward stricter borders',
+    axisLabel: 'national identity',
+    shiftRange: [7, 12],
+    durationRange: [4, 6],
+    startTemplates: [
+      'TREND ALERT: {title} sweeps the nation — {description}',
+      'TREND ALERT: {title} pushes public mood {directionLabel}; strategists expect {duration}-week turbulence.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps nudging voters {directionLabel}; {axisLabel} index now {currentValue}.',
+      'Talkback callers drive a {shiftAbs}-point drift {directionLabel} on the {axisLabel} axis.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} leaves a {totalShiftAbs}-point legacy {directionLabel}.',
+      '{title} settles after {duration} hectic weeks, cementing a {totalShiftAbs}-point shift {directionLabel}.'
+    ]
+  },
+  {
+    id: 'global_outreach',
+    title: 'Global Outreach Wave',
+    description: 'Trade delegations and cultural festivals celebrate open borders.',
+    valueKey: 'nat_glob',
+    direction: 1,
+    directionLabel: 'toward open borders',
+    axisLabel: 'national identity',
+    shiftRange: [6, 11],
+    durationRange: [3, 5],
+    startTemplates: [
+      'TREND ALERT: {title} bursts onto the scene — {description}',
+      'TREND ALERT: {title} lifts optimism {directionLabel} for the next {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps dialling voters {directionLabel}; average now {currentValue}.',
+      'Exports chatter fuels another {shiftAbs}-point move {directionLabel} along the {axisLabel} axis.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} locks in a {totalShiftAbs}-point surge {directionLabel}.',
+      '{title} wraps after {duration} upbeat weeks, anchoring a {totalShiftAbs}-point swing {directionLabel}.'
+    ]
+  },
+  {
+    id: 'climate_alarm',
+    title: 'Climate Alarm',
+    description: 'Wildfires dominate headlines and scientists demand urgent cuts.',
+    valueKey: 'env_eco',
+    direction: -1,
+    directionLabel: 'toward environmental action',
+    axisLabel: 'climate-policy',
+    shiftRange: [8, 13],
+    durationRange: [4, 6],
+    startTemplates: [
+      'TREND ALERT: {title} grips voters — {description}',
+      'TREND ALERT: {title} shifts focus {directionLabel} for at least {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps policy debate {directionLabel}; climate axis now {currentValue}.',
+      'Emergency town halls add another {shiftAbs}-point tilt {directionLabel}.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} ends after {duration} weeks with a {totalShiftAbs}-point realignment {directionLabel}.',
+      '{title} winds down, locking in {totalShiftAbs} points {directionLabel} on climate policy.'
+    ]
+  },
+  {
+    id: 'industrial_push',
+    title: 'Industrial Push',
+    description: 'Manufacturers trumpet new jobs and lobby for looser regulations.',
+    valueKey: 'env_eco',
+    direction: 1,
+    directionLabel: 'toward industrial growth',
+    axisLabel: 'climate-policy',
+    shiftRange: [6, 10],
+    durationRange: [3, 5],
+    startTemplates: [
+      'TREND ALERT: {title} takes hold — {description}',
+      'TREND ALERT: {title} pulls the debate {directionLabel} through the next {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps voters eyeing factories; index now {currentValue}.',
+      'Business press drives another {shiftAbs}-point bump {directionLabel} on the {axisLabel} axis.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} leaves a {totalShiftAbs}-point footprint {directionLabel}.',
+      '{title} completes its arc, banking {totalShiftAbs} points {directionLabel}.'
+    ]
+  },
+  {
+    id: 'workers_wave',
+    title: 'Workers Wave',
+    description: 'Strike waves and wage demands dominate factory towns.',
+    valueKey: 'soc_cap',
+    direction: -1,
+    directionLabel: 'toward worker protections',
+    axisLabel: 'economic model',
+    shiftRange: [7, 12],
+    durationRange: [4, 6],
+    startTemplates: [
+      'TREND ALERT: {title} surges — {description}',
+      'TREND ALERT: {title} nudges debate {directionLabel} for roughly {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps wages front-page; axis now {currentValue}.',
+      'Union rallies notch another {shiftAbs}-point slide {directionLabel} on the {axisLabel} scale.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} locks in {totalShiftAbs} points {directionLabel}.',
+      '{title} winds down, leaving policy {directionLabel} by {totalShiftAbs} points.'
+    ]
+  },
+  {
+    id: 'market_mania',
+    title: 'Market Mania',
+    description: 'Stock surges and startup hype boost faith in free markets.',
+    valueKey: 'soc_cap',
+    direction: 1,
+    directionLabel: 'toward free-market reforms',
+    axisLabel: 'economic model',
+    shiftRange: [6, 11],
+    durationRange: [3, 5],
+    startTemplates: [
+      'TREND ALERT: {title} catches fire — {description}',
+      'TREND ALERT: {title} drifts sentiment {directionLabel} for {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps investors bullish; index now {currentValue}.',
+      'Business sections tout another {shiftAbs}-point sway {directionLabel} on the {axisLabel} front.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} settles after {duration} weeks with a {totalShiftAbs}-point shift {directionLabel}.',
+      '{title} fades, banking {totalShiftAbs} points {directionLabel}.'
+    ]
+  },
+  {
+    id: 'security_alert',
+    title: 'Security Alert',
+    description: 'Border skirmishes spur calls for tougher defence.',
+    valueKey: 'pac_mil',
+    direction: 1,
+    directionLabel: 'toward hawkish security',
+    axisLabel: 'security posture',
+    shiftRange: [7, 12],
+    durationRange: [4, 6],
+    startTemplates: [
+      'TREND ALERT: {title} shakes the cabinet — {description}',
+      'TREND ALERT: {title} drives discourse {directionLabel} for the next {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps defence boards on edge; security index now {currentValue}.',
+      'War room briefings spur another {shiftAbs}-point march {directionLabel}.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} concludes with a {totalShiftAbs}-point tilt {directionLabel}.',
+      '{title} winds down, entrenching {totalShiftAbs} points {directionLabel}.'
+    ]
+  },
+  {
+    id: 'peace_push',
+    title: 'Peace Push',
+    description: 'Peace marches and defence scandals call for demilitarisation.',
+    valueKey: 'pac_mil',
+    direction: -1,
+    directionLabel: 'toward demilitarisation',
+    axisLabel: 'security posture',
+    shiftRange: [6, 10],
+    durationRange: [3, 5],
+    startTemplates: [
+      'TREND ALERT: {title} sweeps campuses — {description}',
+      'TREND ALERT: {title} reorients debate {directionLabel} for {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps voters chanting {directionLabel}; security index now {currentValue}.',
+      'Whistleblower leaks add another {shiftAbs}-point drift {directionLabel}.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} leaves a {totalShiftAbs}-point imprint {directionLabel}.',
+      '{title} closes after {duration} weeks, banking {totalShiftAbs} points {directionLabel}.'
+    ]
+  },
+  {
+    id: 'order_drive',
+    title: 'Order Drive',
+    description: 'Crime sprees push voters to demand stronger authority.',
+    valueKey: 'auth_ana',
+    direction: -1,
+    directionLabel: 'toward law-and-order authority',
+    axisLabel: 'civil liberty',
+    shiftRange: [6, 11],
+    durationRange: [4, 6],
+    startTemplates: [
+      'TREND ALERT: {title} dominates tabloids — {description}',
+      'TREND ALERT: {title} drags sentiment {directionLabel} for the next {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} tightens attitudes {directionLabel}; civil liberty index now {currentValue}.',
+      'Police unions claim another {shiftAbs}-point shove {directionLabel}.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} settles after {duration} weeks with a {totalShiftAbs}-point move {directionLabel}.',
+      '{title} wraps, leaving voters {directionLabel} by {totalShiftAbs} points.'
+    ]
+  },
+  {
+    id: 'liberty_swell',
+    title: 'Liberty Swell',
+    description: 'Court victories and protest camps demand civil freedoms.',
+    valueKey: 'auth_ana',
+    direction: 1,
+    directionLabel: 'toward civil liberties',
+    axisLabel: 'civil liberty',
+    shiftRange: [6, 10],
+    durationRange: [3, 5],
+    startTemplates: [
+      'TREND ALERT: {title} lights up social media — {description}',
+      'TREND ALERT: {title} turns the spotlight {directionLabel} for {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps rallies growing; index now {currentValue}.',
+      'Rights advocates notch another {shiftAbs}-point gain {directionLabel}.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} leaves institutions {directionLabel} by {totalShiftAbs} points.',
+      '{title} closes after {duration} weeks, locking in {totalShiftAbs} points {directionLabel}.'
+    ]
+  },
+  {
+    id: 'faith_revival',
+    title: 'Faith Revival',
+    description: 'Mega-church crusades and moral campaigns dominate headlines.',
+    valueKey: 'rel_sec',
+    direction: -1,
+    directionLabel: 'toward religious values',
+    axisLabel: 'cultural identity',
+    shiftRange: [7, 12],
+    durationRange: [4, 6],
+    startTemplates: [
+      'TREND ALERT: {title} fills town squares — {description}',
+      'TREND ALERT: {title} swings discourse {directionLabel} for {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps pulpits buzzing; cultural index now {currentValue}.',
+      'Pilgrimages spark another {shiftAbs}-point surge {directionLabel}.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} settles with a {totalShiftAbs}-point imprint {directionLabel}.',
+      '{title} finishes its run, leaving the axis {directionLabel} by {totalShiftAbs} points.'
+    ]
+  },
+  {
+    id: 'secular_surge',
+    title: 'Secular Surge',
+    description: 'Ethics reforms and science funding swing debate away from pulpits.',
+    valueKey: 'rel_sec',
+    direction: 1,
+    directionLabel: 'toward secular values',
+    axisLabel: 'cultural identity',
+    shiftRange: [6, 10],
+    durationRange: [3, 5],
+    startTemplates: [
+      'TREND ALERT: {title} hits parliament — {description}',
+      'TREND ALERT: {title} edges sentiment {directionLabel} for {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps classrooms buzzing; index now {currentValue}.',
+      'Academic summits add another {shiftAbs}-point swing {directionLabel}.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} locks in {totalShiftAbs} points {directionLabel}.',
+      '{title} winds down after {duration} weeks, cementing a {totalShiftAbs}-point move {directionLabel}.'
+    ]
+  },
+  {
+    id: 'progressive_wave',
+    title: 'Progressive Wave',
+    description: 'Grassroots organisers push bold reforms on social issues.',
+    valueKey: 'prog_cons',
+    direction: -1,
+    directionLabel: 'toward progressive ideals',
+    axisLabel: 'cultural values',
+    shiftRange: [7, 12],
+    durationRange: [4, 6],
+    startTemplates: [
+      'TREND ALERT: {title} surges — {description}',
+      'TREND ALERT: {title} steers debate {directionLabel} through {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps activists mobilised; values index now {currentValue}.',
+      'Petitions deliver another {shiftAbs}-point drop {directionLabel} on the {axisLabel} scale.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} caps a {totalShiftAbs}-point pivot {directionLabel}.',
+      '{title} winds down, locking in {totalShiftAbs} points {directionLabel}.'
+    ]
+  },
+  {
+    id: 'heritage_moment',
+    title: 'Heritage Moment',
+    description: 'Traditionalist movements rally around national heritage.',
+    valueKey: 'prog_cons',
+    direction: 1,
+    directionLabel: 'toward conservative nostalgia',
+    axisLabel: 'cultural values',
+    shiftRange: [6, 11],
+    durationRange: [3, 5],
+    startTemplates: [
+      'TREND ALERT: {title} sweeps heritage festivals — {description}',
+      'TREND ALERT: {title} nudges conversations {directionLabel} for {duration} weeks.'
+    ],
+    ongoingTemplates: [
+      'Trend Watch: {title} keeps voters reminiscing; values index now {currentValue}.',
+      'Cultural galas add another {shiftAbs}-point climb {directionLabel}.'
+    ],
+    completionTemplates: [
+      'Trend Cools: {title} leaves a {totalShiftAbs}-point imprint {directionLabel}.',
+      '{title} concludes, preserving {totalShiftAbs} points {directionLabel}.'
+    ]
+  }
+];
+
+function randomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomInRange(min: number, max: number): number {
+  return Math.random() * (max - min) + min;
+}
+
+function pickTemplate(templates: string[], fallback: string): string {
+  if (!templates || templates.length === 0) {
+    return fallback;
+  }
+  return templates[Math.floor(Math.random() * templates.length)];
+}
+
+function buildTrendContext(
+  trend: ActiveTrend,
+  currentValue: number,
+  shift: number,
+  remainingWeeks: number
+): Record<string, string> {
+  return {
+    title: trend.title,
+    description: trend.description,
+    directionLabel: trend.directionLabel,
+    axisLabel: trend.axisLabel,
+    duration: String(trend.duration),
+    totalShift: trend.totalShift.toFixed(1),
+    totalShiftAbs: Math.abs(trend.totalShift).toFixed(1),
+    shift: shift.toFixed(1),
+    shiftAbs: Math.abs(shift).toFixed(1),
+    currentValue: Math.round(currentValue).toString(),
+    weeksRemaining: Math.max(0, remainingWeeks).toString(),
+    startWeek: trend.startWeek.toString(),
+    endWeek: trend.endWeek.toString()
+  };
+}
+
+function formatTrendTemplate(template: string, context: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (_match, key) => context[key] ?? '');
+}
+
+export function scheduleNextTrendPoll(currentWeek: number, minGap: number = TREND_INTERVAL_MIN, maxGap: number = TREND_INTERVAL_MAX): number {
+  return currentWeek + randomInt(minGap, maxGap);
+}
+
+export function createTrend(currentWeek: number, excludeValueKey?: PoliticalValueKey): ActiveTrend {
+  let available: TrendDefinition[] = TREND_DEFINITIONS;
+  if (excludeValueKey) {
+    const filtered = TREND_DEFINITIONS.filter(def => def.valueKey !== excludeValueKey);
+    if (filtered.length > 0) {
+      available = filtered;
+    }
+  }
+
+  const definition = available[Math.floor(Math.random() * available.length)];
+  const duration = randomInt(definition.durationRange[0], definition.durationRange[1]);
+  const totalShiftMagnitude = randomInRange(definition.shiftRange[0], definition.shiftRange[1]);
+  const totalShift = parseFloat((totalShiftMagnitude * definition.direction).toFixed(2));
+
+  return {
+    ...definition,
+    totalShift,
+    weeklyShift: parseFloat((totalShift / duration).toFixed(2)),
+    duration,
+    remainingWeeks: duration,
+    appliedShift: 0,
+    startWeek: currentWeek,
+    endWeek: currentWeek + duration - 1
+  };
+}
+
+export function formatTrendStartHeadline(trend: ActiveTrend): string {
+  const context = buildTrendContext(trend, 0, 0, trend.remainingWeeks);
+  const template = pickTemplate(
+    trend.startTemplates,
+    `TREND ALERT: ${trend.title} shifts sentiment ${trend.directionLabel}.`
+  );
+  return formatTrendTemplate(template, context);
+}
+
+export interface TrendStepResult {
+  trend: ActiveTrend | null;
+  values: PoliticalValues;
+  ongoingNews?: string;
+  completionNews?: string;
+  completedTrend?: ActiveTrend;
+}
+
+export function applyTrendStep(
+  trend: ActiveTrend,
+  countryValues: PoliticalValues,
+  votingData: number[][]
+): TrendStepResult {
+  const axisIndex = VALUES.indexOf(trend.valueKey as typeof VALUES[number]);
+  const expectedShift = trend.remainingWeeks <= 1
+    ? trend.totalShift - trend.appliedShift
+    : trend.weeklyShift;
+  const currentValue = countryValues[trend.valueKey];
+  const nextValueRaw = currentValue + expectedShift;
+  const clampedValue = Math.max(-100, Math.min(100, nextValueRaw));
+  const actualShift = clampedValue - currentValue;
+
+  const newValues: PoliticalValues = {
+    ...countryValues,
+    [trend.valueKey]: clampedValue
+  };
+
+  if (axisIndex !== -1 && votingData[axisIndex]) {
+    const axisData = votingData[axisIndex];
+    for (let i = 0; i < axisData.length; i++) {
+      const noise = actualShift === 0 ? 0 : (Math.random() - 0.5) * Math.abs(actualShift) * TREND_VOTER_NOISE;
+      const newVal = axisData[i] + actualShift + noise;
+      axisData[i] = Math.max(-100, Math.min(100, newVal));
+    }
+  }
+
+  const appliedShift = trend.appliedShift + actualShift;
+  const remainingWeeks = trend.remainingWeeks - 1;
+
+  const context = buildTrendContext(trend, clampedValue, actualShift, remainingWeeks);
+  const ongoingTemplate = pickTemplate(
+    trend.ongoingTemplates,
+    `Trend Watch: ${trend.title} moves sentiment ${trend.directionLabel}.`
+  );
+  const ongoingNews = formatTrendTemplate(ongoingTemplate, context);
+
+  if (remainingWeeks > 0) {
+    const updatedTrend: ActiveTrend = {
+      ...trend,
+      remainingWeeks,
+      appliedShift
+    };
+    return {
+      trend: updatedTrend,
+      values: newValues,
+      ongoingNews
+    };
+  }
+
+  const completionTemplate = pickTemplate(
+    trend.completionTemplates,
+    `Trend Cools: ${trend.title} leaves a ${Math.abs(appliedShift).toFixed(1)}-point mark ${trend.directionLabel}.`
+  );
+  const completionNews = formatTrendTemplate(completionTemplate, context);
+  const completedTrend: ActiveTrend = {
+    ...trend,
+    remainingWeeks: 0,
+    appliedShift
+  };
+
+  return {
+    trend: null,
+    values: newValues,
+    ongoingNews,
+    completionNews,
+    completedTrend
   };
 }
 
@@ -71,7 +560,7 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
     let eucDist = eucSum;
     
     // Apply party popularity effect
-    const popularityEffect = Math.pow(cand.party_pop * 4, 2);
+    const popularityEffect = Math.pow(Math.max(0, cand.party_pop) * 3, 1.4);
     eucDist -= popularityEffect;
     
     if (cand.swing) {

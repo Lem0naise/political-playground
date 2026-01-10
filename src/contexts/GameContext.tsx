@@ -4,7 +4,11 @@ import {
   generateVotingData, 
   conductPoll, 
   applyEventEffect, 
-  createCandidate 
+  createCandidate,
+  createTrend,
+  applyTrendStep,
+  formatTrendStartHeadline,
+  scheduleNextTrendPoll
 } from '@/lib/gameEngine';
 import { calculatePartyCompatibility } from '@/lib/coalitionEngine';
 
@@ -61,7 +65,10 @@ const initialState: GameState = {
   pendingParties: [],
   coalitionState: undefined,
   phase: 'setup',
-  pollingHistory: []
+  pollingHistory: [],
+  activeTrend: null,
+  trendHistory: [],
+  nextTrendPoll: null
 };
 
 function gameReducer(state: GameState, action: GameAction): GameState {
@@ -72,7 +79,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         country: action.payload.country,
         countryData: action.payload.countryData,
         totalPolls: action.payload.countryData.totalPolls || 52, // Use totalPolls if provided
-        phase: 'party-selection'
+        phase: 'party-selection',
+        activeTrend: null,
+        trendHistory: [],
+        nextTrendPoll: null
       };
       
     case 'SET_PARTY_LIST':
@@ -139,14 +149,66 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         previousPollResults: initialResults,
         currentPoll: 1,
         politicalNews: ["ELECTION SEASON OFFICIALLY BEGINS.."],
-        pollingHistory: [initialPollingSnapshot]
+        pollingHistory: [initialPollingSnapshot],
+        activeTrend: null,
+        trendHistory: [],
+        nextTrendPoll: scheduleNextTrendPoll(1)
       };
       
     case 'NEXT_POLL':
       if (state.currentPoll >= state.totalPolls) return state;
       
       const nextPollNum = state.currentPoll + 1;
-      const { results: newResults, newsEvents } = conductPoll(state.votingData, state.candidates, nextPollNum);
+      const trendNews: string[] = [];
+      let activeTrend = state.activeTrend;
+      let trendHistory = state.trendHistory;
+      let nextTrendPoll = state.nextTrendPoll;
+      let updatedCountryValues = state.countryData.vals;
+      const votingDataRef = state.votingData;
+
+      if (!activeTrend && nextTrendPoll !== null && nextPollNum >= nextTrendPoll && nextPollNum < state.totalPolls) {
+        const previousKey = trendHistory.length > 0 ? trendHistory[trendHistory.length - 1].valueKey : undefined;
+        const newTrend = createTrend(nextPollNum, previousKey);
+        trendNews.push(formatTrendStartHeadline(newTrend));
+        const stepResult = applyTrendStep(newTrend, updatedCountryValues, votingDataRef);
+        updatedCountryValues = stepResult.values;
+        if (stepResult.ongoingNews) {
+          trendNews.push(stepResult.ongoingNews);
+        }
+        if (stepResult.completionNews) {
+          trendNews.push(stepResult.completionNews);
+        }
+        if (stepResult.completedTrend) {
+          trendHistory = [...trendHistory, stepResult.completedTrend];
+          activeTrend = null;
+          nextTrendPoll = scheduleNextTrendPoll(nextPollNum);
+        } else {
+          activeTrend = stepResult.trend;
+          nextTrendPoll = null;
+        }
+      } else if (activeTrend) {
+        const stepResult = applyTrendStep(activeTrend, updatedCountryValues, votingDataRef);
+        updatedCountryValues = stepResult.values;
+        if (stepResult.ongoingNews) {
+          trendNews.push(stepResult.ongoingNews);
+        }
+        if (stepResult.completionNews) {
+          trendNews.push(stepResult.completionNews);
+        }
+        if (stepResult.completedTrend) {
+          trendHistory = [...trendHistory, stepResult.completedTrend];
+          activeTrend = null;
+          nextTrendPoll = scheduleNextTrendPoll(nextPollNum);
+        } else {
+          activeTrend = stepResult.trend;
+        }
+      }
+
+      const countryDataAfterTrend = updatedCountryValues === state.countryData.vals
+        ? state.countryData
+        : { ...state.countryData, vals: updatedCountryValues };
+
+      const { results: newResults, newsEvents } = conductPoll(votingDataRef, state.candidates, nextPollNum);
       
       // Update previous poll results
       const newPreviousResults: Record<string, number> = {};
@@ -244,6 +306,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
       // Combine all news sources into a single array first
       const allNewsItems = [
+        ...trendNews,
         ...state.playerEventNews, 
         ...newsEvents, 
         ...partyPollingNews
@@ -265,6 +328,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         previousPollResults: newPreviousResults,
         politicalNews: sortedPoliticalNews,
         playerEventNews: [],
+        countryData: countryDataAfterTrend,
+        activeTrend,
+        trendHistory,
+        nextTrendPoll,
         pollingHistory: [
           ...state.pollingHistory,
           {

@@ -135,6 +135,26 @@ export default function CampaignView() {
                 <h2 className="newspaper-header text-lg sm:text-xl font-black text-slate-900 mb-2 sm:mb-3 mt-2 border-b border-slate-800 pb-1 tracking-tight">
                   📰 HEADLINES AROUND THE COUNTRY
                 </h2>
+                {state.activeTrend && (
+                  <div className="border border-red-600 bg-white/90 rounded p-3 mb-3 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div>
+                        <p className="text-xs font-mono uppercase tracking-wider text-red-700">NATIONAL TREND</p>
+                        <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug font-serif uppercase">
+                          {state.activeTrend.title}
+                        </h3>
+                        <p className="text-sm text-slate-700 font-serif">
+                          {state.activeTrend.description}
+                        </p>
+                      </div>
+                      {/* {(<div className="bg-red-100 border border-red-400 rounded-lg px-3 py-2 text-sm text-red-800 font-semibold text-center">
+                        Direction: {state.activeTrend.direction > 0 ? 'Positive' : 'Negative'} {state.activeTrend.axisLabel} shift
+                        <br />
+                        Remaining Weeks: {state.activeTrend.remainingWeeks}
+                      </div>)} */}
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
   {/* 2. Map over the ENTIRE politicalNews array (up to 7 items) */}
   {state.politicalNews.slice(0, 7).map((news, idx) => {

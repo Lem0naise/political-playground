@@ -8,6 +8,31 @@ export interface PoliticalValues {
   rel_sec: number;       // Religious(-) to Secular(+)
 }
 
+export interface TrendDefinition {
+  id: string;
+  title: string;
+  description: string;
+  valueKey: PoliticalValueKey;
+  direction: 1 | -1;
+  directionLabel: string;
+  axisLabel: string;
+  shiftRange: [number, number];
+  durationRange: [number, number];
+  startTemplates: string[];
+  ongoingTemplates: string[];
+  completionTemplates: string[];
+}
+
+export interface ActiveTrend extends TrendDefinition {
+  totalShift: number;
+  weeklyShift: number;
+  duration: number;
+  remainingWeeks: number;
+  appliedShift: number;
+  startWeek: number;
+  endWeek: number;
+}
+
 export interface Candidate {
   id: number;
   name: string;
@@ -70,6 +95,9 @@ export interface GameState {
   coalitionState?: CoalitionState;
   phase: 'setup' | 'party-selection' | 'partyMerging' | 'player-selection' | 'campaign' | 'results' | 'coalition';
   pollingHistory: PollingSnapshot[];
+  activeTrend: ActiveTrend | null;
+  trendHistory: ActiveTrend[];
+  nextTrendPoll: number | null;
 }
 
 export interface CoalitionState {
