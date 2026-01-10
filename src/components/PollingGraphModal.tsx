@@ -49,7 +49,7 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
     return null;
   }
 
-  const labels = history.map((snapshot) => `Week ${snapshot.week}`);
+  const labels = history.map((snapshot) => `${snapshot.week}`);
 
   const datasets = useMemo(() => {
     return candidates.map((candidate) => {
@@ -61,10 +61,10 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
         backgroundColor: hexToRgba(color, 0.15),
         pointBackgroundColor: color,
         pointBorderColor: '#0f172a',
-        pointHoverRadius: 5,
-        pointRadius: 3,
+        pointHoverRadius: 3,
+        pointRadius: 2,
         fill: false,
-        tension: 0.25,
+        tension: 0.9,
       };
     });
   }, [candidates, history]);

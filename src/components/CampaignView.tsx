@@ -79,6 +79,7 @@ export default function CampaignView() {
         </div>
       </div>
 
+
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-3 sm:py-4">
         <div className="grid lg:grid-cols-3 gap-3 sm:gap-4">
           {/* Main Content - Newspaper Style */}
@@ -100,6 +101,30 @@ export default function CampaignView() {
                 <span className="bg-red-600 px-1 py-0.5 rounded">ELECTION DAY</span>
               </div>
             </div>
+
+
+            {/* Next Poll Button - Campaign HQ Style */}
+            {!currentEvent && (
+            <div className="campaign-board p-3 sm:p-4 rounded-lg text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-red-900/20"></div>
+              <div className="relative">
+                {state.currentPoll === 0 ? (
+                  <button
+                    onClick={actions.startCampaign}
+                    className="px-6 sm:px-8 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
+                  >
+                    🚀 LAUNCH CAMPAIGN
+                  </button>
+                ) : (
+                  <button
+                    onClick={actions.nextPoll}
+                    className="px-6 sm:px-8 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
+                  >
+                    {state.currentPoll === state.totalPolls - 1 ? 'FINAL POLLING' : 'CONTINUE >'}
+                  </button>
+                )}
+              </div>
+            </div>)}
 
             {/* Political News - Newspaper Style */}
             {state.politicalNews.length > 0 && (
@@ -142,32 +167,6 @@ export default function CampaignView() {
               </div>
             )}
 
-            {/* Next Poll Button - Campaign HQ Style */}
-            {!currentEvent && (
-            <div className="campaign-board p-3 sm:p-4 rounded-lg text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-red-900/20"></div>
-              <div className="relative">
-                {state.currentPoll === 0 ? (
-                  <button
-                    onClick={actions.startCampaign}
-                    className="px-6 sm:px-8 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
-                  >
-                    🚀 LAUNCH CAMPAIGN
-                  </button>
-                ) : state.currentPoll >= state.totalPolls ? (
-                  <div className="text-base sm:text-lg font-bold text-yellow-400 campaign-status">
-                    🗳️ ELECTION DAY - POLLS CLOSED
-                  </div>
-                ) : (
-                  <button
-                    onClick={actions.nextPoll}
-                    className="px-6 sm:px-8 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
-                  >
-                    {state.currentPoll === state.totalPolls - 1 ? '📊 FINAL POLLING' : '📊 CONTINUE'}
-                  </button>
-                )}
-              </div>
-            </div>)}
 
             {/* Event Modal - positioned below Next Poll button */}
             {currentEvent && (
