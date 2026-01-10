@@ -2,13 +2,29 @@
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
 
-export default function PollResults() {
+interface PollResultsProps {
+  onViewGraph: () => void;
+  canViewGraph: boolean;
+}
+
+export default function PollResults({ onViewGraph, canViewGraph }: PollResultsProps) {
   const { state } = useGame();
 
   if (state.pollResults.length === 0) {
     return (
-      <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white">
-        <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2">POLLING STATUS</h2>
+      <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white relative">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400">
+            POLLING STATUS
+          </h2>
+          <button
+            type="button"
+            className="text-[10px] sm:text-xs font-semibold text-slate-300 border border-slate-500 rounded px-2 py-1 opacity-60 cursor-not-allowed"
+            disabled
+          >
+            view polling graph
+          </button>
+        </div>
         <p className="text-slate-300 font-mono text-xs">AWAITING DATA... START CAMPAIGN TO INITIALIZE POLLING</p>
       </div>
     );
@@ -19,15 +35,29 @@ export default function PollResults() {
   const turnout = totalVotes > 0 ? ((totalVotes / state.countryData.pop) * 100) : 0;
 
   return (
-    <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white">
-      <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2">
-        📊 LIVE POLLING DATA
-        {state.currentPoll > 0 && (
-          <span className="text-xs font-normal text-slate-300 ml-1 sm:ml-2 font-mono">
-            (WAVE {state.currentPoll}/{state.totalPolls})
-          </span>
-        )}
-      </h2>
+    <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white relative">
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-2">
+        <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 flex items-center">
+          📊 LIVE POLLING DATA
+          {state.currentPoll > 0 && (
+            <span className="text-xs font-normal text-slate-300 ml-1 sm:ml-2 font-mono">
+              (WAVE {state.currentPoll}/{state.totalPolls})
+            </span>
+          )}
+        </h2>
+        <button
+          type="button"
+          onClick={onViewGraph}
+          disabled={!canViewGraph}
+          className={`text-[10px] sm:text-xs font-semibold rounded px-2 py-1 border transition-colors ${
+            canViewGraph
+              ? 'border-slate-400 text-slate-100 hover:bg-slate-600/60'
+              : 'border-slate-600 text-slate-400 opacity-60 cursor-not-allowed'
+          }`}
+        >
+          view polling graph
+        </button>
+      </div>
 
       <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
         {sortedResults.map((result, index) => {

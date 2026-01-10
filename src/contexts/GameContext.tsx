@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState } from '@/types/game';
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot } from '@/types/game';
 import { 
   generateVotingData, 
   conductPoll, 
@@ -60,7 +60,8 @@ const initialState: GameState = {
   votingData: [],
   pendingParties: [],
   coalitionState: undefined,
-  phase: 'setup'
+  phase: 'setup',
+  pollingHistory: []
 };
 
 function gameReducer(state: GameState, action: GameAction): GameState {
@@ -124,6 +125,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       results.forEach(result => {
         initialResults[result.candidate.party] = result.percentage;
       });
+
+      const initialPollingSnapshot: PollingSnapshot = {
+        week: 1,
+        percentages: { ...initialResults }
+      };
       
       return {
         ...state,
@@ -132,7 +138,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         initialPollResults: initialResults,
         previousPollResults: initialResults,
         currentPoll: 1,
-        politicalNews: ["ELECTION SEASON OFFICIALLY BEGINS.."]
+        politicalNews: ["ELECTION SEASON OFFICIALLY BEGINS.."],
+        pollingHistory: [initialPollingSnapshot]
       };
       
     case 'NEXT_POLL':
@@ -258,6 +265,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         previousPollResults: newPreviousResults,
         politicalNews: sortedPoliticalNews,
         playerEventNews: [],
+        pollingHistory: [
+          ...state.pollingHistory,
+          {
+            week: nextPollNum,
+            percentages: { ...newPreviousResults }
+          }
+        ],
         phase: nextPollNum >= state.totalPolls ? 'results' : 'campaign'
       };
       

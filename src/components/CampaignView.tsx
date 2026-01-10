@@ -3,12 +3,14 @@ import { useGame } from '@/contexts/GameContext';
 import { Event, EventChoice } from '@/types/game';
 import PollResults from './PollResults';
 import EventModal from './EventModal';
+import PollingGraphModal from './PollingGraphModal';
 
 export default function CampaignView() {
   const { state, actions } = useGame();
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [lastEventPoll, setLastEventPoll] = useState(0);
+  const [showPollingGraph, setShowPollingGraph] = useState(false);
 
   useEffect(() => {
     fetch('/data/events.json')
@@ -38,6 +40,7 @@ export default function CampaignView() {
   };
 
   const weeksLeft = state.totalPolls - state.currentPoll;
+  const canViewPollingGraph = state.pollingHistory.length > 0;
 
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8f6f0 0%, #e7e5e4 50%, #d6d3d1 100%)' }}>
@@ -182,7 +185,10 @@ export default function CampaignView() {
               <h3 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2 text-center border-b border-slate-600 pb-1">
                 POLLING DATA
               </h3>
-              <PollResults />
+              <PollResults
+                onViewGraph={() => setShowPollingGraph(true)}
+                canViewGraph={canViewPollingGraph}
+              />
             </div>
           </div>
         </div>
@@ -198,6 +204,14 @@ export default function CampaignView() {
           </p>
         </div>
       </div>
+      {showPollingGraph && (
+        <PollingGraphModal
+          open={showPollingGraph}
+          onClose={() => setShowPollingGraph(false)}
+          history={state.pollingHistory}
+          candidates={state.candidates}
+        />
+      )}
     </div>
   );
 }

@@ -47,6 +47,11 @@ export interface PollResult {
   change?: number;
 }
 
+export interface PollingSnapshot {
+  week: number;
+  percentages: Record<string, number>;
+}
+
 export interface GameState {
   country: string;
   countryData: Country;
@@ -64,6 +69,7 @@ export interface GameState {
   pendingParties?: any[];
   coalitionState?: CoalitionState;
   phase: 'setup' | 'party-selection' | 'partyMerging' | 'player-selection' | 'campaign' | 'results' | 'coalition';
+  pollingHistory: PollingSnapshot[];
 }
 
 export interface CoalitionState {

@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
 import { VALUES } from '@/types/game';
 import { DESCRIPTORS, getIdeologyProfile } from '@/lib/ideologyProfiler';
 import { CABINET_POSITIONS } from '@/types/game'; // <-- Add this import
 import CabinetView from './CabinetView';
+import PollingGraphModal from './PollingGraphModal';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
+  const [showPollingGraph, setShowPollingGraph] = useState(false);
 
   if (state.pollResults.length === 0) {
     return (
@@ -35,6 +38,7 @@ export default function ResultsView() {
   
   // Check if coalition is needed
   const needsCoalition = winner.percentage <= 50;
+  const canViewPollingGraph = state.pollingHistory.length > 0;
 
   // Calculate campaign changes from initial poll
   const campaignChanges = sortedResults.map(result => {
@@ -166,6 +170,7 @@ export default function ResultsView() {
                 : 'ELECTION WINNER'}
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+            
             <div 
               className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex-shrink-0 border-2 border-[var(--ink-black)]"
               style={{ backgroundColor: winner.candidate.colour }}
@@ -238,6 +243,7 @@ export default function ResultsView() {
             <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-[var(--ink-black)]">
               {playerWon ? 'CONGRATULATIONS!' : playerPosition <= 3 ? 'Good Campaign!' : 'Better Luck Next Time'}
             </h2>
+            
             <div className="text-base sm:text-lg">
               {playerWon 
                 ? `You won the election as ${playerResult.candidate.party}!`
@@ -247,7 +253,16 @@ export default function ResultsView() {
             <div className="text-sm sm:text-base mt-2">
               Final result: {playerResult.percentage.toFixed(1)}% of the vote
             </div>
+            {canViewPollingGraph && (
+            <button
+              onClick={() => setShowPollingGraph(true)}
+              className="px-6 sm:px-8 py-2 mt-2 bg-slate-700 hover:bg-slate-800 text-white font-bold rounded-lg transition-colors duration-200"
+            >
+              View Polling Graph
+            </button>
+          )}
           </div>
+          
         )}
 
         {/* Full Results Table */}
@@ -361,6 +376,7 @@ export default function ResultsView() {
           >
             Play Again
           </button>
+          
         </div>
 
         <div className="text-center mt-6 sm:mt-8">
@@ -370,6 +386,14 @@ export default function ResultsView() {
           
         </div>
       </div>
+      {showPollingGraph && (
+        <PollingGraphModal
+          open={showPollingGraph}
+          onClose={() => setShowPollingGraph(false)}
+          history={state.pollingHistory}
+          candidates={state.candidates}
+        />
+      )}
     </div>
   );
 }
