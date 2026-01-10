@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect, useMemo } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { findMergeCandidates, mergeParties, type Party, type MergeCandidate } from '@/lib/partyMerger';
