@@ -11,7 +11,7 @@
 !.yarn/versions
 
 # build output
-/dist
+/dist/
 
 # testing
 /coverage
