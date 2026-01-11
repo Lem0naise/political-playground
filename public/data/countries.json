@@ -684,5 +684,61 @@
         },
         "scale": 1000,
         "hos": "King Remus"
+    },
+    "YUGOSLAVIA 1990": {
+        "pop": 23230,
+        "vals": {
+            "prog_cons": 75,
+            "nat_glob": -85,
+            "env_eco": 10,
+            "soc_cap": -70,
+            "pac_mil": 85,
+            "auth_ana": -80,
+            "rel_sec": 15
+        },
+        "scale": 10000,
+        "hos": "Slobodan Milošević"
+    },
+    "ESTONIA": {
+        "pop": 1330,
+        "vals": {
+            "prog_cons": -10,
+            "nat_glob": 85,
+            "env_eco": 35,
+            "soc_cap": 75,
+            "pac_mil": 25,
+            "auth_ana": 35,
+            "rel_sec": 85
+        },
+        "scale": 10000,
+        "hos": "Alar Karis"
+    },
+    "CZECHIA": {
+        "pop": 10510,
+        "vals": {
+            "prog_cons": 15,
+            "nat_glob": 45,
+            "env_eco": 30,
+            "soc_cap": 40,
+            "pac_mil": 20,
+            "auth_ana": 10,
+            "rel_sec": 75
+        },
+        "scale": 10000,
+        "hos": "Petr Pavel"
+    },
+    "URUGUAY": {
+        "pop": 3420,
+        "vals": {
+            "prog_cons": -55,
+            "nat_glob": 25,
+            "env_eco": -30,
+            "soc_cap": -20,
+            "pac_mil": -30,
+            "auth_ana": 20,
+            "rel_sec": 95
+        },
+        "scale": 10000,
+        "hos": "Luis Lacalle Pou"
     }
 }
