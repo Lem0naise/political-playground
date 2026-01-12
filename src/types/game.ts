@@ -46,11 +46,23 @@ export interface Candidate {
   previous_popularity?: number;
 }
 
+export interface VoterBloc {
+  id: string;
+  weight: number; // 0..1, sums to <= 1; remainder = independents
+  center: PoliticalValues;
+  variance?: number | Partial<PoliticalValues>; // uniform std or per-axis stddev
+  salience?: Partial<PoliticalValues>; // optional per-axis weights
+  partyAffinity?: Record<string, number>; // party name -> utility bonus
+  turnout?: number; // turnout multiplier (default 1)
+}
+
+
 export interface Country {
   pop: number;
   vals: PoliticalValues;
   scale: number;
   hos: string;
+  blocs?: VoterBloc[]
 }
 
 export interface Event {
@@ -142,10 +154,25 @@ export const CABINET_POSITIONS: Record<string, CabinetPosition> = {
 
 // Game configuration constants
 export const DEBUG = false;
-export const TOO_FAR_DISTANCE = 190;
+export const TOO_FAR_DISTANCE = 100;
 export const COALITION_FACTOR = 1.1;
 export const TOO_CLOSE_PARTY = 100;
 export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
+
+// Voting behaviour configuration
+// Enable probabilistic choice via softmax; when false, deterministic max-utility is used
+export const PROBABILISTIC_VOTING = true;
+// Softmax temperature (beta): higher => crisper choices, lower => smoother
+export const SOFTMAX_BETA = 0.004;
+// Loyalty bonus added to utility when voter sticks with previous choice
+export const LOYALTY_UTILITY = 300;
+
+// Optional persistent electorate structure for generating once at game start
+export interface Electorate {
+  votingData: number[][];
+  lastChoices: number[]; // -1 if never voted yet
+  blocIndex?: number[];  // optional: per-voter bloc assignment (index into country.blocs)
+}
 
 export type PoliticalValueKey = keyof PoliticalValues;

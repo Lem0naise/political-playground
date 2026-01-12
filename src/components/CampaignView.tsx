@@ -25,7 +25,7 @@ export default function CampaignView() {
       const pollsSinceEvent = state.currentPoll - lastEventPoll;
       
       // Present event every 2-3 polls
-      if (pollsSinceEvent >= 2 && Math.random() < 0.4) {
+      if (pollsSinceEvent >= 1 && Math.random() < 0.7) {
         const randomEvent = events[Math.floor(Math.random() * events.length)];
         setCurrentEvent(randomEvent);
         setLastEventPoll(state.currentPoll);

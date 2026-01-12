@@ -128,7 +128,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       
     case 'START_CAMPAIGN':
       const votingData = generateVotingData(state.countryData);
-      const { results } = conductPoll(votingData, state.candidates, 1);
+      const { results } = conductPoll(votingData, state.candidates, 1, state.countryData);
       
       // Store initial poll results
       const initialResults: Record<string, number> = {};
@@ -208,7 +208,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ? state.countryData
         : { ...state.countryData, vals: updatedCountryValues };
 
-      const { results: newResults, newsEvents } = conductPoll(votingDataRef, state.candidates, nextPollNum);
+      const { results: newResults, newsEvents } = conductPoll(votingDataRef, state.candidates, nextPollNum, countryDataAfterTrend);
       
       // Update previous poll results
       const newPreviousResults: Record<string, number> = {};
