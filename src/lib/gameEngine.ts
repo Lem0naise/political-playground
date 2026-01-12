@@ -959,12 +959,22 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
   return newsEvents;
 }
 
+export interface BlocStatistics {
+  blocId: string;
+  blocName: string;
+  size: number;
+  weight: number;
+  percentages: Record<string, number>; // party name -> percentage
+  leadingParty: string;
+  leadingPercentage: number;
+}
+
 export function conductPoll(
   data: number[][],
   candidates: Candidate[],
   pollIteration: number = 0,
   country?: Country
-): { results: Array<{ candidate: Candidate; votes: number; percentage: number }>, newsEvents: string[] } {
+): { results: Array<{ candidate: Candidate; votes: number; percentage: number }>, newsEvents: string[], blocStats?: BlocStatistics[] } {
   // Reset results for this poll
   const pollResults: number[] = new Array(candidates.length).fill(0);
   let notVoted = 0;
@@ -983,10 +993,10 @@ export function conductPoll(
   // Apply minimal polling noise to simulate margin of error
   const pollingNoise = 0.995 + Math.random() * 0.01; // 0.995 to 1.005
   
-  // DEBUG: bloc-level tallies (initialize before voting loop)
+  // Bloc-level tallies (always calculate if blocs exist)
   const blocTallies: Record<string, number[]> = {};
   const blocSizes: Record<string, number> = {};
-  if (DEBUG && country?.blocs && VOTER_BLOC_IDS) {
+  if (country?.blocs && VOTER_BLOC_IDS) {
     country.blocs.forEach(b => { 
       blocTallies[b.id] = new Array(candidates.length).fill(0);
       blocSizes[b.id] = 0;
@@ -1000,8 +1010,8 @@ export function conductPoll(
       pollResults[choice]++;
       if (LAST_CHOICES) LAST_CHOICES[voterIndex] = choice;
       
-      // DEBUG: accumulate bloc tallies
-      if (DEBUG && country?.blocs && VOTER_BLOC_IDS) {
+      // Accumulate bloc tallies
+      if (country?.blocs && VOTER_BLOC_IDS) {
         const blocId = VOTER_BLOC_IDS[voterIndex];
         if (blocId >= 0 && blocId < country.blocs.length) {
           const blocKey = country.blocs[blocId].id;
@@ -1044,18 +1054,55 @@ export function conductPoll(
     }
   }
 
+  // Calculate bloc statistics
+  const blocStats: BlocStatistics[] = [];
+  if (country?.blocs) {
+    for (const bloc of country.blocs) {
+      const tallies = blocTallies[bloc.id] || [];
+      const size = blocSizes[bloc.id] || 0;
+      
+      if (size > 0) {
+        const percentages: Record<string, number> = {};
+        let maxPct = 0;
+        let leadingParty = '';
+        
+        candidates.forEach((c, i) => {
+          const pct = (tallies[i] / size) * 100;
+          percentages[c.party] = pct;
+          if (pct > maxPct) {
+            maxPct = pct;
+            leadingParty = c.party;
+          }
+        });
+        
+        // Convert bloc ID to display name (e.g., "urban_progressives" -> "Urban Progressives")
+        const blocName = bloc.id
+          .split('_')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+        
+        blocStats.push({
+          blocId: bloc.id,
+          blocName,
+          size,
+          weight: bloc.weight,
+          percentages,
+          leadingParty,
+          leadingPercentage: maxPct
+        });
+      }
+    }
+  }
+
   // DEBUG: bloc-level shares (only when DEBUG)
   if (DEBUG && country?.blocs) {
     console.log('Bloc shares:');
-    for (const b of country.blocs) {
-      const tallies = blocTallies[b.id] || [];
-      const size = Math.max(1, blocSizes[b.id] || 1);
-      const pct = tallies.map(v => (v / size) * 100);
-      console.log(b.id, Object.fromEntries(candidates.map((c, i) => [c.party, Number(pct[i].toFixed(1))])));
+    for (const stats of blocStats) {
+      console.log(stats.blocId, stats.percentages);
     }
   }
   
-  return { results, newsEvents: allNewsEvents };
+  return { results, newsEvents: allNewsEvents, blocStats };
 }
 
 // Helper to initialize electorate once at game start

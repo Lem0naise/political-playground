@@ -89,6 +89,16 @@ export interface PollingSnapshot {
   percentages: Record<string, number>;
 }
 
+export interface BlocStatistics {
+  blocId: string;
+  blocName: string;
+  size: number;
+  weight: number;
+  percentages: Record<string, number>; // party name -> percentage
+  leadingParty: string;
+  leadingPercentage: number;
+}
+
 export interface GameState {
   country: string;
   countryData: Country;
@@ -110,6 +120,7 @@ export interface GameState {
   activeTrend: ActiveTrend | null;
   trendHistory: ActiveTrend[];
   nextTrendPoll: number | null;
+  blocStats?: BlocStatistics[];
 }
 
 export interface CoalitionState {

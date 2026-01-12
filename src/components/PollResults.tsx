@@ -133,6 +133,86 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
         </div>
       </div>
 
+      {/* Voter Bloc Analysis */}
+      {state.blocStats && state.blocStats.length > 0 && (
+        <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-600">
+          <h3 className="campaign-status text-xs sm:text-sm font-bold text-blue-400 mb-2">
+            VOTER BLOC ANALYSIS
+          </h3>
+          <div className="space-y-2">
+            {state.blocStats
+              .sort((a, b) => b.weight - a.weight) // Sort by weight descending
+              .map((bloc) => {
+                const leadingCandidate = sortedResults.find(r => r.candidate.party === bloc.leadingParty);
+                const leadingColor = leadingCandidate?.candidate.colour || '#888';
+                const blocPopulation = Math.round(state.countryData.pop * bloc.weight);
+                
+                return (
+                  <div 
+                    key={bloc.blocId}
+                    className="bg-slate-800/50 border border-slate-600 rounded-lg p-2"
+                  >
+                    <div className="flex items-start justify-between mb-1">
+                      <div className="flex-1">
+                        <div className="font-bold text-xs text-white">
+                          {bloc.blocName}
+                        </div>
+                        <div className="text-xs text-slate-400 font-mono">
+                          {(bloc.weight * 100).toFixed(1)}% of electorate • {formatVotes(blocPopulation, state.countryData.scale)} voters
+                        </div>
+                      </div>
+                      <div className="text-right ml-2">
+                        <div 
+                          className="px-1.5 py-0.5 rounded text-xs font-bold flex items-center gap-1"
+                          style={{ backgroundColor: leadingColor + '40', color: leadingColor }}
+                        >
+                          <div 
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: leadingColor }}
+                          ></div>
+                          <span className="text-white">{bloc.leadingPercentage.toFixed(0)}%</span>
+                        </div>
+                        <div className="text-xs text-slate-400 mt-0.5">
+                          {bloc.leadingParty}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Mini bar chart showing top 3 parties in this bloc */}
+                    <div className="space-y-0.5 mt-1.5">
+                      {Object.entries(bloc.percentages)
+                        .sort(([, a], [, b]) => b - a)
+                        .slice(0, 3)
+                        .map(([party, pct]) => {
+                          const candidate = sortedResults.find(r => r.candidate.party === party);
+                          if (!candidate || pct < 0.5) return null;
+                          
+                          return (
+                            <div key={party} className="flex items-center gap-1">
+                              <div className="text-xs text-slate-400 w-16 truncate">{party}</div>
+                              <div className="flex-1 bg-slate-700 rounded-full h-1.5">
+                                <div 
+                                  className="h-1.5 rounded-full"
+                                  style={{ 
+                                    backgroundColor: candidate.candidate.colour,
+                                    width: `${Math.max(2, pct)}%`
+                                  }}
+                                ></div>
+                              </div>
+                              <div className="text-xs text-slate-300 w-10 text-right font-mono">
+                                {pct.toFixed(1)}%
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      )}
+
       {state.currentPoll === 2 && (
         <div className="mt-1 sm:mt-2 p-1.5 sm:p-2 bg-yellow-900/30 border border-yellow-600 rounded-lg">
           <p className="text-xs text-yellow-300 font-mono">
