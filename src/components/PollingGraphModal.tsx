@@ -64,7 +64,7 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
         pointHoverRadius: 3,
         pointRadius: 2,
         fill: false,
-        tension: 0.9,
+        tension: 0.1,
       };
     });
   }, [candidates, history]);

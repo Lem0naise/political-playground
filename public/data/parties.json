@@ -44,7 +44,7 @@
         },
         {
             "id": 3,
-            "name": "Carla Denyer",
+            "name": "Zack Polanski",
             "party": "Green Party",
             "party_pop": 0.1,
             "prog_cons": -37,
@@ -59,7 +59,7 @@
         {
             "id": 4,
             "name": "Nigel Farage",
-            "party": "Reform Party",
+            "party": "Reform UK",
             "party_pop": 0.1,
             "prog_cons": 90,
             "nat_glob": -90,
