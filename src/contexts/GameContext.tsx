@@ -153,7 +153,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         activeTrend: null,
         trendHistory: [],
         nextTrendPoll: scheduleNextTrendPoll(1),
-        blocStats
+        blocStats,
+        previousBlocStats: blocStats
       };
       
     case 'NEXT_POLL':
@@ -334,6 +335,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         trendHistory,
         nextTrendPoll,
         blocStats: newBlocStats,
+        previousBlocStats: state.blocStats,
         pollingHistory: [
           ...state.pollingHistory,
           {

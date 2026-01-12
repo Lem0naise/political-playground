@@ -147,6 +147,9 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                 const leadingColor = leadingCandidate?.candidate.colour || '#888';
                 const blocPopulation = Math.round(state.countryData.pop * bloc.weight);
                 
+                // Find previous bloc stats for this bloc
+                const previousBloc = state.previousBlocStats?.find(b => b.blocId === bloc.blocId);
+                
                 return (
                   <div 
                     key={bloc.blocId}
@@ -187,6 +190,11 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                           const candidate = sortedResults.find(r => r.candidate.party === party);
                           if (!candidate || pct < 0.5) return null;
                           
+                          // Calculate change from previous poll
+                          const previousPct = previousBloc?.percentages[party] || pct;
+                          const change = pct - previousPct;
+                          const hasChange = Math.abs(change) > 0.5;
+                          
                           return (
                             <div key={party} className="flex items-center gap-1">
                               <div className="text-xs text-slate-400 w-16 truncate">{party}</div>
@@ -202,6 +210,12 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                               <div className="text-xs text-slate-300 w-10 text-right font-mono">
                                 {pct.toFixed(1)}%
                               </div>
+                              {hasChange && (
+                                <div className={`text-xs font-mono w-3 ${change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                  {change > 0 ? '▲' : '▼'}
+                                </div>
+                              )}
+                              {!hasChange && <div className="w-3"></div>}
                             </div>
                           );
                         })}

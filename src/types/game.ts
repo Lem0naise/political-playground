@@ -121,6 +121,7 @@ export interface GameState {
   trendHistory: ActiveTrend[];
   nextTrendPoll: number | null;
   blocStats?: BlocStatistics[];
+  previousBlocStats?: BlocStatistics[];
 }
 
 export interface CoalitionState {
@@ -167,7 +168,7 @@ export const CABINET_POSITIONS: Record<string, CabinetPosition> = {
 export const DEBUG = false;
 export const TOO_FAR_DISTANCE = 100;
 export const COALITION_FACTOR = 1.1;
-export const TOO_CLOSE_PARTY = 100;
+export const TOO_CLOSE_PARTY = 180;
 export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
 
