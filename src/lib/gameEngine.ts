@@ -1,4 +1,4 @@
-import { Candidate, Country, VALUES, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY } from '@/types/game';
+import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY } from '@/types/game';
 
 // Generate random normal distribution using Box-Muller transform
 function randomNormal(mean: number = 0, std: number = 1): number {
@@ -967,6 +967,9 @@ export interface BlocStatistics {
   percentages: Record<string, number>; // party name -> percentage
   leadingParty: string;
   leadingPercentage: number;
+  turnout: number; // actual turnout rate for this bloc (0-1)
+  expectedVoters: number; // expected voters based on weight
+  actualVoters: number; // actual voters who participated
 }
 
 export function conductPoll(
@@ -996,29 +999,36 @@ export function conductPoll(
   // Bloc-level tallies (always calculate if blocs exist)
   const blocTallies: Record<string, number[]> = {};
   const blocSizes: Record<string, number> = {};
+  const blocTotalVoters: Record<string, number> = {}; // Total voters in each bloc (voted + abstained)
   if (country?.blocs && VOTER_BLOC_IDS) {
     country.blocs.forEach(b => { 
       blocTallies[b.id] = new Array(candidates.length).fill(0);
       blocSizes[b.id] = 0;
+      blocTotalVoters[b.id] = 0;
     });
   }
   
   // Poll the entire electorate
   for (let voterIndex = 0; voterIndex < data[0].length; voterIndex++) {
     const choice = voteForCandidate(voterIndex, candidates, data, country);
+    
+    // Track bloc membership regardless of vote
+    if (country?.blocs && VOTER_BLOC_IDS) {
+      const blocId = VOTER_BLOC_IDS[voterIndex];
+      if (blocId >= 0 && blocId < country.blocs.length) {
+        const blocKey = country.blocs[blocId].id;
+        blocTotalVoters[blocKey]++; // Count all voters in this bloc
+        
+        if (choice !== null) {
+          blocTallies[blocKey][choice]++;
+          blocSizes[blocKey]++; // Count only those who actually voted
+        }
+      }
+    }
+    
     if (choice !== null) {
       pollResults[choice]++;
       if (LAST_CHOICES) LAST_CHOICES[voterIndex] = choice;
-      
-      // Accumulate bloc tallies
-      if (country?.blocs && VOTER_BLOC_IDS) {
-        const blocId = VOTER_BLOC_IDS[voterIndex];
-        if (blocId >= 0 && blocId < country.blocs.length) {
-          const blocKey = country.blocs[blocId].id;
-          blocTallies[blocKey][choice]++;
-          blocSizes[blocKey]++;
-        }
-      }
     } else {
       notVoted++;
     }
@@ -1059,15 +1069,18 @@ export function conductPoll(
   if (country?.blocs) {
     for (const bloc of country.blocs) {
       const tallies = blocTallies[bloc.id] || [];
-      const size = blocSizes[bloc.id] || 0;
+      const actualVoters = blocSizes[bloc.id] || 0; // Voters who actually voted
+      const totalBlocVoters = blocTotalVoters[bloc.id] || 1; // Total voters in bloc (voted + abstained)
+      const expectedVoters = Math.round(data[0].length * bloc.weight); // Expected based on weight
+      const turnout = totalBlocVoters > 0 ? actualVoters / totalBlocVoters : 0;
       
-      if (size > 0) {
+      if (totalBlocVoters > 0) {
         const percentages: Record<string, number> = {};
         let maxPct = 0;
         let leadingParty = '';
         
         candidates.forEach((c, i) => {
-          const pct = (tallies[i] / size) * 100;
+          const pct = actualVoters > 0 ? (tallies[i] / actualVoters) * 100 : 0;
           percentages[c.party] = pct;
           if (pct > maxPct) {
             maxPct = pct;
@@ -1084,11 +1097,14 @@ export function conductPoll(
         blocStats.push({
           blocId: bloc.id,
           blocName,
-          size,
+          size: actualVoters,
           weight: bloc.weight,
           percentages,
           leadingParty,
-          leadingPercentage: maxPct
+          leadingPercentage: maxPct,
+          turnout,
+          expectedVoters,
+          actualVoters
         });
       }
     }
@@ -1664,7 +1680,7 @@ export function applyEventEffect(
   for (let i = 0; i < VALUES.length; i++) {
     const valueKey = VALUES[i];
     if (valueKey in effect && effect[valueKey] !== undefined) {
-      const oldVal = playerCandidate.vals[i];
+      const oldVal = playerCandidate.vals[i] * EVENT_EFFECT_MULTIPLIER; // make half as big
       playerCandidate.vals[i] += effect[valueKey]!;
       // Clamp values to valid range
       playerCandidate.vals[i] = Math.max(-100, Math.min(100, playerCandidate.vals[i]));

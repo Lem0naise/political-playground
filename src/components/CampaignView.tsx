@@ -81,9 +81,9 @@ export default function CampaignView() {
 
 
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-3 sm:py-4">
-        <div className="grid lg:grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid lg:grid-cols-5 gap-3 sm:gap-4">
           {/* Main Content - Newspaper Style */}
-          <div className="lg:col-span-2 space-y-3 sm:space-y-4">
+          <div className="lg:col-span-3 space-y-3 sm:space-y-4">
             {/* Campaign Progress - Status Board Style */}
             <div className="campaign-board p-3 sm:p-4 rounded-lg text-white">
               <h2 className="campaign-status text-xs sm:text-sm font-bold text-green-400 mb-2">CAMPAIGN STATUS MONITOR</h2>
@@ -199,7 +199,7 @@ export default function CampaignView() {
           </div>
 
           {/* Sidebar - Campaign Status Board */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <div className="campaign-board p-2 sm:p-3 rounded-lg lg:sticky lg:top-4">
               <h3 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2 text-center border-b border-slate-600 pb-1">
                 POLLING DATA

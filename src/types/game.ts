@@ -97,6 +97,9 @@ export interface BlocStatistics {
   percentages: Record<string, number>; // party name -> percentage
   leadingParty: string;
   leadingPercentage: number;
+  turnout: number; // actual turnout rate for this bloc (0-1)
+  expectedVoters: number; // expected voters based on weight
+  actualVoters: number; // actual voters who participated
 }
 
 export interface GameState {
@@ -171,14 +174,15 @@ export const COALITION_FACTOR = 1.1;
 export const TOO_CLOSE_PARTY = 200;
 export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
+export const EVENT_EFFECT_MULTIPLIER = 0.5;
 
 // Voting behaviour configuration
 // Enable probabilistic choice via softmax; when false, deterministic max-utility is used
 export const PROBABILISTIC_VOTING = true;
 // Softmax temperature (beta): higher => crisper choices, lower => smoother
-export const SOFTMAX_BETA = 0.004;
+export const SOFTMAX_BETA = 0.002;
 // Loyalty bonus added to utility when voter sticks with previous choice
-export const LOYALTY_UTILITY = 300;
+export const LOYALTY_UTILITY = 400;
 
 // Optional persistent electorate structure for generating once at game start
 export interface Electorate {

@@ -1,6 +1,7 @@
 
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
+import { getIdeologyDescriptors } from '@/lib/ideologyProfiler';
 
 interface PollResultsProps {
   onViewGraph: () => void;
@@ -124,7 +125,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
       <div className="pt-1 sm:pt-2 border-t border-slate-600">
         <div className="text-xs text-slate-300 font-mono">
           <div className="flex justify-between">
-            <span>ESTIMATED TURNOUT:</span>
+            <span>ESTIMATED TURNOUT:</span> 
             <span className="text-green-400 font-bold">{turnout.toFixed(1)}%</span>
           </div>
           <div className="text-xs text-slate-400 mt-0.5">
@@ -132,7 +133,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
           </div>
         </div>
       </div>
-
+      
       {/* Voter Bloc Analysis */}
       {state.blocStats && state.blocStats.length > 0 && (
         <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-600">
@@ -141,7 +142,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
           </h3>
           <div className="space-y-2">
             {state.blocStats
-              .sort((a, b) => b.weight - a.weight) // Sort by weight descending
+              .sort((a, b) => (b.turnout*b.weight) - (a.turnout*a.weight)) // Sort by weight descending
               .map((bloc) => {
                 const leadingCandidate = sortedResults.find(r => r.candidate.party === bloc.leadingParty);
                 const leadingColor = leadingCandidate?.candidate.colour || '#888';
@@ -149,6 +150,14 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                 
                 // Find previous bloc stats for this bloc
                 const previousBloc = state.previousBlocStats?.find(b => b.blocId === bloc.blocId);
+                
+                // Turnout percentage and styling
+                const turnoutPct = bloc.turnout * 100;
+                const previousTurnoutPct = previousBloc ? previousBloc.turnout * 100 : turnoutPct;
+                const turnoutChange = turnoutPct - previousTurnoutPct;
+                const hasTurnoutChange = Math.abs(turnoutChange) > 0.5;
+                const turnoutColor = turnoutPct >= 70 ? 'text-green-400' : 
+                                    turnoutPct >= 50 ? 'text-yellow-400' : 'text-red-400';
                 
                 return (
                   <div 
@@ -163,29 +172,23 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                         <div className="text-xs text-slate-400 font-mono">
                           {(bloc.weight * 100).toFixed(1)}% of electorate • {formatVotes(blocPopulation, state.countryData.scale)} voters
                         </div>
-                      </div>
-                      <div className="text-right ml-2">
-                        <div 
-                          className="px-1.5 py-0.5 rounded text-xs font-bold flex items-center gap-1"
-                          style={{ backgroundColor: leadingColor + '40', color: leadingColor }}
-                        >
-                          <div 
-                            className="w-2 h-2 rounded-full"
-                            style={{ backgroundColor: leadingColor }}
-                          ></div>
-                          <span className="text-white">{bloc.leadingPercentage.toFixed(0)}%</span>
-                        </div>
-                        <div className="text-xs text-slate-400 mt-0.5">
-                          {bloc.leadingParty}
+                        <div className={`text-xs font-mono font-bold mt-0.5 flex items-center gap-1 ${turnoutColor}`}>
+                          <span>{turnoutPct.toFixed(1)}% turnout</span>
+                          {hasTurnoutChange && (
+                            <span className={turnoutChange > 0 ? 'text-green-400' : 'text-red-400'}>
+                              {turnoutChange > 0 ? '▲' : '▼'}
+                            </span>
+                          )}
                         </div>
                       </div>
+                      
                     </div>
                     
                     {/* Mini bar chart showing top 3 parties in this bloc */}
                     <div className="space-y-0.5 mt-1.5">
                       {Object.entries(bloc.percentages)
                         .sort(([, a], [, b]) => b - a)
-                        .slice(0, 3)
+                        .slice(0,3)
                         .map(([party, pct]) => {
                           const candidate = sortedResults.find(r => r.candidate.party === party);
                           if (!candidate || pct < 0.5) return null;
@@ -227,13 +230,47 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
         </div>
       )}
 
-      {state.currentPoll === 2 && (
-        <div className="mt-1 sm:mt-2 p-1.5 sm:p-2 bg-yellow-900/30 border border-yellow-600 rounded-lg">
-          <p className="text-xs text-yellow-300 font-mono">
-            BASELINE ESTABLISHED - TRACKING MOMENTUM
-          </p>
+
+      {/* Player Ideology Profile */}
+      {sortedResults.some(r => r.candidate.is_player) && (
+        <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-600">
+          <h3 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2">
+            VOTERS THINK YOU ARE
+          </h3>
+          {sortedResults.map((result) => {
+            if (!result.candidate.is_player) return null;
+            
+            return (
+              <div key={result.candidate.id} className="bg-slate-800/50 border border-yellow-500/30 rounded-lg p-2">
+                <div className="text-xs text-yellow-400 font-mono mb-1.5 font-bold">
+                  {result.candidate.party}
+                </div>
+                <div className="space-y-1">
+                  {getIdeologyDescriptors(result.candidate.vals)
+                    .slice(0, 4)
+                    .map((descriptor, idx) => {
+                      // Font sizes for descending importance
+                      const fontSizes = ['text-sm', 'text-xs', 'text-xs', 'text-xs'];
+                      const fontWeights = ['font-bold', 'font-semibold', 'font-medium', 'font-normal'];
+                      
+                      return (
+                        <div 
+                          key={descriptor.key}
+                          className={`${fontSizes[idx]} ${fontWeights[idx]} text-slate-200 uppercase tracking-wide`}
+                        >
+                          {descriptor.desc}
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
+
+
+  
     </div>
   );
 }
