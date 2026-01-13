@@ -148,6 +148,7 @@ export default function MainMenu() {
                     <div className="campaign-status text-sm font-semibold">{countryCode}</div>
                     <div className="text-xs text-slate-300 font-mono">{voters} voters</div>
                     <div className="text-xs text-slate-400 truncate">{countryData?.hos ?? '—'}</div>
+                    <div className="text-xs text-green-400 truncate">{countryData?.blocs ? 'Has Advanced Bloc-Based Voters' : ''}</div>
                   </button>
                 );
               })}

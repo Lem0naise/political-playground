@@ -1522,34 +1522,76 @@
             }
     ],
     "POLAND": [
-        {
-            "id": 0,
-            "name": "Donald Tusk",
-            "party": "Civic Platform",
-            "party_pop": 8,
-            "prog_cons": -15,
-            "nat_glob": 70,
-            "env_eco": 20,
-            "soc_cap": 35,
-            "pac_mil": -75,
-            "auth_ana": -20,
-            "rel_sec": 25,
-            "colour": "orange"
-        },
-        {
-            "id": 1,
-            "name": "Jarosław Kaczyński",
-            "party": "Law and Justice",
-            "party_pop": 8,
-            "prog_cons": 85,
-            "nat_glob": -75,
-            "env_eco": 40,
-            "soc_cap": -20,
-            "pac_mil": 50,
-            "auth_ana": -65,
-            "rel_sec": -75,
-            "colour": "blue"
-        }
+    {
+        "id": 0,
+        "name": "Donald Tusk",
+        "party": "Civic Coalition",
+        "party_pop": 9,
+        "prog_cons": -40,
+        "nat_glob": 65,
+        "env_eco": -20,
+        "soc_cap": 40,
+        "pac_mil": 60,
+        "auth_ana": 85,
+        "rel_sec": 70,
+        "colour": "blue"
+    },
+    {
+        "id": 1,
+        "name": "Karol Nawrocki",
+        "party": "Law and Justice",
+        "party_pop": 10,
+        "prog_cons": 85,
+        "nat_glob": -80,
+        "env_eco": 75,
+        "soc_cap": -25,
+        "pac_mil": 85,
+        "auth_ana": -75,
+        "rel_sec": -90,
+        "colour": "darkblue"
+    },
+    {
+        "id": 2,
+        "name": "Sławomir Mentzen",
+        "party": "Confederation",
+        "party_pop": 6,
+        "prog_cons": 75,
+        "nat_glob": -95,
+        "env_eco": 90,
+        "soc_cap": 95,
+        "pac_mil": 70,
+        "auth_ana": -30,
+        "rel_sec": -30,
+        "colour": "navy"
+    },
+    {
+        "id": 3,
+        "name": "Władysław Kosiniak-Kamysz",
+        "party": "Third Way",
+        "party_pop": 5,
+        "prog_cons": 30,
+        "nat_glob": 10,
+        "env_eco": 35,
+        "soc_cap": 15,
+        "pac_mil": 75,
+        "auth_ana": 10,
+        "rel_sec": -50,
+        "colour": "green"
+    },
+    {
+        "id": 4,
+        "name": "Magdalena Biejat",
+        "party": "The Left",
+        "party_pop": 4,
+        "prog_cons": -85,
+        "nat_glob": 55,
+        "env_eco": -75,
+        "soc_cap": -80,
+        "pac_mil": 10,
+        "auth_ana": 70,
+        "rel_sec": 95,
+        "colour": "red"
+    }
     ],
     "SPAIN": [
         {

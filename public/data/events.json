@@ -2035,7 +2035,7 @@
         "choices": [
             {"text": "Ban paid lobbying entirely.", "effect": {"soc_cap": -15, "auth_ana": 5}, "boost": 28},
             {"text": "Limit donations but allow lobbying.", "effect": {"soc_cap": -5, "auth_ana": 0}, "boost": 18},
-            {"text": "Lobbying is free speech (1st Amendment).", "effect": {"soc_cap": 15, "auth_ana": 10}, "boost": 22},
+            {"text": "Lobbying is free speech.", "effect": {"soc_cap": 15, "auth_ana": 10}, "boost": 22},
             {"text": "Public financing of elections only.", "effect": {"soc_cap": -10, "prog_cons": -5}, "boost": 24}
         ]
     },
@@ -2214,7 +2214,7 @@
         "description": "Protesters burned the flag. Veterans are demanding a constitutional amendment to ban it.",
         "choices": [
             {"text": "Pass the ban; respect the flag.", "effect": {"nat_glob": -15, "auth_ana": -10}, "boost": 22},
-            {"text": "Protect it as free speech (1st Amendment).", "effect": {"auth_ana": 10, "prog_cons": -5}, "boost": 20},
+            {"text": "Protect it as free speech.", "effect": {"auth_ana": 10, "prog_cons": -5}, "boost": 20},
             {"text": "Fine them for 'open burning' only.", "effect": {"auth_ana": -2, "env_eco": -2}, "boost": 12},
             {"text": "Launch patriotic education instead.", "effect": {"nat_glob": -5, "prog_cons": 5}, "boost": 14}
         ]
@@ -2440,8 +2440,8 @@
         ]
     },
     {
-        "title": "Corruption in {agency}",
-        "description": "The head of the {agency} was caught embezzling millions in tax payer money.",
+        "title": "Corruption in {organisation}",
+        "description": "The head of the {organisation} was caught embezzling millions in tax payer money.",
         "choices": [
             {"text": "Public trial and maximize sentencing.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 22},
             {"text": "Conduct an internal purge of the entire agency.", "effect": {"auth_ana": -10, "soc_cap": 2}, "boost": 20},
@@ -2450,8 +2450,8 @@
         ]
     },
     {
-        "title": "{sport} League Scandal",
-        "description": "Top players in the national {sport} league are accused of fixing matches for gambling syndicates.",
+        "title": "Football League Scandal",
+        "description": "Top players in the national football league are accused of fixing matches for gambling syndicates.",
         "choices": [
             {"text": "Government takeover of the league's oversight.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 18},
             {"text": "Ban sports betting entirely.", "effect": {"soc_cap": -5, "prog_cons": 5}, "boost": 20},
@@ -2460,8 +2460,8 @@
         ]
     },
     {
-        "title": "Drought in {agricultural_region}",
-        "description": "Farmers in {agricultural_region} are losing crops due to lack of water. Food prices are rising.",
+        "title": "Drought in {region}",
+        "description": "Farmers in {region} are losing crops due to lack of water. Food prices are rising.",
         "choices": [
             {"text": "Subsidize the farmers to keep them afloat.", "effect": {"soc_cap": -10, "auth_ana": -2}, "boost": 18},
             {"text": "Ration water in cities to supply farms.", "effect": {"env_eco": 5, "auth_ana": -10}, "boost": 22},
