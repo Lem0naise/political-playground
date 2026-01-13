@@ -4,11 +4,13 @@ import { Event, EventChoice } from '@/types/game';
 import PollResults from './PollResults';
 import EventModal from './EventModal';
 import PollingGraphModal from './PollingGraphModal';
+import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 
 export default function CampaignView() {
   const { state, actions } = useGame();
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
+  const [eventVariables, setEventVariables] = useState<EventVariables | null>(null);
   const [lastEventPoll, setLastEventPoll] = useState(0);
   const [showPollingGraph, setShowPollingGraph] = useState(false);
 
@@ -17,21 +19,30 @@ export default function CampaignView() {
       .then(res => res.json())
       .then(data => setEvents(data))
       .catch(err => console.error('Failed to load events:', err));
+    
+    // Load event variables for template substitution
+    loadEventVariables()
+      .then(vars => setEventVariables(vars))
+      .catch(err => console.error('Failed to load event variables:', err));
   }, []);
 
   useEffect(() => {
     // Check if we should show an event
-    if (state.currentPoll < state.totalPolls - 2 && events.length > 0) {
+    if (state.currentPoll < state.totalPolls - 2 && events.length > 0 && eventVariables) {
       const pollsSinceEvent = state.currentPoll - lastEventPoll;
       
       // Present event every 2-3 polls
       if (pollsSinceEvent >= 1 && Math.random() < 0.7) {
         const randomEvent = events[Math.floor(Math.random() * events.length)];
-        setCurrentEvent(randomEvent);
+        
+        // Instantiate the event with variable substitution
+        const instantiatedEvent = instantiateEvent(randomEvent, eventVariables, state.country);
+        
+        setCurrentEvent(instantiatedEvent);
         setLastEventPoll(state.currentPoll);
       }
     }
-  }, [state.currentPoll, events, lastEventPoll]);
+  }, [state.currentPoll, events, eventVariables, lastEventPoll, state.country]);
 
   const handleEventChoice = (event: Event, choice: EventChoice) => {
     actions.handleEvent(event, choice);

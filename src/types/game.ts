@@ -125,6 +125,7 @@ export interface GameState {
   nextTrendPoll: number | null;
   blocStats?: BlocStatistics[];
   previousBlocStats?: BlocStatistics[];
+  eventVariables?: any | null;
 }
 
 export interface CoalitionState {

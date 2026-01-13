@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useCallback } from 'react';
+import React, { createContext, useContext, useReducer, useCallback, useState, useEffect } from 'react';
 import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot } from '@/types/game';
 import { 
   generateVotingData, 
@@ -11,6 +11,7 @@ import {
   scheduleNextTrendPoll
 } from '@/lib/gameEngine';
 import { calculatePartyCompatibility } from '@/lib/coalitionEngine';
+import { loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 
 interface GameContextType {
   state: GameState;
@@ -46,7 +47,46 @@ type GameAction =
   | { type: 'ADD_COALITION_PARTNER'; payload: { partner: Candidate } }
   | { type: 'REMOVE_POTENTIAL_PARTNER'; payload: { partner: Candidate } }
   | { type: 'ALLOCATE_CABINET_POSITION'; payload: { position: string; party: string } }
-  | { type: 'COMPLETE_COALITION_FORMATION' };
+  | { type: 'COMPLETE_COALITION_FORMATION' }
+  | { type: 'SET_EVENT_VARIABLES'; payload: { eventVariables: EventVariables } };
+
+// Helper function to substitute variables in news templates
+function substituteNewsVariables(
+  template: string,
+  vars: Record<string, string>,
+  eventVars: EventVariables | null,
+  country: string
+): string {
+  return template.replace(/\{(\w+)\}/g, (match, key) => {
+    // First check if it's in the provided vars (like {newsTitle})
+    if (vars[key]) return vars[key];
+    
+    // Special case: {country} should use the actual country name
+    if (key === 'country') return country;
+    
+    // Otherwise try to resolve from event variables
+    if (eventVars) {
+      const countryVars = eventVars.countrySpecific[country];
+      const hasCountrySpecific = countryVars?.[key]?.length > 0;
+      const hasGeneric = eventVars.generic[key]?.length > 0;
+      
+      // 60% chance for country-specific
+      if (hasCountrySpecific && Math.random() < 0.6) {
+        return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
+      }
+      
+      if (hasCountrySpecific && !hasGeneric) {
+        return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
+      }
+      
+      if (hasGeneric) {
+        return eventVars.generic[key][Math.floor(Math.random() * eventVars.generic[key].length)];
+      }
+    }
+    
+    return match; // Return placeholder if not found
+  });
+}
 
 const initialState: GameState = {
   country: '',
@@ -68,7 +108,8 @@ const initialState: GameState = {
   pollingHistory: [],
   activeTrend: null,
   trendHistory: [],
-  nextTrendPoll: null
+  nextTrendPoll: null,
+  eventVariables: null
 };
 
 function gameReducer(state: GameState, action: GameAction): GameState {
@@ -242,14 +283,20 @@ function gameReducer(state: GameState, action: GameAction): GameState {
                   `${newsTitle} gaining ground`,
                   `Is ${newsTitle} the new people's party?`,
                   `Voters flock to ${newsTitle} after stunning debate performance`,
-                  `Social media buzz: ${newsTitle} trending nationwide`,
+                  `{social_media_platform} buzz: ${newsTitle} trending nationwide`,
                   `Analysts stunned by ${newsTitle}'s meteoric rise`,
                   `Rival parties scramble as ${newsTitle} dominates headlines`,
                   `${newsTitle} fever sweeps the nation!`,
                   `Is this the start of a new era for ${newsTitle}?`
 
                 ];
-                partyPollingNews.push(surgeMessages[Math.floor(Math.random() * surgeMessages.length)]);
+                const template = surgeMessages[Math.floor(Math.random() * surgeMessages.length)];
+                partyPollingNews.push(substituteNewsVariables(
+                  template,
+                  { newsTitle },
+                  state.eventVariables,
+                  state.country
+                ));
               } else {
                 const loseMessages = [
                   `${newsTitle} loses ground following controversy`,
@@ -263,37 +310,55 @@ function gameReducer(state: GameState, action: GameAction): GameState {
                   `Rival parties surge as ${newsTitle} stumbles`,
                   `Is this the end of the road for ${newsTitle}?`
                 ];
-                partyPollingNews.push(loseMessages[Math.floor(Math.random() * loseMessages.length)]);
+                const template = loseMessages[Math.floor(Math.random() * loseMessages.length)];
+                partyPollingNews.push(substituteNewsVariables(
+                  template,
+                  { newsTitle },
+                  state.eventVariables,
+                  state.country
+                ));
               }
             } else if (Math.abs(result.change) > 1) {
               if (result.change > 0) {
                 const steadyMessages = [
                   `${newsTitle} climbing as unemployment rises`,
-                  `${newsTitle} wins local elections`,
+                  `${newsTitle} wins local elections in {region}`,
                   `Popular policy platform of ${newsTitle} released`,
                   `${newsTitle} clear winner in debate`,
-                  `${newsTitle} sees steady rise in local support`,
-                  `The UN endorses ${newsTitle}'s policy platform`,
+                  `${newsTitle} sees steady rise in {region}`,
+                  `{organisation} endorses ${newsTitle}'s policy platform`,
                   `${newsTitle} quietly gaining momentum`,
                   `Analysts note consistent growth for ${newsTitle}`,
-                  `Grassroots movement boosts ${newsTitle}`,
+                  `Grassroots movement in {city} boosts ${newsTitle}`,
                   `Voters warming to ${newsTitle}'s message`
                 ];
-                partyPollingNews.push(steadyMessages[Math.floor(Math.random() * steadyMessages.length)]);
+                const template = steadyMessages[Math.floor(Math.random() * steadyMessages.length)];
+                partyPollingNews.push(substituteNewsVariables(
+                  template,
+                  { newsTitle },
+                  state.eventVariables,
+                  state.country
+                ));
               } else {
                 const mixedMessages = [
                   `Mixed pundit reaction to ${newsTitle}`,
                   `Support slipping for ${newsTitle}`,
                   `Public opinion divided over ${newsTitle}`,
                   `Voters express uncertainty about ${newsTitle}'s direction`,
-                  `The UN slams ${newsTitle}'s new proposal`,
+                  `{organisation} slams ${newsTitle}'s new proposal`,
                 `${newsTitle} struggles to find momentum`,
                   `Analysts: ${newsTitle} can't shake off negative headlines`,
                   `Voters lukewarm on ${newsTitle} as rivals gain ground`,
                   `${newsTitle} faces uphill battle to win back trust`,
                   `Polls show ${newsTitle} losing steam week after week`
                 ];
-                newsEvents.push(mixedMessages[Math.floor(Math.random() * mixedMessages.length)]);
+                const template = mixedMessages[Math.floor(Math.random() * mixedMessages.length)];
+                newsEvents.push(substituteNewsVariables(
+                  template,
+                  { newsTitle },
+                  state.eventVariables,
+                  state.country
+                ));
               }
             }
         }
@@ -485,6 +550,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
       };
       
+    case 'SET_EVENT_VARIABLES':
+      return {
+        ...state,
+        eventVariables: action.payload.eventVariables
+      };
+      
     default:
       return state;
   }
@@ -494,6 +565,15 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
+  
+  // Load event variables on mount
+  useEffect(() => {
+    loadEventVariables().then(vars => {
+      dispatch({ type: 'SET_EVENT_VARIABLES', payload: { eventVariables: vars } });
+    }).catch(err => {
+      console.error('Failed to load event variables:', err);
+    });
+  }, []);
   
   const actions = {
     setCountry: useCallback((country: string, countryData: any) => {

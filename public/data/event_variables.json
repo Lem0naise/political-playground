@@ -1,0 +1,445 @@
+{
+  "generic": {
+    "foreign_country": [
+      "a neighboring nation",
+      "a major economic bloc",
+      "a regional power",
+      "an emerging superpower",
+      "traditional allies",
+      "rival nations",
+      "a maritime neighbor",
+      "continental partners",
+      "a former colonial power",
+      "an island nation"
+    ],
+    "organisation": [
+      "The UN",
+      "international observers",
+      "trade unions",
+      "business leaders",
+      "environmental groups",
+      "human rights watchdogs",
+      "economic analysts",
+      "industry associations",
+      "think tanks",
+      "civil society groups"
+    ],
+     "social_media_platform": [
+      "Social media",
+      "Online forums",
+      "Digital platforms",
+      "The internet",
+      "Viral posts"
+    ],
+    "company": [
+      "MegaCorp International",
+      "GlobalTech Industries",
+      "National Energy Corporation",
+      "CitizenBank Group",
+      "PharmaLife Sciences",
+      "AutoManufacturing Ltd",
+      "Continental Foods",
+      "Digital Media Group",
+      "Infrastructure Holdings",
+      "FishCo Industries",
+      "AgroGiant Corporation",
+      "SteelWorks International",
+      "RetailMax Group",
+      "TransportLink Systems",
+      "MineralCo Extraction",
+      "ChemTech Solutions",
+      "BuildRight Construction",
+      "TeleCom Networks"
+    ],
+    "region": [
+      "the northern territories",
+      "the coastal regions",
+      "the industrial heartland",
+      "the capital district",
+      "the rural provinces",
+      "the metropolitan area",
+      "the border regions",
+      "the central plains",
+      "the mountainous areas",
+      "the agricultural belt",
+      "the southern provinces",
+      "the eastern districts",
+      "the western territories",
+      "the port cities",
+      "the mining regions"
+    ],
+    "city": [
+      "the capital",
+      "major cities",
+      "industrial towns",
+      "coastal ports",
+      "university cities",
+      "manufacturing hubs",
+      "financial centers",
+      "border towns",
+      "agricultural centers",
+      "regional capitals"
+    ],
+    "religious_group": [
+      "religious conservatives",
+      "secular humanists",
+      "interfaith communities",
+      "evangelical activists",
+      "traditional faith leaders",
+      "progressive theologians",
+      "religious minorities",
+      "atheist organizations",
+      "spiritual movements",
+      "orthodox communities"
+    ],
+    "industry": [
+      "technology",
+      "manufacturing",
+      "finance",
+      "energy",
+      "agriculture",
+      "healthcare",
+      "retail",
+      "transportation",
+      "mining",
+      "construction",
+      "telecommunications",
+      "fishing",
+      "forestry",
+      "pharmaceuticals",
+      "automotive",
+      "aerospace",
+      "shipping",
+      "tourism"
+    ],
+    "historical_figure": [
+      "a founding leader",
+      "a revolutionary hero",
+      "a wartime general",
+      "a reform-era statesman",
+      "an independence leader",
+      "a civil rights pioneer",
+      "a legendary military commander",
+      "a visionary reformer",
+      "a national poet",
+      "a celebrated explorer",
+      "an industrial pioneer",
+      "a constitutional architect"
+    ],
+    "crisis_type": [
+      "economic downturn",
+      "natural disaster",
+      "public health emergency",
+      "infrastructure failure",
+      "diplomatic incident"
+    ],
+    "scandal_type": [
+      "corruption",
+      "tax evasion",
+      "environmental violation",
+      "labour abuse",
+      "data breach",
+      "safety negligence"
+    ],
+    "minority_group": [
+      "immigrant communities",
+      "religious minorities",
+      "LGBTQ+ advocates",
+      "indigenous peoples",
+      "ethnic minorities"
+    ],
+    "activist_group": [
+      "environmental activists",
+      "labour unions",
+      "student movements",
+      "civil rights organizations",
+      "consumer protection groups"
+    ],
+    "infrastructure": [
+      "high-speed rail",
+      "renewable energy grid",
+      "water treatment facilities",
+      "digital fibre network",
+      "public transit system"
+    ],
+    "foreign_power": [
+      "a major economic bloc",
+      "a regional hegemon",
+      "an emerging superpower",
+      "traditional allies",
+      "rival nations"
+    ]
+  },
+  "countrySpecific": {
+    "UK": {
+      "company": [
+        "British Petroleum",
+        "Tesco",
+        "Barclays",
+        "Rolls-Royce",
+        "GlaxoSmithKline",
+        "Vodafone",
+        "BAE Systems",
+        "Unilever UK",
+        "HSBC",
+        "British Airways"
+      ],
+      "organisation": [
+        "The BBC",
+        "The Guardian",
+        "The Times",
+        "The TUC",
+        "The CBI",
+        "The Royal Society",
+        "The Church of England",
+        "The NHS",
+        "The National Trust",
+        "Parliament's watchdog"
+      ],
+      "region": [
+        "the North",
+        "the Midlands",
+        "London",
+        "Scotland",
+        "Wales",
+        "Northern Ireland",
+        "the South West",
+        "East Anglia"
+      ],
+      "city": [
+        "London",
+        "Manchester",
+        "Birmingham",
+        "Glasgow",
+        "Cardiff",
+        "Belfast",
+        "Liverpool",
+        "Edinburgh"
+      ],
+      "foreign_power": [
+        "the European Union",
+        "the United States",
+        "China",
+        "the Commonwealth",
+        "NATO allies"
+      ]
+    },
+    "USA": {
+      "company": [
+        "Amazon",
+        "ExxonMobil",
+        "Goldman Sachs",
+        "Boeing",
+        "Microsoft",
+        "Google",
+        "JPMorgan Chase",
+        "General Motors",
+        "Walmart",
+        "Pfizer"
+      ],
+      "organisation": [
+        "The New York Times",
+        "CNN",
+        "Fox News",
+        "The AFL-CIO",
+        "The Chamber of Commerce",
+        "The Supreme Court",
+        "The Pentagon",
+        "Wall Street analysts",
+        "Silicon Valley leaders",
+        "Hollywood elites"
+      ],
+      "region": [
+        "the Rust Belt",
+        "Silicon Valley",
+        "the Deep South",
+        "New England",
+        "the Midwest",
+        "the Pacific Northwest",
+        "the Sun Belt",
+        "Appalachia"
+      ],
+      "city": [
+        "New York",
+        "Los Angeles",
+        "Chicago",
+        "Houston",
+        "Detroit",
+        "San Francisco",
+        "Atlanta",
+        "Seattle"
+      ],
+      "foreign_power": [
+        "China",
+        "Russia",
+        "the European Union",
+        "NATO allies",
+        "Middle Eastern powers"
+      ]
+    },
+    "Germany": {
+      "company": [
+        "Volkswagen",
+        "Siemens",
+        "Deutsche Bank",
+        "BMW",
+        "Bayer",
+        "BASF",
+        "Allianz",
+        "Daimler",
+        "Bosch",
+        "SAP"
+      ],
+      "region": [
+        "Bavaria",
+        "North Rhine-Westphalia",
+        "Baden-Württemberg",
+        "Berlin",
+        "Saxony",
+        "the Ruhr Valley",
+        "the former East",
+        "the industrial heartland"
+      ],
+      "city": [
+        "Berlin",
+        "Munich",
+        "Hamburg",
+        "Frankfurt",
+        "Cologne",
+        "Stuttgart",
+        "Dresden",
+        "Leipzig"
+      ],
+      "foreign_power": [
+        "the European Union",
+        "Russia",
+        "the United States",
+        "China",
+        "EU partners"
+      ]
+    },
+    "France": {
+      "company": [
+        "TotalEnergies",
+        "LVMH",
+        "BNP Paribas",
+        "Renault",
+        "Airbus",
+        "L'Oréal",
+        "Carrefour",
+        "EDF",
+        "Orange",
+        "Danone"
+      ],
+      "region": [
+        "Île-de-France",
+        "Provence",
+        "Brittany",
+        "Normandy",
+        "Alsace",
+        "the Riviera",
+        "the Loire Valley",
+        "Occitanie"
+      ],
+      "city": [
+        "Paris",
+        "Lyon",
+        "Marseille",
+        "Toulouse",
+        "Nice",
+        "Bordeaux",
+        "Strasbourg",
+        "Lille"
+      ],
+      "foreign_power": [
+        "the European Union",
+        "francophone Africa",
+        "the United States",
+        "China",
+        "EU partners"
+      ]
+    },
+    "Canada": {
+      "company": [
+        "Royal Bank of Canada",
+        "Suncor Energy",
+        "Shopify",
+        "Bombardier",
+        "Loblaws",
+        "Air Canada",
+        "TD Bank",
+        "BlackBerry",
+        "Rogers Communications",
+        "CN Rail"
+      ],
+      "region": [
+        "Ontario",
+        "Quebec",
+        "British Columbia",
+        "the Prairies",
+        "the Maritimes",
+        "Alberta",
+        "the North",
+        "Atlantic Canada"
+      ],
+      "city": [
+        "Toronto",
+        "Montreal",
+        "Vancouver",
+        "Calgary",
+        "Ottawa",
+        "Edmonton",
+        "Quebec City",
+        "Winnipeg"
+      ],
+      "foreign_power": [
+        "the United States",
+        "China",
+        "the European Union",
+        "Commonwealth partners",
+        "NAFTA partners"
+      ]
+    },
+    "Australia": {
+      "company": [
+        "BHP",
+        "Commonwealth Bank",
+        "Woolworths",
+        "Telstra",
+        "Qantas",
+        "Rio Tinto",
+        "Wesfarmers",
+        "NAB",
+        "ANZ",
+        "Coles"
+      ],
+      "region": [
+        "New South Wales",
+        "Victoria",
+        "Queensland",
+        "Western Australia",
+        "South Australia",
+        "the Outback",
+        "the coastal cities",
+        "Tasmania"
+      ],
+      "city": [
+        "Sydney",
+        "Melbourne",
+        "Brisbane",
+        "Perth",
+        "Adelaide",
+        "Canberra",
+        "Gold Coast",
+        "Darwin"
+      ],
+      "foreign_power": [
+        "China",
+        "the United States",
+        "Indonesia",
+        "ASEAN nations",
+        "Pacific partners"
+      ]
+    }
+  }
+}

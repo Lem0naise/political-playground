@@ -691,7 +691,7 @@
     },
     {
         "title": "Drone Delivery Regulations",
-        "description": "Amazon wants drone deliveries. Neighbors complain about noise and privacy.",
+        "description": "{company} wants drone deliveries. Neighbors complain about noise and privacy.",
         "choices": [
             {"text": "Strict limits on drone operations", "effect": {"auth_ana": -8, "prog_cons": 3}, "boost": 18},
             {"text": "Innovation-friendly regulations", "effect": {"auth_ana": 5, "soc_cap": 8}, "boost": 16},
@@ -1230,13 +1230,1763 @@
         ]
     },
     {
-        "title": "Asteroid Mining Rights",
-        "description": "Private corporations are developing the technology to mine asteroids for trillions of dollars in precious metals. Who owns these resources?",
+        "title": "Brain-Computer Interface Hacking",
+        "description": "A prominent politician's neural implant was hacked during a speech, causing them to shout gibberish. People are terrified of this technology. Regulation needed?",
         "choices": [
-            {"text": "Establish a 'finders, keepers' legal framework to encourage private innovation.", "effect": {"soc_cap": 15, "nat_glob": -5}, "boost": 20},
-            {"text": "Push for an international treaty declaring space resources the 'common heritage of mankind'.", "effect": {"soc_cap": -10, "nat_glob": 12}, "boost": 22},
-            {"text": "Create a national space agency to lead all mining efforts for public benefit.", "effect": {"soc_cap": -15, "nat_glob": -8}, "boost": 18},
-            {"text": "Impose a hefty tax on all resources extracted from space by private companies.", "effect": {"soc_cap": -8, "prog_cons": -3}, "boost": 24}
+            {"text": "Ban all brain-computer interfaces for civilians.", "effect": {"auth_ana": -15, "prog_cons": 10}, "boost": 25},
+            {"text": "Mandate government backdoors for security monitoring.", "effect": {"auth_ana": -20, "soc_cap": -5}, "boost": 30},
+            {"text": "Let the market improve security protocols naturally.", "effect": {"soc_cap": 10, "auth_ana": 8}, "boost": 18},
+            {"text": "Fund a public cyber-security agency specifically for bio-tech.", "effect": {"soc_cap": -8, "prog_cons": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "The 30-Hour Work Week",
+        "description": "Unions and mental health advocates are pushing for a standard 4-day, 30-hour work week with no loss of pay. Businesses say it will bankrupt them.",
+        "choices": [
+            {"text": "Legislate the 30-hour week immediately.", "effect": {"soc_cap": -18, "prog_cons": -8}, "boost": 28},
+            {"text": "Offer tax breaks to companies that voluntarily switch.", "effect": {"soc_cap": -5, "auth_ana": 3}, "boost": 16},
+            {"text": "Maintain the 40-hour standard; hard work builds character.", "effect": {"soc_cap": 12, "prog_cons": 12}, "boost": 20},
+            {"text": "Abolish hour standards entirely; let contracts decide.", "effect": {"soc_cap": 15, "auth_ana": 10}, "boost": 22}
+        ]
+    },
+    {
+        "title": "Drone Strike Error",
+        "description": "A military drone strike targeting terrorists accidentally hit a wedding in a neutral country, killing 40 civilians. The world is watching.",
+        "choices": [
+            {"text": "Apologize and pay massive reparations to families.", "effect": {"pac_mil": -15, "nat_glob": 10}, "boost": 24},
+            {"text": "Deny responsibility and classify the footage.", "effect": {"pac_mil": 10, "auth_ana": -12}, "boost": 22},
+            {"text": "End the drone program entirely.", "effect": {"pac_mil": -20, "prog_cons": -5}, "boost": 28},
+            {"text": "Admit the 'tragic mistake' but defend the necessity of the war.", "effect": {"pac_mil": 5, "nat_glob": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "AI Art Copyright Suit",
+        "description": "Artists are suing AI companies for training algorithms on their work without pay. The court looks to you for legislative guidance.",
+        "choices": [
+            {"text": "Ban AI from training on copyrighted material without consent.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 22},
+            {"text": "Declare AI art public domain and uncopyrightable.", "effect": {"soc_cap": 5, "prog_cons": -5}, "boost": 18},
+            {"text": "Protect AI companies to foster technological dominance.", "effect": {"soc_cap": 12, "prog_cons": 5}, "boost": 20},
+            {"text": "Establish a government fund to compensate displaced artists.", "effect": {"soc_cap": -8, "prog_cons": -3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Private Prison Scandal",
+        "description": "Leaked documents show a major private prison firm is lobbying judges to give harsher sentences to fill beds. The public is outraged.",
+        "choices": [
+            {"text": "Nationalize all prisons immediately.", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 25},
+            {"text": "Ban political lobbying by correctional facilities.", "effect": {"auth_ana": -5, "soc_cap": -3}, "boost": 18},
+            {"text": "Investigate the specific judges, but keep the private system.", "effect": {"soc_cap": 8, "auth_ana": 3}, "boost": 16},
+            {"text": "Increase oversight and regulations on private prisons.", "effect": {"auth_ana": -3, "prog_cons": -2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Right to Disconnect",
+        "description": "Workers complain they are expected to answer emails 24/7. Should we ban after-hours work communications?",
+        "choices": [
+            {"text": "Illegalize boss-to-employee contact after hours.", "effect": {"soc_cap": -12, "auth_ana": -8}, "boost": 20},
+            {"text": "Let companies and workers negotiate their own terms.", "effect": {"soc_cap": 10, "auth_ana": 8}, "boost": 16},
+            {"text": "Only for government employees.", "effect": {"soc_cap": -3, "auth_ana": -2}, "boost": 10},
+            {"text": "Launch a mental health awareness campaign instead.", "effect": {"soc_cap": -2, "prog_cons": -2}, "boost": 8}
+        ]
+    },
+    {
+        "title": "Mandatory DNA Database",
+        "description": "Police want a DNA sample from every citizen at birth to solve cold cases. Privacy groups are screaming.",
+        "choices": [
+            {"text": "Implement the mandatory database for safety.", "effect": {"auth_ana": -25, "prog_cons": 5}, "boost": 30},
+            {"text": "Only collect DNA from convicted felons.", "effect": {"auth_ana": -5, "prog_cons": 3}, "boost": 15},
+            {"text": "Ban the government from storing innocent people's DNA.", "effect": {"auth_ana": 15, "prog_cons": -5}, "boost": 20},
+            {"text": "Allow voluntary submission for tax credits.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Meat Tax Proposal",
+        "description": "Environmentalists propose a heavy tax on red meat to curb methane emissions. Ranchers threaten to riot.",
+        "choices": [
+            {"text": "Implement the tax to save the planet.", "effect": {"env_eco": -18, "soc_cap": -5}, "boost": 24},
+            {"text": "Subsidize plant-based alternatives instead.", "effect": {"env_eco": -8, "soc_cap": -8}, "boost": 18},
+            {"text": "Protect our ranchers; no new taxes.", "effect": {"env_eco": 12, "prog_cons": 8}, "boost": 20},
+            {"text": "Launch a public health campaign about diet.", "effect": {"prog_cons": -2, "auth_ana": 2}, "boost": 10}
+        ]
+    },
+    {
+        "title": "Cashless Society Mandate",
+        "description": "Banks want to phase out physical cash to stop money laundering. Seniors and privacy advocates object.",
+        "choices": [
+            {"text": "Abolish physical currency entirely.", "effect": {"auth_ana": -15, "prog_cons": -5}, "boost": 25},
+            {"text": "Mandate that all businesses must accept cash.", "effect": {"auth_ana": 5, "soc_cap": -5}, "boost": 18},
+            {"text": "Let the market decide the future of money.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16},
+            {"text": "Create a digital dollar but keep cash.", "effect": {"auth_ana": -5, "prog_cons": -3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Space Debris Collision",
+        "description": "A satellite collision has created a debris field threatening all space travel. International cleanup funds are requested.",
+        "choices": [
+            {"text": "Pay significantly into the global cleanup fund.", "effect": {"nat_glob": 15, "env_eco": -5}, "boost": 20},
+            {"text": "Tax satellite companies to pay for it.", "effect": {"soc_cap": -10, "env_eco": -5}, "boost": 18},
+            {"text": "Develop a military space force to clear it and secure orbit.", "effect": {"pac_mil": 15, "nat_glob": -10}, "boost": 24},
+            {"text": "Ignore it; let other nations handle space.", "effect": {"nat_glob": -5, "soc_cap": 5}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Assisted Suicide Legislation",
+        "description": "A terminally ill celebrity has publicized their desire for medically assisted death. The public is debating the 'Right to Die'.",
+        "choices": [
+            {"text": "Legalize assisted suicide for the terminally ill.", "effect": {"prog_cons": -15, "rel_sec": 10}, "boost": 25},
+            {"text": "Legalize it for anyone, including for mental health reasons.", "effect": {"prog_cons": -25, "rel_sec": 15}, "boost": 30},
+            {"text": "Ban the practice strictly on moral grounds.", "effect": {"prog_cons": 15, "rel_sec": -15}, "boost": 22},
+            {"text": "Decriminalize it, but offer no medical support.", "effect": {"auth_ana": 10, "prog_cons": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Empty Home Tax",
+        "description": "Investment firms are buying houses and leaving them empty while homelessness rises. Should we tax vacant properties?",
+        "choices": [
+            {"text": "Heavy tax on any home vacant more than 6 months.", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 22},
+            {"text": "Seize vacant homes for public housing.", "effect": {"soc_cap": -25, "auth_ana": -15}, "boost": 30},
+            {"text": "Property rights are absolute; do nothing.", "effect": {"soc_cap": 15, "auth_ana": 8}, "boost": 20},
+            {"text": "Offer tax breaks for landlords who rent affordably.", "effect": {"soc_cap": 5, "prog_cons": 3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "UFO Declassification",
+        "description": "Whistleblowers claim the government has recovered non-human biologics. The people demand the truth.",
+        "choices": [
+            {"text": "Full disclosure. Release all files immediately.", "effect": {"auth_ana": 15, "prog_cons": -5}, "boost": 35},
+            {"text": "Deny everything. National security comes first.", "effect": {"auth_ana": -15, "pac_mil": 5}, "boost": 20},
+            {"text": "Release a redacted, sanitized report.", "effect": {"auth_ana": -5, "prog_cons": 0}, "boost": 15},
+            {"text": "Create a new scientific agency to investigate openly.", "effect": {"prog_cons": -5, "soc_cap": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Gender Neutral Laws",
+        "description": "Activists want to rewrite the constitution to use gender-neutral language (they/them instead of he/she).",
+        "choices": [
+            {"text": "Rewrite the documents to be inclusive.", "effect": {"prog_cons": -15, "rel_sec": 5}, "boost": 20},
+            {"text": "Keep traditional language; it's history.", "effect": {"prog_cons": 15, "rel_sec": -5}, "boost": 18},
+            {"text": "Ban the use of gender-neutral pronouns in official documents.", "effect": {"prog_cons": 18, "auth_ana": -5}, "boost": 22},
+            {"text": "Allow documents to be updated as they are reprinted.", "effect": {"prog_cons": -2, "auth_ana": 2}, "boost": 10}
+        ]
+    },
+    {
+        "title": "Crypto Tax Loophole",
+        "description": "Billions are moving through decentralized finance (DeFi) untaxed. The treasury is losing money.",
+        "choices": [
+            {"text": "Strictly regulate and tax all crypto transactions.", "effect": {"soc_cap": -10, "auth_ana": -10}, "boost": 24},
+            {"text": "Ban decentralized finance protocols.", "effect": {"auth_ana": -20, "soc_cap": -5}, "boost": 28},
+            {"text": "Recognize crypto as foreign currency (lower tax).", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 16},
+            {"text": "Do nothing; innovation requires deregulation.", "effect": {"soc_cap": 15, "auth_ana": 12}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Teacher Political Bias",
+        "description": "Parents are filming teachers expressing political views in class. Demands for 'neutrality' are rising.",
+        "choices": [
+            {"text": "Ban teachers from discussing politics or personal views.", "effect": {"auth_ana": -12, "prog_cons": 10}, "boost": 22},
+            {"text": "Install cameras in all classrooms for transparency.", "effect": {"auth_ana": -18, "prog_cons": 5}, "boost": 26},
+            {"text": "Protect academic freedom; teachers can speak freely.", "effect": {"auth_ana": 8, "prog_cons": -8}, "boost": 20},
+            {"text": "Update curriculum to ensure balanced viewpoints.", "effect": {"auth_ana": -2, "prog_cons": 2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Compulsory Voting",
+        "description": "Voter turnout is at an all-time low. Should we make voting a legal requirement like jury duty?",
+        "choices": [
+            {"text": "Make voting mandatory with fines for non-compliance.", "effect": {"auth_ana": -15, "soc_cap": -5}, "boost": 25},
+            {"text": "Incentivize voting with tax rebates.", "effect": {"soc_cap": -5, "auth_ana": 2}, "boost": 18},
+            {"text": "Voting is a right, not a duty. No compulsion.", "effect": {"auth_ana": 10, "prog_cons": 0}, "boost": 16},
+            {"text": "Restrict voting to taxpayers only.", "effect": {"auth_ana": -5, "soc_cap": 15}, "boost": 28}
+        ]
+    },
+    {
+        "title": "National Service Requirement",
+        "description": "The military is shrinking and civic pride is low. Generals suggest mandatory service for 18-year-olds.",
+        "choices": [
+            {"text": "Implement mandatory military service (Conscription).", "effect": {"pac_mil": 20, "auth_ana": -15}, "boost": 30},
+            {"text": "Mandatory service, but allow civil/community options.", "effect": {"pac_mil": 5, "soc_cap": -10}, "boost": 24},
+            {"text": "Expand benefits for volunteers (GI Bill style).", "effect": {"pac_mil": 5, "soc_cap": -5}, "boost": 16},
+            {"text": "No forced labor. Keep it voluntary.", "effect": {"auth_ana": 10, "pac_mil": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Plastic Ban Riots",
+        "description": "A total ban on single-use plastics has caused chaos in supply chains and anger among consumers.",
+        "choices": [
+            {"text": "Enforce the ban strictly; the Earth comes first.", "effect": {"env_eco": -20, "auth_ana": -5}, "boost": 24},
+            {"text": "Delay the ban for 5 years to let industry adapt.", "effect": {"env_eco": 5, "soc_cap": 5}, "boost": 16},
+            {"text": "Repeal the ban; recycle instead.", "effect": {"env_eco": 10, "soc_cap": 8}, "boost": 20},
+            {"text": "Subsidize companies developing biodegradable packaging.", "effect": {"env_eco": -5, "soc_cap": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "The Gold Standard",
+        "description": "Inflation is erratic. A fringe but growing movement wants to peg the currency to gold again.",
+        "choices": [
+            {"text": "Return to the Gold Standard.", "effect": {"soc_cap": 15, "nat_glob": -5}, "boost": 28},
+            {"text": "Audit the Federal Reserve/Central Bank.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 18},
+            {"text": "Maintain fiat currency managed by economists.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 14},
+            {"text": "Peg currency to a basket of commodities.", "effect": {"soc_cap": 5, "nat_glob": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Algorithmic Justice",
+        "description": "Courts are using AI to determine bail and sentencing. Data shows it's efficient but biased against minorities.",
+        "choices": [
+            {"text": "Ban AI in the courtroom entirely.", "effect": {"prog_cons": -10, "auth_ana": 5}, "boost": 22},
+            {"text": "Keep the AI; efficiency reduces tax burden.", "effect": {"soc_cap": 10, "auth_ana": -5}, "boost": 20},
+            {"text": "Open-source the code for public audit.", "effect": {"auth_ana": 8, "prog_cons": -5}, "boost": 16},
+            {"text": "Use AI only for non-violent crimes.", "effect": {"auth_ana": 0, "prog_cons": 0}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Public Nudity Protest",
+        "description": "A large 'Free the Body' protest occurred in the capital. They demand the right to public nudity.",
+        "choices": [
+            {"text": "Arrest them all. Indecency laws must be upheld.", "effect": {"prog_cons": 15, "auth_ana": -10}, "boost": 20},
+            {"text": "Designate specific 'clothing optional' zones.", "effect": {"prog_cons": -5, "auth_ana": 5}, "boost": 16},
+            {"text": "Legalize simple nudity; it's just skin.", "effect": {"prog_cons": -15, "auth_ana": 10}, "boost": 24},
+            {"text": "Ignore them; giving attention encourages them.", "effect": {"prog_cons": 2, "auth_ana": 2}, "boost": 10}
+        ]
+    },
+    {
+        "title": "Foreign Land Ownership",
+        "description": "Foreign state-owned corporations are buying up vast swathes of farmland. Food security is threatened.",
+        "choices": [
+            {"text": "Ban all foreign ownership of agricultural land.", "effect": {"nat_glob": -20, "soc_cap": -5}, "boost": 26},
+            {"text": "Screen purchases for national security risks only.", "effect": {"nat_glob": -5, "auth_ana": -2}, "boost": 16},
+            {"text": "Allow it; foreign investment boosts the economy.", "effect": {"nat_glob": 15, "soc_cap": 10}, "boost": 20},
+            {"text": "Tax foreign owners at a higher rate.", "effect": {"nat_glob": -8, "soc_cap": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Body Cam Livestreams",
+        "description": "Activists demand police body cams be livestreamed publicly 24/7 to prevent brutality.",
+        "choices": [
+            {"text": "Mandate public livestreaming of all police.", "effect": {"auth_ana": 12, "prog_cons": -8}, "boost": 24},
+            {"text": "Keep footage private unless a crime occurs.", "effect": {"auth_ana": -5, "prog_cons": 5}, "boost": 16},
+            {"text": "Refuse; it endangers officers and privacy.", "effect": {"auth_ana": -10, "prog_cons": 10}, "boost": 20},
+            {"text": "Let civilian oversight boards review all footage.", "effect": {"auth_ana": 5, "prog_cons": -3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Sovereign Citizen Standoff",
+        "description": "A group refusing to recognize federal law has taken over a wildlife refuge. They are armed.",
+        "choices": [
+            {"text": "Send in the military to crush the insurrection.", "effect": {"auth_ana": -20, "pac_mil": 10}, "boost": 28},
+            {"text": "Negotiate peacefully to end the siege.", "effect": {"auth_ana": 0, "pac_mil": -5}, "boost": 18},
+            {"text": "Cut power and wait them out (siege).", "effect": {"auth_ana": -5, "pac_mil": 5}, "boost": 16},
+            {"text": "Grant their demand for autonomy in that zone.", "effect": {"auth_ana": 20, "nat_glob": -10}, "boost": 30}
+        ]
+    },
+    {
+        "title": "Sugar Tax",
+        "description": "Obesity rates are soaring. Health experts want a massive tax on sugary drinks and snacks.",
+        "choices": [
+            {"text": "Implement the tax to fund healthcare.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 20},
+            {"text": "Ban high-fructose corn syrup entirely.", "effect": {"soc_cap": -12, "auth_ana": -10}, "boost": 22},
+            {"text": "Personal responsibility; no taxes on food.", "effect": {"soc_cap": 10, "auth_ana": 8}, "boost": 18},
+            {"text": "Subsidize healthy foods instead of taxing bad ones.", "effect": {"soc_cap": -8, "prog_cons": -3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Cloning of Extinct Species",
+        "description": "Scientists are ready to clone mammoths. Religious groups call it 'playing God', conservationists worry about ecosystems.",
+        "choices": [
+            {"text": "Ban de-extinction cloning.", "effect": {"rel_sec": -10, "prog_cons": 5}, "boost": 18},
+            {"text": "Fund the science; it's a national achievement.", "effect": {"rel_sec": 10, "env_eco": -5}, "boost": 22},
+            {"text": "Allow it only in contained zoos.", "effect": {"soc_cap": 5, "env_eco": 3}, "boost": 14},
+            {"text": "Deregulation; let companies sell pet dinosaurs.", "effect": {"soc_cap": 15, "auth_ana": 10}, "boost": 25}
+        ]
+    },
+    {
+        "title": "Civil Asset Forfeiture",
+        "description": "Police are seizing cash from motorists without charging them with crimes. It funds their departments.",
+        "choices": [
+            {"text": "Ban civil asset forfeiture completely.", "effect": {"auth_ana": 15, "soc_cap": -5}, "boost": 24},
+            {"text": "Require a criminal conviction before seizure.", "effect": {"auth_ana": 8, "soc_cap": -3}, "boost": 18},
+            {"text": "Maintain the practice; crime doesn't pay.", "effect": {"auth_ana": -10, "prog_cons": 8}, "boost": 20},
+            {"text": "Direct seized funds to education, not police.", "effect": {"auth_ana": -2, "soc_cap": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "The Net Neutrality War",
+        "description": "ISPs want to charge extra for faster streaming speeds. Tech giants demand equal access.",
+        "choices": [
+            {"text": "Enforce strict Net Neutrality as law.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 22},
+            {"text": "Repeal regulations; let the market tier the internet.", "effect": {"soc_cap": 12, "auth_ana": 5}, "boost": 20},
+            {"text": "Nationalize the internet backbone infrastructure.", "effect": {"soc_cap": -20, "auth_ana": -10}, "boost": 28},
+            {"text": "Municipal broadband to compete with ISPs.", "effect": {"soc_cap": -8, "auth_ana": 3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Daylight Savings Abolition",
+        "description": "Everyone hates changing the clocks. Studies show it causes heart attacks.",
+        "choices": [
+            {"text": "Permanent Standard Time (darker evenings).", "effect": {"prog_cons": 2, "auth_ana": 0}, "boost": 10},
+            {"text": "Permanent Summer Time (darker mornings).", "effect": {"prog_cons": -2, "auth_ana": 0}, "boost": 10},
+            {"text": "Keep the change; it helps farmers (allegedly).", "effect": {"prog_cons": 5, "auth_ana": 0}, "boost": 8},
+            {"text": "Let states/regions decide individually.", "effect": {"auth_ana": 5, "nat_glob": -2}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Universal Paternity Leave",
+        "description": "Fathers want equal paid time off to mothers. Businesses fear lost productivity.",
+        "choices": [
+            {"text": "Mandate equal paid leave for both parents.", "effect": {"soc_cap": -15, "prog_cons": -8}, "boost": 22},
+            {"text": "Small tax credit for paternity leave.", "effect": {"soc_cap": -5, "prog_cons": -2}, "boost": 14},
+            {"text": "Leave is a luxury; no mandates.", "effect": {"soc_cap": 12, "prog_cons": 5}, "boost": 18},
+            {"text": "Encourage stay-at-home mothers instead.", "effect": {"soc_cap": 5, "prog_cons": 15}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Surrogacy Commercialization",
+        "description": "Wealthy couples are paying poor women to carry their babies. Critics call it 'womb renting'.",
+        "choices": [
+            {"text": "Ban paid surrogacy entirely.", "effect": {"soc_cap": -5, "rel_sec": -5}, "boost": 18},
+            {"text": "Legalize and regulate strictly.", "effect": {"soc_cap": 5, "auth_ana": -2}, "boost": 14},
+            {"text": "Full free market for surrogacy.", "effect": {"soc_cap": 15, "auth_ana": 8}, "boost": 20},
+            {"text": "Only allowed for altruistic (unpaid) reasons.", "effect": {"soc_cap": -2, "rel_sec": -2}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Climate Refugees",
+        "description": "An island nation is sinking. 50,000 refugees request entry. They have nowhere else to go.",
+        "choices": [
+            {"text": "Accept them all and provide housing.", "effect": {"nat_glob": 20, "soc_cap": -10}, "boost": 25},
+            {"text": "Refuse entry; we have our own problems.", "effect": {"nat_glob": -15, "prog_cons": 5}, "boost": 22},
+            {"text": "Take a quota and push allies to take the rest.", "effect": {"nat_glob": 5, "soc_cap": -3}, "boost": 16},
+            {"text": "Send aid to build sea walls there instead.", "effect": {"nat_glob": -5, "soc_cap": -8}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Jury Nullification",
+        "description": "Activists are handing out pamphlets telling jurors they can ignore the law if they think it's unjust. Prosecutors want them arrested.",
+        "choices": [
+            {"text": "Arrest the activists for tampering.", "effect": {"auth_ana": -12, "prog_cons": 5}, "boost": 18},
+            {"text": "Protect their free speech rights.", "effect": {"auth_ana": 12, "prog_cons": -5}, "boost": 20},
+            {"text": "Formally instruct juries about nullification rights.", "effect": {"auth_ana": 20, "prog_cons": -10}, "boost": 25},
+            {"text": "Restrict jury trials to serious crimes only.", "effect": {"auth_ana": -15, "soc_cap": 5}, "boost": 22}
+        ]
+    },
+    {
+        "title": "Anti-Aging for the Elite",
+        "description": "A treatment costing $2M extends life by 20 years. Only the rich can afford it, creating a biological caste system.",
+        "choices": [
+            {"text": "Nationalize the patent and distribute to all.", "effect": {"soc_cap": -25, "prog_cons": -10}, "boost": 30},
+            {"text": "Ban the treatment as unethical.", "effect": {"rel_sec": -10, "soc_cap": -5}, "boost": 20},
+            {"text": "Tax it heavily to fund pensions.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 18},
+            {"text": "Let the market work; price will drop eventually.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Smart City Surveillance",
+        "description": "A tech giant wants to build a 'Smart City' with sensors on every corner tracking behavior for efficiency.",
+        "choices": [
+            {"text": "Block the project; it's a privacy nightmare.", "effect": {"auth_ana": 10, "soc_cap": -5}, "boost": 20},
+            {"text": "Approve it; efficiency is the future.", "effect": {"auth_ana": -10, "soc_cap": 10}, "boost": 22},
+            {"text": "Allow it only if the data is public property.", "effect": {"soc_cap": -10, "auth_ana": 5}, "boost": 18},
+            {"text": "Restrict data collection to traffic and utilities.", "effect": {"auth_ana": -2, "prog_cons": -2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Loot Box Gambling",
+        "description": "Video games are selling 'loot boxes' to children. Parents say it's unregulated gambling.",
+        "choices": [
+            {"text": "Classify loot boxes as gambling (18+ only).", "effect": {"soc_cap": -8, "auth_ana": -5}, "boost": 18},
+            {"text": "Ban loot boxes entirely.", "effect": {"soc_cap": -12, "auth_ana": -10}, "boost": 20},
+            {"text": "Self-regulation by the game industry.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16},
+            {"text": "Require disclosure of odds only.", "effect": {"soc_cap": -2, "auth_ana": -2}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Bilingual Education",
+        "description": "Immigrant population is rising. Should public schools teach in native languages or English only?",
+        "choices": [
+            {"text": "English only. Assimilation is key.", "effect": {"nat_glob": -15, "prog_cons": 10}, "boost": 22},
+            {"text": "Dual-language immersion programs.", "effect": {"nat_glob": 10, "prog_cons": -8}, "boost": 20},
+            {"text": "Let local school boards decide.", "effect": {"auth_ana": 5, "prog_cons": 0}, "boost": 14},
+            {"text": "Federal funding for ESL (English as Second Language) only.", "effect": {"nat_glob": -5, "soc_cap": -3}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Space Weaponization",
+        "description": "A rival nation launched a 'Rod from God' satellite. The Space Treaty is dead.",
+        "choices": [
+            {"text": "Launch our own orbital weapons platform immediately.", "effect": {"pac_mil": 25, "nat_glob": -10}, "boost": 30},
+            {"text": "Sanction them and demand de-orbiting.", "effect": {"pac_mil": 5, "nat_glob": 5}, "boost": 18},
+            {"text": "Build ground-based laser defenses.", "effect": {"pac_mil": 15, "soc_cap": -5}, "boost": 20},
+            {"text": "Call for a new UN Space Peace Treaty.", "effect": {"pac_mil": -10, "nat_glob": 15}, "boost": 16}
+        ]
+    },
+    {
+        "title": "The CEO Pay Cap",
+        "description": "CEOs are making 400x the average worker. Populists want a hard cap.",
+        "choices": [
+            {"text": "Cap CEO pay at 50x the lowest worker's wage.", "effect": {"soc_cap": -20, "prog_cons": -10}, "boost": 28},
+            {"text": "Raise taxes on stock options and bonuses.", "effect": {"soc_cap": -10, "prog_cons": -5}, "boost": 20},
+            {"text": "Government shouldn't dictate private salaries.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 22},
+            {"text": "Require shareholder votes on executive pay.", "effect": {"soc_cap": 5, "auth_ana": 3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Prisoner Voting Rights",
+        "description": "Should convicted felons still in prison be allowed to vote in elections?",
+        "choices": [
+            {"text": "Yes, voting is a human right, even for prisoners.", "effect": {"prog_cons": -18, "auth_ana": 8}, "boost": 24},
+            {"text": "Only after they have served their time.", "effect": {"prog_cons": 5, "auth_ana": -2}, "boost": 16},
+            {"text": "No, they forfeited their rights by breaking the law.", "effect": {"prog_cons": 15, "auth_ana": -8}, "boost": 20},
+            {"text": "Allow for non-violent offenders only.", "effect": {"prog_cons": -5, "auth_ana": 3}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Religious Garb in Schools",
+        "description": "Teachers are wearing religious symbols (crosses, hijabs, turbans). Secularists want them banned in public schools.",
+        "choices": [
+            {"text": "Ban all religious symbols for public employees.", "effect": {"rel_sec": 20, "auth_ana": -5}, "boost": 24},
+            {"text": "Allow all religious expression.", "effect": {"rel_sec": -15, "auth_ana": 5}, "boost": 20},
+            {"text": "Allow small/discreet symbols only.", "effect": {"rel_sec": 5, "prog_cons": -2}, "boost": 14},
+            {"text": "Let local districts decide dress codes.", "effect": {"auth_ana": 5, "prog_cons": 0}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Lab-Grown Human Organs",
+        "description": "We can now grow hearts in jars. Religious groups say it lacks a soul; techies say it ends the transplant list.",
+        "choices": [
+            {"text": "Full government funding to end organ shortages.", "effect": {"soc_cap": -10, "rel_sec": 10}, "boost": 22},
+            {"text": "Ban the practice; it's unnatural.", "effect": {"rel_sec": -15, "prog_cons": 5}, "boost": 20},
+            {"text": "Commercialize it; sell organs to the highest bidder.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 25},
+            {"text": "Regulate strictly for medical necessity only.", "effect": {"auth_ana": -5, "prog_cons": 0}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Private Security Militias",
+        "description": "Wealthy neighborhoods are hiring private paramilitary forces because they don't trust the police.",
+        "choices": [
+            {"text": "Ban private militias immediately.", "effect": {"auth_ana": -15, "soc_cap": -5}, "boost": 24},
+            {"text": "Regulate them with strict licensing.", "effect": {"auth_ana": -5, "soc_cap": 0}, "boost": 16},
+            {"text": "Allow them; the police are failing.", "effect": {"soc_cap": 10, "auth_ana": 10}, "boost": 20},
+            {"text": "Deputize them under police command.", "effect": {"auth_ana": -10, "prog_cons": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Mandatory Vaccination",
+        "description": "Measles is back. Health officials want to remove 'religious exemptions' for vaccines in schools.",
+        "choices": [
+            {"text": "Mandatory vaccines for all, no exceptions.", "effect": {"auth_ana": -15, "rel_sec": 10}, "boost": 26},
+            {"text": "Keep religious exemptions.", "effect": {"auth_ana": 10, "rel_sec": -10}, "boost": 20},
+            {"text": "Ban unvaccinated kids from public school only.", "effect": {"auth_ana": -5, "soc_cap": -5}, "boost": 18},
+            {"text": "Incentivize vaccines with tax credits.", "effect": {"soc_cap": -5, "auth_ana": 3}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Asteroid Mining Rights",
+        "description": "A corporation has landed on an asteroid worth trillions in platinum. They want to keep it all.",
+        "choices": [
+            {"text": "Tax them 90%; space resources belong to humanity.", "effect": {"soc_cap": -20, "nat_glob": 10}, "boost": 28},
+            {"text": "Recognize their claim; incentivize the space race.", "effect": {"soc_cap": 15, "env_eco": 5}, "boost": 24},
+            {"text": "Nationalize the company.", "effect": {"soc_cap": -15, "auth_ana": -10}, "boost": 26},
+            {"text": "Follow existing international treaties (share profits).", "effect": {"nat_glob": 10, "soc_cap": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "The Patriotism Test",
+        "description": "Nationalists want immigrants to pass a 'cultural values' test, not just a civics test.",
+        "choices": [
+            {"text": "Implement the strict cultural test.", "effect": {"nat_glob": -15, "prog_cons": 10}, "boost": 22},
+            {"text": "Keep the current civics test.", "effect": {"nat_glob": 0, "prog_cons": 0}, "boost": 12},
+            {"text": "Abolish testing; open borders.", "effect": {"nat_glob": 15, "prog_cons": -15}, "boost": 25},
+            {"text": "Focus on language proficiency only.", "effect": {"nat_glob": -5, "soc_cap": 2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Polygamy Legalization",
+        "description": "Following marriage equality, groups are suing for the right to plural marriage (multiple spouses).",
+        "choices": [
+            {"text": "Legalize polygamy for consenting adults.", "effect": {"prog_cons": -20, "rel_sec": -5}, "boost": 25},
+            {"text": "Constitutionally define marriage as two people.", "effect": {"prog_cons": 15, "rel_sec": 5}, "boost": 22},
+            {"text": "Decriminalize cohabitation, but no official marriage.", "effect": {"prog_cons": -5, "auth_ana": 5}, "boost": 16},
+            {"text": "Allow it only for religious reasons.", "effect": {"rel_sec": -15, "prog_cons": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Water Privatization",
+        "description": "A drought-stricken region considers selling its municipal water supply to a multinational corporation.",
+        "choices": [
+            {"text": "Block the sale; water is a human right.", "effect": {"soc_cap": -15, "env_eco": -5}, "boost": 24},
+            {"text": "Allow the sale to improve efficiency.", "effect": {"soc_cap": 15, "env_eco": 5}, "boost": 20},
+            {"text": "Subsidize the water utility heavily.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 18},
+            {"text": "Implement tiered pricing to discourage waste.", "effect": {"env_eco": -5, "soc_cap": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Military in Schools",
+        "description": "Recruitment numbers are down. The army wants access to all high school student records and mandatory recruiter assemblies.",
+        "choices": [
+            {"text": "Grant full access; we need soldiers.", "effect": {"pac_mil": 15, "auth_ana": -5}, "boost": 20},
+            {"text": "Ban military recruiters from schools.", "effect": {"pac_mil": -15, "prog_cons": -5}, "boost": 22},
+            {"text": "Opt-in only for students.", "effect": {"auth_ana": 5, "pac_mil": -2}, "boost": 14},
+            {"text": "Allow access but also allow peace activists equal time.", "effect": {"pac_mil": -5, "prog_cons": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Internet ID Card",
+        "description": "To stop bullying and bots, a bill proposes you must scan a government ID to use social media.",
+        "choices": [
+            {"text": "Pass the bill; end anonymity.", "effect": {"auth_ana": -20, "soc_cap": -5}, "boost": 28},
+            {"text": "Reject the bill; anonymity is vital for dissent.", "effect": {"auth_ana": 15, "prog_cons": -5}, "boost": 24},
+            {"text": "Age verification for porn/gambling only.", "effect": {"auth_ana": -5, "prog_cons": 5}, "boost": 16},
+            {"text": "Create a voluntary 'verified citizen' badge.", "effect": {"auth_ana": -2, "soc_cap": 2}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Whistleblower Extradition",
+        "description": "An ally wants us to extradite a journalist who exposed their war crimes. They call him a spy.",
+        "choices": [
+            {"text": "Refuse; protect freedom of the press.", "effect": {"auth_ana": 10, "nat_glob": -10}, "boost": 24},
+            {"text": "Extradite him; alliances matter more.", "effect": {"auth_ana": -10, "nat_glob": 10}, "boost": 22},
+            {"text": "Try him in our own courts.", "effect": {"auth_ana": -5, "nat_glob": 0}, "boost": 16},
+            {"text": "Grant him asylum and citizenship.", "effect": {"auth_ana": 15, "prog_cons": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Speed Camera Expansion",
+        "description": "A plan to put automated speed cameras on every street corner to eliminate traffic deaths.",
+        "choices": [
+            {"text": "Install them everywhere; safety first.", "effect": {"auth_ana": -15, "soc_cap": -5}, "boost": 20},
+            {"text": "Ban automated ticketing entirely.", "effect": {"auth_ana": 10, "prog_cons": 2}, "boost": 18},
+            {"text": "Use them in school zones only.", "effect": {"auth_ana": -2, "prog_cons": 2}, "boost": 12},
+            {"text": "Income-based fines (rich pay more).", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Traditional Medicine Integration",
+        "description": "Indigenous groups want traditional herbal medicine covered by national health insurance.",
+        "choices": [
+            {"text": "Cover it; respect cultural practices.", "effect": {"rel_sec": -5, "prog_cons": -8}, "boost": 18},
+            {"text": "Only cover scientifically proven treatments.", "effect": {"rel_sec": 10, "soc_cap": 2}, "boost": 20},
+            {"text": "Fund research into these medicines first.", "effect": {"rel_sec": 5, "soc_cap": -5}, "boost": 14},
+            {"text": "Derecalute it, but no taxpayer funding.", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Urban Farming Grants",
+        "description": "Activists want to tear up parking lots to plant community gardens.",
+        "choices": [
+            {"text": "Fund the gardens; green the cities.", "effect": {"env_eco": -10, "soc_cap": -5}, "boost": 18},
+            {"text": "Protect parking; businesses need customers.", "effect": {"env_eco": 8, "soc_cap": 5}, "boost": 16},
+            {"text": "Zoning reform: let owners decide usage.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 14},
+            {"text": "Rooftop gardens only.", "effect": {"env_eco": -5, "prog_cons": -2}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Kidfluencer Laws",
+        "description": "Parents are making millions filming their children for YouTube. The kids see none of the money.",
+        "choices": [
+            {"text": "Coogan Law: 15% of income must go to a trust for the child.", "effect": {"auth_ana": -5, "soc_cap": -5}, "boost": 20},
+            {"text": "Ban commercializing children entirely.", "effect": {"auth_ana": -15, "soc_cap": -10}, "boost": 24},
+            {"text": "It's a family matter; government stay out.", "effect": {"auth_ana": 10, "prog_cons": 5}, "boost": 18},
+            {"text": "Investigate abusive channels only.", "effect": {"auth_ana": -5, "prog_cons": 2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Political Truth-in-Advertising",
+        "description": "Candidates are lying blatantly in TV ads. Should we empower a board to censor false political ads?",
+        "choices": [
+            {"text": "Yes, ban lying in political ads.", "effect": {"auth_ana": -15, "prog_cons": -5}, "boost": 25},
+            {"text": "No, free speech includes the right to lie.", "effect": {"auth_ana": 15, "prog_cons": 5}, "boost": 22},
+            {"text": "Mandate fact-check warnings/labels.", "effect": {"auth_ana": -5, "prog_cons": -3}, "boost": 18},
+            {"text": "Ban political TV ads entirely.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Moving the Capital",
+        "description": "The capital is overcrowded and corrupt. A proposal to build a new, planned capital in the interior.",
+        "choices": [
+            {"text": "Build the new capital; a fresh start.", "effect": {"soc_cap": -20, "nat_glob": -5}, "boost": 30},
+            {"text": "Stay put; history matters.", "effect": {"prog_cons": 10, "soc_cap": 5}, "boost": 18},
+            {"text": "Decentralize agencies to different cities.", "effect": {"auth_ana": 5, "soc_cap": -5}, "boost": 22},
+            {"text": "Make the capital a virtual/digital entity.", "effect": {"prog_cons": -10, "auth_ana": 5}, "boost": 25}
+        ]
+    },
+    {
+        "title": "Geoengineering Proposal",
+        "description": "We are missing climate targets. Scientists want to spray aerosols in the atmosphere to dim the sun.",
+        "choices": [
+            {"text": "Authorize the spraying immediately.", "effect": {"env_eco": 10, "auth_ana": -10}, "boost": 30},
+            {"text": "Ban it; the risks are too high.", "effect": {"env_eco": -10, "auth_ana": -5}, "boost": 20},
+            {"text": "International consensus required first.", "effect": {"nat_glob": 10, "pac_mil": -5}, "boost": 18},
+            {"text": "Focus on carbon capture instead.", "effect": {"env_eco": -15, "prog_cons": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Human Challenge Trials",
+        "description": "To speed up vaccine development for a new virus, volunteers want to be intentionally infected.",
+        "choices": [
+            {"text": "Allow it; the ends justify the means.", "effect": {"soc_cap": 5, "prog_cons": -5}, "boost": 22},
+            {"text": "Unethical and illegal. Ban it.", "effect": {"prog_cons": 5, "rel_sec": 5}, "boost": 18},
+            {"text": "Pay them handsomely for the risk.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 20},
+            {"text": "Only for prisoners in exchange for reduced sentences.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 25}
+        ]
+    },
+    {
+        "title": "Robot Tax",
+        "description": "Factories are fully automating. A tax on robots per human replaced is proposed.",
+        "choices": [
+            {"text": "Implement the robot tax.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "No tax; automation creates wealth.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 20},
+            {"text": "Tax profits, not the machines.", "effect": {"soc_cap": -10, "auth_ana": -2}, "boost": 18},
+            {"text": "Require companies to retain employees in new roles.", "effect": {"soc_cap": -12, "auth_ana": -8}, "boost": 22}
+        ]
+    },
+    {
+        "title": "National Anthem Protest",
+        "description": "Athletes are kneeling during the anthem to protest injustice. Fans are booing.",
+        "choices": [
+            {"text": "Defend their right to protest.", "effect": {"prog_cons": -15, "auth_ana": 8}, "boost": 25},
+            {"text": "Demand the league fire them.", "effect": {"prog_cons": 15, "auth_ana": -8}, "boost": 25},
+            {"text": "Stop playing the anthem at sports games.", "effect": {"prog_cons": -5, "nat_glob": -10}, "boost": 20},
+            {"text": "Stay out of cultural wars.", "effect": {"auth_ana": 5, "prog_cons": 0}, "boost": 10}
+        ]
+    },
+    {
+        "title": "Micro-transaction Ban",
+        "description": "Pay-to-win mechanics in software and cars (heated seats subscriptions) are annoying everyone.",
+        "choices": [
+            {"text": "Ban predatory micro-transactions.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 22},
+            {"text": "The market will correct itself.", "effect": {"soc_cap": 10, "auth_ana": 8}, "boost": 18},
+            {"text": "Require 'total cost' upfront pricing.", "effect": {"soc_cap": -5, "auth_ana": -2}, "boost": 16},
+            {"text": "Ban them for safety features only.", "effect": {"auth_ana": -5, "prog_cons": -2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Vigilante Justice",
+        "description": "Crime is high. Neighborhoods are forming armed patrols. A thief was shot by a patrol.",
+        "choices": [
+            {"text": "Prosecute the shooter; monopoly on violence belongs to the state.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 24},
+            {"text": "Pardon the shooter; self-defense.", "effect": {"auth_ana": 10, "prog_cons": 10}, "boost": 22},
+            {"text": "Deputize the patrols formally.", "effect": {"auth_ana": -5, "prog_cons": 5}, "boost": 20},
+            {"text": "Increase police funding to make patrols unnecessary.", "effect": {"auth_ana": -8, "soc_cap": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Public Funding for IVF",
+        "description": "Fertility rates are crashing. Should the government pay for In Vitro Fertilization?",
+        "choices": [
+            {"text": "Free IVF for all couples.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "No, it's expensive and unnatural.", "effect": {"soc_cap": 10, "rel_sec": -5}, "boost": 20},
+            {"text": "Tax credits for large families instead.", "effect": {"prog_cons": 10, "soc_cap": -5}, "boost": 18},
+            {"text": "Encourage immigration to solve population decline.", "effect": {"nat_glob": 15, "prog_cons": -10}, "boost": 22}
+        ]
+    },
+    {
+        "title": "Drone Delivery Noise",
+        "description": "The sky is buzzing with delivery drones. People can't sleep.",
+        "choices": [
+            {"text": "Ban drones over residential areas.", "effect": {"auth_ana": -10, "prog_cons": 5}, "boost": 18},
+            {"text": "Set strict noise decibel limits.", "effect": {"auth_ana": -5, "env_eco": -2}, "boost": 14},
+            {"text": "Progress is noisy; deal with it.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16},
+            {"text": "Designate specific drone flight corridors.", "effect": {"auth_ana": -5, "prog_cons": 0}, "boost": 12}
+        ]
+    },
+    {
+        "title": "The Right to be Forgotten",
+        "description": "Citizens want the right to force Google to delete their past from search results.",
+        "choices": [
+            {"text": "Enshrine the Right to be Forgotten.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 22},
+            {"text": "Public record is public record. No deletion.", "effect": {"auth_ana": 5, "prog_cons": 5}, "boost": 18},
+            {"text": "Only for crimes committed as a minor.", "effect": {"auth_ana": -2, "prog_cons": -2}, "boost": 14},
+            {"text": "Allow tech companies to sell 'reputation management'.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Ban on Political Dynasties",
+        "description": "The same three families have run the country for decades. A bill proposes banning relatives of presidents from running.",
+        "choices": [
+            {"text": "Pass the bill; end the oligarchy.", "effect": {"auth_ana": 5, "soc_cap": -5}, "boost": 24},
+            {"text": "Unconstitutional; voters can decide.", "effect": {"auth_ana": 5, "prog_cons": 5}, "boost": 20},
+            {"text": "Term limits for all politicians instead.", "effect": {"auth_ana": 10, "prog_cons": -5}, "boost": 22},
+            {"text": "Appoint leaders by lottery (Sortition).", "effect": {"auth_ana": 20, "prog_cons": -15}, "boost": 30}
+        ]
+    },
+    {
+        "title": "National Internet Firewall",
+        "description": "To stop foreign propaganda and porn, religious groups want a national internet filter.",
+        "choices": [
+            {"text": "Build the firewall. Protect our minds.", "effect": {"auth_ana": -25, "rel_sec": -15}, "boost": 30},
+            {"text": "Keep the internet free and open.", "effect": {"auth_ana": 15, "prog_cons": -5}, "boost": 24},
+            {"text": "Opt-in filter for families.", "effect": {"auth_ana": 0, "prog_cons": 5}, "boost": 16},
+            {"text": "Block only hostile foreign IP addresses.", "effect": {"nat_glob": -10, "pac_mil": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Occupational Licensing Reform",
+        "description": "You need a license and 200 hours of training to braid hair. It's hurting the poor.",
+        "choices": [
+            {"text": "Abolish most occupational licenses.", "effect": {"soc_cap": 15, "auth_ana": 10}, "boost": 20},
+            {"text": "Keep standards high for safety.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 16},
+            {"text": "Federalize standards (one license for all states).", "effect": {"auth_ana": -10, "soc_cap": 5}, "boost": 18},
+            {"text": "Subsidize the training costs.", "effect": {"soc_cap": -8, "prog_cons": -2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Autonomous Trucking Protests",
+        "description": "Self-driving trucks are hitting the road. Truckers are blocking highways in protest.",
+        "choices": [
+            {"text": "Ban autonomous trucks to save jobs.", "effect": {"soc_cap": -10, "prog_cons": 10}, "boost": 24},
+            {"text": "Break the strike; arrest the blockers.", "effect": {"soc_cap": 10, "auth_ana": -10}, "boost": 22},
+            {"text": "Tax automation to fund trucker pensions.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 20},
+            {"text": "Accelerate the transition; efficiency lowers prices.", "effect": {"soc_cap": 15, "env_eco": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Abolish the Penny",
+        "description": "It costs 2 cents to make a 1-cent coin. It's useless.",
+        "choices": [
+            {"text": "Kill the penny. Round to nearest nickel.", "effect": {"soc_cap": 5, "prog_cons": -2}, "boost": 12},
+            {"text": "Keep it; people love tradition.", "effect": {"prog_cons": 5, "auth_ana": 0}, "boost": 10},
+            {"text": "Go fully digital; abolish all coins.", "effect": {"soc_cap": 5, "prog_cons": -5}, "boost": 16},
+            {"text": "Change the metal composition to be cheaper.", "effect": {"soc_cap": 2, "env_eco": -2}, "boost": 8}
+        ]
+    },
+    {
+        "title": "Genetic Enhancement for Soldiers",
+        "description": "The military wants to use gene therapy to make soldiers stronger and require less sleep.",
+        "choices": [
+            {"text": "Approve the 'Super Soldier' program.", "effect": {"pac_mil": 20, "prog_cons": -10}, "boost": 28},
+            {"text": "Ban genetic modification of humans.", "effect": {"rel_sec": -10, "auth_ana": -5}, "boost": 22},
+            {"text": "Only if the soldiers consent.", "effect": {"auth_ana": 5, "pac_mil": 5}, "boost": 16},
+            {"text": "Focus on exoskeletons (tech) instead of biology.", "effect": {"soc_cap": 5, "pac_mil": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Rent Control Referendum",
+        "description": "Tenants demand a national cap on rent increases. Landlords say they will stop building.",
+        "choices": [
+            {"text": "Strict rent control nationwide.", "effect": {"soc_cap": -20, "auth_ana": -10}, "boost": 26},
+            {"text": "Ban rent control; let the market build.", "effect": {"soc_cap": 20, "auth_ana": 5}, "boost": 24},
+            {"text": "Tie rent increases to inflation.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 18},
+            {"text": "Expand Section 8 / housing vouchers.", "effect": {"soc_cap": -10, "prog_cons": -3}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Online Voting",
+        "description": "Tech firms say they can secure online voting. It would boost turnout massively.",
+        "choices": [
+            {"text": "Implement voting from smartphones.", "effect": {"prog_cons": -10, "auth_ana": 5}, "boost": 22},
+            {"text": "Paper ballots only; cyber risks are too high.", "effect": {"prog_cons": 10, "auth_ana": -5}, "boost": 20},
+            {"text": "Hybrid system (online for overseas only).", "effect": {"prog_cons": -2, "nat_glob": 2}, "boost": 14},
+            {"text": "Blockchain voting system.", "effect": {"prog_cons": -15, "soc_cap": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "National ID Card",
+        "description": "We are the only major country without a centralized ID. It would simplify bureaucracy but hurts privacy.",
+        "choices": [
+            {"text": "Issue a mandatory National ID.", "effect": {"auth_ana": -15, "soc_cap": -5}, "boost": 24},
+            {"text": "Reject it; we are not a police state.", "effect": {"auth_ana": 15, "prog_cons": 5}, "boost": 22},
+            {"text": "Make it voluntary for travel/benefits.", "effect": {"auth_ana": -5, "soc_cap": 0}, "boost": 16},
+            {"text": "Use existing Driver's Licenses only.", "effect": {"auth_ana": 5, "prog_cons": 2}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Free Public Transport",
+        "description": "Traffic is gridlocked. A proposal to make all buses and trains free to use.",
+        "choices": [
+            {"text": "Make transit free; tax drivers to pay for it.", "effect": {"soc_cap": -15, "env_eco": -10}, "boost": 24},
+            {"text": "Keep fares; user pays.", "effect": {"soc_cap": 10, "env_eco": 5}, "boost": 18},
+            {"text": "Privatize the transit system.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 20},
+            {"text": "Means-tested free fares (poor only).", "effect": {"soc_cap": -5, "prog_cons": -2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Dual Citizenship Ban",
+        "description": "Nationalists argue you cannot serve two masters. Ban dual citizenship?",
+        "choices": [
+            {"text": "Ban it. Choose one country.", "effect": {"nat_glob": -20, "prog_cons": 5}, "boost": 22},
+            {"text": "Keep it; we live in a global world.", "effect": {"nat_glob": 15, "prog_cons": -5}, "boost": 20},
+            {"text": "Ban it for politicians/officials only.", "effect": {"nat_glob": -5, "auth_ana": -5}, "boost": 16},
+            {"text": "Charge a tax for holding dual citizenship.", "effect": {"nat_glob": -2, "soc_cap": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "3D Printed Guns",
+        "description": "Blueprints for plastic guns are online. Anyone can print one at home. Gun control is becoming obsolete.",
+        "choices": [
+            {"text": "Censor the blueprints from the internet.", "effect": {"auth_ana": -15, "prog_cons": -5}, "boost": 25},
+            {"text": "Regulate the sale of 3D printers and materials.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 20},
+            {"text": "Freedom of information; do nothing.", "effect": {"auth_ana": 15, "prog_cons": 10}, "boost": 22},
+            {"text": "Mandate metal components in all prints (for detectors).", "effect": {"auth_ana": -5, "prog_cons": -2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Foreign Aid for Gender Programs",
+        "description": "We are sending millions to other countries to promote gender equality. Conservatives want it cut.",
+        "choices": [
+            {"text": "Cut the aid; Our Nation First.", "effect": {"nat_glob": -15, "prog_cons": 10}, "boost": 20},
+            {"text": "Increase the aid; it stabilizes regions.", "effect": {"nat_glob": 10, "prog_cons": -10}, "boost": 18},
+            {"text": "Redirect aid to infrastructure only.", "effect": {"nat_glob": -5, "soc_cap": 5}, "boost": 16},
+            {"text": "Condition aid on human rights progress.", "effect": {"nat_glob": 5, "auth_ana": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Ban on Lobbying",
+        "description": "{company} is spending billions buying influence. A bill proposes a total ban on paid lobbying.",
+        "choices": [
+            {"text": "Ban paid lobbying entirely.", "effect": {"soc_cap": -15, "auth_ana": 5}, "boost": 28},
+            {"text": "Limit donations but allow lobbying.", "effect": {"soc_cap": -5, "auth_ana": 0}, "boost": 18},
+            {"text": "Lobbying is free speech (1st Amendment).", "effect": {"soc_cap": 15, "auth_ana": 10}, "boost": 22},
+            {"text": "Public financing of elections only.", "effect": {"soc_cap": -10, "prog_cons": -5}, "boost": 24}
+        ]
+    },
+    {
+        "title": "Mandatory Composting",
+        "description": "Landfills are full. A proposal to fine citizens who don't separate food waste.",
+        "choices": [
+            {"text": "Mandate composting with fines.", "effect": {"env_eco": -10, "auth_ana": -8}, "boost": 18},
+            {"text": "Voluntary programs with free bins.", "effect": {"env_eco": -5, "soc_cap": -2}, "boost": 14},
+            {"text": "Trash is trash; don't micromanage us.", "effect": {"auth_ana": 8, "env_eco": 5}, "boost": 16},
+            {"text": "Incinerate waste for energy instead.", "effect": {"env_eco": 2, "soc_cap": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Deep Sea Mining",
+        "description": "Rare earth metals are on the ocean floor. Mining them destroys unique ecosystems.",
+        "choices": [
+            {"text": "Ban deep sea mining.", "effect": {"env_eco": -15, "soc_cap": -5}, "boost": 20},
+            {"text": "Drill baby drill; we need the tech metals.", "effect": {"env_eco": 15, "soc_cap": 10}, "boost": 22},
+            {"text": "Allow it only in specific zones.", "effect": {"env_eco": 0, "soc_cap": 5}, "boost": 14},
+            {"text": "Subsidize asteroid mining instead.", "effect": {"env_eco": -5, "soc_cap": -10}, "boost": 18}
+        ]
+    },
+    {
+        "title": "The Fair Repair Act",
+        "description": "Companies glue batteries in phones so you can't replace them. Fix it?",
+        "choices": [
+            {"text": "Mandate repairable designs for all electronics.", "effect": {"soc_cap": -10, "env_eco": -5}, "boost": 20},
+            {"text": "Companies own the design; stay out.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16},
+            {"text": "Require 'repairability scores' on packaging.", "effect": {"soc_cap": -2, "auth_ana": -2}, "boost": 12},
+            {"text": "Tax non-repairable goods heavily.", "effect": {"soc_cap": -5, "env_eco": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Taxing Robots",
+        "description": "Automation is replacing workers. Should we tax the robots to fund welfare?",
+        "choices": [
+            {"text": "Yes, implement a robot tax.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "No, that punishes efficiency.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 20},
+            {"text": "Shorten the work week instead.", "effect": {"soc_cap": -10, "prog_cons": -10}, "boost": 22},
+            {"text": "Universal Basic Income funded by VAT.", "effect": {"soc_cap": -18, "prog_cons": -8}, "boost": 26}
+        ]
+    },
+    {
+        "title": "Paid Blood Plasma",
+        "description": "Poor people are selling blood plasma to survive. Critics call it 'vampire capitalism'.",
+        "choices": [
+            {"text": "Ban payment for bodily fluids.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 18},
+            {"text": "Regulate it strictly to protect health.", "effect": {"soc_cap": -2, "auth_ana": -2}, "boost": 14},
+            {"text": "It's their body; let them sell it.", "effect": {"soc_cap": 15, "auth_ana": 10}, "boost": 16},
+            {"text": "Increase welfare so they don't have to.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Police Militarization",
+        "description": "Small town police departments are buying surplus tanks and grenade launchers.",
+        "choices": [
+            {"text": "Ban military gear for police.", "effect": {"auth_ana": 15, "prog_cons": -10}, "boost": 24},
+            {"text": "They need it to fight modern criminals.", "effect": {"auth_ana": -15, "prog_cons": 10}, "boost": 22},
+            {"text": "Restrict usage to SWAT teams only.", "effect": {"auth_ana": -5, "prog_cons": 0}, "boost": 16},
+            {"text": "Defund the acquisition budgets.", "effect": {"auth_ana": 10, "soc_cap": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Ban on Zoos",
+        "description": "Animal rights groups say keeping elephants in captivity is torture. Close the zoos?",
+        "choices": [
+            {"text": "Phase out all zoos and aquariums.", "effect": {"env_eco": -15, "prog_cons": -5}, "boost": 22},
+            {"text": "Keep them; they are vital for education.", "effect": {"env_eco": 5, "prog_cons": 5}, "boost": 18},
+            {"text": "Transform them into sanctuaries (no breeding).", "effect": {"env_eco": -5, "soc_cap": -5}, "boost": 16},
+            {"text": "Ban only large mammals/cetaceans.", "effect": {"env_eco": -2, "prog_cons": -2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Minimum Voting Age",
+        "description": "Youth activists want the voting age lowered to 16. 'It's our future,' they say.",
+        "choices": [
+            {"text": "Lower it to 16.", "effect": {"prog_cons": -15, "auth_ana": 5}, "boost": 24},
+            {"text": "Keep it at 18.", "effect": {"prog_cons": 5, "auth_ana": 0}, "boost": 14},
+            {"text": "Raise it to 21 (brains aren't developed).", "effect": {"prog_cons": 15, "auth_ana": -5}, "boost": 20},
+            {"text": "Set a maximum voting age instead.", "effect": {"prog_cons": -10, "auth_ana": 5}, "boost": 26}
+        ]
+    },
+    {
+        "title": "Space Advertising",
+        "description": "A startup wants to launch a satellite billboard visible from Earth. The night sky will be a Pepsi ad.",
+        "choices": [
+            {"text": "Ban orbital advertising globally.", "effect": {"env_eco": -10, "soc_cap": -10}, "boost": 20},
+            {"text": "Allow it; sell the rights to the highest bidder.", "effect": {"soc_cap": 15, "env_eco": 5}, "boost": 22},
+            {"text": "Tax it heavily for arts funding.", "effect": {"soc_cap": -5, "prog_cons": -5}, "boost": 16},
+            {"text": "Only allowed for public service announcements.", "effect": {"auth_ana": -5, "soc_cap": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Mandatory Retiring Age for Politicians",
+        "description": "Senators are freezing on camera. The public wants a youth movement.",
+        "choices": [
+            {"text": "Force retirement at age 70.", "effect": {"auth_ana": 5, "prog_cons": -10}, "boost": 25},
+            {"text": "Let voters decide; no age limits.", "effect": {"auth_ana": 5, "prog_cons": 5}, "boost": 18},
+            {"text": "Cognitive tests for all officials.", "effect": {"auth_ana": -5, "prog_cons": -5}, "boost": 22},
+            {"text": "Term limits instead of age limits.", "effect": {"auth_ana": 10, "prog_cons": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Flight Rationing",
+        "description": "To hit climate goals, we must fly less. A 'Frequent Flyer Levy' is proposed.",
+        "choices": [
+            {"text": "One return flight per person per year.", "effect": {"env_eco": -20, "auth_ana": -15}, "boost": 28},
+            {"text": "Progressive tax (more you fly, more you pay).", "effect": {"env_eco": -10, "soc_cap": -5}, "boost": 20},
+            {"text": "No restrictions; develop green fuel instead.", "effect": {"env_eco": 5, "soc_cap": 5}, "boost": 18},
+            {"text": "Ban private jets only.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24}
+        ]
+    },
+    {
+        "title": "Virtual Reality Addiction",
+        "description": "People are living in the 'Metaverse' and neglecting real life/jobs. Declare a health crisis?",
+        "choices": [
+            {"text": "Regulate VR usage hours.", "effect": {"auth_ana": -15, "soc_cap": -5}, "boost": 22},
+            {"text": "Launch public health warnings.", "effect": {"auth_ana": -5, "prog_cons": 0}, "boost": 14},
+            {"text": "It's their choice; stay out of it.", "effect": {"auth_ana": 10, "prog_cons": 5}, "boost": 16},
+            {"text": "Tax VR hardware to fund mental health.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Wildfire Management",
+        "description": "Forests are burning. Loggers say 'thin the forests'. Ecologists say 'let it burn naturally'.",
+        "choices": [
+            {"text": "Aggressive logging to clear fuel.", "effect": {"env_eco": 10, "soc_cap": 5}, "boost": 20},
+            {"text": "Controlled burns and natural management.", "effect": {"env_eco": -10, "prog_cons": -5}, "boost": 18},
+            {"text": "Maximum suppression (put all fires out).", "effect": {"env_eco": -5, "auth_ana": -5}, "boost": 16},
+            {"text": "Ban housing in fire-prone zones.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 22}
+        ]
+    },
+    {
+        "title": "International Criminal Court",
+        "description": "The ICC wants to investigate our soldiers for conduct in the last war. We are not members.",
+        "choices": [
+            {"text": "Cooperate fully; no one is above the law.", "effect": {"nat_glob": 20, "pac_mil": -10}, "boost": 28},
+            {"text": "Threaten sanctions on the court if they proceed.", "effect": {"nat_glob": -20, "pac_mil": 10}, "boost": 25},
+            {"text": "Conduct our own internal investigation.", "effect": {"nat_glob": -5, "auth_ana": -5}, "boost": 18},
+            {"text": "Ignore them completely.", "effect": {"nat_glob": -10, "pac_mil": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Taxing University Endowments",
+        "description": "Elite colleges sit on billions in tax-free hedge funds while tuition rises.",
+        "choices": [
+            {"text": "Tax the endowments heavily.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "Force them to spend it on scholarships.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 20},
+            {"text": "Leave them alone; they are non-profits.", "effect": {"soc_cap": 10, "prog_cons": 5}, "boost": 18},
+            {"text": "Cut federal research grants to rich schools.", "effect": {"soc_cap": -5, "prog_cons": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Public Broadcasting Independence",
+        "description": "The state broadcaster is critical of the government. Your party wants to cut their funding.",
+        "choices": [
+            {"text": "Cut the funding; stop subsidizing bias.", "effect": {"auth_ana": 10, "soc_cap": 5}, "boost": 22},
+            {"text": "Protect their budget and independence.", "effect": {"auth_ana": -5, "prog_cons": -5}, "boost": 20},
+            {"text": "Appoint loyalists to their board.", "effect": {"auth_ana": -15, "prog_cons": 5}, "boost": 24},
+            {"text": "Privatize the network entirely.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 25}
+        ]
+    },
+    {
+        "title": "Homeless Architecture",
+        "description": "Cities are installing spikes on benches to stop homeless sleeping. 'Hostile Architecture'.",
+        "choices": [
+            {"text": "Ban hostile architecture; it's cruel.", "effect": {"soc_cap": -10, "prog_cons": -5}, "boost": 18},
+            {"text": "Support it; public spaces are for the public.", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 16},
+            {"text": "Build shelters instead of spikes.", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 22},
+            {"text": "Criminalize street sleeping.", "effect": {"auth_ana": -15, "soc_cap": 5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Banning Flag Burning",
+        "description": "Protesters burned the flag. Veterans are demanding a constitutional amendment to ban it.",
+        "choices": [
+            {"text": "Pass the ban; respect the flag.", "effect": {"nat_glob": -15, "auth_ana": -10}, "boost": 22},
+            {"text": "Protect it as free speech (1st Amendment).", "effect": {"auth_ana": 10, "prog_cons": -5}, "boost": 20},
+            {"text": "Fine them for 'open burning' only.", "effect": {"auth_ana": -2, "env_eco": -2}, "boost": 12},
+            {"text": "Launch patriotic education instead.", "effect": {"nat_glob": -5, "prog_cons": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "The Tip Culture War",
+        "description": "Tipping screens are everywhere. People are tired of subsidizing wages.",
+        "choices": [
+            {"text": "Abolish the 'tipped minimum wage' (raise base pay).", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "Ban tipping; include service in price.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 20},
+            {"text": "Keep current system; it helps businesses.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16},
+            {"text": "Tax tips fully as regular income.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Corporate Landlords",
+        "description": "Wall Street is buying single-family homes. The middle class can't compete.",
+        "choices": [
+            {"text": "Ban corporations from owning single-family homes.", "effect": {"soc_cap": -20, "auth_ana": -10}, "boost": 30},
+            {"text": "Cap the number of homes a company can own.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 22},
+            {"text": "Free market; investment raises property values.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 20},
+            {"text": "Higher taxes for non-occupant owners.", "effect": {"soc_cap": -8, "auth_ana": -2}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Private Beach Access",
+        "description": "Billionaires are blocking access to public beaches behind their mansions.",
+        "choices": [
+            {"text": "Enforce public access; beaches belong to everyone.", "effect": {"soc_cap": -10, "env_eco": -5}, "boost": 20},
+            {"text": "Respect private property rights.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 18},
+            {"text": "Seize the land via eminent domain.", "effect": {"soc_cap": -15, "auth_ana": -10}, "boost": 24},
+            {"text": "Allow paid access only.", "effect": {"soc_cap": 5, "auth_ana": 2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Algorithm Transparency",
+        "description": "We don't know why social media shows us what it shows. It's radicalizing people.",
+        "choices": [
+            {"text": "Make the algorithms open source.", "effect": {"auth_ana": 10, "soc_cap": -5}, "boost": 25},
+            {"text": "Government audit of the code.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 20},
+            {"text": "Trade secrets must be protected.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 18},
+            {"text": "Ban 'engagement-based' sorting.", "effect": {"auth_ana": -15, "prog_cons": -5}, "boost": 22}
+        ]
+    },
+    {
+        "title": "The Panda Diplomacy Crisis",
+        "description": "A hostile nation is recalling all pandas from our zoos as a political snub.",
+        "choices": [
+            {"text": "Let them go; good riddance.", "effect": {"nat_glob": -5, "pac_mil": 5}, "boost": 14},
+            {"text": "Negotiate to keep them (looks weak).", "effect": {"nat_glob": 5, "pac_mil": -5}, "boost": 16},
+            {"text": "Seize the pandas (Diplomatic incident).", "effect": {"nat_glob": -10, "pac_mil": 15}, "boost": 24},
+            {"text": "Replace them with robotic pandas.", "effect": {"prog_cons": -5, "env_eco": -2}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Noise Pollution Act",
+        "description": "Cities are too loud. Health risks include heart disease and stress.",
+        "choices": [
+            {"text": "Ban modified car exhausts and loud motorcycles.", "effect": {"auth_ana": -10, "env_eco": -5}, "boost": 18},
+            {"text": "Quiet hours enforced by acoustic cameras.", "effect": {"auth_ana": -15, "soc_cap": -2}, "boost": 20},
+            {"text": "Let cities be loud; it's freedom.", "effect": {"auth_ana": 10, "prog_cons": 5}, "boost": 16},
+            {"text": "Subsidize soundproofing for homes.", "effect": {"soc_cap": -5, "auth_ana": 2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "The 100-Year Bond",
+        "description": "To fund green energy, the treasury wants to sell bonds that mature in 100 years.",
+        "choices": [
+            {"text": "Issue the bonds; invest in the future.", "effect": {"soc_cap": -10, "env_eco": -10}, "boost": 20},
+            {"text": "Reject debt that our great-grandkids must pay.", "effect": {"soc_cap": 10, "prog_cons": 5}, "boost": 18},
+            {"text": "Cut other spending instead.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 22},
+            {"text": "Print the money instead of borrowing.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 25}
+        ]
+    },
+    {
+        "title": "Mandatory Voting for Shareholders",
+        "description": "Corporate boards are unmanaged. Proposal to make shareholder voting mandatory.",
+        "choices": [
+            {"text": "Pass the law; democratize capitalism.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 20},
+            {"text": "Keep it voluntary.", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 14},
+            {"text": "Give employees 50% of the votes.", "effect": {"soc_cap": -25, "auth_ana": -10}, "boost": 30},
+            {"text": "Abolish public trading.", "effect": {"soc_cap": -30, "auth_ana": -20}, "boost": 40}
+        ]
+    },
+    {
+        "title": "{company} Factory Closure",
+        "description": "The manufacturing giant {company} is closing its main plant in {region}, citing high labor costs. Thousands will lose their jobs.",
+        "choices": [
+            {"text": "Nationalize the factory to keep it running.", "effect": {"soc_cap": -20, "auth_ana": -5}, "boost": 25},
+            {"text": "Offer tax breaks and subsidies to convince them to stay.", "effect": {"soc_cap": 10, "auth_ana": -2}, "boost": 18},
+            {"text": "Let them leave; the market dictates efficiency.", "effect": {"soc_cap": 15, "prog_cons": 5}, "boost": 20},
+            {"text": "Impose an 'Exit Tax' on the company's assets.", "effect": {"soc_cap": -10, "nat_glob": -5}, "boost": 22}
+        ]
+    },
+    {
+        "title": "{religious_group} Demand Exemption",
+        "description": "Leaders of the {religious_group} community in {city} refuse to follow new secular education standards.",
+        "choices": [
+            {"text": "Force them to comply; one law for all.", "effect": {"rel_sec": 15, "auth_ana": -10}, "boost": 24},
+            {"text": "Grant a religious exemption.", "effect": {"rel_sec": -15, "prog_cons": 5}, "boost": 20},
+            {"text": "Cut funding to their private schools.", "effect": {"rel_sec": 10, "soc_cap": -5}, "boost": 18},
+            {"text": "Seek a compromise curriculum.", "effect": {"auth_ana": 5, "rel_sec": 0}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Border Skirmish with {neighbor_country}",
+        "description": "Troops from {neighbor_country} fired shots across the border near {region}. One of our soldiers was wounded.",
+        "choices": [
+            {"text": "Retaliate with airstrikes on their outposts.", "effect": {"pac_mil": 20, "nat_glob": -10}, "boost": 30},
+            {"text": "Deploy more troops as a show of force.", "effect": {"pac_mil": 10, "nat_glob": -5}, "boost": 22},
+            {"text": "File a formal complaint with the UN.", "effect": {"pac_mil": -10, "nat_glob": 10}, "boost": 16},
+            {"text": "Downplay the incident to avoid war.", "effect": {"pac_mil": -15, "auth_ana": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "{industry} Bailout Request",
+        "description": "The entire {industry} sector is on the verge of collapse due to market shifts. They are asking for a massive government bailout.",
+        "choices": [
+            {"text": "Bail them out; they are 'too big to fail'.", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 25},
+            {"text": "Let them go bankrupt; creative destruction.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 22},
+            {"text": "Nationalize the key companies involved.", "effect": {"soc_cap": -25, "auth_ana": -10}, "boost": 28},
+            {"text": "Offer loans with strict repayment conditions.", "effect": {"soc_cap": -5, "auth_ana": 0}, "boost": 18}
+        ]
+    },
+    {
+        "title": "{company} Data Leak",
+        "description": "{company} has leaked the private data of 10 million citizens. They claim it was a sophisticated hack.",
+        "choices": [
+            {"text": "Fine them billions and threaten jail time for executives.", "effect": {"auth_ana": -15, "soc_cap": -10}, "boost": 26},
+            {"text": "Mandate new, strict government cybersecurity laws.", "effect": {"auth_ana": -10, "prog_cons": -5}, "boost": 20},
+            {"text": "Help them fix the security flaw; they are a vital partner.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 18},
+            {"text": "Encourage citizens to sue individually.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Protests in {city}",
+        "description": "Students in {city} are rioting over high tuition fees and lack of jobs.",
+        "choices": [
+            {"text": "Crack down with riot police.", "effect": {"auth_ana": -20, "prog_cons": 10}, "boost": 24},
+            {"text": "Cancel student debt and lower fees.", "effect": {"soc_cap": -15, "prog_cons": -10}, "boost": 22},
+            {"text": "Meet with leaders to promise future reforms.", "effect": {"auth_ana": 5, "prog_cons": -5}, "boost": 16},
+            {"text": "Ignore them; they will tire out.", "effect": {"auth_ana": 5, "prog_cons": 5}, "boost": 12}
+        ]
+    },
+    {
+        "title": "{resource} Discovery in {region}",
+        "description": "A massive deposit of {resource} has been found in a protected nature reserve in {region}.",
+        "choices": [
+            {"text": "Open the reserve to mining immediately.", "effect": {"env_eco": 20, "soc_cap": 10}, "boost": 25},
+            {"text": "Keep the ban; nature is priceless.", "effect": {"env_eco": -20, "soc_cap": -5}, "boost": 22},
+            {"text": "Allow limited extraction with strict oversight.", "effect": {"env_eco": 5, "soc_cap": 5}, "boost": 16},
+            {"text": "Hold a referendum in {region}.", "effect": {"auth_ana": 10, "prog_cons": 0}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Currency Crisis",
+        "description": "The value of the {currency} is dropping rapidly against foreign currencies.",
+        "choices": [
+            {"text": "Raise interest rates to stabilize the currency.", "effect": {"soc_cap": 5, "auth_ana": -5}, "boost": 20},
+            {"text": "Peg the {currency} to a stronger foreign currency.", "effect": {"nat_glob": 10, "auth_ana": -5}, "boost": 22},
+            {"text": "Print more money to pay debts (Inflation risk).", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 24},
+            {"text": "Implement capital controls to stop money leaving.", "effect": {"nat_glob": -10, "soc_cap": -10}, "boost": 18}
+        ]
+    },
+    {
+        "title": "{foreign_country} Spy Scandal",
+        "description": "A diplomat from {foreign_country} was caught buying state secrets from a general.",
+        "choices": [
+            {"text": "Expel all diplomats from {foreign_country}.", "effect": {"nat_glob": -15, "pac_mil": 10}, "boost": 24},
+            {"text": "Arrest the diplomat and put them on trial.", "effect": {"nat_glob": -10, "auth_ana": -5}, "boost": 20},
+            {"text": "Handle it quietly to preserve trade deals.", "effect": {"nat_glob": 10, "pac_mil": -5}, "boost": 16},
+            {"text": "Trade the diplomat for our own captured spies.", "effect": {"pac_mil": -2, "nat_glob": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Automation at {company}",
+        "description": "{company} announces it will replace 50% of its workforce with AI systems.",
+        "choices": [
+            {"text": "Block the layoffs via regulation.", "effect": {"soc_cap": -15, "auth_ana": -10}, "boost": 22},
+            {"text": "Tax the robots to fund retraining.", "effect": {"soc_cap": -10, "prog_cons": -5}, "boost": 20},
+            {"text": "Celebrate the efficiency; it helps the economy.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 18},
+            {"text": "Require {company} to give generous severance.", "effect": {"soc_cap": -5, "auth_ana": -2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "{minority_group} Rights Bill",
+        "description": "Activists demand a new bill protecting {minority_group} from discrimination in housing and jobs.",
+        "choices": [
+            {"text": "Pass the bill immediately.", "effect": {"prog_cons": -15, "auth_ana": -5}, "boost": 22},
+            {"text": "Reject the bill; existing laws are enough.", "effect": {"prog_cons": 15, "auth_ana": 5}, "boost": 20},
+            {"text": "Allow religious exemptions to the bill.", "effect": {"rel_sec": -10, "prog_cons": 5}, "boost": 18},
+            {"text": "Promote a voluntary business charter instead.", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Pandemic in {region}",
+        "description": "A new strain of {disease} has appeared in {region}. Hospitals are filling up.",
+        "choices": [
+            {"text": "Quarantine the entire region immediately.", "effect": {"auth_ana": -20, "soc_cap": -5}, "boost": 28},
+            {"text": "Issue travel advisories but keep borders open.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 18},
+            {"text": "Mandate masks and vaccines nationwide.", "effect": {"auth_ana": -10, "prog_cons": -5}, "boost": 22},
+            {"text": "Downplay the severity to protect the markets.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "{company} Monopolization",
+        "description": "{company} has bought its last major competitor. They now control 90% of the {industry} market.",
+        "choices": [
+            {"text": "Break them up using anti-trust laws.", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 25},
+            {"text": "Regulate their prices strictly.", "effect": {"soc_cap": -10, "auth_ana": -10}, "boost": 20},
+            {"text": "Do nothing; success shouldn't be punished.", "effect": {"soc_cap": 15, "auth_ana": 10}, "boost": 22},
+            {"text": "Encourage foreign competitors to enter the market.", "effect": {"nat_glob": 10, "soc_cap": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Refugees from {foreign_country}",
+        "description": "Civil war in {foreign_country} has displaced millions. 100,000 are asking for asylum.",
+        "choices": [
+            {"text": "Accept them and provide path to citizenship.", "effect": {"nat_glob": 20, "prog_cons": -10}, "boost": 26},
+            {"text": "Turn them away; protect our borders.", "effect": {"nat_glob": -20, "prog_cons": 10}, "boost": 24},
+            {"text": "Create temporary camps only.", "effect": {"nat_glob": 0, "soc_cap": -5}, "boost": 18},
+            {"text": "Accept only skilled workers.", "effect": {"nat_glob": 5, "soc_cap": 5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Corruption in {agency}",
+        "description": "The head of the {agency} was caught embezzling millions in tax payer money.",
+        "choices": [
+            {"text": "Public trial and maximize sentencing.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 22},
+            {"text": "Conduct an internal purge of the entire agency.", "effect": {"auth_ana": -10, "soc_cap": 2}, "boost": 20},
+            {"text": "Resign the head, but cover up the extent.", "effect": {"auth_ana": -5, "prog_cons": 5}, "boost": 16},
+            {"text": "Abolish the agency entirely.", "effect": {"soc_cap": 10, "auth_ana": 15}, "boost": 25}
+        ]
+    },
+    {
+        "title": "{sport} League Scandal",
+        "description": "Top players in the national {sport} league are accused of fixing matches for gambling syndicates.",
+        "choices": [
+            {"text": "Government takeover of the league's oversight.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 18},
+            {"text": "Ban sports betting entirely.", "effect": {"soc_cap": -5, "prog_cons": 5}, "boost": 20},
+            {"text": "Let the league handle it internally.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 14},
+            {"text": "Legalize and tax the gambling to regulate it.", "effect": {"soc_cap": 10, "auth_ana": -2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Drought in {agricultural_region}",
+        "description": "Farmers in {agricultural_region} are losing crops due to lack of water. Food prices are rising.",
+        "choices": [
+            {"text": "Subsidize the farmers to keep them afloat.", "effect": {"soc_cap": -10, "auth_ana": -2}, "boost": 18},
+            {"text": "Ration water in cities to supply farms.", "effect": {"env_eco": 5, "auth_ana": -10}, "boost": 22},
+            {"text": "Import food from {foreign_country} instead.", "effect": {"nat_glob": 10, "soc_cap": 5}, "boost": 16},
+            {"text": "Invest in GMO crops that resist drought.", "effect": {"env_eco": -5, "prog_cons": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "{art_piece} Controversy",
+        "description": "A government-funded museum is displaying 'blasphemous' art. {religious_group} is protesting.",
+        "choices": [
+            {"text": "Defend free speech; keep the art.", "effect": {"prog_cons": -15, "rel_sec": 10}, "boost": 22},
+            {"text": "Remove the art and apologize.", "effect": {"prog_cons": 15, "rel_sec": -10}, "boost": 20},
+            {"text": "Cut funding to the museum.", "effect": {"soc_cap": 5, "prog_cons": 5}, "boost": 18},
+            {"text": "Privatize the museum so they can decide.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Terror Plot in {capital}",
+        "description": "Intelligence suggests a plot to bomb the subway in {capital}. Action needed.",
+        "choices": [
+            {"text": "Deploy military to streets; heightened surveillance.", "effect": {"auth_ana": -20, "pac_mil": 10}, "boost": 28},
+            {"text": "Targeted raids on suspected cells.", "effect": {"auth_ana": -5, "pac_mil": 5}, "boost": 18},
+            {"text": "Increase community policing and outreach.", "effect": {"soc_cap": -5, "auth_ana": 5}, "boost": 16},
+            {"text": "Close the subway system temporarily.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Space Race with {foreign_country}",
+        "description": "{foreign_country} has announced a base on the Moon. We are falling behind.",
+        "choices": [
+            {"text": "Triple NASA/Space Agency funding.", "effect": {"soc_cap": -15, "nat_glob": -5}, "boost": 24},
+            {"text": "Militarize our space program.", "effect": {"pac_mil": 20, "nat_glob": -10}, "boost": 26},
+            {"text": "Encourage private companies like {company} to lead.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 20},
+            {"text": "Propose a joint mission with {foreign_country}.", "effect": {"nat_glob": 20, "pac_mil": -10}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Nuclear Power in {region}",
+        "description": "A proposal to build a new nuclear plant in {region} to lower carbon emissions.",
+        "choices": [
+            {"text": "Build it; it's clean energy.", "effect": {"env_eco": 10, "prog_cons": 5}, "boost": 22},
+            {"text": "Block it; too dangerous.", "effect": {"env_eco": -5, "prog_cons": -5}, "boost": 20},
+            {"text": "Invest in solar/wind instead.", "effect": {"env_eco": -10, "soc_cap": -5}, "boost": 18},
+            {"text": "Put it to a local vote.", "effect": {"auth_ana": 5, "soc_cap": 2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "{company} Tax Evasion",
+        "description": "It's revealed that {company} paid $0 in taxes last year using offshore havens.",
+        "choices": [
+            {"text": "Close the loopholes and demand back taxes.", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 25},
+            {"text": "Lower corporate tax rates so they bring money back.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 20},
+            {"text": "Implement a global minimum tax treaty.", "effect": {"nat_glob": 15, "soc_cap": -5}, "boost": 22},
+            {"text": "Boycott {company} from government contracts.", "effect": {"soc_cap": -5, "auth_ana": -2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Genetic Modification of Embryos",
+        "description": "Scientists in {city} claim they can edit out hereditary diseases in unborn babies.",
+        "choices": [
+            {"text": "Ban the practice; it leads to eugenics.", "effect": {"prog_cons": 10, "rel_sec": 5}, "boost": 22},
+            {"text": "Allow it for curing diseases only.", "effect": {"prog_cons": -5, "rel_sec": -2}, "boost": 18},
+            {"text": "Full deregulation; allow 'designer babies'.", "effect": {"prog_cons": -20, "soc_cap": 10}, "boost": 26},
+            {"text": "State-funded research to ensure equal access.", "effect": {"soc_cap": -10, "prog_cons": -10}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Pension Age Protest",
+        "description": "Unions are striking over plans to raise the retirement age to 70.",
+        "choices": [
+            {"text": "Keep the age as is; tax the rich to pay for it.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "Raise the age; demographics demand it.", "effect": {"soc_cap": 10, "prog_cons": 5}, "boost": 22},
+            {"text": "Privatize pensions entirely.", "effect": {"soc_cap": 20, "auth_ana": 5}, "boost": 26},
+            {"text": "Link retirement age to life expectancy.", "effect": {"soc_cap": 5, "auth_ana": -2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "{foreign_country} Civil War",
+        "description": "Rebels in {foreign_country} are fighting the dictator. They ask for our help.",
+        "choices": [
+            {"text": "Send weapons and advisors to the rebels.", "effect": {"pac_mil": 15, "nat_glob": -5}, "boost": 24},
+            {"text": "Support the dictator to maintain stability.", "effect": {"auth_ana": -10, "pac_mil": 10}, "boost": 22},
+            {"text": "Stay neutral; not our fight.", "effect": {"pac_mil": -15, "nat_glob": -10}, "boost": 20},
+            {"text": "Send humanitarian aid only.", "effect": {"pac_mil": -5, "nat_glob": 10}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Gig Economy Rights",
+        "description": "Drivers for {company} demand to be classified as employees, not contractors.",
+        "choices": [
+            {"text": "Force {company} to hire them as employees.", "effect": {"soc_cap": -15, "auth_ana": -5}, "boost": 22},
+            {"text": "Keep them as contractors (flexibility).", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 20},
+            {"text": "Create a new 'third category' of worker.", "effect": {"soc_cap": -5, "auth_ana": -2}, "boost": 16},
+            {"text": "Encourage drivers to form a cooperative.", "effect": {"soc_cap": -10, "auth_ana": 10}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Plastic Waste in Ocean",
+        "description": "Studies show fish in our waters are full of microplastics.",
+        "choices": [
+            {"text": "Ban single-use plastics nationwide.", "effect": {"env_eco": -15, "auth_ana": -10}, "boost": 24},
+            {"text": "Tax plastic producers to fund cleanup.", "effect": {"env_eco": -5, "soc_cap": -5}, "boost": 18},
+            {"text": "Recycling campaign (consumer responsibility).", "effect": {"soc_cap": 5, "env_eco": 2}, "boost": 14},
+            {"text": "Invest in biodegradable alternatives.", "effect": {"env_eco": -5, "soc_cap": -2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Surveillance Camera Network",
+        "description": "Police want to install facial recognition cameras in every major city.",
+        "choices": [
+            {"text": "Approve the network; safety first.", "effect": {"auth_ana": -20, "prog_cons": 5}, "boost": 26},
+            {"text": "Ban facial recognition technology.", "effect": {"auth_ana": 15, "prog_cons": -5}, "boost": 24},
+            {"text": "Allow it only for serious crimes.", "effect": {"auth_ana": -5, "soc_cap": -2}, "boost": 16},
+            {"text": "Private companies only (no government).", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Homelessness in {city}",
+        "description": "Tent cities in {city} are growing. Business owners demand action.",
+        "choices": [
+            {"text": "Build free public housing for all.", "effect": {"soc_cap": -20, "prog_cons": -5}, "boost": 25},
+            {"text": "Criminalize sleeping on the streets.", "effect": {"auth_ana": -15, "soc_cap": 5}, "boost": 22},
+            {"text": "Fund mental health institutions.", "effect": {"soc_cap": -10, "prog_cons": -2}, "boost": 18},
+            {"text": "Bus them to other cities.", "effect": {"auth_ana": 5, "soc_cap": 2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "University Censorship",
+        "description": "Students at {university} blocked a controversial speaker from entering campus.",
+        "choices": [
+            {"text": "Threaten to cut funding if speech is blocked.", "effect": {"auth_ana": 5, "prog_cons": 5}, "boost": 20},
+            {"text": "Support the students; hate speech isn't free.", "effect": {"prog_cons": -10, "auth_ana": -5}, "boost": 18},
+            {"text": "Universities are private; stay out of it.", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 14},
+            {"text": "Mandate 'viewpoint diversity' quotas.", "effect": {"auth_ana": -10, "prog_cons": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "{company} Buyout",
+        "description": "A state-owned enterprise from {foreign_country} wants to buy our biggest tech firm, {company}.",
+        "choices": [
+            {"text": "Block the sale on national security grounds.", "effect": {"nat_glob": -15, "soc_cap": -5}, "boost": 22},
+            {"text": "Allow the sale; it's a free market.", "effect": {"soc_cap": 15, "nat_glob": 10}, "boost": 20},
+            {"text": "Demand a 'Golden Share' (veto power).", "effect": {"auth_ana": -5, "nat_glob": -2}, "boost": 16},
+            {"text": "Tax the transaction heavily.", "effect": {"soc_cap": -5, "nat_glob": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Universal Basic Income Pilot",
+        "description": "{region} wants to test giving every citizen a monthly check.",
+        "choices": [
+            {"text": "Fund the pilot program federally.", "effect": {"soc_cap": -15, "prog_cons": -10}, "boost": 24},
+            {"text": "Block it; it disincentivizes work.", "effect": {"soc_cap": 15, "prog_cons": 5}, "boost": 20},
+            {"text": "Replace welfare with UBI (revenue neutral).", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 18},
+            {"text": "Allow it only if funded by local taxes.", "effect": {"auth_ana": 5, "soc_cap": 0}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Wildfires in {region}",
+        "description": "Record heat has led to massive fires in {region}. Emergency services are overwhelmed.",
+        "choices": [
+            {"text": "Declare a Climate Emergency and mobilize army.", "effect": {"env_eco": -15, "auth_ana": -10}, "boost": 25},
+            {"text": "Let them burn (natural cycle) but protect towns.", "effect": {"env_eco": 5, "soc_cap": 5}, "boost": 18},
+            {"text": "Accept help from {foreign_country}.", "effect": {"nat_glob": 10, "pac_mil": -5}, "boost": 16},
+            {"text": "Increase logging to prevent future fires.", "effect": {"env_eco": 10, "soc_cap": 5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Crypto-Currency Ban",
+        "description": "The central bank says {cryptocurrency} is being used for money laundering and terrorism.",
+        "choices": [
+            {"text": "Ban all ownership and trading.", "effect": {"auth_ana": -15, "soc_cap": -5}, "boost": 24},
+            {"text": "Create a state-backed digital currency instead.", "effect": {"auth_ana": -10, "soc_cap": -2}, "boost": 20},
+            {"text": "Regulate exchanges like banks.", "effect": {"auth_ana": -5, "soc_cap": 5}, "boost": 16},
+            {"text": "Do nothing; code is free speech.", "effect": {"auth_ana": 15, "soc_cap": 10}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Veterans Protest",
+        "description": "Veterans are camping on the lawn of the capital demanding better healthcare.",
+        "choices": [
+            {"text": "Increase the VA budget significantly.", "effect": {"pac_mil": 5, "soc_cap": -10}, "boost": 22},
+            {"text": "Privatize veteran healthcare.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 20},
+            {"text": "Clear the camp with police.", "effect": {"auth_ana": -15, "pac_mil": -5}, "boost": 24},
+            {"text": "Ignored them.", "effect": {"auth_ana": -2, "soc_cap": 2}, "boost": 10}
+        ]
+    },
+    {
+        "title": "Meat Tax Proposal",
+        "description": "Environmentalists propose a tax on red meat to reduce methane emissions.",
+        "choices": [
+            {"text": "Pass the tax; save the planet.", "effect": {"env_eco": -15, "auth_ana": -5}, "boost": 22},
+            {"text": "Subsidize plant-based alternatives.", "effect": {"env_eco": -5, "soc_cap": -5}, "boost": 16},
+            {"text": "Reject the tax; don't touch our food.", "effect": {"soc_cap": 5, "prog_cons": 5}, "boost": 18},
+            {"text": "Support lab-grown meat research.", "effect": {"env_eco": -5, "prog_cons": -5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "{city} Olympic Bid",
+        "description": "{city} wants to bid for the Olympics. It costs billions but brings prestige.",
+        "choices": [
+            {"text": "Support the bid; national pride!", "effect": {"nat_glob": 10, "soc_cap": -10}, "boost": 20},
+            {"text": "Block it; it's a waste of money.", "effect": {"soc_cap": 10, "nat_glob": -5}, "boost": 18},
+            {"text": "Only if private companies pay for it.", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 16},
+            {"text": "Propose a permanent Olympic site instead.", "effect": {"nat_glob": 15, "env_eco": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Right to Repair",
+        "description": "Farmers cannot fix their own tractors because of {company} software locks.",
+        "choices": [
+            {"text": "Mandate Right to Repair for all goods.", "effect": {"soc_cap": -10, "auth_ana": 5}, "boost": 22},
+            {"text": "Protect IP rights of manufacturers.", "effect": {"soc_cap": 10, "auth_ana": -5}, "boost": 18},
+            {"text": "Broker a deal specifically for farmers.", "effect": {"soc_cap": -2, "prog_cons": 2}, "boost": 14},
+            {"text": "Encourage open-source hardware.", "effect": {"soc_cap": -5, "prog_cons": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Gender Pay Gap in {industry}",
+        "description": "Statistics show women in {industry} earn 20% less than men.",
+        "choices": [
+            {"text": "Mandate equal pay audits and fines.", "effect": {"prog_cons": -15, "auth_ana": -10}, "boost": 24},
+            {"text": "Encourage transparency but no laws.", "effect": {"prog_cons": -5, "auth_ana": 2}, "boost": 16},
+            {"text": "It's a myth/choice; do nothing.", "effect": {"prog_cons": 15, "soc_cap": 5}, "boost": 20},
+            {"text": "Provide free childcare to help mothers work.", "effect": {"soc_cap": -10, "prog_cons": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Deepfake of {politician}",
+        "description": "A convincing AI video shows {politician} saying racist slurs. It's fake, but damage is done.",
+        "choices": [
+            {"text": "Ban deepfake technology entirely.", "effect": {"auth_ana": -15, "prog_cons": 5}, "boost": 22},
+            {"text": "Mandate 'watermarks' on AI content.", "effect": {"auth_ana": -5, "soc_cap": -2}, "boost": 18},
+            {"text": "Defamation laws are sufficient.", "effect": {"auth_ana": 5, "soc_cap": 5}, "boost": 14},
+            {"text": "Fund digital literacy education.", "effect": {"soc_cap": -5, "prog_cons": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Military Coup in {foreign_country}",
+        "description": "The military has seized power in {foreign_country}, a key ally.",
+        "choices": [
+            {"text": "Sanction the new junta immediately.", "effect": {"nat_glob": 10, "pac_mil": -5}, "boost": 22},
+            {"text": "Recognize the new government (Realpolitik).", "effect": {"nat_glob": -10, "auth_ana": 5}, "boost": 20},
+            {"text": "Cut all ties and evacuate embassy.", "effect": {"nat_glob": -15, "pac_mil": -5}, "boost": 18},
+            {"text": "Prepare for military intervention.", "effect": {"pac_mil": 20, "nat_glob": -5}, "boost": 25}
+        ]
+    },
+    {
+        "title": "Billionaire Space Race",
+        "description": "Billionaires from {company} are launching rockets while poverty rises.",
+        "choices": [
+            {"text": "Tax space tourism at 100%.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "Celebrate the innovation.", "effect": {"soc_cap": 10, "prog_cons": 5}, "boost": 18},
+            {"text": "End subsidies for their companies.", "effect": {"soc_cap": -5, "auth_ana": -2}, "boost": 16},
+            {"text": "Nationalize the space industry.", "effect": {"soc_cap": -20, "auth_ana": -10}, "boost": 26}
+        ]
+    },
+    {
+        "title": "Water Wars in {region}",
+        "description": "{region} and {region} are fighting over rights to a local river.",
+        "choices": [
+            {"text": "Federalize the river management.", "effect": {"auth_ana": -10, "env_eco": 5}, "boost": 20},
+            {"text": "Let the courts decide.", "effect": {"auth_ana": 5, "soc_cap": 2}, "boost": 14},
+            {"text": "Build a desalination plant (expensive).", "effect": {"soc_cap": -10, "env_eco": 5}, "boost": 18},
+            {"text": "Side with the agricultural region.", "effect": {"prog_cons": 5, "soc_cap": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Teacher Strike in {city}",
+        "description": "Teachers in {city} are walking out over pay and class sizes.",
+        "choices": [
+            {"text": "Give them what they want.", "effect": {"soc_cap": -10, "prog_cons": -5}, "boost": 22},
+            {"text": "Fire them and hire replacements.", "effect": {"soc_cap": 15, "auth_ana": -5}, "boost": 24},
+            {"text": "Ban public sector strikes.", "effect": {"auth_ana": -15, "soc_cap": 10}, "boost": 20},
+            {"text": "Link pay to student performance.", "effect": {"soc_cap": 5, "prog_cons": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Loot Boxes in Video Games",
+        "description": "Parents say games by {company} are gambling for kids.",
+        "choices": [
+            {"text": "Ban loot boxes.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 20},
+            {"text": "Rate them 18+ (Adults Only).", "effect": {"prog_cons": 5, "soc_cap": -2}, "boost": 16},
+            {"text": "Self-regulation by industry.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 14},
+            {"text": "Tax them as gambling revenue.", "effect": {"soc_cap": -5, "auth_ana": -2}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Historic Statue in {city}",
+        "description": "Protesters want to remove a statue of {historical_figure} due to their past.",
+        "choices": [
+            {"text": "Tear it down immediately.", "effect": {"prog_cons": -15, "nat_glob": -5}, "boost": 22},
+            {"text": "Protect it; you can't erase history.", "effect": {"prog_cons": 15, "nat_glob": 5}, "boost": 20},
+            {"text": "Move it to a museum.", "effect": {"prog_cons": -5, "soc_cap": -2}, "boost": 16},
+            {"text": "Add a plaque explaining the context.", "effect": {"prog_cons": 0, "auth_ana": 2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Oil Spill in The Ocean",
+        "description": "A tanker from {company} ran aground, devastating the coast of {region}.",
+        "choices": [
+            {"text": "Seize the company's assets to pay for cleanup.", "effect": {"env_eco": -15, "soc_cap": -10}, "boost": 26},
+            {"text": "Government cleanup (taxpayer funded).", "effect": {"soc_cap": -10, "env_eco": -5}, "boost": 20},
+            {"text": "Ban offshore drilling entirely.", "effect": {"env_eco": -20, "soc_cap": -5}, "boost": 24},
+            {"text": "It was an accident; limited fines.", "effect": {"soc_cap": 10, "env_eco": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Internet Blackout in {region}",
+        "description": "A cyber attack has knocked out internet in {region} for 3 days.",
+        "choices": [
+            {"text": "Treat internet as a utility (regulate strictly).", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 22},
+            {"text": "Invest in government broadband infrastructure.", "effect": {"soc_cap": -15, "auth_ana": -2}, "boost": 20},
+            {"text": "Blame {foreign_country} and retaliate.", "effect": {"pac_mil": 15, "nat_glob": -10}, "boost": 24},
+            {"text": "Subsidize ISPs to upgrade security.", "effect": {"soc_cap": 5, "auth_ana": 2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Synthetic Drug Crisis",
+        "description": "A new legal synthetic drug is causing overdoses in {city}.",
+        "choices": [
+            {"text": "Emergency ban on all analogs.", "effect": {"auth_ana": -10, "prog_cons": 5}, "boost": 20},
+            {"text": "Decriminalize and test for purity.", "effect": {"prog_cons": -15, "auth_ana": 5}, "boost": 22},
+            {"text": "Focus on education and rehab.", "effect": {"soc_cap": -5, "prog_cons": -2}, "boost": 16},
+            {"text": " Harsh sentences for dealers.", "effect": {"auth_ana": -15, "prog_cons": 10}, "boost": 18}
+        ]
+    },
+    {
+        "title": "{company} Bio-Hack",
+        "description": "{company} is selling kits to genetically modify your own body at home.",
+        "choices": [
+            {"text": "Ban bio-hacking immediately.", "effect": {"auth_ana": -15, "prog_cons": 5}, "boost": 22},
+            {"text": "Regulate it like medicine.", "effect": {"auth_ana": -5, "soc_cap": -2}, "boost": 18},
+            {"text": "My body, my choice (Legalize).", "effect": {"auth_ana": 10, "prog_cons": -10}, "boost": 24},
+            {"text": "Fund research into the benefits.", "effect": {"prog_cons": -5, "soc_cap": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Ghost Guns",
+        "description": "People are 3D printing untraceable guns in {region}.",
+        "choices": [
+            {"text": "Ban the sharing of gun blueprints online.", "effect": {"auth_ana": -15, "prog_cons": -5}, "boost": 24},
+            {"text": "Mandate registration of home-made firearms.", "effect": {"auth_ana": -10, "prog_cons": -2}, "boost": 20},
+            {"text": "It's free speech/right to bear arms.", "effect": {"auth_ana": 10, "prog_cons": 10}, "boost": 22},
+            {"text": "Regulate the sale of 3D printers.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Clone Rights",
+        "description": "Scientists in {foreign_country} cloned a human. We need a policy.",
+        "choices": [
+            {"text": "Clones are humans with full rights.", "effect": {"prog_cons": -15, "rel_sec": 5}, "boost": 25},
+            {"text": "Ban human cloning research here.", "effect": {"prog_cons": 10, "rel_sec": -5}, "boost": 20},
+            {"text": "Clones are property/biological assets.", "effect": {"auth_ana": -20, "soc_cap": 10}, "boost": 28},
+            {"text": "Ignore it; it's fake news.", "effect": {"auth_ana": 5, "nat_glob": -5}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Carbon Tax Referendum",
+        "description": "Voters are deciding on a heavy carbon tax for all industries.",
+        "choices": [
+            {"text": "Campaign for Yes (Save the planet).", "effect": {"env_eco": -20, "soc_cap": -5}, "boost": 26},
+            {"text": "Campaign for No (Save the economy).", "effect": {"env_eco": 15, "soc_cap": 10}, "boost": 24},
+            {"text": "Propose a 'Cap and Trade' system instead.", "effect": {"env_eco": -5, "soc_cap": 5}, "boost": 18},
+            {"text": "Tax imports from polluters instead.", "effect": {"nat_glob": -10, "env_eco": -5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Jury Nullification in {city}",
+        "description": "A jury in {city} acquitted a man who stole food, despite clear evidence.",
+        "choices": [
+            {"text": "Denounce the jury; rule of law matters.", "effect": {"auth_ana": -10, "prog_cons": 5}, "boost": 18},
+            {"text": "Praise them; justice over law.", "effect": {"auth_ana": 10, "prog_cons": -5}, "boost": 20},
+            {"text": "Limit the power of juries.", "effect": {"auth_ana": -15, "soc_cap": 5}, "boost": 22},
+            {"text": "Address the poverty that caused the theft.", "effect": {"soc_cap": -10, "prog_cons": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Mandatory Voting",
+        "description": "Voter turnout is low. Proposal to fine people who don't vote.",
+        "choices": [
+            {"text": "Make voting mandatory.", "effect": {"auth_ana": -10, "soc_cap": -2}, "boost": 22},
+            {"text": "Keep it voluntary.", "effect": {"auth_ana": 5, "prog_cons": 5}, "boost": 16},
+            {"text": "Incentivize voting with tax rebates.", "effect": {"soc_cap": -5, "auth_ana": 2}, "boost": 18},
+            {"text": "Online voting to increase turnout.", "effect": {"prog_cons": -5, "auth_ana": 5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "{industry} Strike",
+        "description": "Workers in the {industry} sector are striking, paralyzing the economy.",
+        "choices": [
+            {"text": "Send police to break the strike.", "effect": {"soc_cap": 15, "auth_ana": -15}, "boost": 26},
+            {"text": "Force arbitration (Compromise).", "effect": {"soc_cap": -2, "auth_ana": -5}, "boost": 18},
+            {"text": "Support the union's demands.", "effect": {"soc_cap": -15, "prog_cons": -5}, "boost": 22},
+            {"text": "Ban strikes in essential services.", "effect": {"auth_ana": -10, "soc_cap": 5}, "boost": 20}
+        ]
+    },
+    {
+        "title": "Anti-Aging Treatment",
+        "description": "A treatment extending life by 20 years is available, but costs $1 million.",
+        "choices": [
+            {"text": "Nationalize it; make it free for all.", "effect": {"soc_cap": -20, "prog_cons": -10}, "boost": 28},
+            {"text": "Ban it; death is natural.", "effect": {"rel_sec": -10, "prog_cons": 5}, "boost": 20},
+            {"text": "Let the market decide who gets it.", "effect": {"soc_cap": 15, "auth_ana": 5}, "boost": 22},
+            {"text": "Tax it heavily to fund pensions.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Smart City Project in {city}",
+        "description": "{company} wants to turn {city} into a 'Smart City' with total surveillance efficiency.",
+        "choices": [
+            {"text": "Block it; privacy nightmare.", "effect": {"auth_ana": 10, "prog_cons": -5}, "boost": 20},
+            {"text": "Approve it; efficiency creates wealth.", "effect": {"soc_cap": 10, "auth_ana": -10}, "boost": 22},
+            {"text": "Only if data is publicly owned.", "effect": {"soc_cap": -5, "auth_ana": 5}, "boost": 16},
+            {"text": "Run a pilot program in one district.", "effect": {"auth_ana": -2, "prog_cons": 2}, "boost": 14}
+        ]
+    },
+    {
+        "title": "{company} vs {foreign_country}",
+        "description": "{company} has a higher GDP than {foreign_country} and is ignoring their laws.",
+        "choices": [
+            {"text": "Sanction {company} until they comply.", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 22},
+            {"text": "Support {company}; they provide jobs.", "effect": {"soc_cap": 15, "nat_glob": 5}, "boost": 20},
+            {"text": "Mediate a deal.", "effect": {"nat_glob": 5, "auth_ana": 2}, "boost": 16},
+            {"text": "Push for international corporate law.", "effect": {"nat_glob": 15, "soc_cap": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Private Police in {city}",
+        "description": "Wealthy neighborhoods in {city} are hiring private security and banning public police.",
+        "choices": [
+            {"text": "Ban private police forces.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 22},
+            {"text": "Allow it; saves tax money.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 20},
+            {"text": "Regulate them strictly.", "effect": {"auth_ana": -5, "soc_cap": 2}, "boost": 16},
+            {"text": "Deputize them under regional control.", "effect": {"auth_ana": -10, "prog_cons": 5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Algorithm Bias Scandal",
+        "description": "The AI used for hiring at {company} was found to discriminate against women.",
+        "choices": [
+            {"text": "Fine {company} and ban the AI.", "effect": {"prog_cons": -10, "auth_ana": -5}, "boost": 22},
+            {"text": "Mandate open-source code for audits.", "effect": {"auth_ana": 5, "soc_cap": -5}, "boost": 20},
+            {"text": "Let the market punish them.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16},
+            {"text": "Create government hiring AI.", "effect": {"auth_ana": -10, "soc_cap": -5}, "boost": 18}
+        ]
+    },
+    {
+        "title": "Plastic Eating Bacteria",
+        "description": "Scientists created bacteria that eats plastic, but it might escape the lab.",
+        "choices": [
+            {"text": "Release it; solve the waste crisis.", "effect": {"env_eco": -20, "prog_cons": -10}, "boost": 30},
+            {"text": "Keep it contained; too risky.", "effect": {"env_eco": 5, "prog_cons": 5}, "boost": 20},
+            {"text": "Weaponize it against enemy infrastructure.", "effect": {"pac_mil": 15, "nat_glob": -10}, "boost": 25},
+            {"text": "Use it in closed facilities only.", "effect": {"env_eco": -5, "auth_ana": -2}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Asteroid Mining Rights",
+        "description": "{company} wants to claim ownership of an asteroid worth trillions.",
+        "choices": [
+            {"text": "Recognize their claim.", "effect": {"soc_cap": 15, "nat_glob": -5}, "boost": 22},
+            {"text": "Space resources belong to everyone.", "effect": {"soc_cap": -15, "nat_glob": 10}, "boost": 24},
+            {"text": "Claim it for the state.", "effect": {"nat_glob": -5, "auth_ana": -10}, "boost": 20},
+            {"text": "Follow UN space treaties.", "effect": {"nat_glob": 10, "pac_mil": -5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "Telepathy Chip",
+        "description": "{company} has a brain chip that allows silent communication. Privacy groups are panicked.",
+        "choices": [
+            {"text": "Ban the technology.", "effect": {"prog_cons": 10, "auth_ana": -5}, "boost": 22},
+            {"text": "Regulate data access strictly.", "effect": {"auth_ana": -5, "soc_cap": -2}, "boost": 18},
+            {"text": "Subsidize it for the military.", "effect": {"pac_mil": 15, "prog_cons": -5}, "boost": 20},
+            {"text": "Let the market develop it.", "effect": {"soc_cap": 10, "auth_ana": 5}, "boost": 16}
+        ]
+    },
+    {
+        "title": "National Anthem Protest",
+        "description": "Athletes are kneeling during the anthem to protest injustice.",
+        "choices": [
+            {"text": "Support their free speech.", "effect": {"prog_cons": -10, "auth_ana": 5}, "boost": 22},
+            {"text": "Condemn them as unpatriotic.", "effect": {"prog_cons": 10, "nat_glob": 5}, "boost": 20},
+            {"text": "Force the league to ban protests.", "effect": {"auth_ana": -10, "prog_cons": 5}, "boost": 18},
+            {"text": "Ignore it.", "effect": {"auth_ana": 0, "prog_cons": 0}, "boost": 10}
+        ]
+    },
+    {
+        "title": "Voting Age Debate",
+        "description": "Activists want to lower the voting age to 16.",
+        "choices": [
+            {"text": "Lower it to 16.", "effect": {"prog_cons": -10, "auth_ana": 2}, "boost": 20},
+            {"text": "Keep it at 18.", "effect": {"prog_cons": 5, "auth_ana": 0}, "boost": 14},
+            {"text": "Raise it to 21.", "effect": {"prog_cons": 10, "auth_ana": -5}, "boost": 18},
+            {"text": "Cap voting age at 75.", "effect": {"prog_cons": -5, "auth_ana": -5}, "boost": 22}
+        ]
+    },
+    {
+        "title": "Obesity Crisis",
+        "description": "Obesity rates are skyrocketing. Healthcare costs are unsustainable.",
+        "choices": [
+            {"text": "Tax sugar and processed foods.", "effect": {"soc_cap": -5, "auth_ana": -5}, "boost": 20},
+            {"text": "Subsidize gym memberships.", "effect": {"soc_cap": -5, "prog_cons": -2}, "boost": 16},
+            {"text": "Ban advertising of junk food to kids.", "effect": {"auth_ana": -10, "soc_cap": -2}, "boost": 18},
+            {"text": "Personal responsibility; do nothing.", "effect": {"soc_cap": 5, "auth_ana": 5}, "boost": 14}
+        ]
+    },
+    {
+        "title": "Drone Delivery Noise",
+        "description": "Citizens in {city} complain about the noise from delivery drones.",
+        "choices": [
+            {"text": "Ban drones in residential areas.", "effect": {"env_eco": 2, "soc_cap": -5}, "boost": 16},
+            {"text": "Set strict noise limits.", "effect": {"auth_ana": -5, "env_eco": -2}, "boost": 14},
+            {"text": "Progress is loud; deal with it.", "effect": {"soc_cap": 10, "prog_cons": -5}, "boost": 18},
+            {"text": "Create 'drone corridors'.", "effect": {"auth_ana": -2, "soc_cap": 0}, "boost": 12}
+        ]
+    },
+    {
+        "title": "Prison Labor",
+        "description": "Prisoners are making goods for {company} for pennies an hour.",
+        "choices": [
+            {"text": "Ban prison labor; it's slavery.", "effect": {"soc_cap": -10, "prog_cons": -10}, "boost": 24},
+            {"text": "Pay them minimum wage.", "effect": {"soc_cap": -5, "prog_cons": -5}, "boost": 20},
+            {"text": "Keep it; it offsets prison costs.", "effect": {"soc_cap": 10, "auth_ana": -5}, "boost": 18},
+            {"text": "Offer education instead of work.", "effect": {"prog_cons": -5, "soc_cap": -5}, "boost": 16}
         ]
     }
 ]
