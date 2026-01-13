@@ -1635,6 +1635,20 @@
             "auth_ana": -60,
             "rel_sec": -50,
             "colour": "green"
+        },
+        {
+            "id": 4,
+            "name": "Ernest Urtasun",
+            "party": "Sumar",
+            "party_pop": 3,
+            "prog_cons": -10,
+            "nat_glob": -45,
+            "env_eco": 20,
+            "soc_cap": -40,
+            "pac_mil": -20,
+            "auth_ana": 20,
+            "rel_sec": 30,
+            "colour": "purple"
         }
     ],
     "NIGERIA": [

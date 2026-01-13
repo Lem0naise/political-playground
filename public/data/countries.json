@@ -16,7 +16,7 @@
   {
     "id": "middle_britons",
     "weight": 0.38,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": -15,
@@ -35,7 +35,7 @@
   {
     "id": "well_off_centrists",
     "weight": 0.18,
-    "variance": 30,
+    "variance": 40,
     "turnout": 0.9,
     "center": {
       "prog_cons": -10,
@@ -55,7 +55,7 @@
   {
     "id": "traditionalist_seniors",
     "weight": 0.17,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": 55,
@@ -75,7 +75,7 @@
   {
     "id": "left_behind_patriots",
     "weight": 0.15,
-    "variance": 35,
+    "variance": 55,
     "turnout": 0.9,
     "center": {
       "prog_cons": 65,
@@ -95,7 +95,7 @@
   {
     "id": "urban_progressives",
     "weight": 0.12,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": -45,
@@ -145,7 +145,7 @@
   {
     "id": "urban_progressives",
     "weight": 0.28,
-    "variance": 25,
+    "variance": 35,
     "turnout": 0.9,
     "center": {
       "prog_cons": -65,
@@ -165,7 +165,7 @@
   {
     "id": "working_class_squeezed",
     "weight": 0.30,
-    "variance": 32,
+    "variance": 42,
     "turnout": 0.9,
     "center": {
       "prog_cons": 15,
@@ -185,7 +185,7 @@
   {
     "id": "suburban_moderates",
     "weight": 0.20,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": -25,
@@ -205,7 +205,7 @@
   {
     "id": "western_populists",
     "weight": 0.12,
-    "variance": 28,
+    "variance": 38,
     "turnout": 0.9,
     "center": {
       "prog_cons": 65,
@@ -345,7 +345,7 @@
   {
     "id": "metropolitan_centrists",
     "weight": 0.26,
-    "variance": 28,
+    "variance": 38,
     "turnout": 0.9,
     "center": {
       "prog_cons": -20,
@@ -365,11 +365,11 @@
   {
     "id": "sovereigntist_populists",
     "weight": 0.32,
-    "variance": 32,
+    "variance": 42,
     "turnout": 0.9,
     "center": {
       "prog_cons": 75,
-      "nat_glob": -85,
+      "nat_glob": -65,
       "env_eco": 50,
       "soc_cap": -10,
       "pac_mil": 30,
@@ -386,12 +386,12 @@
   {
     "id": "radical_left_youth",
     "weight": 0.19,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": -75,
       "nat_glob": -15,
-      "env_eco": -70,
+      "env_eco": -20,
       "soc_cap": -85,
       "pac_mil": 45,
       "auth_ana": -35,
@@ -400,13 +400,13 @@
     "salience": {
       "soc_cap": 1.5,
       "prog_cons": 1.4,
-      "env_eco": 1.2
+      "env_eco": 0.8
     }
   },
   {
     "id": "provincial_conservatives",
     "weight": 0.13,
-    "variance": 30,
+    "variance": 40,
     "turnout": 0.9,
     "center": {
       "prog_cons": 55,
@@ -426,7 +426,7 @@
   {
     "id": "ecological_secularists",
     "weight": 0.10,
-    "variance": 30,
+    "variance": 40,
     "turnout": 0.9,
     "center": {
       "prog_cons": -45,
@@ -476,7 +476,7 @@
   {
     "id": "social_democratic_loyalists",
     "weight": 0.28,
-    "variance": 28,
+    "variance": 48,
     "turnout": 0.9,
     "center": {
       "prog_cons": -45,
@@ -496,7 +496,7 @@
   {
     "id": "conservative_traditionalists",
     "weight": 0.26,
-    "variance": 25,
+    "variance": 35,
     "turnout": 0.9,
     "center": {
       "prog_cons": 55,
@@ -535,7 +535,7 @@
   {
     "id": "right_wing_populists",
     "weight": 0.16,
-    "variance": 30,
+    "variance": 40,
     "turnout": 0.9,
     "center": {
       "prog_cons": 85,
@@ -555,7 +555,7 @@
   {
     "id": "urban_metropolitan_left",
     "weight": 0.12,
-    "variance": 32,
+    "variance": 42,
     "turnout": 0.9,
     "center": {
       "prog_cons": -85,
@@ -591,7 +591,7 @@
   {
     "id": "catholic_conservative_ruralists",
     "weight": 0.35,
-    "variance": 25,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": 85,
@@ -612,7 +612,7 @@
   {
     "id": "liberal_urban_professionals",
     "weight": 0.28,
-    "variance": 28,
+    "variance": 48,
     "turnout": 0.9,
     "center": {
       "prog_cons": -60,
@@ -632,7 +632,7 @@
   {
     "id": "sovereigntist_libertarians",
     "weight": 0.12,
-    "variance": 30,
+    "variance": 40,
     "turnout": 0.9,
     "center": {
       "prog_cons": 70,
@@ -652,7 +652,7 @@
   {
     "id": "centrist_agrarians",
     "weight": 0.15,
-    "variance": 32,
+    "variance": 42,
     "turnout": 0.9,
     "center": {
       "prog_cons": 20,
@@ -672,7 +672,7 @@
   {
     "id": "secular_progressive_youth",
     "weight": 0.10,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": -90,
@@ -736,7 +736,7 @@
   {
     "id": "helsinki_progressives",
     "weight": 0.22,
-    "variance": 25,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": -75,
@@ -756,7 +756,7 @@
   {
     "id": "security_first_conservatives",
     "weight": 0.25,
-    "variance": 28,
+    "variance": 48,
     "turnout": 0.9,
     "center": {
       "prog_cons": 45,
@@ -776,7 +776,7 @@
   {
     "id": "welfare_loyalists",
     "weight": 0.20,
-    "variance": 30,
+    "variance": 40,
     "turnout": 0.9,
     "center": {
       "prog_cons": -40,
@@ -796,7 +796,7 @@
   {
     "id": "rural_traditionalists",
     "weight": 0.18,
-    "variance": 32,
+    "variance": 42,
     "turnout": 0.9,
     "center": {
       "prog_cons": 60,
@@ -816,7 +816,7 @@
   {
     "id": "nordic_industrial_workers",
     "weight": 0.15,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": 10,
@@ -2045,7 +2045,7 @@
   {
     "id": "urban_liberals",
     "weight": 0.32,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": -55,
@@ -2066,7 +2066,7 @@
   {
     "id": "national_conservatives",
     "weight": 0.22,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": 65,
@@ -2087,7 +2087,7 @@
   {
     "id": "minority_integrationists",
     "weight": 0.18,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": 10,
@@ -2108,7 +2108,7 @@
   {
     "id": "nordic_social_democrats",
     "weight": 0.16,
-    "variance": 32,
+    "variance": 42,
     "turnout": 0.9,
     "center": {
       "prog_cons": -40,
@@ -2128,7 +2128,7 @@
   {
     "id": "rural_traditionalists",
     "weight": 0.12,
-    "variance": 35,
+    "variance": 45,
     "turnout": 0.9,
     "center": {
       "prog_cons": 45,

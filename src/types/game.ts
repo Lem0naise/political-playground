@@ -181,9 +181,9 @@ export const EVENT_EFFECT_MULTIPLIER = 0.5;
 // Enable probabilistic choice via softmax; when false, deterministic max-utility is used
 export const PROBABILISTIC_VOTING = true;
 // Softmax temperature (beta): higher => crisper choices, lower => smoother
-export const SOFTMAX_BETA = 0.002;
+export const SOFTMAX_BETA = 0.0008;
 // Loyalty bonus added to utility when voter sticks with previous choice
-export const LOYALTY_UTILITY = 400;
+export const LOYALTY_UTILITY = 250;
 
 // Optional persistent electorate structure for generating once at game start
 export interface Electorate {

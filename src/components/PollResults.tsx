@@ -188,7 +188,6 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                     <div className="space-y-0.5 mt-1.5">
                       {Object.entries(bloc.percentages)
                         .sort(([, a], [, b]) => b - a)
-                        .slice(0,3)
                         .map(([party, pct]) => {
                           const candidate = sortedResults.find(r => r.candidate.party === party);
                           if (!candidate || pct < 0.5) return null;
