@@ -261,47 +261,63 @@
         }
     ],
     "SOVIET UNION 1991": [
-        {
-            "id": 0,
-            "name": "Mikhail Gorbachev",
-            "party": "CPSU",
-            "party_pop": 10,
-            "prog_cons": -34,
-            "nat_glob": 12,
-            "env_eco": 0,
-            "soc_cap": -85,
-            "pac_mil": 45,
-            "auth_ana": -84,
-            "rel_sec": 87,
-            "colour": "red"
-        },
-        {
-            "id": 1,
-            "name": "Boris Yeltsin",
-            "party": "Democratic Union",
-            "party_pop": 4,
-            "prog_cons": 21,
-            "nat_glob": -12,
-            "env_eco": 0,
-            "soc_cap": -12,
-            "pac_mil": 35,
-            "auth_ana": -14,
-            "rel_sec": 37
-        },
-        {
-            "id": 2,
-            "name": "Nikolay Lysenko",
-            "party": "National Republican Party",
-            "party_pop": 3,
-            "prog_cons": 84,
-            "nat_glob": -12,
-            "env_eco": 0,
-            "soc_cap": -62,
-            "pac_mil": 45,
-            "auth_ana": -74,
-            "rel_sec": -82
-        }
-    ],
+    {
+        "id": 0,
+        "name": "Mikhail Gorbachev",
+        "party": "CPSU",
+        "party_pop": 6,
+        "prog_cons": -40,
+        "nat_glob": 30,
+        "env_eco": 10,
+        "soc_cap": -50,
+        "pac_mil": -30,
+        "auth_ana": 20,
+        "rel_sec": 80,
+        "colour": "red"
+    },
+    {
+        "id": 1,
+        "name": "Boris Yeltsin",
+        "party": "Democratic Russia",
+        "party_pop": 9,
+        "prog_cons": -70,
+        "nat_glob": -40,
+        "env_eco": 20,
+        "soc_cap": 75,
+        "pac_mil": -20,
+        "auth_ana": 80,
+        "rel_sec": 40,
+        "colour": "white"
+    },
+    {
+        "id": 2,
+        "name": "Gennady Yanayev",
+        "party": "GKChP",
+        "party_pop": 5,
+        "prog_cons": 90,
+        "nat_glob": -95,
+        "env_eco": 80,
+        "soc_cap": -95,
+        "pac_mil": 90,
+        "auth_ana": -95,
+        "rel_sec": 90,
+        "colour": "darkred"
+    },
+    {
+        "id": 3,
+        "name": "Nikolay Lysenko",
+        "party": "National Republican Party",
+        "party_pop": 2,
+        "prog_cons": 85,
+        "nat_glob": -90,
+        "env_eco": 40,
+        "soc_cap": -40,
+        "pac_mil": 60,
+        "auth_ana": -70,
+        "rel_sec": -80,
+        "colour": "black"
+    }
+],
     "GREECE": [
         {
             "id": 0,
@@ -2471,63 +2487,77 @@
             "colour": "red"
         }
     ],
-    "SWITZERLAND": [
-        {
-            "id": 0,
-            "name": "Marco Chiesa",
-            "party": "Swiss People's Party",
-            "party_pop": 9,
-            "prog_cons": 75,
-            "nat_glob": -85,
-            "env_eco": 70,
-            "soc_cap": 60,
-            "pac_mil": 20,
-            "auth_ana": -30,
-            "rel_sec": -20,
-            "colour": "green"
-        },
-        {
-            "id": 1,
-            "name": "Cédric Wermuth",
-            "party": "Social Democratic Party",
-            "party_pop": 7,
-            "prog_cons": -60,
-            "nat_glob": 60,
-            "env_eco": -50,
-            "soc_cap": -55,
-            "pac_mil": -30,
-            "auth_ana": 10,
-            "rel_sec": 60,
-            "colour": "pink"
-        },
-        {
-            "id": 2,
-            "name": "Thierry Burkart",
-            "party": "The Liberals",
-            "party_pop": 6,
-            "prog_cons": 10,
-            "nat_glob": 50,
-            "env_eco": 40,
-            "soc_cap": 70,
-            "pac_mil": 10,
-            "auth_ana": 20,
-            "rel_sec": 40,
-            "colour": "blue"
-        },
-        {
-            "id": 3,
-            "name": "Gerhard Pfister",
-            "party": "The Centre",
-            "party_pop": 6,
-            "prog_cons": 20,
-            "nat_glob": 40,
-            "env_eco": 10,
-            "soc_cap": 10,
-            "pac_mil": 0,
-            "auth_ana": 0,
-            "rel_sec": -40,
-            "colour": "orange"
-        }
+        "SWITZERLAND": [
+    {
+        "id": 0,
+        "name": "Marcel Dettling",
+        "party": "Swiss People's Party",
+        "party_pop": 9,
+        "prog_cons": 75,
+        "nat_glob": -85,
+        "env_eco": 70,
+        "soc_cap": 60,
+        "pac_mil": 20,
+        "auth_ana": -30,
+        "rel_sec": -20,
+        "colour": "darkgreen"
+    },
+    {
+        "id": 1,
+        "name": "Mattea Meyer",
+        "party": "Social Democratic Party",
+        "party_pop": 7,
+        "prog_cons": -65,
+        "nat_glob": 65,
+        "env_eco": -60,
+        "soc_cap": -70,
+        "pac_mil": -40,
+        "auth_ana": 15,
+        "rel_sec": 65,
+        "colour": "red"
+    },
+    {
+        "id": 2,
+        "name": "Thierry Burkart",
+        "party": "The Liberals",
+        "party_pop": 6,
+        "prog_cons": 10,
+        "nat_glob": 55,
+        "env_eco": 45,
+        "soc_cap": 75,
+        "pac_mil": 15,
+        "auth_ana": 25,
+        "rel_sec": 45,
+        "colour": "blue"
+    },
+    {
+        "id": 3,
+        "name": "Gerhard Pfister",
+        "party": "The Centre",
+        "party_pop": 6,
+        "prog_cons": 25,
+        "nat_glob": 35,
+        "env_eco": 15,
+        "soc_cap": 15,
+        "pac_mil": 0,
+        "auth_ana": 0,
+        "rel_sec": -45,
+        "colour": "orange"
+    },
+    {
+        "id": 4,
+        "name": "Lisa Mazzone",
+        "party": "Greens",
+        "party_pop": 4,
+        "prog_cons": -75,
+        "nat_glob": 40,
+        "env_eco": -90,
+        "soc_cap": -40,
+        "pac_mil": -60,
+        "auth_ana": 20,
+        "rel_sec": 70,
+        "colour": "lightgreen"
+    }
     ],
     "PORTUGAL": [
         {
@@ -2643,7 +2673,7 @@
             "soc_cap": -40,
             "pac_mil": 20,
             "auth_ana": -5,
-            "rel_sec": 50,
+            "rel_sec": 30,
             "colour": "red"
         },
         {
@@ -2657,8 +2687,22 @@
             "soc_cap": 0,
             "pac_mil": 30,
             "auth_ana": -40,
-            "rel_sec": 0,
+            "rel_sec": 15,
             "colour": "yellow"
+        },
+        {
+            "id": 9,
+            "name": "Minja Koskela",
+            "party": "We Are Left Alliance",
+            "party_pop": 3,
+            "prog_cons": -20,
+            "nat_glob": -55,
+            "env_eco": 10,
+            "soc_cap": -64,
+            "pac_mil": -30,
+            "auth_ana": 20,
+            "rel_sec": 30,
+            "colour": "darkblue"
         }
     ],
     "NORWAY": [
@@ -2811,7 +2855,7 @@
         {
             "id": 0,
             "name": "Yamandú Orsi",
-            "party": "Broad Front (Frente Amplio)",
+            "party": "Broad Front",
             "party_pop": 9,
             "prog_cons": -65,
             "nat_glob": 20,
@@ -2825,7 +2869,7 @@
         {
             "id": 1,
             "name": "Alvaro Delgado",
-            "party": "National Party (Partido Nacional)",
+            "party": "National Party",
             "party_pop": 7,
             "prog_cons": 40,
             "nat_glob": 10,
@@ -2839,7 +2883,7 @@
         {
             "id": 2,
             "name": "Guido Manini Ríos",
-            "party": "Open Cabildo (Cabildo Abierto)",
+            "party": "Open Cabildo",
             "party_pop": 4,
             "prog_cons": 85,
             "nat_glob": -75,
