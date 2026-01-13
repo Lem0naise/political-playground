@@ -169,7 +169,7 @@ export const CABINET_POSITIONS: Record<string, CabinetPosition> = {
 
 // Game configuration constants
 export const DEBUG = false;
-export const TOO_FAR_DISTANCE = 100;
+export const TOO_FAR_DISTANCE = 140; // higher means more voters
 export const COALITION_FACTOR = 1.1;
 export const TOO_CLOSE_PARTY = 200;
 export const VOTE_MANDATE = false;

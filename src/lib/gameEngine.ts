@@ -660,7 +660,7 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
     rawDistSq[i] = sumSq;
 
     // Utility: proximity (negative weighted loss) + gentle popularity + optional swing + loyalty
-    let u = -weightedLoss + Math.max(0, cand.party_pop) * 1.5;
+    let u = -weightedLoss + Math.max(0, cand.party_pop) * 0.5;
     if (cand.swing) {
       u += (cand.swing * 5) * Math.abs(cand.swing * 5);
     }
@@ -1080,7 +1080,8 @@ export function conductPoll(
         let leadingParty = '';
         
         candidates.forEach((c, i) => {
-          const pct = actualVoters > 0 ? (tallies[i] / actualVoters) * 100 : 0;
+          // Calculate percentage of entire bloc (including non-voters)
+          const pct = totalBlocVoters > 0 ? (tallies[i] / totalBlocVoters) * 100 : 0;
           percentages[c.party] = pct;
           if (pct > maxPct) {
             maxPct = pct;
@@ -1152,7 +1153,7 @@ export function applyEventEffect(
   
   // Convert voter alignment to polling change
   const baseChange = voterAlignment / 30.0;
-  let pollingChange = baseChange * (boost / 12.0);
+  let pollingChange = baseChange * Math.min(boost / 12.0, 1.5);
   
   // Add moderate randomness for event uncertainty
   const randomFactor = (Math.random() - 0.5) * 2; // -1.0 to 1.0
@@ -1681,7 +1682,7 @@ export function applyEventEffect(
     const valueKey = VALUES[i];
     if (valueKey in effect && effect[valueKey] !== undefined) {
       const oldVal = playerCandidate.vals[i] * EVENT_EFFECT_MULTIPLIER; // make half as big
-      playerCandidate.vals[i] += effect[valueKey]!;
+      playerCandidate.vals[i] += effect[valueKey]! * EVENT_EFFECT_MULTIPLIER;
       // Clamp values to valid range
       playerCandidate.vals[i] = Math.max(-100, Math.min(100, playerCandidate.vals[i]));
       
