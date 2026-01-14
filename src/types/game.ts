@@ -180,6 +180,7 @@ export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
 export const EVENT_EFFECT_MULTIPLIER = 0.8;
 
+export const TARGET_SHIFT = 0.02;
 // Voting behaviour configuration
 // Enable probabilistic choice via softmax; when false, deterministic max-utility is used
 export const PROBABILISTIC_VOTING = true;

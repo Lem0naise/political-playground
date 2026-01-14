@@ -1,4 +1,4 @@
-import {  VALUES } from '@/types/game';
+import {  VALUES, PoliticalValues } from '@/types/game';
 
 
 export const DESCRIPTORS: Record<string, Record<string, string | null>> = {
@@ -9,6 +9,17 @@ export const DESCRIPTORS: Record<string, Record<string, string | null>> = {
   "pac_mil": {"-100": "pacifist", "10": null, "65": "hawkish", "100": "ultra-militarist"},
   "auth_ana": {"-100": "totalitarian", "-60": "authoritarian", "-10": null, "70": "libertarian", "100": "anarchist"},
   "rel_sec": {"-100": "theocratic", "-60": "religious", "0": null, "50": "secular", "100": "state atheism"},
+};
+
+// Comparative descriptors for when comparing player to a bloc
+const COMPARATIVE_DESCRIPTORS: Record<string, { negative: string, positive: string }> = {
+  "prog_cons": { negative: "progressive", positive: "conservative" },
+  "nat_glob": { negative: "nationalist", positive: "globalist" },
+  "env_eco": { negative: "environmentalist", positive: "pro-growth" },
+  "soc_cap": { negative: "socialist", positive: "capitalist" },
+  "pac_mil": { negative: "pacifist", positive: "militaristic" },
+  "auth_ana": { negative: "authoritarian", positive: "libertarian" },
+  "rel_sec": { negative: "religious", positive: "secular" },
 };
 
 
@@ -124,4 +135,52 @@ export function getIdeologyProfile(vals: number[]) {
       </ul>
     </div>
   );
+}
+
+/**
+ * Generate comparative ideology descriptors showing how a voter bloc perceives the player
+ * relative to the bloc's center position on each political axis.
+ * Returns descriptors sorted by distance magnitude (most different first).
+ */
+export function getComparativeDescriptors(
+  playerVals: number[],
+  blocCenter: PoliticalValues
+): Array<{ key: string; desc: string; distance: number }> {
+  const comparisons: Array<{ key: string; desc: string; distance: number }> = [];
+  
+  VALUES.forEach((key, idx) => {
+    const playerValue = playerVals[idx];
+    const blocValue = blocCenter[key];
+    const distance = playerValue - blocValue;
+    const absDistance = Math.abs(distance);
+    
+    // Only show if there's a meaningful difference (threshold of 15 points)
+    if (absDistance < 20) return;
+    
+    const comparative = COMPARATIVE_DESCRIPTORS[key];
+    if (!comparative) return;
+    
+    // Determine descriptor based on direction and magnitude
+    let descriptor = '';
+    const direction = distance > 0 ? comparative.positive : comparative.negative;
+    
+    if (absDistance >= 70) {
+      descriptor = `far too ${direction}`;
+    } else if (absDistance >= 45) {
+      descriptor = `too ${direction}`;
+    } else {
+      descriptor = `slightly too ${direction}`;
+    }
+    
+    comparisons.push({
+      key,
+      desc: descriptor,
+      distance: absDistance
+    });
+  });
+  
+  // Sort by distance descending (most different first)
+  comparisons.sort((a, b) => b.distance - a.distance);
+  
+  return comparisons;
 }

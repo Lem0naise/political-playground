@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback, useState, useEffect } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues } from '@/types/game';
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues, TARGET_SHIFT } from '@/types/game';
 import { 
   generateVotingData, 
   conductPoll, 
@@ -293,7 +293,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
               const currentValue = playerCandidate.vals[index];
               const targetValue = targetedBloc.center[key];
               const difference = targetValue - currentValue;
-              const shift = difference * 0.01; // 1% of the difference
+              const shift = difference * TARGET_SHIFT; // 2% of the difference
               playerCandidate.vals[index] = Math.max(-100, Math.min(100, currentValue + shift));
             });
           }

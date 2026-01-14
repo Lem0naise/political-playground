@@ -1,7 +1,7 @@
 
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
-import { getIdeologyDescriptors } from '@/lib/ideologyProfiler';
+import { getIdeologyDescriptors, getComparativeDescriptors } from '@/lib/ideologyProfiler';
 
 interface PollResultsProps {
   onViewGraph: () => void;
@@ -298,7 +298,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
       {sortedResults.some(r => r.candidate.is_player) && (
         <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-600">
           <h3 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2">
-            VOTERS THINK YOU ARE
+            YOUR ANALYSTS SAY
           </h3>
           {sortedResults.map((result) => {
             if (!result.candidate.is_player) return null;
@@ -306,7 +306,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             return (
               <div key={result.candidate.id} className="bg-slate-800/50 border border-yellow-500/30 rounded-lg p-2">
                 <div className="text-xs text-yellow-400 font-mono mb-1.5 font-bold">
-                  {result.candidate.party}
+                  OVERALL VIEW OF {result.candidate.party.toUpperCase()}
                 </div>
                 <div className="space-y-1">
                   {getIdeologyDescriptors(result.candidate.vals)
@@ -329,6 +329,64 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
               </div>
             );
           })}
+
+          {/* Target Bloc Perception */}
+          {state.targetedBlocId && state.countryData.blocs && sortedResults.some(r => r.candidate.is_player) && (() => {
+            const targetedBloc = state.countryData.blocs.find(b => b.id === state.targetedBlocId);
+            const playerResult = sortedResults.find(r => r.candidate.is_player);
+            
+            if (!targetedBloc || !playerResult) return null;
+            
+            const comparisons = getComparativeDescriptors(playerResult.candidate.vals, targetedBloc.center);
+            
+               // Convert bloc ID to display name (e.g., "urban_progressives" -> "Urban Progressives")
+            const convertBlocName = (id: string): string => {
+              return id.split('_')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+            };
+             
+
+            
+            // If no meaningful differences, show aligned message
+            if (comparisons.length === 0) {
+              return (
+                <div className="mt-2 bg-slate-800/50 border border-blue-500/30 rounded-lg p-2">
+                  <div className="text-xs text-blue-400 font-mono mb-1.5 font-bold">
+                    YOUR TARGET BLOC '{convertBlocName(targetedBloc.id).toUpperCase()}' FINDS YOU:
+                  </div>
+                  <div className="text-xs text-green-400 uppercase tracking-wide font-semibold">
+                    WELL ALIGNED WITH THEIR VALUES
+                  </div>
+                </div>
+              );
+            }
+          
+        
+            
+            return (
+              <div className="mt-2 bg-slate-800/50 border border-blue-500/30 rounded-lg p-2">
+                <div className="text-xs text-blue-400 font-mono mb-1.5 font-bold">
+                  YOUR TARGET BLOC '{convertBlocName(targetedBloc.id).toUpperCase()}' FINDS YOU:
+                </div>
+                <div className="space-y-1">
+                  {comparisons.slice(0, 4).map((comparison, idx) => {
+                    const fontSizes = ['text-sm', 'text-xs', 'text-xs', 'text-xs'];
+                    const fontWeights = ['font-bold', 'font-semibold', 'font-medium', 'font-normal'];
+                    
+                    return (
+                      <div 
+                        key={comparison.key}
+                        className={`${fontSizes[idx]} ${fontWeights[idx]} text-slate-200 uppercase tracking-wide`}
+                      >
+                        {comparison.desc}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       )}
 
