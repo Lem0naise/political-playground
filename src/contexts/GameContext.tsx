@@ -30,6 +30,7 @@ interface GameContextType {
     removePotentialPartner: (partner: Candidate) => void;
     allocateCabinetPosition: (position: string, party: string) => void;
     completeCoalitionFormation: () => void;
+    setTargetedBloc: (blocId: string | null) => void;
   };
 }
 
@@ -48,7 +49,8 @@ type GameAction =
   | { type: 'REMOVE_POTENTIAL_PARTNER'; payload: { partner: Candidate } }
   | { type: 'ALLOCATE_CABINET_POSITION'; payload: { position: string; party: string } }
   | { type: 'COMPLETE_COALITION_FORMATION' }
-  | { type: 'SET_EVENT_VARIABLES'; payload: { eventVariables: EventVariables } };
+  | { type: 'SET_EVENT_VARIABLES'; payload: { eventVariables: EventVariables } }
+  | { type: 'SET_TARGETED_BLOC'; payload: { blocId: string | null } };
 
 // Helper function to substitute variables in news templates
 function substituteNewsVariables(
@@ -109,7 +111,10 @@ const initialState: GameState = {
   activeTrend: null,
   trendHistory: [],
   nextTrendPoll: null,
-  eventVariables: null
+  eventVariables: null,
+  targetedBlocId: null,
+  targetingStartWeek: null,
+  targetingCooldownUntil: null
 };
 
 function gameReducer(state: GameState, action: GameAction): GameState {
@@ -252,6 +257,43 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         : { ...state.countryData, vals: updatedCountryValues };
 
       const { results: newResults, newsEvents, blocStats: newBlocStats } = conductPoll(votingDataRef, state.candidates, nextPollNum, countryDataAfterTrend);
+      
+      // --- BEGIN: Apply bloc targeting ideology shift ---
+      let updatedTargetedBlocId = state.targetedBlocId;
+      let updatedTargetingStartWeek = state.targetingStartWeek;
+      let updatedTargetingCooldownUntil = state.targetingCooldownUntil;
+      
+      // Check if we need to end targeting due to 6-week limit
+      if (state.targetedBlocId && state.targetingStartWeek !== null && state.targetingStartWeek !== undefined) {
+        const weeksTargeting = nextPollNum - state.targetingStartWeek;
+        
+        if (weeksTargeting >= 6) {
+          // End targeting and start cooldown
+          updatedTargetedBlocId = null;
+          updatedTargetingStartWeek = null;
+          updatedTargetingCooldownUntil = nextPollNum + 3; // 3 week cooldown
+        }
+      }
+      
+      // Apply targeting shift if still active
+      if (updatedTargetedBlocId && countryDataAfterTrend.blocs) {
+        const targetedBloc = countryDataAfterTrend.blocs.find(b => b.id === updatedTargetedBlocId);
+        if (targetedBloc) {
+          const playerCandidate = state.candidates.find(c => c.is_player);
+          if (playerCandidate) {
+            // Shift 1% of the difference towards the bloc center on each axis
+            const axisKeys: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
+            axisKeys.forEach((key, index) => {
+              const currentValue = playerCandidate.vals[index];
+              const targetValue = targetedBloc.center[key];
+              const difference = targetValue - currentValue;
+              const shift = difference * 0.01; // 1% of the difference
+              playerCandidate.vals[index] = Math.max(-100, Math.min(100, currentValue + shift));
+            });
+          }
+        }
+      }
+      // --- END: Apply bloc targeting ideology shift ---
       
       // Update previous poll results
       const newPreviousResults: Record<string, number> = {};
@@ -625,6 +667,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         nextTrendPoll,
         blocStats: newBlocStats,
         previousBlocStats: state.blocStats,
+        targetedBlocId: updatedTargetedBlocId,
+        targetingStartWeek: updatedTargetingStartWeek,
+        targetingCooldownUntil: updatedTargetingCooldownUntil,
         pollingHistory: [
           ...state.pollingHistory,
           {
@@ -780,6 +825,30 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         eventVariables: action.payload.eventVariables
       };
       
+    case 'SET_TARGETED_BLOC':
+      // If untargeting (blocId is null), trigger cooldown
+      if (action.payload.blocId === null) {
+        return {
+          ...state,
+          targetedBlocId: null,
+          targetingStartWeek: null,
+          targetingCooldownUntil: state.currentPoll + 3 // 3 week cooldown when manually stopped
+        };
+      }
+      
+      // If trying to target during cooldown, ignore
+      if (state.targetingCooldownUntil !== null && state.targetingCooldownUntil !== undefined && state.currentPoll < state.targetingCooldownUntil) {
+        return state; // Don't allow targeting during cooldown
+      }
+      
+      // Start new targeting
+      return {
+        ...state,
+        targetedBlocId: action.payload.blocId,
+        targetingStartWeek: state.currentPoll,
+        targetingCooldownUntil: null // Clear any old cooldown
+      };
+      
     default:
       return state;
   }
@@ -854,6 +923,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     
     completeCoalitionFormation: useCallback(() => {
       dispatch({ type: 'COMPLETE_COALITION_FORMATION' });
+    }, []),
+    
+    setTargetedBloc: useCallback((blocId: string | null) => {
+      dispatch({ type: 'SET_TARGETED_BLOC', payload: { blocId } });
     }, [])
   };
   

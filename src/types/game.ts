@@ -126,6 +126,9 @@ export interface GameState {
   blocStats?: BlocStatistics[];
   previousBlocStats?: BlocStatistics[];
   eventVariables?: any | null;
+  targetedBlocId?: string | null;
+  targetingStartWeek?: number | null;
+  targetingCooldownUntil?: number | null;
 }
 
 export interface CoalitionState {

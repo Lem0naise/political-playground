@@ -9,7 +9,7 @@ interface PollResultsProps {
 }
 
 export default function PollResults({ onViewGraph, canViewGraph }: PollResultsProps) {
-  const { state } = useGame();
+  const { state, actions } = useGame();
 
   if (state.pollResults.length === 0) {
     return (
@@ -140,10 +140,23 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
           <h3 className="campaign-status text-xs sm:text-sm font-bold text-blue-400 mb-2">
             VOTER BLOC ANALYSIS
           </h3>
+          
+          {/* Cooldown warning */}
+          {state.targetingCooldownUntil !== null && state.targetingCooldownUntil !== undefined && state.currentPoll < state.targetingCooldownUntil && (
+            <div className="mb-2 bg-red-900/30 border border-red-500 rounded p-2 text-xs text-red-300">
+              {state.targetingCooldownUntil - state.currentPoll} weeks until your political analysts can target again.
+            </div>
+          )}
+          
           <div className="space-y-2">
             {(() => {
               // Find the largest bloc weight to use as the scaling reference
               const maxBlocWeight = Math.max(...state.blocStats.map(b => b.weight));
+              
+              // Check if in cooldown
+              const inCooldown = state.targetingCooldownUntil !== null && 
+                                state.targetingCooldownUntil !== undefined && 
+                                state.currentPoll < state.targetingCooldownUntil;
               
               return state.blocStats
                 .sort((a, b) => (b.turnout*b.weight) - (a.turnout*a.weight)) // Sort by weight descending
@@ -166,19 +179,51 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                   // Calculate proportional width relative to the largest bloc
                   const proportionalWidth = (bloc.weight / maxBlocWeight) * 100;
                   
+                  const isTargeted = state.targetedBlocId === bloc.blocId;
+                  
+                  // Calculate weeks remaining if targeting this bloc
+                  let weeksRemaining = 0;
+                  if (isTargeted && state.targetingStartWeek !== null && state.targetingStartWeek !== undefined) {
+                    const weeksTargeting = state.currentPoll - state.targetingStartWeek;
+                    weeksRemaining = Math.max(0, 6 - weeksTargeting);
+                  }
+                  
                   return (
                   <div 
                     key={bloc.blocId}
-                    className="bg-slate-800/50 border border-slate-600 rounded-lg p-2"
+                    className={`bg-slate-800/50 border rounded-lg p-2 ${isTargeted ? 'border-yellow-500 ring-1 ring-yellow-500/50' : 'border-slate-600'}`}
                   >
                     <div className="flex items-start justify-between mb-1">
                       <div className="flex-1">
-                        <div className="font-bold text-xs text-white">
-                          {bloc.blocName}
+                        <div className="flex items-center gap-2">
+                          <div className="font-bold text-xs text-white">
+                            {bloc.blocName}
+                          </div>
+                          <button
+                            onClick={() => actions.setTargetedBloc(isTargeted ? null : bloc.blocId)}
+                            disabled={inCooldown && !isTargeted}
+                            className={`text-xs px-1.5 py-0.5 rounded transition-all ${
+                              isTargeted 
+                                ? 'bg-yellow-500 text-slate-900 hover:bg-yellow-600 font-bold' 
+                                : inCooldown
+                                ? 'bg-slate-700 text-slate-500 border border-slate-600 cursor-not-allowed opacity-50'
+                                : 'bg-slate-600 text-slate-300 hover:bg-slate-500 border border-slate-500'
+                            }`}
+                            title={
+                              inCooldown && !isTargeted
+                                ? 'Targeting on cooldown'
+                                : isTargeted 
+                                ? 'Stop targeting this bloc' 
+                                : 'Target this voter bloc'
+                            }
+                          >
+                            {isTargeted ? `✓ ${weeksRemaining}W LEFT` : '+ TARGET'}
+                          </button>
                         </div>
                         <div className="text-xs text-slate-400 font-mono">
                           {(bloc.weight * 100).toFixed(1)}% of electorate • {formatVotes(blocPopulation, state.countryData.scale)} voters
                         </div>
+                        
                         <div className={`text-xs font-mono font-bold mt-0.5 flex items-center gap-1 ${turnoutColor}`}>
                           <span>{turnoutPct.toFixed(1)}% turnout</span>
                           {hasTurnoutChange && (
