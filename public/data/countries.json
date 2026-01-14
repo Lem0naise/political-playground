@@ -284,7 +284,110 @@
             "rel_sec": -40
         },
         "scale": 10000,
-        "hos": "Lula da Silva"
+        "hos": "Lula da Silva",
+        "blocs" : 
+        [
+  {
+    "id": "lulista_loyalists",
+    "weight": 0.35,
+    "variance": 25,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -65,
+      "nat_glob": 15,
+      "env_eco": -40,
+      "soc_cap": -85,
+      "pac_mil": -20,
+      "auth_ana": 30,
+      "rel_sec": 45
+    },
+    "salience": {
+      "soc_cap": 1.9,
+      "prog_cons": 1.4,
+      "env_eco": 0.8
+    }
+  },
+  {
+    "id": "bolsonarista_faithful",
+    "weight": 0.28,
+    "variance": 22,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 95,
+      "nat_glob": -90,
+      "env_eco": 85,
+      "soc_cap": 30,
+      "pac_mil": 95,
+      "auth_ana": -90,
+      "rel_sec": -95
+    },
+    "salience": {
+      "rel_sec": 1.9,
+      "pac_mil": 1.8,
+      "nat_glob": 1.6,
+      "env_eco": 0.3
+    }
+  },
+  {
+    "id": "urban_southeast_moderates",
+    "weight": 0.18,
+    "variance": 30,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 10,
+      "nat_glob": 40,
+      "env_eco": 20,
+      "soc_cap": 75,
+      "pac_mil": 30,
+      "auth_ana": 45,
+      "rel_sec": 20
+    },
+    "salience": {
+      "soc_cap": 1.7,
+      "nat_glob": 1.4,
+      "env_eco": 0.6
+    }
+  },
+  {
+    "id": "agrobusiness_nationalists",
+    "weight": 0.12,
+    "variance": 28,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 50,
+      "nat_glob": -50,
+      "env_eco": 95,
+      "soc_cap": 60,
+      "pac_mil": 60,
+      "auth_ana": -30,
+      "rel_sec": -20
+    },
+    "salience": {
+      "env_eco": 2.0,
+      "nat_glob": 1.5,
+      "soc_cap": 1.3
+    }
+  },
+  {
+    "id": "evangelical_moralists",
+    "weight": 0.07,
+    "variance": 20,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 85,
+      "nat_glob": -10,
+      "env_eco": 40,
+      "soc_cap": -20,
+      "pac_mil": 50,
+      "auth_ana": -40,
+      "rel_sec": -98
+    },
+    "salience": {
+      "rel_sec": 2.0,
+      "prog_cons": 1.7
+    }
+  }
+]
     },
     "ARGENTINA": {
         "pop": 4580,
@@ -457,7 +560,111 @@
             "rel_sec": -25
         },
         "scale": 1000,
-        "hos": "Sergio Mattarella"
+        "hos": "Sergio Mattarella",
+        "blocs": [
+  {
+    "id": "conservative_sovereigntists",
+    "weight": 0.32,
+    "variance": 25,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 75,
+      "nat_glob": -80,
+      "env_eco": 60,
+      "soc_cap": 20,
+      "pac_mil": 45,
+      "auth_ana": -85,
+      "rel_sec": -60
+    },
+    "salience": {
+      "auth_ana": 1.8,
+      "nat_glob": 1.6,
+      "prog_cons": 1.4,
+      "env_eco": 0.4
+    }
+  },
+  {
+    "id": "urban_progressivists",
+    "weight": 0.24,
+    "variance": 28,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -70,
+      "nat_glob": 75,
+      "env_eco": -65,
+      "soc_cap": -50,
+      "pac_mil": -20,
+      "auth_ana": 75,
+      "rel_sec": 80
+    },
+    "salience": {
+      "auth_ana": 1.7,
+      "prog_cons": 1.6,
+      "rel_sec": 1.3,
+      "env_eco": 1.1
+    }
+  },
+  {
+    "id": "southern_populists",
+    "weight": 0.18,
+    "variance": 35,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -10,
+      "nat_glob": -15,
+      "env_eco": -20,
+      "soc_cap": -90,
+      "pac_mil": -60,
+      "auth_ana": 20,
+      "rel_sec": 35
+    },
+    "salience": {
+      "soc_cap": 2.0,
+      "auth_ana": 1.2,
+      "env_eco": 0.6
+    }
+  },
+  {
+    "id": "moderate_pro_business",
+    "weight": 0.16,
+    "variance": 30,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 20,
+      "nat_glob": 45,
+      "env_eco": 30,
+      "soc_cap": 75,
+      "pac_mil": 10,
+      "auth_ana": 10,
+      "rel_sec": -30
+    },
+    "salience": {
+      "soc_cap": 1.7,
+      "nat_glob": 1.5,
+      "env_eco": 0.5
+    }
+  },
+  {
+    "id": "radical_greens_left",
+    "weight": 0.10,
+    "variance": 32,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -85,
+      "nat_glob": 60,
+      "env_eco": -95,
+      "soc_cap": -80,
+      "pac_mil": -85,
+      "auth_ana": 50,
+      "rel_sec": 95
+    },
+    "salience": {
+      "env_eco": 2.0,
+      "prog_cons": 1.5,
+      "pac_mil": 1.4
+    }
+  }
+]
     },
     "SPAIN": {
         "pop": 47421,
@@ -1763,7 +1970,110 @@
             "rel_sec": -70
         },
         "scale": 10000,
-        "hos": "Abdel Fattah el-Sisi"
+        "hos": "Abdel Fattah el-Sisi",
+        "blocs" : [
+  {
+    "id": "state_security_loyalists",
+    "weight": 0.45,
+    "variance": 20,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 80,
+      "nat_glob": -70,
+      "env_eco": 75,
+      "soc_cap": -20,
+      "pac_mil": 90,
+      "auth_ana": -95,
+      "rel_sec": -60
+    },
+    "salience": {
+      "auth_ana": 1.9,
+      "pac_mil": 1.7,
+      "nat_glob": 1.4,
+      "env_eco": 0.5
+    }
+  },
+  {
+    "id": "urban_secular_modernists",
+    "weight": 0.15,
+    "variance": 30,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -40,
+      "nat_glob": 40,
+      "env_eco": -20,
+      "soc_cap": 60,
+      "pac_mil": 20,
+      "auth_ana": 45,
+      "rel_sec": 80
+    },
+    "salience": {
+      "rel_sec": 1.8,
+      "auth_ana": 1.6,
+      "soc_cap": 1.3
+    }
+  },
+  {
+    "id": "squeezed_working_class",
+    "weight": 0.25,
+    "variance": 35,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 60,
+      "nat_glob": -20,
+      "env_eco": 40,
+      "soc_cap": -85,
+      "pac_mil": 50,
+      "auth_ana": -30,
+      "rel_sec": -80
+    },
+    "salience": {
+      "soc_cap": 2.0,
+      "rel_sec": 1.4,
+      "env_eco": 0.4
+    }
+  },
+  {
+    "id": "underground_traditionalists",
+    "weight": 0.10,
+    "variance": 15,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 95,
+      "nat_glob": -80,
+      "env_eco": 30,
+      "soc_cap": -40,
+      "pac_mil": -20,
+      "auth_ana": -60,
+      "rel_sec": -100
+    },
+    "salience": {
+      "rel_sec": 2.0,
+      "prog_cons": 1.8,
+      "auth_ana": 1.4
+    }
+  },
+  {
+    "id": "nile_basin_farmers",
+    "weight": 0.05,
+    "variance": 32,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 85,
+      "nat_glob": -60,
+      "env_eco": 95,
+      "soc_cap": -30,
+      "pac_mil": 60,
+      "auth_ana": -10,
+      "rel_sec": -75
+    },
+    "salience": {
+      "env_eco": 2.0,
+      "nat_glob": 1.5,
+      "soc_cap": 1.1
+    }
+  }
+]
     },
     "SOUTH AFRICA": {
         "pop": 6041,
