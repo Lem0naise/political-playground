@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback, useState, useEffect } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot } from '@/types/game';
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues } from '@/types/game';
 import { 
   generateVotingData, 
   conductPoll, 
@@ -371,12 +371,236 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       });
       // --- END: Add news for all parties with polling surges/drops ---
 
+      // --- BEGIN: Random gaffe/positive events for non-player parties ---
+      const randomRivalEvents: string[] = [];
+      
+      const GAFFE_TEMPLATES = [
+        `{candidate_name} caught in embarrassing {social_media_platform} scandal`,
+        `{party} candidate arrested at {city} rally`,
+        `Leaked emails reveal {candidate_name}'s ties to {company}`,
+        `{leader_name} makes offensive comments about {religious_group}`,
+        `{party} campaign funds linked to shady {organisation}`,
+        `{candidate_name} caught lying about qualifications`,
+        `{party} leader booed off stage in {region}`,
+        `{leader_name}'s past statements resurface, spark outrage`,
+        `{candidate_name} accused of accepting bribes from {company}`,
+        `{party} suffers major defections in {city}`,
+        `{leader_name} makes bizarre claims about {industry}`,
+        `Shocking video of {candidate_name} goes viral on {social_media_platform}`,
+        `{party} campaign in chaos after major internal split`,
+        `{leader_name} embarrassed at debate with factual errors`,
+        `{candidate_name} faces backlash over {foreign_country} remarks`
+      ];
+
+      const POSITIVE_TEMPLATES = [
+        `{candidate_name} receives surprise endorsement from {organisation}`,
+        `{party} rallies thousands in {city}`,
+        `{leader_name} praised by {industry} leaders`,
+        `{candidate_name} unveils popular new {region} policy`,
+        `{party} campaign donations surge after {social_media_platform} viral moment`,
+        `{leader_name} wins over voters with emotional speech in {city}`,
+        `{candidate_name} receives standing ovation in {region}`,
+        `{party} praised by {organisation} for policy innovation`,
+        `{leader_name}'s {industry} background wins support`,
+        `{candidate_name} gains momentum with {religious_group} voters`,
+        `{party} secures key endorsement from {foreign_country} diplomat`,
+        `{leader_name}'s grassroots movement spreads across {region}`,
+        `{candidate_name} delivers knockout blow in debate`,
+        `{party} volunteer numbers double in {city}`,
+        `{leader_name} connects with working-class voters in {region}`
+      ];
+
+      // Filter for non-player parties
+      const nonPlayerCandidates = state.candidates.filter(c => !c.is_player);
+      
+      nonPlayerCandidates.forEach(candidate => {
+        // 10-15% chance per party per poll for a random event
+        if (Math.random() < 0.125) {
+          const isGaffe = Math.random() < 0.5;
+          const templates = isGaffe ? GAFFE_TEMPLATES : POSITIVE_TEMPLATES;
+          const template = templates[Math.floor(Math.random() * templates.length)];
+          
+          // Randomly choose between party name and leader name for variety
+          const useLeaderName = Math.random() < 0.5;
+          
+          const newsText = substituteNewsVariables(
+            template,
+            {
+              candidate_name: candidate.name,
+              party: candidate.party,
+              leader_name: useLeaderName ? candidate.name : candidate.party
+            },
+            state.eventVariables,
+            state.country
+          );
+          
+          randomRivalEvents.push(newsText);
+          
+          // Apply small popularity impacts
+          const targetCandidate = state.candidates.find(c => c.name === candidate.name);
+          if (targetCandidate) {
+            if (isGaffe) {
+              targetCandidate.party_pop = Math.max(0, targetCandidate.party_pop - (1 + Math.random() * 2));
+            } else {
+              targetCandidate.party_pop = Math.min(100, targetCandidate.party_pop + (1 + Math.random() * 1));
+            }
+          }
+        }
+      });
+      // --- END: Random gaffe/positive events for non-player parties ---
+
+      // --- BEGIN: Random position shifts for non-player parties ---
+      const positionShiftNews: string[] = [];
+      
+      const POSITION_SHIFT_TEMPLATES: Record<string, { positive: string[]; negative: string[] }> = {
+        prog_cons: {
+          positive: [
+            `{party} embraces progressive values on social issues`,
+            `{leader_name} shifts party platform to the left`,
+            `{party} adopts progressive stance on {social_media_platform} debate`,
+            `{candidate_name} announces progressive policy reforms`
+          ],
+          negative: [
+            `{party} pivots toward conservative values`,
+            `{leader_name} shifts party to the right on social issues`,
+            `{party} adopts traditional conservative platform`,
+            `{candidate_name} embraces conservative fiscal policy`
+          ]
+        },
+        nat_glob: {
+          positive: [
+            `{party} champions global cooperation with {foreign_country}`,
+            `{leader_name} embraces international trade agreements`,
+            `{party} shifts toward globalist economic policy`,
+            `{candidate_name} promotes international partnerships`
+          ],
+          negative: [
+            `{party} adopts nationalist "country first" platform`,
+            `{leader_name} shifts to protectionist trade policy`,
+            `{party} champions national sovereignty over global treaties`,
+            `{candidate_name} pivots to nationalist rhetoric`
+          ]
+        },
+        env_eco: {
+          positive: [
+            `{party} shifts focus to economic growth over environment`,
+            `{leader_name} prioritizes {industry} development`,
+            `{party} adopts pro-business economic platform`,
+            `{candidate_name} announces business-friendly policy shift`
+          ],
+          negative: [
+            `{party} unveils ambitious environmental protection plan`,
+            `{leader_name} shifts party toward green policies`,
+            `{party} prioritizes climate action over {industry} growth`,
+            `{candidate_name} embraces environmental activism`
+          ]
+        },
+        soc_cap: {
+          positive: [
+            `{party} shifts toward free-market capitalism`,
+            `{leader_name} embraces pro-business economic policy`,
+            `{party} adopts capitalist reforms for {industry}`,
+            `{candidate_name} champions private sector growth`
+          ],
+          negative: [
+            `{party} shifts left on economic redistribution`,
+            `{leader_name} embraces socialist policies`,
+            `{party} proposes wealth redistribution reforms`,
+            `{candidate_name} champions worker ownership in {industry}`
+          ]
+        },
+        pac_mil: {
+          positive: [
+            `{party} announces military spending increase`,
+            `{leader_name} takes hawkish stance on {foreign_country}`,
+            `{party} shifts toward aggressive defense policy`,
+            `{candidate_name} champions military modernization`
+          ],
+          negative: [
+            `{party} shifts toward pacifist foreign policy`,
+            `{leader_name} proposes military spending cuts`,
+            `{party} embraces diplomatic solutions over military action`,
+            `{candidate_name} champions peace negotiations with {foreign_country}`
+          ]
+        },
+        auth_ana: {
+          positive: [
+            `{party} shifts toward libertarian principles`,
+            `{leader_name} champions individual freedoms`,
+            `{party} proposes sweeping deregulation of {industry}`,
+            `{candidate_name} embraces anarchist decentralization`
+          ],
+          negative: [
+            `{party} shifts toward law and order platform`,
+            `{leader_name} champions strong centralized government`,
+            `{party} proposes authoritarian crime crackdown`,
+            `{candidate_name} embraces strict regulatory framework`
+          ]
+        },
+        rel_sec: {
+          positive: [
+            `{party} shifts toward secular governance`,
+            `{leader_name} champions separation of church and state`,
+            `{party} adopts secular approach to social policy`,
+            `{candidate_name} embraces secular humanist values`
+          ],
+          negative: [
+            `{party} embraces faith-based policy platform`,
+            `{leader_name} shifts toward religious values`,
+            `{party} champions {religious_group} interests`,
+            `{candidate_name} adopts religious conservative stance`
+          ]
+        }
+      };
+
+      nonPlayerCandidates.forEach(candidate => {
+        // 8-10% chance per party per poll for a position shift
+        if (Math.random() < 0.09) {
+          // Pick a random axis to shift
+          const axes: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
+          const axisToShift = axes[Math.floor(Math.random() * axes.length)];
+          
+          // Shift amount: 5-10 points (similar to player events)
+          const shiftAmount = (5 + Math.random() * 5) * (Math.random() < 0.5 ? 1 : -1);
+          
+          // Find the actual candidate object to modify
+          const targetCandidate = state.candidates.find(c => c.name === candidate.name);
+          if (targetCandidate) {
+            const axisIndex = axes.indexOf(axisToShift);
+            targetCandidate.vals[axisIndex] = Math.max(-100, Math.min(100, targetCandidate.vals[axisIndex] + shiftAmount));
+            
+            // Generate appropriate news
+            const isPositiveShift = shiftAmount > 0;
+            const templates = POSITION_SHIFT_TEMPLATES[axisToShift];
+            const templateArray = isPositiveShift ? templates.positive : templates.negative;
+            const template = templateArray[Math.floor(Math.random() * templateArray.length)];
+            
+            const useLeaderName = Math.random() < 0.5;
+            const newsText = substituteNewsVariables(
+              template,
+              {
+                candidate_name: candidate.name,
+                party: candidate.party,
+                leader_name: useLeaderName ? candidate.name : candidate.party
+              },
+              state.eventVariables,
+              state.country
+            );
+            
+            positionShiftNews.push(newsText);
+          }
+        }
+      });
+      // --- END: Random position shifts for non-player parties ---
+
       // Combine all news sources into a single array first
       const allNewsItems = [
         ...trendNews,
         ...state.playerEventNews, 
         ...newsEvents, 
-        ...partyPollingNews
+        ...partyPollingNews,
+        ...randomRivalEvents,
+        ...positionShiftNews
       ];
 
       // Sort the combined array by word count in ascending order.

@@ -36,8 +36,8 @@ export function createCandidate(
   };
 }
 
-const TREND_INTERVAL_MIN = 4;
-const TREND_INTERVAL_MAX = 6;
+const TREND_INTERVAL_MIN = 3;
+const TREND_INTERVAL_MAX = 5;
 const TREND_VOTER_NOISE = 0.35;
 
 const TREND_DEFINITIONS: TrendDefinition[] = [

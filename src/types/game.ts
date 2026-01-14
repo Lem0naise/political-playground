@@ -175,7 +175,7 @@ export const COALITION_FACTOR = 1.1;
 export const TOO_CLOSE_PARTY = 200;
 export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
-export const EVENT_EFFECT_MULTIPLIER = 0.5;
+export const EVENT_EFFECT_MULTIPLIER = 0.8;
 
 // Voting behaviour configuration
 // Enable probabilistic choice via softmax; when false, deterministic max-utility is used
