@@ -126,6 +126,9 @@ export interface GameState {
   blocStats?: BlocStatistics[];
   previousBlocStats?: BlocStatistics[];
   eventVariables?: any | null;
+  targetedBlocId?: string | null;
+  targetingStartWeek?: number | null;
+  targetingCooldownUntil?: number | null;
 }
 
 export interface CoalitionState {
@@ -175,7 +178,7 @@ export const COALITION_FACTOR = 1.1;
 export const TOO_CLOSE_PARTY = 200;
 export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
-export const EVENT_EFFECT_MULTIPLIER = 0.5;
+export const EVENT_EFFECT_MULTIPLIER = 0.8;
 
 // Voting behaviour configuration
 // Enable probabilistic choice via softmax; when false, deterministic max-utility is used
@@ -183,7 +186,7 @@ export const PROBABILISTIC_VOTING = true;
 // Softmax temperature (beta): higher => crisper choices, lower => smoother
 export const SOFTMAX_BETA = 0.0008;
 // Loyalty bonus added to utility when voter sticks with previous choice
-export const LOYALTY_UTILITY = 250;
+export const LOYALTY_UTILITY = 450;
 
 // Optional persistent electorate structure for generating once at game start
 export interface Electorate {

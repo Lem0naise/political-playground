@@ -2360,8 +2360,8 @@
         ]
     },
     {
-        "title": "{resource} Discovery in {region}",
-        "description": "A massive deposit of {resource} has been found in a protected nature reserve in {region}.",
+        "title": "Copper Discovery in {region}",
+        "description": "A massive deposit of copper has been found in a protected nature reserve in {region}.",
         "choices": [
             {"text": "Open the reserve to mining immediately.", "effect": {"env_eco": 20, "soc_cap": 10}, "boost": 25},
             {"text": "Keep the ban; nature is priceless.", "effect": {"env_eco": -20, "soc_cap": -5}, "boost": 22},
@@ -2371,10 +2371,10 @@
     },
     {
         "title": "Currency Crisis",
-        "description": "The value of the {currency} is dropping rapidly against foreign currencies.",
+        "description": "The value of the currency is dropping rapidly against foreign currencies.",
         "choices": [
             {"text": "Raise interest rates to stabilize the currency.", "effect": {"soc_cap": 5, "auth_ana": -5}, "boost": 20},
-            {"text": "Peg the {currency} to a stronger foreign currency.", "effect": {"nat_glob": 10, "auth_ana": -5}, "boost": 22},
+            {"text": "Peg the currency to a stronger foreign currency.", "effect": {"nat_glob": 10, "auth_ana": -5}, "boost": 22},
             {"text": "Print more money to pay debts (Inflation risk).", "effect": {"soc_cap": -10, "auth_ana": -5}, "boost": 24},
             {"text": "Implement capital controls to stop money leaving.", "effect": {"nat_glob": -10, "soc_cap": -10}, "boost": 18}
         ]
@@ -2631,7 +2631,7 @@
     },
     {
         "title": "Crypto-Currency Ban",
-        "description": "The central bank says {cryptocurrency} is being used for money laundering and terrorism.",
+        "description": "The central bank says Bitcoin is being used for money laundering and terrorism.",
         "choices": [
             {"text": "Ban all ownership and trading.", "effect": {"auth_ana": -15, "soc_cap": -5}, "boost": 24},
             {"text": "Create a state-backed digital currency instead.", "effect": {"auth_ana": -10, "soc_cap": -2}, "boost": 20},

@@ -1,5 +1,18 @@
 {
   "generic": {
+    "newspaper": [
+      "The National Chronicle",
+      "The Daily Mail",
+      "The Metropolitan Post",
+      "The Observer",
+      "The Evening Standard",
+      "The Morning Herald",
+      "The Citizens' Tribune",
+      "The Weekly Examiner",
+      "The Gazette",
+      "The Provincial Times",
+      "The Independent Press"
+    ],
     "foreign_country": [
       "a neighboring nation",
       "a major economic bloc",
@@ -172,6 +185,18 @@
   },
   "countrySpecific": {
     "UK": {
+      "newspaper": [
+        "The Times",
+        "The Guardian",
+        "The Telegraph",
+        "The Independent",
+        "Financial Times",
+        "The Daily Mail",
+        "The Observer",
+        "The Evening Standard",
+        "The Sun",
+        "Metro"
+      ],
       "company": [
         "British Petroleum",
         "Tesco",
@@ -225,6 +250,18 @@
       ]
     },
     "USA": {
+      "newspaper": [
+        "The New York Times",
+        "The Washington Post",
+        "USA Today",
+        "The Wall Street Journal",
+        "Los Angeles Times",
+        "Chicago Tribune",
+        "The Boston Globe",
+        "The Atlantic",
+        "Politico",
+        "The Hill"
+      ],
       "company": [
         "Amazon",
         "ExxonMobil",
@@ -278,6 +315,18 @@
       ]
     },
     "Germany": {
+      "newspaper": [
+        "Süddeutsche Zeitung",
+        "Frankfurter Allgemeine",
+        "Die Zeit",
+        "Der Spiegel",
+        "Die Welt",
+        "Bild",
+        "Handelsblatt",
+        "Tagesschau",
+        "Focus",
+        "Tagesspiegel"
+      ],
       "company": [
         "Volkswagen",
         "Siemens",
@@ -319,6 +368,18 @@
       ]
     },
     "France": {
+      "newspaper": [
+        "Le Monde",
+        "Le Figaro",
+        "Libération",
+        "Le Parisien",
+        "L'Équipe",
+        "Les Échos",
+        "L'Express",
+        "Paris Match",
+        "La Croix",
+        "Marianne"
+      ],
       "company": [
         "TotalEnergies",
         "LVMH",
@@ -360,6 +421,18 @@
       ]
     },
     "Canada": {
+      "newspaper": [
+        "The Globe and Mail",
+        "Toronto Star",
+        "National Post",
+        "La Presse",
+        "Montreal Gazette",
+        "Vancouver Sun",
+        "CBC News",
+        "Calgary Herald",
+        "Ottawa Citizen",
+        "Winnipeg Free Press"
+      ],
       "company": [
         "Royal Bank of Canada",
         "Suncor Energy",
@@ -401,6 +474,18 @@
       ]
     },
     "Australia": {
+      "newspaper": [
+        "The Sydney Morning Herald",
+        "The Age",
+        "The Australian",
+        "The Daily Telegraph",
+        "Herald Sun",
+        "The Courier-Mail",
+        "The West Australian",
+        "ABC News",
+        "The Advertiser",
+        "Brisbane Times"
+      ],
       "company": [
         "BHP",
         "Commonwealth Bank",

@@ -1330,79 +1330,135 @@
         }
     ],
     "BRAZIL": [
-        {
-            "id": 0,
-            "name": "Lula da Silva",
-            "party": "Workers' Party",
-            "party_pop": 9,
-            "prog_cons": -40,
-            "nat_glob": -20,
-            "env_eco": -60,
-            "soc_cap": -65,
-            "pac_mil": 30,
-            "auth_ana": -20,
-            "rel_sec": 30,
-            "colour": "red"
-        },
-        {
-            "id": 1,
-            "name": "Jair Bolsonaro",
-            "party": "Liberal Party",
-            "party_pop": 9,
-            "prog_cons": 90,
-            "nat_glob": -80,
-            "env_eco": 90,
-            "soc_cap": 70,
-            "pac_mil": 90,
-            "auth_ana": -70,
-            "rel_sec": -80,
-            "colour": "blue"
-        }
-    ],
+    {
+        "id": 0,
+        "name": "Luiz Inácio Lula da Silva",
+        "party": "Workers' Party (PT)",
+        "party_pop": 10,
+        "prog_cons": -60,
+        "nat_glob": 25,
+        "env_eco": -45,
+        "soc_cap": -80,
+        "pac_mil": -30,
+        "auth_ana": 35,
+        "rel_sec": 40,
+        "colour": "red"
+    },
+    {
+        "id": 1,
+        "name": "Flávio Bolsonaro",
+        "party": "Liberal Party (PL)",
+        "party_pop": 8,
+        "prog_cons": 95,
+        "nat_glob": -90,
+        "env_eco": 80,
+        "soc_cap": 25,
+        "pac_mil": 98,
+        "auth_ana": -95,
+        "rel_sec": -90,
+        "colour": "darkblue"
+    },
+    {
+        "id": 2,
+        "name": "Tarcísio de Freitas",
+        "party": "Republicanos",
+        "party_pop": 7,
+        "prog_cons": 30,
+        "nat_glob": 10,
+        "env_eco": 55,
+        "soc_cap": 75,
+        "pac_mil": 50,
+        "auth_ana": 20,
+        "rel_sec": -45,
+        "colour": "blue"
+    },
+    {
+        "id": 3,
+        "name": "Romeu Zema",
+        "party": "NOVO",
+        "party_pop": 4,
+        "prog_cons": 15,
+        "nat_glob": 70,
+        "env_eco": 40,
+        "soc_cap": 95,
+        "pac_mil": 20,
+        "auth_ana": 60,
+        "rel_sec": 10,
+        "colour": "orange"
+    }
+],
     "ITALY": [
-        {
-            "id": 0,
-            "name": "Giorgia Meloni",
-            "party": "Brothers of Italy",
-            "party_pop": 9,
-            "prog_cons": 80,
-            "nat_glob": -70,
-            "env_eco": 40,
-            "soc_cap": 20,
-            "pac_mil": 60,
-            "auth_ana": -50,
-            "rel_sec": -65,
-            "colour": "darkblue"
-        },
-        {
-            "id": 1,
-            "name": "Elly Schlein",
-            "party": "Democratic Party",
-            "party_pop": 6,
-            "prog_cons": -60,
-            "nat_glob": 65,
-            "env_eco": -50,
-            "soc_cap": -40,
-            "pac_mil": -30,
-            "auth_ana": 0,
-            "rel_sec": 50,
-            "colour": "red"
-        },
-        {
-            "id": 2,
-            "name": "Giuseppe Conte",
-            "party": "Five Star Movement",
-            "party_pop": 5,
-            "prog_cons": -20,
-            "nat_glob": -30,
-            "env_eco": -30,
-            "soc_cap": -35,
-            "pac_mil": 70,
-            "auth_ana": -10,
-            "rel_sec": 40,
-            "colour": "yellow"
-        }
-    ],
+    {
+        "id": 0,
+        "name": "Giorgia Meloni",
+        "party": "Brothers of Italy",
+        "party_pop": 10,
+        "prog_cons": 85,
+        "nat_glob": -70,
+        "env_eco": 65,
+        "soc_cap": 25,
+        "pac_mil": 50,
+        "auth_ana": -90,
+        "rel_sec": -70,
+        "colour": "blue"
+    },
+    {
+        "id": 1,
+        "name": "Elly Schlein",
+        "party": "Democratic Party",
+        "party_pop": 9,
+        "prog_cons": -75,
+        "nat_glob": 85,
+        "env_eco": -50,
+        "soc_cap": -60,
+        "pac_mil": -20,
+        "auth_ana": 80,
+        "rel_sec": 90,
+        "colour": "red"
+    },
+    {
+        "id": 2,
+        "name": "Giuseppe Conte",
+        "party": "Five Star Movement",
+        "party_pop": 6,
+        "prog_cons": -20,
+        "nat_glob": -30,
+        "env_eco": -30,
+        "soc_cap": -95,
+        "pac_mil": -70,
+        "auth_ana": 40,
+        "rel_sec": 40,
+        "colour": "yellow"
+    },
+    {
+        "id": 3,
+        "name": "Matteo Salvini",
+        "party": "League",
+        "party_pop": 5,
+        "prog_cons": 95,
+        "nat_glob": -95,
+        "env_eco": 70,
+        "soc_cap": 10,
+        "pac_mil": 60,
+        "auth_ana": -75,
+        "rel_sec": -40,
+        "colour": "navy"
+    },
+    {
+        "id": 4,
+        "name": "Antonio Tajani",
+        "party": "Strong Italy",
+        "party_pop": 5,
+        "prog_cons": 30,
+        "nat_glob": 55,
+        "env_eco": 45,
+        "soc_cap": 85,
+        "pac_mil": 20,
+        "auth_ana": -20,
+        "rel_sec": -45,
+        "colour": "lightblue"
+    }
+],
     "TURKEY": [
         {
             "id": 0,
@@ -2365,7 +2421,21 @@
             "auth_ana": 40,
             "rel_sec": 60,
             "colour": "green"
-        }
+        },
+        {
+        "id": 2,
+        "name": "Farid Zahran",
+        "party": "Egyptian Social Democratic Party",
+        "party_pop": 3,
+        "prog_cons": -40,
+        "nat_glob": 30,
+        "env_eco": -20,
+        "soc_cap": -70,
+        "pac_mil": -10,
+        "auth_ana": 50,
+        "rel_sec": 70,
+        "colour": "pink"
+    }
     ],
     "PHILIPPINES": [
         {
