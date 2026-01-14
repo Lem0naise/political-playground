@@ -141,25 +141,32 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             VOTER BLOC ANALYSIS
           </h3>
           <div className="space-y-2">
-            {state.blocStats
-              .sort((a, b) => (b.turnout*b.weight) - (a.turnout*a.weight)) // Sort by weight descending
-              .map((bloc) => {
-                const leadingCandidate = sortedResults.find(r => r.candidate.party === bloc.leadingParty);
-                const leadingColor = leadingCandidate?.candidate.colour || '#888';
-                const blocPopulation = Math.round(state.countryData.pop * bloc.weight);
-                
-                // Find previous bloc stats for this bloc
-                const previousBloc = state.previousBlocStats?.find(b => b.blocId === bloc.blocId);
-                
-                // Turnout percentage and styling
-                const turnoutPct = bloc.turnout * 100;
-                const previousTurnoutPct = previousBloc ? previousBloc.turnout * 100 : turnoutPct;
-                const turnoutChange = turnoutPct - previousTurnoutPct;
-                const hasTurnoutChange = Math.abs(turnoutChange) > 0.5;
-                const turnoutColor = turnoutPct >= 70 ? 'text-green-400' : 
-                                    turnoutPct >= 50 ? 'text-yellow-400' : 'text-red-400';
-                
-                return (
+            {(() => {
+              // Find the largest bloc weight to use as the scaling reference
+              const maxBlocWeight = Math.max(...state.blocStats.map(b => b.weight));
+              
+              return state.blocStats
+                .sort((a, b) => (b.turnout*b.weight) - (a.turnout*a.weight)) // Sort by weight descending
+                .map((bloc) => {
+                  const leadingCandidate = sortedResults.find(r => r.candidate.party === bloc.leadingParty);
+                  const leadingColor = leadingCandidate?.candidate.colour || '#888';
+                  const blocPopulation = Math.round(state.countryData.pop * bloc.weight);
+                  
+                  // Find previous bloc stats for this bloc
+                  const previousBloc = state.previousBlocStats?.find(b => b.blocId === bloc.blocId);
+                  
+                  // Turnout percentage and styling
+                  const turnoutPct = bloc.turnout * 100;
+                  const previousTurnoutPct = previousBloc ? previousBloc.turnout * 100 : turnoutPct;
+                  const turnoutChange = turnoutPct - previousTurnoutPct;
+                  const hasTurnoutChange = Math.abs(turnoutChange) > 0.5;
+                  const turnoutColor = turnoutPct >= 70 ? 'text-green-400' : 
+                                      turnoutPct >= 50 ? 'text-yellow-400' : 'text-red-400';
+                  
+                  // Calculate proportional width relative to the largest bloc
+                  const proportionalWidth = (bloc.weight / maxBlocWeight) * 100;
+                  
+                  return (
                   <div 
                     key={bloc.blocId}
                     className="bg-slate-800/50 border border-slate-600 rounded-lg p-2"
@@ -184,7 +191,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                       
                     </div>
                     
-                    {/* Mini bar chart showing top 3 parties in this bloc */}
+                    {/* Mini bar chart showing top parties, scaled by bloc size */}
                     <div className="space-y-0.5 mt-1.5">
                       {Object.entries(bloc.percentages)
                         .sort(([, a], [, b]) => b - a)
@@ -197,18 +204,29 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                           const change = pct - previousPct;
                           const hasChange = Math.abs(change) > 0.5;
                           
+                          // Calculate proportional width relative to the largest bloc
+                          const proportionalWidth = (bloc.weight / maxBlocWeight) * 100;
+                          
                           return (
                             <div key={party} className="flex items-center gap-1">
                               <div className="text-xs text-slate-400 w-16 truncate">{party}</div>
-                              <div className="flex-1 bg-slate-700 rounded-full h-1.5">
+                              
+                              {/* Container that represents the bloc's proportion of the whole electorate */}
+                              <div className="flex-1 flex items-center">
                                 <div 
-                                  className="h-1.5 rounded-full"
-                                  style={{ 
-                                    backgroundColor: candidate.candidate.colour,
-                                    width: `${Math.max(2, pct)}%`
-                                  }}
-                                ></div>
+                                  className="bg-slate-700 rounded-full h-1.5 relative"
+                                  style={{ width: `${proportionalWidth}%` }}
+                                >
+                                  <div 
+                                    className="h-1.5 rounded-full absolute"
+                                    style={{ 
+                                      backgroundColor: candidate.candidate.colour,
+                                      width: `${Math.max(2, pct)}%`
+                                    }}
+                                  ></div>
+                                </div>
                               </div>
+                              
                               <div className="text-xs text-slate-300 w-10 text-right font-mono">
                                 {pct.toFixed(1)}%
                               </div>
@@ -224,7 +242,8 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                     </div>
                   </div>
                 );
-              })}
+              });
+            })()}
           </div>
         </div>
       )}
