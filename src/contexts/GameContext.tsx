@@ -11,7 +11,7 @@ import {
   scheduleNextTrendPoll
 } from '@/lib/gameEngine';
 import { calculatePartyCompatibility } from '@/lib/coalitionEngine';
-import { loadEventVariables, EventVariables } from '@/lib/eventTemplates';
+import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 
 interface GameContextType {
   state: GameState;
@@ -59,35 +59,41 @@ function substituteNewsVariables(
   eventVars: EventVariables | null,
   country: string
 ): string {
-  return template.replace(/\{(\w+)\}/g, (match, key) => {
-    // First check if it's in the provided vars (like {newsTitle})
-    if (vars[key]) return vars[key];
-    
-    // Special case: {country} should use the actual country name
-    if (key === 'country') return country;
-    
-    // Otherwise try to resolve from event variables
-    if (eventVars) {
-      const countryVars = eventVars.countrySpecific[country];
-      const hasCountrySpecific = countryVars?.[key]?.length > 0;
-      const hasGeneric = eventVars.generic[key]?.length > 0;
-      
-      // 60% chance for country-specific
-      if (hasCountrySpecific && Math.random() < 0.6) {
-        return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
-      }
-      
-      if (hasCountrySpecific && !hasGeneric) {
-        return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
-      }
-      
-      if (hasGeneric) {
-        return eventVars.generic[key][Math.floor(Math.random() * eventVars.generic[key].length)];
-      }
-    }
-    
-    return match; // Return placeholder if not found
+  // Apply explicit vars first (they have priority)
+  let text = template;
+  Object.keys(vars).forEach(k => {
+    if (!vars[k]) return;
+    const re = new RegExp(`\\{${k}\\}`, 'g');
+    text = text.replace(re, vars[k]);
   });
+
+  // Replace {country}
+  if (text.includes('{country}')) {
+    text = text.replace(/\{country\}/g, country);
+  }
+
+  // If we have event variables, use the same instantiation logic as events
+  if (eventVars) {
+    try {
+      const placeholderEvent = { title: text, description: '', choices: [] } as unknown as Event;
+      const instantiated = instantiateEvent(placeholderEvent, eventVars, country);
+      return instantiated.title;
+    } catch (e) {
+      // Last-resort fallback: attempt generic/country picks as before
+      return text.replace(/\{(\w+)\}/g, (m, key) => {
+        const countryVars = eventVars.countrySpecific?.[country];
+        const hasCountry = countryVars && countryVars[key] && countryVars[key].length > 0;
+        const hasGeneric = eventVars.generic[key] && eventVars.generic[key].length > 0;
+        if (hasCountry && Math.random() < 0.6) return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
+        if (hasCountry && !hasGeneric) return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
+        if (hasGeneric) return eventVars.generic[key][Math.floor(Math.random() * eventVars.generic[key].length)];
+        return m;
+      });
+    }
+  }
+
+  // No event variables available — return text with explicit vars applied
+  return text;
 }
 
 const initialState: GameState = {
@@ -512,7 +518,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         `{party} candidate arrested at {city} rally`,
         `Leaked emails reveal {candidate_name}'s ties to {company}`,
         `{leader_name} makes offensive comments about {religious_group}`,
-        `{party} campaign funds linked to shady {organisation}`,
+        `{party} campaign funds linked to {organisation}`,
         `{candidate_name} caught lying about qualifications`,
         `{party} leader booed off stage in {region}`,
         `{leader_name}'s past statements resurface, spark outrage`,
