@@ -13,6 +13,21 @@ export default function CampaignView() {
   const [eventVariables, setEventVariables] = useState<EventVariables | null>(null);
   const [lastEventPoll, setLastEventPoll] = useState(0);
   const [showPollingGraph, setShowPollingGraph] = useState(false);
+  const [newsSource, setNewsSource] = useState<string>('');
+
+  // Function to get random newspaper name
+  const getRandomNewspaper = () => {
+    if (!eventVariables) return 'The Daily News';
+    
+    const countryNewspapers = eventVariables.countrySpecific?.[state.country]?.newspaper;
+    const genericNewspapers = eventVariables.generic?.newspaper;
+    
+    const newspapers = countryNewspapers && countryNewspapers.length > 0 
+      ? countryNewspapers 
+      : genericNewspapers || ['The Daily News'];
+    
+    return newspapers[Math.floor(Math.random() * newspapers.length)];
+  };
 
   useEffect(() => {
     fetch('/data/events.json')
@@ -37,6 +52,9 @@ export default function CampaignView() {
         
         // Instantiate the event with variable substitution
         const instantiatedEvent = instantiateEvent(randomEvent, eventVariables, state.country);
+        
+        // Set a random newspaper source for this event
+        setNewsSource(getRandomNewspaper());
         
         setCurrentEvent(instantiatedEvent);
         setLastEventPoll(state.currentPoll);
@@ -130,58 +148,63 @@ export default function CampaignView() {
             {state.politicalNews.length > 0 && (
               <div className="uppercase bg-stone-50 vintage-border p-3 sm:p-4 relative newspaper-section" style={{ background: 'var(--newspaper-bg)' }}>
                 <div className="absolute top-0 left-0 bg-red-700 text-white px-2 py-0.5 text-xs font-bold tracking-widest shadow">
-                  BREAKING NEWS HEADLINES
+                  BREAKING NEWS
                 </div>
                
                 {state.activeTrend && (
-                  <div className="mt-3 border border-red-600 bg-white/90 rounded p-3 mb-3 shadow-sm">
+                  <div className="mt-3 border-2 border-red-600 bg-gradient-to-r from-red-50 to-orange-50 rounded p-2 sm:p-3 mb-3 shadow-md">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <div>
-                        <p className="text-xs font-mono uppercase tracking-wider text-red-700">NATIONAL TREND</p>
-                        <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug font-serif uppercase">
+                        <p className="text-xs font-mono uppercase tracking-wider text-red-700 font-bold">NATIONAL TREND</p>
+                        <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight font-serif uppercase mt-1">
                           {state.activeTrend.title}
                         </h3>
-                        <p className="text-sm text-slate-700 font-serif">
+                        <p className="text-xs sm:text-sm text-slate-700 font-serif mt-0.5">
                           {state.activeTrend.description}
                         </p>
                       </div>
-                      {/* {(<div className="bg-red-100 border border-red-400 rounded-lg px-3 py-2 text-sm text-red-800 font-semibold text-center">
-                        Direction: {state.activeTrend.direction > 0 ? 'Positive' : 'Negative'} {state.activeTrend.axisLabel} shift
-                        <br />
-                        Remaining Weeks: {state.activeTrend.remainingWeeks}
-                      </div>)} */}
                     </div>
                   </div>
                 )}
-                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-  {/* 2. Map over the ENTIRE politicalNews array (up to 7 items) */}
-  {state.politicalNews.slice(0, 7).map((news, idx) => {
-    
-    {/* 3. Check if it's the first item (index === 0) to render the main headline */}
-    if (idx === 0) {
-      return (
-        <div key={idx} className="sm:col-span-2 lg:col-span-2 border-l-4 border-red-700 pl-3 py-2 bg-white/80 rounded shadow">
-          {/* Main headline content */}
-          <h3 className={`${news.split(' ').length > 10 ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-3xl'} font-extrabold text-slate-900 leading-tight mb-1 font-serif uppercase`}>
-            {news}
-          </h3>
-          <div className="text-xs text-slate-500 font-mono uppercase tracking-wide">
-            breaking news • Week {state.currentPoll}
-          </div>
-        </div>
-      );
-    }
-    
-    {/* 4. For all other items, render the smaller sub-story article */}
-    return (
-      <article key={idx} className="border-l-2 border-slate-400 pl-2 py-1 bg-white/60 rounded">
-        <h4 className="text-base sm:text-lg font-bold text-slate-800 mb-0.5 font-serif">
-          {news}
-        </h4>
-      </article>
-    );
-  })}
-</div>
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {state.politicalNews.slice(0, 7).map((news, idx) => {
+                    const newspaper = getRandomNewspaper();
+                    
+                    if (idx === 0) {
+                      return (
+                        <div key={idx} className="sm:col-span-2 lg:col-span-2 border-l-4 border-red-700 bg-white rounded shadow-sm overflow-hidden">
+                          <div className="p-2 sm:p-3">
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="bg-red-700 text-white px-1.5 py-0.5 text-xs font-bold tracking-wide">
+                                HEADLINE
+                              </div>
+                              <span className="text-xs text-slate-600 font-mono italic">{newspaper}</span>
+                            </div>
+                            <h3 className={`${news.split(' ').length > 10 ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'} font-extrabold text-slate-900 leading-tight font-serif uppercase`}>
+                              {news}
+                            </h3>
+                            <div className="text-xs text-slate-500 font-mono uppercase tracking-wide mt-1">
+                              Week {state.currentPoll}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                    
+                    return (
+                      <div key={idx} className="border-l-2 border-slate-400 bg-white/80 rounded shadow-sm overflow-hidden">
+                        <div className="p-1.5 sm:p-2">
+                          <div className="flex items-center gap-1 mb-0.5">
+                            <span className="text-xs text-slate-500 font-mono italic">{newspaper}</span>
+                          </div>
+                          <h4 className="text-sm sm:text-base font-bold text-slate-800 font-serif leading-tight">
+                            {news}
+                          </h4>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
 
@@ -192,6 +215,7 @@ export default function CampaignView() {
                 event={currentEvent}
                 onChoice={(choice) => handleEventChoice(currentEvent, choice)}
                 onClose={() => setCurrentEvent(null)}
+                newsSource={newsSource}
               />
             )}
           </div>

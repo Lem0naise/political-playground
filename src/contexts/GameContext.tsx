@@ -318,20 +318,42 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           if (Math.abs(result.change) > 2.5) {
               if (result.change > 0) {
                 const surgeMessages = [
-                  `${newsTitle} surges in polls`,
-                  `${newsTitle} enjoys new wave of support`,
-                  `Polls show sharp rise for ${newsTitle}`,
-                  `Momentum shifts to ${newsTitle}`,
-                  `${newsTitle} gaining ground`,
-                  `Is ${newsTitle} the new people's party?`,
-                  `Voters flock to ${newsTitle} after stunning debate performance`,
-                  `{social_media_platform} buzz: ${newsTitle} trending nationwide`,
-                  `Analysts stunned by ${newsTitle}'s meteoric rise`,
-                  `Rival parties scramble as ${newsTitle} dominates headlines`,
-                  `${newsTitle} fever sweeps the nation!`,
-                  `Is this the start of a new era for ${newsTitle}?`
+  `${newsTitle} surges in polls`,
+  `${newsTitle} enjoys new wave of support`,
+  `Polls show sharp rise for ${newsTitle}`,
+  `Momentum shifts to ${newsTitle}`,
+  `${newsTitle} gaining ground`,
+  `Is ${newsTitle} the new people's party?`,
+  `Voters flock to ${newsTitle} after stunning debate performance`,
+  `{social_media_platform} buzz: ${newsTitle} trending nationwide`,
+  `Analysts stunned by ${newsTitle}'s meteoric rise`,
+  `Rival parties scramble as ${newsTitle} dominates headlines`,
+  `${newsTitle} fever sweeps the nation!`,
+  `Is this the start of a new era for ${newsTitle}?`,
 
-                ];
+  // NEW ONES BELOW
+  `${newsTitle} shatters expectations with record poll numbers`,
+  `Historic surge propels ${newsTitle} to front-runner status`,
+  `Wave of enthusiasm lifts ${newsTitle} across {region}`,
+  `Crowds pack rallies as excitement grows around ${newsTitle}`,
+  `Polling landslide puts ${newsTitle} far ahead of rivals`,
+  `${newsTitle} dominates {city} in unprecedented show of support`,
+  `Analysts: ${newsTitle} unstoppable after breakthrough week`,
+  `National mood swings decisively toward ${newsTitle}`,
+  `Voters rally behind ${newsTitle} in dramatic surge`,
+  `${newsTitle} sets new popularity records in {foreign_country}`,
+  `Grassroots explosion fuels rapid rise of ${newsTitle}`,
+  `${newsTitle} campaign electrifies young voters nationwide`,
+  `Momentum skyrockets following major speech by ${newsTitle}`,
+  `Rival leaders concede ground as ${newsTitle} widens lead`,
+  `Polling shock: ${newsTitle} takes commanding advantage`,
+  `Surge in donations underscores public enthusiasm for ${newsTitle}`,
+  `${newsTitle} hailed as transformative force by supporters`,
+  `Experts predict landslide potential for ${newsTitle}`,
+  `Nationwide rallies signal seismic shift toward ${newsTitle}`,
+  `All eyes on ${newsTitle} after stunning surge to the top`
+];
+
                 const template = surgeMessages[Math.floor(Math.random() * surgeMessages.length)];
                 partyPollingNews.push(substituteNewsVariables(
                   template,
@@ -341,17 +363,40 @@ function gameReducer(state: GameState, action: GameAction): GameState {
                 ));
               } else {
                 const loseMessages = [
-                  `${newsTitle} loses ground following controversy`,
-                  `Support for ${newsTitle} drops sharply`,
-                  `Polls decline for ${newsTitle} amid public backlash`,
-                  `${newsTitle} faces harsh criticism`,
-                  `Polls plummet for ${newsTitle}`,
-                  `Scandal rocks ${newsTitle} campaign—voters flee`,
-                  `${newsTitle} in meltdown after disastrous interview`,
-                  `Analysts: ${newsTitle} struggles to recover from backlash`,
-                  `Rival parties surge as ${newsTitle} stumbles`,
-                  `Is this the end of the road for ${newsTitle}?`
-                ];
+  `${newsTitle} loses ground following controversy`,
+  `Support for ${newsTitle} drops sharply`,
+  `Polls decline for ${newsTitle} amid public backlash`,
+  `${newsTitle} faces harsh criticism`,
+  `Polls plummet for ${newsTitle}`,
+  `Scandal rocks ${newsTitle} campaign—voters flee`,
+  `${newsTitle} in meltdown after disastrous interview`,
+  `Analysts: ${newsTitle} struggles to recover from backlash`,
+  `Rival parties surge as ${newsTitle} stumbles`,
+  `Is this the end of the road for ${newsTitle}?`,
+
+  // NEW ONES BELOW
+  `${newsTitle} collapses in key polls across {region}`,
+  `Confidence in ${newsTitle} evaporates after new revelations`,
+  `Major defections leave ${newsTitle} reeling`,
+  `${newsTitle} loses control of narrative amid scandal`,
+  `Voters abandon ${newsTitle} in droves after policy fiasco`,
+  `${newsTitle} suffers worst polling numbers in years`,
+  `Internal divisions deepen crisis for ${newsTitle}`,
+  `${newsTitle} hammered by losses in {city}`,
+  `Backlash intensifies against ${newsTitle} across {foreign_country}`,
+  `Analysts warn of freefall for ${newsTitle} support`,
+  `${newsTitle} leadership questioned as ratings crash`,
+  `Public trust in ${newsTitle} hits new low`,
+  `Disastrous results leave ${newsTitle} scrambling for answers`,
+  `${newsTitle} blamed for economic missteps—polling nosedives`,
+  `Crisis talks held as ${newsTitle} hemorrhages support`,
+  `Voters turn away from ${newsTitle} after bruising week`,
+  `Opinion polls paint bleak picture for ${newsTitle}`,
+  `Party insiders fear irreversible decline of ${newsTitle}`,
+  `${newsTitle} routed in {region} after public backlash`,
+  `Experts: recovery path for ${newsTitle} looks increasingly unlikely`
+];
+
                 const template = loseMessages[Math.floor(Math.random() * loseMessages.length)];
                 partyPollingNews.push(substituteNewsVariables(
                   template,
@@ -363,17 +408,40 @@ function gameReducer(state: GameState, action: GameAction): GameState {
             } else if (Math.abs(result.change) > 1) {
               if (result.change > 0) {
                 const steadyMessages = [
-                  `${newsTitle} climbing as unemployment rises`,
-                  `${newsTitle} wins local elections in {region}`,
-                  `Popular policy platform of ${newsTitle} released`,
-                  `${newsTitle} clear winner in debate`,
-                  `${newsTitle} sees steady rise in {region}`,
-                  `{organisation} endorses ${newsTitle}'s policy platform`,
-                  `${newsTitle} quietly gaining momentum`,
-                  `Analysts note consistent growth for ${newsTitle}`,
-                  `Grassroots movement in {city} boosts ${newsTitle}`,
-                  `Voters warming to ${newsTitle}'s message`
-                ];
+  `${newsTitle} climbing as unemployment rises`,
+  `${newsTitle} wins local elections in {region}`,
+  `Popular policy platform of ${newsTitle} released`,
+  `${newsTitle} clear winner in debate`,
+  `${newsTitle} sees steady rise in {region}`,
+  `{organisation} endorses ${newsTitle}'s policy platform`,
+  `${newsTitle} quietly gaining momentum`,
+  `Analysts note consistent growth for ${newsTitle}`,
+  `Grassroots movement in {city} boosts ${newsTitle}`,
+  `Voters warming to ${newsTitle}'s message`,
+
+  // NEW ONES BELOW
+  `${newsTitle} posts modest gains in latest polling`,
+  `Support for ${newsTitle} edges upward across key regions`,
+  `Analysts see positive trajectory forming for ${newsTitle}`,
+  `${newsTitle} benefits from improving public sentiment`,
+  `Steady approval uptick gives ${newsTitle} fresh confidence`,
+  `Polling suggests gradual rise in backing for ${newsTitle}`,
+  `${newsTitle} credited with pragmatic, stable leadership`,
+  `Cautious optimism surrounds ${newsTitle}'s performance`,
+  `New volunteers flock to ${newsTitle} campaign efforts`,
+  `Regional rallies signal renewed energy for ${newsTitle}`,
+  `Voters cite competence and stability in support of ${newsTitle}`,
+  `${newsTitle} strengthens position among undecided voters`,
+  `Early results indicate favorable trend for ${newsTitle}`,
+  `Media coverage highlights quiet successes of ${newsTitle}`,
+  `Slow but sure progress reported for ${newsTitle}`,
+  `Survey in {region} shows incremental approval gains for ${newsTitle}`,
+  `${newsTitle} gains credibility after policy rollout`,
+  `{foreign_country} boosts public image of ${newsTitle}`,
+  `Momentum gradually building behind ${newsTitle}`,
+  `${newsTitle} performance exceeds expectations in new poll`
+];
+
                 const template = steadyMessages[Math.floor(Math.random() * steadyMessages.length)];
                 partyPollingNews.push(substituteNewsVariables(
                   template,
@@ -383,17 +451,40 @@ function gameReducer(state: GameState, action: GameAction): GameState {
                 ));
               } else {
                 const mixedMessages = [
-                  `Mixed pundit reaction to ${newsTitle}`,
-                  `Support slipping for ${newsTitle}`,
-                  `Public opinion divided over ${newsTitle}`,
-                  `Voters express uncertainty about ${newsTitle}'s direction`,
-                  `{organisation} slams ${newsTitle}'s new proposal`,
-                `${newsTitle} struggles to find momentum`,
-                  `Analysts: ${newsTitle} can't shake off negative headlines`,
-                  `Voters lukewarm on ${newsTitle} as rivals gain ground`,
-                  `${newsTitle} faces uphill battle to win back trust`,
-                  `Polls show ${newsTitle} losing steam week after week`
-                ];
+  `Mixed pundit reaction to ${newsTitle}`,
+  `Support slipping for ${newsTitle}`,
+  `Public opinion divided over ${newsTitle}`,
+  `Voters express uncertainty about ${newsTitle}'s direction`,
+  `{organisation} slams ${newsTitle}'s new proposal`,
+  `${newsTitle} struggles to find momentum`,
+  `Analysts: ${newsTitle} can't shake off negative headlines`,
+  `Voters lukewarm on ${newsTitle} as rivals gain ground`,
+  `${newsTitle} faces uphill battle to win back trust`,
+  `Polls show ${newsTitle} losing steam week after week`,
+
+  // NEW ONES BELOW
+  `${newsTitle} rattled by declining approval ratings`,
+  `Internal doubts grow as ${newsTitle} stumbles in polls`,
+  `Key supporters in {city} drift away from ${newsTitle}`,
+  `Survey suggests confidence waning in ${newsTitle}`,
+  `${newsTitle} leadership under pressure amid poll slide`,
+  `Grassroots enthusiasm fades for ${newsTitle}`,
+  `Critics say ${newsTitle} has lost touch with voters`,
+  `Momentum shifts against ${newsTitle} after recent setbacks`,
+  `Warning signs emerge for ${newsTitle} in new polling`,
+  `Voter fatigue threatens ${newsTitle}'s campaign`,
+  `Rivals capitalise as backing erodes for ${newsTitle}`,
+  `${newsTitle} grapples with shrinking base of support`,
+  `Disappointing turnout signals trouble for ${newsTitle}`,
+  `Confidence crisis looms for ${newsTitle}`,
+  `${newsTitle} hit by wave of negative public sentiment`,
+  `Analysts warn of downward trend for ${newsTitle}`,
+  `Polling experts: support for ${newsTitle} softening`,
+  `Donors uneasy as support for ${newsTitle} dips`,
+  `Public trust in ${newsTitle} shows signs of erosion`,
+  `${newsTitle} struggles to control narrative amid losses`
+];
+
                 const template = mixedMessages[Math.floor(Math.random() * mixedMessages.length)];
                 newsEvents.push(substituteNewsVariables(
                   template,
