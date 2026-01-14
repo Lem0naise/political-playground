@@ -183,7 +183,7 @@ export const PROBABILISTIC_VOTING = true;
 // Softmax temperature (beta): higher => crisper choices, lower => smoother
 export const SOFTMAX_BETA = 0.0008;
 // Loyalty bonus added to utility when voter sticks with previous choice
-export const LOYALTY_UTILITY = 250;
+export const LOYALTY_UTILITY = 450;
 
 // Optional persistent electorate structure for generating once at game start
 export interface Electorate {
