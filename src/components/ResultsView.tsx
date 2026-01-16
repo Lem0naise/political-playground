@@ -360,6 +360,282 @@ export default function ResultsView() {
           </div>
         </div>
 
+        {/* Post-Election Statistics */}
+        {state.postElectionStats && (
+          <div className="mt-6 sm:mt-8 space-y-4 sm:space-y-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white text-center newspaper-header">
+              CAMPAIGN ANALYSIS
+            </h2>
+
+            {/* Biggest Winners and Losers */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Biggest Winners */}
+              <div className="bg-[var(--paper-cream)] rounded-lg p-4 sm:p-6 vintage-border shadow-lg">
+                <h3 className="text-lg sm:text-xl font-bold text-green-700 mb-4 newspaper-header">
+                  BIGGEST WINNERS
+                </h3>
+                <div className="space-y-2">
+                  {state.postElectionStats.partySwings
+                    .filter(swing => swing.swing > 0)
+                    .sort((a, b) => b.swing - a.swing)
+                    .map((swing, idx) => {
+                      const candidate = state.candidates.find(c => c.party === swing.party);
+                      return (
+                        <div 
+                          key={swing.party}
+                          className="flex items-center justify-between p-2 sm:p-3 bg-white rounded border border-slate-300"
+                        >
+                          <div className="flex items-center space-x-2 sm:space-x-3">
+                            <span className="text-lg sm:text-xl font-bold text-slate-600">#{idx + 1}</span>
+                            <div 
+                              className="w-4 h-4 rounded-full border border-[var(--ink-black)]"
+                              style={{ backgroundColor: candidate?.colour || '#888' }}
+                            ></div>
+                            <span className="font-bold text-sm sm:text-base text-[var(--ink-black)]">
+                              {swing.party}
+                            </span>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-base sm:text-lg font-bold text-green-600">
+                              +{swing.swing.toFixed(1)}%
+                            </div>
+                            <div className="text-xs text-slate-500">
+                              {swing.initialPercentage.toFixed(1)}% → {swing.finalPercentage.toFixed(1)}%
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  {state.postElectionStats.partySwings.filter(s => s.swing > 0).length === 0 && (
+                    <p className="text-slate-500 text-sm italic">No parties gained support</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Biggest Losers */}
+              <div className="bg-[var(--paper-cream)] rounded-lg p-4 sm:p-6 vintage-border shadow-lg">
+                <h3 className="text-lg sm:text-xl font-bold text-red-700 mb-4 newspaper-header">
+                  BIGGEST LOSERS
+                </h3>
+                <div className="space-y-2">
+                  {state.postElectionStats.partySwings
+                    .filter(swing => swing.swing < 0)
+                    .sort((a, b) => a.swing - b.swing)
+                    .map((swing, idx) => {
+                      const candidate = state.candidates.find(c => c.party === swing.party);
+                      return (
+                        <div 
+                          key={swing.party}
+                          className="flex items-center justify-between p-2 sm:p-3 bg-white rounded border border-slate-300"
+                        >
+                          <div className="flex items-center space-x-2 sm:space-x-3">
+                            <span className="text-lg sm:text-xl font-bold text-slate-600">#{idx + 1}</span>
+                            <div 
+                              className="w-4 h-4 rounded-full border border-[var(--ink-black)]"
+                              style={{ backgroundColor: candidate?.colour || '#888' }}
+                            ></div>
+                            <span className="font-bold text-sm sm:text-base text-[var(--ink-black)]">
+                              {swing.party}
+                            </span>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-base sm:text-lg font-bold text-red-600">
+                              {swing.swing.toFixed(1)}%
+                            </div>
+                            <div className="text-xs text-slate-500">
+                              {swing.initialPercentage.toFixed(1)}% → {swing.finalPercentage.toFixed(1)}%
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  {state.postElectionStats.partySwings.filter(s => s.swing < 0).length === 0 && (
+                    <p className="text-slate-500 text-sm italic">No parties lost support</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Bloc Swings */}
+            {state.postElectionStats.blocSwings.length > 0 && (
+              <div className="bg-[var(--paper-cream)] rounded-lg p-4 sm:p-6 vintage-border shadow-lg">
+                <h3 className="text-lg sm:text-xl font-bold text-[var(--ink-black)] mb-4 newspaper-header">
+                  BIGGEST VOTER BLOC SHIFTS
+                </h3>
+                <div className="space-y-2">
+                  {state.postElectionStats.blocSwings.slice(0, 5).map((swing, idx) => {
+                    const candidate = state.candidates.find(c => c.party === swing.party);
+                    return (
+                      <div 
+                        key={`${swing.blocId}-${swing.party}`}
+                        className="p-2 sm:p-3 bg-white rounded border border-slate-300"
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-lg sm:text-xl font-bold text-slate-600">#{idx + 1}</span>
+                            <span className="font-bold text-sm sm:text-base text-blue-700">
+                              {swing.blocName}
+                            </span>
+                          </div>
+                          <div className={`text-base sm:text-lg font-bold ${
+                            swing.swing > 0 ? 'text-green-600' : 'text-red-600'
+                          }`}>
+                            {swing.swing > 0 ? '+' : ''}{swing.swing.toFixed(1)}%
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between text-xs sm:text-sm">
+                          <div className="flex items-center space-x-2">
+                            <div 
+                              className="w-3 h-3 rounded-full border border-[var(--ink-black)]"
+                              style={{ backgroundColor: candidate?.colour || '#888' }}
+                            ></div>
+                            <span className="text-slate-700">{swing.party}</span>
+                          </div>
+                          <span className="text-slate-500">
+                            {swing.initialPercentage.toFixed(1)}% → {swing.finalPercentage.toFixed(1)}%
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Party Bloc Support - Detailed View */}
+            {state.postElectionStats.partyBlocSupport.length > 0 && state.blocStats && (
+              <div className="bg-[var(--paper-cream)] rounded-lg p-4 sm:p-6 vintage-border shadow-lg">
+                <h3 className="text-lg sm:text-xl font-bold text-[var(--ink-black)] mb-4 newspaper-header">
+                  PARTY PERFORMANCE BY VOTER BLOC
+                </h3>
+                <div className="space-y-4">
+                  {sortedResults.map((result) => {
+                    const candidate = result.candidate;
+                    const support = state.postElectionStats?.partyBlocSupport.find(s => s.party === candidate.party);
+                    
+                    // Skip if strongest and weakest are the same
+                    if (!support || support.strongestBloc === support.weakestBloc) return null;
+                    
+                    return (
+                      <div 
+                        key={candidate.party}
+                        className="bg-white rounded-lg border border-slate-300 p-3 sm:p-4"
+                      >
+                        <div className="flex items-center space-x-2 mb-3 pb-2 border-b border-slate-200">
+                          <div 
+                            className="w-5 h-5 rounded-full border-2 border-[var(--ink-black)]"
+                            style={{ backgroundColor: candidate.colour }}
+                          ></div>
+                          <span className="font-bold text-base sm:text-lg text-[var(--ink-black)]">
+                            {candidate.party}
+                          </span>
+                          <span className="text-sm text-slate-500">
+                            ({result.percentage.toFixed(1)}% overall)
+                          </span>
+                        </div>
+                        
+                        {/* Bloc performance bars */}
+                        <div className="space-y-1.5">
+                          {state.blocStats
+                            ?.sort((a, b) => {
+                              const aPercentage = a.percentages[candidate.party] || 0;
+                              const bPercentage = b.percentages[candidate.party] || 0;
+                              return bPercentage - aPercentage;
+                            })
+                            .map((bloc) => {
+                              const percentage = bloc.percentages[candidate.party] || 0;
+                              if (percentage < 0.5) return null;
+                              
+                              const isStrongest = bloc.blocId === support.strongestBloc;
+                              const isWeakest = bloc.blocId === support.weakestBloc;
+                              
+                              return (
+                                <div key={bloc.blocId} className="flex items-center gap-2">
+                                  <div className="text-xs text-slate-600 w-24 sm:w-32 truncate">
+                                    {bloc.blocName}
+                                  </div>
+                                  
+                                  <div className="flex-1 bg-slate-200 rounded-full h-5 relative">
+                                    <div 
+                                      className="h-5 rounded-full transition-all duration-500"
+                                      style={{ 
+                                        backgroundColor: candidate.colour,
+                                        width: `${Math.max(2, percentage)}%`
+                                      }}
+                                    ></div>
+                                  </div>
+                                  
+                                  <div className={`text-sm w-12 text-right font-bold ${
+                                    isStrongest ? 'text-green-600' : isWeakest ? 'text-red-600' : 'text-slate-700'
+                                  }`}>
+                                    {percentage.toFixed(1)}%
+                                  </div>
+                                  
+                                  {isStrongest && (
+                                    <span className="text-xs text-green-600 font-bold w-16">BEST</span>
+                                  )}
+                                  {isWeakest && (
+                                    <span className="text-xs text-red-600 font-bold w-16">WORST</span>
+                                  )}
+                                  {!isStrongest && !isWeakest && (
+                                    <span className="w-16"></span>
+                                  )}
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Turnout Changes */}
+            {(state.postElectionStats.biggestTurnoutIncrease || state.postElectionStats.biggestTurnoutDecrease) && (
+              <div className="bg-[var(--paper-cream)] rounded-lg p-4 sm:p-6 vintage-border shadow-lg">
+                <h3 className="text-lg sm:text-xl font-bold text-[var(--ink-black)] mb-4 newspaper-header">
+                  TURNOUT CHANGES
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {state.postElectionStats.biggestTurnoutIncrease && (
+                    <div className="bg-green-50 p-3 sm:p-4 rounded border border-green-200">
+                      <div className="font-bold text-green-700 mb-2 text-sm sm:text-base">
+                        Biggest Increase
+                      </div>
+                      <div className="text-slate-700 font-bold mb-1">
+                        {state.postElectionStats.biggestTurnoutIncrease.blocName}
+                      </div>
+                      <div className="text-xs sm:text-sm text-slate-600">
+                        {(state.postElectionStats.biggestTurnoutIncrease.initialTurnout * 100).toFixed(1)}% → {(state.postElectionStats.biggestTurnoutIncrease.finalTurnout * 100).toFixed(1)}%
+                      </div>
+                      <div className="text-green-600 font-bold text-base sm:text-lg">
+                        +{(state.postElectionStats.biggestTurnoutIncrease.increase * 100).toFixed(1)}%
+                      </div>
+                    </div>
+                  )}
+                  {state.postElectionStats.biggestTurnoutDecrease && (
+                    <div className="bg-red-50 p-3 sm:p-4 rounded border border-red-200">
+                      <div className="font-bold text-red-700 mb-2 text-sm sm:text-base">
+                        Biggest Decrease
+                      </div>
+                      <div className="text-slate-700 font-bold mb-1">
+                        {state.postElectionStats.biggestTurnoutDecrease.blocName}
+                      </div>
+                      <div className="text-xs sm:text-sm text-slate-600">
+                        {(state.postElectionStats.biggestTurnoutDecrease.initialTurnout * 100).toFixed(1)}% → {(state.postElectionStats.biggestTurnoutDecrease.finalTurnout * 100).toFixed(1)}%
+                      </div>
+                      <div className="text-red-600 font-bold text-base sm:text-lg">
+                        -{(state.postElectionStats.biggestTurnoutDecrease.decrease * 100).toFixed(1)}%
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Action Buttons */}
         <div className="text-center mt-6 sm:mt-8 space-y-4">
           {(needsCoalition && !coalitionComplete) && (

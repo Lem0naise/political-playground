@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback, useState, useEffect } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues, TARGET_SHIFT } from '@/types/game';
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues, TARGET_SHIFT, BlocStatistics, PostElectionStats, BlocSwingData, PartyBlocSupport } from '@/types/game';
 import { 
   generateVotingData, 
   conductPoll, 
@@ -96,6 +96,152 @@ function substituteNewsVariables(
   return text;
 }
 
+// Calculate post-election statistics
+function calculatePostElectionStats(
+  finalResults: PollResult[],
+  initialPollResults: Record<string, number>,
+  initialBlocStats: BlocStatistics[] | undefined,
+  finalBlocStats: BlocStatistics[] | undefined,
+  blocStatsHistory: BlocStatistics[][] | undefined
+): PostElectionStats {
+  // Calculate party swings
+  const partySwings = finalResults.map(result => ({
+    party: result.candidate.party,
+    initialPercentage: initialPollResults[result.candidate.party] || 0,
+    finalPercentage: result.percentage,
+    swing: result.percentage - (initialPollResults[result.candidate.party] || 0)
+  })).sort((a, b) => Math.abs(b.swing) - Math.abs(a.swing));
+
+  // Calculate bloc swings (biggest swing for each bloc across all parties)
+  const blocSwings: BlocSwingData[] = [];
+  if (initialBlocStats && finalBlocStats) {
+    finalBlocStats.forEach(finalBloc => {
+      const initialBloc = initialBlocStats.find(b => b.blocId === finalBloc.blocId);
+      if (!initialBloc) return;
+
+      // Find the party with the biggest swing in this bloc
+      let biggestSwing = 0;
+      let biggestSwingParty = '';
+      let initialPct = 0;
+      let finalPct = 0;
+
+      Object.keys(finalBloc.percentages).forEach(party => {
+        const final = finalBloc.percentages[party] || 0;
+        const initial = initialBloc.percentages[party] || 0;
+        const swing = final - initial;
+
+        if (Math.abs(swing) > Math.abs(biggestSwing)) {
+          biggestSwing = swing;
+          biggestSwingParty = party;
+          initialPct = initial;
+          finalPct = final;
+        }
+      });
+
+      if (biggestSwingParty) {
+        blocSwings.push({
+          blocId: finalBloc.blocId,
+          blocName: finalBloc.blocName,
+          party: biggestSwingParty,
+          initialPercentage: initialPct,
+          finalPercentage: finalPct,
+          swing: biggestSwing
+        });
+      }
+    });
+  }
+
+  // Sort bloc swings by absolute swing magnitude
+  blocSwings.sort((a, b) => Math.abs(b.swing) - Math.abs(a.swing));
+
+  // Calculate party bloc support (strongest and weakest blocs for each party)
+  const partyBlocSupport: PartyBlocSupport[] = [];
+  if (finalBlocStats) {
+    const parties = new Set(finalResults.map(r => r.candidate.party));
+    
+    parties.forEach(party => {
+      let strongestBloc = '';
+      let strongestBlocName = '';
+      let strongestPct = -1;
+      let weakestBloc = '';
+      let weakestBlocName = '';
+      let weakestPct = 101;
+
+      finalBlocStats.forEach(bloc => {
+        const pct = bloc.percentages[party] || 0;
+        if (pct > strongestPct) {
+          strongestPct = pct;
+          strongestBloc = bloc.blocId;
+          strongestBlocName = bloc.blocName;
+        }
+        if (pct < weakestPct && pct > 0) {
+          weakestPct = pct;
+          weakestBloc = bloc.blocId;
+          weakestBlocName = bloc.blocName;
+        }
+      });
+
+      if (strongestBloc && weakestBloc) {
+        partyBlocSupport.push({
+          party,
+          strongestBloc,
+          strongestBlocName,
+          strongestBlocPercentage: strongestPct,
+          weakestBloc,
+          weakestBlocName,
+          weakestBlocPercentage: weakestPct
+        });
+      }
+    });
+  }
+
+  // Calculate turnout changes
+  let biggestTurnoutIncrease: PostElectionStats['biggestTurnoutIncrease'];
+  let biggestTurnoutDecrease: PostElectionStats['biggestTurnoutDecrease'];
+
+  if (initialBlocStats && finalBlocStats) {
+    let maxIncrease = 0;
+    let maxDecrease = 0;
+
+    finalBlocStats.forEach(finalBloc => {
+      const initialBloc = initialBlocStats.find(b => b.blocId === finalBloc.blocId);
+      if (!initialBloc) return;
+
+      const change = finalBloc.turnout - initialBloc.turnout;
+
+      if (change > maxIncrease) {
+        maxIncrease = change;
+        biggestTurnoutIncrease = {
+          blocId: finalBloc.blocId,
+          blocName: finalBloc.blocName,
+          initialTurnout: initialBloc.turnout,
+          finalTurnout: finalBloc.turnout,
+          increase: change
+        };
+      }
+
+      if (change < maxDecrease) {
+        maxDecrease = change;
+        biggestTurnoutDecrease = {
+          blocId: finalBloc.blocId,
+          blocName: finalBloc.blocName,
+          initialTurnout: initialBloc.turnout,
+          finalTurnout: finalBloc.turnout,
+          decrease: Math.abs(change)
+        };
+      }
+    });
+  }
+
+  return {
+    partySwings,
+    blocSwings,
+    partyBlocSupport,
+    biggestTurnoutIncrease,
+    biggestTurnoutDecrease
+  };
+}
+
 const initialState: GameState = {
   country: '',
   countryData: { pop: 0, vals: { prog_cons: 0, nat_glob: 0, env_eco: 0, soc_cap: 0, pac_mil: 0, auth_ana: 0, rel_sec: 0 }, scale: 1, hos: '' },
@@ -120,7 +266,10 @@ const initialState: GameState = {
   eventVariables: null,
   targetedBlocId: null,
   targetingStartWeek: null,
-  targetingCooldownUntil: null
+  targetingCooldownUntil: null,
+  initialBlocStats: undefined,
+  blocStatsHistory: [],
+  postElectionStats: undefined
 };
 
 function gameReducer(state: GameState, action: GameAction): GameState {
@@ -206,7 +355,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         trendHistory: [],
         nextTrendPoll: scheduleNextTrendPoll(1),
         blocStats,
-        previousBlocStats: blocStats
+        previousBlocStats: blocStats,
+        initialBlocStats: blocStats,
+        blocStatsHistory: blocStats ? [blocStats] : []
       };
       
     case 'NEXT_POLL':
@@ -751,6 +902,24 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
       });
 
+      // Calculate post-election stats if this is the final poll
+      let postElectionStats: PostElectionStats | undefined = undefined;
+      if (nextPollNum >= state.totalPolls) {
+        postElectionStats = calculatePostElectionStats(
+          resultsWithChange,
+          state.initialPollResults,
+          state.initialBlocStats,
+          newBlocStats,
+          state.blocStatsHistory
+        );
+      }
+
+      // Add current bloc stats to history
+      const updatedBlocStatsHistory = [...(state.blocStatsHistory || [])];
+      if (newBlocStats) {
+        updatedBlocStatsHistory.push(newBlocStats);
+      }
+
       return {
         ...state,
         currentPoll: nextPollNum,
@@ -764,6 +933,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         nextTrendPoll,
         blocStats: newBlocStats,
         previousBlocStats: state.blocStats,
+        blocStatsHistory: updatedBlocStatsHistory,
+        postElectionStats,
         targetedBlocId: updatedTargetedBlocId,
         targetingStartWeek: updatedTargetingStartWeek,
         targetingCooldownUntil: updatedTargetingCooldownUntil,

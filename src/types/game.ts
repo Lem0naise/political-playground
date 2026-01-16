@@ -102,6 +102,50 @@ export interface BlocStatistics {
   actualVoters: number; // actual voters who participated
 }
 
+export interface BlocSwingData {
+  blocId: string;
+  blocName: string;
+  party: string;
+  initialPercentage: number;
+  finalPercentage: number;
+  swing: number;
+}
+
+export interface PartyBlocSupport {
+  party: string;
+  strongestBloc: string;
+  strongestBlocName: string;
+  strongestBlocPercentage: number;
+  weakestBloc: string;
+  weakestBlocName: string;
+  weakestBlocPercentage: number;
+}
+
+export interface PostElectionStats {
+  partySwings: Array<{
+    party: string;
+    initialPercentage: number;
+    finalPercentage: number;
+    swing: number;
+  }>;
+  blocSwings: BlocSwingData[];
+  partyBlocSupport: PartyBlocSupport[];
+  biggestTurnoutIncrease?: {
+    blocId: string;
+    blocName: string;
+    initialTurnout: number;
+    finalTurnout: number;
+    increase: number;
+  };
+  biggestTurnoutDecrease?: {
+    blocId: string;
+    blocName: string;
+    initialTurnout: number;
+    finalTurnout: number;
+    decrease: number;
+  };
+}
+
 export interface GameState {
   country: string;
   countryData: Country;
@@ -125,6 +169,9 @@ export interface GameState {
   nextTrendPoll: number | null;
   blocStats?: BlocStatistics[];
   previousBlocStats?: BlocStatistics[];
+  initialBlocStats?: BlocStatistics[];
+  blocStatsHistory?: BlocStatistics[][];
+  postElectionStats?: PostElectionStats;
   eventVariables?: any | null;
   targetedBlocId?: string | null;
   targetingStartWeek?: number | null;
