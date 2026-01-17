@@ -220,31 +220,31 @@ export default function ResultsView() {
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-green-400 w-6">#{index + 1}</span>
+                      <span className="text-xs font-bold text-green-400 w-2">{index + 1}</span>
                       <div 
                         className="w-4 h-4 rounded-full border border-white flex-shrink-0"
                         style={{ backgroundColor: result.candidate.colour }}
                       ></div>
                       <div className="min-w-0 flex-1">
-                        <div className={`text-sm font-bold truncate ${
+                        <div className={`text-sm font-bold ${
                           result.candidate.is_player ? 'text-yellow-400' : 'text-white'
                         }`}>
                           {result.candidate.party}
                           {result.candidate.is_player && ' ◄'}
                         </div>
-                        <div className="text-xs text-slate-400 truncate">{result.candidate.name}</div>
+                        
                       </div>
-                      <div className="text-right w-16">
+                      <div className="text-right ">
                         <div className="text-sm font-bold text-green-400">
                           {result.percentage.toFixed(1)}%
                         </div>
                       </div>
-                      <div className="text-right w-20 sm:w-24">
+                      <div className="text-left w-16 sm:w-16">
                         <div className="text-xs text-slate-300">
                           {formatVotes(result.votes, state.countryData.scale)}
                         </div>
                       </div>
-                      <div className="text-right w-14">
+                      <div className="text-right ">
                         {Math.abs(change) > 0.1 ? (
                           <div className={`text-xs font-bold ${change > 0 ? 'text-green-400' : 'text-red-400'}`}>
                             {change > 0 ? '+' : ''}{change.toFixed(1)}%
