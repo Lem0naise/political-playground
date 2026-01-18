@@ -82,30 +82,30 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
     const currentQuestion = policyQuestions[currentQuestionIndex];
     
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
             Policy Discussion with {partnerParty.party}
           </h3>
           <div className="mb-6">
-            <h4 className="text-lg font-semibold text-slate-800 mb-2">{currentQuestion.topic}</h4>
-            <p className="text-slate-700 mb-4">"{currentQuestion.question}"</p>
-            <div className="space-y-3">
+            <h4 className="text-base font-semibold text-blue-400 mb-2">{currentQuestion.topic}</h4>
+            <p className="text-slate-300 mb-4">"{currentQuestion.question}"</p>
+            <div className="space-y-2">
               {currentQuestion.options.map((option, index) => (
                 <button
                   key={index}
                   onClick={() => handlePolicyResponse(option.appeal)}
-                  className="w-full p-4 text-left border-2 border-slate-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all"
+                  className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded transition-colors"
                 >
-                  <div className="font-medium text-slate-900">{option.text}</div>
-                  <div className="text-sm text-slate-600 mt-1">
+                  <div className="font-semibold text-white text-sm">{option.text}</div>
+                  <div className="text-xs text-slate-400 mt-1">
                     Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
                   </div>
                 </button>
               ))}
             </div>
           </div>
-          <div className="text-sm text-slate-600">
+          <div className="text-sm text-slate-400">
             Question {currentQuestionIndex + 1} of {policyQuestions.length}
           </div>
         </div>
@@ -115,21 +115,21 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
 
   if (currentStep === 'cabinet') {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
             Cabinet Position Offers for {partnerParty.party}
           </h3>
           
-          <div className="mb-6">
-            <h4 className="text-base font-normal text-slate-800 mb-3">
-              {partnerParty.party}: {Math.round(partnerPercentage*100)/100}%
+          <div className="mb-4">
+            <h4 className="text-sm text-slate-300 mb-2">
+              {partnerParty.party}: <span className="text-white font-bold">{Math.round(partnerPercentage*100)/100}%</span>
             </h4>
           </div>
 
           <div className="mb-6">
-            <h4 className="text-lg font-semibold text-slate-800 mb-3">Available Positions with Priorities Highlighted:</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <h4 className="text-base font-semibold text-blue-400 mb-3">Available Positions:</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {availablePositions.map(position => (
                 <div
                   key={position.name}
@@ -140,17 +140,17 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
                       setOfferedPositions([...offeredPositions, position.name]);
                     }
                   }}
-                  className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                  className={`p-2 border rounded cursor-pointer transition-colors ${
                     offeredPositions.includes(position.name)
-                      ? 'border-green-500 bg-green-50'
+                      ? 'border-green-500 bg-green-900/30'
                       : priorityPositions.includes(position.name) ? 
-                      'border-blue-500 bg-blue-50'
-                      : 'border-slate-300 hover:border-slate-400'
+                      'border-blue-500 bg-blue-900/30'
+                      : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
                   }
                   `}
                 >
-                  <div className="font-medium text-slate-900">{position.name}</div>
-                  <div className="text-sm text-slate-600">Importance: {position.importance}</div>
+                  <div className="font-semibold text-white text-sm">{position.name}</div>
+                  <div className="text-xs text-slate-400">Importance: {position.importance}</div>
                   <div className="text-xs text-slate-500">{position.description}</div>
                 </div>
               ))}
@@ -163,13 +163,13 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
                 setOfferedPositions([]);
                 handleCabinetOffer();
               }}
-              className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-lg"
+              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded transition-colors"
             >
               Offer No Positions
             </button>
             <button
               onClick={handleCabinetOffer}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 border border-blue-500 text-white font-bold rounded transition-colors"
             >
               Make Offer ({offeredPositions.length} positions)
             </button>
@@ -181,28 +181,28 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
 
   if (currentStep === 'result' && negotiationResult) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-6 max-w-lg w-full">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">Negotiation Result</h3>
-          <div className={`p-4 rounded-lg mb-6 ${
-            negotiationResult.success ? 'bg-green-100 border border-green-300' : 'bg-red-100 border border-red-300'
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-lg w-full">
+          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">Negotiation Result</h3>
+          <div className={`p-4 rounded border mb-6 ${
+            negotiationResult.success ? 'bg-green-900/30 border-green-600' : 'bg-red-900/30 border-red-600'
           }`}>
-            <p className={`font-semibold ${
-              negotiationResult.success ? 'text-green-800' : 'text-red-800'
+            <p className={`font-semibold text-base ${
+              negotiationResult.success ? 'text-green-400' : 'text-red-400'
             }`}>
               {negotiationResult.message}
             </p>
-            <p className="text-sm text-slate-600 mt-2">
+            <p className="text-sm text-slate-300 mt-2">
               Final Appeal: {negotiationResult.finalAppeal.toFixed(0)}%
             </p>
           </div>
           
           {negotiationResult.success && offeredPositions.length > 0 && (
             <div className="mb-6">
-              <h4 className="font-semibold text-slate-800 mb-2">Positions Agreed:</h4>
-              <ul className="list-disc list-inside text-slate-700">
+              <h4 className="text-sm font-semibold text-blue-400 mb-2">Positions Agreed:</h4>
+              <ul className="space-y-1 text-slate-300">
                 {offeredPositions.map(pos => (
-                  <li key={pos}>{pos}</li>
+                  <li key={pos} className="text-sm pl-4">• {pos}</li>
                 ))}
               </ul>
             </div>
@@ -211,7 +211,7 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
           <div className="flex justify-center">
             <button
               onClick={() => onComplete(negotiationResult.success, offeredPositions)}
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 border border-blue-500 text-white font-bold rounded transition-colors"
             >
               Continue
             </button>
@@ -224,17 +224,17 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
   // Skip policy questions if none available
   if (policyQuestions.length === 0 && currentStep === 'policy') {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-6 max-w-lg w-full">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-lg w-full">
+          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
             Direct Negotiation with {partnerParty.party}
           </h3>
-          <p className="text-slate-700 mb-6">
+          <p className="text-slate-300 mb-6">
             Your parties have similar enough policies. Moving directly to cabinet negotiations.
           </p>
           <button
             onClick={() => setCurrentStep('cabinet')}
-            className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
+            className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 border border-blue-500 text-white font-bold rounded transition-colors"
           >
             Discuss Cabinet Positions
           </button>
@@ -293,33 +293,33 @@ function PlayerApproachModal({
 
   if (currentStep === 'offer') {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-2xl w-full">
+          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
             Coalition Invitation from {leadParty.party}
           </h3>
           <div className="mb-6">
-            <p className="text-slate-700 mb-4">{offer.message}</p>
+            <p className="text-slate-300 mb-4">{offer.message}</p>
             
             {offer.offeredPositions.length > 0 && (
               <div className="mb-4">
-                <h4 className="font-semibold text-slate-800 mb-2">Offered Cabinet Positions:</h4>
-                <ul className="list-disc list-inside text-slate-700 space-y-1">
+                <h4 className="font-semibold text-blue-400 mb-2 text-sm">Offered Cabinet Positions:</h4>
+                <ul className="space-y-1 text-slate-300">
                   {offer.offeredPositions.map((pos: string) => (
-                    <li key={pos}>{pos}</li>
+                    <li key={pos} className="text-sm pl-4">• {pos}</li>
                   ))}
                 </ul>
               </div>
             )}
             
-            <div className="flex items-center space-x-3 p-3 bg-slate-100 rounded-lg">
+            <div className="flex items-center space-x-3 p-3 bg-slate-700/50 border border-slate-600 rounded">
               <div 
-                className="w-8 h-8 rounded-full border-2 border-slate-600"
+                className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-slate-500"
                 style={{ backgroundColor: leadParty.colour }}
               ></div>
               <div>
-                <div className="font-bold text-slate-900">{leadParty.party}</div>
-                <div className="text-sm text-slate-600">{leadParty.name} - {leadPercentage.toFixed(1)}% support</div>
+                <div className="font-bold text-white text-sm sm:text-base">{leadParty.party}</div>
+                <div className="text-xs text-slate-400">{leadParty.name} - {leadPercentage.toFixed(1)}% support</div>
               </div>
             </div>
           </div>
@@ -327,13 +327,13 @@ function PlayerApproachModal({
           <div className="flex justify-between">
             <button
               onClick={onReject}
-              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg"
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 border border-red-500 text-white font-bold rounded transition-colors"
             >
               Decline Invitation
             </button>
             <button
               onClick={handleAcceptOffer}
-              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg"
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 border border-green-500 text-white font-bold rounded transition-colors"
             >
               Consider Offer
             </button>
@@ -347,30 +347,30 @@ function PlayerApproachModal({
     const currentQuestion = offer.questions[currentQuestionIndex];
     
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-2xl w-full">
+          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
             Policy Discussion with {leadParty.party}
           </h3>
           <div className="mb-6">
-            <h4 className="text-lg font-semibold text-slate-800 mb-2">{currentQuestion.topic}</h4>
-            <p className="text-slate-700 mb-4">"{currentQuestion.question}"</p>
-            <div className="space-y-3">
+            <h4 className="text-base font-semibold text-blue-400 mb-2">{currentQuestion.topic}</h4>
+            <p className="text-slate-300 mb-4">"{currentQuestion.question}"</p>
+            <div className="space-y-2">
               {currentQuestion.options.map((option: any, index: number) => (
                 <button
                   key={index}
                   onClick={() => handlePolicyResponse(option.appeal)}
-                  className="w-full p-4 text-left border-2 border-slate-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all"
+                  className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded transition-colors"
                 >
-                  <div className="font-medium text-slate-900">{option.text}</div>
-                  <div className="text-sm text-slate-600 mt-1">
+                  <div className="font-semibold text-white text-sm">{option.text}</div>
+                  <div className="text-xs text-slate-400 mt-1">
                     Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
                   </div>
                 </button>
               ))}
             </div>
           </div>
-          <div className="text-sm text-slate-600">
+          <div className="text-sm text-slate-400">
             Question {currentQuestionIndex + 1} of {offer.questions.length}
           </div>
         </div>
@@ -380,14 +380,14 @@ function PlayerApproachModal({
 
   if (currentStep === 'cabinet') {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-2xl w-full">
+          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
             Cabinet Position Negotiation
           </h3>
           
           <div className="mb-6">
-            <h4 className="text-lg font-semibold text-slate-800 mb-3">
+            <h4 className="text-base font-semibold text-blue-400 mb-3">
               {leadParty.party} offers these positions:
             </h4>
             <div className="space-y-2">
@@ -401,14 +401,14 @@ function PlayerApproachModal({
                       setAcceptedPositions([...acceptedPositions, position]);
                     }
                   }}
-                  className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                  className={`p-2 border rounded cursor-pointer transition-colors ${
                     acceptedPositions.includes(position)
-                      ? 'border-green-500 bg-green-50'
-                      : 'border-slate-300 hover:border-slate-400'
+                      ? 'border-green-500 bg-green-900/30'
+                      : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
                   }`}
                 >
-                  <div className="font-medium text-slate-900">{position}</div>
-                  <div className="text-sm text-slate-600">
+                  <div className="font-semibold text-white text-sm">{position}</div>
+                  <div className="text-xs text-slate-400">
                     {acceptedPositions.includes(position) ? 'Accepted' : 'Click to accept'}
                   </div>
                 </div>
@@ -419,13 +419,13 @@ function PlayerApproachModal({
           <div className="flex justify-between">
             <button
               onClick={onReject}
-              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg"
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 border border-red-500 text-white font-bold rounded transition-colors"
             >
               Reject Offer
             </button>
             <button
               onClick={handleCabinetResponse}
-              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg"
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 border border-green-500 text-white font-bold rounded transition-colors"
             >
               Accept ({acceptedPositions.length} positions)
             </button>
@@ -612,35 +612,35 @@ export default function CoalitionFormation() {
 
   if (coalitionState.negotiationPhase === 'complete') {
     return (
-      <div className="min-h-screen p-6" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
+      <div className="min-h-screen p-4 sm:p-6" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="newspaper-header text-4xl font-black text-white mb-4">
+            <h1 className="campaign-status text-2xl sm:text-4xl font-black text-white mb-4">
               COALITION GOVERNMENT FORMED
             </h1>
             <div className="border-t-2 border-b-2 border-green-500 py-3 my-4">
-              <p className="campaign-status text-lg text-green-200">
+              <p className="text-sm sm:text-lg text-green-400 font-bold">
                 STABLE MAJORITY ACHIEVED • {coalitionState.currentCoalitionPercentage.toFixed(1)}% SUPPORT
               </p>
             </div>
           </div>
 
           {/* Coalition Partners */}
-          <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Coalition Partners</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-slate-800 border border-slate-700 rounded p-4 sm:p-6 mb-8">
+            <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-4">Coalition Partners</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {coalitionState.coalitionPartners.map((partner, index) => {
                 const result = sortedResults.find(r => r.candidate.id === partner.id);
                 return (
-                  <div key={partner.id} className="flex items-center space-x-3 p-3 bg-slate-100 border border-slate-300 rounded-lg">
+                  <div key={partner.id} className="flex items-center space-x-3 p-3 bg-slate-700/50 border border-slate-600 rounded">
                     <div 
-                      className="w-8 h-8 rounded-full border-2 border-slate-600"
+                      className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-slate-500"
                       style={{ backgroundColor: partner.colour }}
                     ></div>
                     <div className="flex-1">
-                      <div className="font-bold text-slate-900">{partner.party}</div>
-                      <div className="text-sm text-slate-700">{partner.name}</div>
-                      <div className="text-xs text-slate-600">
+                      <div className="font-bold text-white text-sm sm:text-base">{partner.party}</div>
+                      <div className="text-xs sm:text-sm text-slate-300">{partner.name}</div>
+                      <div className="text-xs text-slate-400">
                         {result?.percentage.toFixed(1)}% of vote
                         {index === 0 && ' (Lead Party)'}
                         {partner.is_player && ' (You)'}
@@ -655,12 +655,12 @@ export default function CoalitionFormation() {
           <div className="text-center">
             <button
               onClick={() => actions.setGamePhase('results')}
-              className="px-12 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105"
+              className="px-8 sm:px-12 py-3 sm:py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 border border-green-500 text-white font-bold rounded transition-all duration-200 transform hover:scale-105"
             >
               🏛️ VIEW FINAL RESULTS
             </button>
-            <p className="text-slate-300 text-xs mt-4">
-              Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200 underline transition-colors">Indigo Nolan</a>
+            <p className="text-slate-400 text-xs mt-4">
+              Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">Indigo Nolan</a>
             </p>
           </div>
         </div>
@@ -670,14 +670,14 @@ export default function CoalitionFormation() {
 
   if (coalitionState.negotiationPhase === 'partner-selection') {
     return (
-      <div className="min-h-screen p-6" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
+      <div className="min-h-screen p-4 sm:p-6" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="newspaper-header text-4xl font-black text-white mb-4">
+            <h1 className="campaign-status text-2xl sm:text-4xl font-black text-white mb-4">
               COALITION FORMATION
             </h1>
             <div className="border-t-2 border-b-2 border-yellow-500 py-3 my-4">
-              <p className="campaign-status text-lg text-yellow-200">
+              <p className="text-xs sm:text-lg text-yellow-400 font-bold">
                 {coalitionState.isPlayerLead ? 'BUILD YOUR COALITION' : 
                  coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 ? 
                  `${winningParty.party} FORMING MINORITY GOVERNMENT` : 
@@ -692,11 +692,11 @@ export default function CoalitionFormation() {
 
           {/* AI Negotiation Log */}
           {!coalitionState.isPlayerLead && aiNegotiationLog.length > 0 && (
-            <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Coalition Negotiations</h2>
+            <div className="bg-slate-800 border border-slate-700 rounded p-4 sm:p-6 mb-8">
+              <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-4">Coalition Negotiations</h2>
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {aiNegotiationLog.map((log, index) => (
-                  <div key={index} className="text-base font-mono text-slate-700 p-2 bg-slate-100 rounded">
+                  <div key={index} className="text-xs sm:text-sm font-mono text-slate-300 p-2 bg-slate-700/50 rounded">
                     {log}
                   </div>
                 ))}
@@ -705,33 +705,33 @@ export default function CoalitionFormation() {
           )}
 
           {/* Current Coalition */}
-          <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+          <div className="bg-slate-800 border border-slate-700 rounded p-4 sm:p-6 mb-8">
+            <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-4">
               Current Coalition
               {coalitionState.currentCoalitionPercentage >= 50 && (
-                <span className="ml-3 px-3 py-1 bg-green-500 text-white text-sm rounded-full">
+                <span className="ml-3 px-3 py-1 bg-green-600 border border-green-500 text-white text-xs sm:text-sm rounded-full">
                   MAJORITY ACHIEVED!
                 </span>
               )}
               {coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 && !coalitionState.isPlayerLead && (
-                <span className="ml-3 px-3 py-1 bg-orange-500 text-white text-sm rounded-full">
+                <span className="ml-3 px-3 py-1 bg-orange-600 border border-orange-500 text-white text-xs sm:text-sm rounded-full">
                   FORMING MINORITY GOVERNMENT
                 </span>
               )}
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {coalitionState.coalitionPartners.map((partner, index) => {
                 const result = sortedResults.find(r => r.candidate.id === partner.id);
                 return (
-                  <div key={partner.id} className="flex items-center space-x-3 p-3 bg-slate-100 border border-slate-300 rounded-lg">
+                  <div key={partner.id} className="flex items-center space-x-3 p-2 sm:p-3 bg-slate-700/50 border border-slate-600 rounded">
                     <div 
-                      className="w-6 h-6 rounded-full border-2 border-slate-600"
+                      className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-500"
                       style={{ backgroundColor: partner.colour }}
                     ></div>
                     <div className="flex-1">
-                      <div className="font-bold text-slate-900 font-mono">{partner.party}</div>
-                      <div className="text-sm text-slate-700">{partner.name}</div>
-                      <div className="text-xs text-slate-600">
+                      <div className="font-bold text-white text-sm sm:text-base">{partner.party}</div>
+                      <div className="text-xs sm:text-sm text-slate-300">{partner.name}</div>
+                      <div className="text-xs text-slate-400">
                         {result?.percentage.toFixed(1)}% of vote
                         {index === 0 && ' (Lead Party)'}
                         {partner.is_player && ' (You)'}
@@ -743,16 +743,16 @@ export default function CoalitionFormation() {
             </div>
             
             {coalitionState.currentCoalitionPercentage >= 50 && (
-              <div className="mt-4 p-3 bg-green-100 border border-green-300 rounded-lg">
-                <p className="text-green-800 font-semibold">
+              <div className="mt-4 p-3 bg-green-900/30 border border-green-600 rounded">
+                <p className="text-green-400 font-semibold text-sm">
                   🎉 Coalition has achieved a stable majority! Finalizing government formation...
                 </p>
               </div>
             )}
             
             {coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 && !coalitionState.isPlayerLead && (
-              <div className="mt-4 p-3 bg-orange-100 border border-orange-300 rounded-lg">
-                <p className="text-orange-800 font-semibold">
+              <div className="mt-4 p-3 bg-orange-900/30 border border-orange-600 rounded">
+                <p className="text-orange-400 font-semibold text-sm">
                   No more viable coalition partners available. {winningParty.party} will form a minority government with {coalitionState.currentCoalitionPercentage.toFixed(1)}% support.
                 </p>
               </div>
@@ -760,11 +760,11 @@ export default function CoalitionFormation() {
           </div>
 
           {/* Available Partners */}
-          <div className="vintage-border p-6 mb-8" style={{ background: 'var(--newspaper-bg)' }}>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+          <div className="bg-slate-800 border border-slate-700 rounded p-4 sm:p-6 mb-8">
+            <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-4">
               {coalitionState.isPlayerLead ? 'Choose Your Coalition Partners' : 'Potential Other Partners'}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               {coalitionState.availablePartners.map((partner) => {
                 const result = sortedResults.find(r => r.candidate.id === partner.id);
                 const compatibility = calculatePartyCompatibility(winningParty, partner);
@@ -773,10 +773,10 @@ export default function CoalitionFormation() {
                 return (
                   <div
                     key={partner.id}
-                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                    className={`p-3 sm:p-4 border rounded transition-all ${
                       coalitionState.isPlayerLead 
-                        ? 'hover:border-blue-500 hover:bg-blue-50' 
-                        : 'border-slate-300'
+                        ? 'hover:border-blue-500 bg-slate-700 border-slate-600 cursor-pointer' 
+                        : 'border-slate-600 bg-slate-700/50'
                     }`}
                     onClick={() => {
                       if (coalitionState.isPlayerLead)  setSelectedPartner(partner);
@@ -785,20 +785,20 @@ export default function CoalitionFormation() {
                   >
                     <div className="flex items-center space-x-3 mb-2">
                       <div 
-                        className="w-8 h-8 rounded-full border-2 border-slate-600"
+                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-slate-500"
                         style={{ backgroundColor: partner.colour }}
                       ></div>
                       <div className="flex-1">
-                        <div className="font-bold font-mono text-slate-900">{partner.party}</div>
-                        <div className="text-sm text-slate-700">{partner.name}</div>
-                        <div className="text-xs text-slate-600">
+                        <div className="font-bold text-white text-sm sm:text-base">{partner.party}</div>
+                        <div className="text-xs sm:text-sm text-slate-300">{partner.name}</div>
+                        <div className="text-xs text-slate-400">
                           {result?.percentage.toFixed(1)}% of vote
                           {partner.is_player && ' (You)'}
                         </div>
                       </div>
                     </div>
-                    <div className="text-base space-y-1 font-mono uppercase mb-3">
-                      <div>Willingness: <span className={willingness > 60 ? 'text-green-600' : willingness > 40 ? 'text-yellow-600' : 'text-red-600'}>{willingness.toFixed(0)}%</span></div>
+                    <div className="text-xs sm:text-sm space-y-1 font-mono uppercase mb-2 sm:mb-3">
+                      <div className="text-slate-400">Willingness: <span className={willingness > 60 ? 'text-green-400' : willingness > 40 ? 'text-yellow-400' : 'text-red-400'}>{willingness.toFixed(0)}%</span></div>
                     </div>
                     {getIdeologyProfile(partner.vals)}
                   </div>
@@ -850,7 +850,7 @@ export default function CoalitionFormation() {
             <div className="text-center">
               <button
                 onClick={() => actions.completeCoalitionFormation()}
-                className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg"
+                className="px-6 sm:px-8 py-2 sm:py-3 bg-red-600 hover:bg-red-700 border border-red-500 text-white font-bold rounded transition-colors"
               >
                 Form Minority Government
               </button>
