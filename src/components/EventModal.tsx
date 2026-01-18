@@ -43,7 +43,7 @@ export default function EventModal({ event, onChoice, onClose, newsSource = 'Bre
         <div className="max-w-3xl mx-auto">
           {/* Lead Paragraph */}
           <div className="border-l-4 border-red-700 pl-2 mb-4 bg-white/50 py-1">
-            <p className="news-body text-slate-900 text-lg sm:text-xl font-semibold leading-relaxed ">
+            <p className="news-body text-slate-900 text-lg sm:text-xl font-semibold leading-none">
               {event.description}
             </p>
           </div>
