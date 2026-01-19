@@ -1185,7 +1185,109 @@
             "rel_sec": 50
         },
         "scale": 1000,
-        "hos": "King Willem-Alexander"
+        "hos": "King Willem-Alexander",
+        "blocs" : [
+  {
+    "id": "metropolitan_liberals",
+    "weight": 0.28,
+    "variance": 25,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -75,
+      "nat_glob": 85,
+      "env_eco": -80,
+      "soc_cap": 30,
+      "pac_mil": 30,
+      "auth_ana": 65,
+      "rel_sec": 85
+    },
+    "salience": {
+      "prog_cons": 1.6,
+      "env_eco": 1.5,
+      "nat_glob": 1.4
+    }
+  },
+  {
+    "id": "polder_conservatives",
+    "weight": 0.24,
+    "variance": 22,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 85,
+      "nat_glob": -80,
+      "env_eco": 65,
+      "soc_cap": 25,
+      "pac_mil": 40,
+      "auth_ana": -60,
+      "rel_sec": 10
+    },
+    "salience": {
+      "nat_glob": 1.9,
+      "prog_cons": 1.5,
+      "env_eco": 0.5
+    }
+  },
+  {
+    "id": "green_left_socialists",
+    "weight": 0.20,
+    "variance": 30,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -55,
+      "nat_glob": 60,
+      "env_eco": -90,
+      "soc_cap": -85,
+      "pac_mil": -20,
+      "auth_ana": 40,
+      "rel_sec": 70
+    },
+    "salience": {
+      "soc_cap": 1.8,
+      "env_eco": 1.7,
+      "prog_cons": 1.3
+    }
+  },
+  {
+    "id": "agrarian_populists",
+    "weight": 0.15,
+    "variance": 28,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 40,
+      "nat_glob": -30,
+      "env_eco": 95,
+      "soc_cap": 10,
+      "pac_mil": 10,
+      "auth_ana": -20,
+      "rel_sec": -10
+    },
+    "salience": {
+      "env_eco": 2.2,
+      "nat_glob": 1.3,
+      "soc_cap": 1.2
+    }
+  },
+  {
+    "id": "moderate_centrists",
+    "weight": 0.13,
+    "variance": 35,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -10,
+      "nat_glob": 40,
+      "env_eco": 10,
+      "soc_cap": 45,
+      "pac_mil": 20,
+      "auth_ana": 30,
+      "rel_sec": -20
+    },
+    "salience": {
+      "soc_cap": 1.5,
+      "auth_ana": 1.3,
+      "env_eco": 0.7
+    }
+  }
+]
     },
     "SWITZERLAND": {
         "pop": 8700,
@@ -1698,7 +1800,110 @@
             "rel_sec": 45
         },
         "scale": 10000,
-        "hos": "Ursula von der Leyen"
+        "hos": "Ursula von der Leyen",
+        "blocs" : [
+  {
+    "id": "pro_european_federalists",
+    "weight": 0.28,
+    "variance": 25,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -45,
+      "nat_glob": 95,
+      "env_eco": -40,
+      "soc_cap": -10,
+      "pac_mil": 60,
+      "auth_ana": 20,
+      "rel_sec": 70
+    },
+    "salience": {
+      "nat_glob": 2.2,
+      "auth_ana": 1.5,
+      "rel_sec": 1.2
+    }
+  },
+  {
+    "id": "conservative_moderates",
+    "weight": 0.26,
+    "variance": 30,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 40,
+      "nat_glob": 65,
+      "env_eco": 35,
+      "soc_cap": 45,
+      "pac_mil": 80,
+      "auth_ana": -20,
+      "rel_sec": -45
+    },
+    "salience": {
+      "pac_mil": 1.8,
+      "soc_cap": 1.4,
+      "env_eco": 0.6
+    }
+  },
+  {
+    "id": "sovereignist_nationalists",
+    "weight": 0.22,
+    "variance": 32,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 85,
+      "nat_glob": -85,
+      "env_eco": 60,
+      "soc_cap": 10,
+      "pac_mil": 45,
+      "auth_ana": -75,
+      "rel_sec": -30
+    },
+    "salience": {
+      "nat_glob": 2.5,
+      "prog_cons": 1.6,
+      "auth_ana": 1.4,
+      "env_eco": 0.4
+    }
+  },
+  {
+    "id": "social_democratic_labor",
+    "weight": 0.16,
+    "variance": 28,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -35,
+      "nat_glob": 70,
+      "env_eco": -25,
+      "soc_cap": -80,
+      "pac_mil": -30,
+      "auth_ana": 10,
+      "rel_sec": 55
+    },
+    "salience": {
+      "soc_cap": 1.9,
+      "nat_glob": 1.2,
+      "env_eco": 0.7
+    }
+  },
+  {
+    "id": "ecological_progressives",
+    "weight": 0.08,
+    "variance": 20,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -80,
+      "nat_glob": 90,
+      "env_eco": -95,
+      "soc_cap": -50,
+      "pac_mil": -85,
+      "auth_ana": 40,
+      "rel_sec": 85
+    },
+    "salience": {
+      "env_eco": 2.0,
+      "prog_cons": 1.5,
+      "nat_glob": 1.3
+    }
+  }
+]
     },
     "RUSSIA": {
         "pop": 14300,
@@ -2396,7 +2601,131 @@
             "rel_sec": -15
         },
         "scale": 10000,
-        "hos": "Cyril Ramaphosa"
+        "hos": "Cyril Ramaphosa",
+        "blocs": [
+  {
+    "id": "anc_loyalists",
+    "weight": 0.36,
+    "variance": 30,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 35,
+      "nat_glob": -30,
+      "env_eco": 30,
+      "soc_cap": -45,
+      "pac_mil": -10,
+      "auth_ana": -15,
+      "rel_sec": 30
+    },
+    "salience": {
+      "soc_cap": 1.6,
+      "env_eco": 1.4,
+      "auth_ana": 1.1
+    }
+  },
+  {
+    "id": "liberal_modernizers",
+    "weight": 0.22,
+    "variance": 25,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -10,
+      "nat_glob": 35,
+      "env_eco": 10,
+      "soc_cap": 45,
+      "pac_mil": -15,
+      "auth_ana": 25,
+      "rel_sec": 50
+    },
+    "salience": {
+      "soc_cap": 1.8,
+      "nat_glob": 1.4,
+      "auth_ana": 1.5,
+      "env_eco": 0.6
+    }
+  },
+  {
+    "id": "zuma_populists",
+    "weight": 0.16,
+    "variance": 20,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 75,
+      "nat_glob": -80,
+      "env_eco": 50,
+      "soc_cap": -85,
+      "pac_mil": 70,
+      "auth_ana": -70,
+      "rel_sec": -85
+    },
+    "salience": {
+      "nat_glob": 2.0,
+      "soc_cap": 1.8,
+      "rel_sec": 1.7,
+      "env_eco": 0.4
+    }
+  },
+  {
+    "id": "radical_socialists",
+    "weight": 0.10,
+    "variance": 32,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -40,
+      "nat_glob": -50,
+      "env_eco": -20,
+      "soc_cap": -95,
+      "pac_mil": 40,
+      "auth_ana": 10,
+      "rel_sec": 40
+    },
+    "salience": {
+      "soc_cap": 2.2,
+      "env_eco": 1.1,
+      "prog_cons": 1.3
+    }
+  },
+  {
+    "id": "traditionalist_conservatives",
+    "weight": 0.11,
+    "variance": 28,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 65,
+      "nat_glob": -40,
+      "env_eco": 20,
+      "soc_cap": 10,
+      "pac_mil": 20,
+      "auth_ana": -30,
+      "rel_sec": -80
+    },
+    "salience": {
+      "rel_sec": 1.9,
+      "prog_cons": 1.5,
+      "pac_mil": 1.2
+    }
+  },
+  {
+    "id": "minority_protectionists",
+    "weight": 0.05,
+    "variance": 25,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 55,
+      "nat_glob": 10,
+      "env_eco": 30,
+      "soc_cap": 60,
+      "pac_mil": 30,
+      "auth_ana": 15,
+      "rel_sec": -40
+    },
+    "salience": {
+      "auth_ana": 1.6,
+      "soc_cap": 1.4,
+      "nat_glob": 1.2
+    }
+  }
+]
     },
     "NIGERIA": {
         "pop": 21850,
@@ -2603,7 +2932,70 @@
             "rel_sec": 100
         },
         "scale": 10000,
-        "hos": "Big Brother"
+        "hos": "Big Brother",
+        "blocs" : [
+  {
+    "id": "inner_party_elite",
+    "weight": 0.02,
+    "variance": 5,
+    "turnout": 1.0,
+    "center": {
+      "prog_cons": 100,
+      "nat_glob": -100,
+      "env_eco": 100,
+      "soc_cap": -100,
+      "pac_mil": 100,
+      "auth_ana": -100,
+      "rel_sec": 100
+    },
+    "salience": {
+      "auth_ana": 2.5,
+      "nat_glob": 2.0,
+      "pac_mil": 1.8
+    }
+  },
+  {
+    "id": "outer_party_bureaucrats",
+    "weight": 0.13,
+    "variance": 15,
+    "turnout": 0.95,
+    "center": {
+      "prog_cons": 100,
+      "nat_glob": -100,
+      "env_eco": 90,
+      "soc_cap": -90,
+      "pac_mil": 100,
+      "auth_ana": -95,
+      "rel_sec": 100
+    },
+    "salience": {
+      "auth_ana": 2.2,
+      "prog_cons": 1.8,
+      "rel_sec": 1.5
+    }
+  },
+  {
+    "id": "the_proles",
+    "weight": 0.85,
+    "variance": 40,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 10,
+      "nat_glob": -10,
+      "env_eco": 20,
+      "soc_cap": -20,
+      "pac_mil": 10,
+      "auth_ana": 10,
+      "rel_sec": 0
+    },
+    "salience": {
+      "auth_ana": 0.1,
+      "nat_glob": 0.1,
+      "soc_cap": 0.1,
+      "env_eco": 0.1
+    }
+  }
+]
     },
     "SORDLAND": {
         "pop": 3512,
@@ -2619,7 +3011,7 @@
         "scale": 10000,
         "hos": "Anton Rayne"
     },
-    "KRESIMIRIA 2025": {
+    "KRESIMIRIA, REPUBLIC OF": {
     "pop": 8520,
     "vals": {
         "prog_cons": 10,
@@ -2639,13 +3031,13 @@
             "variance": 15,
             "turnout": 0.85,
             "center": {
-                "prog_cons": 15,
-                "nat_glob": 40,
-                "env_eco": -40,
+                "prog_cons": -15,
+                "nat_glob": -10,
+                "env_eco": -10,
                 "soc_cap": -30,
                 "pac_mil": 30,
-                "auth_ana": 75,
-                "rel_sec": 30
+                "auth_ana": -60,
+                "rel_sec": 0
             },
             "salience": {
                 "auth_ana": 1.9,
@@ -2659,16 +3051,16 @@
             "variance": 25,
             "turnout": 0.8,
             "center": {
-                "prog_cons": 60,
-                "nat_glob": -40,
+                "prog_cons": -60,
+                "nat_glob": 40,
                 "env_eco": -10,
                 "soc_cap": 50,
                 "pac_mil": -20,
-                "auth_ana": -70,
-                "rel_sec": -60
+                "auth_ana": 30,
+                "rel_sec": 30
             },
             "salience": {
-                "auth_ana": 1.8,
+                "auth_ana": 1.2,
                 "rel_sec": 1.6,
                 "soc_cap": 1.4
             }
@@ -2679,16 +3071,16 @@
             "variance": 20,
             "turnout": 0.85,
             "center": {
-                "prog_cons": 30,
+                "prog_cons": -40,
                 "nat_glob": -20,
-                "env_eco": 80,
+                "env_eco": -20,
                 "soc_cap": -70,
                 "pac_mil": -10,
-                "auth_ana": -50,
-                "rel_sec": -20
+                "auth_ana": 20,
+                "rel_sec": 40
             },
             "salience": {
-                "env_eco": 2.0,
+                "env_eco": 1.0,
                 "soc_cap": 1.7,
                 "auth_ana": 1.3
             }
@@ -2699,18 +3091,19 @@
             "variance": 30,
             "turnout": 0.9,
             "center": {
-                "prog_cons": -85,
-                "nat_glob": 90,
-                "env_eco": -50,
+                "prog_cons": 85,
+                "nat_glob": -90,
+                "env_eco": 50,
                 "soc_cap": 10,
                 "pac_mil": 80,
-                "auth_ana": 40,
-                "rel_sec": 95
+                "auth_ana": -40,
+                "rel_sec": -95
             },
             "salience": {
                 "rel_sec": 2.0,
                 "nat_glob": 1.8,
-                "prog_cons": 1.5
+                "prog_cons": 1.5,
+                "soc_cap" : 0.4
             }
         },
         {
@@ -2720,17 +3113,19 @@
             "turnout": 0.95,
             "center": {
                 "prog_cons": 0,
-                "nat_glob": -95,
+                "nat_glob": -65,
                 "env_eco": 20,
                 "soc_cap": -20,
                 "pac_mil": -40,
-                "auth_ana": -80,
-                "rel_sec": -80
+                "auth_ana": 80,
+                "rel_sec": 40
             },
             "salience": {
-                "nat_glob": 2.5,
-                "auth_ana": 1.9,
-                "rel_sec": 1.5
+                "nat_glob": 1.5,
+                "auth_ana": 2.5,
+                "rel_sec": 1,
+                "soc_cap" : 0.1, 
+                "prog_cons" : 0.1
             }
         }
     ]
@@ -2747,7 +3142,112 @@
             "rel_sec": 15
         },
         "scale": 10000,
-        "hos": "Slobodan Milošević"
+        "hos": "Slobodan Milošević",
+        "blocs" : [
+  {
+    "id": "serb_national_centralists",
+    "weight": 0.36,
+    "variance": 32,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 70,
+      "nat_glob": -95,
+      "env_eco": 10,
+      "soc_cap": -80,
+      "pac_mil": 95,
+      "auth_ana": -90,
+      "rel_sec": 40
+    },
+    "salience": {
+      "nat_glob": 2.0,
+      "auth_ana": 1.7,
+      "pac_mil": 1.5,
+      "env_eco": 0.5
+    }
+  },
+  {
+    "id": "croat_sovereigntists",
+    "weight": 0.22,
+    "variance": 30,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 85,
+      "nat_glob": -90,
+      "env_eco": 0,
+      "soc_cap": 20,
+      "pac_mil": 90,
+      "auth_ana": -75,
+      "rel_sec": -85
+    },
+    "salience": {
+      "nat_glob": 2.2,
+      "rel_sec": 1.6,
+      "pac_mil": 1.4,
+      "env_eco": 0.4
+    }
+  },
+  {
+    "id": "federal_reformists",
+    "weight": 0.18,
+    "variance": 35,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -15,
+      "nat_glob": 80,
+      "env_eco": 30,
+      "soc_cap": 60,
+      "pac_mil": -50,
+      "auth_ana": 40,
+      "rel_sec": 70
+    },
+    "salience": {
+      "soc_cap": 1.9,
+      "nat_glob": 1.8,
+      "env_eco": 1.2
+    }
+  },
+  {
+    "id": "slovene_decentralists",
+    "weight": 0.08,
+    "variance": 28,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -40,
+      "nat_glob": 40,
+      "env_eco": -20,
+      "soc_cap": 15,
+      "pac_mil": -60,
+      "auth_ana": 85,
+      "rel_sec": 75
+    },
+    "salience": {
+      "auth_ana": 1.9,
+      "nat_glob": 1.6,
+      "env_eco": 0.9
+    }
+  },
+  {
+    "id": "bosniak_pluralists",
+    "weight": 0.16,
+    "variance": 35,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 50,
+      "nat_glob": -30,
+      "env_eco": 10,
+      "soc_cap": -10,
+      "pac_mil": 30,
+      "auth_ana": -20,
+      "rel_sec": -90
+    },
+    "salience": {
+      "rel_sec": 2.0,
+      "soc_cap": 1.3,
+      "nat_glob": 1.2,
+      "env_eco": 0.3
+    }
+  }
+]
     },
     "ESTONIA": {
         "pop": 1330,
@@ -2880,7 +3380,110 @@
             "rel_sec": 75
         },
         "scale": 10000,
-        "hos": "Petr Pavel"
+        "hos": "Petr Pavel",
+        "blocs" : [
+  {
+    "id": "industrial_loyalists",
+    "weight": 0.34,
+    "variance": 28,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 50,
+      "nat_glob": -55,
+      "env_eco": 40,
+      "soc_cap": -20,
+      "pac_mil": 15,
+      "auth_ana": -45,
+      "rel_sec": 40
+    },
+    "salience": {
+      "soc_cap": 1.6,
+      "nat_glob": 1.3,
+      "env_eco": 0.6
+    }
+  },
+  {
+    "id": "liberal_modernizers",
+    "weight": 0.22,
+    "variance": 30,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": -75,
+      "nat_glob": 85,
+      "env_eco": -65,
+      "soc_cap": -10,
+      "pac_mil": -35,
+      "auth_ana": 80,
+      "rel_sec": 95
+    },
+    "salience": {
+      "prog_cons": 1.5,
+      "auth_ana": 1.4,
+      "rel_sec": 1.2
+    }
+  },
+  {
+    "id": "market_conservatives",
+    "weight": 0.23,
+    "variance": 32,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 40,
+      "nat_glob": 45,
+      "env_eco": 50,
+      "soc_cap": 70,
+      "pac_mil": 40,
+      "auth_ana": -10,
+      "rel_sec": 30
+    },
+    "salience": {
+      "soc_cap": 1.7,
+      "nat_glob": 1.2,
+      "pac_mil": 1.3,
+      "env_eco": 0.7
+    }
+  },
+  {
+    "id": "nationalist_sovereigntists",
+    "weight": 0.14,
+    "variance": 25,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 90,
+      "nat_glob": -95,
+      "env_eco": 70,
+      "soc_cap": 25,
+      "pac_mil": 65,
+      "auth_ana": -20,
+      "rel_sec": 25
+    },
+    "salience": {
+      "nat_glob": 1.9,
+      "prog_cons": 1.6,
+      "env_eco": 0.4
+    }
+  },
+  {
+    "id": "pragmatic_motorists",
+    "weight": 0.07,
+    "variance": 28,
+    "turnout": 0.9,
+    "center": {
+      "prog_cons": 20,
+      "nat_glob": -25,
+      "env_eco": 95,
+      "soc_cap": 60,
+      "pac_mil": 10,
+      "auth_ana": 20,
+      "rel_sec": 45
+    },
+    "salience": {
+      "env_eco": 2.2,
+      "soc_cap": 1.5,
+      "auth_ana": 1.3
+    }
+  }
+]
     },
     "URUGUAY": {
         "pop": 3420,
