@@ -72,78 +72,78 @@
         }
     ],
    
-    "USA": [
-        {
-            "id": 0,
-            "name": "Donald Trump",
-            "party": "Republican Party",
-            "party_pop": 10,
-            "prog_cons": 60,
-            "nat_glob": -40,
-            "env_eco": 40,
-            "soc_cap": 95,
-            "pac_mil": 40,
-            "auth_ana": -63,
-            "rel_sec": -12,
-            "colour": "red"
-        },
-        {
-            "id": 1,
-            "name": "Joe Biden",
-            "party": "Democratic Party",
-            "party_pop": 10,
-            "prog_cons": -10,
-            "nat_glob": 42,
-            "env_eco": 20,
-            "soc_cap": 48,
-            "pac_mil": 10,
-            "auth_ana": -2,
-            "rel_sec": 3,
-            "colour": "blue"
-        },
-        {
-            "id": 2,
-            "name": "Jo Jorgensen",
-            "party": "Libertarian Party",
-            "party_pop": 0.1,
-            "prog_cons": 30,
-            "nat_glob": -71,
-            "env_eco": 90,
-            "soc_cap": 90,
-            "pac_mil": 10,
-            "auth_ana": 72,
-            "rel_sec": 4,
-            "colour": "orange"
-        },
-        {
-            "id": 3,
-            "name": "Joe Sims",
-            "party": "CPUSA",
-            "party_pop": 0.05,
-            "prog_cons": -30,
-            "nat_glob": -40,
-            "env_eco": -10,
-            "soc_cap": -90,
-            "pac_mil": 40,
-            "auth_ana": -72,
-            "rel_sec": 76,
-            "colour": "red"
-        },
-        {
-            "id": 4,
-            "name": "Howie Hawkins",
-            "party": "Green Party of USA",
-            "party_pop": 0.01,
-            "prog_cons": -40,
-            "nat_glob": 35,
-            "env_eco": -85,
-            "soc_cap": -10,
-            "pac_mil": -50,
-            "auth_ana": -21,
-            "rel_sec": 65,
-            "colour": "green"
-        }
-    ],
+   "USA": [
+    {
+        "id": 0,
+        "name": "Donald Trump",
+        "party": "Republican Party",
+        "party_pop": 10,
+        "prog_cons": 85,
+        "nat_glob": -95,
+        "env_eco": 90,
+        "soc_cap": 85,
+        "pac_mil": 65,
+        "auth_ana": -98,
+        "rel_sec": -45,
+        "colour": "red"
+    },
+    {
+        "id": 1,
+        "name": "Hakeem Jeffries",
+        "party": "Democratic Party",
+        "party_pop": 9,
+        "prog_cons": -65,
+        "nat_glob": 65,
+        "env_eco": -70,
+        "soc_cap": -40,
+        "pac_mil": -20,
+        "auth_ana": 85,
+        "rel_sec": 75,
+        "colour": "blue"
+    },
+    {
+        "id": 2,
+        "name": "J.D. Vance",
+        "party": "Republican (MAGA Heir)",
+        "party_pop": 8,
+        "prog_cons": 95,
+        "nat_glob": -90,
+        "env_eco": 80,
+        "soc_cap": 40,
+        "pac_mil": 55,
+        "auth_ana": -90,
+        "rel_sec": -95,
+        "colour": "darkred"
+    },
+    {
+        "id": 3,
+        "name": "Josh Shapiro",
+        "party": "Democratic (Moderate/Swing)",
+        "party_pop": 7,
+        "prog_cons": -15,
+        "nat_glob": 45,
+        "env_eco": 10,
+        "soc_cap": 45,
+        "pac_mil": 25,
+        "auth_ana": 45,
+        "rel_sec": 20,
+        "colour": "skyblue"
+    },
+    {
+        "id": 4,
+        "name": "Chase Oliver",
+        "party": "Libertarian Party",
+        "party_pop": 3,
+        "prog_cons": -40,
+        "nat_glob": -60,
+        "env_eco": 85,
+        "soc_cap": 98,
+        "pac_mil": -95,
+        "auth_ana": 98,
+        "rel_sec": 60,
+        "colour": "gold"
+    }
+],
     "GEORGIA": [
         {
             "id": 2,
@@ -189,77 +189,77 @@
         }
     ],
     "UKRAINE": [
-        {
-            "id": 0,
-            "name": "Volodymyr Zelenskyy",
-            "party": "Servant of the People",
-            "party_pop": 10,
-            "prog_cons": -15,
-            "nat_glob": 35,
-            "env_eco": 22,
-            "soc_cap": 40,
-            "pac_mil": 35,
-            "auth_ana": 5,
-            "rel_sec": 0,
-            "colour": "springgreen"
-        },
-        {
-            "id": 1,
-            "name": "Petro Poroshenko",
-            "party": "European Solidarity",
-            "party_pop": 6,
-            "prog_cons": 34,
-            "nat_glob": 32,
-            "env_eco": 43,
-            "soc_cap": 45,
-            "pac_mil": 15,
-            "auth_ana": 4,
-            "rel_sec": -8,
-            "colour": "yellow"
-        },
-        {
-            "id": 2,
-            "name": "Yulia Tymoshenko",
-            "party": "Fatherland",
-            "party_pop": 2,
-            "prog_cons": 61,
-            "nat_glob": -52,
-            "env_eco": 25,
-            "soc_cap": 2,
-            "pac_mil": 15,
-            "auth_ana": -31,
-            "rel_sec": -1,
-            "colour": "red"
-        },
-        {
-            "id": 3,
-            "name": "Ihor Palytsia",
-            "party": "For the Future",
-            "party_pop": 1,
-            "prog_cons": -5,
-            "nat_glob": -1,
-            "env_eco": 3,
-            "soc_cap": -23,
-            "pac_mil": -4,
-            "auth_ana": 22,
-            "rel_sec": 21,
-            "colour": "purple"
-        },
-        {
-            "id": 4,
-            "name": "Kira Rudyk",
-            "party": "Voice",
-            "party_pop": 1,
-            "prog_cons": 23,
-            "nat_glob": 61,
-            "env_eco": 59,
-            "soc_cap": 41,
-            "pac_mil": -24,
-            "auth_ana": -49,
-            "rel_sec": -21,
-            "colour": "red"
-        }
-    ],
+    {
+        "id": 0,
+        "name": "Volodymyr Zelenskyy",
+        "party": "Servant of the People",
+        "party_pop": 10,
+        "prog_cons": -15,
+        "nat_glob": 65,
+        "env_eco": 55,
+        "soc_cap": -20,
+        "pac_mil": 85,
+        "auth_ana": -75,
+        "rel_sec": 10,
+        "colour": "springgreen"
+    },
+    {
+        "id": 1,
+        "name": "Valerii Zaluzhnyi",
+        "party": "Coalition for Victory (Potential)",
+        "party_pop": 9,
+        "prog_cons": 40,
+        "nat_glob": -80,
+        "env_eco": 60,
+        "soc_cap": 10,
+        "pac_mil": 98,
+        "auth_ana": -40,
+        "rel_sec": -20,
+        "colour": "gold"
+    },
+    {
+        "id": 2,
+        "name": "Petro Poroshenko",
+        "party": "European Solidarity",
+        "party_pop": 7,
+        "prog_cons": 55,
+        "nat_glob": 80,
+        "env_eco": 40,
+        "soc_cap": 60,
+        "pac_mil": 90,
+        "auth_ana": 65,
+        "rel_sec": -30,
+        "colour": "blue"
+    },
+    {
+        "id": 3,
+        "name": "Oleksandr Syrskyi",
+        "party": "Military High Command (Non-Partisan)",
+        "party_pop": 5,
+        "prog_cons": 10,
+        "nat_glob": -20,
+        "env_eco": 90,
+        "soc_cap": 0,
+        "pac_mil": 100,
+        "auth_ana": -95,
+        "rel_sec": 0,
+        "colour": "darkolivegreen"
+    },
+    {
+        "id": 4,
+        "name": "Yulia Tymoshenko",
+        "party": "Batkivshchyna",
+        "party_pop": 4,
+        "prog_cons": 75,
+        "nat_glob": -50,
+        "env_eco": 20,
+        "soc_cap": -95,
+        "pac_mil": 50,
+        "auth_ana": -20,
+        "rel_sec": -85,
+        "colour": "red"
+    }
+],
     "SOVIET UNION 1991": [
     {
         "id": 0,
@@ -1063,7 +1063,7 @@
     {
         "id": 1,
         "name": "John Steenhuisen",
-        "party": "Democratic Alliance (DA)",
+        "party": "Democratic Alliance ",
         "party_pop": 9,
         "prog_cons": -15,
         "nat_glob": 45,
@@ -1105,7 +1105,7 @@
     {
         "id": 4,
         "name": "Velenkosini Hlabisa",
-        "party": "Inkatha Freedom Party (IFP)",
+        "party": "Inkatha Freedom Party",
         "party_pop": 5,
         "prog_cons": 55,
         "nat_glob": -50,
@@ -1119,7 +1119,7 @@
     {
         "id": 5,
         "name": "Gayton McKenzie",
-        "party": "Patriotic Alliance (PA)",
+        "party": "Patriotic Alliance",
         "party_pop": 4,
         "prog_cons": 70,
         "nat_glob": -40,
@@ -1187,22 +1187,107 @@
             "rel_sec": 0
         }
     ],
-    "CHINA": [
-        {
-            "id": 0,
-            "name": "Xi Jinping",
-            "party": "Communist Party of China",
-            "party_pop": 10,
-            "prog_cons": 85,
-            "nat_glob": -90,
-            "env_eco": 0,
-            "soc_cap": -95,
-            "pac_mil": -100,
-            "auth_ana": -98,
-            "rel_sec": 95,
-            "colour": "red"
-        }
-    ],
+   "CHINA": [
+    {
+        "id": 0,
+        "name": "Xi Jinping",
+        "party": "Communist Party (Mainstream/Xi Faction)",
+        "party_pop": 10,
+        "prog_cons": 95,
+        "nat_glob": -95,
+        "env_eco": 85,
+        "soc_cap": -80,
+        "pac_mil": 98,
+        "auth_ana": -100,
+        "rel_sec": 95,
+        "colour": "red"
+    },
+    {
+        "id": 1,
+        "name": "Li Qiang",
+        "party": "Communist Party (Technocratic Wing)",
+        "party_pop": 7,
+        "prog_cons": 60,
+        "nat_glob": 10,
+        "env_eco": 95,
+        "soc_cap": 25,
+        "pac_mil": 60,
+        "auth_ana": -80,
+        "rel_sec": 80,
+        "colour": "darkred"
+    },
+    {
+        "id": 2,
+        "name": "Zhao Leji",
+        "party": "Communist Party (Bureaucratic Wing)",
+        "party_pop": 6,
+        "prog_cons": 80,
+        "nat_glob": -60,
+        "env_eco": 50,
+        "soc_cap": -50,
+        "pac_mil": 75,
+        "auth_ana": -95,
+        "rel_sec": 90,
+        "colour": "maroon"
+    }
+],"KENYA": [
+    {
+        "id": 0,
+        "name": "William Ruto",
+        "party": "United Democratic Alliance (UDA)",
+        "party_pop": 10,
+        "prog_cons": 75,
+        "nat_glob": -70,
+        "env_eco": 70,
+        "soc_cap": -30,
+        "pac_mil": 60,
+        "auth_ana": -85,
+        "rel_sec": -95,
+        "colour": "yellow"
+    },
+    {
+        "id": 1,
+        "name": "Raila Odinga",
+        "party": "Orange Democratic Movement (ODM)",
+        "party_pop": 8,
+        "prog_cons": -40,
+        "nat_glob": 40,
+        "env_eco": -30,
+        "soc_cap": -75,
+        "pac_mil": -20,
+        "auth_ana": 20,
+        "rel_sec": 30,
+        "colour": "orange"
+    },
+    {
+        "id": 2,
+        "name": "Kalonzo Musyoka",
+        "party": "Wiper / United Opposition",
+        "party_pop": 7,
+        "prog_cons": 10,
+        "nat_glob": 30,
+        "env_eco": 20,
+        "soc_cap": -50,
+        "pac_mil": 10,
+        "auth_ana": 60,
+        "rel_sec": -30,
+        "colour": "blue"
+    },
+    {
+        "id": 3,
+        "name": "Rigathi Gachagua",
+        "party": "Independent / Mt Kenya Force",
+        "party_pop": 6,
+        "prog_cons": 85,
+        "nat_glob": -40,
+        "env_eco": 40,
+        "soc_cap": 60,
+        "pac_mil": 50,
+        "auth_ana": -30,
+        "rel_sec": -80,
+        "colour": "gold"
+    }
+],
     "INDIA": [
         {
             "id": 0,
@@ -2120,49 +2205,63 @@
         }
     ],
     "ARGENTINA": [
-        {
-            "id": 0,
-            "name": "Javier Milei",
-            "party": "La Libertad Avanza",
-            "party_pop": 10,
-            "prog_cons": 70,
-            "nat_glob": -60,
-            "env_eco": 80,
-            "soc_cap": 90,
-            "pac_mil": 50,
-            "auth_ana": 50,
-            "rel_sec": 20,
-            "colour": "purple"
-        },
-        {
-            "id": 1,
-            "name": "Sergio Massa",
-            "party": "Union for the Homeland",
-            "party_pop": 8,
-            "prog_cons": -10,
-            "nat_glob": -40,
-            "env_eco": 10,
-            "soc_cap": -55,
-            "pac_mil": 10,
-            "auth_ana": -40,
-            "rel_sec": 10,
-            "colour": "skyblue"
-        },
-        {
-            "id": 2,
-            "name": "Patricia Bullrich",
-            "party": "Together for Change",
-            "party_pop": 6,
-            "prog_cons": 60,
-            "nat_glob": -20,
-            "env_eco": 60,
-            "soc_cap": 70,
-            "pac_mil": 60,
-            "auth_ana": -60,
-            "rel_sec": -20,
-            "colour": "yellow"
-        }
-    ],
+    {
+        "id": 0,
+        "name": "Javier Milei",
+        "party": "La Libertad Avanza (LLA)",
+        "party_pop": 10,
+        "prog_cons": 75,
+        "nat_glob": -70,
+        "env_eco": 85,
+        "soc_cap": 98,
+        "pac_mil": 55,
+        "auth_ana": 60,
+        "rel_sec": 25,
+        "colour": "purple"
+    },
+    {
+        "id": 1,
+        "name": "Sergio Massa",
+        "party": "Fuerza Patria (Peronists)",
+        "party_pop": 9,
+        "prog_cons": -55,
+        "nat_glob": -45,
+        "env_eco": 15,
+        "soc_cap": -80,
+        "pac_mil": -10,
+        "auth_ana": -65,
+        "rel_sec": 20,
+        "colour": "skyblue"
+    },
+    {
+        "id": 2,
+        "name": "Patricia Bullrich",
+        "party": "PRO (Allied with LLA)",
+        "party_pop": 7,
+        "prog_cons": 65,
+        "nat_glob": 25,
+        "env_eco": 65,
+        "soc_cap": 75,
+        "pac_mil": 95,
+        "auth_ana": -70,
+        "rel_sec": -25,
+        "colour": "yellow"
+    },
+    {
+        "id": 3,
+        "name": "Axel Kicillof",
+        "party": "Federal Left (Peronist Opposition)",
+        "party_pop": 6,
+        "prog_cons": -85,
+        "nat_glob": -60,
+        "env_eco": -50,
+        "soc_cap": -95,
+        "pac_mil": -30,
+        "auth_ana": -30,
+        "rel_sec": 45,
+        "colour": "darkblue"
+    }
+],
     "NEW ZEALAND": [
         {
             "id": 0,
@@ -2835,50 +2934,78 @@
         "colour": "lightgreen"
     }
     ],
-    "PORTUGAL": [
-        {
-            "id": 0,
-            "name": "Luís Montenegro",
-            "party": "Social Democratic Party",
-            "party_pop": 8,
-            "prog_cons": 25,
-            "nat_glob": 50,
-            "env_eco": 40,
-            "soc_cap": 45,
-            "pac_mil": 10,
-            "auth_ana": -10,
-            "rel_sec": 30,
-            "colour": "orange"
-        },
-        {
-            "id": 1,
-            "name": "Pedro Nuno Santos",
-            "party": "Socialist Party",
-            "party_pop": 8,
-            "prog_cons": -40,
-            "nat_glob": 60,
-            "env_eco": -30,
-            "soc_cap": -40,
-            "pac_mil": -10,
-            "auth_ana": 0,
-            "rel_sec": 50,
-            "colour": "pink"
-        },
-        {
-            "id": 2,
-            "name": "André Ventura",
-            "party": "Chega!",
-            "party_pop": 6,
-            "prog_cons": 90,
-            "nat_glob": -80,
-            "env_eco": 60,
-            "soc_cap": 50,
-            "pac_mil": 40,
-            "auth_ana": -65,
-            "rel_sec": -50,
-            "colour": "darkblue"
-        }
-    ],
+  "PORTUGAL": [
+    {
+        "id": 0,
+        "name": "Luís Montenegro",
+        "party": "Social Democratic Party",
+        "party_pop": 8,
+        "prog_cons": 25,
+        "nat_glob": 50,
+        "env_eco": 40,
+        "soc_cap": 45,
+        "pac_mil": 10,
+        "auth_ana": -15,
+        "rel_sec": -20,
+        "colour": "orange"
+    },
+    {
+        "id": 1,
+        "name": "Pedro Nuno Santos",
+        "party": "Socialist Party",
+        "party_pop": 8,
+        "prog_cons": -50,
+        "nat_glob": 65,
+        "env_eco": -35,
+        "soc_cap": -60,
+        "pac_mil": -15,
+        "auth_ana": 10,
+        "rel_sec": 60,
+        "colour": "pink"
+    },
+    {
+        "id": 2,
+        "name": "André Ventura",
+        "party": "Chega!",
+        "party_pop": 9,
+        "prog_cons": 95,
+        "nat_glob": -95,
+        "env_eco": 70,
+        "soc_cap": 35,
+        "pac_mil": 60,
+        "auth_ana": -90,
+        "rel_sec": -50,
+        "colour": "darkblue"
+    },
+    {
+        "id": 3,
+        "name": "Rui Rocha",
+        "party": "Liberal Initiative",
+        "party_pop": 6,
+        "prog_cons": -45,
+        "nat_glob": 85,
+        "env_eco": -15,
+        "soc_cap": 95,
+        "pac_mil": 5,
+        "auth_ana": 75,
+        "rel_sec": 50,
+        "colour": "cyan"
+    },
+    {
+        "id": 4,
+        "name": "Mariana Mortágua",
+        "party": "Left Bloc",
+        "party_pop": 4,
+        "prog_cons": -95,
+        "nat_glob": 30,
+        "env_eco": -90,
+        "soc_cap": -98,
+        "pac_mil": -80,
+        "auth_ana": 50,
+        "rel_sec": 98,
+        "colour": "red"
+    }
+],
     "HUNGARY": [
         {
             "id": 0,
@@ -3231,7 +3358,7 @@
         {
             "id": 1,
             "name": "Franjo Tuđman",
-            "party": "Croatian Democratic Union (HDZ)",
+            "party": "Croatian Democratic Union",
             "party_pop": 9,
             "prog_cons": 90,
             "nat_glob": -90,
@@ -3273,7 +3400,7 @@
         {
             "id": 4,
             "name": "Alija Izetbegović",
-            "party": "Party of Democratic Action (SDA)",
+            "party": "Party of Democratic Action",
             "party_pop": 6,
             "prog_cons": 60,
             "nat_glob": -40,
@@ -3361,7 +3488,7 @@
         {
             "id": 0,
             "name": "Petr Fiala",
-            "party": "Civic Democratic Party (ODS)",
+            "party": "Civic Democratic Party",
             "party_pop": 7,
             "prog_cons": 45,
             "nat_glob": 40,
