@@ -178,7 +178,7 @@ export default function MainMenu() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © 2025-2026</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 0.7.0</p>
+            <p>Version 1.0.0</p>
           </div>
         </div>
       </div>
