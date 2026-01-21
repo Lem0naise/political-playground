@@ -1,4 +1,4 @@
-import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY } from '@/types/game';
+import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, LOYALTY_BREAK_THRESHOLD, LOYALTY_DECAY_RATE, MOMENTUM_BONUS } from '@/types/game';
 
 // Generate random normal distribution using Box-Muller transform
 function randomNormal(mean: number = 0, std: number = 1): number {
@@ -640,6 +640,7 @@ export function generateVotingData(country: Country): number[][] {
   return data;
 }
 
+
 export function voteForCandidate(voterIndex: number, candidates: Candidate[], data: number[][], country?: Country): number | null {
   // Compute raw squared distances for turnout gating and utilities for choice
   const rawDistSq: number[] = new Array(candidates.length).fill(0);
@@ -647,6 +648,27 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
 
   // Normalized salience weights for this voter; sum equals number of axes
   const weights = salienceWeightsForVoter(voterIndex, country);
+
+  // Helper: Euclidean distance between two value arrays
+  function getIdeologicalDistance(a: number[], b: number[]): number {
+    let sum = 0;
+    for (let i = 0; i < a.length; i++) {
+      const d = a[i] - b[i];
+      sum += d * d;
+    }
+    return Math.sqrt(sum);
+  }
+
+  // Find bloc center for this voter if available
+  let blocCenter: number[] | null = null;
+  if (country && country.blocs && country.blocs.length && country.blocs[0].center) {
+    if (typeof VOTER_BLOC_IDS !== 'undefined' && VOTER_BLOC_IDS && VOTER_BLOC_IDS[voterIndex] !== undefined && VOTER_BLOC_IDS[voterIndex] !== -1) {
+      const blocIdx = VOTER_BLOC_IDS[voterIndex];
+      if (country.blocs[blocIdx] && country.blocs[blocIdx].center) {
+        blocCenter = Object.values(country.blocs[blocIdx].center);
+      }
+    }
+  }
 
   for (let i = 0; i < candidates.length; i++) {
     const cand = candidates[i];
@@ -664,11 +686,33 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
     if (cand.swing) {
       u += (cand.swing * 5) * Math.abs(cand.swing * 5);
     }
-    // Loyalty inertia: bonus if voter sticks with previous choice
+    // Loyalty inertia: bonus if voter sticks with previous choice, with decay
     const last = LAST_CHOICES?.[voterIndex];
     if (last !== undefined && last === i) {
-      u += LOYALTY_UTILITY;
+      // Loyalty decays if party moves far from voter's ideal
+      const dist = Math.sqrt(sumSq);
+      let loyaltyBonus = LOYALTY_UTILITY;
+      if (dist > LOYALTY_BREAK_THRESHOLD) {
+        loyaltyBonus *= Math.exp(-LOYALTY_DECAY_RATE * (dist - LOYALTY_BREAK_THRESHOLD));
+      }
+      u += loyaltyBonus;
+      if (cand.is_player) {
+    console.log(`LOYALTY applied for player candidate to voter ${voterIndex}: bonus=${loyaltyBonus.toFixed(2)}`);
+  }
     }
+
+    // Momentum bonus: if party is moving toward this voter's bloc center
+    if (blocCenter) {
+      // If candidate has a 'momentum' property, use it as a proxy for moving toward bloc
+      if (typeof cand.momentum === 'number' && cand.momentum > 0) {
+        u += MOMENTUM_BONUS;
+      }
+      // Or, if you want to always give a bonus if the party is closer to the bloc center than the voter is:
+      // if (getIdeologicalDistance(cand.vals, blocCenter) < getIdeologicalDistance(data.map(row => row[voterIndex]), blocCenter)) {
+      //   u += MOMENTUM_BONUS;
+      // }
+    }
+
     utilities[i] = u;
   }
 
