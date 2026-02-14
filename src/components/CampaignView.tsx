@@ -18,14 +18,14 @@ export default function CampaignView() {
   // Function to get random newspaper name
   const getRandomNewspaper = () => {
     if (!eventVariables) return 'The Daily News';
-    
+
     const countryNewspapers = eventVariables.countrySpecific?.[state.country]?.newspaper;
     const genericNewspapers = eventVariables.generic?.newspaper;
-    
-    const newspapers = countryNewspapers && countryNewspapers.length > 0 
-      ? countryNewspapers 
+
+    const newspapers = countryNewspapers && countryNewspapers.length > 0
+      ? countryNewspapers
       : genericNewspapers || ['The Daily News'];
-    
+
     return newspapers[Math.floor(Math.random() * newspapers.length)];
   };
 
@@ -34,7 +34,7 @@ export default function CampaignView() {
       .then(res => res.json())
       .then(data => setEvents(data))
       .catch(err => console.error('Failed to load events:', err));
-    
+
     // Load event variables for template substitution
     loadEventVariables()
       .then(vars => setEventVariables(vars))
@@ -45,17 +45,17 @@ export default function CampaignView() {
     // Check if we should show an event
     if (state.currentPoll < state.totalPolls - 2 && events.length > 0 && eventVariables) {
       const pollsSinceEvent = state.currentPoll - lastEventPoll;
-      
+
       // Present event every 1-2 polls
       if (pollsSinceEvent >= 1 && Math.random() < 0.7) {
         const randomEvent = events[Math.floor(Math.random() * events.length)];
-        
+
         // Instantiate the event with variable substitution
         const instantiatedEvent = instantiateEvent(randomEvent, eventVariables, state.country);
-        
+
         // Set a random newspaper source for this event
         setNewsSource(getRandomNewspaper());
-        
+
         setCurrentEvent(instantiatedEvent);
         setLastEventPoll(state.currentPoll);
       }
@@ -81,12 +81,12 @@ export default function CampaignView() {
             <h1 className=" border-b border-red-500 pb-2 newspaper-header text-2xl sm:text-3xl font-black text-white mb-1 tracking-tight">
               THE POLITICAL PLAYGROUND
             </h1>
-            
+
           </div>
           <div className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
             <div className="campaign-board w-full mr-6 p-3 sm:p-4 rounded-lg text-white">
               <div className="w-full bg-slate-600 rounded-full h-2 mb-2 border border-slate-500">
-                <div 
+                <div
                   className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-500 relative overflow-hidden"
                   style={{ width: `${(state.currentPoll / state.totalPolls) * 100}%` }}
                 >
@@ -104,11 +104,11 @@ export default function CampaignView() {
                 WEEK {state.currentPoll}/{state.totalPolls}
               </div>
               <div className="text-xs text-slate-300 campaign-status mt-1">
-                {state.country.toUpperCase()} • {state.playerCandidate?.party.toUpperCase()} • {state.playerCandidate?.name.toUpperCase()} 
+                {state.country.toUpperCase()} • {state.playerCandidate?.party.toUpperCase()} • {state.playerCandidate?.name.toUpperCase()}
               </div>
             </div>
             {/* Campaign Progress - Status Board Style */}
-            
+
           </div>
         </div>
       </div>
@@ -118,31 +118,10 @@ export default function CampaignView() {
         <div className="grid lg:grid-cols-5 gap-3 sm:gap-4">
           {/* Main Content - Newspaper Style */}
           <div className="lg:col-span-3 space-y-3 sm:space-y-4">
-            
 
 
-            {/* Next Poll Button - Campaign HQ Style */}
-            {!currentEvent && (
-            <div className="campaign-board p-3 sm:p-4 rounded-lg text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-red-900/20"></div>
-              <div className="relative">
-                {state.currentPoll === 0 ? (
-                  <button
-                    onClick={actions.startCampaign}
-                    className="px-6 sm:px-8 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
-                  >
-                    🚀 LAUNCH CAMPAIGN
-                  </button>
-                ) : (
-                  <button
-                    onClick={actions.nextPoll}
-                    className="px-6 sm:px-8 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
-                  >
-                    {state.currentPoll === state.totalPolls - 1 ? 'FINAL POLLING' : 'CONTINUE >'}
-                  </button>
-                )}
-              </div>
-            </div>)}
+
+
 
             {/* Political News - Newspaper Style */}
             {state.politicalNews.length > 0 && (
@@ -150,7 +129,7 @@ export default function CampaignView() {
                 <div className="absolute top-0 left-0 bg-red-700 text-white px-2 py-0.5 text-xs font-bold tracking-widest shadow">
                   BREAKING NEWS
                 </div>
-               
+
                 {state.activeTrend && (
                   <div className="mt-3 border-2 border-red-600 bg-gradient-to-r from-red-50 to-orange-50 rounded p-2 sm:p-3 mb-3 shadow-md">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -169,7 +148,7 @@ export default function CampaignView() {
                 <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                   {state.politicalNews.slice(0, 7).map((news, idx) => {
                     const newspaper = getRandomNewspaper();
-                    
+
                     if (idx === 0) {
                       return (
                         <div key={idx} className="sm:col-span-2 lg:col-span-2 border-l-4 border-red-700 bg-white rounded shadow-sm overflow-hidden">
@@ -190,7 +169,7 @@ export default function CampaignView() {
                         </div>
                       );
                     }
-                    
+
                     return (
                       <div key={idx} className="border-l-2 border-slate-400 bg-white/80 rounded shadow-sm overflow-hidden">
                         <div className="p-1.5 sm:p-2">
@@ -207,6 +186,29 @@ export default function CampaignView() {
                 </div>
               </div>
             )}
+
+            {/* Next Poll Button - Campaign HQ Style */}
+            {!currentEvent && (
+              <div className="campaign-board p-3 sm:p-4 rounded-lg text-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-red-900/20"></div>
+                <div className="relative">
+                  {state.currentPoll === 0 ? (
+                    <button
+                      onClick={actions.startCampaign}
+                      className="px-6 sm:px-8 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
+                    >
+                      🚀 LAUNCH CAMPAIGN
+                    </button>
+                  ) : (
+                    <button
+                      onClick={actions.nextPoll}
+                      className="px-6 sm:px-8 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
+                    >
+                      {state.currentPoll === state.totalPolls - 1 ? 'FINAL POLLING' : 'CONTINUE >'}
+                    </button>
+                  )}
+                </div>
+              </div>)}
 
 
             {/* Event Modal - positioned below Next Poll button */}
@@ -235,10 +237,10 @@ export default function CampaignView() {
         </div>
 
         <div className="text-center text-xs text-slate-400 space-y-1 mt-10">
-            <p>Political Playground © 2025-2026</p>
-            <p>Fictional simulator. No real-world accuracy, endorsement or advice.</p>
-            <p>Created by <a href="https://indigo.spot">Indigo Nolan</a></p>
-          </div>
+          <p>Political Playground © 2025-2026</p>
+          <p>Fictional simulator. No real-world accuracy, endorsement or advice.</p>
+          <p>Created by <a href="https://indigo.spot">Indigo Nolan</a></p>
+        </div>
       </div>
       {showPollingGraph && (
         <PollingGraphModal
