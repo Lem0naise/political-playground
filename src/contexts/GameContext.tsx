@@ -1,14 +1,16 @@
 import React, { createContext, useContext, useReducer, useCallback, useState, useEffect } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues, TARGET_SHIFT, BlocStatistics, PostElectionStats, BlocSwingData, PartyBlocSupport } from '@/types/game';
-import { 
-  generateVotingData, 
-  conductPoll, 
-  applyEventEffect, 
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues, TARGET_SHIFT, BlocStatistics, PostElectionStats, BlocSwingData, PartyBlocSupport, VoterTransferEntry } from '@/types/game';
+import {
+  generateVotingData,
+  conductPoll,
+  applyEventEffect,
   createCandidate,
   createTrend,
   applyTrendStep,
   formatTrendStartHeadline,
-  scheduleNextTrendPoll
+  scheduleNextTrendPoll,
+  snapshotInitialChoices,
+  getVoterTransferMatrix
 } from '@/lib/gameEngine';
 import { calculatePartyCompatibility } from '@/lib/coalitionEngine';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
@@ -31,10 +33,11 @@ interface GameContextType {
     allocateCabinetPosition: (position: string, party: string) => void;
     completeCoalitionFormation: () => void;
     setTargetedBloc: (blocId: string | null) => void;
+    nextCoalitionAttempt: () => void;
   };
 }
 
-type GameAction = 
+type GameAction =
   | { type: 'SET_COUNTRY'; payload: { country: string; countryData: any } }
   | { type: 'SET_PARTY_LIST'; payload: { partyList: string; parties: any[] } }
   | { type: 'SET_PLAYER_CANDIDATE'; payload: { candidateId: number } }
@@ -50,7 +53,8 @@ type GameAction =
   | { type: 'ALLOCATE_CABINET_POSITION'; payload: { position: string; party: string } }
   | { type: 'COMPLETE_COALITION_FORMATION' }
   | { type: 'SET_EVENT_VARIABLES'; payload: { eventVariables: EventVariables } }
-  | { type: 'SET_TARGETED_BLOC'; payload: { blocId: string | null } };
+  | { type: 'SET_TARGETED_BLOC'; payload: { blocId: string | null } }
+  | { type: 'NEXT_COALITION_ATTEMPT' };
 
 // Helper function to substitute variables in news templates
 function substituteNewsVariables(
@@ -158,7 +162,7 @@ function calculatePostElectionStats(
   const partyBlocSupport: PartyBlocSupport[] = [];
   if (finalBlocStats) {
     const parties = new Set(finalResults.map(r => r.candidate.party));
-    
+
     parties.forEach(party => {
       let strongestBloc = '';
       let strongestBlocName = '';
@@ -285,9 +289,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         trendHistory: [],
         nextTrendPoll: null
       };
-      
+
     case 'SET_PARTY_LIST':
-      const candidates = action.payload.parties.map((party, index) => 
+      const candidates = action.payload.parties.map((party, index) =>
         createCandidate(
           index,
           party.name,
@@ -304,33 +308,33 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           party.swing
         )
       );
-      
+
       return {
         ...state,
         partyList: action.payload.partyList,
         candidates,
         phase: 'player-selection'
       };
-      
+
     case 'SET_PLAYER_CANDIDATE':
       const updatedCandidates = state.candidates.map(candidate => ({
         ...candidate,
         is_player: candidate.id === action.payload.candidateId
       }));
-      
+
       const playerCandidate = updatedCandidates.find(c => c.is_player) || null;
-      
+
       return {
         ...state,
         candidates: updatedCandidates,
         playerCandidate,
         phase: 'campaign'
       };
-      
+
     case 'START_CAMPAIGN':
       const votingData = generateVotingData(state.countryData);
       const { results, blocStats } = conductPoll(votingData, state.candidates, 1, state.countryData);
-      
+
       // Store initial poll results
       const initialResults: Record<string, number> = {};
       results.forEach(result => {
@@ -341,8 +345,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         week: 1,
         percentages: { ...initialResults }
       };
-      
-      return {
+
+      const nextState = {
         ...state,
         votingData,
         pollResults: results,
@@ -359,10 +363,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         initialBlocStats: blocStats,
         blocStatsHistory: blocStats ? [blocStats] : []
       };
-      
+      // Snapshot voter choices at poll 1 for transfer analysis (side-effect: safe in reducer)
+      snapshotInitialChoices();
+      return nextState;
+
     case 'NEXT_POLL':
       if (state.currentPoll >= state.totalPolls) return state;
-      
+
       const nextPollNum = state.currentPoll + 1;
       const trendNews: string[] = [];
       let activeTrend = state.activeTrend;
@@ -414,16 +421,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         : { ...state.countryData, vals: updatedCountryValues };
 
       const { results: newResults, newsEvents, blocStats: newBlocStats } = conductPoll(votingDataRef, state.candidates, nextPollNum, countryDataAfterTrend);
-      
+
       // --- BEGIN: Apply bloc targeting ideology shift ---
       let updatedTargetedBlocId = state.targetedBlocId;
       let updatedTargetingStartWeek = state.targetingStartWeek;
       let updatedTargetingCooldownUntil = state.targetingCooldownUntil;
-      
+
       // Check if we need to end targeting due to 6-week limit
       if (state.targetedBlocId && state.targetingStartWeek !== null && state.targetingStartWeek !== undefined) {
         const weeksTargeting = nextPollNum - state.targetingStartWeek;
-        
+
         if (weeksTargeting >= 6) {
           // End targeting and start cooldown
           updatedTargetedBlocId = null;
@@ -431,7 +438,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           updatedTargetingCooldownUntil = nextPollNum + 3; // 3 week cooldown
         }
       }
-      
+
       // Apply targeting shift if still active
       if (updatedTargetedBlocId && countryDataAfterTrend.blocs) {
         const targetedBloc = countryDataAfterTrend.blocs.find(b => b.id === updatedTargetedBlocId);
@@ -451,13 +458,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
       }
       // --- END: Apply bloc targeting ideology shift ---
-      
+
       // Update previous poll results
       const newPreviousResults: Record<string, number> = {};
       newResults.forEach(result => {
         newPreviousResults[result.candidate.party] = result.percentage;
       });
-      
+
       // Calculate changes from previous poll
       const resultsWithChange = newResults.map(result => ({
         ...result,
@@ -468,202 +475,202 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       const partyPollingNews: string[] = [];
       resultsWithChange.forEach(result => {
 
-        const newsTitle = (Math.random() < 0.7 ? result.candidate.party : result.candidate.name )
-        
-    
+        const newsTitle = (Math.random() < 0.7 ? result.candidate.party : result.candidate.name)
+
+
         if (Math.random() < 0.4 || (result.candidate === state.playerCandidate)) {
           if (Math.abs(result.change) > 2.5) {
-              if (result.change > 0) {
-                const surgeMessages = [
-  `${newsTitle} surges in polls`,
-  `${newsTitle} enjoys new wave of support`,
-  `Polls show sharp rise for ${newsTitle}`,
-  `Momentum shifts to ${newsTitle}`,
-  `${newsTitle} gaining ground`,
-  `Is ${newsTitle} the new people's party?`,
-  `Voters flock to ${newsTitle} after stunning debate performance`,
-  `{social_media_platform} buzz: ${newsTitle} trending nationwide`,
-  `Analysts stunned by ${newsTitle}'s meteoric rise`,
-  `Rival parties scramble as ${newsTitle} dominates headlines`,
-  `${newsTitle} fever sweeps the nation!`,
-  `Is this the start of a new era for ${newsTitle}?`,
+            if (result.change > 0) {
+              const surgeMessages = [
+                `${newsTitle} surges in polls`,
+                `${newsTitle} enjoys new wave of support`,
+                `Polls show sharp rise for ${newsTitle}`,
+                `Momentum shifts to ${newsTitle}`,
+                `${newsTitle} gaining ground`,
+                `Is ${newsTitle} the new people's party?`,
+                `Voters flock to ${newsTitle} after stunning debate performance`,
+                `{social_media_platform} buzz: ${newsTitle} trending nationwide`,
+                `Analysts stunned by ${newsTitle}'s meteoric rise`,
+                `Rival parties scramble as ${newsTitle} dominates headlines`,
+                `${newsTitle} fever sweeps the nation!`,
+                `Is this the start of a new era for ${newsTitle}?`,
 
-  // NEW ONES BELOW
-  `${newsTitle} shatters expectations with record poll numbers`,
-  `Historic surge propels ${newsTitle} to front-runner status`,
-  `Wave of enthusiasm lifts ${newsTitle} across {region}`,
-  `Crowds pack rallies as excitement grows around ${newsTitle}`,
-  `Polling landslide puts ${newsTitle} far ahead of rivals`,
-  `${newsTitle} dominates {city} in unprecedented show of support`,
-  `Analysts: ${newsTitle} unstoppable after breakthrough week`,
-  `National mood swings decisively toward ${newsTitle}`,
-  `Voters rally behind ${newsTitle} in dramatic surge`,
-  `${newsTitle} sets new popularity records in {foreign_country}`,
-  `Grassroots explosion fuels rapid rise of ${newsTitle}`,
-  `${newsTitle} campaign electrifies young voters nationwide`,
-  `Momentum skyrockets following major speech by ${newsTitle}`,
-  `Rival leaders concede ground as ${newsTitle} widens lead`,
-  `Polling shock: ${newsTitle} takes commanding advantage`,
-  `Surge in donations underscores public enthusiasm for ${newsTitle}`,
-  `${newsTitle} hailed as transformative force by supporters`,
-  `Experts predict landslide potential for ${newsTitle}`,
-  `Nationwide rallies signal seismic shift toward ${newsTitle}`,
-  `All eyes on ${newsTitle} after stunning surge to the top`
-];
+                // NEW ONES BELOW
+                `${newsTitle} shatters expectations with record poll numbers`,
+                `Historic surge propels ${newsTitle} to front-runner status`,
+                `Wave of enthusiasm lifts ${newsTitle} across {region}`,
+                `Crowds pack rallies as excitement grows around ${newsTitle}`,
+                `Polling landslide puts ${newsTitle} far ahead of rivals`,
+                `${newsTitle} dominates {city} in unprecedented show of support`,
+                `Analysts: ${newsTitle} unstoppable after breakthrough week`,
+                `National mood swings decisively toward ${newsTitle}`,
+                `Voters rally behind ${newsTitle} in dramatic surge`,
+                `${newsTitle} sets new popularity records in {foreign_country}`,
+                `Grassroots explosion fuels rapid rise of ${newsTitle}`,
+                `${newsTitle} campaign electrifies young voters nationwide`,
+                `Momentum skyrockets following major speech by ${newsTitle}`,
+                `Rival leaders concede ground as ${newsTitle} widens lead`,
+                `Polling shock: ${newsTitle} takes commanding advantage`,
+                `Surge in donations underscores public enthusiasm for ${newsTitle}`,
+                `${newsTitle} hailed as transformative force by supporters`,
+                `Experts predict landslide potential for ${newsTitle}`,
+                `Nationwide rallies signal seismic shift toward ${newsTitle}`,
+                `All eyes on ${newsTitle} after stunning surge to the top`
+              ];
 
-                const template = surgeMessages[Math.floor(Math.random() * surgeMessages.length)];
-                partyPollingNews.push(substituteNewsVariables(
-                  template,
-                  { newsTitle },
-                  state.eventVariables,
-                  state.country
-                ));
-              } else {
-                const loseMessages = [
-  `${newsTitle} loses ground following controversy`,
-  `Support for ${newsTitle} drops sharply`,
-  `Polls decline for ${newsTitle} amid public backlash`,
-  `${newsTitle} faces harsh criticism`,
-  `Polls plummet for ${newsTitle}`,
-  `Scandal rocks ${newsTitle} campaign—voters flee`,
-  `${newsTitle} in meltdown after disastrous interview`,
-  `Analysts: ${newsTitle} struggles to recover from backlash`,
-  `Rival parties surge as ${newsTitle} stumbles`,
-  `Is this the end of the road for ${newsTitle}?`,
+              const template = surgeMessages[Math.floor(Math.random() * surgeMessages.length)];
+              partyPollingNews.push(substituteNewsVariables(
+                template,
+                { newsTitle },
+                state.eventVariables,
+                state.country
+              ));
+            } else {
+              const loseMessages = [
+                `${newsTitle} loses ground following controversy`,
+                `Support for ${newsTitle} drops sharply`,
+                `Polls decline for ${newsTitle} amid public backlash`,
+                `${newsTitle} faces harsh criticism`,
+                `Polls plummet for ${newsTitle}`,
+                `Scandal rocks ${newsTitle} campaign—voters flee`,
+                `${newsTitle} in meltdown after disastrous interview`,
+                `Analysts: ${newsTitle} struggles to recover from backlash`,
+                `Rival parties surge as ${newsTitle} stumbles`,
+                `Is this the end of the road for ${newsTitle}?`,
 
-  // NEW ONES BELOW
-  `${newsTitle} collapses in key polls across {region}`,
-  `Confidence in ${newsTitle} evaporates after new revelations`,
-  `Major defections leave ${newsTitle} reeling`,
-  `${newsTitle} loses control of narrative amid scandal`,
-  `Voters abandon ${newsTitle} in droves after policy fiasco`,
-  `${newsTitle} suffers worst polling numbers in years`,
-  `Internal divisions deepen crisis for ${newsTitle}`,
-  `${newsTitle} hammered by losses in {city}`,
-  `Backlash intensifies against ${newsTitle} across {foreign_country}`,
-  `Analysts warn of freefall for ${newsTitle} support`,
-  `${newsTitle} leadership questioned as ratings crash`,
-  `Public trust in ${newsTitle} hits new low`,
-  `Disastrous results leave ${newsTitle} scrambling for answers`,
-  `${newsTitle} blamed for economic missteps—polling nosedives`,
-  `Crisis talks held as ${newsTitle} hemorrhages support`,
-  `Voters turn away from ${newsTitle} after bruising week`,
-  `Opinion polls paint bleak picture for ${newsTitle}`,
-  `Party insiders fear irreversible decline of ${newsTitle}`,
-  `${newsTitle} routed in {region} after public backlash`,
-  `Experts: recovery path for ${newsTitle} looks increasingly unlikely`
-];
+                // NEW ONES BELOW
+                `${newsTitle} collapses in key polls across {region}`,
+                `Confidence in ${newsTitle} evaporates after new revelations`,
+                `Major defections leave ${newsTitle} reeling`,
+                `${newsTitle} loses control of narrative amid scandal`,
+                `Voters abandon ${newsTitle} in droves after policy fiasco`,
+                `${newsTitle} suffers worst polling numbers in years`,
+                `Internal divisions deepen crisis for ${newsTitle}`,
+                `${newsTitle} hammered by losses in {city}`,
+                `Backlash intensifies against ${newsTitle} across {foreign_country}`,
+                `Analysts warn of freefall for ${newsTitle} support`,
+                `${newsTitle} leadership questioned as ratings crash`,
+                `Public trust in ${newsTitle} hits new low`,
+                `Disastrous results leave ${newsTitle} scrambling for answers`,
+                `${newsTitle} blamed for economic missteps—polling nosedives`,
+                `Crisis talks held as ${newsTitle} hemorrhages support`,
+                `Voters turn away from ${newsTitle} after bruising week`,
+                `Opinion polls paint bleak picture for ${newsTitle}`,
+                `Party insiders fear irreversible decline of ${newsTitle}`,
+                `${newsTitle} routed in {region} after public backlash`,
+                `Experts: recovery path for ${newsTitle} looks increasingly unlikely`
+              ];
 
-                const template = loseMessages[Math.floor(Math.random() * loseMessages.length)];
-                partyPollingNews.push(substituteNewsVariables(
-                  template,
-                  { newsTitle },
-                  state.eventVariables,
-                  state.country
-                ));
-              }
-            } else if (Math.abs(result.change) > 1) {
-              if (result.change > 0) {
-                const steadyMessages = [
-  `${newsTitle} climbing as unemployment rises`,
-  `${newsTitle} wins local elections in {region}`,
-  `Popular policy platform of ${newsTitle} released`,
-  `${newsTitle} clear winner in debate`,
-  `${newsTitle} sees steady rise in {region}`,
-  `{organisation} endorses ${newsTitle}'s policy platform`,
-  `${newsTitle} quietly gaining momentum`,
-  `Analysts note consistent growth for ${newsTitle}`,
-  `Grassroots movement in {city} boosts ${newsTitle}`,
-  `Voters warming to ${newsTitle}'s message`,
-
-  // NEW ONES BELOW
-  `${newsTitle} posts modest gains in latest polling`,
-  `Support for ${newsTitle} edges upward across key regions`,
-  `Analysts see positive trajectory forming for ${newsTitle}`,
-  `${newsTitle} benefits from improving public sentiment`,
-  `Steady approval uptick gives ${newsTitle} fresh confidence`,
-  `Polling suggests gradual rise in backing for ${newsTitle}`,
-  `${newsTitle} credited with pragmatic, stable leadership`,
-  `Cautious optimism surrounds ${newsTitle}'s performance`,
-  `New volunteers flock to ${newsTitle} campaign efforts`,
-  `Regional rallies signal renewed energy for ${newsTitle}`,
-  `Voters cite competence and stability in support of ${newsTitle}`,
-  `${newsTitle} strengthens position among undecided voters`,
-  `Early results indicate favorable trend for ${newsTitle}`,
-  `Media coverage highlights quiet successes of ${newsTitle}`,
-  `Slow but sure progress reported for ${newsTitle}`,
-  `Survey in {region} shows incremental approval gains for ${newsTitle}`,
-  `${newsTitle} gains credibility after policy rollout`,
-  `{foreign_country} boosts public image of ${newsTitle}`,
-  `Momentum gradually building behind ${newsTitle}`,
-  `${newsTitle} performance exceeds expectations in new poll`
-];
-
-                const template = steadyMessages[Math.floor(Math.random() * steadyMessages.length)];
-                partyPollingNews.push(substituteNewsVariables(
-                  template,
-                  { newsTitle },
-                  state.eventVariables,
-                  state.country
-                ));
-              } else {
-                const mixedMessages = [
-  `Mixed pundit reaction to ${newsTitle}`,
-  `Support slipping for ${newsTitle}`,
-  `Public opinion divided over ${newsTitle}`,
-  `Voters express uncertainty about ${newsTitle}'s direction`,
-  `{organisation} slams ${newsTitle}'s new proposal`,
-  `${newsTitle} struggles to find momentum`,
-  `Analysts: ${newsTitle} can't shake off negative headlines`,
-  `Voters lukewarm on ${newsTitle} as rivals gain ground`,
-  `${newsTitle} faces uphill battle to win back trust`,
-  `Polls show ${newsTitle} losing steam week after week`,
-
-  // NEW ONES BELOW
-  `${newsTitle} rattled by declining approval ratings`,
-  `Internal doubts grow as ${newsTitle} stumbles in polls`,
-  `Key supporters in {city} drift away from ${newsTitle}`,
-  `Survey suggests confidence waning in ${newsTitle}`,
-  `${newsTitle} leadership under pressure amid poll slide`,
-  `Grassroots enthusiasm fades for ${newsTitle}`,
-  `Critics say ${newsTitle} has lost touch with voters`,
-  `Momentum shifts against ${newsTitle} after recent setbacks`,
-  `Warning signs emerge for ${newsTitle} in new polling`,
-  `Voter fatigue threatens ${newsTitle}'s campaign`,
-  `Rivals capitalise as backing erodes for ${newsTitle}`,
-  `${newsTitle} grapples with shrinking base of support`,
-  `Disappointing turnout signals trouble for ${newsTitle}`,
-  `Confidence crisis looms for ${newsTitle}`,
-  `${newsTitle} hit by wave of negative public sentiment`,
-  `Analysts warn of downward trend for ${newsTitle}`,
-  `Polling experts: support for ${newsTitle} softening`,
-  `Donors uneasy as support for ${newsTitle} dips`,
-  `Public trust in ${newsTitle} shows signs of erosion`,
-  `${newsTitle} struggles to control narrative amid losses`
-];
-
-                const template = mixedMessages[Math.floor(Math.random() * mixedMessages.length)];
-                newsEvents.push(substituteNewsVariables(
-                  template,
-                  { newsTitle },
-                  state.eventVariables,
-                  state.country
-                ));
-              }
+              const template = loseMessages[Math.floor(Math.random() * loseMessages.length)];
+              partyPollingNews.push(substituteNewsVariables(
+                template,
+                { newsTitle },
+                state.eventVariables,
+                state.country
+              ));
             }
+          } else if (Math.abs(result.change) > 1) {
+            if (result.change > 0) {
+              const steadyMessages = [
+                `${newsTitle} climbing as unemployment rises`,
+                `${newsTitle} wins local elections in {region}`,
+                `Popular policy platform of ${newsTitle} released`,
+                `${newsTitle} clear winner in debate`,
+                `${newsTitle} sees steady rise in {region}`,
+                `{organisation} endorses ${newsTitle}'s policy platform`,
+                `${newsTitle} quietly gaining momentum`,
+                `Analysts note consistent growth for ${newsTitle}`,
+                `Grassroots movement in {city} boosts ${newsTitle}`,
+                `Voters warming to ${newsTitle}'s message`,
+
+                // NEW ONES BELOW
+                `${newsTitle} posts modest gains in latest polling`,
+                `Support for ${newsTitle} edges upward across key regions`,
+                `Analysts see positive trajectory forming for ${newsTitle}`,
+                `${newsTitle} benefits from improving public sentiment`,
+                `Steady approval uptick gives ${newsTitle} fresh confidence`,
+                `Polling suggests gradual rise in backing for ${newsTitle}`,
+                `${newsTitle} credited with pragmatic, stable leadership`,
+                `Cautious optimism surrounds ${newsTitle}'s performance`,
+                `New volunteers flock to ${newsTitle} campaign efforts`,
+                `Regional rallies signal renewed energy for ${newsTitle}`,
+                `Voters cite competence and stability in support of ${newsTitle}`,
+                `${newsTitle} strengthens position among undecided voters`,
+                `Early results indicate favorable trend for ${newsTitle}`,
+                `Media coverage highlights quiet successes of ${newsTitle}`,
+                `Slow but sure progress reported for ${newsTitle}`,
+                `Survey in {region} shows incremental approval gains for ${newsTitle}`,
+                `${newsTitle} gains credibility after policy rollout`,
+                `{foreign_country} boosts public image of ${newsTitle}`,
+                `Momentum gradually building behind ${newsTitle}`,
+                `${newsTitle} performance exceeds expectations in new poll`
+              ];
+
+              const template = steadyMessages[Math.floor(Math.random() * steadyMessages.length)];
+              partyPollingNews.push(substituteNewsVariables(
+                template,
+                { newsTitle },
+                state.eventVariables,
+                state.country
+              ));
+            } else {
+              const mixedMessages = [
+                `Mixed pundit reaction to ${newsTitle}`,
+                `Support slipping for ${newsTitle}`,
+                `Public opinion divided over ${newsTitle}`,
+                `Voters express uncertainty about ${newsTitle}'s direction`,
+                `{organisation} slams ${newsTitle}'s new proposal`,
+                `${newsTitle} struggles to find momentum`,
+                `Analysts: ${newsTitle} can't shake off negative headlines`,
+                `Voters lukewarm on ${newsTitle} as rivals gain ground`,
+                `${newsTitle} faces uphill battle to win back trust`,
+                `Polls show ${newsTitle} losing steam week after week`,
+
+                // NEW ONES BELOW
+                `${newsTitle} rattled by declining approval ratings`,
+                `Internal doubts grow as ${newsTitle} stumbles in polls`,
+                `Key supporters in {city} drift away from ${newsTitle}`,
+                `Survey suggests confidence waning in ${newsTitle}`,
+                `${newsTitle} leadership under pressure amid poll slide`,
+                `Grassroots enthusiasm fades for ${newsTitle}`,
+                `Critics say ${newsTitle} has lost touch with voters`,
+                `Momentum shifts against ${newsTitle} after recent setbacks`,
+                `Warning signs emerge for ${newsTitle} in new polling`,
+                `Voter fatigue threatens ${newsTitle}'s campaign`,
+                `Rivals capitalise as backing erodes for ${newsTitle}`,
+                `${newsTitle} grapples with shrinking base of support`,
+                `Disappointing turnout signals trouble for ${newsTitle}`,
+                `Confidence crisis looms for ${newsTitle}`,
+                `${newsTitle} hit by wave of negative public sentiment`,
+                `Analysts warn of downward trend for ${newsTitle}`,
+                `Polling experts: support for ${newsTitle} softening`,
+                `Donors uneasy as support for ${newsTitle} dips`,
+                `Public trust in ${newsTitle} shows signs of erosion`,
+                `${newsTitle} struggles to control narrative amid losses`
+              ];
+
+              const template = mixedMessages[Math.floor(Math.random() * mixedMessages.length)];
+              newsEvents.push(substituteNewsVariables(
+                template,
+                { newsTitle },
+                state.eventVariables,
+                state.country
+              ));
+            }
+          }
         }
 
-        
-        // Generate news based on polling impact
-  
 
-       
+        // Generate news based on polling impact
+
+
+
       });
       // --- END: Add news for all parties with polling surges/drops ---
 
       // --- BEGIN: Random gaffe/positive events for non-player parties ---
       const randomRivalEvents: string[] = [];
-      
+
       const GAFFE_TEMPLATES = [
         `{candidate_name} caught in embarrassing {social_media_platform} scandal`,
         `{party} candidate arrested at {city} rally`,
@@ -702,17 +709,17 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
       // Filter for non-player parties
       const nonPlayerCandidates = state.candidates.filter(c => !c.is_player);
-      
+
       nonPlayerCandidates.forEach(candidate => {
         // 10-15% chance per party per poll for a random event
         if (Math.random() < 0.125) {
           const isGaffe = Math.random() < 0.5;
           const templates = isGaffe ? GAFFE_TEMPLATES : POSITIVE_TEMPLATES;
           const template = templates[Math.floor(Math.random() * templates.length)];
-          
+
           // Randomly choose between party name and leader name for variety
           const useLeaderName = Math.random() < 0.5;
-          
+
           const newsText = substituteNewsVariables(
             template,
             {
@@ -723,9 +730,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
             state.eventVariables,
             state.country
           );
-          
+
           randomRivalEvents.push(newsText);
-          
+
           // Apply small popularity impacts
           const targetCandidate = state.candidates.find(c => c.name === candidate.name);
           if (targetCandidate) {
@@ -741,7 +748,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
       // --- BEGIN: Random position shifts for non-player parties ---
       const positionShiftNews: string[] = [];
-      
+
       const POSITION_SHIFT_TEMPLATES: Record<string, { positive: string[]; negative: string[] }> = {
         prog_cons: {
           positive: [
@@ -849,22 +856,22 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           // Pick a random axis to shift
           const axes: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
           const axisToShift = axes[Math.floor(Math.random() * axes.length)];
-          
+
           // Shift amount: 5-10 points (similar to player events)
           const shiftAmount = (5 + Math.random() * 5) * (Math.random() < 0.5 ? 1 : -1);
-          
+
           // Find the actual candidate object to modify
           const targetCandidate = state.candidates.find(c => c.name === candidate.name);
           if (targetCandidate) {
             const axisIndex = axes.indexOf(axisToShift);
             targetCandidate.vals[axisIndex] = Math.max(-100, Math.min(100, targetCandidate.vals[axisIndex] + shiftAmount));
-            
+
             // Generate appropriate news
             const isPositiveShift = shiftAmount > 0;
             const templates = POSITION_SHIFT_TEMPLATES[axisToShift];
             const templateArray = isPositiveShift ? templates.positive : templates.negative;
             const template = templateArray[Math.floor(Math.random() * templateArray.length)];
-            
+
             const useLeaderName = Math.random() < 0.5;
             const newsText = substituteNewsVariables(
               template,
@@ -876,7 +883,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
               state.eventVariables,
               state.country
             );
-            
+
             positionShiftNews.push(newsText);
           }
         }
@@ -886,8 +893,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       // Combine all news sources into a single array first
       const allNewsItems = [
         ...trendNews,
-        ...state.playerEventNews, 
-        ...newsEvents, 
+        ...state.playerEventNews,
+        ...newsEvents,
         ...partyPollingNews,
         ...randomRivalEvents,
         ...positionShiftNews
@@ -898,13 +905,20 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         if (Math.random() < 0.6) {
           return (a.split(' ').length - b.split(' ').length);
         }
-        else { return 1;}
+        else { return 1; }
 
       });
 
       // Calculate post-election stats if this is the final poll
       let postElectionStats: PostElectionStats | undefined = undefined;
       if (nextPollNum >= state.totalPolls) {
+        // Compute voter transfers from initial poll to final poll
+        const candidateNames = state.candidates.map(c => c.party);
+        const rawTransfers = getVoterTransferMatrix(candidateNames);
+        // Only keep significant transfers (≥2% of electorate) that represent actual party switches
+        const significantTransfers = rawTransfers.filter(
+          t => t.percentage >= 2.0 && t.from !== t.to && t.from !== 'Abstain'
+        );
         postElectionStats = calculatePostElectionStats(
           resultsWithChange,
           state.initialPollResults,
@@ -912,6 +926,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           newBlocStats,
           state.blocStatsHistory
         );
+        if (postElectionStats) {
+          postElectionStats.voterTransfers = significantTransfers;
+        }
       }
 
       // Add current bloc stats to history
@@ -947,52 +964,52 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ],
         phase: nextPollNum >= state.totalPolls ? 'results' : 'campaign'
       };
-      
+
     case 'HANDLE_EVENT':
       if (!state.playerCandidate) return state;
-      
+
       // Create a copy of the player candidate to modify
       const updatedPlayerCandidate = { ...state.playerCandidate };
-      
+
       const { pollingChange, newsEvents: eventNews } = applyEventEffect(
         updatedPlayerCandidate,
         action.payload.choice.effect,
         action.payload.choice.boost,
         state.countryData
       );
-      
+
       // Update the candidates array with the modified player candidate
-      const candidatesAfterEvent = state.candidates.map(candidate => 
+      const candidatesAfterEvent = state.candidates.map(candidate =>
         candidate.id === state.playerCandidate?.id ? updatedPlayerCandidate : candidate
       );
-      
+
       return {
         ...state,
         playerCandidate: updatedPlayerCandidate,
         candidates: candidatesAfterEvent,
         playerEventNews: eventNews
       };
-      
+
     case 'RESET_GAME':
       return initialState;
-      
+
     case 'SET_PENDING_PARTIES':
       return {
         ...state,
         pendingParties: action.payload.parties
       };
-      
+
     case 'SET_GAME_PHASE':
       return {
         ...state,
         phase: action.payload.phase
       };
-      
+
     case 'START_COALITION_FORMATION':
       const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
       const winningParty = sortedResults[0].candidate;
       const winningPercentage = sortedResults[0].percentage;
-      
+
       // Check if coalition is needed
       if (winningPercentage > 50) {
         return {
@@ -1000,19 +1017,19 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           phase: 'results' // Skip coalition if majority achieved
         };
       }
-      
+
       // Determine available partners (excluding the winning party)
       const availablePartners = sortedResults
         .slice(1)
         .map(result => result.candidate)
         .filter(candidate => candidate.id !== winningParty.id);
-      
+
       // Sort by compatibility with winning party
       const partnersWithCompatibility = availablePartners.map(partner => ({
         ...partner,
         compatibility: calculatePartyCompatibility(winningParty, partner)
       })).sort((a, b) => b.compatibility - a.compatibility);
-      
+
       return {
         ...state,
         phase: 'coalition',
@@ -1022,17 +1039,57 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           availablePartners: partnersWithCompatibility,
           cabinetAllocations: {},
           isPlayerLead: winningParty.is_player,
-          negotiationPhase: 'partner-selection'
+          negotiationPhase: 'partner-selection',
+          attemptingPartyIndex: 0
         }
       };
-      
+
+    case 'NEXT_COALITION_ATTEMPT': {
+      if (!state.coalitionState) return state;
+      const sortedResultsForAttempt = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
+      const nextAttemptIndex = state.coalitionState.attemptingPartyIndex + 1;
+      // Only allow up to second-largest party (index 1)
+      if (nextAttemptIndex >= 2 || nextAttemptIndex >= sortedResultsForAttempt.length) {
+        // All parties exhausted — form minority government
+        return {
+          ...state,
+          coalitionState: {
+            ...state.coalitionState,
+            negotiationPhase: 'complete'
+          }
+        };
+      }
+      const nextLeader = sortedResultsForAttempt[nextAttemptIndex].candidate;
+      const nextLeaderPercentage = sortedResultsForAttempt[nextAttemptIndex].percentage;
+      const nextAvailablePartners = sortedResultsForAttempt
+        .filter((_, i) => i !== nextAttemptIndex)
+        .map(r => r.candidate)
+        .filter(c => c.id !== nextLeader.id);
+      const nextPartnersWithCompatibility = nextAvailablePartners.map(partner => ({
+        ...partner,
+        compatibility: calculatePartyCompatibility(nextLeader, partner)
+      })).sort((a, b) => b.compatibility - a.compatibility);
+      return {
+        ...state,
+        coalitionState: {
+          coalitionPartners: [nextLeader],
+          currentCoalitionPercentage: nextLeaderPercentage,
+          availablePartners: nextPartnersWithCompatibility,
+          cabinetAllocations: {},
+          isPlayerLead: nextLeader.is_player,
+          negotiationPhase: 'partner-selection',
+          attemptingPartyIndex: nextAttemptIndex
+        }
+      };
+    }
+
     case 'ADD_COALITION_PARTNER':
       if (!state.coalitionState) return state;
-      
+
       const partnerResult = state.pollResults.find(r => r.candidate.id === action.payload.partner.id);
       const partnerPercentage = partnerResult ? partnerResult.percentage : 0;
       const newTotalPercentage = state.coalitionState.currentCoalitionPercentage + partnerPercentage;
-      
+
       return {
         ...state,
         coalitionState: {
@@ -1044,7 +1101,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           negotiationPhase: newTotalPercentage >= 50 ? 'complete' : 'partner-selection'
         }
       };
-      
+
     case 'REMOVE_POTENTIAL_PARTNER':
       if (!state.coalitionState) return state;
       // Don't allow removing the lead party (first in coalitionPartners) from availablePartners
@@ -1060,16 +1117,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           negotiationPhase: 'partner-selection'
         }
       };
-      
+
     case 'ALLOCATE_CABINET_POSITION':
       if (!state.coalitionState) return state;
-      
+
       const currentAllocations = { ...state.coalitionState.cabinetAllocations };
       if (!currentAllocations[action.payload.position]) {
         currentAllocations[action.payload.position] = [];
       }
       currentAllocations[action.payload.position].push(action.payload.party);
-      
+
       return {
         ...state,
         coalitionState: {
@@ -1077,7 +1134,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           cabinetAllocations: currentAllocations
         }
       };
-      
+
     case 'COMPLETE_COALITION_FORMATION':
       return {
         ...state,
@@ -1086,13 +1143,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           negotiationPhase: 'complete'
         }
       };
-      
+
     case 'SET_EVENT_VARIABLES':
       return {
         ...state,
         eventVariables: action.payload.eventVariables
       };
-      
+
     case 'SET_TARGETED_BLOC':
       // If untargeting (blocId is null), trigger cooldown
       if (action.payload.blocId === null) {
@@ -1103,12 +1160,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           targetingCooldownUntil: state.currentPoll + 3 // 3 week cooldown when manually stopped
         };
       }
-      
+
       // If trying to target during cooldown, ignore
       if (state.targetingCooldownUntil !== null && state.targetingCooldownUntil !== undefined && state.currentPoll < state.targetingCooldownUntil) {
         return state; // Don't allow targeting during cooldown
       }
-      
+
       // Start new targeting
       return {
         ...state,
@@ -1116,7 +1173,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         targetingStartWeek: state.currentPoll,
         targetingCooldownUntil: null // Clear any old cooldown
       };
-      
+
     default:
       return state;
   }
@@ -1126,7 +1183,7 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
-  
+
   // Load event variables on mount
   useEffect(() => {
     loadEventVariables().then(vars => {
@@ -1135,48 +1192,48 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       console.error('Failed to load event variables:', err);
     });
   }, []);
-  
+
   const actions = {
     setCountry: useCallback((country: string, countryData: any) => {
       dispatch({ type: 'SET_COUNTRY', payload: { country, countryData } });
     }, []),
-    
+
     setPartyList: useCallback((partyList: string, parties: any[]) => {
       dispatch({ type: 'SET_PARTY_LIST', payload: { partyList, parties } });
     }, []),
-    
+
     setPlayerCandidate: useCallback((candidateId: number) => {
       dispatch({ type: 'SET_PLAYER_CANDIDATE', payload: { candidateId } });
     }, []),
-    
+
     startCampaign: useCallback(() => {
       dispatch({ type: 'START_CAMPAIGN' });
     }, []),
-    
+
     nextPoll: useCallback(() => {
       dispatch({ type: 'NEXT_POLL' });
     }, []),
-    
+
     handleEvent: useCallback((event: Event, choice: EventChoice) => {
       dispatch({ type: 'HANDLE_EVENT', payload: { event, choice } });
     }, []),
-    
+
     resetGame: useCallback(() => {
       dispatch({ type: 'RESET_GAME' });
     }, []),
-    
+
     setPendingParties: useCallback((parties: any[]) => {
       dispatch({ type: 'SET_PENDING_PARTIES', payload: { parties } });
     }, []),
-    
+
     setGamePhase: useCallback((phase: GameState['phase']) => {
       dispatch({ type: 'SET_GAME_PHASE', payload: { phase } });
     }, []),
-    
+
     startCoalitionFormation: useCallback(() => {
       dispatch({ type: 'START_COALITION_FORMATION' });
     }, []),
-    
+
     addCoalitionPartner: useCallback((partner: Candidate) => {
       dispatch({ type: 'ADD_COALITION_PARTNER', payload: { partner } });
     }, []),
@@ -1188,16 +1245,20 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     allocateCabinetPosition: useCallback((position: string, party: string) => {
       dispatch({ type: 'ALLOCATE_CABINET_POSITION', payload: { position, party } });
     }, []),
-    
+
     completeCoalitionFormation: useCallback(() => {
       dispatch({ type: 'COMPLETE_COALITION_FORMATION' });
     }, []),
-    
+
     setTargetedBloc: useCallback((blocId: string | null) => {
       dispatch({ type: 'SET_TARGETED_BLOC', payload: { blocId } });
+    }, []),
+
+    nextCoalitionAttempt: useCallback(() => {
+      dispatch({ type: 'NEXT_COALITION_ATTEMPT' });
     }, [])
   };
-  
+
   return (
     <GameContext.Provider value={{ state, actions }}>
       {children}

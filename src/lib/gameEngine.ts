@@ -3,8 +3,8 @@ import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, D
 // Generate random normal distribution using Box-Muller transform
 function randomNormal(mean: number = 0, std: number = 1): number {
   let u = 0, v = 0;
-  while(u === 0) u = Math.random(); // Converting [0,1) to (0,1)
-  while(v === 0) v = Math.random();
+  while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
+  while (v === 0) v = Math.random();
   const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
   return z * std + mean;
 }
@@ -527,13 +527,52 @@ export function applyTrendStep(
 
 // Track last choices across polls to provide loyalty inertia
 let LAST_CHOICES: number[] | null = null;
+// Snapshot of voter choices at poll 1 (for transfer flow analysis)
+let INITIAL_CHOICES: number[] | null = null;
 // Track each voter's bloc assignment (index into country.blocs), -1 for independents
 let VOTER_BLOC_IDS: number[] | null = null;
 
 function ensureLastChoices(length: number): void {
   if (!LAST_CHOICES || LAST_CHOICES.length !== length) {
     LAST_CHOICES = new Array(length).fill(-1);
+    INITIAL_CHOICES = null; // Reset initial snapshot when electorate changes
   }
+}
+
+/** Call once after the first poll to lock in the baseline voter preferences. */
+export function snapshotInitialChoices(): void {
+  if (LAST_CHOICES) {
+    INITIAL_CHOICES = [...LAST_CHOICES];
+  }
+}
+
+/** Build a voter-transfer matrix comparing poll-1 choices to final choices.
+ *  Returns a list of {from, to, count, percentage} entries, sorted by count desc.
+ *  Only caller-supplied candidateNames are used; abstainers (index -1) are labelled "Abstain".
+ */
+export function getVoterTransferMatrix(
+  candidateNames: string[]
+): Array<{ from: string; to: string; count: number; percentage: number }> {
+  if (!INITIAL_CHOICES || !LAST_CHOICES || INITIAL_CHOICES.length === 0) return [];
+
+  const total = INITIAL_CHOICES.length;
+  const counts: Record<string, number> = {};
+
+  for (let i = 0; i < total; i++) {
+    const fromIdx = INITIAL_CHOICES[i];
+    const toIdx = LAST_CHOICES[i];
+    const fromName = fromIdx >= 0 ? (candidateNames[fromIdx] ?? 'Unknown') : 'Abstain';
+    const toName = toIdx >= 0 ? (candidateNames[toIdx] ?? 'Unknown') : 'Abstain';
+    const key = `${fromName}|||${toName}`;
+    counts[key] = (counts[key] ?? 0) + 1;
+  }
+
+  return Object.entries(counts)
+    .map(([key, count]) => {
+      const [from, to] = key.split('|||');
+      return { from, to, count, percentage: (count / total) * 100 };
+    })
+    .sort((a, b) => b.count - a.count);
 }
 
 function softmaxPick(utilities: number[], beta: number): number {
@@ -580,7 +619,7 @@ function salienceWeightsForVoter(voterIndex: number, country?: Country): number[
 
 export function generateVotingData(country: Country): number[][] {
 
- const stdDefault = 45;
+  const stdDefault = 45;
   const blocs = country.blocs || [];
   const axes = VALUES; // e.g., ['prog_cons','nat_glob',...]
   const pop = Math.max(0, country.pop | 0);
@@ -636,7 +675,7 @@ export function generateVotingData(country: Country): number[][] {
       data[a][i] = Math.max(-100, Math.min(100, v));
     }
   }
-  
+
   return data;
 }
 
@@ -687,13 +726,13 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
 
 export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: number): string[] {
   const newsEvents: string[] = [];
-  
+
   if (pollIteration === 1) {
     // First poll - minimal variation to establish baseline
     for (const candidate of candidates) {
       const baselineVariation = (Math.random() - 0.5) * 0.4; // -0.2 to 0.2
       candidate.party_pop += baselineVariation;
-      
+
       // Initialize momentum tracking
       if (!candidate.momentum) candidate.momentum = 0;
       if (!candidate.previous_popularity) candidate.previous_popularity = candidate.party_pop;
@@ -701,11 +740,11 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     newsEvents.push("ELECTION SEASON OFFICIALLY BEGINS.");
     return newsEvents;
   }
-  
+
   // Calculate current standings for bandwagon effects
   const currentStandings = [...candidates].sort((a, b) => b.party_pop - a.party_pop);
   const leader = currentStandings[0];
-  
+
   // Market volatility - occasional larger political shifts
   let marketVolatility = 0.0;
   if (Math.random() < 0.15) { // 15% chance of significant political event
@@ -714,21 +753,21 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
       console.log(`DEBUG: Market volatility event: ${marketVolatility.toFixed(2)}`);
     }
   }
-  
+
   // Track momentum and bandwagon effects for news
   const highMomentumParties: string[] = [];
   const decliningParties: string[] = [];
-  
+
   for (const candidate of candidates) {
     const oldPopularity = candidate.party_pop;
-    
+
     // Calculate momentum from recent performance
     if (candidate.previous_popularity !== undefined) {
       const momentumChange = candidate.party_pop - candidate.previous_popularity;
       // Momentum factor - carry forward 30% of recent change
       candidate.momentum = (candidate.momentum || 0) * 0.7 + momentumChange * 0.3;
     }
-    
+
     // Incumbency effects - popular parties face erosion, struggling ones get recovery
     let incumbencyEffect = 0;
     if (candidate.party_pop > 10) {
@@ -736,7 +775,7 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     } else {
       incumbencyEffect = 0.05; // Small recovery boost for struggling parties
     }
-    
+
     // Bandwagon effect - leading parties get small boost
     let bandwagonEffect = 0;
     if (candidate === leader && candidate.party_pop > 15) {
@@ -744,41 +783,41 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     } else if (candidate.party_pop < -10) {
       bandwagonEffect = -0.1; // Additional losses for struggling parties
     }
-    
+
     // Apply momentum with decay
     const momentumEffect = (candidate.momentum || 0) * 0.3; // 30% of momentum carries forward
     if (candidate.momentum) candidate.momentum *= 0.85; // Momentum decays over time
-    
+
     // Natural political variation (smaller than old random changes)
     const naturalVariation = (Math.random() - 0.5) * 0.6; // -0.3 to 0.3
-    
+
     // Combine all effects
     const totalChange = incumbencyEffect + bandwagonEffect + momentumEffect + naturalVariation + marketVolatility;
-    
+
     candidate.party_pop += totalChange;
-    
+
     // Store previous popularity for next iteration
     candidate.previous_popularity = oldPopularity;
-    
+
     // Ensure party popularity doesn't go extreme values
     if (candidate.party_pop > 100) {
       candidate.party_pop = 100;
     } else if (candidate.party_pop < -50) {
       candidate.party_pop = -50;
     }
-    
+
     // Track parties with significant momentum changes for news
     if (momentumEffect > 1.0) {
       highMomentumParties.push(candidate.party);
     } else if (momentumEffect < -1.0) {
       decliningParties.push(candidate.party);
     }
-    
+
     if (DEBUG && Math.abs(totalChange) > 0.5) {
       console.log(`DEBUG: ${candidate.party} change: ${totalChange.toFixed(2)}`);
     }
   }
-  
+
   // Generate momentum-based news events
   if (highMomentumParties.length > 0) {
     if (highMomentumParties.length === 1) {
@@ -787,7 +826,7 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
       newsEvents.push(`Multiple parties see rising support as the race intensifies.`);
     }
   }
-  
+
   if (decliningParties.length > 0) {
     if (decliningParties.length === 1) {
       newsEvents.push(`${decliningParties[0]} faces challenges as support begins to waver.`);
@@ -795,7 +834,7 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
       newsEvents.push(`Several parties struggle to maintain voter confidence.`);
     }
   }
-  
+
   return newsEvents;
 }
 
@@ -910,17 +949,17 @@ const POLARIZATION_EVENTS = [
 
 export function applyVoterDynamics(data: number[][], pollIteration: number): string[] {
   const newsEvents: string[] = [];
-  
+
   if (pollIteration === 1) {
     return newsEvents; // No changes for baseline poll
   }
-  
+
   // Add random flavor news events (30% chance)
   if (Math.random() < 0.3) {
     const randomEvent = RANDOM_NEWS_EVENTS[Math.floor(Math.random() * RANDOM_NEWS_EVENTS.length)];
     newsEvents.push(randomEvent);
   }
-  
+
   // Economic anxiety factor - affects economic issues more
   let economicAnxiety = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
   let economicCrisis = false;
@@ -935,16 +974,16 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
       newsEvents.push(optimismEvent);
     }
   }
-  
+
   // Social polarization events
   const polarizationEvent = Math.random() < 0.08; // 8% chance
   const polarizationStrength = polarizationEvent ? 1.2 + Math.random() * 0.8 : 1.0; // 1.2 to 2.0
-  
+
   if (polarizationEvent) {
     const polarizationNews = POLARIZATION_EVENTS[Math.floor(Math.random() * POLARIZATION_EVENTS.length)];
     newsEvents.push(polarizationNews);
   }
-  
+
   // Apply small random changes to voter opinions
   for (let voterIndex = 0; voterIndex < data[0].length; voterIndex++) {
     for (let i = 0; i < VALUES.length; i++) {
@@ -955,7 +994,7 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
       }
     }
   }
-  
+
   return newsEvents;
 }
 
@@ -983,49 +1022,49 @@ export function conductPoll(
   let notVoted = 0;
   // Ensure loyalty memory exists for current electorate size
   ensureLastChoices(data[0]?.length || 0);
-   
+
   // Apply political dynamics to parties
   const politicalNews = applyPoliticalDynamics(candidates, pollIteration);
-  
+
   // Apply voter opinion evolution
   const voterNews = applyVoterDynamics(data, pollIteration);
-  
+
   // Combine news events
   const allNewsEvents = [...politicalNews, ...voterNews];
-  
+
   // Apply minimal polling noise to simulate margin of error
   const pollingNoise = 0.995 + Math.random() * 0.01; // 0.995 to 1.005
-  
+
   // Bloc-level tallies (always calculate if blocs exist)
   const blocTallies: Record<string, number[]> = {};
   const blocSizes: Record<string, number> = {};
   const blocTotalVoters: Record<string, number> = {}; // Total voters in each bloc (voted + abstained)
   if (country?.blocs && VOTER_BLOC_IDS) {
-    country.blocs.forEach(b => { 
+    country.blocs.forEach(b => {
       blocTallies[b.id] = new Array(candidates.length).fill(0);
       blocSizes[b.id] = 0;
       blocTotalVoters[b.id] = 0;
     });
   }
-  
+
   // Poll the entire electorate
   for (let voterIndex = 0; voterIndex < data[0].length; voterIndex++) {
     const choice = voteForCandidate(voterIndex, candidates, data, country);
-    
+
     // Track bloc membership regardless of vote
     if (country?.blocs && VOTER_BLOC_IDS) {
       const blocId = VOTER_BLOC_IDS[voterIndex];
       if (blocId >= 0 && blocId < country.blocs.length) {
         const blocKey = country.blocs[blocId].id;
         blocTotalVoters[blocKey]++; // Count all voters in this bloc
-        
+
         if (choice !== null) {
           blocTallies[blocKey][choice]++;
           blocSizes[blocKey]++; // Count only those who actually voted
         }
       }
     }
-    
+
     if (choice !== null) {
       pollResults[choice]++;
       if (LAST_CHOICES) LAST_CHOICES[voterIndex] = choice;
@@ -1033,7 +1072,7 @@ export function conductPoll(
       notVoted++;
     }
   }
-  
+
   // Apply minimal polling noise to results (only if there are votes)
   const totalRawVotes = pollResults.reduce((sum, votes) => sum + votes, 0);
   if (totalRawVotes > 0) {
@@ -1041,17 +1080,17 @@ export function conductPoll(
       pollResults[i] = Math.max(0, pollResults[i] * pollingNoise);
     }
   }
-  
+
   // Calculate total votes and percentages
   const totalVotes = pollResults.reduce((sum, votes) => sum + votes, 0);
-  
+
   // Return results as array of objects with percentages
   const results = candidates.map((candidate, index) => ({
     candidate,
     votes: Math.round(pollResults[index]), // Round to whole votes
     percentage: totalVotes > 0 ? (pollResults[index] / totalVotes) * 100 : 0
   }));
-  
+
   // Ensure percentages add up to 100% (handle rounding errors)
   if (totalVotes > 0) {
     const totalPercentage = results.reduce((sum, result) => sum + result.percentage, 0);
@@ -1073,12 +1112,12 @@ export function conductPoll(
       const totalBlocVoters = blocTotalVoters[bloc.id] || 1; // Total voters in bloc (voted + abstained)
       const expectedVoters = Math.round(data[0].length * bloc.weight); // Expected based on weight
       const turnout = totalBlocVoters > 0 ? actualVoters / totalBlocVoters : 0;
-      
+
       if (totalBlocVoters > 0) {
         const percentages: Record<string, number> = {};
         let maxPct = 0;
         let leadingParty = '';
-        
+
         candidates.forEach((c, i) => {
           // Calculate percentage of entire bloc (including non-voters)
           const pct = totalBlocVoters > 0 ? (tallies[i] / totalBlocVoters) * 100 : 0;
@@ -1088,13 +1127,13 @@ export function conductPoll(
             leadingParty = c.party;
           }
         });
-        
+
         // Convert bloc ID to display name (e.g., "urban_progressives" -> "Urban Progressives")
         const blocName = bloc.id
           .split('_')
           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
-        
+
         blocStats.push({
           blocId: bloc.id,
           blocName,
@@ -1118,7 +1157,7 @@ export function conductPoll(
       console.log(stats.blocId, stats.percentages);
     }
   }
-  
+
   return { results, newsEvents: allNewsEvents, blocStats };
 }
 
@@ -1141,38 +1180,38 @@ export function applyEventEffect(
   countryData: Country
 ): { pollingChange: number; newsEvents: string[] } {
   const newsEvents: string[] = [];
-  
+
   // Calculate polling impact BEFORE applying the changes
   let voterAlignment = 0;
-  
+
   if (DEBUG) {
     console.log(`DEBUG: Calculating voter alignment for effects: ${JSON.stringify(effect)}`);
   }
-  
+
   const voterPreferenceAnalysis: string[] = [];
-  
+
   // Convert voter alignment to polling change
   const baseChange = voterAlignment / 30.0;
   let pollingChange = baseChange * Math.min(boost / 12.0, 1.5);
-  
+
   // Add moderate randomness for event uncertainty
   const randomFactor = (Math.random() - 0.5) * 2; // -1.0 to 1.0
   pollingChange += randomFactor;
-  
+
   // Simplified minimum effect logic
   if (Math.abs(pollingChange) < 0.5) {
     const sign = boost >= 0 ? 1 : -1;
     const minimumEffect = sign * Math.abs(boost) / 30.0;
     pollingChange = minimumEffect;
   }
-  
+
   // Cap maximum polling change
   pollingChange = Math.max(-5.0, Math.min(5.0, pollingChange));
-  
+
   // Apply polling change with proper bounds checking
   const oldPopularity = playerCandidate.party_pop;
   playerCandidate.party_pop += pollingChange;
-  
+
   // Ensure party popularity stays within reasonable bounds
   if (playerCandidate.party_pop > 100) {
     playerCandidate.party_pop = 100;
@@ -1183,30 +1222,30 @@ export function applyEventEffect(
   for (const [valueKey, change] of Object.entries(effect)) {
     if (valueKey in countryData.vals && change !== undefined) {
       const voterPosition = countryData.vals[valueKey as keyof PoliticalValues];
-      
+
       // Find player's CURRENT position on this issue
       const valueIndex = VALUES.indexOf(valueKey as any);
       if (valueIndex !== -1) {
         const playerOldPosition = playerCandidate.vals[valueIndex];
         const playerNewPosition = Math.max(-100, Math.min(100, playerOldPosition + change));
-        
+
         // Calculate how much closer/further this moves player to voter center
         const distanceBefore = Math.abs(voterPosition - playerOldPosition);
         const distanceAfter = Math.abs(voterPosition - playerNewPosition);
         const alignmentChange = distanceBefore - distanceAfter;
         voterAlignment += alignmentChange;
-        
+
         if (DEBUG) {
           console.log(`DEBUG: ${valueKey}: voter=${voterPosition}, old=${playerOldPosition}, new=${playerNewPosition}`);
           console.log(`DEBUG: distance_before=${distanceBefore}, distance_after=${distanceAfter}, alignment_change=${alignmentChange}`);
         }
-        
-       
+
+
 
         // Analyze voter preference trends for news
         if (Math.abs(change) >= 5 && Math.random() < 0.8) { // this is an absolute number from -100 to 100 of the change of the corresponding value
           if (alignmentChange > 0) { // Moving closer to voter preference
-            const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;  
+            const nameChoice = Math.random() > 0.5 ? playerCandidate.party : playerCandidate.name;
             switch (valueKey) {
               case "soc_cap":
                 if (voterPosition > playerOldPosition) {
@@ -1450,7 +1489,7 @@ export function applyEventEffect(
                   voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
                 }
                 break;
-                // Add more cases as needed
+              // Add more cases as needed
             }
           }
           else { // If alignment change is negative, away from the voters
@@ -1669,14 +1708,14 @@ export function applyEventEffect(
                   voterPreferenceAnalysis.push(votPrefNews[Math.floor(Math.random() * votPrefNews.length)]);
                 }
                 break;
-                // Add more cases as needed
+              // Add more cases as needed
             }
           }
         }
       }
     }
   }
-  
+
   // NOW apply the changes to the candidate
   for (let i = 0; i < VALUES.length; i++) {
     const valueKey = VALUES[i];
@@ -1685,26 +1724,25 @@ export function applyEventEffect(
       playerCandidate.vals[i] += effect[valueKey]! * EVENT_EFFECT_MULTIPLIER;
       // Clamp values to valid range
       playerCandidate.vals[i] = Math.max(-100, Math.min(100, playerCandidate.vals[i]));
-      
+
       if (DEBUG) {
         console.log(`DEBUG: Changed ${valueKey} from ${oldVal} to ${playerCandidate.vals[i]}`);
       }
     }
   }
-  
-  
+
+
   // Generate news based on voter preference analysis
   if (voterPreferenceAnalysis.length > 0) {
     newsEvents.push(...voterPreferenceAnalysis.slice(0, 2)); // Max 2 items
   }
 
-  
+
   if (DEBUG) {
     console.log(`DEBUG: Voter alignment: ${voterAlignment.toFixed(2)}, Boost: ${boost}`);
     console.log(`DEBUG: Final polling change: ${pollingChange.toFixed(2)}`);
     console.log(`DEBUG: Party popularity changed from ${oldPopularity.toFixed(2)} to ${playerCandidate.party_pop.toFixed(2)}`);
   }
-  
+
   return { pollingChange, newsEvents };
 }
-  

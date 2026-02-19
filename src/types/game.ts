@@ -121,6 +121,13 @@ export interface PartyBlocSupport {
   weakestBlocPercentage: number;
 }
 
+export interface VoterTransferEntry {
+  from: string;   // party name at poll 1
+  to: string;     // party name at final poll
+  count: number;  // number of voters who made this transfer
+  percentage: number; // percentage of total electorate
+}
+
 export interface PostElectionStats {
   partySwings: Array<{
     party: string;
@@ -130,6 +137,7 @@ export interface PostElectionStats {
   }>;
   blocSwings: BlocSwingData[];
   partyBlocSupport: PartyBlocSupport[];
+  voterTransfers?: VoterTransferEntry[];
   biggestTurnoutIncrease?: {
     blocId: string;
     blocName: string;
@@ -186,6 +194,7 @@ export interface CoalitionState {
   isPlayerLead: boolean;
   negotiationPhase: 'partner-selection' | 'cabinet-negotiation' | 'complete';
   currentNegotiatingPartner?: Candidate;
+  attemptingPartyIndex: number; // 0 = largest party, 1 = second-largest, etc.
 }
 
 export interface CabinetPosition {
@@ -196,7 +205,7 @@ export interface CabinetPosition {
 
 export const VALUES = [
   "prog_cons",
-  "nat_glob", 
+  "nat_glob",
   "env_eco",
   "soc_cap",
   "pac_mil",
