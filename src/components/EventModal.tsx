@@ -96,17 +96,7 @@ export default function EventModal({ event, onChoice, onClose, newsSource = 'Bre
             </div>
           </div>
 
-          {/* Editorial Note / Skip */}
-          <div className="mt-4 pt-3 border-t border-slate-700">
-            <div className="flex justify-end">
-              <button
-                onClick={onClose}
-                className="text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-600 transition-colors duration-200 text-xs font-bold uppercase tracking-wide px-4 py-2 rounded-lg"
-              >
-                Decline To Comment
-              </button>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
