@@ -373,7 +373,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       if (state.currentPoll >= state.totalPolls) return state;
 
       const nextPollNum = state.currentPoll + 1;
-      const trendNews: string[] = [];
+      const globalTrendNews: string[] = []; // Changed from trendNews to avoid conflict with party trends
       let activeTrend = state.activeTrend;
       let trendHistory = state.trendHistory;
       let nextTrendPoll = state.nextTrendPoll;
@@ -383,14 +383,14 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       if (!activeTrend && nextTrendPoll !== null && nextPollNum >= nextTrendPoll && nextPollNum < state.totalPolls) {
         const previousKey = trendHistory.length > 0 ? trendHistory[trendHistory.length - 1].valueKey : undefined;
         const newTrend = createTrend(nextPollNum, previousKey);
-        trendNews.push(formatTrendStartHeadline(newTrend));
+        globalTrendNews.push(formatTrendStartHeadline(newTrend));
         const stepResult = applyTrendStep(newTrend, updatedCountryValues, votingDataRef);
         updatedCountryValues = stepResult.values;
         if (stepResult.ongoingNews) {
-          trendNews.push(stepResult.ongoingNews);
+          globalTrendNews.push(stepResult.ongoingNews);
         }
         if (stepResult.completionNews) {
-          trendNews.push(stepResult.completionNews);
+          globalTrendNews.push(stepResult.completionNews);
         }
         if (stepResult.completedTrend) {
           trendHistory = [...trendHistory, stepResult.completedTrend];
@@ -404,10 +404,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         const stepResult = applyTrendStep(activeTrend, updatedCountryValues, votingDataRef);
         updatedCountryValues = stepResult.values;
         if (stepResult.ongoingNews) {
-          trendNews.push(stepResult.ongoingNews);
+          globalTrendNews.push(stepResult.ongoingNews);
         }
         if (stepResult.completionNews) {
-          trendNews.push(stepResult.completionNews);
+          globalTrendNews.push(stepResult.completionNews);
         }
         if (stepResult.completedTrend) {
           trendHistory = [...trendHistory, stepResult.completedTrend];
@@ -479,8 +479,15 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
         const newsTitle = (Math.random() < 0.7 ? result.candidate.party : result.candidate.name)
 
+        let newsProbability = 0.05;
+        newsProbability += (result.percentage / 100) * 1.5;
+        if (Math.abs(result.change) > 2.5) {
+          newsProbability += 0.8;
+        } else if (Math.abs(result.change) > 1.0) {
+          newsProbability += 0.3;
+        }
 
-        if (Math.random() < 0.4 || (result.candidate === state.playerCandidate)) {
+        if (Math.random() < newsProbability || (result.candidate === state.playerCandidate)) {
           if (Math.abs(result.change) > 2.5) {
             if (result.change > 0) {
               const surgeMessages = [
@@ -670,8 +677,23 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       });
       // --- END: Add news for all parties with polling surges/drops ---
 
-      // --- BEGIN: Random gaffe/positive events for non-player parties ---
-      const randomRivalEvents: string[] = [];
+      // --- BEGIN: Party Polling Trends (Gaffes / Positive Events) ---
+      const trendNews: string[] = [];
+      const ONGOING_SCANDAL_TEMPLATES = [
+        `Fallout continues from {topic} scandal for {candidate_name}`,
+        `{party} still struggling to control narrative around {topic}`,
+        `Voters haven't forgotten the {topic} controversy surrounding {leader_name}`,
+        `{topic} continues to plague {party}'s polling numbers`,
+        `Analysts point to {topic} as cause for {candidate_name}'s ongoing slump`
+      ];
+
+      const ONGOING_BOOST_TEMPLATES = [
+        `{candidate_name} continues to ride the wave from {topic}`,
+        `{party}'s momentum holds strong following {topic}`,
+        `{leader_name}'s {topic} success continues to resonate with voters`,
+        `Approval ratings for {party} still benefiting from {topic}`,
+        `{candidate_name} capitalizes on ongoing enthusiasm for {topic}`
+      ];
 
       const GAFFE_TEMPLATES = [
         `{candidate_name} caught in embarrassing {social_media_platform} scandal`,
@@ -709,44 +731,89 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         `{leader_name} connects with working-class voters in {region}`
       ];
 
-      // Filter for non-player parties
-      const nonPlayerCandidates = state.candidates.filter(c => !c.is_player);
+      // We process ALL candidates (including player)
+      state.candidates.forEach(candidate => {
+        // Find the mutable state counterpart reference because state.candidates might have been cloned or we are mutating it directly in conductPoll?
+        // Wait, NEXT_POLL reducer in GameContext isn't mutating candidate directly like applyPoliticalDynamics did, but state.candidates are objects that are mutated inside applyPoliticalDynamics anyway. We should mutate candidate.
 
-      nonPlayerCandidates.forEach(candidate => {
-        // 10-15% chance per party per poll for a random event
-        if (Math.random() < 0.125) {
-          const isGaffe = Math.random() < 0.5;
-          const templates = isGaffe ? GAFFE_TEMPLATES : POSITIVE_TEMPLATES;
-          const template = templates[Math.floor(Math.random() * templates.length)];
+        // 1) Evaluate if they have an active PartyTrend
+        if (candidate.trend && candidate.trend.weeksRemaining > 0) {
+          candidate.trend.weeksRemaining -= 1;
 
-          // Randomly choose between party name and leader name for variety
-          const useLeaderName = Math.random() < 0.5;
+          // Apply polling impact
+          candidate.party_pop = Math.max(-50, Math.min(100, candidate.party_pop + candidate.trend.weeklyEffect));
 
-          const newsText = substituteNewsVariables(
-            template,
-            {
-              candidate_name: candidate.name,
-              party: candidate.party,
-              leader_name: useLeaderName ? candidate.name : candidate.party
-            },
-            state.eventVariables,
-            state.country
-          );
+          // Every week of a trend has a 40% chance of generating a follow-up news story
+          if (Math.random() < 0.4) {
+            const templates = candidate.trend.type === 'scandal' ? ONGOING_SCANDAL_TEMPLATES : ONGOING_BOOST_TEMPLATES;
+            const template = templates[Math.floor(Math.random() * templates.length)];
+            const useLeaderName = Math.random() < 0.5;
+            const newsText = substituteNewsVariables(
+              template,
+              {
+                candidate_name: candidate.name,
+                party: candidate.party,
+                leader_name: useLeaderName ? candidate.name : candidate.party,
+                topic: candidate.trend.topic
+              },
+              state.eventVariables,
+              state.country
+            );
+            trendNews.push(newsText);
+          }
 
-          randomRivalEvents.push(newsText);
+          // Clear if finished
+          if (candidate.trend.weeksRemaining <= 0) {
+            candidate.trend = undefined;
+          }
+        } else {
+          // 2) If no active trend, there is a chance to spawn a new one
+          const candidateResult = resultsWithChange.find(r => r.candidate.id === candidate.id);
+          const currentPolling = candidateResult ? candidateResult.percentage : 0;
+          const currentSwing = candidateResult ? candidateResult.change : 0;
 
-          // Apply small popularity impacts
-          const targetCandidate = state.candidates.find(c => c.name === candidate.name);
-          if (targetCandidate) {
-            if (isGaffe) {
-              targetCandidate.party_pop = Math.max(0, targetCandidate.party_pop - (1 + Math.random() * 2));
-            } else {
-              targetCandidate.party_pop = Math.min(100, targetCandidate.party_pop + (1 + Math.random() * 1));
-            }
+          let eventProbability = 0.04;
+          eventProbability += (currentPolling / 100) * 0.4;
+          if (Math.abs(currentSwing) > 2.0) eventProbability += 0.2;
+
+          if (Math.random() < eventProbability) {
+            const isGaffe = Math.random() < 0.5;
+            const templates = isGaffe ? GAFFE_TEMPLATES : POSITIVE_TEMPLATES;
+            const template = templates[Math.floor(Math.random() * templates.length)];
+            const useLeaderName = Math.random() < 0.5;
+
+            const rawHeadline = substituteNewsVariables(
+              template,
+              {
+                candidate_name: candidate.name,
+                party: candidate.party,
+                leader_name: useLeaderName ? candidate.name : candidate.party
+              },
+              state.eventVariables,
+              state.country
+            );
+
+            // Announce the outbreak of the trend
+            trendNews.push(`BREAKING: ${rawHeadline}`);
+
+            // Derive a "topic" from the headline (first 5 words) to reference later.
+            const topic = rawHeadline.split(' ').slice(0, 5).join(' ') + '...';
+
+            candidate.trend = {
+              type: isGaffe ? 'scandal' : 'boost',
+              duration: 2 + Math.floor(Math.random() * 3), // 2 to 4 weeks
+              weeksRemaining: 2 + Math.floor(Math.random() * 3),
+              weeklyEffect: isGaffe ? -(1 + Math.random() * 1.5) : (0.5 + Math.random() * 1.0),
+              topic: topic
+            };
+
+            // Apply first week's effect immediately
+            candidate.trend.weeksRemaining -= 1;
+            candidate.party_pop = Math.max(-50, Math.min(100, candidate.party_pop + candidate.trend.weeklyEffect));
           }
         }
       });
-      // --- END: Random gaffe/positive events for non-player parties ---
+      // --- END: Party Polling Trends (Gaffes / Positive Events) ---
 
       // --- BEGIN: Random position shifts for non-player parties ---
       const positionShiftNews: string[] = [];
@@ -853,8 +920,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
       nonPlayerCandidates.forEach(candidate => {
-        // 8-10% chance per party per poll for a position shift
-        if (Math.random() < 0.09) {
+        const candidateResult = resultsWithChange.find(r => r.candidate.id === candidate.id);
+        const currentPolling = candidateResult ? candidateResult.percentage : 0;
+        const currentSwing = candidateResult ? candidateResult.change : 0;
+
+        let shiftProbability = 0.03;
+        shiftProbability += (currentPolling / 100) * 0.3;
+        if (Math.abs(currentSwing) > 2.0) shiftProbability += 0.15;
+
+        // chance per party per poll for a position shift
+        if (Math.random() < shiftProbability) {
           // Pick a random axis to shift
           const axes: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
           const axisToShift = axes[Math.floor(Math.random() * axes.length)];
@@ -894,11 +969,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
       // Combine all news sources into a single array first
       const allNewsItems = [
-        ...trendNews,
+        ...globalTrendNews, // Note: renamed the earlier trendNews to globalTrendNews to prevent variable name conflict
         ...state.playerEventNews,
         ...newsEvents,
         ...partyPollingNews,
-        ...randomRivalEvents,
+        ...trendNews, // the new party-specific trend news
         ...positionShiftNews
       ];
 

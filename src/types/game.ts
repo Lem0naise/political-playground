@@ -33,6 +33,14 @@ export interface ActiveTrend extends TrendDefinition {
   endWeek: number;
 }
 
+export interface PartyTrend {
+  type: 'scandal' | 'boost';
+  topic: string; // Used to template follow-up news items
+  duration: number; // Total duration in weeks
+  weeksRemaining: number;
+  weeklyEffect: number; // Positive for boost, negative for scandal
+}
+
 export interface Candidate {
   id: number;
   name: string;
@@ -44,6 +52,7 @@ export interface Candidate {
   is_player: boolean;
   momentum?: number;
   previous_popularity?: number;
+  trend?: PartyTrend;
 }
 
 export interface VoterBloc {
