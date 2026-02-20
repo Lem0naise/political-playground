@@ -60,11 +60,11 @@ export default function ResultsView() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-4 sm:p-6">
-      <div className="max-w-7xl mx-auto space-y-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-2 sm:p-4">
+      <div className="max-w-7xl mx-auto space-y-3">
 
         {/* Header */}
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 text-center">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4 text-center">
           <h1 className="campaign-status text-2xl sm:text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">
             FINAL ELECTION RESULTS
           </h1>
@@ -77,7 +77,7 @@ export default function ResultsView() {
         </div>
 
         {/* Winner Announcement */}
-        <div className={`bg-slate-800 border rounded-lg p-4 sm:p-6 ${needsCoalition ? 'border-orange-500' : 'border-yellow-500'
+        <div className={`bg-slate-800 border rounded-lg p-3 sm:p-4 ${needsCoalition ? 'border-orange-500' : 'border-yellow-500'
           }`}>
           <div className="text-center">
             <h2 className={`campaign-status text-xl sm:text-2xl font-bold mb-3 ${needsCoalition ? 'text-orange-400' : 'text-yellow-400'
@@ -167,7 +167,7 @@ export default function ResultsView() {
 
         {/* Player Performance */}
         {playerResult && (
-          <div className={`bg-slate-800 border rounded-lg p-4 ${playerWon
+          <div className={`bg-slate-800 border rounded-lg p-3 ${playerWon
             ? 'border-green-500'
             : playerPosition <= 3
               ? 'border-blue-500'
@@ -195,7 +195,7 @@ export default function ResultsView() {
         )}
 
         {/* Main Results Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
 
           {/* Final Results */}
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4">
@@ -210,7 +210,7 @@ export default function ResultsView() {
                 return (
                   <div
                     key={result.candidate.id}
-                    className={`p-2 rounded border ${result.candidate.is_player
+                    className={`p-1.5 sm:p-2 rounded border ${result.candidate.is_player
                       ? 'border-yellow-500 bg-yellow-900/20'
                       : 'border-slate-600 bg-slate-700/30'
                       }`}
@@ -323,7 +323,7 @@ export default function ResultsView() {
 
         {/* Detailed Analysis Sections */}
         {state.postElectionStats && state.blocStats && (
-          <div className="space-y-4">
+          <div className="space-y-3">
 
             {/* Party Performance by Voter Bloc */}
             <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4">

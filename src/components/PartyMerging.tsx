@@ -372,7 +372,7 @@ export default function PartyMerging() {
                 disabled={!newPartyName.trim() || !selectedLeader}
                 className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-sm disabled:cursor-not-allowed"
               >
-                ✅ Confirm Merge
+                Confirm Merge
               </button>
             </div>
           </div>

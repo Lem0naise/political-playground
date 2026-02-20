@@ -124,8 +124,8 @@ export default function PartySelection() {
                     key={listName}
                     onClick={() => handlePartyListToggle(listName)}
                     className={`flex flex-col text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${isSelected
-                        ? 'border-yellow-400 bg-yellow-900/30 text-yellow-100'
-                        : 'border-slate-600 bg-slate-800/40 text-slate-100 hover:border-yellow-600 hover:bg-slate-700/40'
+                      ? 'border-yellow-400 bg-yellow-900/30 text-yellow-100'
+                      : 'border-slate-600 bg-slate-800/40 text-slate-100 hover:border-yellow-600 hover:bg-slate-700/40'
                       }`}
                   >
                     <div className="flex items-start justify-between gap-1">
@@ -134,9 +134,7 @@ export default function PartySelection() {
                         <div className="text-xs text-slate-300 font-mono mt-0">{parties.length} parties</div>
                       </div>
                       {isSelected && (
-                        <div className="w-6 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
-                          <span className="text-black font-bold text-xs">✓</span>
-                        </div>
+                        <span className="text-black font-bold text-xs" />
                       )}
                     </div>
 
@@ -193,7 +191,7 @@ export default function PartySelection() {
                 disabled={selectedLists.length === 0}
                 className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-sm disabled:cursor-not-allowed"
               >
-                {selectedLists.length > 0 ? '🔀 Proceed to Party Merging' : 'Select Party Lists'}
+                {selectedLists.length > 0 ? 'Proceed to Party Merging' : 'Select Party Lists'}
               </button>
             </div>
           </div>

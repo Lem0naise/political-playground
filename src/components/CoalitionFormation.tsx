@@ -174,10 +174,10 @@ function NegotiationModal({
                   }
                 }}
                 className={`p-2.5 border rounded-lg cursor-pointer transition-all ${offeredPositions.includes(position.name)
-                    ? 'border-green-500 bg-green-900/30 ring-1 ring-green-500/50'
-                    : priorityPositions.includes(position.name)
-                      ? 'border-blue-500 bg-blue-900/20'
-                      : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
+                  ? 'border-green-500 bg-green-900/30 ring-1 ring-green-500/50'
+                  : priorityPositions.includes(position.name)
+                    ? 'border-blue-500 bg-blue-900/20'
+                    : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
                   }`}
               >
                 <div className="font-semibold text-white text-xs">{position.name}</div>
@@ -391,8 +391,8 @@ function PlayerApproachModal({
                     }
                   }}
                   className={`p-2.5 border rounded-lg cursor-pointer transition-all text-sm ${acceptedPositions.includes(position)
-                      ? 'border-green-500 bg-green-900/30 text-green-300'
-                      : 'border-slate-600 bg-slate-700 hover:bg-slate-600 text-white'
+                    ? 'border-green-500 bg-green-900/30 text-green-300'
+                    : 'border-slate-600 bg-slate-700 hover:bg-slate-600 text-white'
                     }`}
                 >
                   {position} {acceptedPositions.includes(position) ? '✓' : ''}
@@ -511,12 +511,12 @@ function CoalitionLog({ entries }: { entries: string[] }) {
           <div
             key={i}
             className={`text-xs px-2.5 py-1.5 rounded border-l-2 ${isMandate
-                ? 'border-orange-400 bg-orange-900/20 text-orange-200'
-                : isSuccess
-                  ? 'border-green-500 bg-green-900/20 text-green-200'
-                  : isReject
-                    ? 'border-red-500 bg-red-900/20 text-red-200'
-                    : 'border-slate-600 bg-slate-700/30 text-slate-300'
+              ? 'border-orange-400 bg-orange-900/20 text-orange-200'
+              : isSuccess
+                ? 'border-green-500 bg-green-900/20 text-green-200'
+                : isReject
+                  ? 'border-red-500 bg-red-900/20 text-red-200'
+                  : 'border-slate-600 bg-slate-700/30 text-slate-300'
               }`}
           >
             {entry}
@@ -756,7 +756,7 @@ export default function CoalitionFormation() {
               onClick={() => actions.setGamePhase('results')}
               className="px-10 py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 border border-green-500 text-white font-bold rounded-xl transition-all hover:scale-105"
             >
-              🏛️ View Final Results
+              View Final Results
             </button>
             <p className="text-slate-500 text-xs mt-3">
               Created by{' '}
@@ -794,7 +794,7 @@ export default function CoalitionFormation() {
           {isSecondAttempt && (
             <div className="bg-orange-900/40 border border-orange-500 rounded-xl p-3 text-center">
               <p className="text-orange-200 text-sm font-semibold">
-                ⚠️ {sortedResults[0]?.candidate.party} failed to form a coalition —
+                {sortedResults[0]?.candidate.party} failed to form a coalition —
                 mandate passed to <strong>{attemptingParty?.party}</strong>
               </p>
             </div>
@@ -812,7 +812,7 @@ export default function CoalitionFormation() {
             />
             {hasMajority && (
               <div className="mt-3 p-2 bg-green-900/30 border border-green-600 rounded-lg text-center">
-                <p className="text-green-400 font-bold text-sm">🎉 Majority achieved! Finalising coalition…</p>
+                <p className="text-green-400 font-bold text-sm">Majority achieved! Finalising coalition…</p>
               </div>
             )}
           </div>
@@ -861,8 +861,8 @@ export default function CoalitionFormation() {
                           }
                         }}
                         className={`flex items-center gap-3 p-3 border rounded-lg transition-all ${isPlayerLead
-                            ? 'border-slate-600 bg-slate-700 hover:border-blue-500 hover:bg-slate-600 cursor-pointer'
-                            : 'border-slate-700 bg-slate-700/40'
+                          ? 'border-slate-600 bg-slate-700 hover:border-blue-500 hover:bg-slate-600 cursor-pointer'
+                          : 'border-slate-700 bg-slate-700/40'
                           }`}
                       >
                         <div

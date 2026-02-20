@@ -76,7 +76,7 @@ export default function CampaignView() {
       {/* Newspaper Header Banner */}
       <div className="bg-slate-900 text-white border-b-2 border-red-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 to-blue-900/20"></div>
-        <div className="relative max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-3">
+        <div className="relative max-w-7xl mx-auto px-2 sm:px-4 py-1 sm:py-2">
           <div className="text-center mb-1 sm:mb-2">
             <h1 className=" border-b border-red-500 pb-2 newspaper-header text-2xl sm:text-3xl font-black text-white mb-1 tracking-tight">
               THE POLITICAL PLAYGROUND
@@ -123,22 +123,22 @@ export default function CampaignView() {
 
 
 
-            {/* Political News - Newspaper Style */}
+            {/* Political News - Dashboard Style */}
             {state.politicalNews.length > 0 && (
-              <div className="uppercase bg-stone-50 vintage-border p-3 sm:p-4 relative newspaper-section" style={{ background: 'var(--newspaper-bg)' }}>
-                <div className="absolute top-0 left-0 bg-red-700 text-white px-2 py-0.5 text-xs font-bold tracking-widest shadow">
-                  BREAKING NEWS
+              <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4 relative">
+                <div className="absolute -top-2 -left-2 bg-red-600 border border-red-500 text-white px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded shadow-lg transform -rotate-2">
+                  NEWS FEED
                 </div>
 
                 {state.activeTrend && (
-                  <div className="mt-3 border-2 border-red-600 bg-gradient-to-r from-red-50 to-orange-50 rounded p-2 sm:p-3 mb-3 shadow-md">
+                  <div className="mt-2 border border-red-500/50 bg-red-900/20 rounded p-2 sm:p-3 mb-3">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <div>
-                        <p className="text-xs font-mono uppercase tracking-wider text-red-700 font-bold">NATIONAL TREND</p>
-                        <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight font-serif uppercase mt-1">
+                        <p className="text-[10px] font-mono uppercase tracking-wider text-red-400 font-bold mb-0.5">NATIONAL TREND</p>
+                        <h3 className="text-sm sm:text-base font-bold text-white leading-tight uppercase">
                           {state.activeTrend.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-slate-700 font-serif mt-0.5">
+                        <p className="text-xs text-slate-300 mt-1">
                           {state.activeTrend.description}
                         </p>
                       </div>
@@ -151,19 +151,19 @@ export default function CampaignView() {
 
                     if (idx === 0) {
                       return (
-                        <div key={idx} className="sm:col-span-2 lg:col-span-2 border-l-4 border-red-700 bg-white rounded shadow-sm overflow-hidden">
-                          <div className="p-2 sm:p-3">
-                            <div className="flex items-center gap-2 mb-1">
-                              <div className="bg-red-700 text-white px-1.5 py-0.5 text-xs font-bold tracking-wide">
-                                HEADLINE
+                        <div key={idx} className="sm:col-span-2 lg:col-span-2 border border-slate-600 bg-slate-700/50 rounded-lg overflow-hidden">
+                          <div className="p-2 sm:p-3 flex gap-3">
+                            <div className="w-1 bg-red-500 rounded-full"></div>
+                            <div>
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-[10px] text-slate-400 font-mono italic">{newspaper}</span>
                               </div>
-                              <span className="text-xs text-slate-600 font-mono italic">{newspaper}</span>
-                            </div>
-                            <h3 className={`${news.split(' ').length > 10 ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'} font-extrabold text-slate-900 leading-tight font-serif uppercase`}>
-                              {news}
-                            </h3>
-                            <div className="text-xs text-slate-500 font-mono uppercase tracking-wide mt-1">
-                              Week {state.currentPoll}
+                              <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                                {news}
+                              </h3>
+                              <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wide mt-1">
+                                Week {state.currentPoll}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -171,12 +171,12 @@ export default function CampaignView() {
                     }
 
                     return (
-                      <div key={idx} className="border-l-2 border-slate-400 bg-white/80 rounded shadow-sm overflow-hidden">
-                        <div className="p-1.5 sm:p-2">
-                          <div className="flex items-center gap-1 mb-0.5">
-                            <span className="text-xs text-slate-500 font-mono italic">{newspaper}</span>
+                      <div key={idx} className="border border-slate-600/50 bg-slate-700/30 rounded-lg overflow-hidden">
+                        <div className="p-2">
+                          <div className="flex items-center gap-1 mb-1">
+                            <span className="text-[10px] text-slate-400 font-mono italic truncate">{newspaper}</span>
                           </div>
-                          <h4 className="text-sm sm:text-base font-bold text-slate-800 font-serif leading-tight">
+                          <h4 className="text-xs sm:text-sm font-medium text-slate-200 leading-snug">
                             {news}
                           </h4>
                         </div>
@@ -197,7 +197,7 @@ export default function CampaignView() {
                       onClick={actions.startCampaign}
                       className="px-6 sm:px-8 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
                     >
-                      🚀 LAUNCH CAMPAIGN
+                      LAUNCH CAMPAIGN
                     </button>
                   ) : (
                     <button

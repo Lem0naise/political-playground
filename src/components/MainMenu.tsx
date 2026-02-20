@@ -140,8 +140,8 @@ export default function MainMenu() {
                     key={countryCode}
                     onClick={() => setSelectedCountry(countryCode)}
                     className={`text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${selectedCountry === countryCode
-                        ? 'border-yellow-400 bg-yellow-900/30 text-yellow-200'
-                        : 'border-slate-600 bg-slate-800/40 text-slate-100 hover:border-yellow-600 hover:bg-slate-700/40'
+                      ? 'border-yellow-400 bg-yellow-900/30 text-yellow-200'
+                      : 'border-slate-600 bg-slate-800/40 text-slate-100 hover:border-yellow-600 hover:bg-slate-700/40'
                       }`}
                   >
                     <div className="campaign-status text-sm font-semibold">{countryCode}</div>
@@ -170,7 +170,7 @@ export default function MainMenu() {
               disabled={!selectedCountry}
               className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base disabled:cursor-not-allowed"
             >
-              {selectedCountry ? `🚀 Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
+              {selectedCountry ? `Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
             </button>
           </div>
 

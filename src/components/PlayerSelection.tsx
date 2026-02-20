@@ -267,7 +267,7 @@ export default function PlayerSelection() {
                     onClick={() => handlePlayerSelect(candidate.id)}
                     className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 campaign-status text-sm"
                   >
-                    🚀 Campaign as {candidate.party.toUpperCase()}
+                    Campaign as {candidate.party.toUpperCase()}
                   </button>
                 </div>
               ))}
