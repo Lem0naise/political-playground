@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import {
   calculatePartyCompatibility,
@@ -11,11 +11,12 @@ import {
   simulateAICoalitionNegotiation,
   generatePlayerApproachOffer,
   evaluatePlayerResponse,
-  autoAllocateUnfilledCabinetPositions
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
 import CabinetView from './CabinetView';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
+
+// ─── NegotiationModal (player-led negotiation with a partner) ───────────────
 
 interface NegotiationModalProps {
   leadParty: Candidate;
@@ -27,31 +28,33 @@ interface NegotiationModalProps {
   cabinetAllocations: Record<string, string[]>;
 }
 
-function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPercentage, onComplete, onCancel, cabinetAllocations }: NegotiationModalProps) {
+function NegotiationModal({
+  leadParty,
+  partnerParty,
+  leadPercentage,
+  partnerPercentage,
+  onComplete,
+  onCancel,
+  cabinetAllocations,
+}: NegotiationModalProps) {
   const [currentStep, setCurrentStep] = useState<'policy' | 'cabinet' | 'result'>('policy');
   const [policyResponses, setPolicyResponses] = useState<number[]>([]);
   const [offeredPositions, setOfferedPositions] = useState<string[]>([]);
   const [negotiationResult, setNegotiationResult] = useState<any>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-
-  // Generate policy questions
-  const policyQuestions = [];
-  const question1 = generateCoalitionPolicyQuestion(leadParty, partnerParty);
-  if (question1) policyQuestions.push(question1);
-
-  // Generate second question with different focus
-  const question2 = generateCoalitionPolicyQuestion(partnerParty, leadParty);
-  if (question2 && question2.topic !== question1?.topic) policyQuestions.push(question2);
+  const policyQuestions: any[] = [];
+  const q1 = generateCoalitionPolicyQuestion(leadParty, partnerParty);
+  if (q1) policyQuestions.push(q1);
+  const q2 = generateCoalitionPolicyQuestion(partnerParty, leadParty);
+  if (q2 && q2.topic !== q1?.topic) policyQuestions.push(q2);
 
   const availablePositions = getAvailableCabinetPositions(cabinetAllocations);
-
   const priorityPositions = getPartyPriorityPositions(partnerParty);
 
   const handlePolicyResponse = (appeal: number) => {
     const newResponses = [...policyResponses, appeal];
     setPolicyResponses(newResponses);
-
     if (currentQuestionIndex + 1 < policyQuestions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
@@ -61,53 +64,89 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
 
   const handleCabinetOffer = () => {
     const totalImportance = offeredPositions.reduce((sum, pos) => {
-      const position = availablePositions.find(p => p.name === pos);
-      return sum + (position?.importance || 0);
+      const p = availablePositions.find(p => p.name === pos);
+      return sum + (p?.importance || 0);
     }, 0);
-
     const result = simulateCoalitionNegotiation(
-      leadParty,
-      partnerParty,
-      leadPercentage,
-      partnerPercentage,
-      totalImportance,
-      policyResponses
+      leadParty, partnerParty, leadPercentage, partnerPercentage, totalImportance, policyResponses
     );
-
     setNegotiationResult(result);
     setCurrentStep('result');
   };
 
+  const modalBase = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50';
+  const cardBase = 'bg-slate-800 border border-slate-700 rounded-xl p-5 sm:p-7 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl';
+
+  // Party header bar
+  const PartyBar = () => (
+    <div className="flex items-center gap-4 mb-5 pb-4 border-b border-slate-700">
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-full border-2 border-white/30" style={{ backgroundColor: leadParty.colour }} />
+        <div>
+          <div className="text-xs text-slate-400">Offering party</div>
+          <div className="font-bold text-white text-sm">{leadParty.party}</div>
+          <div className="text-xs text-slate-400">{leadPercentage.toFixed(1)}% seats</div>
+        </div>
+      </div>
+      <div className="text-slate-500 text-xl">↔</div>
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-full border-2 border-white/30" style={{ backgroundColor: partnerParty.colour }} />
+        <div>
+          <div className="text-xs text-slate-400">Sought partner</div>
+          <div className="font-bold text-white text-sm">{partnerParty.party}</div>
+          <div className="text-xs text-slate-400">{partnerPercentage.toFixed(1)}% seats</div>
+        </div>
+      </div>
+    </div>
+  );
+
   if (currentStep === 'policy' && policyQuestions.length > 0) {
     const currentQuestion = policyQuestions[currentQuestionIndex];
-
     return (
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
-            Policy Discussion with {partnerParty.party}
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-1">
+            Policy Discussion — Question {currentQuestionIndex + 1} of {policyQuestions.length}
           </h3>
-          <div className="mb-6">
-            <h4 className="text-base font-semibold text-blue-400 mb-2">{currentQuestion.topic}</h4>
-            <p className="text-slate-300 mb-4">"{currentQuestion.question}"</p>
-            <div className="space-y-2">
-              {currentQuestion.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handlePolicyResponse(option.appeal)}
-                  className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded transition-colors"
-                >
-                  <div className="font-semibold text-white text-sm">{option.text}</div>
-                  <div className="text-xs text-slate-400 mt-1">
-                    Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
-                  </div>
-                </button>
-              ))}
-            </div>
+          <h4 className="text-sm font-semibold text-blue-400 mb-2">{currentQuestion.topic}</h4>
+          <p className="text-slate-300 mb-4 text-sm italic">"{currentQuestion.question}"</p>
+          <div className="space-y-2">
+            {currentQuestion.options.map((option: any, index: number) => (
+              <button
+                key={index}
+                onClick={() => handlePolicyResponse(option.appeal)}
+                className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg transition-colors"
+              >
+                <div className="font-semibold text-white text-sm">{option.text}</div>
+                <div className={`text-xs mt-0.5 ${option.appeal > 0 ? 'text-green-400' : option.appeal < 0 ? 'text-red-400' : 'text-slate-400'}`}>
+                  Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
+                </div>
+              </button>
+            ))}
           </div>
-          <div className="text-sm text-slate-400">
-            Question {currentQuestionIndex + 1} of {policyQuestions.length}
-          </div>
+          <button onClick={onCancel} className="mt-4 text-xs text-slate-500 hover:text-slate-300 transition-colors">
+            Cancel negotiation
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentStep === 'policy' && policyQuestions.length === 0) {
+    return (
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <p className="text-slate-300 mb-5 text-sm">
+            Your parties share similar enough policies — moving directly to cabinet negotiations.
+          </p>
+          <button
+            onClick={() => setCurrentStep('cabinet')}
+            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
+          >
+            Discuss Cabinet Positions
+          </button>
         </div>
       </div>
     );
@@ -115,64 +154,54 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
 
   if (currentStep === 'cabinet') {
     return (
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
-            Cabinet Position Offers for {partnerParty.party}
-          </h3>
-
-          <div className="mb-4">
-            <h4 className="text-sm text-slate-300 mb-2">
-              {partnerParty.party}: <span className="text-white font-bold">{Math.round(partnerPercentage * 100) / 100}%</span>
-            </h4>
-          </div>
-
-          <div className="mb-6">
-            <h4 className="text-base font-semibold text-blue-400 mb-3">Available Positions:</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {availablePositions.map(position => (
-                <div
-                  key={position.name}
-                  onClick={() => {
-                    if (offeredPositions.includes(position.name)) {
-                      setOfferedPositions(offeredPositions.filter(p => p !== position.name));
-                    } else {
-                      setOfferedPositions([...offeredPositions, position.name]);
-                    }
-                  }}
-                  className={`p-2 border rounded cursor-pointer transition-colors ${offeredPositions.includes(position.name)
-                    ? 'border-green-500 bg-green-900/30'
-                    : priorityPositions.includes(position.name) ?
-                      'border-blue-500 bg-blue-900/30'
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-3">Cabinet Offer to {partnerParty.party}</h3>
+          <p className="text-xs text-slate-400 mb-3">
+            Highlighted in blue = {partnerParty.party}'s priority positions.
+            Select positions to offer them.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
+            {availablePositions.map(position => (
+              <div
+                key={position.name}
+                onClick={() => {
+                  if (offeredPositions.includes(position.name)) {
+                    setOfferedPositions(offeredPositions.filter(p => p !== position.name));
+                  } else {
+                    setOfferedPositions([...offeredPositions, position.name]);
+                  }
+                }}
+                className={`p-2.5 border rounded-lg cursor-pointer transition-all ${offeredPositions.includes(position.name)
+                    ? 'border-green-500 bg-green-900/30 ring-1 ring-green-500/50'
+                    : priorityPositions.includes(position.name)
+                      ? 'border-blue-500 bg-blue-900/20'
                       : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
-                    }
-                  `}
-                >
-                  <div className="font-semibold text-white text-sm">{position.name}</div>
-                  <div className="text-xs text-slate-400">Importance: {position.importance}</div>
-                  <div className="text-xs text-slate-500">{position.description}</div>
-                </div>
-              ))}
-            </div>
+                  }`}
+              >
+                <div className="font-semibold text-white text-xs">{position.name}</div>
+                <div className="text-xs text-slate-400">Importance: {position.importance}</div>
+              </div>
+            ))}
           </div>
-
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-3">
             <button
-              onClick={() => {
-                setOfferedPositions([]);
-                handleCabinetOffer();
-              }}
-              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded transition-colors"
+              onClick={() => { setOfferedPositions([]); handleCabinetOffer(); }}
+              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white text-sm rounded-lg"
             >
-              Offer No Positions
+              Offer nothing
             </button>
             <button
               onClick={handleCabinetOffer}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 border border-blue-500 text-white font-bold rounded transition-colors"
+              className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-lg"
             >
-              Make Offer ({offeredPositions.length} positions)
+              Make offer ({offeredPositions.length} positions)
             </button>
           </div>
+          <button onClick={onCancel} className="block mx-auto mt-3 text-xs text-slate-500 hover:text-slate-300">
+            Cancel
+          </button>
         </div>
       </div>
     );
@@ -180,60 +209,31 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
 
   if (currentStep === 'result' && negotiationResult) {
     return (
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-lg w-full">
-          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">Negotiation Result</h3>
-          <div className={`p-4 rounded border mb-6 ${negotiationResult.success ? 'bg-green-900/30 border-green-600' : 'bg-red-900/30 border-red-600'
-            }`}>
-            <p className={`font-semibold text-base ${negotiationResult.success ? 'text-green-400' : 'text-red-400'
-              }`}>
-              {negotiationResult.message}
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <div className={`p-4 rounded-lg border mb-5 ${negotiationResult.success ? 'bg-green-900/30 border-green-600' : 'bg-red-900/30 border-red-600'}`}>
+            <p className={`font-bold text-base ${negotiationResult.success ? 'text-green-400' : 'text-red-400'}`}>
+              {negotiationResult.success ? '✓ Coalition agreement reached' : '✗ Negotiations failed'}
             </p>
-            <p className="text-sm text-slate-300 mt-2">
-              Final Appeal: {negotiationResult.finalAppeal.toFixed(0)}%
-            </p>
+            <p className="text-sm text-slate-300 mt-1">{negotiationResult.message}</p>
+            <p className="text-xs text-slate-400 mt-1">Final appeal: {negotiationResult.finalAppeal.toFixed(0)}%</p>
           </div>
-
           {negotiationResult.success && offeredPositions.length > 0 && (
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-blue-400 mb-2">Positions Agreed:</h4>
-              <ul className="space-y-1 text-slate-300">
+            <div className="mb-5">
+              <h4 className="text-xs font-semibold text-blue-400 mb-1.5">Agreed cabinet positions:</h4>
+              <div className="flex flex-wrap gap-1.5">
                 {offeredPositions.map(pos => (
-                  <li key={pos} className="text-sm pl-4">• {pos}</li>
+                  <span key={pos} className="text-xs px-2 py-1 bg-blue-900/40 border border-blue-700 rounded text-blue-300">{pos}</span>
                 ))}
-              </ul>
+              </div>
             </div>
           )}
-
-          <div className="flex justify-center">
-            <button
-              onClick={() => onComplete(negotiationResult.success, offeredPositions)}
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 border border-blue-500 text-white font-bold rounded transition-colors"
-            >
-              Continue
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Skip policy questions if none available
-  if (policyQuestions.length === 0 && currentStep === 'policy') {
-    return (
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-lg w-full">
-          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
-            Direct Negotiation with {partnerParty.party}
-          </h3>
-          <p className="text-slate-300 mb-6">
-            Your parties have similar enough policies. Moving directly to cabinet negotiations.
-          </p>
           <button
-            onClick={() => setCurrentStep('cabinet')}
-            className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 border border-blue-500 text-white font-bold rounded transition-colors"
+            onClick={() => onComplete(negotiationResult.success, offeredPositions)}
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
           >
-            Discuss Cabinet Positions
+            Continue
           </button>
         </div>
       </div>
@@ -243,6 +243,8 @@ function NegotiationModal({ leadParty, partnerParty, leadPercentage, partnerPerc
   return null;
 }
 
+// ─── PlayerApproachModal (AI approaches the player) ─────────────────────────
+
 function PlayerApproachModal({
   leadParty,
   playerParty,
@@ -250,7 +252,7 @@ function PlayerApproachModal({
   playerPercentage,
   offer,
   onComplete,
-  onReject
+  onReject,
 }: {
   leadParty: Candidate;
   playerParty: Candidate;
@@ -265,74 +267,62 @@ function PlayerApproachModal({
   const [policyResponses, setPolicyResponses] = useState<number[]>([]);
   const [acceptedPositions, setAcceptedPositions] = useState<string[]>([]);
 
-  const handleAcceptOffer = () => {
-    if (offer.questions.length > 0) {
-      setCurrentStep('policy');
-    } else {
-      setCurrentStep('cabinet');
-    }
-  };
+  const modalBase = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50';
+  const cardBase = 'bg-slate-800 border border-slate-700 rounded-xl p-5 sm:p-7 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl';
 
-  const handlePolicyResponse = (appeal: number) => {
-    const newResponses = [...policyResponses, appeal];
-    setPolicyResponses(newResponses);
-
-    if (currentQuestionIndex + 1 < offer.questions.length) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      setCurrentStep('cabinet');
-    }
-  };
-
-  const handleCabinetResponse = () => {
-    onComplete(true, acceptedPositions, policyResponses);
-  };
+  const PartyBar = () => (
+    <div className="flex items-center gap-4 mb-5 pb-4 border-b border-slate-700">
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-full border-2 border-white/30" style={{ backgroundColor: leadParty.colour }} />
+        <div>
+          <div className="text-xs text-slate-400">Approaching you</div>
+          <div className="font-bold text-white text-sm">{leadParty.party}</div>
+          <div className="text-xs text-slate-400">{leadPercentage.toFixed(1)}% seats</div>
+        </div>
+      </div>
+      <div className="text-slate-500 text-xl">→</div>
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-full border-2 border-yellow-400/60" style={{ backgroundColor: playerParty.colour }} />
+        <div>
+          <div className="text-xs text-yellow-400">You</div>
+          <div className="font-bold text-white text-sm">{playerParty.party}</div>
+          <div className="text-xs text-slate-400">{playerPercentage.toFixed(1)}% seats</div>
+        </div>
+      </div>
+    </div>
+  );
 
   if (currentStep === 'offer') {
     return (
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-2xl w-full">
-          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
-            Coalition Invitation from {leadParty.party}
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-2">
+            Coalition Invitation
           </h3>
-          <div className="mb-6">
-            <p className="text-slate-300 mb-4">{offer.message}</p>
-
-            {offer.offeredPositions.length > 0 && (
-              <div className="mb-4">
-                <h4 className="font-semibold text-blue-400 mb-2 text-sm">Offered Cabinet Positions:</h4>
-                <ul className="space-y-1 text-slate-300">
-                  {offer.offeredPositions.map((pos: string) => (
-                    <li key={pos} className="text-sm pl-4">• {pos}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <div className="flex items-center space-x-3 p-3 bg-slate-700/50 border border-slate-600 rounded">
-              <div
-                className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-slate-500"
-                style={{ backgroundColor: leadParty.colour }}
-              ></div>
-              <div>
-                <div className="font-bold text-white text-sm sm:text-base">{leadParty.party}</div>
-                <div className="text-xs text-slate-400">{leadParty.name} - {leadPercentage.toFixed(1)}% support</div>
+          <p className="text-slate-300 text-sm mb-4">{offer.message}</p>
+          {offer.offeredPositions.length > 0 && (
+            <div className="mb-4">
+              <h4 className="text-xs font-semibold text-blue-400 mb-2">Offered cabinet positions:</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {offer.offeredPositions.map((pos: string) => (
+                  <span key={pos} className="text-xs px-2 py-1 bg-blue-900/40 border border-blue-700 rounded text-blue-300">{pos}</span>
+                ))}
               </div>
             </div>
-          </div>
-
-          <div className="flex justify-between">
+          )}
+          <div className="flex gap-3 mt-5">
             <button
               onClick={onReject}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 border border-red-500 text-white font-bold rounded transition-colors"
+              className="flex-1 py-2.5 bg-red-600/80 hover:bg-red-700 border border-red-500 text-white font-bold text-sm rounded-lg"
             >
-              Decline Invitation
+              Decline
             </button>
             <button
-              onClick={handleAcceptOffer}
-              className="px-4 py-2 bg-green-600 hover:bg-green-700 border border-green-500 text-white font-bold rounded transition-colors"
+              onClick={() => offer.questions.length > 0 ? setCurrentStep('policy') : setCurrentStep('cabinet')}
+              className="flex-1 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-lg"
             >
-              Consider Offer
+              Consider offer →
             </button>
           </div>
         </div>
@@ -342,33 +332,36 @@ function PlayerApproachModal({
 
   if (currentStep === 'policy' && offer.questions.length > 0) {
     const currentQuestion = offer.questions[currentQuestionIndex];
-
     return (
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-2xl w-full">
-          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
-            Policy Discussion with {leadParty.party}
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-1">
+            Policy Discussion — Question {currentQuestionIndex + 1} of {offer.questions.length}
           </h3>
-          <div className="mb-6">
-            <h4 className="text-base font-semibold text-blue-400 mb-2">{currentQuestion.topic}</h4>
-            <p className="text-slate-300 mb-4">"{currentQuestion.question}"</p>
-            <div className="space-y-2">
-              {currentQuestion.options.map((option: any, index: number) => (
-                <button
-                  key={index}
-                  onClick={() => handlePolicyResponse(option.appeal)}
-                  className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded transition-colors"
-                >
-                  <div className="font-semibold text-white text-sm">{option.text}</div>
-                  <div className="text-xs text-slate-400 mt-1">
-                    Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="text-sm text-slate-400">
-            Question {currentQuestionIndex + 1} of {offer.questions.length}
+          <h4 className="text-sm font-semibold text-blue-400 mb-2">{currentQuestion.topic}</h4>
+          <p className="text-slate-300 mb-4 text-sm italic">"{currentQuestion.question}"</p>
+          <div className="space-y-2">
+            {currentQuestion.options.map((option: any, index: number) => (
+              <button
+                key={index}
+                onClick={() => {
+                  const newResponses = [...policyResponses, option.appeal];
+                  setPolicyResponses(newResponses);
+                  if (currentQuestionIndex + 1 < offer.questions.length) {
+                    setCurrentQuestionIndex(currentQuestionIndex + 1);
+                  } else {
+                    setCurrentStep('cabinet');
+                  }
+                }}
+                className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg"
+              >
+                <div className="font-semibold text-white text-sm">{option.text}</div>
+                <div className={`text-xs mt-0.5 ${option.appeal > 0 ? 'text-green-400' : option.appeal < 0 ? 'text-red-400' : 'text-slate-400'}`}>
+                  Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
+                </div>
+              </button>
+            ))}
           </div>
         </div>
       </div>
@@ -377,17 +370,16 @@ function PlayerApproachModal({
 
   if (currentStep === 'cabinet') {
     return (
-      <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 max-w-2xl w-full">
-          <h3 className="campaign-status text-lg sm:text-xl font-bold text-yellow-400 mb-4">
-            Cabinet Position Negotiation
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-3">
+            {leadParty.party} offers these cabinet positions:
           </h3>
-
-          <div className="mb-6">
-            <h4 className="text-base font-semibold text-blue-400 mb-3">
-              {leadParty.party} offers these positions:
-            </h4>
-            <div className="space-y-2">
+          {offer.offeredPositions.length === 0 ? (
+            <p className="text-slate-400 text-sm mb-4">No cabinet positions were offered.</p>
+          ) : (
+            <div className="space-y-2 mb-4">
               {offer.offeredPositions.map((position: string) => (
                 <div
                   key={position}
@@ -398,30 +390,26 @@ function PlayerApproachModal({
                       setAcceptedPositions([...acceptedPositions, position]);
                     }
                   }}
-                  className={`p-2 border rounded cursor-pointer transition-colors ${acceptedPositions.includes(position)
-                    ? 'border-green-500 bg-green-900/30'
-                    : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
+                  className={`p-2.5 border rounded-lg cursor-pointer transition-all text-sm ${acceptedPositions.includes(position)
+                      ? 'border-green-500 bg-green-900/30 text-green-300'
+                      : 'border-slate-600 bg-slate-700 hover:bg-slate-600 text-white'
                     }`}
                 >
-                  <div className="font-semibold text-white text-sm">{position}</div>
-                  <div className="text-xs text-slate-400">
-                    {acceptedPositions.includes(position) ? 'Accepted' : 'Click to accept'}
-                  </div>
+                  {position} {acceptedPositions.includes(position) ? '✓' : ''}
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="flex justify-between">
+          )}
+          <div className="flex gap-3">
             <button
               onClick={onReject}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 border border-red-500 text-white font-bold rounded transition-colors"
+              className="flex-1 py-2.5 bg-red-600/80 hover:bg-red-700 border border-red-500 text-white font-bold text-sm rounded-lg"
             >
-              Reject Offer
+              Reject offer
             </button>
             <button
-              onClick={handleCabinetResponse}
-              className="px-4 py-2 bg-green-600 hover:bg-green-700 border border-green-500 text-white font-bold rounded transition-colors"
+              onClick={() => onComplete(true, acceptedPositions, policyResponses)}
+              className="flex-1 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-lg"
             >
               Accept ({acceptedPositions.length} positions)
             </button>
@@ -434,223 +422,312 @@ function PlayerApproachModal({
   return null;
 }
 
+// ─── Seat Progress Bar ───────────────────────────────────────────────────────
+
+function SeatTracker({
+  coalitionPartners,
+  sortedResults,
+  currentPct,
+}: {
+  coalitionPartners: Candidate[];
+  sortedResults: { candidate: Candidate; percentage: number }[];
+  currentPct: number;
+}) {
+  const needed = 50;
+  const segments = coalitionPartners.map(p => {
+    const r = sortedResults.find(r => r.candidate.id === p.id);
+    return { party: p, pct: r?.percentage ?? 0 };
+  });
+
+  return (
+    <div>
+      {/* Stacked bar */}
+      <div className="relative h-6 w-full rounded-full overflow-hidden bg-slate-700">
+        {segments.map((seg, i) => {
+          const left = segments.slice(0, i).reduce((s, x) => s + x.pct, 0);
+          return (
+            <div
+              key={seg.party.id}
+              className="absolute h-full transition-all duration-500"
+              style={{
+                backgroundColor: seg.party.colour,
+                left: `${left * 2}%`,
+                width: `${seg.pct * 2}%`,
+                opacity: 0.9,
+              }}
+            />
+          );
+        })}
+        {/* 50% marker */}
+        <div className="absolute top-0 bottom-0 w-0.5 bg-white/80 z-10" style={{ left: '100%' }} />
+      </div>
+
+      {/* Labels */}
+      <div className="flex justify-between mt-1 text-xs text-slate-400">
+        <span>
+          {currentPct.toFixed(1)}%
+          <span className={`ml-1 font-bold ${currentPct >= needed ? 'text-green-400' : 'text-slate-500'}`}>
+            {currentPct >= needed ? '✓ Majority' : `(${(needed - currentPct).toFixed(1)}% needed)`}
+          </span>
+        </span>
+        <span>50%</span>
+      </div>
+
+      {/* Partner chips */}
+      <div className="flex flex-wrap gap-1.5 mt-2">
+        {segments.map((seg) => (
+          <div key={seg.party.id} className="flex items-center gap-1 text-xs bg-slate-700 border border-slate-600 rounded px-2 py-0.5">
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: seg.party.colour }} />
+            <span className="text-white">{seg.party.party}</span>
+            <span className="text-slate-400">{seg.pct.toFixed(1)}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Coalition Log ───────────────────────────────────────────────────────────
+
+function CoalitionLog({ entries }: { entries: string[] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
+  }, [entries.length]);
+
+  if (entries.length === 0) {
+    return (
+      <div className="text-xs text-slate-500 italic px-1">Negotiations beginning…</div>
+    );
+  }
+
+  return (
+    <div ref={ref} className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+      {entries.map((entry, i) => {
+        const isMandate = entry.includes('mandate now passes') || entry.includes('minority government');
+        const isSuccess = entry.includes('Coalition agreement') || entry.includes('joined the coalition') || entry.includes('joined coalition');
+        const isReject = entry.includes('rejected') || entry.includes('declined') || entry.includes('failed') || entry.includes('Rejected');
+        return (
+          <div
+            key={i}
+            className={`text-xs px-2.5 py-1.5 rounded border-l-2 ${isMandate
+                ? 'border-orange-400 bg-orange-900/20 text-orange-200'
+                : isSuccess
+                  ? 'border-green-500 bg-green-900/20 text-green-200'
+                  : isReject
+                    ? 'border-red-500 bg-red-900/20 text-red-200'
+                    : 'border-slate-600 bg-slate-700/30 text-slate-300'
+              }`}
+          >
+            {entry}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── Main Component ──────────────────────────────────────────────────────────
+
 export default function CoalitionFormation() {
   const { state, actions } = useGame();
   const [selectedPartner, setSelectedPartner] = useState<Candidate | null>(null);
   const [showNegotiationDetails, setShowNegotiationDetails] = useState(false);
-  const [aiNegotiationLog, setAiNegotiationLog] = useState<string[]>([]);
   const [playerApproachOffer, setPlayerApproachOffer] = useState<any>(null);
   const [showPlayerApproach, setShowPlayerApproach] = useState(false);
+  // Track which partner was last processed by AI so we don't re-process
+  const lastProcessedPartner = useRef<number | null>(null);
 
   const coalitionState = state.coalitionState;
   const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
-  const winningParty = sortedResults[0].candidate;
-  const winningPercentage = sortedResults[0].percentage;
-  // The party currently leading coalition formation (may be 2nd-largest after first party fails)
-  const attemptingParty = coalitionState?.coalitionPartners[0] ?? winningParty;
-  const attemptingPercentage = sortedResults.find(r => r.candidate.id === attemptingParty.id)?.percentage ?? winningPercentage;
-  const playerResult = sortedResults.find(r => r.candidate.is_player);
-  const isPlayerWinner = winningParty.is_player;
 
+  // The party currently leading coalition formation
+  const attemptingParty = coalitionState?.coalitionPartners[0] ?? sortedResults[0]?.candidate;
+  const attemptingPercentage = sortedResults.find(r => r.candidate.id === attemptingParty?.id)?.percentage ?? 0;
+  const playerResult = sortedResults.find(r => r.candidate.is_player);
+
+  // Auto-start coalition formation when component mounts
   useEffect(() => {
-    if (!coalitionState && winningPercentage <= 50) {
-      console.log('DEBUG: Starting coalition formation');
+    if (!coalitionState && sortedResults[0]?.percentage <= 50) {
       actions.startCoalitionFormation();
     }
-  }, [coalitionState, winningPercentage, actions]);
+  }, [coalitionState, sortedResults, actions]);
 
-  // AI Coalition Formation Logic
+  // ── AI coalition logic — fires synchronously, no setTimeout ──
   useEffect(() => {
-    if (coalitionState &&
-      coalitionState.negotiationPhase === 'partner-selection' &&
-      !coalitionState.isPlayerLead &&
-      coalitionState.currentCoalitionPercentage < 50 &&
-      !showPlayerApproach) {
+    if (
+      !coalitionState ||
+      coalitionState.negotiationPhase !== 'partner-selection' ||
+      coalitionState.isPlayerLead ||
+      coalitionState.currentCoalitionPercentage >= 50 ||
+      showPlayerApproach
+    ) return;
 
-      const timer = setTimeout(() => {
-        console.log('DEBUG: AI coalition formation, available partners:', coalitionState.availablePartners);
-        let bestPartners = findBestCoalitionPartners(
-          attemptingParty,
-          coalitionState.availablePartners,
-          sortedResults
-        );
-        console.log('DEBUG: Best partners:', bestPartners);
-
-        if (bestPartners.length > 0) {
-          const nextPartner = bestPartners[0];
-          console.log('DEBUG: Next partner:', nextPartner);
-
-          // Check if approaching the player
-          if (nextPartner.candidate.is_player) {
-            const offer = generatePlayerApproachOffer(
-              attemptingParty,
-              nextPartner.candidate,
-              attemptingPercentage,
-              nextPartner.percentage,
-              coalitionState.cabinetAllocations
-            );
-            console.log('DEBUG: AI approaching player with offer:', offer);
-            setPlayerApproachOffer(offer);
-            setShowPlayerApproach(true);
-          } else {
-            // AI-to-AI negotiation
-            const result = simulateAICoalitionNegotiation(
-              attemptingParty,
-              nextPartner.candidate,
-              attemptingPercentage,
-              nextPartner.percentage,
-              coalitionState.cabinetAllocations
-            );
-            console.log('DEBUG: AI-to-AI negotiation result:', result);
-
-            const logMessage = `${attemptingParty.party} approached ${nextPartner.candidate.party}: ${result.message}`;
-            setAiNegotiationLog(prev => [...prev, logMessage]);
-
-            if (result.success) {
-              actions.addCoalitionPartner(nextPartner.candidate);
-              result.cabinetPositions.forEach(position => {
-                actions.allocateCabinetPosition(position, nextPartner.candidate.party);
-                console.log('DEBUG: Allocating cabinet position', position, 'to', nextPartner.candidate.party);
-              });
-            } else {
-              // Remove from available partners if negotiation failed
-              console.log('DEBUG: Removing failed partner from availablePartners:', nextPartner.candidate);
-              actions.removePotentialPartner(nextPartner.candidate);
-              // add action to remove
-            }
-          }
-        } else {
-          // No more partners available for this party
-          if ((coalitionState.attemptingPartyIndex ?? 0) < 1) {
-            // First party failed — let the second-largest party try
-            const nextPartyName = sortedResults[1]?.candidate.party ?? 'Second party';
-            const logMessage = `${attemptingParty.party} has exhausted all coalition options. The mandate now passes to ${nextPartyName}.`;
-            setAiNegotiationLog(prev => [...prev, logMessage]);
-            setTimeout(() => {
-              actions.nextCoalitionAttempt();
-            }, 3000);
-          } else {
-            // Second party also failed — form minority government
-            const logMessage = `${attemptingParty.party} has also exhausted all options. A minority government will be formed.`;
-            setAiNegotiationLog(prev => [...prev, logMessage]);
-            setTimeout(() => {
-              actions.completeCoalitionFormation();
-            }, 3000);
-          }
-        }
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [coalitionState, attemptingParty, attemptingPercentage, sortedResults, actions, showPlayerApproach]);
-
-  // Auto-complete coalition when majority is reached
-  useEffect(() => {
-    if (coalitionState &&
-      coalitionState.negotiationPhase === 'partner-selection' &&
-      coalitionState.currentCoalitionPercentage >= 50) {
-      console.log('DEBUG: Coalition majority reached, completing formation');
-      const timer = setTimeout(() => {
+    if (coalitionState.availablePartners.length === 0) {
+      // No partners left — if first party, pass mandate; if second, minority gov
+      if ((coalitionState.attemptingPartyIndex ?? 0) < 1) {
+        actions.nextCoalitionAttempt();
+      } else {
         actions.completeCoalitionFormation();
-      }, 1500);
-      return () => clearTimeout(timer);
+      }
+      return;
     }
-  }, [coalitionState, actions]);
+
+    const bestPartners = findBestCoalitionPartners(
+      attemptingParty,
+      coalitionState.availablePartners,
+      sortedResults
+    );
+
+    if (bestPartners.length === 0) {
+      if ((coalitionState.attemptingPartyIndex ?? 0) < 1) {
+        actions.nextCoalitionAttempt();
+      } else {
+        actions.completeCoalitionFormation();
+      }
+      return;
+    }
+
+    const nextPartner = bestPartners[0];
+
+    // Avoid re-processing same partner in this render cycle
+    if (lastProcessedPartner.current === nextPartner.candidate.id) return;
+    lastProcessedPartner.current = nextPartner.candidate.id;
+
+    if (nextPartner.candidate.is_player) {
+      const offer = generatePlayerApproachOffer(
+        attemptingParty,
+        nextPartner.candidate,
+        attemptingPercentage,
+        nextPartner.percentage,
+        coalitionState.cabinetAllocations
+      );
+      setPlayerApproachOffer(offer);
+      setShowPlayerApproach(true);
+    } else {
+      const result = simulateAICoalitionNegotiation(
+        attemptingParty,
+        nextPartner.candidate,
+        attemptingPercentage,
+        nextPartner.percentage,
+        coalitionState.cabinetAllocations
+      );
+
+      const logMsg = `${attemptingParty.party} → ${nextPartner.candidate.party}: ${result.message}`;
+      actions.logCoalitionEvent(logMsg);
+
+      if (result.success) {
+        actions.addCoalitionPartner(nextPartner.candidate);
+        result.cabinetPositions.forEach((pos: string) => {
+          actions.allocateCabinetPosition(pos, nextPartner.candidate.party);
+        });
+      } else {
+        actions.removePotentialPartner(nextPartner.candidate);
+      }
+      lastProcessedPartner.current = null;
+    }
+  }, [
+    coalitionState?.availablePartners.length,
+    coalitionState?.coalitionPartners.length,
+    coalitionState?.currentCoalitionPercentage,
+    coalitionState?.negotiationPhase,
+    showPlayerApproach,
+    coalitionState?.attemptingPartyIndex,
+  ]);
+
+  // Reset lastProcessedPartner when the leading party changes
+  useEffect(() => {
+    lastProcessedPartner.current = null;
+  }, [coalitionState?.attemptingPartyIndex]);
 
   const handlePlayerApproachResponse = (success: boolean, positions: string[], responses: number[]) => {
-    console.log('DEBUG: Player approach response', { success, positions, responses });
     if (success && playerResult && coalitionState) {
       const evaluation = evaluatePlayerResponse(
-        winningParty,
+        attemptingParty,
         playerResult.candidate,
-        winningPercentage,
+        attemptingPercentage,
         playerResult.percentage,
         responses,
         positions,
-        coalitionState.cabinetAllocations // pass allocations
+        coalitionState.cabinetAllocations
       );
-      console.log('DEBUG: Player evaluation result:', evaluation);
-
-      const logMessage = `${evaluation.message}`;
-      setAiNegotiationLog(prev => [logMessage, ...prev]);
-
+      const logMsg = evaluation.message;
+      actions.logCoalitionEvent(logMsg);
       if (evaluation.success) {
         actions.addCoalitionPartner(playerResult.candidate);
-        positions.forEach(position => {
-          actions.allocateCabinetPosition(position, playerResult.candidate.party);
-          console.log('DEBUG: Allocating cabinet position', position, 'to', playerResult.candidate.party);
-        });
+        positions.forEach(pos => actions.allocateCabinetPosition(pos, playerResult.candidate.party));
+      } else {
+        actions.removePotentialPartner(playerResult.candidate);
       }
     } else {
-      const logMessage = `${winningParty.party} approached ${playerResult?.candidate.party}: Offer declined.`;
+      const logMsg = `${attemptingParty.party} → ${playerResult?.candidate.party}: Offer declined.`;
+      actions.logCoalitionEvent(logMsg);
       if (playerResult) actions.removePotentialPartner(playerResult.candidate);
-      setAiNegotiationLog(prev => [...prev, logMessage]);
     }
     setShowPlayerApproach(false);
     setPlayerApproachOffer(null);
+    lastProcessedPartner.current = null;
   };
 
-
+  // ── Loading state ──
   if (!coalitionState) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-6">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Loading Coalition Formation...</h1>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 flex items-center justify-center">
+        <div className="text-white text-center">
+          <div className="text-2xl font-bold mb-2">Initiating coalition talks…</div>
+          <div className="text-slate-400 text-sm">Calculating party compatibilities</div>
         </div>
       </div>
     );
   }
 
-  // Ensure all unallocated positions are assigned to the lead party when coalition is complete
-  useEffect(() => {
-    if (
-      coalitionState &&
-      coalitionState.negotiationPhase === 'complete' &&
-      Object.keys(coalitionState.cabinetAllocations).length > 0
-    ) {
-      // Defensive: only run once per completion
-      // Use a ref or a state if you want to avoid double-calling in strict mode
-      autoAllocateUnfilledCabinetPositions(
-        coalitionState.cabinetAllocations,
-        sortedResults[0].candidate.party // or .id if you use id for allocations
-      );
-    }
-  }, [coalitionState, sortedResults]);
-
+  // ── Complete state ──
   if (coalitionState.negotiationPhase === 'complete') {
+    const totalPct = coalitionState.currentCoalitionPercentage;
+    const isMajority = totalPct >= 50;
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-4 sm:p-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="campaign-status text-2xl sm:text-4xl font-black text-white mb-4">
-              COALITION GOVERNMENT FORMED
+        <div className="max-w-5xl mx-auto space-y-5">
+
+          <div className="text-center">
+            <h1 className="campaign-status text-2xl sm:text-4xl font-black text-white mb-1">
+              {isMajority ? 'COALITION GOVERNMENT FORMED' : 'MINORITY GOVERNMENT'}
             </h1>
-            <div className="border-t-2 border-b-2 border-green-500 py-3 my-4">
-              <p className="text-sm sm:text-lg text-green-400 font-bold">
-                STABLE MAJORITY ACHIEVED • {coalitionState.currentCoalitionPercentage.toFixed(1)}% SUPPORT
+            <div className={`border-t-2 border-b-2 py-3 mt-3 ${isMajority ? 'border-green-500' : 'border-orange-500'}`}>
+              <p className={`text-base font-bold ${isMajority ? 'text-green-400' : 'text-orange-400'}`}>
+                {coalitionState.coalitionPartners[0]?.party} leads •{' '}
+                {totalPct.toFixed(1)}% combined support
+                {!isMajority && ' (minority)'}
               </p>
             </div>
           </div>
 
-          {/* Coalition Partners */}
-          <div className="bg-slate-800 border border-slate-700 rounded p-4 sm:p-6 mb-8">
-            <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-4">Coalition Partners</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {coalitionState.coalitionPartners.map((partner, index) => {
+          {/* Seat tracker */}
+          <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+            <h2 className="text-sm font-bold text-slate-400 mb-3 uppercase tracking-wide">Final Seat Share</h2>
+            <SeatTracker
+              coalitionPartners={coalitionState.coalitionPartners}
+              sortedResults={sortedResults}
+              currentPct={totalPct}
+            />
+          </div>
+
+          {/* Coalition partners */}
+          <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+            <h2 className="text-base font-bold text-yellow-400 mb-3">Coalition Partners</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {coalitionState.coalitionPartners.map((partner, i) => {
                 const result = sortedResults.find(r => r.candidate.id === partner.id);
                 return (
-                  <div key={partner.id} className="flex items-center space-x-3 p-3 bg-slate-700/50 border border-slate-600 rounded">
-                    <div
-                      className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-slate-500"
-                      style={{ backgroundColor: partner.colour }}
-                    ></div>
-                    <div className="flex-1">
-                      <div className="font-bold text-white text-sm sm:text-base">{partner.party}</div>
-                      <div className="text-xs sm:text-sm text-slate-300">{partner.name}</div>
+                  <div key={partner.id} className="flex items-center gap-3 p-3 bg-slate-700/50 border border-slate-600 rounded-lg">
+                    <div className="w-8 h-8 rounded-full border-2 border-white/20 flex-shrink-0" style={{ backgroundColor: partner.colour }} />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-white text-sm truncate">{partner.party}</div>
+                      <div className="text-xs text-slate-400">{partner.name}</div>
                       <div className="text-xs text-slate-400">
-                        {result?.percentage.toFixed(1)}% of vote
-                        {index === 0 && ' (Lead Party)'}
-                        {partner.is_player && ' (You)'}
+                        {result?.percentage.toFixed(1)}% seats
+                        {i === 0 && ' · Lead party'}
+                        {partner.is_player && ' · You'}
                       </div>
                     </div>
                   </div>
@@ -659,15 +736,33 @@ export default function CoalitionFormation() {
             </div>
           </div>
 
-          <div className="text-center">
+          {/* Negotiation log */}
+          {coalitionState.coalitionLog.length > 0 && (
+            <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+              <h2 className="text-sm font-bold text-slate-400 mb-3 uppercase tracking-wide">Negotiation Summary</h2>
+              <CoalitionLog entries={coalitionState.coalitionLog} />
+            </div>
+          )}
+
+          {/* Cabinet */}
+          <CabinetView
+            cabinetAllocations={coalitionState.cabinetAllocations}
+            winningParty={coalitionState.coalitionPartners[0]}
+            candidates={state.candidates}
+          />
+
+          <div className="text-center pt-2">
             <button
               onClick={() => actions.setGamePhase('results')}
-              className="px-8 sm:px-12 py-3 sm:py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 border border-green-500 text-white font-bold rounded transition-all duration-200 transform hover:scale-105"
+              className="px-10 py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 border border-green-500 text-white font-bold rounded-xl transition-all hover:scale-105"
             >
-              🏛️ VIEW FINAL RESULTS
+              🏛️ View Final Results
             </button>
-            <p className="text-slate-400 text-xs mt-4">
-              Created by <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">Indigo Nolan</a>
+            <p className="text-slate-500 text-xs mt-3">
+              Created by{' '}
+              <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline">
+                Indigo Nolan
+              </a>
             </p>
           </div>
         </div>
@@ -675,212 +770,193 @@ export default function CoalitionFormation() {
     );
   }
 
+  // ── Active partner-selection phase ──
+
   if (coalitionState.negotiationPhase === 'partner-selection') {
+    const isPlayerLead = coalitionState.isPlayerLead;
+    const isSecondAttempt = (coalitionState.attemptingPartyIndex ?? 0) >= 1;
+    const currentPct = coalitionState.currentCoalitionPercentage;
+    const hasMajority = currentPct >= 50;
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-4 sm:p-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Second-party banner */}
-          {(coalitionState.attemptingPartyIndex ?? 0) >= 1 && (
-            <div className="mb-4 bg-orange-900/40 border border-orange-500 rounded-lg p-3 text-center">
-              <p className="text-orange-300 text-sm font-semibold">
-                ⚠️ {winningParty.party} failed to form a coalition.
-                The mandate now passes to <span className="text-orange-200 font-bold">{attemptingParty.party}</span>.
-              </p>
-            </div>
-          )}
-          <div className="text-center mb-8">
-            <h1 className="campaign-status text-2xl sm:text-4xl font-black text-white mb-4">
-              COALITION FORMATION
-            </h1>
-            <div className="border-t-2 border-b-2 border-yellow-500 py-3 my-4">
-              <p className="text-xs sm:text-lg text-yellow-400 font-bold">
-                {coalitionState.isPlayerLead ? 'BUILD YOUR COALITION' :
-                  coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 ?
-                    `${attemptingParty.party} FORMING MINORITY GOVERNMENT` :
-                    `${attemptingParty.party} FORMING COALITION`} •
-                CURRENT SUPPORT: {coalitionState.currentCoalitionPercentage.toFixed(1)}% •
-                NEED: {coalitionState.currentCoalitionPercentage >= 50 ? 'MAJORITY ACHIEVED!' :
-                  coalitionState.availablePartners.length === 0 && !coalitionState.isPlayerLead ? 'MINORITY GOVERNMENT' :
-                    `${(50 - coalitionState.currentCoalitionPercentage).toFixed(1)}% MORE`}
-              </p>
-            </div>
+        <div className="max-w-6xl mx-auto space-y-4">
+
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="campaign-status text-2xl sm:text-3xl font-black text-white">COALITION FORMATION</h1>
+            <p className="text-slate-400 text-sm mt-1">
+              {isPlayerLead ? 'You are leading negotiations' : `${attemptingParty?.party} is leading negotiations`}
+            </p>
           </div>
 
-          {/* AI Negotiation Log */}
-          {!coalitionState.isPlayerLead && aiNegotiationLog.length > 0 && (
-            <div className="bg-slate-800 border border-slate-700 rounded p-4 sm:p-6 mb-8">
-              <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-4">Coalition Negotiations</h2>
-              <div className="space-y-2 max-h-32 overflow-y-auto">
-                {aiNegotiationLog.map((log, index) => (
-                  <div key={index} className="text-xs sm:text-sm font-mono text-slate-300 p-2 bg-slate-700/50 rounded">
-                    {log}
-                  </div>
-                ))}
-              </div>
+          {/* Mandate banner */}
+          {isSecondAttempt && (
+            <div className="bg-orange-900/40 border border-orange-500 rounded-xl p-3 text-center">
+              <p className="text-orange-200 text-sm font-semibold">
+                ⚠️ {sortedResults[0]?.candidate.party} failed to form a coalition —
+                mandate passed to <strong>{attemptingParty?.party}</strong>
+              </p>
             </div>
           )}
 
-          {/* Current Coalition */}
-          <div className="bg-slate-800 border border-slate-700 rounded p-4 sm:p-6 mb-8">
-            <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-4">
-              Current Coalition
-              {coalitionState.currentCoalitionPercentage >= 50 && (
-                <span className="ml-3 px-3 py-1 bg-green-600 border border-green-500 text-white text-xs sm:text-sm rounded-full">
-                  MAJORITY ACHIEVED!
-                </span>
-              )}
-              {coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 && !coalitionState.isPlayerLead && (
-                <span className="ml-3 px-3 py-1 bg-orange-600 border border-orange-500 text-white text-xs sm:text-sm rounded-full">
-                  FORMING MINORITY GOVERNMENT
-                </span>
-              )}
+          {/* Seat tracker */}
+          <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+            <h2 className="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wide">
+              Current Coalition Strength
             </h2>
-            <div className="space-y-2 sm:space-y-3">
-              {coalitionState.coalitionPartners.map((partner, index) => {
-                const result = sortedResults.find(r => r.candidate.id === partner.id);
-                return (
-                  <div key={partner.id} className="flex items-center space-x-3 p-2 sm:p-3 bg-slate-700/50 border border-slate-600 rounded">
-                    <div
-                      className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-500"
-                      style={{ backgroundColor: partner.colour }}
-                    ></div>
-                    <div className="flex-1">
-                      <div className="font-bold text-white text-sm sm:text-base">{partner.party}</div>
-                      <div className="text-xs sm:text-sm text-slate-300">{partner.name}</div>
-                      <div className="text-xs text-slate-400">
-                        {result?.percentage.toFixed(1)}% of vote
-                        {index === 0 && ' (Lead Party)'}
-                        {partner.is_player && ' (You)'}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {coalitionState.currentCoalitionPercentage >= 50 && (
-              <div className="mt-4 p-3 bg-green-900/30 border border-green-600 rounded">
-                <p className="text-green-400 font-semibold text-sm">
-                  🎉 Coalition has achieved a stable majority! Finalizing government formation...
-                </p>
-              </div>
-            )}
-
-            {coalitionState.availablePartners.length === 0 && coalitionState.currentCoalitionPercentage < 50 && !coalitionState.isPlayerLead && (
-              <div className="mt-4 p-3 bg-orange-900/30 border border-orange-600 rounded">
-                <p className="text-orange-400 font-semibold text-sm">
-                  No more viable coalition partners available. {attemptingParty.party} will form a minority government with {coalitionState.currentCoalitionPercentage.toFixed(1)}% support.
-                </p>
+            <SeatTracker
+              coalitionPartners={coalitionState.coalitionPartners}
+              sortedResults={sortedResults}
+              currentPct={currentPct}
+            />
+            {hasMajority && (
+              <div className="mt-3 p-2 bg-green-900/30 border border-green-600 rounded-lg text-center">
+                <p className="text-green-400 font-bold text-sm">🎉 Majority achieved! Finalising coalition…</p>
               </div>
             )}
           </div>
 
-          {/* Available Partners */}
-          <div className="bg-slate-800 border border-slate-700 rounded p-4 sm:p-6 mb-8">
-            <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-4">
-              {coalitionState.isPlayerLead ? 'Choose Your Coalition Partners' : 'Potential Other Partners'}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-              {coalitionState.availablePartners.map((partner) => {
-                const result = sortedResults.find(r => r.candidate.id === partner.id);
-                const compatibility = calculatePartyCompatibility(attemptingParty, partner);
-                const willingness = calculateCoalitionWillingness(attemptingParty, partner, attemptingPercentage, result?.percentage || 0);
+          {/* Two-column: log + partners */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-                return (
-                  <div
-                    key={partner.id}
-                    className={`p-3 sm:p-4 border rounded transition-all ${coalitionState.isPlayerLead
-                      ? 'hover:border-blue-500 bg-slate-700 border-slate-600 cursor-pointer'
-                      : 'border-slate-600 bg-slate-700/50'
-                      }`}
-                    onClick={() => {
-                      if (coalitionState.isPlayerLead) setSelectedPartner(partner);
-                      setShowNegotiationDetails(true);
-                    }}
-                  >
-                    <div className="flex items-center space-x-3 mb-2">
+            {/* Negotiation log */}
+            <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+              <h2 className="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wide">Negotiation Log</h2>
+              <CoalitionLog entries={coalitionState.coalitionLog} />
+              {!isPlayerLead && coalitionState.availablePartners.length > 0 && !hasMajority && (
+                <div className="mt-3 text-xs text-slate-500 italic">
+                  {attemptingParty?.party} is approaching {coalitionState.availablePartners[0]?.party}…
+                </div>
+              )}
+            </div>
+
+            {/* Available partners */}
+            <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+              <h2 className="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wide">
+                {isPlayerLead ? 'Choose Coalition Partners' : 'Remaining Parties'}
+              </h2>
+
+              {coalitionState.availablePartners.length === 0 ? (
+                <p className="text-slate-500 text-sm italic">No more available partners.</p>
+              ) : (
+                <div className="space-y-2">
+                  {coalitionState.availablePartners.map((partner) => {
+                    const result = sortedResults.find(r => r.candidate.id === partner.id);
+                    const compatibility = calculatePartyCompatibility(attemptingParty, partner);
+                    const willingness = calculateCoalitionWillingness(
+                      attemptingParty, partner, attemptingPercentage, result?.percentage || 0
+                    );
+                    const compatColor =
+                      compatibility > 65 ? 'text-green-400' :
+                        compatibility > 35 ? 'text-yellow-400' : 'text-red-400';
+
+                    return (
                       <div
-                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-slate-500"
-                        style={{ backgroundColor: partner.colour }}
-                      ></div>
-                      <div className="flex-1">
-                        <div className="font-bold text-white text-sm sm:text-base">{partner.party}</div>
-                        <div className="text-xs sm:text-sm text-slate-300">{partner.name}</div>
-                        <div className="text-xs text-slate-400">
-                          {result?.percentage.toFixed(1)}% of vote
-                          {partner.is_player && ' (You)'}
+                        key={partner.id}
+                        onClick={() => {
+                          if (isPlayerLead) {
+                            setSelectedPartner(partner);
+                            setShowNegotiationDetails(true);
+                          }
+                        }}
+                        className={`flex items-center gap-3 p-3 border rounded-lg transition-all ${isPlayerLead
+                            ? 'border-slate-600 bg-slate-700 hover:border-blue-500 hover:bg-slate-600 cursor-pointer'
+                            : 'border-slate-700 bg-slate-700/40'
+                          }`}
+                      >
+                        <div
+                          className="w-8 h-8 rounded-full border border-white/20 flex-shrink-0"
+                          style={{ backgroundColor: partner.colour }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-bold text-white text-sm truncate">
+                            {partner.party}
+                            {partner.is_player && <span className="ml-1 text-yellow-400 text-xs">◄ You</span>}
+                          </div>
+                          <div className="text-xs text-slate-400">{result?.percentage.toFixed(1)}% seats</div>
+                          {getIdeologyProfile(partner.vals)}
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <div className={`text-xs font-mono font-bold ${compatColor}`}>
+                            {compatibility.toFixed(0)}%
+                          </div>
+                          <div className="text-xs text-slate-500">compat</div>
+                          <div className="text-xs text-slate-400 mt-0.5">{willingness.toFixed(0)}% willing</div>
                         </div>
                       </div>
-                    </div>
-                    <div className="text-xs sm:text-sm space-y-1 font-mono uppercase mb-2 sm:mb-3">
-                      <div className="text-slate-400">Willingness: <span className={willingness > 60 ? 'text-green-400' : willingness > 40 ? 'text-yellow-400' : 'text-red-400'}>{willingness.toFixed(0)}%</span></div>
-                    </div>
-                    {getIdeologyProfile(partner.vals)}
-                  </div>
-                );
-              })}
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Player-lead controls */}
+              {isPlayerLead && (
+                <div className="mt-4 pt-3 border-t border-slate-700">
+                  <button
+                    onClick={() => actions.completeCoalitionFormation()}
+                    className="w-full py-2 bg-red-600/70 hover:bg-red-700 border border-red-500/70 text-white text-sm font-bold rounded-lg transition-colors"
+                  >
+                    Form Minority Government
+                  </button>
+                  <p className="text-xs text-slate-500 mt-1 text-center">
+                    Give up on coalition and govern alone ({currentPct.toFixed(1)}% seats)
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-
-          {/* Detailed Negotiations */}
-          {showNegotiationDetails && selectedPartner && (
-            <NegotiationModal
-              cabinetAllocations={coalitionState.cabinetAllocations}
-              leadParty={attemptingParty}
-              partnerParty={selectedPartner}
-              leadPercentage={attemptingPercentage}
-              partnerPercentage={sortedResults.find(r => r.candidate.id === selectedPartner.id)?.percentage || 0}
-              onComplete={(success, positions) => {
-                if (success) {
-                  actions.addCoalitionPartner(selectedPartner);
-                  positions.forEach(position => {
-                    actions.allocateCabinetPosition(position, selectedPartner.party);
-                  });
-                }
-                setShowNegotiationDetails(false);
-                setSelectedPartner(null);
-              }}
-              onCancel={() => {
-                setShowNegotiationDetails(false);
-                setSelectedPartner(null);
-              }}
-            />
-          )}
-
-          {/* Player Approach Modal */}
-          {showPlayerApproach && playerApproachOffer && playerResult && (
-            <PlayerApproachModal
-              leadParty={attemptingParty}
-              playerParty={playerResult.candidate}
-              leadPercentage={attemptingPercentage}
-              playerPercentage={playerResult.percentage}
-              offer={playerApproachOffer}
-              onComplete={handlePlayerApproachResponse}
-              onReject={() => handlePlayerApproachResponse(false, [], [])}
-            />
-          )}
-
-          {/* Skip Coalition for Player */}
-          {coalitionState.isPlayerLead && (
-            <div className="text-center">
-              <button
-                onClick={() => actions.completeCoalitionFormation()}
-                className="px-6 sm:px-8 py-2 sm:py-3 bg-red-600 hover:bg-red-700 border border-red-500 text-white font-bold rounded transition-colors"
-              >
-                Form Minority Government
-              </button>
-            </div>
-          )}
         </div>
+
+        {/* Modals */}
+        {showNegotiationDetails && selectedPartner && (
+          <NegotiationModal
+            cabinetAllocations={coalitionState.cabinetAllocations}
+            leadParty={attemptingParty}
+            partnerParty={selectedPartner}
+            leadPercentage={attemptingPercentage}
+            partnerPercentage={sortedResults.find(r => r.candidate.id === selectedPartner.id)?.percentage || 0}
+            onComplete={(success, positions) => {
+              const logMsg = success
+                ? `${attemptingParty.party} → ${selectedPartner.party}: Coalition agreement reached.`
+                : `${attemptingParty.party} → ${selectedPartner.party}: Negotiations failed.`;
+              actions.logCoalitionEvent(logMsg);
+              if (success) {
+                actions.addCoalitionPartner(selectedPartner);
+                positions.forEach(pos => actions.allocateCabinetPosition(pos, selectedPartner.party));
+              } else {
+                actions.removePotentialPartner(selectedPartner);
+              }
+              setShowNegotiationDetails(false);
+              setSelectedPartner(null);
+            }}
+            onCancel={() => {
+              setShowNegotiationDetails(false);
+              setSelectedPartner(null);
+            }}
+          />
+        )}
+
+        {showPlayerApproach && playerApproachOffer && playerResult && (
+          <PlayerApproachModal
+            leadParty={attemptingParty}
+            playerParty={playerResult.candidate}
+            leadPercentage={attemptingPercentage}
+            playerPercentage={playerResult.percentage}
+            offer={playerApproachOffer}
+            onComplete={handlePlayerApproachResponse}
+            onReject={() => handlePlayerApproachResponse(false, [], [])}
+          />
+        )}
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-6">
-      <div className="max-w-4xl mx-auto text-center text-white">
-        <h1 className="text-4xl font-bold mb-4">Coalition Formation Phase</h1>
-        <p>Phase: {coalitionState.negotiationPhase}</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 flex items-center justify-center">
+      <div className="text-white text-center">
+        <h1 className="text-2xl font-bold mb-2">Coalition Formation</h1>
+        <p className="text-slate-400 text-sm">Phase: {coalitionState.negotiationPhase}</p>
       </div>
     </div>
   );

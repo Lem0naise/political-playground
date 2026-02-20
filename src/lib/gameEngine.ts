@@ -547,16 +547,21 @@ export function snapshotInitialChoices(): void {
 }
 
 /** Build a voter-transfer matrix comparing poll-1 choices to final choices.
- *  Returns a list of {from, to, count, percentage} entries, sorted by count desc.
+ *  Returns a list of {from, to, count, fromTotal, percentage} entries, sorted by count desc.
+ *  `percentage` = share of the FROM-party's original voters who moved to that destination.
  *  Only caller-supplied candidateNames are used; abstainers (index -1) are labelled "Abstain".
  */
 export function getVoterTransferMatrix(
   candidateNames: string[]
-): Array<{ from: string; to: string; count: number; percentage: number }> {
+): Array<{ from: string; to: string; count: number; fromTotal: number; percentage: number }> {
   if (!INITIAL_CHOICES || !LAST_CHOICES || INITIAL_CHOICES.length === 0) return [];
 
   const total = INITIAL_CHOICES.length;
+
+  // Count every from→to pair
   const counts: Record<string, number> = {};
+  // Count totals per from-party
+  const fromTotals: Record<string, number> = {};
 
   for (let i = 0; i < total; i++) {
     const fromIdx = INITIAL_CHOICES[i];
@@ -565,12 +570,14 @@ export function getVoterTransferMatrix(
     const toName = toIdx >= 0 ? (candidateNames[toIdx] ?? 'Unknown') : 'Abstain';
     const key = `${fromName}|||${toName}`;
     counts[key] = (counts[key] ?? 0) + 1;
+    fromTotals[fromName] = (fromTotals[fromName] ?? 0) + 1;
   }
 
   return Object.entries(counts)
     .map(([key, count]) => {
       const [from, to] = key.split('|||');
-      return { from, to, count, percentage: (count / total) * 100 };
+      const fromTotal = fromTotals[from] ?? 1;
+      return { from, to, count, fromTotal, percentage: (count / fromTotal) * 100 };
     })
     .sort((a, b) => b.count - a.count);
 }

@@ -4,7 +4,7 @@ import { useState, useRef, useMemo } from 'react';
 
 export default function PlayerSelection() {
   const { state, actions } = useGame();
-  
+
   // Add ref for the creator form
   const creatorFormRef = useRef<HTMLDivElement>(null);
 
@@ -71,12 +71,12 @@ export default function PlayerSelection() {
     });
     setEditingPartyId(candidate.id);
     setShowCreator(true);
-    
+
     // Scroll to the form after a brief delay to ensure it's rendered
     setTimeout(() => {
-      creatorFormRef.current?.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
+      creatorFormRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
     }, 100);
   };
@@ -85,7 +85,7 @@ export default function PlayerSelection() {
   const handleCreateParty = () => {
     if (!customParty.party || !customParty.name) return;
     setCreating(true);
-    
+
     if (editingPartyId !== null) {
       // Update existing party
       const updatedCandidates = state.candidates.map(c => {
@@ -109,7 +109,7 @@ export default function PlayerSelection() {
         }
         return c;
       });
-      
+
       actions.setPartyList(
         "With Updated Party",
         updatedCandidates.map(c => ({
@@ -146,23 +146,23 @@ export default function PlayerSelection() {
         swing: 0,
       };
       actions.setPartyList(
-          "With Custom Party",
-          [...state.candidates.map(c => ({
-            id: c.id,
-            name: c.name,
-            party: c.party,
-            party_pop: c.party_pop,
-            prog_cons: c.vals[0],
-            nat_glob: c.vals[1],
-            env_eco: c.vals[2],
-            soc_cap: c.vals[3],
-            pac_mil: c.vals[4],
-            auth_ana: c.vals[5],
-            rel_sec: c.vals[6],
-            colour: c.colour,
-            swing: c.swing || 0
-          })), newParty]
-        );
+        "With Custom Party",
+        [...state.candidates.map(c => ({
+          id: c.id,
+          name: c.name,
+          party: c.party,
+          party_pop: c.party_pop,
+          prog_cons: c.vals[0],
+          nat_glob: c.vals[1],
+          env_eco: c.vals[2],
+          soc_cap: c.vals[3],
+          pac_mil: c.vals[4],
+          auth_ana: c.vals[5],
+          rel_sec: c.vals[6],
+          colour: c.colour,
+          swing: c.swing || 0
+        })), newParty]
+      );
     }
 
     console.log(state.candidates);
@@ -432,7 +432,7 @@ export default function PlayerSelection() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © {currentYear}</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 1.0.0</p>
+            <p>Version 1.1.0</p>
           </div>
         </div>
       </div>

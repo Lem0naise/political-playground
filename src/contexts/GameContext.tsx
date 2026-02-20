@@ -34,6 +34,7 @@ interface GameContextType {
     completeCoalitionFormation: () => void;
     setTargetedBloc: (blocId: string | null) => void;
     nextCoalitionAttempt: () => void;
+    logCoalitionEvent: (message: string) => void;
   };
 }
 
@@ -54,7 +55,8 @@ type GameAction =
   | { type: 'COMPLETE_COALITION_FORMATION' }
   | { type: 'SET_EVENT_VARIABLES'; payload: { eventVariables: EventVariables } }
   | { type: 'SET_TARGETED_BLOC'; payload: { blocId: string | null } }
-  | { type: 'NEXT_COALITION_ATTEMPT' };
+  | { type: 'NEXT_COALITION_ATTEMPT' }
+  | { type: 'LOG_COALITION_EVENT'; payload: { message: string } };
 
 // Helper function to substitute variables in news templates
 function substituteNewsVariables(
@@ -915,9 +917,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         // Compute voter transfers from initial poll to final poll
         const candidateNames = state.candidates.map(c => c.party);
         const rawTransfers = getVoterTransferMatrix(candidateNames);
-        // Only keep significant transfers (≥2% of electorate) that represent actual party switches
+        // Keep all transfers ≥1% of the from-party's own voters (includes Not Voting on both sides)
         const significantTransfers = rawTransfers.filter(
-          t => t.percentage >= 2.0 && t.from !== t.to && t.from !== 'Abstain'
+          t => t.percentage >= 1.0
         );
         postElectionStats = calculatePostElectionStats(
           resultsWithChange,
@@ -1040,7 +1042,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           cabinetAllocations: {},
           isPlayerLead: winningParty.is_player,
           negotiationPhase: 'partner-selection',
-          attemptingPartyIndex: 0
+          attemptingPartyIndex: 0,
+          coalitionLog: []
         }
       };
 
@@ -1048,14 +1051,17 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       if (!state.coalitionState) return state;
       const sortedResultsForAttempt = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
       const nextAttemptIndex = state.coalitionState.attemptingPartyIndex + 1;
+      const prevLeaderName = state.coalitionState.coalitionPartners[0]?.party ?? 'First party';
       // Only allow up to second-largest party (index 1)
       if (nextAttemptIndex >= 2 || nextAttemptIndex >= sortedResultsForAttempt.length) {
         // All parties exhausted — form minority government
+        const exhaustMsg = `${prevLeaderName} and all other parties failed to reach a majority. A minority government will be formed.`;
         return {
           ...state,
           coalitionState: {
             ...state.coalitionState,
-            negotiationPhase: 'complete'
+            negotiationPhase: 'complete',
+            coalitionLog: [...state.coalitionState.coalitionLog, exhaustMsg]
           }
         };
       }
@@ -1069,6 +1075,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...partner,
         compatibility: calculatePartyCompatibility(nextLeader, partner)
       })).sort((a, b) => b.compatibility - a.compatibility);
+      const mandateMsg = `${prevLeaderName} failed to secure a majority. The mandate now passes to ${nextLeader.party}.`;
       return {
         ...state,
         coalitionState: {
@@ -1078,7 +1085,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           cabinetAllocations: {},
           isPlayerLead: nextLeader.is_player,
           negotiationPhase: 'partner-selection',
-          attemptingPartyIndex: nextAttemptIndex
+          attemptingPartyIndex: nextAttemptIndex,
+          coalitionLog: [...state.coalitionState.coalitionLog, mandateMsg]
         }
       };
     }
@@ -1141,6 +1149,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         coalitionState: {
           ...state.coalitionState!,
           negotiationPhase: 'complete'
+        }
+      };
+
+    case 'LOG_COALITION_EVENT':
+      if (!state.coalitionState) return state;
+      return {
+        ...state,
+        coalitionState: {
+          ...state.coalitionState,
+          coalitionLog: [...state.coalitionState.coalitionLog, action.payload.message]
         }
       };
 
@@ -1256,6 +1274,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     nextCoalitionAttempt: useCallback(() => {
       dispatch({ type: 'NEXT_COALITION_ATTEMPT' });
+    }, []),
+
+    logCoalitionEvent: useCallback((message: string) => {
+      dispatch({ type: 'LOG_COALITION_EVENT', payload: { message } });
     }, [])
   };
 

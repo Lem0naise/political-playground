@@ -6,6 +6,7 @@ import { DESCRIPTORS, getIdeologyProfile } from '@/lib/ideologyProfiler';
 import { CABINET_POSITIONS } from '@/types/game';
 import CabinetView from './CabinetView';
 import PollingGraphModal from './PollingGraphModal';
+import VoterFlowSankey from './VoterFlowSankey';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
@@ -527,65 +528,21 @@ export default function ResultsView() {
               </div>
             )}
 
-            {/* Voter Transfer Flows */}
+            {/* Voter Transfer Flows – Sankey */}
             {state.postElectionStats?.voterTransfers && state.postElectionStats.voterTransfers.length > 0 && (
               <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4">
                 <h3 className="campaign-status text-sm sm:text-base font-bold text-amber-400 mb-1">
                   VOTER TRANSFER FLOWS
                 </h3>
-                <p className="text-xs text-slate-400 mb-3">
-                  Significant voter movements from the start to the end of the campaign (≥2% of electorate).
+                <p className="text-xs text-slate-400 mb-4">
+                  How each party's original voters voted by election day. Flow width = absolute voter count.
                 </p>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="border-b border-slate-600">
-                        <th className="text-left py-1 pr-2 text-slate-400 font-semibold">FROM</th>
-                        <th className="text-left py-1 px-2 text-slate-400 font-semibold">TO</th>
-                        <th className="text-right py-1 pl-2 text-slate-400 font-semibold">SHARE</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-700/50">
-                      {state.postElectionStats.voterTransfers.slice(0, 12).map((t, i) => {
-                        const fromCandidate = state.candidates.find(c => c.party === t.from);
-                        const toCandidate = state.candidates.find(c => c.party === t.to);
-                        const isSwitched = t.from !== t.to;
-                        return (
-                          <tr key={i} className={isSwitched ? 'bg-amber-900/10' : ''}>
-                            <td className="py-1.5 pr-2">
-                              <div className="flex items-center gap-1.5">
-                                <div
-                                  className="w-2.5 h-2.5 rounded-full border border-white/50 flex-shrink-0"
-                                  style={{ backgroundColor: fromCandidate?.colour || '#888' }}
-                                />
-                                <span className={`truncate max-w-[7rem] font-medium ${isSwitched ? 'text-slate-300' : 'text-slate-400'
-                                  }`}>{t.from}</span>
-                              </div>
-                            </td>
-                            <td className="py-1.5 px-2">
-                              <div className="flex items-center gap-1.5">
-                                {isSwitched && <span className="text-amber-400 font-bold">→</span>}
-                                {!isSwitched && <span className="text-slate-600">→</span>}
-                                <div
-                                  className="w-2.5 h-2.5 rounded-full border border-white/50 flex-shrink-0"
-                                  style={{ backgroundColor: toCandidate?.colour || '#888' }}
-                                />
-                                <span className={`truncate max-w-[7rem] font-medium ${isSwitched ? 'text-amber-300' : 'text-slate-400'
-                                  }`}>{t.to}</span>
-                              </div>
-                            </td>
-                            <td className="py-1.5 pl-2 text-right">
-                              <span className={`font-mono font-bold ${isSwitched ? 'text-amber-400' : 'text-slate-500'
-                                }`}>
-                                {t.percentage.toFixed(1)}%
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+                <VoterFlowSankey
+                  transfers={state.postElectionStats.voterTransfers}
+                  candidates={state.candidates}
+                  pollResults={state.pollResults}
+                  initialPollResults={state.initialPollResults}
+                />
               </div>
             )}
           </div>

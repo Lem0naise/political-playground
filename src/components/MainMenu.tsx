@@ -63,7 +63,7 @@ export default function MainMenu() {
               >
                 Built by Indigo
               </a>
-               <a
+              <a
                 href="https://indigo.spot/politicalplayground"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -139,11 +139,10 @@ export default function MainMenu() {
                   <button
                     key={countryCode}
                     onClick={() => setSelectedCountry(countryCode)}
-                    className={`text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${
-                      selectedCountry === countryCode
+                    className={`text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${selectedCountry === countryCode
                         ? 'border-yellow-400 bg-yellow-900/30 text-yellow-200'
                         : 'border-slate-600 bg-slate-800/40 text-slate-100 hover:border-yellow-600 hover:bg-slate-700/40'
-                    }`}
+                      }`}
                   >
                     <div className="campaign-status text-sm font-semibold">{countryCode}</div>
                     <div className="text-xs text-slate-300 font-mono">{voters} voters</div>
@@ -178,7 +177,7 @@ export default function MainMenu() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © 2025-2026</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 1.0.0</p>
+            <p>Version 1.1.0</p>
           </div>
         </div>
       </div>

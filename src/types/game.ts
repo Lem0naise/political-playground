@@ -125,7 +125,8 @@ export interface VoterTransferEntry {
   from: string;   // party name at poll 1
   to: string;     // party name at final poll
   count: number;  // number of voters who made this transfer
-  percentage: number; // percentage of total electorate
+  fromTotal: number; // total voters who voted for the from-party at poll 1
+  percentage: number; // percentage of from-party voters who made this transfer
 }
 
 export interface PostElectionStats {
@@ -195,6 +196,7 @@ export interface CoalitionState {
   negotiationPhase: 'partner-selection' | 'cabinet-negotiation' | 'complete';
   currentNegotiatingPartner?: Candidate;
   attemptingPartyIndex: number; // 0 = largest party, 1 = second-largest, etc.
+  coalitionLog: string[]; // persisted negotiation history across party attempts
 }
 
 export interface CabinetPosition {

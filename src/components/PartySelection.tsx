@@ -15,8 +15,8 @@ export default function PartySelection() {
   }, []);
 
   const handlePartyListToggle = (listName: string) => {
-    setSelectedLists(prev => 
-      prev.includes(listName) 
+    setSelectedLists(prev =>
+      prev.includes(listName)
         ? prev.filter(name => name !== listName)
         : [...prev, listName]
     );
@@ -123,11 +123,10 @@ export default function PartySelection() {
                   <button
                     key={listName}
                     onClick={() => handlePartyListToggle(listName)}
-                    className={`flex flex-col text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${
-                      isSelected
+                    className={`flex flex-col text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${isSelected
                         ? 'border-yellow-400 bg-yellow-900/30 text-yellow-100'
                         : 'border-slate-600 bg-slate-800/40 text-slate-100 hover:border-yellow-600 hover:bg-slate-700/40'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-start justify-between gap-1">
                       <div>
@@ -202,11 +201,10 @@ export default function PartySelection() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © 2025-2026</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 1.0.0</p>
+            <p>Version 1.1.0</p>
           </div>
         </div>
       </div>
     </div>
   );
 }
-         

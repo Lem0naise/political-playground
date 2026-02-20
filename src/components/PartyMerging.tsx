@@ -19,26 +19,26 @@ function generatePartyNameSuggestions(p1: Party, p2: Party): string[] {
     `${p1.party} & ${p2.party} Coalition`,
     // Shortest unique word from each
     (() => {
-      const p1w = p1.party.split(' ').sort((a,b)=>a.length-b.length)[0];
-      const p2w = p2.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      const p1w = p1.party.split(' ').sort((a, b) => a.length - b.length)[0];
+      const p2w = p2.party.split(' ').sort((a, b) => a.length - b.length)[0];
       return `${p1w} ${p2w} Alliance`;
     })(),
     // Longest unique word from each
     (() => {
-      const p1w = p1.party.split(' ').sort((a,b)=>b.length-a.length)[0];
-      const p2w = p2.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      const p1w = p1.party.split(' ').sort((a, b) => b.length - a.length)[0];
+      const p2w = p2.party.split(' ').sort((a, b) => b.length - a.length)[0];
       return `${p1w} ${p2w} Party`;
     })(),
     // Shortest unique word from each
     (() => {
-      const p1w = p1.party.split(' ').sort((a,b)=>a.length-b.length)[0];
-      const p2w = p2.party.split(' ').sort((a,b)=>a.length-b.length)[0];
+      const p1w = p1.party.split(' ').sort((a, b) => a.length - b.length)[0];
+      const p2w = p2.party.split(' ').sort((a, b) => a.length - b.length)[0];
       return `${p2w} ${p1w} Alliance`;
     })(),
     // Longest unique word from each
     (() => {
-      const p1w = p1.party.split(' ').sort((a,b)=>b.length-a.length)[0];
-      const p2w = p2.party.split(' ').sort((a,b)=>b.length-a.length)[0];
+      const p1w = p1.party.split(' ').sort((a, b) => b.length - a.length)[0];
+      const p2w = p2.party.split(' ').sort((a, b) => b.length - a.length)[0];
       return `${p2w} ${p1w} Party`;
     })(),
   ];
@@ -197,7 +197,7 @@ export default function PartyMerging() {
                   onClick={handleFinish}
                   className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-sm"
                 >
-                  Go to choosing or create a custom party 
+                  Go to choosing or create a custom party
                 </button>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function PartyMerging() {
             <div className="text-center text-xs text-slate-400 space-y-1">
               <p>Political Playground © {currentYear}</p>
               <p>Fictional simulator. No real-world endorsement or advice.</p>
-              <p>Version 1.0.0</p>
+              <p>Version 1.1.0</p>
             </div>
           </div>
         </div>
@@ -317,11 +317,10 @@ export default function PartyMerging() {
                       key={suggestion}
                       type="button"
                       onClick={() => setNewPartyName(suggestion)}
-                      className={`px-3 py-1 text-xs rounded-full border transition-colors duration-200 ${
-                        newPartyName === suggestion
-                          ? 'border-yellow-400 bg-yellow-900/40 text-yellow-100'
-                          : 'border-slate-600 bg-slate-800/40 text-slate-200 hover:border-yellow-500 hover:text-yellow-100'
-                      }`}
+                      className={`px-3 py-1 text-xs rounded-full border transition-colors duration-200 ${newPartyName === suggestion
+                        ? 'border-yellow-400 bg-yellow-900/40 text-yellow-100'
+                        : 'border-slate-600 bg-slate-800/40 text-slate-200 hover:border-yellow-500 hover:text-yellow-100'
+                        }`}
                     >
                       {suggestion}
                     </button>
@@ -339,11 +338,10 @@ export default function PartyMerging() {
                       key={`${party.party}-leader`}
                       type="button"
                       onClick={() => setSelectedLeader(party)}
-                      className={`text-left px-3 py-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${
-                        selectedLeader?.party === party.party
-                          ? 'border-yellow-400 bg-yellow-900/30 text-yellow-100'
-                          : 'border-slate-600 bg-slate-800/40 text-slate-200 hover:border-yellow-600 hover:bg-slate-700/40'
-                      }`}
+                      className={`text-left px-3 py-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${selectedLeader?.party === party.party
+                        ? 'border-yellow-400 bg-yellow-900/30 text-yellow-100'
+                        : 'border-slate-600 bg-slate-800/40 text-slate-200 hover:border-yellow-600 hover:bg-slate-700/40'
+                        }`}
                     >
                       <div className="flex items-center gap-3">
                         <span
@@ -382,7 +380,7 @@ export default function PartyMerging() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © {currentYear}</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 1.0.0</p>
+            <p>Version 1.1.0</p>
           </div>
         </div>
       </div>
