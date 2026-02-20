@@ -37,7 +37,7 @@
       "think tanks",
       "civil society groups"
     ],
-     "social_media_platform": [
+    "social_media_platform": [
       "Social media",
       "Online forums",
       "Digital platforms",
@@ -249,6 +249,147 @@
         "NATO allies"
       ]
     },
+    "ESTONIA": {
+      "newspaper": [
+        "Postimees",
+        "Õhtuleht",
+        "Eesti Päevaleht",
+        "Äripäev",
+        "ERR Uudised",
+        "Delfi",
+        "Maaleht",
+        "Lääne Elu",
+        "Virumaa Teataja",
+        "Pärnu Postimees"
+      ],
+      "company": [
+        "Skype",
+        "Wise",
+        "Bolt",
+        "TransferWise",
+        "Playtech",
+        "Tallink",
+        "Eesti Energia",
+        "Olympic Entertainment Group",
+        "Silvano Fashion Group",
+        "Tallinna Kaubamaja Grupp"
+      ],
+      "organisation": [
+        "The Riigikogu",
+        "The Bank of Estonia",
+        "The Estonian Defence Forces",
+        "The Estonian Tax and Customs Board",
+        "The Estonian Chamber of Commerce and Industry",
+        "The Estonian Employers' Confederation",
+        "The Estonian Trade Union Confederation",
+        "The Estonian Olympic Committee",
+        "The Estonian Red Cross",
+        "The Estonian Nature Conservation Society"
+      ],
+      "region": [
+        "Harju County",
+        "Tartu County",
+        "Ida-Viru County",
+        "Pärnu County",
+        "Lääne County",
+        "Saare County",
+        "Jõgeva County",
+        "Võru County",
+        "Valga County",
+        "Rapla County"
+      ],
+      "city": [
+        "Tallinn",
+        "Tartu",
+        "Narva",
+        "Pärnu",
+        "Kohtla-Järve",
+        "Rakvere",
+        "Jõhvi",
+        "Kuressaare",
+        "Võru",
+        "Haapsalu"
+      ],
+      "foreign_power": [
+        "Russia",
+        "Finland",
+        "Sweden",
+        "Germany",
+        "the United States",
+        "the European Union",
+        "NATO allies",
+        "the Baltic states",
+        "the Nordic countries",
+        "the United Kingdom"
+      ]
+    },
+    "SOUTH_AFRICA": {
+      "newspaper": [
+        "Mail & Guardian",
+        "TimesLIVE",
+        "News24",
+        "Business Day",
+        "City Press",
+        "Sunday Times",
+        "Rapport",
+        "IOL",
+        "The Citizen",
+        "Daily Maverick"
+      ],
+      "company": [
+        "Springbokke LLC",
+        "Eskom",
+        "Sasol",
+        "Capitec Bank",
+        "MTN",
+        "Vodacom",
+        "Shoprite",
+        "Pick n Pay",
+        "Woolworths",
+        "FNB"
+      ],
+      "organisation": [
+        "ANC",
+        "The UN",
+        "The World Bank",
+        "The IMF",
+        "The African Union",
+        "The World Health Organization",
+        "The World Trade Organization",
+        "The International Criminal Court",
+        "The International Court of Justice",
+        "The International Atomic Energy Agency"
+      ],
+      "region": [
+        "Gauteng",
+        "Western Cape",
+        "KZN",
+        "Eastern Cape",
+        "Limpopo",
+        "Mpumalanga",
+        "North West",
+        "Northern Cape",
+        "Free State"
+      ],
+      "city": [
+        "Cape Town",
+        "Johannesburg",
+        "Durban",
+        "Pretoria",
+        "Port Elizabeth",
+        "Bloemfontein",
+        "Polokwane",
+        "Nelspruit"
+      ],
+      "foreign_power": [
+        "China",
+        "Russia",
+        "Namibia",
+        "Botswana",
+        "Zimbabwe",
+        "African powers"
+      ]
+    },
     "USA": {
       "newspaper": [
         "The New York Times",
@@ -415,6 +556,30 @@
       "foreign_power": [
         "the European Union",
         "francophone Africa",
+        "the United States",
+        "China",
+        "EU partners"
+      ]
+    },
+    "Austria": {
+      "region": [
+        "Tyrol",
+        "Styria",
+        "Vienna",
+        "Salzburg"
+      ],
+      "city": [
+        "Vienna",
+        "Graz",
+        "Linz",
+        "Salzburg",
+        "Innsbruck",
+        "Klagenfurt",
+        "Bregenz"
+      ],
+      "foreign_power": [
+        "the European Union",
+        "Germany",
         "the United States",
         "China",
         "EU partners"

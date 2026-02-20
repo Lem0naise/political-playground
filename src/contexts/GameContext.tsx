@@ -78,27 +78,36 @@ function substituteNewsVariables(
     text = text.replace(/\{country\}/g, country);
   }
 
-  // If we have event variables, use the same instantiation logic as events
+  // If we have event variables, resolve the remaining placeholders
   if (eventVars) {
-    try {
-      const placeholderEvent = { title: text, description: '', choices: [] } as unknown as Event;
-      const instantiated = instantiateEvent(placeholderEvent, eventVars, country);
-      return instantiated.title;
-    } catch (e) {
-      // Last-resort fallback: attempt generic/country picks as before
-      return text.replace(/\{(\w+)\}/g, (m, key) => {
-        const countryVars = eventVars.countrySpecific?.[country];
-        const hasCountry = countryVars && countryVars[key] && countryVars[key].length > 0;
-        const hasGeneric = eventVars.generic[key] && eventVars.generic[key].length > 0;
-        if (hasCountry && Math.random() < 0.6) return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
-        if (hasCountry && !hasGeneric) return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
-        if (hasGeneric) return eventVars.generic[key][Math.floor(Math.random() * eventVars.generic[key].length)];
-        return m;
-      });
-    }
+    text = text.replace(/\{(\w+)\}/g, (match, key) => {
+      // It might be an explicit var that was missed, or already replaced but matched again if the replacement had braces (unlikely)
+      if (vars[key] !== undefined) return vars[key];
+      if (key === 'country') return country;
+
+      const countryVars = eventVars.countrySpecific?.[country];
+      const hasCountry = countryVars && countryVars[key] && countryVars[key].length > 0;
+      const hasGeneric = eventVars.generic?.[key] && eventVars.generic[key].length > 0;
+
+      // 60% chance to use country-specific if available
+      if (hasCountry && Math.random() < 0.6) {
+        return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
+      }
+
+      // Fallback to country-specific if no generic, or use generic
+      if (hasCountry && !hasGeneric) {
+        return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
+      }
+
+      if (hasGeneric) {
+        return eventVars.generic[key][Math.floor(Math.random() * eventVars.generic[key].length)];
+      }
+
+      // If neither exists, leave the placeholder intact
+      return match;
+    });
   }
 
-  // No event variables available — return text with explicit vars applied
   return text;
 }
 
@@ -865,42 +874,42 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           positive: [
             `{party} shifts toward free-market capitalism`,
             `{leader_name} embraces pro-business economic policy`,
-            `{party} adopts capitalist reforms for {industry}`,
-            `{candidate_name} champions private sector growth`
+            `{party} adopts capitalist approach to {industry}`,
+            `{candidate_name} announces free-market reforms`
           ],
           negative: [
-            `{party} shifts left on economic redistribution`,
-            `{leader_name} embraces socialist policies`,
-            `{party} proposes wealth redistribution reforms`,
-            `{candidate_name} champions worker ownership in {industry}`
+            `{party} pivots toward socialist economic policies`,
+            `{leader_name} champions wealth redistribution`,
+            `{party} embraces state intervention in {industry}`,
+            `{candidate_name} adopts democratic socialist platform`
           ]
         },
         pac_mil: {
           positive: [
-            `{party} announces military spending increase`,
-            `{leader_name} takes hawkish stance on {foreign_country}`,
-            `{party} shifts toward aggressive defense policy`,
-            `{candidate_name} champions military modernization`
+            `{party} embraces strong national defense policy`,
+            `{leader_name} champions military modernization`,
+            `{party} shifts toward hawkish foreign policy`,
+            `{candidate_name} announces security-first platform`
           ],
           negative: [
-            `{party} shifts toward pacifist foreign policy`,
-            `{leader_name} proposes military spending cuts`,
-            `{party} embraces diplomatic solutions over military action`,
-            `{candidate_name} champions peace negotiations with {foreign_country}`
+            `{party} pivots toward pacifist foreign policy`,
+            `{leader_name} champions diplomatic solutions`,
+            `{party} shifts away from military spending`,
+            `{candidate_name} adopts anti-war stance`
           ]
         },
         auth_ana: {
           positive: [
-            `{party} shifts toward libertarian principles`,
+            `{party} embraces civil libertarian platform`,
             `{leader_name} champions individual freedoms`,
-            `{party} proposes sweeping deregulation of {industry}`,
-            `{candidate_name} embraces anarchist decentralization`
+            `{party} shifts toward decentralized governance`,
+            `{candidate_name} announces freedom-first policy`
           ],
           negative: [
-            `{party} shifts toward law and order platform`,
-            `{leader_name} champions strong centralized government`,
-            `{party} proposes authoritarian crime crackdown`,
-            `{candidate_name} embraces strict regulatory framework`
+            `{party} pivots toward authoritarian "law and order"`,
+            `{leader_name} shifts party toward strong-state policies`,
+            `{party} embraces centralized authority`,
+            `{candidate_name} adopts strict security platform`
           ]
         },
         rel_sec: {
@@ -919,6 +928,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
       };
 
+      const nonPlayerCandidates = state.candidates.filter(c => !c.is_player);
       nonPlayerCandidates.forEach(candidate => {
         const candidateResult = resultsWithChange.find(r => r.candidate.id === candidate.id);
         const currentPolling = candidateResult ? candidateResult.percentage : 0;

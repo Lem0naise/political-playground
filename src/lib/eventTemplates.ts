@@ -21,20 +21,20 @@ function resolveVariable(
   variables: EventVariables,
   country: string
 ): string {
-  const countryVars = variables.countrySpecific[country];
+  const countryVars = variables.countrySpecific?.[country];
   const hasCountrySpecific = countryVars && countryVars[key] && countryVars[key].length > 0;
-  const hasGeneric = variables.generic[key] && variables.generic[key].length > 0;
+  const hasGeneric = variables.generic?.[key] && variables.generic[key].length > 0;
 
   // 60% chance to use country-specific if available
   if (hasCountrySpecific && Math.random() < 0.6) {
     return pickRandom(countryVars[key]);
   }
-  
+
   // Fallback to country-specific if no generic, or use generic
   if (hasCountrySpecific && !hasGeneric) {
     return pickRandom(countryVars[key]);
   }
-  
+
   if (hasGeneric) {
     return pickRandom(variables.generic[key]);
   }
