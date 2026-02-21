@@ -753,12 +753,9 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
   const leader = currentStandings[0];
 
   // Market volatility - occasional larger political shifts
-  let marketVolatility = 0.0;
-  if (Math.random() < 0.15) { // 15% chance of significant political event
-    marketVolatility = (Math.random() - 0.5) * 3; // -1.5 to 1.5
-    if (DEBUG) {
-      console.log(`DEBUG: Market volatility event: ${marketVolatility.toFixed(2)}`);
-    }
+  const isVolatileMarket = Math.random() < 0.15;
+  if (isVolatileMarket && DEBUG) {
+    console.log(`DEBUG: Market is experiencing high volatility.`);
   }
 
   // Track momentum and bandwagon effects for news
@@ -797,6 +794,12 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
 
     // Natural political variation (smaller than old random changes)
     const naturalVariation = (Math.random() - 0.5) * 0.6; // -0.3 to 0.3
+
+    // Apply market volatility per party independently if the market is volatile
+    let marketVolatility = 0.0;
+    if (isVolatileMarket) {
+      marketVolatility = (Math.random() - 0.5) * 3; // -1.5 to 1.5
+    }
 
     // Combine all effects
     const totalChange = incumbencyEffect + bandwagonEffect + momentumEffect + naturalVariation + marketVolatility;
@@ -924,7 +927,7 @@ const RANDOM_NEWS_EVENTS = [
 ];
 
 const ECONOMIC_CRISIS_EVENTS = [
-  "RECESSION FEARS MOUNT AS GLOBALMANUFACTURING CLOSES 3 PLANTS, CUTS 12,000 JOBS",
+  "RECESSION FEARS MOUNT AS GLOBAL MANUFACTURING CLOSES 3 PLANTS, CUTS 12,000 JOBS",
   "CREDIT CRUNCH: LARGEST BANK HALTS BUSINESS LENDING AS DEFAULTS HIT 9.1%",
   "CHIP SHORTAGE FORCES INDEFINITE HALT TO AUTO, ELECTRONICS PRODUCTION",
   "CURRENCY PLUNGES 15%; SKYROCKETING IMPORT COSTS HIT HOUSEHOLDS",
