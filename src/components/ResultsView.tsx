@@ -32,12 +32,17 @@ export default function ResultsView() {
   const totalVotes = state.pollResults.reduce((sum, result) => sum + result.votes, 0);
   const turnout = totalVotes > 0 ? ((totalVotes / state.countryData.pop) * 100) : 0;
 
-  const winner = sortedResults[0];
+  const coalitionComplete = state.coalitionState && state.coalitionState.negotiationPhase === 'complete';
+
+  const winner = (coalitionComplete && (state.coalitionState?.coalitionPartners?.length ?? 0) > 0)
+    ? sortedResults.find(r => r.candidate.id === state.coalitionState!.coalitionPartners[0].id) || sortedResults[0]
+    : sortedResults[0];
+
   const playerResult = sortedResults.find(r => r.candidate.is_player);
   const playerPosition = sortedResults.findIndex(r => r.candidate.is_player) + 1;
   const playerWon = playerResult?.candidate === winner.candidate;
 
-  const needsCoalition = winner.percentage <= 50;
+  const needsCoalition = sortedResults[0].percentage <= 50;
   const canViewPollingGraph = state.pollingHistory.length > 0;
 
   const campaignChanges = sortedResults.map(result => {
@@ -47,8 +52,6 @@ export default function ResultsView() {
       campaignChange: result.percentage - initialPercentage
     };
   });
-
-  const coalitionComplete = state.coalitionState && state.coalitionState.negotiationPhase === 'complete';
 
   const getOrdinalSuffix = (num: number) => {
     const j = num % 10;
@@ -158,7 +161,7 @@ export default function ResultsView() {
 
               <CabinetView
                 cabinetAllocations={state.coalitionState.cabinetAllocations}
-                winningParty={sortedResults[0].candidate}
+                winningParty={winner.candidate}
                 candidates={state.candidates}
               />
             </div>
@@ -225,13 +228,20 @@ export default function ResultsView() {
                         <div className={`text-sm font-bold ${result.candidate.is_player ? 'text-yellow-400' : 'text-white'
                           }`}>
                           {result.candidate.party}
+                          {state.incumbentGovernment?.includes(result.candidate.party) && (
+                            <span className="ml-1.5 px-1 py-0.5 text-[8px] sm:text-[9px] bg-slate-600/50 text-slate-300 border border-slate-500 rounded align-middle" title="Incumbent Government">GOV</span>
+                          )}
                           {result.candidate.is_player && ' ◄'}
                         </div>
-
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className="text-xs text-white font-mono">
+                          {(result.percentage.toFixed(2))}%
+                        </div>
                       </div>
                       <div className="text-right flex-shrink-0">
                         <div className="text-xs text-slate-400 font-mono">
-                          {formatVotes(result.votes, state.countryData.scale)}
+                          - {formatVotes(result.votes, state.countryData.scale)}
                         </div>
                       </div>
                       <div className="text-right flex-shrink-0">
