@@ -552,14 +552,16 @@ export default function CoalitionFormation() {
     if (!coalitionState && sortedResults[0]?.percentage <= 50) {
       actions.startCoalitionFormation();
     }
+  }, [coalitionState, sortedResults, actions]);
 
+  // Clear any pending timeouts when component unmounts
+  useEffect(() => {
     return () => {
-      // Clear any pending timeouts when component unmounts
       if (activeNegotiationTimeout.current) {
         clearTimeout(activeNegotiationTimeout.current);
       }
     };
-  }, [coalitionState, sortedResults, actions]);
+  }, []);
 
   // ── AI coalition logic — fires synchronously, no setTimeout ──
   useEffect(() => {
