@@ -165,19 +165,45 @@ export default function MainMenu() {
               </div>
             )}
 
-            <button
-              onClick={handleCountrySelect}
-              disabled={!selectedCountry}
-              className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base disabled:cursor-not-allowed"
-            >
-              {selectedCountry ? `Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={handleCountrySelect}
+                disabled={!selectedCountry}
+                className="flex-1 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base disabled:cursor-not-allowed"
+              >
+                {selectedCountry ? `Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
+              </button>
+
+              <label className="sm:w-1/3 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base cursor-pointer">
+                Load Save
+                <input
+                  type="file"
+                  accept=".json"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (ev) => {
+                        try {
+                          const state = JSON.parse(ev.target?.result as string);
+                          actions.loadState(state);
+                        } catch (e) {
+                          alert('Invalid save file');
+                        }
+                      };
+                      reader.readAsText(file);
+                    }
+                  }}
+                />
+              </label>
+            </div>
           </div>
 
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © 2025-2026</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 1.1.0</p>
+            <p>Version 1.2.1</p>
           </div>
         </div>
       </div>

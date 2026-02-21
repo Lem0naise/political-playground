@@ -9,12 +9,12 @@ export interface CoalitionCompatibility {
 
 export function calculatePartyCompatibility(party1: Candidate, party2: Candidate): number {
   let totalDistance = 0;
-  
+
   for (let i = 0; i < VALUES.length; i++) {
     const diff = Math.abs(party1.vals[i] - party2.vals[i]);
     totalDistance += diff;
   }
-  
+
   // Make compatibility drop off more sharply for large distances
   // If you increase the 110, parties will be more compatible
   const maxPossibleDistance = VALUES.length * 110;
@@ -55,14 +55,14 @@ export function calculateCoalitionWillingness(
   } else {
     baseWillingness -= 10; // Risky to join weak party
   }
-  
+
   // Adjust based on partner's strength
   if (partnerPercentage > 15) {
     baseWillingness -= 20; // Larger parties are harder to convince
   } else if (partnerPercentage < 5) {
     baseWillingness += 5; // Smaller parties are more willing
   }
-  
+
   // Cabinet position appeal
   const cabinetAppeal = calculateCabinetAppeal(cabinetImportanceOffered, partnerPercentage, compatibility);
   const willingness = Math.max(0, Math.min(100, baseWillingness + cabinetAppeal));
@@ -85,23 +85,23 @@ export function calculateCabinetAppeal(
   compatibility: number
 ): number {
   if (importanceOffered === 0) return -40; // Penalty for no positions
-  
+
   let appeal = importanceOffered * 1;
-  
+
   // Smaller parties are happier with smaller roles
   if (partnerPercentage < 5) {
     appeal += 10;
   } else if (partnerPercentage > 15) {
     appeal -= 10;
   }
-  
+
   // High compatibility parties are more flexible
   if (compatibility > 70) {
     appeal += 10;
   } else if (compatibility < 40) {
     appeal -= 35;
   }
-  
+
   return Math.max(-30, Math.min(60, appeal));
 }
 
@@ -113,11 +113,11 @@ export function getAvailableCabinetPositions(allocations: Record<string, string[
   available_slots: number;
 }> {
   const available = [];
-  
+
   for (const [position, details] of Object.entries(CABINET_POSITIONS)) {
     const allocated = allocations[position] || [];
     const availableSlots = details.max_slots - allocated.length;
-    
+
     if (availableSlots > 0) {
       available.push({
         name: position,
@@ -128,14 +128,14 @@ export function getAvailableCabinetPositions(allocations: Record<string, string[
       });
     }
   }
-  
+
   return available.sort((a, b) => b.importance - a.importance);
 }
 
 export function getPartyPriorityPositions(candidate: Candidate): string[] {
   const priorities = [];
   const vals = candidate.vals;
-  
+
   // Map political values to preferred ministries
 
   // Every party wants Deputy Prime Minister
@@ -146,31 +146,31 @@ export function getPartyPriorityPositions(candidate: Candidate): string[] {
   } else if (vals[3] < 30) {
     priorities.push('Finance Minister', 'Transport Minister');
   }
-  
+
   // env_eco (environmental-economic): index 2
   if (vals[2] < -20) {
     priorities.push('Environment Minister');
   }
-  
+
   // pac_mil (pacifist-militarist): index 4
   if (vals[4] < -30) {
     priorities.push('Foreign Minister');
   } else if (vals[4] > 30) {
     priorities.push('Defence Minister', 'Foreign Minister');
   }
-  
+
   // prog_cons (progressive-conservative): index 0
   if (vals[0] < -20) {
     priorities.push('Education Minister', 'Health Minister');
   } else if (vals[0] > 20) {
     priorities.push('Interior Minister', 'Justice Minister');
   }
-  
+
   // Default fallback positions
   if (priorities.length === 0) {
     priorities.push('Junior Ministers');
   }
-  
+
   return priorities;
 }
 
@@ -185,7 +185,7 @@ export function generateCoalitionPolicyQuestion(party1: Candidate, party2: Candi
 } | null {
   const vals1 = party1.vals;
   const vals2 = party2.vals;
-  
+
   // Economic policy question
   if (Math.abs(vals1[3] - vals2[3]) > 20) {
     return {
@@ -210,7 +210,7 @@ export function generateCoalitionPolicyQuestion(party1: Candidate, party2: Candi
       ]
     };
   }
-  
+
   // Environmental policy question
   if (Math.abs(vals1[2] - vals2[2]) > 25) {
     return {
@@ -235,7 +235,7 @@ export function generateCoalitionPolicyQuestion(party1: Candidate, party2: Candi
       ]
     };
   }
-  
+
   // Social issues question
   if (Math.abs(vals1[0] - vals2[0]) > 20) {
     return {
@@ -260,7 +260,7 @@ export function generateCoalitionPolicyQuestion(party1: Candidate, party2: Candi
       ]
     };
   }
-  
+
   return null;
 }
 
@@ -278,20 +278,20 @@ export function simulateCoalitionNegotiation(
 } {
   const compatibility = calculatePartyCompatibility(leadParty, partnerParty);
   let baseWillingness = compatibility;
-  
+
   // Adjust based on party strength
   if (leadPercentage > 40) {
     baseWillingness += 10;
   } else if (leadPercentage < 25) {
     baseWillingness -= 15;
   }
-  
+
   // Cabinet position appeal
   const cabinetAppeal = calculateCabinetAppeal(cabinetImportanceOffered, partnerPercentage, compatibility);
-  
+
   // Policy response appeal
   const policyAppeal = policyResponses.reduce((sum, response) => sum + response, 0);
-  
+
 
   // new: scale benefits by compatibility
   // Scale benefits by compatibility (0-1)
@@ -312,8 +312,8 @@ export function simulateCoalitionNegotiation(
     policyAppeal,
     finalAppeal
   });
-  
-  
+
+
   if (finalAppeal > 100) {
     return {
       success: true,
@@ -348,14 +348,14 @@ export function findBestCoalitionPartners(
 ): Array<{ candidate: Candidate; compatibility: number; willingness: number; percentage: number }> {
   const leadResult = results.find(r => r.candidate.id === leadParty.id);
   const leadPercentage = leadResult?.percentage || 0;
-  
+
   return availableParties
     .map(party => {
       const result = results.find(r => r.candidate.id === party.id);
       const percentage = result?.percentage || 0;
       const compatibility = calculatePartyCompatibility(leadParty, party);
       const willingness = calculateCoalitionWillingness(leadParty, party, leadPercentage, percentage);
-      
+
       return { candidate: party, compatibility, willingness, percentage };
     })
     .sort((a, b) => {
@@ -524,25 +524,77 @@ export function evaluatePlayerResponse(
   finalAppeal: number;
 } {
   const availablePositions = getAvailableCabinetPositions(allocations);
-  const acceptedImportance = acceptedPositions.reduce((sum, pos) => {
+  let acceptedImportance = acceptedPositions.reduce((sum, pos) => {
     const position = availablePositions.find(p => p.name === pos);
     return sum + (position?.importance || 10);
   }, 0);
 
+  // Compare accepted importance against expected importance
+  const totalCabinetSlots = availablePositions.reduce((sum, pos) => sum + pos.available_slots, 0);
+  const expectedSlots = Math.max(1, Math.round((playerPercentage / 100) * totalCabinetSlots));
+  // Crude estimate: average importance per slot might be 12
+  const expectedImportance = expectedSlots * 12;
+
+  // If player demanded way more than expected, or gave terrible policy answers, penalize heavily.
+  const policyScore = policyResponses.reduce((sum, r) => sum + r, 0);
+  const greedPenalty = acceptedImportance > expectedImportance * 1.5 ? -25 : 0;
+
+  const compatibility = calculatePartyCompatibility(leadParty, playerParty);
+  let baseWillingness = compatibility;
+  if (leadPercentage > 40) baseWillingness += 10;
+  else if (leadPercentage < 25) baseWillingness -= 15;
+
+  const compatibilityFactor = compatibility !== 0 ? Math.max(0, compatibility / 100) : 0;
+  // AI is essentially determining if the player's counter-offer is acceptable to them.
+  // The lead party loses appeal if they have to give away too much.
+  const cabinetGiveawayPenalty = -1 * (acceptedImportance * 0.5);
+
+  // They gain appeal from good policy answers
+  const scaledAppeal = (policyScore + cabinetGiveawayPenalty + greedPenalty) * compatibilityFactor;
+
+  // Add an RNG factor between -15 and +15 to introduce uncertainty
+  const rngFactor = (Math.random() * 30) - 15;
+
+  // Final score is the base willingness + the net appeal of the deal + RNG
+  // But wait, if they initiated the offer, they were already at ~100 willingness to work with the player.
+  // We should just check if the player's demands ruined that willingness.
+  const finalAppeal = 100 + scaledAppeal + rngFactor;
+
   console.log('DEBUG: evaluatePlayerResponse', {
     leadParty: leadParty.party,
     playerParty: playerParty.party,
-    leadPercentage,
-    playerPercentage,
-    policyResponses,
-    acceptedPositions,
-    acceptedImportance
+    expectedImportance,
+    acceptedImportance,
+    policyScore,
+    greedPenalty,
+    rngFactor,
+    finalAppeal
   });
 
-  return {
-    success: true,
-    message: `${playerParty.party} agrees to join the coalition!`,
-    finalAppeal: 100
+  if (finalAppeal >= 85) {
+    return {
+      success: true,
+      message: `${leadParty.party} leadership enthusiastically agreed to your terms and has welcomed you into the coalition!`,
+      finalAppeal
+    };
+  } else if (finalAppeal >= 60) {
+    return {
+      success: true,
+      message: `${leadParty.party} expressed some reservations about your demands, but ultimately agreed to form the coalition.`,
+      finalAppeal
+    };
+  } else if (finalAppeal > 40) {
+    return {
+      success: false,
+      message: `Talks broke down. ${leadParty.party} felt you were asking for too much relative to your mandate.`,
+      finalAppeal
+    }
+  } else {
+    return {
+      success: false,
+      message: `${leadParty.party} angrily rejected your terms as completely unreasonable and has ended negotiations.`,
+      finalAppeal
+    }
   }
 }
 

@@ -537,6 +537,7 @@ export default function CoalitionFormation() {
   const [showPlayerApproach, setShowPlayerApproach] = useState(false);
   // Track which partner was last processed by AI so we don't re-process
   const lastProcessedPartner = useRef<number | null>(null);
+  const activeNegotiationTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const coalitionState = state.coalitionState;
   const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
@@ -551,6 +552,13 @@ export default function CoalitionFormation() {
     if (!coalitionState && sortedResults[0]?.percentage <= 50) {
       actions.startCoalitionFormation();
     }
+
+    return () => {
+      // Clear any pending timeouts when component unmounts
+      if (activeNegotiationTimeout.current) {
+        clearTimeout(activeNegotiationTimeout.current);
+      }
+    };
   }, [coalitionState, sortedResults, actions]);
 
   // ── AI coalition logic — fires synchronously, no setTimeout ──
@@ -560,7 +568,8 @@ export default function CoalitionFormation() {
       coalitionState.negotiationPhase !== 'partner-selection' ||
       coalitionState.isPlayerLead ||
       coalitionState.currentCoalitionPercentage >= 50 ||
-      showPlayerApproach
+      showPlayerApproach ||
+      activeNegotiationTimeout.current !== null // Don't start a new negotiation if one is already pending
     ) return;
 
     if (coalitionState.availablePartners.length === 0) {
@@ -605,26 +614,35 @@ export default function CoalitionFormation() {
       setPlayerApproachOffer(offer);
       setShowPlayerApproach(true);
     } else {
-      const result = simulateAICoalitionNegotiation(
-        attemptingParty,
-        nextPartner.candidate,
-        attemptingPercentage,
-        nextPartner.percentage,
-        coalitionState.cabinetAllocations
-      );
+      // Add a randomized delay (1.5s to 3s) for realism
+      const delayTime = Math.floor(Math.random() * 1500) + 1500;
 
-      const logMsg = `${attemptingParty.party} → ${nextPartner.candidate.party}: ${result.message}`;
-      actions.logCoalitionEvent(logMsg);
+      const logStartMsg = `${attemptingParty.party} is negotiating with ${nextPartner.candidate.party}...`;
+      actions.logCoalitionEvent(logStartMsg);
 
-      if (result.success) {
-        actions.addCoalitionPartner(nextPartner.candidate);
-        result.cabinetPositions.forEach((pos: string) => {
-          actions.allocateCabinetPosition(pos, nextPartner.candidate.party);
-        });
-      } else {
-        actions.removePotentialPartner(nextPartner.candidate);
-      }
-      lastProcessedPartner.current = null;
+      activeNegotiationTimeout.current = setTimeout(() => {
+        const result = simulateAICoalitionNegotiation(
+          attemptingParty,
+          nextPartner.candidate,
+          attemptingPercentage,
+          nextPartner.percentage,
+          coalitionState.cabinetAllocations
+        );
+
+        const logResultMsg = `${attemptingParty.party} → ${nextPartner.candidate.party}: ${result.message}`;
+        actions.logCoalitionEvent(logResultMsg);
+
+        if (result.success) {
+          actions.addCoalitionPartner(nextPartner.candidate);
+          result.cabinetPositions.forEach((pos: string) => {
+            actions.allocateCabinetPosition(pos, nextPartner.candidate.party);
+          });
+        } else {
+          actions.removePotentialPartner(nextPartner.candidate);
+        }
+        lastProcessedPartner.current = null;
+        activeNegotiationTimeout.current = null;
+      }, delayTime);
     }
   }, [
     coalitionState?.availablePartners.length,
@@ -638,6 +656,10 @@ export default function CoalitionFormation() {
   // Reset lastProcessedPartner when the leading party changes
   useEffect(() => {
     lastProcessedPartner.current = null;
+    if (activeNegotiationTimeout.current) {
+      clearTimeout(activeNegotiationTimeout.current);
+      activeNegotiationTimeout.current = null;
+    }
   }, [coalitionState?.attemptingPartyIndex]);
 
   const handlePlayerApproachResponse = (success: boolean, positions: string[], responses: number[]) => {

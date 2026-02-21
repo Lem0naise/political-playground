@@ -180,6 +180,8 @@ export interface GameState {
   votingData: number[][];
   pendingParties?: any[];
   coalitionState?: CoalitionState;
+  testingData?: any; // Just for completeness, don't think we need this
+  incumbentGovernment?: string[];
   phase: 'setup' | 'party-selection' | 'partyMerging' | 'player-selection' | 'campaign' | 'results' | 'coalition';
   pollingHistory: PollingSnapshot[];
   activeTrend: ActiveTrend | null;
@@ -230,11 +232,17 @@ export const CABINET_POSITIONS: Record<string, CabinetPosition> = {
   "Foreign Minister": { importance: 27, max_slots: 1, description: "Leads international relations and diplomacy" },
   "Defence Minister": { importance: 20, max_slots: 1, description: "Oversees military and national security" },
   "Interior Minister": { importance: 20, max_slots: 1, description: "Manages domestic security and law enforcement" },
-  "Health Minister": { importance: 10, max_slots: 1, description: "Oversees healthcare system and public health" },
-  "Education Minister": { importance: 10, max_slots: 1, description: "Manages education policy and schools" },
-  "Environment Minister": { importance: 10, max_slots: 1, description: "Handles environmental policy and climate action" },
-  "Justice Minister": { importance: 10, max_slots: 1, description: "Oversees legal system and courts" },
-  "Transport Minister": { importance: 10, max_slots: 1, description: "Manages transportation infrastructure" },
+  "Health Minister": { importance: 15, max_slots: 1, description: "Oversees healthcare system and public health" },
+  "Education Minister": { importance: 15, max_slots: 1, description: "Manages education policy and schools" },
+  "Environment Minister": { importance: 15, max_slots: 1, description: "Handles environmental policy and climate action" },
+  "Justice Minister": { importance: 15, max_slots: 1, description: "Oversees legal system and courts" },
+  "Transport Minister": { importance: 12, max_slots: 1, description: "Manages transportation infrastructure" },
+  "Agriculture Minister": { importance: 12, max_slots: 1, description: "Manages farming, food production, and rural affairs" },
+  "Energy Minister": { importance: 12, max_slots: 1, description: "Oversees energy production and grid management" },
+  "Labor Minister": { importance: 12, max_slots: 1, description: "Oversees employment, labor rights, and workforce policy" },
+  "Housing Minister": { importance: 10, max_slots: 1, description: "Manages housing development and urban planning" },
+  "Culture Minister": { importance: 8, max_slots: 1, description: "Responsible for arts, culture, and national heritage" },
+  "Science & Tech Minister": { importance: 8, max_slots: 1, description: "Oversees research, development, and digital innovation" },
   "Junior Ministers": { importance: 5, max_slots: 8, description: "Supporting ministerial roles" },
 };
 
