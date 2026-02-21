@@ -180,6 +180,8 @@ export interface GameState {
   votingData: number[][];
   pendingParties?: any[];
   coalitionState?: CoalitionState;
+  testingData?: any; // Just for completeness, don't think we need this
+  incumbentGovernment?: string[];
   phase: 'setup' | 'party-selection' | 'partyMerging' | 'player-selection' | 'campaign' | 'results' | 'coalition';
   pollingHistory: PollingSnapshot[];
   activeTrend: ActiveTrend | null;

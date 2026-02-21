@@ -23,6 +23,8 @@ interface GameContextType {
     setPlayerCandidate: (candidateId: number) => void;
     startCampaign: () => void;
     nextPoll: () => void;
+    continueCampaign: () => void;
+    loadState: (savedState: any) => void;
     handleEvent: (event: Event, choice: EventChoice) => void;
     resetGame: () => void;
     setPendingParties: (parties: any[]) => void;
@@ -56,6 +58,8 @@ type GameAction =
   | { type: 'SET_EVENT_VARIABLES'; payload: { eventVariables: EventVariables } }
   | { type: 'SET_TARGETED_BLOC'; payload: { blocId: string | null } }
   | { type: 'NEXT_COALITION_ATTEMPT' }
+  | { type: 'CONTINUE_CAMPAIGN' }
+  | { type: 'LOAD_STATE'; payload: { savedState: any } }
   | { type: 'LOG_COALITION_EVENT'; payload: { message: string } };
 
 // Helper function to substitute variables in news templates
@@ -1132,6 +1136,59 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
       };
 
+    case 'CONTINUE_CAMPAIGN': {
+      // Determine the incumbent government: if coalition is complete, it's the coalition partners, otherwise the single winner
+      let governmentParties: string[] = [];
+      const isCoalition = state.coalitionState?.negotiationPhase === 'complete';
+
+      if (isCoalition && state.coalitionState) {
+        governmentParties = state.coalitionState.coalitionPartners.map(p => p.party);
+      } else if (state.pollResults.length > 0) {
+        // Find single winner
+        const winner = [...state.pollResults].sort((a, b) => b.percentage - a.percentage)[0];
+        governmentParties = [winner.candidate.party];
+      }
+
+      const currentPollResults = state.pollResults;
+      const initialPolls: Record<string, number> = {};
+      currentPollResults.forEach(r => {
+        initialPolls[r.candidate.party] = r.percentage;
+      });
+
+      return {
+        ...state,
+        phase: 'campaign',
+        incumbentGovernment: governmentParties,
+        currentPoll: 0,
+        pollResults: [],
+        pollingHistory: [],
+        initialPollResults: initialPolls,
+        previousPollResults: initialPolls,
+        politicalNews: [],
+        playerEventNews: [],
+        activeTrend: null,
+        trendHistory: [],
+        nextTrendPoll: null,
+        coalitionState: undefined,
+        blocStatsHistory: [],
+        postElectionStats: undefined,
+        blocStats: state.blocStats, // Keep the final bloc stats as the new baseline
+        previousBlocStats: state.blocStats,
+        initialBlocStats: state.blocStats,
+        // The below properties are cleared on a new campaign
+        eventVariables: state.eventVariables, // Keep custom event variable logic
+        targetedBlocId: null,
+        targetingStartWeek: null,
+        targetingCooldownUntil: null,
+      };
+    }
+
+    case 'LOAD_STATE': {
+      return {
+        ...action.payload.savedState
+      };
+    }
+
     case 'NEXT_COALITION_ATTEMPT': {
       if (!state.coalitionState) return state;
       const sortedResultsForAttempt = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
@@ -1359,6 +1416,14 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     nextCoalitionAttempt: useCallback(() => {
       dispatch({ type: 'NEXT_COALITION_ATTEMPT' });
+    }, []),
+
+    continueCampaign: useCallback(() => {
+      dispatch({ type: 'CONTINUE_CAMPAIGN' });
+    }, []),
+
+    loadState: useCallback((savedState: any) => {
+      dispatch({ type: 'LOAD_STATE', payload: { savedState } });
     }, []),
 
     logCoalitionEvent: useCallback((message: string) => {

@@ -558,6 +558,14 @@ export default function ResultsView() {
               Form Coalition Government
             </button>
           )}
+          {(!needsCoalition || coalitionComplete) && (
+            <button
+              onClick={actions.continueCampaign}
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 border border-green-500 text-white font-bold rounded-lg transition-colors"
+            >
+              Continue Playing
+            </button>
+          )}
           <button
             onClick={actions.resetGame}
             className="px-6 py-3 bg-blue-600 hover:bg-blue-700 border border-blue-500 text-white font-bold rounded-lg transition-colors"

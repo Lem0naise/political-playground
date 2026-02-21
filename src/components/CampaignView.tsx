@@ -109,6 +109,18 @@ export default function CampaignView() {
             </div>
             {/* Campaign Progress - Status Board Style */}
 
+            <button
+              onClick={() => {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+                const dlAnchorElem = document.createElement('a');
+                dlAnchorElem.setAttribute("href", dataStr);
+                dlAnchorElem.setAttribute("download", "political-playground-save.json");
+                dlAnchorElem.click();
+              }}
+              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs sm:text-sm font-semibold rounded transition-colors self-start sm:self-center"
+            >
+              Save Progress
+            </button>
           </div>
         </div>
       </div>
