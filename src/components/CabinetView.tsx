@@ -60,6 +60,24 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
           if (details.importance >= 25) colSpan = 'col-span-2 md:col-span-4';
           else if (details.importance >= 15) colSpan = 'col-span-2 md:col-span-2';
 
+          if (pos === 'Deputy Prime Minister') {
+            return (
+              <div key={pos} className={`border rounded p-2 flex items-center gap-3 ${colSpan}`}
+                style={{ backgroundColor: `${mainCandidate?.colour}30`, borderColor: mainCandidate?.colour }}>
+                <div className="flex items-center gap-3 w-full">
+                  <div className="w-2 h-full absolute left-0 top-0 bottom-0" style={{ backgroundColor: mainCandidate?.colour }}></div>
+                  <div className="flex-1 pl-2">
+                    <div className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">Deputy Prime Minister</div>
+                    <div className="text-sm sm:text-base font-black text-white leading-tight" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
+                      {mainCandidate?.name}
+                    </div>
+                    <div className="text-[10px] text-slate-200 font-medium">{mainCandidate?.party}</div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
           return (
             <div
               key={pos}

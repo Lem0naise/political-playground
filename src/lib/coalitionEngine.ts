@@ -374,7 +374,7 @@ function calculatePositionsToOffer(
 ): number {
   // Offer positions conservatively. Lead party should retain the lion's share.
   // We divide by 100 to get a fraction, but we scale it down to retain a "lead party premium".
-  const premiumShare = (partnerPercentage / 100) * 0.6; // 60% of their proportional share
+  const premiumShare = (partnerPercentage / 100) * 0.8; // 60% of their proportional share
   const scaled = Math.round(premiumShare * availablePositions.length); // Use unique positions count
   return Math.max(1, scaled); // Always offer at least 1
 }
