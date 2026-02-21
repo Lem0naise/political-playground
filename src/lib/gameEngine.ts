@@ -1080,6 +1080,7 @@ export function conductPoll(
       if (LAST_CHOICES) LAST_CHOICES[voterIndex] = choice;
     } else {
       notVoted++;
+      if (LAST_CHOICES) LAST_CHOICES[voterIndex] = -1;
     }
   }
 

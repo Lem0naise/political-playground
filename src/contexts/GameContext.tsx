@@ -12,7 +12,7 @@ import {
   snapshotInitialChoices,
   getVoterTransferMatrix
 } from '@/lib/gameEngine';
-import { calculatePartyCompatibility } from '@/lib/coalitionEngine';
+import { calculatePartyCompatibility, autoAllocateUnfilledCabinetPositions } from '@/lib/coalitionEngine';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 
 interface GameContextType {
@@ -1285,14 +1285,22 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
       };
 
-    case 'COMPLETE_COALITION_FORMATION':
+    case 'COMPLETE_COALITION_FORMATION': {
+      if (!state.coalitionState) return state;
+      const currentAllocations = { ...state.coalitionState.cabinetAllocations };
+      const leadPartyId = state.coalitionState.coalitionPartners[0]?.party;
+      if (leadPartyId) {
+        autoAllocateUnfilledCabinetPositions(currentAllocations, leadPartyId);
+      }
       return {
         ...state,
         coalitionState: {
-          ...state.coalitionState!,
+          ...state.coalitionState,
+          cabinetAllocations: currentAllocations,
           negotiationPhase: 'complete'
         }
       };
+    }
 
     case 'LOG_COALITION_EVENT':
       if (!state.coalitionState) return state;

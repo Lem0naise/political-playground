@@ -10,172 +10,110 @@ interface CabinetViewProps {
 const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningParty, candidates }) => {
   if (!cabinetAllocations || Object.keys(cabinetAllocations).length === 0) return null;
 
-  // Helper to get candidate by party name
-  const getCandidateByParty = (party: string) =>
-    candidates.find(c => c.party === party);
+  const getCandidateByParty = (party: string) => candidates.find(c => c.party === party);
 
-  // Order positions by importance (descending)
   const orderedPositions = Object.keys(cabinetAllocations)
-    .filter(pos => CABINET_POSITIONS[pos])
+    .filter(pos => CABINET_POSITIONS[pos]) // ensure it exists
     .sort((a, b) => CABINET_POSITIONS[b].importance - CABINET_POSITIONS[a].importance);
 
-  // Group positions by importance, then by party
-  function getSquishedCabinetGroups() {
-    // Map: importance -> [{ position, parties }]
-    const importanceMap: Record<number, { position: string, parties: string[] }[]> = {};
-    orderedPositions.forEach(position => {
-      const importance = CABINET_POSITIONS[position].importance;
-      if (!importanceMap[importance]) importanceMap[importance] = [];
-      importanceMap[importance].push({ position, parties: cabinetAllocations[position] });
-    });
-
-    // For each importance, group positions by party array stringified
-    const squished: {
-      importance: number,
-      partyGroups: { parties: string[], positions: string[] }[]
-    }[] = [];
-
-    Object.entries(importanceMap).forEach(([importance, posArr]) => {
-      const partyMap: Record<string, { parties: string[], positions: string[] }> = {};
-      posArr.forEach(({ position, parties }) => {
-        // Only squish if single party per position
-        if (parties.length === 1) {
-          const key = parties[0];
-          if (!partyMap[key]) partyMap[key] = { parties, positions: [] };
-          partyMap[key].positions.push(position);
-        } else {
-          // For multi-party allocations, treat as unique
-          const key = JSON.stringify(parties);
-          if (!partyMap[key]) partyMap[key] = { parties, positions: [] };
-          partyMap[key].positions.push(position);
-        }
-      });
-      squished.push({
-        importance: Number(importance),
-        partyGroups: Object.values(partyMap)
-      });
-    });
-
-    // Sort by importance descending
-    squished.sort((a, b) => b.importance - a.importance);
-
-    return squished;
-  }
-
-  // Font sizes for descending importance (largest for most important)
-  const fontSizes = [
-    "text-sm sm:text-base",
-    "text-xs sm:text-sm",
-    "text-xs",
-    "text-xs",
-    "text-xs"
-  ];
-
-  const squishedGroups = getSquishedCabinetGroups();
-
   return (
-    <div className="bg-slate-700/30 border border-slate-600 rounded-lg p-3 sm:p-4">
-      <h3 className="campaign-status text-sm sm:text-base font-bold text-blue-400 mb-3">
-        COALITION CABINET
-      </h3>
-      <div className="space-y-1.5">
-        {/* Prime Minister */}
-        <div className="flex items-center p-2 bg-green-900/30 border border-green-600 rounded font-bold text-xs sm:text-sm">
-          <div
-            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-white mr-2 flex-shrink-0"
-            style={{ backgroundColor: winningParty.colour }}
-          ></div>
-          <span className="text-green-400 uppercase mr-2">Prime Minister:</span>
-          <span className="text-white">{winningParty.name} ({winningParty.party})</span>
+    <div className="bg-slate-900 border border-slate-700 rounded-lg p-3 shadow-md">
+      <div className="flex items-center justify-between mb-3 border-b border-slate-700 pb-2">
+        <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wide">
+          Coalition Cabinet
+        </h3>
+        <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wider bg-slate-800 px-2 py-0.5 rounded">
+          {Object.keys(cabinetAllocations).length} Portfolios
+        </span>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        {/* Prime Minister Card (Full Width) */}
+        <div className="col-span-2 md:col-span-4 border rounded p-2 flex items-center gap-3"
+          style={{ backgroundColor: `${winningParty.colour}30`, borderColor: winningParty.colour }}>
+          <div className="flex items-center gap-3 w-full">
+            <div className="w-2 h-full absolute left-0 top-0 bottom-0" style={{ backgroundColor: winningParty.colour }}></div>
+            <div className="flex-1 pl-2">
+              <div className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">Prime Minister</div>
+              <div className="text-sm sm:text-base font-black text-white leading-tight" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
+                {winningParty.name}
+              </div>
+              <div className="text-[10px] text-slate-200 font-medium">{winningParty.party}</div>
+            </div>
+            <div className="hidden sm:block text-right pr-2">
+              <div className="text-[10px] uppercase tracking-widest text-slate-200 font-bold opacity-80">Head of Government</div>
+            </div>
+          </div>
         </div>
-        {/* Deputy Prime Minister (special display only if different party) */}
-        {cabinetAllocations['Deputy Prime Minister'] &&
-          cabinetAllocations['Deputy Prime Minister'][0] &&
-          cabinetAllocations['Deputy Prime Minister'][0] !== winningParty.party &&
-          (() => {
-            const deputyParty = cabinetAllocations['Deputy Prime Minister'][0];
-            const deputy = getCandidateByParty(deputyParty);
-            if (!deputy) return null;
-            return (
-              <div className="flex items-center p-2 bg-blue-900/30 border border-blue-600 rounded font-bold text-xs sm:text-sm">
-                <div
-                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-white mr-2 flex-shrink-0"
-                  style={{ backgroundColor: deputy.colour }}
-                ></div>
-                <span className="text-blue-400 uppercase mr-2">Deputy Prime Minister:</span>
-                <span className="text-white">{deputy.name} ({deputy.party})</span>
-              </div>
-            );
-          })()}
-        {/* Squished Cabinet Positions */}
-        {squishedGroups.map(({ importance, partyGroups }, groupIdx) =>
-          partyGroups.map(({ parties, positions }, idx) => {
-            // Skip Deputy PM if shown above
-            if (
-              positions.length === 1 &&
-              positions[0] === 'Deputy Prime Minister' &&
-              cabinetAllocations['Deputy Prime Minister'] &&
-              cabinetAllocations['Deputy Prime Minister'][0] &&
-              cabinetAllocations['Deputy Prime Minister'][0] !== winningParty.party
-            ) {
-              return null;
-            }
-            // Get candidate for color (if single party)
-            const party = parties.length === 1 ? parties[0] : null;
-            const cand = party ? getCandidateByParty(party) : null;
 
-            // Pick font size based on importance order
-            const uniqueImportances = squishedGroups.map(g => g.importance);
-            const importanceIdx = uniqueImportances.indexOf(importance);
-            const fontSizeClass = fontSizes[importanceIdx] || fontSizes[fontSizes.length - 1];
+        {/* Dynamic Cabinet Position Cards */}
+        {orderedPositions.map(pos => {
+          const details = CABINET_POSITIONS[pos];
+          const parties = cabinetAllocations[pos];
 
-            return (
-              <div
-                key={positions.join(',') + parties.join(',') + idx}
-                className={`flex items-center p-2 bg-slate-700/50 border border-slate-600 rounded ${fontSizeClass}`}
-              >
-                {party && (
-                  <span
-                    className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-white mr-1.5 flex-shrink-0"
-                    style={{ backgroundColor: cand?.colour || '#888' }}
-                  ></span>
-                )}
-                {!party && (
-                  <>
-                  {parties.map((p, i) => {
-                    const c = getCandidateByParty(p);
-                    return (
-                      <span
-                        key={p}
-                        className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-white mr-1 flex-shrink-0"
-                        style={{ backgroundColor: c?.colour || '#888' }}
-                      ></span>
-                    )
-                  })}
-                  </>
-                )}
-                <span className="font-bold mr-2 text-slate-300 uppercase text-xs sm:text-sm">
-                  {positions.join(', ')}:
-                </span>
-                <span className="text-white text-xs sm:text-sm">
-                  {party && (
-                    <span>{party}</span>
+          // Determine if it's a single party holding all slots for this position
+          const allSameParty = parties.every(p => p === parties[0]);
+          const mainCandidate = getCandidateByParty(parties[0]);
+
+          // Size weight: >= 25 importance is full width, >= 15 is half width, else quarter width
+          let colSpan = 'col-span-1 md:col-span-1';
+          if (details.importance >= 25) colSpan = 'col-span-2 md:col-span-4';
+          else if (details.importance >= 15) colSpan = 'col-span-2 md:col-span-2';
+
+          return (
+            <div
+              key={pos}
+              className={`rounded border p-2 relative overflow-hidden flex flex-col justify-between ${colSpan}`}
+              style={{
+                backgroundColor: allSameParty ? `${mainCandidate?.colour}40` : 'rgba(30, 41, 59, 0.8)',
+                borderColor: allSameParty ? mainCandidate?.colour : 'rgba(71, 85, 105, 0.8)'
+              }}
+            >
+              {allSameParty && (
+                <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: mainCandidate?.colour }}></div>
+              )}
+
+              <div className="relative z-10 mb-1.5 pl-1.5">
+                <div className="flex items-start justify-between gap-1">
+                  <h4 className="font-bold text-white text-xs sm:text-sm leading-tight drop-shadow-md">
+                    {pos}
+                  </h4>
+                  {details.importance >= 20 && (
+                    <span className="flex-shrink-0 px-1 py-0.5 rounded text-[8px] font-bold bg-slate-900 border border-slate-600 text-slate-300">
+                      KEY
+                    </span>
                   )}
-                  {!party && (
-                    <>
-                      {parties.map((p, i) => (
-                        <span key={p}>
-                          {p}
-                          {i < parties.length - 1 && ', '}
-                        </span>
-                      ))}
-                    </>
-                  )}
-                </span>
+                </div>
+                {details.max_slots > 1 && (
+                  <div className="text-[9px] text-slate-300 mt-0.5 uppercase tracking-wide font-semibold opacity-80">
+                    {parties.length} / {details.max_slots} Seats
+                  </div>
+                )}
               </div>
-            );
-          })
-        )}
+
+              <div className="relative z-10 flex flex-wrap gap-1 mt-auto pl-1.5">
+                {parties.map((partyName, i) => {
+                  const cand = getCandidateByParty(partyName);
+                  return (
+                    <div
+                      key={`${partyName}-${i}`}
+                      className="flex items-center gap-1 px-1.5 py-0.5 rounded border"
+                      style={{
+                        backgroundColor: `${cand?.colour || '#475569'}80`,
+                        borderColor: cand?.colour || '#475569'
+                      }}
+                      title={cand?.name || partyName}
+                    >
+                      <span className="text-[10px] font-bold text-white truncate max-w-[120px] drop-shadow-md">
+                        {partyName}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

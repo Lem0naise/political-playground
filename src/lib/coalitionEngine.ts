@@ -367,17 +367,16 @@ export function findBestCoalitionPartners(
     });
 }
 
-// Helper: Calculate number of positions to offer based on vote share and available positions
 function calculatePositionsToOffer(
   partnerPercentage: number,
   availablePositions: { name: string; importance: number; available_slots: number }[],
   totalCabinetSlots: number
 ): number {
-  // Offer at least 1, but scale up so most positions are filled
-  // E.g. if partner has 20% of vote and 15 slots, offer ~3
-  const minOffer = 1;
-  const scaled = Math.round((partnerPercentage / 100) * totalCabinetSlots);
-  return Math.max(minOffer, scaled);
+  // Offer positions conservatively. Lead party should retain the lion's share.
+  // We divide by 100 to get a fraction, but we scale it down to retain a "lead party premium".
+  const premiumShare = (partnerPercentage / 100) * 0.6; // 60% of their proportional share
+  const scaled = Math.round(premiumShare * availablePositions.length); // Use unique positions count
+  return Math.max(1, scaled); // Always offer at least 1
 }
 
 export function simulateAICoalitionNegotiation(
@@ -609,8 +608,7 @@ export function autoAllocateUnfilledCabinetPositions(
   leadPartyId: string
 ): void {
   for (const [position, details] of Object.entries(CABINET_POSITIONS)) {
-    // Skip multi-slot Junior Ministers
-    if (position === 'Junior Ministers' && details.max_slots > 1) continue;
+
     const allocated = allocations[position] || [];
     const unfilledSlots = details.max_slots - allocated.length;
     if (unfilledSlots > 0) {
