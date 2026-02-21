@@ -570,8 +570,7 @@ export default function CoalitionFormation() {
       coalitionState.negotiationPhase !== 'partner-selection' ||
       coalitionState.isPlayerLead ||
       coalitionState.currentCoalitionPercentage >= 50 ||
-      showPlayerApproach ||
-      activeNegotiationTimeout.current !== null // Don't start a new negotiation if one is already pending
+      showPlayerApproach
     ) return;
 
     if (coalitionState.availablePartners.length === 0) {
@@ -603,9 +602,9 @@ export default function CoalitionFormation() {
 
     // Avoid re-processing same partner in this render cycle
     if (lastProcessedPartner.current === nextPartner.candidate.id) return;
-    lastProcessedPartner.current = nextPartner.candidate.id;
 
     if (nextPartner.candidate.is_player) {
+      lastProcessedPartner.current = nextPartner.candidate.id;
       const offer = generatePlayerApproachOffer(
         attemptingParty,
         nextPartner.candidate,
@@ -616,13 +615,15 @@ export default function CoalitionFormation() {
       setPlayerApproachOffer(offer);
       setShowPlayerApproach(true);
     } else {
+      // It's AI. We manage the timeout inside this specific effect execution.
+      lastProcessedPartner.current = nextPartner.candidate.id;
+
       // Add a randomized delay (1.5s to 3s) for realism
       const delayTime = Math.floor(Math.random() * 1500) + 1500;
 
       const logStartMsg = `${attemptingParty.party} is negotiating with ${nextPartner.candidate.party}...`;
-      actions.logCoalitionEvent(logStartMsg);
 
-      activeNegotiationTimeout.current = setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         const result = simulateAICoalitionNegotiation(
           attemptingParty,
           nextPartner.candidate,
@@ -642,9 +643,17 @@ export default function CoalitionFormation() {
         } else {
           actions.removePotentialPartner(nextPartner.candidate);
         }
+
+        // Clear processed partner lock so the next negotiation can begin on subsequent render
         lastProcessedPartner.current = null;
-        activeNegotiationTimeout.current = null;
       }, delayTime);
+
+      // Return a cleanup function for THIS specific negotiation
+      // If the component unmounts (e.g. Strict Mode), clear the lock and timeout
+      return () => {
+        clearTimeout(timeoutId);
+        lastProcessedPartner.current = null;
+      };
     }
   }, [
     coalitionState?.availablePartners.length,

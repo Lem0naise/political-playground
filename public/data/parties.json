@@ -141,6 +141,20 @@
             "auth_ana": 98,
             "rel_sec": 60,
             "colour": "gold"
+        },
+        {
+            "id": 5,
+            "name": "Jill Stein",
+            "party": "Green Party",
+            "party_pop": 1,
+            "prog_cons": -80,
+            "nat_glob": 70,
+            "env_eco": -95,
+            "soc_cap": -50,
+            "pac_mil": -85,
+            "auth_ana": 40,
+            "rel_sec": 85,
+            "colour": "green"
         }
     ],
     "GEORGIA": [
@@ -185,6 +199,34 @@
             "auth_ana": -42,
             "rel_sec": -31,
             "colour": "black"
+        },
+        {
+            "id": 0,
+            "name": "Irakli Kobakhidze",
+            "party": "Georgian Dream",
+            "party_pop": 10,
+            "prog_cons": 75,
+            "nat_glob": -65,
+            "env_eco": 55,
+            "soc_cap": 25,
+            "pac_mil": 45,
+            "auth_ana": -85,
+            "rel_sec": -60,
+            "colour": "indigo"
+        },
+        {
+            "id": 1,
+            "name": "Tina Bokuchava",
+            "party": "Unity - National Movement",
+            "party_pop": 8,
+            "prog_cons": -35,
+            "nat_glob": 75,
+            "env_eco": 25,
+            "soc_cap": 45,
+            "pac_mil": 35,
+            "auth_ana": 65,
+            "rel_sec": 75,
+            "colour": "red"
         }
     ],
     "UKRAINE": [
@@ -558,7 +600,7 @@
         },
         {
             "id": 1,
-            "name": "Iratxe García",
+            "name": "Iratxe Garc\u00eda",
             "party": "Socialists & Democrats (S&D)",
             "party_pop": 8,
             "prog_cons": -40,
@@ -572,7 +614,7 @@
         },
         {
             "id": 2,
-            "name": "Valérie Hayer",
+            "name": "Val\u00e9rie Hayer",
             "party": "Renew Europe",
             "party_pop": 7,
             "prog_cons": -60,
@@ -1391,7 +1433,7 @@
         {
             "id": 3,
             "name": "Sergey Mironov",
-            "party": "A Just Russia — For Truth",
+            "party": "A Just Russia \u2014 For Truth",
             "party_pop": 3,
             "prog_cons": 30,
             "nat_glob": -60,
@@ -1431,6 +1473,34 @@
             "auth_ana": -5,
             "rel_sec": 40,
             "colour": "blue"
+        },
+        {
+            "id": 2,
+            "name": "Nobuyuki Baba",
+            "party": "Ishin",
+            "party_pop": 5,
+            "prog_cons": 45,
+            "nat_glob": 10,
+            "env_eco": 65,
+            "soc_cap": 90,
+            "pac_mil": 30,
+            "auth_ana": 60,
+            "rel_sec": 20,
+            "colour": "green"
+        },
+        {
+            "id": 3,
+            "name": "Natsuo Yamaguchi",
+            "party": "Komeito",
+            "party_pop": 4,
+            "prog_cons": 30,
+            "nat_glob": -10,
+            "env_eco": 20,
+            "soc_cap": -10,
+            "pac_mil": -60,
+            "auth_ana": -20,
+            "rel_sec": -40,
+            "colour": "pink"
         }
     ],
     "CANADA": [
@@ -1475,6 +1545,34 @@
             "auth_ana": 5,
             "rel_sec": 30,
             "colour": "orange"
+        },
+        {
+            "id": 3,
+            "name": "Yves-Fran\u00e7ois Blanchet",
+            "party": "Bloc Qu\u00e9b\u00e9cois",
+            "party_pop": 7,
+            "prog_cons": -20,
+            "nat_glob": -90,
+            "env_eco": -30,
+            "soc_cap": -40,
+            "pac_mil": -20,
+            "auth_ana": 20,
+            "rel_sec": 95,
+            "colour": "cyan"
+        },
+        {
+            "id": 4,
+            "name": "Elizabeth May",
+            "party": "Green Party",
+            "party_pop": 2,
+            "prog_cons": -85,
+            "nat_glob": 60,
+            "env_eco": -98,
+            "soc_cap": -30,
+            "pac_mil": -60,
+            "auth_ana": 45,
+            "rel_sec": 90,
+            "colour": "green"
         }
     ],
     "AUSTRALIA": [
@@ -1519,12 +1617,26 @@
             "auth_ana": 20,
             "rel_sec": 60,
             "colour": "green"
+        },
+        {
+            "id": 3,
+            "name": "David Littleproud",
+            "party": "Nationals",
+            "party_pop": 4,
+            "prog_cons": 85,
+            "nat_glob": -60,
+            "env_eco": 95,
+            "soc_cap": 60,
+            "pac_mil": 50,
+            "auth_ana": -30,
+            "rel_sec": -20,
+            "colour": "darkgreen"
         }
     ],
     "BRAZIL": [
         {
             "id": 0,
-            "name": "Luiz Inácio Lula da Silva",
+            "name": "Luiz In\u00e1cio Lula da Silva",
             "party": "Workers' Party (PT)",
             "party_pop": 10,
             "prog_cons": -60,
@@ -1538,7 +1650,7 @@
         },
         {
             "id": 1,
-            "name": "Flávio Bolsonaro",
+            "name": "Fl\u00e1vio Bolsonaro",
             "party": "Liberal Party (PL)",
             "party_pop": 8,
             "prog_cons": 95,
@@ -1552,7 +1664,7 @@
         },
         {
             "id": 2,
-            "name": "Tarcísio de Freitas",
+            "name": "Tarc\u00edsio de Freitas",
             "party": "Republicanos",
             "party_pop": 7,
             "prog_cons": 30,
@@ -1649,12 +1761,40 @@
             "auth_ana": -20,
             "rel_sec": -45,
             "colour": "lightblue"
+        },
+        {
+            "id": 5,
+            "name": "Nicola Fratoianni",
+            "party": "AVS",
+            "party_pop": 4,
+            "prog_cons": -80,
+            "nat_glob": 40,
+            "env_eco": -95,
+            "soc_cap": -85,
+            "pac_mil": -90,
+            "auth_ana": 60,
+            "rel_sec": 95,
+            "colour": "green"
+        },
+        {
+            "id": 6,
+            "name": "Carlo Calenda",
+            "party": "Azione",
+            "party_pop": 3,
+            "prog_cons": -40,
+            "nat_glob": 85,
+            "env_eco": 10,
+            "soc_cap": 60,
+            "pac_mil": 35,
+            "auth_ana": 65,
+            "rel_sec": 60,
+            "colour": "blue"
         }
     ],
     "TURKEY": [
         {
             "id": 0,
-            "name": "Recep Tayyip Erdoğan",
+            "name": "Recep Tayyip Erdo\u011fan",
             "party": "Justice and Development Party",
             "party_pop": 10,
             "prog_cons": 85,
@@ -1668,7 +1808,7 @@
         },
         {
             "id": 1,
-            "name": "Özgür Özel",
+            "name": "\u00d6zg\u00fcr \u00d6zel",
             "party": "Republican People's Party",
             "party_pop": 7,
             "prog_cons": -5,
@@ -1679,6 +1819,34 @@
             "auth_ana": -30,
             "rel_sec": 85,
             "colour": "red"
+        },
+        {
+            "id": 2,
+            "name": "Devlet Bah\u00e7eli",
+            "party": "MHP",
+            "party_pop": 6,
+            "prog_cons": 95,
+            "nat_glob": -98,
+            "env_eco": 80,
+            "soc_cap": 40,
+            "pac_mil": 95,
+            "auth_ana": -90,
+            "rel_sec": -60,
+            "colour": "darkred"
+        },
+        {
+            "id": 3,
+            "name": "T\u00fclay Hatimo\u011fullar\u0131",
+            "party": "DEM Party",
+            "party_pop": 9,
+            "prog_cons": -70,
+            "nat_glob": -60,
+            "env_eco": -50,
+            "soc_cap": -95,
+            "pac_mil": -85,
+            "auth_ana": 85,
+            "rel_sec": 90,
+            "colour": "purple"
         }
     ],
     "IRAN": [
@@ -1767,6 +1935,48 @@
             "auth_ana": 25,
             "rel_sec": -15,
             "colour": "darkblue"
+        },
+        {
+            "id": 6,
+            "name": "Benny Gantz",
+            "party": "National Unity",
+            "party_pop": 10,
+            "prog_cons": 15,
+            "nat_glob": 20,
+            "env_eco": 30,
+            "soc_cap": 45,
+            "pac_mil": 45,
+            "auth_ana": 20,
+            "rel_sec": 35,
+            "colour": "blue"
+        },
+        {
+            "id": 7,
+            "name": "Avigdor Lieberman",
+            "party": "Yisrael Beiteinu",
+            "party_pop": 6,
+            "prog_cons": 60,
+            "nat_glob": -30,
+            "env_eco": 65,
+            "soc_cap": 85,
+            "pac_mil": 95,
+            "auth_ana": -40,
+            "rel_sec": 95,
+            "colour": "navy"
+        },
+        {
+            "id": 8,
+            "name": "Yair Golan",
+            "party": "The Democrats",
+            "party_pop": 5,
+            "prog_cons": -55,
+            "nat_glob": 35,
+            "env_eco": -45,
+            "soc_cap": -65,
+            "pac_mil": 30,
+            "auth_ana": 45,
+            "rel_sec": 85,
+            "colour": "red"
         }
     ],
     "POLAND": [
@@ -1800,7 +2010,7 @@
         },
         {
             "id": 2,
-            "name": "Sławomir Mentzen",
+            "name": "S\u0142awomir Mentzen",
             "party": "Confederation",
             "party_pop": 6,
             "prog_cons": 75,
@@ -1814,7 +2024,7 @@
         },
         {
             "id": 3,
-            "name": "Władysław Kosiniak-Kamysz",
+            "name": "W\u0142adys\u0142aw Kosiniak-Kamysz",
             "party": "Third Way",
             "party_pop": 5,
             "prog_cons": 30,
@@ -1844,7 +2054,7 @@
     "SPAIN": [
         {
             "id": 0,
-            "name": "Pedro Sánchez",
+            "name": "Pedro S\u00e1nchez",
             "party": "PSOE",
             "party_pop": 8,
             "prog_cons": -45,
@@ -1858,7 +2068,7 @@
         },
         {
             "id": 1,
-            "name": "Alberto Núñez Feijóo",
+            "name": "Alberto N\u00fa\u00f1ez Feij\u00f3o",
             "party": "People's Party",
             "party_pop": 8,
             "prog_cons": 50,
@@ -1897,6 +2107,48 @@
             "auth_ana": 20,
             "rel_sec": 30,
             "colour": "purple"
+        },
+        {
+            "id": 5,
+            "name": "Carles Puigdemont",
+            "party": "Junts",
+            "party_pop": 3,
+            "prog_cons": -10,
+            "nat_glob": -98,
+            "env_eco": 20,
+            "soc_cap": 15,
+            "pac_mil": -10,
+            "auth_ana": 70,
+            "rel_sec": 50,
+            "colour": "cyan"
+        },
+        {
+            "id": 6,
+            "name": "Gabriel Rufi\u00e1n",
+            "party": "ERC",
+            "party_pop": 3,
+            "prog_cons": -60,
+            "nat_glob": -95,
+            "env_eco": -40,
+            "soc_cap": -85,
+            "pac_mil": -20,
+            "auth_ana": 60,
+            "rel_sec": 80,
+            "colour": "yellow"
+        },
+        {
+            "id": 7,
+            "name": "Aitor Esteban",
+            "party": "PNV",
+            "party_pop": 2,
+            "prog_cons": 15,
+            "nat_glob": -60,
+            "env_eco": 35,
+            "soc_cap": 65,
+            "pac_mil": 10,
+            "auth_ana": 20,
+            "rel_sec": 45,
+            "colour": "green"
         }
     ],
     "NIGERIA": [
@@ -2013,6 +2265,34 @@
             "auth_ana": 25,
             "rel_sec": 30,
             "colour": "yellow"
+        },
+        {
+            "id": 5,
+            "name": "Sahra Wagenknecht",
+            "party": "BSW",
+            "party_pop": 6,
+            "prog_cons": 40,
+            "nat_glob": -60,
+            "env_eco": 30,
+            "soc_cap": -90,
+            "pac_mil": -70,
+            "auth_ana": -20,
+            "rel_sec": 20,
+            "colour": "purple"
+        },
+        {
+            "id": 6,
+            "name": "Heidi Reichinnek",
+            "party": "The Left",
+            "party_pop": 3,
+            "prog_cons": -70,
+            "nat_glob": -10,
+            "env_eco": -45,
+            "soc_cap": -95,
+            "pac_mil": -80,
+            "auth_ana": 30,
+            "rel_sec": 90,
+            "colour": "darkred"
         }
     ],
     "FRANCE": [
@@ -2046,7 +2326,7 @@
         },
         {
             "id": 2,
-            "name": "Jean-Luc Mélenchon",
+            "name": "Jean-Luc M\u00e9lenchon",
             "party": "La France Insoumise",
             "party_pop": 6,
             "prog_cons": -70,
@@ -2060,7 +2340,7 @@
         },
         {
             "id": 3,
-            "name": "Éric Ciotti",
+            "name": "\u00c9ric Ciotti",
             "party": "The Republicans",
             "party_pop": 3,
             "prog_cons": 60,
@@ -2071,6 +2351,48 @@
             "auth_ana": -40,
             "rel_sec": -15,
             "colour": "blue"
+        },
+        {
+            "id": 4,
+            "name": "Olivier Faure",
+            "party": "Socialist Party",
+            "party_pop": 5,
+            "prog_cons": -35,
+            "nat_glob": 55,
+            "env_eco": -20,
+            "soc_cap": -60,
+            "pac_mil": -10,
+            "auth_ana": 0,
+            "rel_sec": 65,
+            "colour": "pink"
+        },
+        {
+            "id": 5,
+            "name": "Fabien Roussel",
+            "party": "Communist Party",
+            "party_pop": 3,
+            "prog_cons": -50,
+            "nat_glob": -15,
+            "env_eco": -10,
+            "soc_cap": -98,
+            "pac_mil": 20,
+            "auth_ana": -20,
+            "rel_sec": 80,
+            "colour": "red"
+        },
+        {
+            "id": 6,
+            "name": "\u00c9ric Zemmour",
+            "party": "Reconqu\u00eate",
+            "party_pop": 4,
+            "prog_cons": 98,
+            "nat_glob": -98,
+            "env_eco": 60,
+            "soc_cap": 20,
+            "pac_mil": 40,
+            "auth_ana": -95,
+            "rel_sec": -60,
+            "colour": "black"
         }
     ],
     "NETHERLANDS": [
@@ -2118,7 +2440,7 @@
         },
         {
             "id": 2,
-            "name": "Dilan Yeşilgöz-Zegerius",
+            "name": "Dilan Ye\u015filg\u00f6z-Zegerius",
             "party": "People's Party for Freedom and Democracy",
             "party_pop": 7,
             "prog_cons": 20,
@@ -2176,7 +2498,7 @@
         },
         {
             "id": 1,
-            "name": "Xóchitl Gálvez",
+            "name": "X\u00f3chitl G\u00e1lvez",
             "party": "Broad Front for Mexico",
             "party_pop": 7,
             "prog_cons": 20,
@@ -2190,7 +2512,7 @@
         },
         {
             "id": 2,
-            "name": "Jorge Álvarez Máynez",
+            "name": "Jorge \u00c1lvarez M\u00e1ynez",
             "party": "Citizens' Movement",
             "party_pop": 4,
             "prog_cons": -30,
@@ -2337,7 +2659,7 @@
         {
             "id": 0,
             "name": "Mary Lou McDonald",
-            "party": "Sinn Féin",
+            "party": "Sinn F\u00e9in",
             "party_pop": 9,
             "prog_cons": -40,
             "nat_glob": -60,
@@ -2364,8 +2686,8 @@
         },
         {
             "id": 2,
-            "name": "Micheál Martin",
-            "party": "Fianna Fáil",
+            "name": "Miche\u00e1l Martin",
+            "party": "Fianna F\u00e1il",
             "party_pop": 7,
             "prog_cons": 10,
             "nat_glob": 40,
@@ -2375,6 +2697,20 @@
             "auth_ana": -5,
             "rel_sec": 10,
             "colour": "green"
+        },
+        {
+            "id": 2,
+            "name": "Michael Higgins",
+            "party": "Labour Party",
+            "party_pop": 4,
+            "prog_cons": -20,
+            "nat_glob": 20,
+            "env_eco": -10,
+            "soc_cap": 0,
+            "pac_mil": -30,
+            "auth_ana": 10,
+            "rel_sec": 0,
+            "colour": "red"
         }
     ],
     "SWEDEN": [
@@ -2408,7 +2744,7 @@
         },
         {
             "id": 2,
-            "name": "Jimmie Åkesson",
+            "name": "Jimmie \u00c5kesson",
             "party": "Sweden Democrats",
             "party_pop": 8,
             "prog_cons": 80,
@@ -2556,7 +2892,7 @@
         },
         {
             "id": 1,
-            "name": "José Antonio Kast",
+            "name": "Jos\u00e9 Antonio Kast",
             "party": "Republican Party",
             "party_pop": 7,
             "prog_cons": 95,
@@ -2600,7 +2936,7 @@
         },
         {
             "id": 1,
-            "name": "Federico Gutiérrez",
+            "name": "Federico Guti\u00e9rrez",
             "party": "Creemos Colombia",
             "party_pop": 7,
             "prog_cons": 50,
@@ -2936,7 +3272,7 @@
     "PORTUGAL": [
         {
             "id": 0,
-            "name": "Luís Montenegro",
+            "name": "Lu\u00eds Montenegro",
             "party": "Social Democratic Party",
             "party_pop": 8,
             "prog_cons": 25,
@@ -2964,7 +3300,7 @@
         },
         {
             "id": 2,
-            "name": "André Ventura",
+            "name": "Andr\u00e9 Ventura",
             "party": "Chega!",
             "party_pop": 9,
             "prog_cons": 95,
@@ -2992,7 +3328,7 @@
         },
         {
             "id": 4,
-            "name": "Mariana Mortágua",
+            "name": "Mariana Mort\u00e1gua",
             "party": "Left Bloc",
             "party_pop": 4,
             "prog_cons": -95,
@@ -3008,7 +3344,7 @@
     "HUNGARY": [
         {
             "id": 0,
-            "name": "Viktor Orbán",
+            "name": "Viktor Orb\u00e1n",
             "party": "Fidesz",
             "party_pop": 10,
             "prog_cons": 90,
@@ -3022,7 +3358,7 @@
         },
         {
             "id": 1,
-            "name": "Péter Magyar",
+            "name": "P\u00e9ter Magyar",
             "party": "Respect and Freedom Party",
             "party_pop": 6,
             "prog_cons": 10,
@@ -3036,7 +3372,7 @@
         },
         {
             "id": 2,
-            "name": "Klára Dobrev",
+            "name": "Kl\u00e1ra Dobrev",
             "party": "Democratic Coalition",
             "party_pop": 4,
             "prog_cons": -40,
@@ -3110,7 +3446,7 @@
     "NORWAY": [
         {
             "id": 0,
-            "name": "Jonas Gahr Støre",
+            "name": "Jonas Gahr St\u00f8re",
             "party": "Labour Party",
             "party_pop": 8,
             "prog_cons": -40,
@@ -3182,7 +3518,7 @@
         },
         {
             "id": 2,
-            "name": "Lars Løkke Rasmussen",
+            "name": "Lars L\u00f8kke Rasmussen",
             "party": "Moderates",
             "party_pop": 5,
             "prog_cons": 0,
@@ -3270,7 +3606,7 @@
     "URUGUAY": [
         {
             "id": 0,
-            "name": "Yamandú Orsi",
+            "name": "Yamand\u00fa Orsi",
             "party": "Broad Front",
             "party_pop": 9,
             "prog_cons": -65,
@@ -3298,7 +3634,7 @@
         },
         {
             "id": 2,
-            "name": "Guido Manini Ríos",
+            "name": "Guido Manini R\u00edos",
             "party": "Open Cabildo",
             "party_pop": 4,
             "prog_cons": 85,
@@ -3312,7 +3648,7 @@
         },
         {
             "id": 3,
-            "name": "Andrés Ojeda",
+            "name": "Andr\u00e9s Ojeda",
             "party": "Colorado Party",
             "party_pop": 5,
             "prog_cons": 10,
@@ -3342,7 +3678,7 @@
     "YUGOSLAVIA 1990": [
         {
             "id": 0,
-            "name": "Slobodan Milošević",
+            "name": "Slobodan Milo\u0161evi\u0107",
             "party": "Socialist Party of Serbia",
             "party_pop": 10,
             "prog_cons": 70,
@@ -3356,7 +3692,7 @@
         },
         {
             "id": 1,
-            "name": "Franjo Tuđman",
+            "name": "Franjo Tu\u0111man",
             "party": "Croatian Democratic Union",
             "party_pop": 9,
             "prog_cons": 90,
@@ -3370,7 +3706,7 @@
         },
         {
             "id": 2,
-            "name": "Ante Marković",
+            "name": "Ante Markovi\u0107",
             "party": "Union of Reform Forces",
             "party_pop": 5,
             "prog_cons": -20,
@@ -3384,7 +3720,7 @@
         },
         {
             "id": 3,
-            "name": "Milan Kučan",
+            "name": "Milan Ku\u010dan",
             "party": "LCS-Party of Democratic Renewal",
             "party_pop": 4,
             "prog_cons": -40,
@@ -3398,7 +3734,7 @@
         },
         {
             "id": 4,
-            "name": "Alija Izetbegović",
+            "name": "Alija Izetbegovi\u0107",
             "party": "Party of Democratic Action",
             "party_pop": 6,
             "prog_cons": 60,
@@ -3442,7 +3778,7 @@
         },
         {
             "id": 2,
-            "name": "Mihhail Kõlvart",
+            "name": "Mihhail K\u00f5lvart",
             "party": "Centre Party",
             "party_pop": 5,
             "prog_cons": 20,
@@ -3456,7 +3792,7 @@
         },
         {
             "id": 3,
-            "name": "Lauri Läänemets",
+            "name": "Lauri L\u00e4\u00e4nemets",
             "party": "Social Democrats",
             "party_pop": 6,
             "prog_cons": -60,
@@ -3500,7 +3836,7 @@
         },
         {
             "id": 1,
-            "name": "Andrej Babiš",
+            "name": "Andrej Babi\u0161",
             "party": "ANO 2011",
             "party_pop": 10,
             "prog_cons": 50,
@@ -3514,7 +3850,7 @@
         },
         {
             "id": 2,
-            "name": "Ivan Bartoš",
+            "name": "Ivan Barto\u0161",
             "party": "Pirate Party",
             "party_pop": 5,
             "prog_cons": -80,
@@ -3528,7 +3864,7 @@
         },
         {
             "id": 3,
-            "name": "Vít Rakušan",
+            "name": "V\u00edt Raku\u0161an",
             "party": "STAN (Mayors)",
             "party_pop": 6,
             "prog_cons": -35,
