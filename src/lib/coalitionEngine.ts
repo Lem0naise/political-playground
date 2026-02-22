@@ -45,7 +45,7 @@ export function calculatePartyCompatibility(party1: Candidate, party2: Candidate
 
   // Further penalize very large distances (if > 60% of max distance, apply extra penalty)
   if (totalDistance > maxPossibleDistance * 0.6) {
-    compatibility -= 20;
+    compatibility -= 10;
   }
   // Clamp to [0, 100]
   compatibility = Math.max(0, Math.min(100, compatibility));
@@ -65,9 +65,9 @@ export function calculateCoalitionWillingness(
 
   // Add a strong penalty for low compatibility
   if (compatibility < 40) {
-    baseWillingness -= 20;
-  } else if (compatibility < 60) {
     baseWillingness -= 10;
+  } else if (compatibility < 60) {
+    baseWillingness -= 5;
   }
 
   // Adjust based on lead party's strength
@@ -418,12 +418,13 @@ export function findBestCoalitionPartners(
 function calculatePositionsToOffer(
   partnerPercentage: number,
   availablePositions: { name: string; importance: number; available_slots: number }[],
-  totalCabinetSlots: number
+  totalCabinetSlots: number,
+  leadPercentage: number
 ): number {
-  // Offer positions conservatively. Lead party should retain the lion's share.
-  // We divide by 100 to get a fraction, but we scale it down to retain a "lead party premium".
-  const premiumShare = (partnerPercentage / 100); // 100% of their proportional share
-  const scaled = Math.round(premiumShare * availablePositions.length); // Use unique positions count
+  // Offer positions roughly proportional to their share of the newly formed government coalition
+  const combinedPercentage = leadPercentage + partnerPercentage;
+  const premiumShare = (partnerPercentage / combinedPercentage);
+  const scaled = Math.round(premiumShare * availablePositions.length); // Use unique positions count roughly
   return Math.max(1, scaled); // Always offer at least 1
 }
 
@@ -448,7 +449,7 @@ export function simulateAICoalitionNegotiation(
   const totalCabinetSlots = availablePositions.reduce((sum, pos) => sum + pos.available_slots, 0);
 
   // Determine number of positions to offer
-  const numToOffer = calculatePositionsToOffer(partnerPercentage, availablePositions, totalCabinetSlots);
+  const numToOffer = calculatePositionsToOffer(partnerPercentage, availablePositions, totalCabinetSlots, leadPercentage);
 
   // Offer positions based on party's priorities and availability
   let positionsToOffer: string[] = [];
@@ -525,7 +526,7 @@ export function generatePlayerApproachOffer(
   const totalCabinetSlots = availablePositions.reduce((sum, pos) => sum + pos.available_slots, 0);
 
   // Determine number of positions to offer
-  const numToOffer = calculatePositionsToOffer(playerPercentage, availablePositions, totalCabinetSlots);
+  const numToOffer = calculatePositionsToOffer(playerPercentage, availablePositions, totalCabinetSlots, leadPercentage);
 
   // Offer positions based on party's priorities and availability
   let offeredPositions: string[] = [];
@@ -585,7 +586,8 @@ export function evaluatePlayerResponse(
 
   // Compare accepted importance against expected importance
   const totalCabinetSlots = availablePositions.reduce((sum, pos) => sum + pos.available_slots, 0);
-  const expectedSlots = Math.max(1, Math.round((playerPercentage / 100) * totalCabinetSlots));
+  const combinedPercentage = leadPercentage + playerPercentage;
+  const expectedSlots = Math.max(1, Math.round((playerPercentage / combinedPercentage) * totalCabinetSlots));
   // Crude estimate: average importance per slot might be 12
   const expectedImportance = expectedSlots * 12;
 

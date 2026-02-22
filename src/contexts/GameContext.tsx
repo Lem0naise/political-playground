@@ -865,7 +865,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           positive: [
             `{party} embraces progressive values on social issues`,
             `{leader_name} shifts party platform to the left`,
-            `{party} adopts progressive stance on {social_media_platform} debate`,
+            `{party} adopts progressive stance in critical debate`,
             `{candidate_name} announces progressive policy reforms`
           ],
           negative: [
@@ -967,7 +967,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         const currentPolling = candidateResult ? candidateResult.percentage : 0;
         const currentSwing = candidateResult ? candidateResult.change : 0;
 
-        let shiftProbability = 0.03;
+        let shiftProbability = 0.05;
         shiftProbability += (currentPolling / 100) * 0.3;
         if (Math.abs(currentSwing) > 2.0) shiftProbability += 0.15;
 
@@ -978,7 +978,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           const axisToShift = axes[Math.floor(Math.random() * axes.length)];
 
           // Shift amount: 5-10 points (similar to player events)
-          const shiftAmount = (5 + Math.random() * 5) * (Math.random() < 0.5 ? 1 : -1);
+          const shiftAmount = (10 + Math.random() * 10) * (Math.random() < 0.5 ? 1 : -1);
 
           // Find the actual candidate object to modify
           const targetCandidate = state.candidates.find(c => c.name === candidate.name);
