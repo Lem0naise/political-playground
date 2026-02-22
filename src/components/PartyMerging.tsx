@@ -205,7 +205,7 @@ export default function PartyMerging() {
             <div className="text-center text-xs text-slate-400 space-y-1">
               <p>Political Playground © {currentYear}</p>
               <p>Fictional simulator. No real-world endorsement or advice.</p>
-              <p>Version 1.2.4</p>
+              <p>Version 1.3.0</p>
             </div>
           </div>
         </div>
@@ -380,7 +380,7 @@ export default function PartyMerging() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © {currentYear}</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 1.2.4</p>
+            <p>Version 1.3.0</p>
           </div>
         </div>
       </div>

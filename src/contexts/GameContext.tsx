@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback, useState, useEffect } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues, TARGET_SHIFT, BlocStatistics, PostElectionStats, BlocSwingData, PartyBlocSupport, VoterTransferEntry } from '@/types/game';
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, PoliticalValues, TARGET_SHIFT, BlocStatistics, PostElectionStats, BlocSwingData, PartyBlocSupport, VoterTransferEntry, VALUES } from '@/types/game';
 import {
   generateVotingData,
   conductPoll,
@@ -14,6 +14,7 @@ import {
 } from '@/lib/gameEngine';
 import { calculatePartyCompatibility, autoAllocateUnfilledCabinetPositions } from '@/lib/coalitionEngine';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
+import { getIdeologyDescriptors } from '@/lib/ideologyProfiler';
 
 interface GameContextType {
   state: GameState;
@@ -683,12 +684,40 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
 
 
-        // Generate news based on polling impact
-
-
-
       });
       // --- END: Add news for all parties with polling surges/drops ---
+
+      // --- BEGIN: Add Overtake News ---
+      const sortedCurrentResults = [...newResults].sort((a, b) => b.percentage - a.percentage);
+      for (let i = 0; i < sortedCurrentResults.length - 1; i++) {
+        const partyA = sortedCurrentResults[i];
+        const partyB = sortedCurrentResults[i + 1];
+
+        // If both parties are > 10%
+        if (partyA.percentage >= 10 && partyB.percentage >= 10) {
+          const prevPctA = state.previousPollResults[partyA.candidate.party] || 0;
+          const prevPctB = state.previousPollResults[partyB.candidate.party] || 0;
+
+          // partyA is current above partyB. Did partyA overtake partyB?
+          // Meaning previously, prevPctA was less than prevPctB.
+          if (prevPctA < prevPctB) {
+            // High chance to generate news
+            if (Math.random() < 0.6) {
+              const templates = [
+                `{partyA} surges above {partyB} in latest polls`,
+                `{partyA} overtakes {partyB} in shock polling shift`,
+                `New polls show {partyA} passing {partyB}`,
+                `{partyB} loses ground, slips behind {partyA}`
+              ];
+              const template = templates[Math.floor(Math.random() * templates.length)];
+              let headline = template.replace(/\{partyA\}/g, partyA.candidate.party)
+                .replace(/\{partyB\}/g, partyB.candidate.party);
+              partyPollingNews.push(headline);
+            }
+          }
+        }
+      }
+      // --- END: Add Overtake News ---
 
       // --- BEGIN: Party Polling Trends (Gaffes / Positive Events) ---
       const trendNews: string[] = [];
@@ -1140,12 +1169,15 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       // Determine the incumbent government: if coalition is complete, it's the coalition partners, otherwise the single winner
       let governmentParties: string[] = [];
       const isCoalition = state.coalitionState?.negotiationPhase === 'complete';
+      let newGovCandidates: Candidate[] = [];
 
       if (isCoalition && state.coalitionState) {
-        governmentParties = state.coalitionState.coalitionPartners.map(p => p.party);
+        newGovCandidates = state.coalitionState.coalitionPartners;
+        governmentParties = newGovCandidates.map(p => p.party);
       } else if (state.pollResults.length > 0) {
         // Find single winner
         const winner = [...state.pollResults].sort((a, b) => b.percentage - a.percentage)[0];
+        newGovCandidates = [winner.candidate];
         governmentParties = [winner.candidate.party];
       }
 
@@ -1154,6 +1186,70 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       currentPollResults.forEach(r => {
         initialPolls[r.candidate.party] = r.percentage;
       });
+
+      // Generate Government Formation News
+      const govNews: string[] = [];
+      if (newGovCandidates.length > 0) {
+        const coalitionValues: number[] = new Array(VALUES.length).fill(0);
+        let totalWeight = 0;
+
+        newGovCandidates.forEach(partner => {
+          const result = currentPollResults.find(r => r.candidate.id === partner.id);
+          const weight = result?.percentage || 1;
+          totalWeight += weight;
+
+          VALUES.forEach((_, index) => {
+            coalitionValues[index] += (partner.vals[index] || 0) * weight;
+          });
+        });
+
+        if (totalWeight > 0) {
+          VALUES.forEach((_, index) => {
+            coalitionValues[index] = coalitionValues[index] / totalWeight;
+          });
+        }
+
+        const descriptors = getIdeologyDescriptors(coalitionValues);
+        // Descriptors are sorted by most prominent magnitude first
+        let govDescriptor = "centrist";
+        if (descriptors.length > 0 && descriptors[0].desc) {
+          govDescriptor = descriptors[0].desc;
+        }
+
+        const previousGov = state.incumbentGovernment;
+        const newLeadParty = newGovCandidates[0].party;
+        const govType = isCoalition ? "coalition government" : "government";
+        let headline = "";
+        if (previousGov && previousGov.length > 0) {
+          if (previousGov[0] !== newLeadParty) {
+            const changeTemplates = [
+              `BREAKING: ${previousGov[0]} government falls, ${newLeadParty} forms new ${govDescriptor} ${govType}`,
+              `BREAKING: ${newLeadParty} ousts ${previousGov[0]} to form new ${govDescriptor} ${govType}`,
+              `BREAKING: Power shift as ${newLeadParty} replaces ${previousGov[0]} administration`,
+              `BREAKING: ${newLeadParty} takes control from ${previousGov[0]} in new ${govDescriptor} ${govType}`
+            ];
+            headline = changeTemplates[Math.floor(Math.random() * changeTemplates.length)];
+          } else {
+            const continueTemplates = [
+              `BREAKING: ${newLeadParty} government survives election`,
+              `BREAKING: ${newLeadParty} secures another term in power`,
+              `BREAKING: ${newLeadParty} retains control of the government`,
+              `BREAKING: ${newLeadParty} continues to govern`
+            ];
+            headline = continueTemplates[Math.floor(Math.random() * continueTemplates.length)];
+          }
+        } else {
+          const initialTemplates = [
+            `BREAKING: ${newLeadParty} forms new ${govDescriptor} ${govType}`,
+            `BREAKING: ${newLeadParty} takes office to lead new ${govDescriptor} administration`,
+            `BREAKING: New era begins as ${newLeadParty} forms ${govType}`,
+            `BREAKING: ${newLeadParty} successfully forms ${govDescriptor} ${govType}`
+          ];
+          headline = initialTemplates[Math.floor(Math.random() * initialTemplates.length)];
+        }
+
+        govNews.push(headline);
+      }
 
       return {
         ...state,
@@ -1164,7 +1260,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         pollingHistory: [],
         initialPollResults: initialPolls,
         previousPollResults: initialPolls,
-        politicalNews: [],
+        politicalNews: govNews,
         playerEventNews: [],
         activeTrend: null,
         trendHistory: [],

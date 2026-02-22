@@ -340,16 +340,44 @@ export function simulateCoalitionNegotiation(
 
 
   let message = '';
+
   if (finalAppeal > 100) {
-    message = `${partnerParty.party} agrees to join the coalition!`;
+    const options = [
+      `${partnerParty.party} agrees to join the coalition!`,
+      `${partnerParty.party} enthusiastically accepts your offer to form a government!`,
+      `A deal is struck! ${partnerParty.party} will join the coalition.`,
+      `Excellent news! ${partnerParty.party} is fully on board with the coalition.`
+    ];
+    message = options[Math.floor(Math.random() * options.length)];
+
   } else if (finalAppeal > 90) {
-    message = `${partnerParty.party} agrees to join the coalition after very careful consideration.`;
+    const options = [
+      `${partnerParty.party} agrees to join the coalition after very careful consideration.`,
+      `After intense internal debate, ${partnerParty.party} has decided to enter the coalition.`,
+      `${partnerParty.party} accepts the coalition terms, though with some minor reservations.`,
+      `It was a close call, but ${partnerParty.party} has agreed to form a government with you.`
+    ];
+    message = options[Math.floor(Math.random() * options.length)];
+
   } else if (finalAppeal > 40) {
-    message = `${partnerParty.party} is interested but requires better terms.`;
+    const options = [
+      `${partnerParty.party} disapproves of the coalition terms.`,
+      `${partnerParty.party} might be open to a coalition, but demands further concessions.`,
+      `The offer is a good starting point, but ${partnerParty.party} wants more.`,
+      `${partnerParty.party} remains against the coalition and is looking around for a better deal.`
+    ];
+    message = options[Math.floor(Math.random() * options.length)];
+
   } else {
     // Generate ideological rejection specifically
     const biggestDiff = getBiggestPolicyDifference(leadParty, partnerParty);
-    message = `${partnerParty.party} declines, citing fundamental disagreements on ${biggestDiff}.`;
+    const options = [
+      `${partnerParty.party} declines, citing fundamental disagreements on ${biggestDiff}.`,
+      `Talks have collapsed. ${partnerParty.party} refuses to compromise their stance on ${biggestDiff}.`,
+      `${partnerParty.party} walks away from the table due to irreconcilable differences regarding ${biggestDiff}.`,
+      `The coalition offer is rejected outright. ${partnerParty.party} strongly opposes your position on ${biggestDiff}.`
+    ];
+    message = options[Math.floor(Math.random() * options.length)];
   }
 
   return {
