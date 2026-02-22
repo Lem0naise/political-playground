@@ -341,7 +341,7 @@ export function simulateCoalitionNegotiation(
 
   let message = '';
   if (finalAppeal > 100) {
-    message = `${partnerParty.party} enthusiastically agrees to join the coalition!`;
+    message = `${partnerParty.party} agrees to join the coalition!`;
   } else if (finalAppeal > 90) {
     message = `${partnerParty.party} agrees to join the coalition after very careful consideration.`;
   } else if (finalAppeal > 40) {
@@ -540,7 +540,8 @@ export function evaluatePlayerResponse(
   playerPercentage: number,
   policyResponses: number[],
   acceptedPositions: string[],
-  allocations: Record<string, string[]>
+  allocations: Record<string, string[]>,
+  offeredImportance: number = 0
 ): {
   success: boolean;
   message: string;
@@ -562,7 +563,9 @@ export function evaluatePlayerResponse(
 
   // If player demanded way more than expected, or gave terrible policy answers, penalize heavily.
   const policyScore = policyResponses.reduce((sum, r) => sum + r, 0);
-  const greedPenalty = acceptedImportance > expectedImportance * 1.5 ? -25 : 0;
+  // Don't penalize greed if they just accepted exactly what they were offered (or less)
+  const greedThreshold = Math.max(expectedImportance, offeredImportance) * 1.5;
+  const greedPenalty = acceptedImportance > greedThreshold ? -25 : 0;
 
   const compatibility = calculatePartyCompatibility(leadParty, playerParty);
   let baseWillingness = compatibility;
@@ -572,7 +575,9 @@ export function evaluatePlayerResponse(
   const compatibilityFactor = compatibility !== 0 ? Math.max(0, compatibility / 100) : 0;
   // AI is essentially determining if the player's counter-offer is acceptable to them.
   // The lead party loses appeal if they have to give away too much.
-  const cabinetGiveawayPenalty = -1 * (acceptedImportance * 0.5);
+  // But if you are accepting what they offered, there shouldn't be much of a giveaway penalty.
+  const extraCabinetTaken = Math.max(0, acceptedImportance - offeredImportance);
+  const cabinetGiveawayPenalty = -1 * (extraCabinetTaken * 0.5);
 
   // They gain appeal from good policy answers
   const scaledAppeal = (policyScore + cabinetGiveawayPenalty + greedPenalty) * compatibilityFactor;
@@ -598,7 +603,7 @@ export function evaluatePlayerResponse(
 
   let message = '';
   if (finalAppeal >= 85) {
-    message = `${leadParty.party} leadership enthusiastically agreed to your terms and has welcomed you into the coalition!`;
+    message = `${leadParty.party} leadership agreed to your terms and has welcomed you into the coalition!`;
   } else if (finalAppeal >= 60) {
     message = `${leadParty.party} expressed some reservations about your demands, but ultimately agreed to form the coalition.`;
   } else if (finalAppeal > 40) {

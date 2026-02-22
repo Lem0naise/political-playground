@@ -122,9 +122,7 @@ function NegotiationModal({
                 className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg transition-colors"
               >
                 <div className="font-semibold text-white text-sm">{option.text}</div>
-                <div className={`text-xs mt-0.5 ${option.appeal > 0 ? 'text-green-400' : option.appeal < 0 ? 'text-red-400' : 'text-slate-400'}`}>
 
-                </div>
               </button>
             ))}
           </div>
@@ -377,9 +375,7 @@ function PlayerApproachModal({
                 className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg"
               >
                 <div className="font-semibold text-white text-sm">{option.text}</div>
-                <div className={`text-xs mt-0.5 ${option.appeal > 0 ? 'text-green-400' : option.appeal < 0 ? 'text-red-400' : 'text-slate-400'}`}>
-                  Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
-                </div>
+
               </button>
             ))}
           </div>
@@ -547,8 +543,8 @@ function CoalitionLog({ entries }: { entries: string[] }) {
     <div ref={ref} className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
       {entries.map((entry, i) => {
         const isMandate = entry.includes('mandate now passes') || entry.includes('minority government');
-        const isSuccess = entry.includes('Coalition agreement') || entry.includes('joined the coalition') || entry.includes('joined coalition');
-        const isReject = entry.includes('rejected') || entry.includes('declined') || entry.includes('failed') || entry.includes('Rejected');
+        const isSuccess = /agrees to join|welcomed|agreement reached|joined|enthusiastically/i.test(entry);
+        const isReject = /rejected|declined|declines|better|failed|refused|broke down|gives up/i.test(entry);
         return (
           <div
             key={i}
@@ -616,8 +612,8 @@ export default function CoalitionFormation() {
     ) return;
 
     if (coalitionState.availablePartners.length === 0) {
-      // No partners left — if first party, pass mandate; if second, minority gov
-      if ((coalitionState.attemptingPartyIndex ?? 0) < 1) {
+      // No partners left — if first to third party, pass mandate; if failed, minority gov
+      if ((coalitionState.attemptingPartyIndex ?? 0) < 3) {
         actions.nextCoalitionAttempt();
       } else {
         actions.completeCoalitionFormation();
@@ -632,7 +628,7 @@ export default function CoalitionFormation() {
     );
 
     if (bestPartners.length === 0) {
-      if ((coalitionState.attemptingPartyIndex ?? 0) < 1) {
+      if ((coalitionState.attemptingPartyIndex ?? 0) < 3) {
         actions.nextCoalitionAttempt();
       } else {
         actions.completeCoalitionFormation();
@@ -750,7 +746,8 @@ export default function CoalitionFormation() {
         playerResult.percentage,
         responses,
         positions,
-        coalitionState.cabinetAllocations
+        coalitionState.cabinetAllocations,
+        playerApproachOffer?.totalImportance
       );
       const logMsg = evaluation.message;
       actions.logCoalitionEvent(logMsg);
@@ -875,7 +872,10 @@ export default function CoalitionFormation() {
 
   if (coalitionState.negotiationPhase === 'partner-selection') {
     const isPlayerLead = coalitionState.isPlayerLead;
-    const isSecondAttempt = (coalitionState.attemptingPartyIndex ?? 0) >= 1;
+    const attemptIndex = coalitionState.attemptingPartyIndex ?? 0;
+    const isSecondAttempt = attemptIndex === 1;
+    const isThirdAttempt = attemptIndex === 2;
+    const isFourthAttempt = attemptIndex === 3;
     const currentPct = coalitionState.currentCoalitionPercentage;
     const hasMajority = currentPct >= 50;
 
@@ -892,11 +892,16 @@ export default function CoalitionFormation() {
           </div>
 
           {/* Mandate banner */}
-          {isSecondAttempt && (
-            <div className="bg-orange-900/40 border border-orange-500 rounded-xl p-3 text-center">
-              <p className="text-orange-200 text-sm font-semibold">
-                {sortedResults[0]?.candidate.party} failed to form a coalition —
-                mandate passed to <strong>{attemptingParty?.party}</strong>
+          {(isSecondAttempt || isThirdAttempt || isFourthAttempt) && (
+            <div className={`border rounded-xl p-3 text-center ${isFourthAttempt ? 'bg-red-900/40 border-red-500' : 'bg-orange-900/40 border-orange-500'}`}>
+              <p className={`text-sm font-semibold ${isFourthAttempt ? 'text-red-200' : 'text-orange-200'}`}>
+                {isFourthAttempt ? (
+                  <>All other parties failed to form a coalition. The mandate returns to <strong>{attemptingParty?.party}</strong> for a final attempt.</>
+                ) : isThirdAttempt ? (
+                  <>{sortedResults[0]?.candidate.party} and {sortedResults[1]?.candidate.party} failed to form a coalition — mandate passed to <strong>{attemptingParty?.party}</strong></>
+                ) : (
+                  <>{sortedResults[0]?.candidate.party} failed to form a coalition — mandate passed to <strong>{attemptingParty?.party}</strong></>
+                )}
               </p>
             </div>
           )}
@@ -998,13 +1003,22 @@ export default function CoalitionFormation() {
               {isPlayerLead && (
                 <div className="mt-4 pt-3 border-t border-slate-700">
                   <button
-                    onClick={() => actions.completeCoalitionFormation()}
+                    onClick={() => {
+                      if (attemptIndex < 3) {
+                        actions.logCoalitionEvent(`${attemptingParty?.party} gives up on forming a coalition.`);
+                        actions.nextCoalitionAttempt();
+                      } else {
+                        actions.completeCoalitionFormation();
+                      }
+                    }}
                     className="w-full py-2 bg-red-600/70 hover:bg-red-700 border border-red-500/70 text-white text-sm font-bold rounded-lg transition-colors"
                   >
-                    Form Minority Government
+                    {attemptIndex < 3 ? 'Give Up & Pass Mandate' : 'Form Minority Government'}
                   </button>
                   <p className="text-xs text-slate-500 mt-1 text-center">
-                    Give up on coalition and govern alone ({currentPct.toFixed(1)}% seats)
+                    {attemptIndex < 3
+                      ? 'Admit defeat and pass the mandate to the next largest party'
+                      : `Give up on coalition and govern alone (${currentPct.toFixed(1)}% seats)`}
                   </p>
                 </div>
               )}

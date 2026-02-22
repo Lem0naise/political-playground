@@ -109,18 +109,7 @@ export default function CampaignView() {
             </div>
             {/* Campaign Progress - Status Board Style */}
 
-            <button
-              onClick={() => {
-                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
-                const dlAnchorElem = document.createElement('a');
-                dlAnchorElem.setAttribute("href", dataStr);
-                dlAnchorElem.setAttribute("download", "political-playground-save.json");
-                dlAnchorElem.click();
-              }}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs sm:text-sm font-semibold rounded transition-colors self-start sm:self-center"
-            >
-              Save Progress
-            </button>
+
           </div>
         </div>
       </div>
@@ -248,6 +237,18 @@ export default function CampaignView() {
           </div>
         </div>
 
+        <button
+          onClick={() => {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", "political-playground-save.json");
+            dlAnchorElem.click();
+          }}
+          className="mt-8 align-center px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs sm:text-sm font-semibold rounded-xl transition-colors self-start sm:self-center "
+        >
+          Save Progress
+        </button>
         <div className="text-center text-xs text-slate-400 space-y-1 mt-10">
           <p>Political Playground © 2025-2026</p>
           <p>Fictional simulator. No real-world accuracy, endorsement or advice.</p>

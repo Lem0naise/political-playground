@@ -1194,14 +1194,43 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       const sortedResultsForAttempt = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
       const nextAttemptIndex = state.coalitionState.attemptingPartyIndex + 1;
       const prevLeaderName = state.coalitionState.coalitionPartners[0]?.party ?? 'First party';
-      // Only allow up to second-largest party (index 1)
-      if (nextAttemptIndex >= 2 || nextAttemptIndex >= sortedResultsForAttempt.length) {
-        // All parties exhausted — form minority government
-        const exhaustMsg = `${prevLeaderName} and all other parties failed to reach a majority. A minority government will be formed.`;
+      // Only allow up to third-largest party (index 2), then pass back to first party (index 3)
+      if (nextAttemptIndex === 3) {
+        // Pass back to the first party, allowing them to try again. If they fail, they form a minority government.
+        const exhaustMsg = `${prevLeaderName} and all other parties failed to reach a majority. The mandate returns to ${sortedResultsForAttempt[0].candidate.party} for a final attempt.`;
+        const nextLeader = sortedResultsForAttempt[0].candidate;
+        const nextLeaderPercentage = sortedResultsForAttempt[0].percentage;
+        const nextAvailablePartners = sortedResultsForAttempt
+          .filter(r => r.candidate.id !== nextLeader.id)
+          .map(r => r.candidate);
+        const nextPartnersWithCompatibility = nextAvailablePartners.map(partner => ({
+          ...partner,
+          compatibility: calculatePartyCompatibility(nextLeader, partner)
+        })).sort((a, b) => b.compatibility - a.compatibility);
+
         return {
           ...state,
           coalitionState: {
             ...state.coalitionState,
+            coalitionPartners: [nextLeader],
+            currentCoalitionPercentage: nextLeaderPercentage,
+            availablePartners: nextPartnersWithCompatibility,
+            cabinetAllocations: {}, // Clear allocations for the retried attempt
+            isPlayerLead: nextLeader.is_player,
+            negotiationPhase: 'partner-selection',
+            attemptingPartyIndex: nextAttemptIndex,
+            coalitionLog: [...state.coalitionState.coalitionLog, exhaustMsg]
+          }
+        };
+      } else if (nextAttemptIndex > 3 || nextAttemptIndex >= sortedResultsForAttempt.length) {
+        // Fallback for safety
+        const exhaustMsg = `A minority government will be formed by ${sortedResultsForAttempt[0].candidate.party}.`;
+        return {
+          ...state,
+          coalitionState: {
+            ...state.coalitionState,
+            coalitionPartners: [sortedResultsForAttempt[0].candidate],
+            currentCoalitionPercentage: sortedResultsForAttempt[0].percentage,
             negotiationPhase: 'complete',
             coalitionLog: [...state.coalitionState.coalitionLog, exhaustMsg]
           }
