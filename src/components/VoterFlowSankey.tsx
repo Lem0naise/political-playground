@@ -17,6 +17,7 @@ import { SankeyController, Flow } from 'chartjs-chart-sankey';
 import { VoterTransferEntry, Candidate } from '@/types/game';
 
 Chart.register(SankeyController, Flow, Tooltip, Legend);
+Chart.defaults.font.family = "'Outfit', sans-serif";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -79,7 +80,7 @@ function TransferTable({ transfers, candidates, initialPollResults }: {
     return (
         <div className="mb-4">
             <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Voter Transfer Breakdown</h4>
-            <div className="space-y-3">
+            <div className="space-y-3 sm:grid sm:grid-cols-2 sm:gap-4">
                 {fromParties.map(fromParty => {
                     const rows = grouped[fromParty];
                     if (!rows || rows.length === 0) return null;
@@ -264,9 +265,13 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
                     colorFrom: (ctx: any) => colourOf(ctx.dataset.data[ctx.dataIndex]?.from ?? ''),
                     colorTo: (ctx: any) => colourOf(ctx.dataset.data[ctx.dataIndex]?.to ?? ''),
                     colorMode: 'gradient',
-                    nodeWidth: 24,
+                    alpha: 0.8, // Make flows less transparent
+                    nodeWidth: 32, // Thicker nodes for a more "pill" look
+                    nodePadding: 20,
                     priority: priorityMap,
                     labels,
+                    borderWidth: 0, // Remove traditional borders
+                    borderRadius: 16, // Max roundness for pill shape
                 } as any],
             },
             options: {
@@ -281,7 +286,7 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
                                 const fromLabel = stripSuffix(item.from);
                                 const toLabel = stripSuffix(item.to);
                                 const pct = typeof item.pct === 'number' ? item.pct.toFixed(1) : '?';
-                                return `${fromLabel} → ${toLabel}: ${pct}% of ${fromLabel} voters`;
+                                return `${pct}% of ${fromLabel} → ${toLabel}`;
                             },
                         },
                         backgroundColor: 'rgba(15,23,42,0.95)',
@@ -289,7 +294,10 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
                         bodyColor: '#cbd5e1',
                         borderColor: '#475569',
                         borderWidth: 1,
-                        padding: 10,
+                        padding: 12,
+                        cornerRadius: 12,
+                        titleFont: { family: "'Outfit', sans-serif", size: 13 },
+                        bodyFont: { family: "'Outfit', sans-serif", size: 13 }
                     },
                     legend: { display: false },
                 },
@@ -358,8 +366,6 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
             {/* ── Voter transfer table and Sankey diagram ── */}
             {displayTransfers.length > 0 ? (
                 <>
-                    <TransferTable transfers={displayTransfers} candidates={candidates} initialPollResults={initialPollResults} />
-
                     <div>
                         <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Voter Flow Diagram</h4>
 
@@ -391,6 +397,9 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
                             Flow width = absolute voter count · Hover for % of original party's voters
                         </p>
                     </div>
+
+                    <TransferTable transfers={displayTransfers} candidates={candidates} initialPollResults={initialPollResults} />
+
                 </>
             ) : (
                 <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-slate-700 text-slate-400 text-sm">

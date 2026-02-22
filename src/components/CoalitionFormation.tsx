@@ -37,7 +37,7 @@ function NegotiationModal({
   onCancel,
   cabinetAllocations,
 }: NegotiationModalProps) {
-  const [currentStep, setCurrentStep] = useState<'policy' | 'cabinet' | 'result'>('policy');
+  const [currentStep, setCurrentStep] = useState<'policy' | 'cabinet' | 'reviewing' | 'result'>('policy');
   const [policyResponses, setPolicyResponses] = useState<number[]>([]);
   const [offeredPositions, setOfferedPositions] = useState<string[]>([]);
   const [negotiationResult, setNegotiationResult] = useState<any>(null);
@@ -63,15 +63,18 @@ function NegotiationModal({
   };
 
   const handleCabinetOffer = () => {
-    const totalImportance = offeredPositions.reduce((sum, pos) => {
-      const p = availablePositions.find(p => p.name === pos);
-      return sum + (p?.importance || 0);
-    }, 0);
-    const result = simulateCoalitionNegotiation(
-      leadParty, partnerParty, leadPercentage, partnerPercentage, totalImportance, policyResponses
-    );
-    setNegotiationResult(result);
-    setCurrentStep('result');
+    setCurrentStep('reviewing');
+    setTimeout(() => {
+      const totalImportance = offeredPositions.reduce((sum, pos) => {
+        const p = availablePositions.find(p => p.name === pos);
+        return sum + (p?.importance || 0);
+      }, 0);
+      const result = simulateCoalitionNegotiation(
+        leadParty, partnerParty, leadPercentage, partnerPercentage, totalImportance, policyResponses
+      );
+      setNegotiationResult(result);
+      setCurrentStep('result');
+    }, Math.floor(Math.random() * 1500) + 1500); // 1.5 - 3 seconds
   };
 
   const modalBase = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50';
@@ -120,7 +123,7 @@ function NegotiationModal({
               >
                 <div className="font-semibold text-white text-sm">{option.text}</div>
                 <div className={`text-xs mt-0.5 ${option.appeal > 0 ? 'text-green-400' : option.appeal < 0 ? 'text-red-400' : 'text-slate-400'}`}>
-                  Appeal: {option.appeal > 0 ? '+' : ''}{option.appeal}
+
                 </div>
               </button>
             ))}
@@ -207,6 +210,23 @@ function NegotiationModal({
     );
   }
 
+  if (currentStep === 'reviewing') {
+    return (
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <div className="flex flex-col items-center justify-center py-10">
+            <div className="w-12 h-12 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin mb-4"></div>
+            <h3 className="text-xl font-bold text-white mb-2">Reviewing Demands...</h3>
+            <p className="text-sm text-slate-400 text-center">
+              {partnerParty.party} leadership is carefully considering your offer.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (currentStep === 'result' && negotiationResult) {
     return (
       <div className={modalBase}>
@@ -262,7 +282,7 @@ function PlayerApproachModal({
   onComplete: (success: boolean, positions: string[], responses: number[]) => void;
   onReject: () => void;
 }) {
-  const [currentStep, setCurrentStep] = useState<'offer' | 'policy' | 'cabinet'>('offer');
+  const [currentStep, setCurrentStep] = useState<'offer' | 'policy' | 'cabinet' | 'reviewing'>('offer');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [policyResponses, setPolicyResponses] = useState<number[]>([]);
   const [acceptedPositions, setAcceptedPositions] = useState<string[]>([]);
@@ -408,11 +428,33 @@ function PlayerApproachModal({
               Reject offer
             </button>
             <button
-              onClick={() => onComplete(true, acceptedPositions, policyResponses)}
+              onClick={() => {
+                setCurrentStep('reviewing');
+                setTimeout(() => {
+                  onComplete(true, acceptedPositions, policyResponses);
+                }, Math.floor(Math.random() * 1500) + 1500);
+              }}
               className="flex-1 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-lg"
             >
               Accept ({acceptedPositions.length} positions)
             </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentStep === 'reviewing') {
+    return (
+      <div className={modalBase}>
+        <div className={cardBase}>
+          <PartyBar />
+          <div className="flex flex-col items-center justify-center py-10">
+            <div className="w-12 h-12 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin mb-4"></div>
+            <h3 className="text-xl font-bold text-white mb-2">Awaiting Response...</h3>
+            <p className="text-sm text-slate-400 text-center">
+              {leadParty.party} is evaluating your response.
+            </p>
           </div>
         </div>
       </div>
@@ -618,20 +660,45 @@ export default function CoalitionFormation() {
       // It's AI. We manage the timeout inside this specific effect execution.
       lastProcessedPartner.current = nextPartner.candidate.id;
 
-      // Add a randomized delay (1.5s to 3s) for realism
-      const delayTime = Math.floor(Math.random() * 1500) + 1500;
+      // Calculate the result first so we know how long it takes and what the vibe is
+      const result = simulateAICoalitionNegotiation(
+        attemptingParty,
+        nextPartner.candidate,
+        attemptingPercentage,
+        nextPartner.percentage,
+        coalitionState.cabinetAllocations
+      );
+
+      let delayTime = 0;
+      let intermediateLog = '';
+
+      const isHighlyIncompatible = result.compatibility < 35 || result.baseWillingness < 30;
+      const isBorderline = !result.success && result.baseWillingness >= 40 && result.baseWillingness <= 60;
+      const isEasy = result.success && result.compatibility > 70;
+
+      if (isHighlyIncompatible) {
+        delayTime = Math.floor(Math.random() * 1000) + 500; // 0.5s - 1.5s
+      } else if (isBorderline) {
+        delayTime = Math.floor(Math.random() * 2000) + 4000; // 4s - 6s
+        intermediateLog = `Sources report heated internal debates within ${nextPartner.candidate.party}...`;
+      } else if (isEasy) {
+        delayTime = Math.floor(Math.random() * 1000) + 1500; // 1.5s - 2.5s
+      } else {
+        delayTime = Math.floor(Math.random() * 2000) + 2000; // 2s - 4s
+        intermediateLog = `${nextPartner.candidate.party} leadership is holding an emergency meeting...`;
+      }
 
       const logStartMsg = `${attemptingParty.party} is negotiating with ${nextPartner.candidate.party}...`;
+      actions.logCoalitionEvent(logStartMsg);
+
+      let intermediateTimeoutId: NodeJS.Timeout | null = null;
+      if (intermediateLog) {
+        intermediateTimeoutId = setTimeout(() => {
+          actions.logCoalitionEvent(intermediateLog);
+        }, delayTime / 2);
+      }
 
       const timeoutId = setTimeout(() => {
-        const result = simulateAICoalitionNegotiation(
-          attemptingParty,
-          nextPartner.candidate,
-          attemptingPercentage,
-          nextPartner.percentage,
-          coalitionState.cabinetAllocations
-        );
-
         const logResultMsg = `${attemptingParty.party} → ${nextPartner.candidate.party}: ${result.message}`;
         actions.logCoalitionEvent(logResultMsg);
 
@@ -652,6 +719,7 @@ export default function CoalitionFormation() {
       // If the component unmounts (e.g. Strict Mode), clear the lock and timeout
       return () => {
         clearTimeout(timeoutId);
+        if (intermediateTimeoutId) clearTimeout(intermediateTimeoutId);
         lastProcessedPartner.current = null;
       };
     }
@@ -793,7 +861,7 @@ export default function CoalitionFormation() {
             </button>
             <p className="text-slate-500 text-xs mt-3">
               Created by{' '}
-              <a href="https://indigonolan.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline">
+              <a href="https://indigo.spot" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline">
                 Indigo Nolan
               </a>
             </p>
@@ -903,20 +971,23 @@ export default function CoalitionFormation() {
                           style={{ backgroundColor: partner.colour }}
                         />
                         <div className="flex-1 min-w-0">
-                          <div className="font-bold text-white text-sm truncate">
+                          <div className="flex items-center gap-4 mb-0.5">
+                            <span className={`text-[10px] font-mono font-bold ${compatColor}`}>
+                              {compatibility.toFixed(0)}% <span className="text-slate-500 font-sans uppercase text-[9px] ml-0.5">Compatability</span>
+                            </span>
+                            <span className="text-[10px] font-mono font-bold text-slate-400">
+                              {willingness.toFixed(0)}% <span className="text-slate-500 font-sans uppercase text-[9px] ml-0.5">Willingness</span>
+                            </span>
+                          </div>
+                          <div className="font-bold text-white text-md truncate">
                             {partner.party}
                             {partner.is_player && <span className="ml-1 text-yellow-400 text-xs">◄ You</span>}
                           </div>
                           <div className="text-xs text-slate-400">{result?.percentage.toFixed(1)}% seats</div>
                           {getIdeologyProfile(partner.vals)}
+
                         </div>
-                        <div className="text-right flex-shrink-0">
-                          <div className={`text-xs font-mono font-bold ${compatColor}`}>
-                            {compatibility.toFixed(0)}%
-                          </div>
-                          <div className="text-xs text-slate-500">compat</div>
-                          <div className="text-xs text-slate-400 mt-0.5">{willingness.toFixed(0)}% willing</div>
-                        </div>
+
                       </div>
                     );
                   })}

@@ -1,14 +1,14 @@
-import {  VALUES, PoliticalValues } from '@/types/game';
+import { VALUES, PoliticalValues } from '@/types/game';
 
 
 export const DESCRIPTORS: Record<string, Record<string, string | null>> = {
-  "prog_cons": {"-100": "radical progressive", "-30": "progressive", "0": null, "30": "conservative", "100": "ultra-conservative"},
-  "nat_glob": {"-100": "ultranationalist", "-45": "nationalist", "0": null, "45": "globalist", "100": "internationalist"},
-  "env_eco": {"-90": "environmentalist", "0": null, "50": null, "60": "pro-growth", "100": "anti-environmentalist"},
-  "soc_cap": {"-100": "far-left", "-50": "left-wing", "-15": "centre-left", "0": null, "15": "centre-right", "40": "pro-market", "100": "laissez-faire capitalistic"},
-  "pac_mil": {"-100": "pacifist", "10": null, "65": "hawkish", "100": "ultra-militarist"},
-  "auth_ana": {"-100": "totalitarian", "-60": "authoritarian", "-10": null, "70": "libertarian", "100": "anarchist"},
-  "rel_sec": {"-100": "theocratic", "-60": "religious", "0": null, "50": "secular", "100": "state atheism"},
+  "prog_cons": { "-100": "radical progressive", "-30": "progressive", "0": null, "30": "conservative", "100": "ultra-conservative" },
+  "nat_glob": { "-100": "ultranationalist", "-45": "nationalist", "0": null, "45": "globalist", "100": "internationalist" },
+  "env_eco": { "-90": "environmentalist", "0": null, "50": null, "60": "pro-growth", "100": "anti-environmentalist" },
+  "soc_cap": { "-100": "far-left", "-50": "left-wing", "-15": "centre-left", "0": null, "15": "centre-right", "40": "pro-market", "100": "laissez-faire capitalistic" },
+  "pac_mil": { "-100": "pacifist", "10": null, "65": "hawkish", "100": "ultra-militarist" },
+  "auth_ana": { "-100": "totalitarian", "-60": "authoritarian", "-10": null, "70": "libertarian", "100": "anarchist" },
+  "rel_sec": { "-100": "theocratic", "-60": "religious", "0": null, "50": "secular", "100": "state atheism" },
 };
 
 // Comparative descriptors for when comparing player to a bloc
@@ -23,34 +23,42 @@ const COMPARATIVE_DESCRIPTORS: Record<string, { negative: string, positive: stri
 };
 
 
-// Color mapping for descriptors (customize as needed)
+// Color mapping for descriptors (customized for dark mode)
 const COLOR_MAP: Record<string, string> = {
-  progressive: 'text-blue-700',
-  'very progressive': 'text-blue-900',
-  conservative: 'text-red-700',
-  ultraconservative: 'text-red-900',
-  nationalist: 'text-red-700',
-  ultranationalist: 'text-red-900',
-  globalist: 'text-blue-700',
-  internationalist: 'text-blue-900',
-  environmentalist: 'text-green-700',
-  'anti-environmentalist': 'text-amber-700',
-  'far-left': 'text-red-700',
-  'left-wing': 'text-red-500',
-  'centre-left': 'text-orange-600',
-  centrist: 'text-slate-700',
-  'centre-right': 'text-green-600',
-  corporatist: 'text-green-900',
-  pacifist: 'text-blue-700',
-  militarist: 'text-red-700',
-  ultramilitaristic: 'text-red-900',
-  dictatorial: 'text-red-900',
-  authoritarian: 'text-red-700',
-  liberal: 'text-blue-700',
-  anarchist: 'text-blue-900',
-  theocratic: 'text-yellow-700',
-  religious: 'text-yellow-700',
-  secular: 'text-blue-700',
+  'radical progressive': 'text-blue-300 drop-shadow-[0_0_8px_rgba(147,197,253,0.5)]',
+  progressive: 'text-blue-400',
+  conservative: 'text-red-400',
+  'ultra-conservative': 'text-red-300 drop-shadow-[0_0_8px_rgba(252,165,165,0.5)]',
+
+  ultranationalist: 'text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]',
+  nationalist: 'text-red-400',
+  globalist: 'text-blue-400',
+  internationalist: 'text-blue-300 drop-shadow-[0_0_8px_rgba(147,197,253,0.5)]',
+
+  environmentalist: 'text-green-400',
+  'pro-growth': 'text-yellow-400',
+  'anti-environmentalist': 'text-amber-500',
+
+  'far-left': 'text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]',
+  'left-wing': 'text-red-400',
+  'centre-left': 'text-orange-400',
+  'centre-right': 'text-sky-400',
+  'pro-market': 'text-blue-400',
+  'laissez-faire capitalistic': 'text-purple-400 drop-shadow-[0_0_8px_rgba(192,132,252,0.5)]',
+
+  pacifist: 'text-teal-400',
+  hawkish: 'text-red-400',
+  'ultra-militarist': 'text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]',
+
+  totalitarian: 'text-red-600 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]',
+  authoritarian: 'text-red-400',
+  libertarian: 'text-yellow-400',
+  anarchist: 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]',
+
+  theocratic: 'text-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]',
+  religious: 'text-yellow-400',
+  secular: 'text-blue-400',
+  'state atheism': 'text-purple-400 drop-shadow-[0_0_8px_rgba(192,132,252,0.5)]',
 };
 
 export function getIdeologyDescriptors(vals: number[]): Array<{ key: string, desc: string, color: string }> {
@@ -78,7 +86,7 @@ export function getIdeologyDescriptors(vals: number[]): Array<{ key: string, des
         descriptors.push({
           key,
           desc,
-          color: COLOR_MAP[desc] || 'text-slate-700'
+          color: COLOR_MAP[desc] || 'text-slate-300'
         });
         orderTemplate.push(Math.abs(val));
       }
@@ -118,16 +126,18 @@ export function getIdeologyProfile(vals: number[]) {
   ];
 
   return (
-    <div className=" font-mono bg-slate-200 border border-slate-400 rounded p-3 sm:p-4 mb-2">
-      <div className="font-bold text-slate-800 border-b border-slate-400 pb-1 mb-2 text-xs sm:text-sm campaign-status">
-        POLITICAL PROFILE:
+    <div className="font-mono bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4 mb-2 shadow-sm">
+      <div className="flex items-center gap-2 border-b border-slate-600 pb-2 mb-3">
+        <div className="w-1.5 h-4 bg-yellow-400 rounded-full"></div>
+        <div className="font-bold text-slate-300 text-xs sm:text-sm tracking-widest uppercase">
+          Political Profile
+        </div>
       </div>
       <ul className="flex flex-col gap-1">
         {filtered.map((d, i) => (
           <li
             key={d.key}
-            className={`font-mono font-extrabold uppercase ${d.color} ${fontSizes[i] || "text-xs"}`}
-            style={{ letterSpacing: "0.04em" }}
+            className={`font-mono font-black uppercase tracking-wider ${d.color} ${fontSizes[i] || "text-xs"}`}
           >
             {d.desc}
           </li>
@@ -147,23 +157,23 @@ export function getComparativeDescriptors(
   blocCenter: PoliticalValues
 ): Array<{ key: string; desc: string; distance: number }> {
   const comparisons: Array<{ key: string; desc: string; distance: number }> = [];
-  
+
   VALUES.forEach((key, idx) => {
     const playerValue = playerVals[idx];
     const blocValue = blocCenter[key];
     const distance = playerValue - blocValue;
     const absDistance = Math.abs(distance);
-    
+
     // Only show if there's a meaningful difference (threshold of 15 points)
     if (absDistance < 20) return;
-    
+
     const comparative = COMPARATIVE_DESCRIPTORS[key];
     if (!comparative) return;
-    
+
     // Determine descriptor based on direction and magnitude
     let descriptor = '';
     const direction = distance > 0 ? comparative.positive : comparative.negative;
-    
+
     if (absDistance >= 70) {
       descriptor = `far too ${direction}`;
     } else if (absDistance >= 45) {
@@ -171,16 +181,16 @@ export function getComparativeDescriptors(
     } else {
       descriptor = `slightly too ${direction}`;
     }
-    
+
     comparisons.push({
       key,
       desc: descriptor,
       distance: absDistance
     });
   });
-  
+
   // Sort by distance descending (most different first)
   comparisons.sort((a, b) => b.distance - a.distance);
-  
+
   return comparisons;
 }

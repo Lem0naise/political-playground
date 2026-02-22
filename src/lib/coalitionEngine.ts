@@ -7,6 +7,29 @@ export interface CoalitionCompatibility {
   appeal: number;
 }
 
+export function getBiggestPolicyDifference(party1: Candidate, party2: Candidate): string {
+  let maxDiff = 0;
+  let maxIndex = 0;
+  for (let i = 0; i < party1.vals.length; i++) {
+    const diff = Math.abs(party1.vals[i] - party2.vals[i]);
+    if (diff > maxDiff) {
+      maxDiff = diff;
+      maxIndex = i;
+    }
+  }
+
+  const policyNames = [
+    'Social Policy', // 0: prog_cons
+    'Foreign Policy', // 1: nat_glob
+    'Environmental Policy', // 2: env_eco
+    'Economic Policy', // 3: soc_cap
+    'Defense Policy', // 4: pac_mil
+    'Governance Structure', // 5: auth_ana
+    'Religious Values' // 6: rel_sec
+  ];
+  return policyNames[maxIndex] || 'Fundamental Values';
+}
+
 export function calculatePartyCompatibility(party1: Candidate, party2: Candidate): number {
   let totalDistance = 0;
 
@@ -275,6 +298,8 @@ export function simulateCoalitionNegotiation(
   success: boolean;
   message: string;
   finalAppeal: number;
+  baseWillingness: number;
+  compatibility: number;
 } {
   const compatibility = calculatePartyCompatibility(leadParty, partnerParty);
   let baseWillingness = compatibility;
@@ -314,31 +339,26 @@ export function simulateCoalitionNegotiation(
   });
 
 
+  let message = '';
   if (finalAppeal > 100) {
-    return {
-      success: true,
-      message: `${partnerParty.party} agrees to join the coalition!`,
-      finalAppeal
-    };
+    message = `${partnerParty.party} enthusiastically agrees to join the coalition!`;
   } else if (finalAppeal > 90) {
-    return {
-      success: true,
-      message: `${partnerParty.party} agrees to join the coalition after very careful consideration.`,
-      finalAppeal
-    };
+    message = `${partnerParty.party} agrees to join the coalition after very careful consideration.`;
   } else if (finalAppeal > 40) {
-    return {
-      success: false,
-      message: `${partnerParty.party} is interested but requires better terms.`,
-      finalAppeal
-    };
+    message = `${partnerParty.party} is interested but requires better terms.`;
   } else {
-    return {
-      success: false,
-      message: `${partnerParty.party} declines to join the coalition.`,
-      finalAppeal
-    };
+    // Generate ideological rejection specifically
+    const biggestDiff = getBiggestPolicyDifference(leadParty, partnerParty);
+    message = `${partnerParty.party} declines, citing fundamental disagreements on ${biggestDiff}.`;
   }
+
+  return {
+    success: finalAppeal >= 90,
+    message,
+    finalAppeal,
+    baseWillingness,
+    compatibility
+  };
 }
 
 export function findBestCoalitionPartners(
@@ -374,7 +394,7 @@ function calculatePositionsToOffer(
 ): number {
   // Offer positions conservatively. Lead party should retain the lion's share.
   // We divide by 100 to get a fraction, but we scale it down to retain a "lead party premium".
-  const premiumShare = (partnerPercentage / 100) * 0.8; // 60% of their proportional share
+  const premiumShare = (partnerPercentage / 100); // 100% of their proportional share
   const scaled = Math.round(premiumShare * availablePositions.length); // Use unique positions count
   return Math.max(1, scaled); // Always offer at least 1
 }
@@ -389,6 +409,8 @@ export function simulateAICoalitionNegotiation(
   success: boolean;
   cabinetPositions: string[];
   message: string;
+  baseWillingness: number;
+  compatibility: number;
 } {
   const compatibility = calculatePartyCompatibility(leadParty, partnerParty);
   const priorityPositions = getPartyPriorityPositions(partnerParty);
@@ -442,7 +464,9 @@ export function simulateAICoalitionNegotiation(
   return {
     success: result.success,
     cabinetPositions: result.success ? positionsToOffer : [],
-    message: result.message
+    message: result.message,
+    baseWillingness: result.baseWillingness,
+    compatibility: result.compatibility
   };
 }
 
@@ -521,6 +545,8 @@ export function evaluatePlayerResponse(
   success: boolean;
   message: string;
   finalAppeal: number;
+  greedPenalty: number;
+  compatibility: number;
 } {
   const availablePositions = getAvailableCabinetPositions(allocations);
   let acceptedImportance = acceptedPositions.reduce((sum, pos) => {
@@ -570,31 +596,27 @@ export function evaluatePlayerResponse(
     finalAppeal
   });
 
+  let message = '';
   if (finalAppeal >= 85) {
-    return {
-      success: true,
-      message: `${leadParty.party} leadership enthusiastically agreed to your terms and has welcomed you into the coalition!`,
-      finalAppeal
-    };
+    message = `${leadParty.party} leadership enthusiastically agreed to your terms and has welcomed you into the coalition!`;
   } else if (finalAppeal >= 60) {
-    return {
-      success: true,
-      message: `${leadParty.party} expressed some reservations about your demands, but ultimately agreed to form the coalition.`,
-      finalAppeal
-    };
+    message = `${leadParty.party} expressed some reservations about your demands, but ultimately agreed to form the coalition.`;
   } else if (finalAppeal > 40) {
-    return {
-      success: false,
-      message: `Talks broke down. ${leadParty.party} felt you were asking for too much relative to your mandate.`,
-      finalAppeal
-    }
+    message = `Talks broke down. ${leadParty.party} felt you were asking for too much relative to your mandate.`;
+  } else if (greedPenalty < 0) {
+    message = `${leadParty.party} angrily rejected your greedy demands and laughed you out of the room.`;
   } else {
-    return {
-      success: false,
-      message: `${leadParty.party} angrily rejected your terms as completely unreasonable and has ended negotiations.`,
-      finalAppeal
-    }
+    const biggestDiff = getBiggestPolicyDifference(leadParty, playerParty);
+    message = `${leadParty.party} completely refused, citing insurmountable differences on ${biggestDiff}.`;
   }
+
+  return {
+    success: finalAppeal >= 60,
+    message,
+    finalAppeal,
+    greedPenalty,
+    compatibility
+  };
 }
 
 /**
