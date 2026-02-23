@@ -814,12 +814,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           const currentPolling = candidateResult ? candidateResult.percentage : 0;
           const currentSwing = candidateResult ? candidateResult.change : 0;
 
+          if (Math.abs(currentSwing) < 0.3) {
+            return; // Only show events if there is a polling shift to explain it
+          }
+
           let eventProbability = 0.04;
           eventProbability += (currentPolling / 100) * 0.4;
           if (Math.abs(currentSwing) > 2.0) eventProbability += 0.2;
 
           if (Math.random() < eventProbability) {
-            const isGaffe = Math.random() < 0.5;
+            const isGaffe = currentSwing < 0;
             const templates = isGaffe ? GAFFE_TEMPLATES : POSITIVE_TEMPLATES;
             const template = templates[Math.floor(Math.random() * templates.length)];
             const useLeaderName = Math.random() < 0.5;

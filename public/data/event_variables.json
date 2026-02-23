@@ -249,6 +249,53 @@
         "NATO allies"
       ]
     },
+    "IRELAND": {
+      "newspaper": [
+        "The Times",
+        "The Guardian",
+        "The Telegraph",
+        "The Independent",
+        "Financial Times",
+        "The Daily Mail",
+        "The Observer",
+        "The Evening Standard",
+        "The Sun",
+        "Metro"
+      ],
+      "company": [
+        "Irish Brew"
+      ],
+      "organisation": [
+        "Irish Times"
+      ],
+      "region": [
+        "Northern Ireland",
+        "the South",
+        "Antrim",
+        "Down",
+        "Galway",
+        "the West",
+        "the East"
+      ],
+      "city": [
+        "Dublin",
+        "Belfast",
+        "Cork",
+        "Galway",
+        "Limerick",
+        "Waterford",
+        "Derry",
+        "Kilkenny"
+      ],
+      "foreign_power": [
+        "the European Union",
+        "the United States",
+        "China",
+        "Britain",
+        "the Commonwealth",
+        "NATO allies"
+      ]
+    },
     "ESTONIA": {
       "newspaper": [
         "Postimees",

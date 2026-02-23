@@ -9394,7 +9394,7 @@
         ]
     },
     {
-        "title": "{art_piece} Controversy",
+        "title": "Art Controversy",
         "description": "A government-funded museum is displaying 'blasphemous' art. {religious_group} is protesting.",
         "choices": [
             {
