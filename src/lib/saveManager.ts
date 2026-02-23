@@ -1,0 +1,45 @@
+import { GameState } from '@/types/game';
+import { getEngineState, setEngineState, EngineState } from '@/lib/gameEngine';
+
+export interface SaveGame {
+    version: string;
+    gameState: GameState;
+    engineState: EngineState;
+}
+
+export function exportSaveGame(gameState: GameState) {
+    const save: SaveGame = {
+        version: '1.0',
+        gameState,
+        engineState: getEngineState()
+    };
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(save));
+    const dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "political-playground-save.json");
+    document.body.appendChild(dlAnchorElem);
+    dlAnchorElem.click();
+    document.body.removeChild(dlAnchorElem);
+}
+
+export function importSaveGame(jsonString: string): GameState | null {
+    try {
+        const data = JSON.parse(jsonString);
+
+        // Check if it's a new format save
+        if (data.version && data.gameState && data.engineState !== undefined) {
+            setEngineState(data.engineState);
+            return data.gameState;
+        }
+
+        // Check if it's an old legacy GameState directly (fallback)
+        if (data.country && data.phase) {
+            // It's a raw GameState. We can't restore engine state, so it will be null.
+            return data as GameState;
+        }
+    } catch (e) {
+        console.error("Failed to parse save file", e);
+    }
+    return null;
+}

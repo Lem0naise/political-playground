@@ -532,6 +532,26 @@ let INITIAL_CHOICES: number[] | null = null;
 // Track each voter's bloc assignment (index into country.blocs), -1 for independents
 let VOTER_BLOC_IDS: number[] | null = null;
 
+export interface EngineState {
+  lastChoices: number[] | null;
+  initialChoices: number[] | null;
+  voterBlocIds: number[] | null;
+}
+
+export function getEngineState(): EngineState {
+  return {
+    lastChoices: LAST_CHOICES,
+    initialChoices: INITIAL_CHOICES,
+    voterBlocIds: VOTER_BLOC_IDS
+  };
+}
+
+export function setEngineState(state: EngineState): void {
+  LAST_CHOICES = state.lastChoices;
+  INITIAL_CHOICES = state.initialChoices;
+  VOTER_BLOC_IDS = state.voterBlocIds;
+}
+
 function ensureLastChoices(length: number): void {
   if (!LAST_CHOICES || LAST_CHOICES.length !== length) {
     LAST_CHOICES = new Array(length).fill(-1);

@@ -5,6 +5,7 @@ import PollResults from './PollResults';
 import EventModal from './EventModal';
 import PollingGraphModal from './PollingGraphModal';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
+import { exportSaveGame } from '@/lib/saveManager';
 
 export default function CampaignView() {
   const { state, actions } = useGame();
@@ -238,13 +239,7 @@ export default function CampaignView() {
         </div>
 
         <button
-          onClick={() => {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
-            const dlAnchorElem = document.createElement('a');
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", "political-playground-save.json");
-            dlAnchorElem.click();
-          }}
+          onClick={() => exportSaveGame(state)}
           className="mt-8 align-center px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs sm:text-sm font-semibold rounded-xl transition-colors self-start sm:self-center "
         >
           Save Progress

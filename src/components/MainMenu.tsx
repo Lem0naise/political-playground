@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useGame } from '@/contexts/GameContext';
+import { importSaveGame } from '@/lib/saveManager';
 
 export default function MainMenu() {
   const { actions } = useGame();
@@ -135,11 +136,14 @@ export default function MainMenu() {
                         if (file) {
                           const reader = new FileReader();
                           reader.onload = (ev) => {
-                            try {
-                              const state = JSON.parse(ev.target?.result as string);
-                              actions.loadState(state);
-                            } catch (e) {
-                              alert('Invalid save file');
+                            const result = ev.target?.result as string;
+                            if (result) {
+                              const loadedState = importSaveGame(result);
+                              if (loadedState) {
+                                actions.loadState(loadedState);
+                              } else {
+                                alert('Invalid save file');
+                              }
                             }
                           };
                           reader.readAsText(file);
