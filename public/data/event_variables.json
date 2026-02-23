@@ -38,11 +38,11 @@
       "civil society groups"
     ],
     "social_media_platform": [
-      "Social media",
-      "Online forums",
-      "Digital platforms",
-      "The internet",
-      "Viral posts"
+      "eChat",
+      "Facebook",
+      "Twitter",
+      "Snapchat",
+      "Instagram"
     ],
     "company": [
       "MegaCorp International",
@@ -175,7 +175,7 @@
       "digital fibre network",
       "public transit system"
     ],
-    "foreign_power": [
+    "foreign_country": [
       "a major economic bloc",
       "a regional hegemon",
       "an emerging superpower",
@@ -241,7 +241,7 @@
         "Liverpool",
         "Edinburgh"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "the European Union",
         "the United States",
         "China",
@@ -287,7 +287,7 @@
         "Derry",
         "Kilkenny"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "the European Union",
         "the United States",
         "China",
@@ -357,7 +357,7 @@
         "Võru",
         "Haapsalu"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "Russia",
         "Finland",
         "Sweden",
@@ -428,7 +428,7 @@
         "Polokwane",
         "Nelspruit"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "China",
         "Russia",
         "Namibia",
@@ -494,7 +494,7 @@
         "Atlanta",
         "Seattle"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "China",
         "Russia",
         "the European Union",
@@ -547,7 +547,7 @@
         "Dresden",
         "Leipzig"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "the European Union",
         "Russia",
         "the United States",
@@ -600,7 +600,7 @@
         "Strasbourg",
         "Lille"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "the European Union",
         "francophone Africa",
         "the United States",
@@ -624,7 +624,7 @@
         "Klagenfurt",
         "Bregenz"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "the European Union",
         "Germany",
         "the United States",
@@ -677,7 +677,7 @@
         "Quebec City",
         "Winnipeg"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "the United States",
         "China",
         "the European Union",
@@ -730,7 +730,7 @@
         "Gold Coast",
         "Darwin"
       ],
-      "foreign_power": [
+      "foreign_country": [
         "China",
         "the United States",
         "Indonesia",

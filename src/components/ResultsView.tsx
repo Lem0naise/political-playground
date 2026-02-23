@@ -341,11 +341,8 @@ export default function ResultsView() {
                 PARTY PERFORMANCE BY VOTER BLOC
               </h3>
               <div className="space-y-3">
-                {sortedResults.slice(0, 6).map((result) => {
+                {sortedResults.map((result) => {
                   const candidate = result.candidate;
-                  const support = state.postElectionStats?.partyBlocSupport.find(s => s.party === candidate.party);
-
-                  if (!support) return null;
 
                   return (
                     <div key={candidate.party} className="bg-slate-700/30 border border-slate-600 rounded-lg p-2 sm:p-3">

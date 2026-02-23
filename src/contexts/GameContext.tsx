@@ -94,8 +94,8 @@ function substituteNewsVariables(
       const hasCountry = countryVars && countryVars[key] && countryVars[key].length > 0;
       const hasGeneric = eventVars.generic?.[key] && eventVars.generic[key].length > 0;
 
-      // 60% chance to use country-specific if available
-      if (hasCountry && Math.random() < 0.6) {
+      // 90% chance to use country-specific if available
+      if (hasCountry && Math.random() < 0.9) {
         return countryVars[key][Math.floor(Math.random() * countryVars[key].length)];
       }
 
