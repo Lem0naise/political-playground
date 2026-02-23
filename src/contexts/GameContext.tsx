@@ -348,7 +348,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     case 'START_CAMPAIGN':
-      const votingData = generateVotingData(state.countryData);
+      const votingData = state.votingData && state.votingData.length > 0
+        ? state.votingData
+        : generateVotingData(state.countryData);
+
       const { results, blocStats } = conductPoll(votingData, state.candidates, 1, state.countryData);
 
       // Store initial poll results
@@ -371,9 +374,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         currentPoll: 1,
         politicalNews: ["ELECTION SEASON OFFICIALLY BEGINS."],
         pollingHistory: [initialPollingSnapshot],
-        activeTrend: null,
-        trendHistory: [],
-        nextTrendPoll: scheduleNextTrendPoll(1),
+        activeTrend: state.activeTrend !== undefined ? state.activeTrend : null,
+        trendHistory: state.trendHistory || [],
+        nextTrendPoll: state.nextTrendPoll !== null && state.nextTrendPoll !== undefined
+          ? state.nextTrendPoll
+          : scheduleNextTrendPoll(1),
         blocStats,
         previousBlocStats: blocStats,
         initialBlocStats: blocStats,
@@ -1257,9 +1262,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         previousPollResults: initialPolls,
         politicalNews: govNews,
         playerEventNews: [],
-        activeTrend: null,
-        trendHistory: [],
-        nextTrendPoll: null,
+        activeTrend: state.activeTrend,
+        trendHistory: state.trendHistory,
+        nextTrendPoll: state.nextTrendPoll !== null ? Math.max(1, state.nextTrendPoll - state.totalPolls) : null,
         coalitionState: undefined,
         blocStatsHistory: [],
         postElectionStats: undefined,
@@ -1268,9 +1273,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         initialBlocStats: state.blocStats,
         // The below properties are cleared on a new campaign
         eventVariables: state.eventVariables, // Keep custom event variable logic
-        targetedBlocId: null,
-        targetingStartWeek: null,
-        targetingCooldownUntil: null,
+        targetedBlocId: state.targetedBlocId,
+        targetingStartWeek: state.targetingStartWeek != null ? state.targetingStartWeek - state.totalPolls : null,
+        targetingCooldownUntil: state.targetingCooldownUntil != null ? Math.max(0, state.targetingCooldownUntil - state.totalPolls) : null,
       };
     }
 
