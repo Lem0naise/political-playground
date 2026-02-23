@@ -196,7 +196,7 @@ export default function PartySelection() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © 2025-2026</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 1.3.2</p>
+            <p>Version 2.0.0</p>
           </div>
         </div>
       </div>

@@ -81,7 +81,7 @@ export function calculateCoalitionWillingness(
 
   // Adjust based on partner's strength
   if (partnerPercentage > 15) {
-    baseWillingness -= 20; // Larger parties are harder to convince
+    baseWillingness -= 10; // Larger parties are harder to convince
   } else if (partnerPercentage < 5) {
     baseWillingness += 5; // Smaller parties are more willing
   }
@@ -317,7 +317,7 @@ export function simulateCoalitionNegotiation(
   const compatibilityFactor = compatibility !== 0 ? Math.max(0, compatibility / 100) : 0;
   const scaledAppeal = (cabinetAppeal + policyAppeal) * compatibilityFactor;
 
-  const finalAppeal = baseWillingness + scaledAppeal;
+  let finalAppeal = baseWillingness + scaledAppeal;
 
   console.log('DEBUG: simulateCoalitionNegotiation', {
     leadParty: leadParty.party,
@@ -373,6 +373,11 @@ export function simulateCoalitionNegotiation(
     ];
     message = options[Math.floor(Math.random() * options.length)];
   }
+
+
+  // Add an RNG factor between -15 and +15 to introduce uncertainty
+  const rngFactor = (Math.random() * 30) - 15;
+  finalAppeal += rngFactor;
 
   return {
     success: finalAppeal >= 90,
