@@ -31,7 +31,7 @@ interface GameContextType {
     setPendingParties: (parties: any[]) => void;
     setGamePhase: (phase: GameState['phase']) => void;
     startCoalitionFormation: () => void;
-    addCoalitionPartner: (partner: Candidate) => void;
+    addCoalitionPartner: (partner: Candidate, positions?: string[]) => void;
     removePotentialPartner: (partner: Candidate) => void;
     allocateCabinetPosition: (position: string, party: string) => void;
     completeCoalitionFormation: () => void;
@@ -52,7 +52,7 @@ type GameAction =
   | { type: 'SET_PENDING_PARTIES'; payload: { parties: any[] } }
   | { type: 'SET_GAME_PHASE'; payload: { phase: GameState['phase'] } }
   | { type: 'START_COALITION_FORMATION' }
-  | { type: 'ADD_COALITION_PARTNER'; payload: { partner: Candidate } }
+  | { type: 'ADD_COALITION_PARTNER'; payload: { partner: Candidate; positions?: string[] } }
   | { type: 'REMOVE_POTENTIAL_PARTNER'; payload: { partner: Candidate } }
   | { type: 'ALLOCATE_CABINET_POSITION'; payload: { position: string; party: string } }
   | { type: 'COMPLETE_COALITION_FORMATION' }
@@ -1353,12 +1353,32 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
     }
 
-    case 'ADD_COALITION_PARTNER':
+    case 'ADD_COALITION_PARTNER': {
       if (!state.coalitionState) return state;
 
       const partnerResult = state.pollResults.find(r => r.candidate.id === action.payload.partner.id);
       const partnerPercentage = partnerResult ? partnerResult.percentage : 0;
       const newTotalPercentage = state.coalitionState.currentCoalitionPercentage + partnerPercentage;
+
+      const nextCabinetAllocations = { ...state.coalitionState.cabinetAllocations };
+
+      // Add offered positions if any
+      if (action.payload.positions) {
+        action.payload.positions.forEach(pos => {
+          if (!nextCabinetAllocations[pos]) {
+            nextCabinetAllocations[pos] = [];
+          }
+          nextCabinetAllocations[pos].push(action.payload.partner.party);
+        });
+      }
+
+      const isNowComplete = newTotalPercentage >= 50;
+      if (isNowComplete) {
+        const leadPartyId = state.coalitionState.coalitionPartners[0]?.party;
+        if (leadPartyId) {
+          autoAllocateUnfilledCabinetPositions(nextCabinetAllocations, leadPartyId);
+        }
+      }
 
       return {
         ...state,
@@ -1367,10 +1387,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           coalitionPartners: [...state.coalitionState.coalitionPartners, action.payload.partner],
           currentCoalitionPercentage: newTotalPercentage,
           availablePartners: state.coalitionState.availablePartners.filter(p => p.id !== action.payload.partner.id),
+          cabinetAllocations: nextCabinetAllocations,
           // If we reach 50%+, mark as complete instead of cabinet-negotiation
-          negotiationPhase: newTotalPercentage >= 50 ? 'complete' : 'partner-selection'
+          negotiationPhase: isNowComplete ? 'complete' : 'partner-selection'
         }
       };
+    }
 
     case 'REMOVE_POTENTIAL_PARTNER':
       if (!state.coalitionState) return state;
@@ -1522,8 +1544,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       dispatch({ type: 'START_COALITION_FORMATION' });
     }, []),
 
-    addCoalitionPartner: useCallback((partner: Candidate) => {
-      dispatch({ type: 'ADD_COALITION_PARTNER', payload: { partner } });
+    addCoalitionPartner: useCallback((partner: Candidate, positions?: string[]) => {
+      dispatch({ type: 'ADD_COALITION_PARTNER', payload: { partner, positions } });
     }, []),
 
     removePotentialPartner: useCallback((partner: Candidate) => {

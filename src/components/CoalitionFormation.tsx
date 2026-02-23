@@ -543,8 +543,8 @@ function CoalitionLog({ entries }: { entries: string[] }) {
     <div ref={ref} className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
       {entries.map((entry, i) => {
         const isMandate = entry.includes('mandate now passes') || entry.includes('minority government');
-        const isSuccess = /agrees to join|welcomed|agreement reached|joined|enthusiastically/i.test(entry);
-        const isReject = /rejected|declined|declines|better|failed|refused|broke down|gives up/i.test(entry);
+        const isSuccess = /agrees to join|welcomed|enter|agreement reached|joined|enthusiastically/i.test(entry);
+        const isReject = /rejected|declined|declines|better|failed|demands|walks away|refused|broke down|gives up/i.test(entry);
         return (
           <div
             key={i}
@@ -699,10 +699,7 @@ export default function CoalitionFormation() {
         actions.logCoalitionEvent(logResultMsg);
 
         if (result.success) {
-          actions.addCoalitionPartner(nextPartner.candidate);
-          result.cabinetPositions.forEach((pos: string) => {
-            actions.allocateCabinetPosition(pos, nextPartner.candidate.party);
-          });
+          actions.addCoalitionPartner(nextPartner.candidate, result.cabinetPositions);
         } else {
           actions.removePotentialPartner(nextPartner.candidate);
         }
@@ -752,8 +749,7 @@ export default function CoalitionFormation() {
       const logMsg = evaluation.message;
       actions.logCoalitionEvent(logMsg);
       if (evaluation.success) {
-        actions.addCoalitionPartner(playerResult.candidate);
-        positions.forEach(pos => actions.allocateCabinetPosition(pos, playerResult.candidate.party));
+        actions.addCoalitionPartner(playerResult.candidate, positions);
       } else {
         actions.removePotentialPartner(playerResult.candidate);
       }
@@ -1040,8 +1036,7 @@ export default function CoalitionFormation() {
                 : `${attemptingParty.party} → ${selectedPartner.party}: Negotiations failed.`;
               actions.logCoalitionEvent(logMsg);
               if (success) {
-                actions.addCoalitionPartner(selectedPartner);
-                positions.forEach(pos => actions.allocateCabinetPosition(pos, selectedPartner.party));
+                actions.addCoalitionPartner(selectedPartner, positions);
               } else {
                 actions.removePotentialPartner(selectedPartner);
               }
