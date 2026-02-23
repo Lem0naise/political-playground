@@ -90,13 +90,42 @@ export default function PartySelection() {
               </div>
 
               <div className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3 w-full sm:w-auto">
-                <div className="campaign-status text-xs text-slate-300">
-                  {selectedLists.length} list{selectedLists.length === 1 ? '' : 's'} selected
-                </div>
-                <div className="campaign-status text-sm text-yellow-400">
+
+                <div className="campaign-status text-sm text-yellow-400 mb-2">
                   {totalSelectedParties} parties queued
                 </div>
+                {selectedLists.length > 0 && (<div className="flex flex-wrap gap-2">
+                  {selectedLists.map(listName => (
+                    <span
+                      key={listName}
+                      className="px-2 py-1 text-xs rounded-full border border-yellow-500/40 bg-yellow-900/20 text-yellow-100"
+                    >
+                      {listName} • {partyLists[listName]?.length ?? 0}
+                    </span>
+                  ))}
+                </div>)}
               </div>
+
+            </div>
+
+
+
+
+            <div className="flex flex-col sm:flex-row justify-between gap-3">
+              <button
+                onClick={() => actions.resetGame()}
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition-colors duration-200 campaign-status text-sm"
+              >
+                ◄ Return to Map
+              </button>
+
+              <button
+                onClick={handleProceedToMerging}
+                disabled={selectedLists.length === 0}
+                className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-sm disabled:cursor-not-allowed"
+              >
+                {selectedLists.length > 0 ? 'Proceed to Party Merging' : 'Select Party Lists'}
+              </button>
             </div>
 
             <div className="relative">
@@ -162,38 +191,6 @@ export default function PartySelection() {
               })}
             </div>
 
-            {selectedLists.length > 0 && (
-              <div className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3">
-                <div className="campaign-status text-xs text-yellow-300 mb-2">Ready for merging</div>
-                <div className="flex flex-wrap gap-2">
-                  {selectedLists.map(listName => (
-                    <span
-                      key={listName}
-                      className="px-2 py-1 text-xs rounded-full border border-yellow-500/40 bg-yellow-900/20 text-yellow-100"
-                    >
-                      {listName} • {partyLists[listName]?.length ?? 0}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className="flex flex-col sm:flex-row justify-between gap-3">
-              <button
-                onClick={() => actions.resetGame()}
-                className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition-colors duration-200 campaign-status text-sm"
-              >
-                ◄ Return to Map
-              </button>
-
-              <button
-                onClick={handleProceedToMerging}
-                disabled={selectedLists.length === 0}
-                className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-sm disabled:cursor-not-allowed"
-              >
-                {selectedLists.length > 0 ? 'Proceed to Party Merging' : 'Select Party Lists'}
-              </button>
-            </div>
           </div>
 
           <div className="text-center text-xs text-slate-400 space-y-1">

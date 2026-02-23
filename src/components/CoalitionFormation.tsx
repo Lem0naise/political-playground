@@ -86,18 +86,18 @@ function NegotiationModal({
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-full border-2 border-white/30" style={{ backgroundColor: leadParty.colour }} />
         <div>
-          <div className="text-xs text-slate-400">Offering party</div>
+          <div className="text-xs text-slate-400"></div>
           <div className="font-bold text-white text-sm">{leadParty.party}</div>
-          <div className="text-xs text-slate-400">{leadPercentage.toFixed(1)}% seats</div>
+          <div className="text-xs text-slate-400">{leadPercentage.toFixed(1)}%</div>
         </div>
       </div>
-      <div className="text-slate-500 text-xl">↔</div>
-      <div className="flex items-center gap-2">
+      <div className="text-slate-500 text-xl"> → </div>
+      <div className="flex items-center gap-2 align-right">
         <div className="w-8 h-8 rounded-full border-2 border-white/30" style={{ backgroundColor: partnerParty.colour }} />
         <div>
-          <div className="text-xs text-slate-400">Sought partner</div>
+          <div className="text-xs text-slate-400"></div>
           <div className="font-bold text-white text-sm">{partnerParty.party}</div>
-          <div className="text-xs text-slate-400">{partnerPercentage.toFixed(1)}% seats</div>
+          <div className="text-xs text-slate-400">{partnerPercentage.toFixed(1)}%</div>
         </div>
       </div>
     </div>
@@ -158,33 +158,68 @@ function NegotiationModal({
       <div className={modalBase}>
         <div className={cardBase}>
           <PartyBar />
-          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-3">Cabinet Offer to {partnerParty.party}</h3>
+          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-3">Cabinet Positions Offer to {partnerParty.party}</h3>
           <p className="text-xs text-slate-400 mb-3">
-            Highlighted in blue = {partnerParty.party}'s priority positions.
+            Blue = {partnerParty.party}'s priority positions.
             Select positions to offer them.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
-            {availablePositions.map(position => (
-              <div
-                key={position.name}
-                onClick={() => {
-                  if (offeredPositions.includes(position.name)) {
-                    setOfferedPositions(offeredPositions.filter(p => p !== position.name));
-                  } else {
-                    setOfferedPositions([...offeredPositions, position.name]);
-                  }
-                }}
-                className={`p-2.5 border rounded-lg cursor-pointer transition-all ${offeredPositions.includes(position.name)
-                  ? 'border-green-500 bg-green-900/30 ring-1 ring-green-500/50'
-                  : priorityPositions.includes(position.name)
-                    ? 'border-blue-500 bg-blue-900/20'
-                    : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
-                  }`}
-              >
-                <div className="font-semibold text-white text-xs">{position.name}</div>
-                <div className="text-xs text-slate-400">Importance: {position.importance}</div>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-5">
+            {availablePositions.map(position => {
+              // 1. Determine dynamic sizing based on importance
+              let spanClass = "col-span-1";
+              let titleClass = "text-xs";
+              let padClass = "p-2 sm:p-3";
+
+              if (position.importance >= 30) {
+                // Top Tier (Deputy PM): Massive, spans multiple columns
+                spanClass = "col-span-2 sm:col-span-3 md:col-span-2";
+                titleClass = "text-md sm:text-base font-bold";
+
+              } else if (position.importance >= 20) {
+                // High Tier (Finance/Foreign): Large, spans 2 columns
+                spanClass = "col-span-2 sm:col-span-2";
+                titleClass = "text-sm font-semibold";
+
+              } else if (position.importance < 10) {
+                // Junior Tier: Very compact
+                spanClass = "col-span-1";
+                titleClass = "text-[10px] sm:text-xs font-medium";
+
+              } else {
+                // Mid Tier (Agriculture): Standard
+                spanClass = "col-span-1";
+                titleClass = "text-xs font-medium text-slate-100";
+
+              }
+
+              const isOffered = offeredPositions.includes(position.name);
+              const isPriority = priorityPositions.includes(position.name);
+
+              return (
+                <div
+                  key={position.name}
+                  onClick={() => {
+                    if (isOffered) {
+                      setOfferedPositions(offeredPositions.filter(p => p !== position.name));
+                    } else {
+                      setOfferedPositions([...offeredPositions, position.name]);
+                    }
+                  }}
+                  // 2. Apply the dynamic classes alongside your existing selection logic
+                  className={`${spanClass} ${padClass} flex flex-col justify-between border rounded-lg cursor-pointer transition-all ${isOffered
+                    ? 'border-green-500 bg-green-900/30 ring-1 ring-green-500/50'
+                    : isPriority
+                      ? 'border-blue-500 bg-blue-900/20'
+                      : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
+                    }`}
+                >
+                  <div className={`text-white leading-tight ${titleClass}`}>
+                    {position.name}
+                  </div>
+
+                </div>
+              );
+            })}
           </div>
           <div className="flex justify-between gap-3">
             <button
@@ -543,8 +578,8 @@ function CoalitionLog({ entries }: { entries: string[] }) {
     <div ref={ref} className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
       {entries.map((entry, i) => {
         const isMandate = entry.includes('mandate now passes') || entry.includes('minority government');
-        const isSuccess = /agrees to join|welcomed|enter|agreement reached|joined|enthusiastically/i.test(entry);
-        const isReject = /rejected|declined|declines|better|failed|demands|walks away|refused|broke down|gives up/i.test(entry);
+        const isSuccess = /agrees to join|welcomed|enter|agreement reached|joined|agreed|enthusiastically/i.test(entry);
+        const isReject = /rejected|declined|declines|better|failed|refuses|disapproves|demands|walks away|refused|more|refused|broke down|gives up/i.test(entry);
         return (
           <div
             key={i}
@@ -676,7 +711,14 @@ export default function CoalitionFormation() {
         delayTime = Math.floor(Math.random() * 1000) + 500; // 0.5s - 1.5s
       } else if (isBorderline) {
         delayTime = Math.floor(Math.random() * 2000) + 4000; // 4s - 6s
-        intermediateLog = `Sources report heated internal debates within ${nextPartner.candidate.party}...`;
+        const options = [
+          `Sources report heated internal debates within ${nextPartner.candidate.party}...`,
+          `${nextPartner.candidate.party} is weighing the political cost of this alliance...`,
+          `Backbenchers in ${nextPartner.candidate.party} are expressing concerns...`,
+          `Negotiations with ${nextPartner.candidate.party} have hit a temporary stalemate...`,
+          `${nextPartner.candidate.party} leadership is split on the proposed terms...`
+        ];
+        intermediateLog = options[Math.floor(Math.random() * options.length)];
       } else if (isEasy) {
         delayTime = Math.floor(Math.random() * 1000) + 1500; // 1.5s - 2.5s
       } else {

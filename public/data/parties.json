@@ -3162,7 +3162,7 @@
             "prog_cons": -45,
             "nat_glob": 35,
             "env_eco": -30,
-            "soc_cap": -90,
+            "soc_cap": -40,
             "pac_mil": -15,
             "auth_ana": 10,
             "rel_sec": 60,

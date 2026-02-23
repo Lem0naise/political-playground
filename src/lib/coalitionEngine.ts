@@ -164,29 +164,23 @@ export function getPartyPriorityPositions(candidate: Candidate): string[] {
   // Every party wants Deputy Prime Minister
   priorities.push('Deputy Prime Minister')
   // soc_cap (socialist-capitalist): index 3
-  if (vals[3] > -30) {
-    priorities.push('Finance Minister', 'Junior Ministers');
-  } else if (vals[3] < 30) {
-    priorities.push('Finance Minister', 'Transport Minister');
+  if (Math.abs(vals[3]) > 20) {
+    priorities.push('Finance', 'Transport', 'Junior Ministers');
   }
 
   // env_eco (environmental-economic): index 2
-  if (vals[2] < -20) {
-    priorities.push('Environment Minister');
+  if (Math.abs(vals[2]) > 20) {
+    priorities.push('Environment', 'Energy', 'Housing', 'Agriculture');
   }
 
   // pac_mil (pacifist-militarist): index 4
-  if (vals[4] < -30) {
-    priorities.push('Foreign Minister');
-  } else if (vals[4] > 30) {
-    priorities.push('Defence Minister', 'Foreign Minister');
+  if (Math.abs(vals[4]) > 20) {
+    priorities.push('Defence', 'Foreign');
   }
 
   // prog_cons (progressive-conservative): index 0
-  if (vals[0] < -20) {
-    priorities.push('Education Minister', 'Health Minister');
-  } else if (vals[0] > 20) {
-    priorities.push('Interior Minister', 'Justice Minister');
+  if (Math.abs(vals[0]) > 20) {
+    priorities.push('Education', 'Health', 'Interior', 'Justice');
   }
 
   // Default fallback positions
@@ -344,7 +338,7 @@ export function simulateCoalitionNegotiation(
   if (finalAppeal > 100) {
     const options = [
       `${partnerParty.party} agrees to join the coalition!`,
-      `${partnerParty.party} enthusiastically accepts your offer to form a government!`,
+      `${partnerParty.party} enthusiastically accepts the offer to form a government!`,
       `A deal is struck! ${partnerParty.party} will join the coalition.`,
       `Excellent news! ${partnerParty.party} is fully on board with the coalition.`
     ];
@@ -355,14 +349,14 @@ export function simulateCoalitionNegotiation(
       `${partnerParty.party} agrees to join the coalition after very careful consideration.`,
       `After intense internal debate, ${partnerParty.party} has decided to enter the coalition.`,
       `${partnerParty.party} accepts the coalition terms, though with some minor reservations.`,
-      `It was a close call, but ${partnerParty.party} has agreed to form a government with you.`
+      `It was a close call, but ${partnerParty.party} has agreed to form a government.`
     ];
     message = options[Math.floor(Math.random() * options.length)];
 
   } else if (finalAppeal > 40) {
     const options = [
       `${partnerParty.party} disapproves of the coalition terms.`,
-      `${partnerParty.party} might be open to a coalition, but demands further concessions.`,
+      `${partnerParty.party} might be open to a coalition, but backbenchers sabotage the deal.`,
       `The offer is a good starting point, but ${partnerParty.party} wants more.`,
       `${partnerParty.party} remains against the coalition and is looking around for a better deal.`
     ];
@@ -375,7 +369,7 @@ export function simulateCoalitionNegotiation(
       `${partnerParty.party} declines, citing fundamental disagreements on ${biggestDiff}.`,
       `Talks have collapsed. ${partnerParty.party} refuses to compromise their stance on ${biggestDiff}.`,
       `${partnerParty.party} walks away from the table due to irreconcilable differences regarding ${biggestDiff}.`,
-      `The coalition offer is rejected outright. ${partnerParty.party} strongly opposes your position on ${biggestDiff}.`
+      `The coalition offer is rejected outright. ${partnerParty.party} strongly opposes the position on ${biggestDiff}.`
     ];
     message = options[Math.floor(Math.random() * options.length)];
   }

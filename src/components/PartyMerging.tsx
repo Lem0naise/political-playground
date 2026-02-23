@@ -121,93 +121,18 @@ export default function PartyMerging() {
     initializeNextMerge(remainingCandidates);
   };
 
-  const handleFinish = () => {
-    actions.setPartyList('Custom Coalition', parties);
-    actions.setGamePhase('player-selection');
-  };
+  useEffect(() => {
+    if (!currentMerge && parties.length > 0) {
+      actions.setPartyList('Custom Coalition', parties);
+      actions.setGamePhase('player-selection');
+    }
+  }, [currentMerge, parties, actions]);
 
   if (!currentMerge) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
-        <div className="w-full max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
-          <div className="flex flex-col gap-6">
-            <div className="text-center space-y-4">
-              <div className="flex justify-center">
-                <a
-                  href="https://indigo.spot"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="campaign-status text-xs sm:text-sm text-yellow-300 bg-slate-900/40 border border-yellow-500/40 rounded-full px-3 py-1 hover:text-yellow-200 transition-colors"
-                >
-                  Built by Indigo
-                </a>
-              </div>
-              <h1 className="newspaper-header text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-                COALITION READY
-              </h1>
-              <p className="campaign-status text-xs sm:text-sm text-red-200 tracking-[0.35em]">
-                {state.country || 'UNASSIGNED'} • OPPOSITION CONFIGURED
-              </p>
-            </div>
-
-            <div className="campaign-board p-5 sm:p-6 lg:p-8 rounded-xl space-y-6">
-              <div className="space-y-1 text-center">
-                <h2 className="campaign-status text-lg sm:text-xl text-yellow-400">
-                  Final Opposition Lineup
-                </h2>
-                <p className="text-slate-300 text-xs sm:text-sm">
-                  {parties.length} part{parties.length === 1 ? 'y' : 'ies'} stand ready for the next stage. Pick your banner and lead the coalition.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {parties.map((party, index) => (
-                  <div
-                    key={`${party.party}-${index}`}
-                    className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3 text-left"
-                  >
-                    <div className="flex items-start gap-3">
-                      <span
-                        className="inline-flex w-3 h-3 rounded-full border border-white/70"
-                        style={{ backgroundColor: party.colour || 'transparent' }}
-                      ></span>
-                      <div className="min-w-0">
-                        <div className="newspaper-header text-lg font-bold leading-tight text-slate-100 truncate">
-                          {party.party}
-                        </div>
-                        <div className="text-xs text-slate-300 truncate">{party.name}</div>
-                        <div className="text-[0.65rem] text-slate-400 mt-1">
-                          Support {(party.party_pop * 100).toFixed(1)}%
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-3">
-                <button
-                  onClick={() => actions.resetGame()}
-                  className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition-colors duration-200 campaign-status text-sm"
-                >
-                  ◄ Return to Map
-                </button>
-
-                <button
-                  onClick={handleFinish}
-                  className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-sm"
-                >
-                  Go to choosing or create a custom party
-                </button>
-              </div>
-            </div>
-
-            <div className="text-center text-xs text-slate-400 space-y-1">
-              <p>Political Playground © {currentYear}</p>
-              <p>Fictional simulator. No real-world endorsement or advice.</p>
-              <p>Version 1.3.2</p>
-            </div>
-          </div>
+        <div className="campaign-status text-yellow-400 text-xl animate-pulse">
+          Preparing Final Opposition Array...
         </div>
       </div>
     );

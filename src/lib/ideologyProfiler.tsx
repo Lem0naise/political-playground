@@ -150,13 +150,12 @@ export function getIdeologyProfile(vals: number[]) {
     return true;
   });
 
-  // Font sizes for descending order
   const fontSizes = [
+    "text-2xl sm:text-3xl", // Bumped up the top size slightly for a better "cloud" contrast
     "text-xl sm:text-2xl",
     "text-lg sm:text-xl",
     "text-base sm:text-lg",
-    "text-sm sm:text-base",
-    "text-xs sm:text-sm"
+    "text-sm sm:text-base"
   ];
 
   return (
@@ -167,16 +166,18 @@ export function getIdeologyProfile(vals: number[]) {
           Political Profile
         </div>
       </div>
-      <ul className="flex flex-col gap-1">
+
+      {/* Word Cloud Container */}
+      <div className="flex flex-wrap items-baseline justify-center gap-x-4 gap-y-2 text-center py-2">
         {filtered.map((d, i) => (
-          <li
+          <span
             key={d.key}
-            className={`font-mono font-black uppercase tracking-wider ${d.color} ${fontSizes[i] || "text-xs"}`}
+            className={`inline-block font-mono font-black uppercase tracking-wider transition-transform hover:scale-110 cursor-default ${d.color} ${fontSizes[i] || "text-xs"}`}
           >
             {d.desc}
-          </li>
+          </span>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

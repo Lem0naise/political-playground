@@ -91,26 +91,66 @@ export default function MainMenu() {
                 </p>
               </div>
 
-              <div className="w-full sm:w-auto bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="campaign-status text-xs text-slate-300">
-                    Campaign Length
-                  </span>
-                  <span className="campaign-status text-sm text-yellow-400">
-                    {totalPolls} wks
-                  </span>
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
+
+                <div className="w-full sm:w-auto bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="campaign-status text-xs text-slate-300">
+                      Campaign Length
+                    </span>
+                    <span className="campaign-status text-sm text-yellow-400">
+                      {totalPolls} wks
+                    </span>
+                  </div>
+                  <input
+                    id="weeks-slider"
+                    type="range"
+                    min={4}
+                    max={104}
+                    step={1}
+                    value={totalPolls}
+                    onChange={e => setTotalPolls(Number(e.target.value))}
+                    className="mt-2 w-full accent-yellow-400"
+                  />
+
                 </div>
-                <input
-                  id="weeks-slider"
-                  type="range"
-                  min={4}
-                  max={104}
-                  step={1}
-                  value={totalPolls}
-                  onChange={e => setTotalPolls(Number(e.target.value))}
-                  className="mt-2 w-full accent-yellow-400"
-                />
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={handleCountrySelect}
+                    disabled={!selectedCountry}
+                    className="flex-1 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base disabled:cursor-not-allowed"
+                  >
+                    {selectedCountry ? `Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
+                  </button>
+
+                  <label className="sm:w-1/3 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base cursor-pointer">
+                    Load Save
+                    <input
+                      type="file"
+                      accept=".json"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (ev) => {
+                            try {
+                              const state = JSON.parse(ev.target?.result as string);
+                              actions.loadState(state);
+                            } catch (e) {
+                              alert('Invalid save file');
+                            }
+                          };
+                          reader.readAsText(file);
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
+
+
             </div>
 
             <div className="relative">
@@ -165,39 +205,7 @@ export default function MainMenu() {
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={handleCountrySelect}
-                disabled={!selectedCountry}
-                className="flex-1 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base disabled:cursor-not-allowed"
-              >
-                {selectedCountry ? `Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
-              </button>
 
-              <label className="sm:w-1/3 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base cursor-pointer">
-                Load Save
-                <input
-                  type="file"
-                  accept=".json"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onload = (ev) => {
-                        try {
-                          const state = JSON.parse(ev.target?.result as string);
-                          actions.loadState(state);
-                        } catch (e) {
-                          alert('Invalid save file');
-                        }
-                      };
-                      reader.readAsText(file);
-                    }
-                  }}
-                />
-              </label>
-            </div>
           </div>
 
           <div className="text-center text-xs text-slate-400 space-y-1">

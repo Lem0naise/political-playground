@@ -49,19 +49,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: -1,
     directionLabel: 'toward stricter borders',
     axisLabel: 'national identity',
-    shiftRange: [7, 12],
+    shiftRange: [7, 20],
     durationRange: [4, 6],
     startTemplates: [
-      'TREND ALERT: {title} sweeps the nation — {description}',
-      'TREND ALERT: {title} pushes public mood {directionLabel}; strategists expect {duration}-week turbulence.'
+      'Public Opinion: {title} sweeps the nation — {description}',
+      'Public Opinion: {title} pushes public mood {directionLabel}; strategists expect {duration}-week turbulence.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps nudging voters {directionLabel}; {axisLabel} index now {currentValue}.',
-      'Talkback callers drive a {shiftAbs}-point drift {directionLabel} on the {axisLabel} axis.'
+      'Trend Watch: {title} keeps nudging voters {directionLabel}',
+      'Talkback callers drive a drift {directionLabel} on the {axisLabel} axis.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} leaves a {totalShiftAbs}-point legacy {directionLabel}.',
-      '{title} settles after {duration} hectic weeks, cementing a {totalShiftAbs}-point shift {directionLabel}.'
+      'Trend Cools: {title} leaves a legacy {directionLabel}.',
+      '{title} settles after {duration} hectic weeks, cementing a shift {directionLabel}.'
     ]
   },
   {
@@ -72,7 +72,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: 1,
     directionLabel: 'toward open borders',
     axisLabel: 'national identity',
-    shiftRange: [6, 11],
+    shiftRange: [6, 21],
     durationRange: [3, 5],
     startTemplates: [
       'TREND ALERT: {title} bursts onto the scene — {description}',
@@ -95,7 +95,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: -1,
     directionLabel: 'toward environmental action',
     axisLabel: 'climate-policy',
-    shiftRange: [8, 13],
+    shiftRange: [8, 23],
     durationRange: [4, 6],
     startTemplates: [
       'TREND ALERT: {title} grips voters — {description}',
@@ -118,19 +118,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: 1,
     directionLabel: 'toward industrial growth',
     axisLabel: 'climate-policy',
-    shiftRange: [6, 10],
+    shiftRange: [6, 20],
     durationRange: [3, 5],
     startTemplates: [
       'TREND ALERT: {title} takes hold — {description}',
       'TREND ALERT: {title} pulls the debate {directionLabel} through the next {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps voters eyeing factories; index now {currentValue}.',
-      'Business press drives another {shiftAbs}-point bump {directionLabel} on the {axisLabel} axis.'
+      'Trend Watch: {title} keeps voters eyeing factories',
+      'Business press drives another shift {directionLabel} on the {axisLabel} axis.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} leaves a {totalShiftAbs}-point footprint {directionLabel}.',
-      '{title} completes its arc, banking {totalShiftAbs} points {directionLabel}.'
+      'Trend Cools: {title} leaves a significant footprint {directionLabel}.',
+      '{title} completes its arc, banking a shift {directionLabel}.'
     ]
   },
   {
@@ -141,7 +141,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: -1,
     directionLabel: 'toward worker protections',
     axisLabel: 'economic model',
-    shiftRange: [7, 12],
+    shiftRange: [7, 22],
     durationRange: [4, 6],
     startTemplates: [
       'TREND ALERT: {title} surges — {description}',
@@ -164,19 +164,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: 1,
     directionLabel: 'toward free-market reforms',
     axisLabel: 'economic model',
-    shiftRange: [6, 11],
+    shiftRange: [6, 21],
     durationRange: [3, 5],
     startTemplates: [
       'TREND ALERT: {title} catches fire — {description}',
       'TREND ALERT: {title} drifts sentiment {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps investors bullish; index now {currentValue}.',
-      'Business sections tout another {shiftAbs}-point sway {directionLabel} on the {axisLabel} front.'
+      'Trend Watch: {title} keeps investors bullish',
+      'Business sections tout another shift {directionLabel} on the {axisLabel} front.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} settles after {duration} weeks with a {totalShiftAbs}-point shift {directionLabel}.',
-      '{title} fades, banking {totalShiftAbs} points {directionLabel}.'
+      'Trend Cools: {title} settles after {duration} weeks with a significant shift {directionLabel}.',
+      '{title} fades, banking a shift {directionLabel}.'
     ]
   },
   {
@@ -187,19 +187,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: 1,
     directionLabel: 'toward hawkish security',
     axisLabel: 'security posture',
-    shiftRange: [7, 12],
+    shiftRange: [7, 22],
     durationRange: [4, 6],
     startTemplates: [
       'TREND ALERT: {title} shakes the cabinet — {description}',
       'TREND ALERT: {title} drives discourse {directionLabel} for the next {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps defence boards on edge; security index now {currentValue}.',
-      'War room briefings spur another {shiftAbs}-point march {directionLabel}.'
+      'Trend Watch: {title} keeps defence boards on edge',
+      'War room briefings spur another shift {directionLabel}.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} concludes with a {totalShiftAbs}-point tilt {directionLabel}.',
-      '{title} winds down, entrenching {totalShiftAbs} points {directionLabel}.'
+      'Trend Cools: {title} concludes with a significant tilt {directionLabel}.',
+      '{title} winds down, entrenching a shift {directionLabel}.'
     ]
   },
   {
@@ -210,19 +210,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: -1,
     directionLabel: 'toward demilitarisation',
     axisLabel: 'security posture',
-    shiftRange: [6, 10],
+    shiftRange: [6, 20],
     durationRange: [3, 5],
     startTemplates: [
       'TREND ALERT: {title} sweeps campuses — {description}',
       'TREND ALERT: {title} reorients debate {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps voters chanting {directionLabel}; security index now {currentValue}.',
-      'Whistleblower leaks add another {shiftAbs}-point drift {directionLabel}.'
+      'Trend Watch: {title} keeps voters chanting {directionLabel}',
+      'Whistleblower leaks add another shift {directionLabel}.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} leaves a {totalShiftAbs}-point imprint {directionLabel}.',
-      '{title} closes after {duration} weeks, banking {totalShiftAbs} points {directionLabel}.'
+      'Trend Cools: {title} leaves a significant imprint {directionLabel}.',
+      '{title} closes after {duration} weeks, banking a shift {directionLabel}.'
     ]
   },
   {
@@ -233,19 +233,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: -1,
     directionLabel: 'toward law-and-order authority',
     axisLabel: 'civil liberty',
-    shiftRange: [6, 11],
+    shiftRange: [6, 21],
     durationRange: [4, 6],
     startTemplates: [
       'TREND ALERT: {title} dominates tabloids — {description}',
       'TREND ALERT: {title} drags sentiment {directionLabel} for the next {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} tightens attitudes {directionLabel}; civil liberty index now {currentValue}.',
-      'Police unions claim another {shiftAbs}-point shove {directionLabel}.'
+      'Trend Watch: {title} tightens attitudes {directionLabel}',
+      'Police unions claim another shift {directionLabel}.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} settles after {duration} weeks with a {totalShiftAbs}-point move {directionLabel}.',
-      '{title} wraps, leaving voters {directionLabel} by {totalShiftAbs} points.'
+      'Trend Cools: {title} settles after {duration} weeks with a significant move {directionLabel}.',
+      '{title} wraps, leaving voters {directionLabel} by a significant margin.'
     ]
   },
   {
@@ -256,19 +256,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: 1,
     directionLabel: 'toward civil liberties',
     axisLabel: 'civil liberty',
-    shiftRange: [6, 10],
+    shiftRange: [6, 20],
     durationRange: [3, 5],
     startTemplates: [
       'TREND ALERT: {title} lights up social media — {description}',
       'TREND ALERT: {title} turns the spotlight {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps rallies growing; index now {currentValue}.',
-      'Rights advocates notch another {shiftAbs}-point gain {directionLabel}.'
+      'Trend Watch: {title} keeps rallies growing',
+      'Rights advocates notch another shift {directionLabel}.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} leaves institutions {directionLabel} by {totalShiftAbs} points.',
-      '{title} closes after {duration} weeks, locking in {totalShiftAbs} points {directionLabel}.'
+      'Trend Cools: {title} leaves institutions {directionLabel} by a significant margin.',
+      '{title} closes after {duration} weeks, locking in a shift {directionLabel}.'
     ]
   },
   {
@@ -279,19 +279,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: -1,
     directionLabel: 'toward religious values',
     axisLabel: 'cultural identity',
-    shiftRange: [7, 12],
+    shiftRange: [7, 22],
     durationRange: [4, 6],
     startTemplates: [
       'TREND ALERT: {title} fills town squares — {description}',
       'TREND ALERT: {title} swings discourse {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps pulpits buzzing; cultural index now {currentValue}.',
-      'Pilgrimages spark another {shiftAbs}-point surge {directionLabel}.'
+      'Trend Watch: {title} keeps pulpits buzzing',
+      'Pilgrimages spark another shift {directionLabel}.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} settles with a {totalShiftAbs}-point imprint {directionLabel}.',
-      '{title} finishes its run, leaving the axis {directionLabel} by {totalShiftAbs} points.'
+      'Trend Cools: {title} settles with a significant imprint {directionLabel}.',
+      '{title} finishes its run, leaving the axis {directionLabel} by a significant margin.'
     ]
   },
   {
@@ -302,19 +302,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: 1,
     directionLabel: 'toward secular values',
     axisLabel: 'cultural identity',
-    shiftRange: [6, 10],
+    shiftRange: [6, 20],
     durationRange: [3, 5],
     startTemplates: [
       'TREND ALERT: {title} hits parliament — {description}',
       'TREND ALERT: {title} edges sentiment {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps classrooms buzzing; index now {currentValue}.',
-      'Academic summits add another {shiftAbs}-point swing {directionLabel}.'
+      'Trend Watch: {title} keeps classrooms buzzing',
+      'Academic summits add another shift {directionLabel}.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} locks in {totalShiftAbs} points {directionLabel}.',
-      '{title} winds down after {duration} weeks, cementing a {totalShiftAbs}-point move {directionLabel}.'
+      'Trend Cools: {title} locks in a shift {directionLabel}.',
+      '{title} winds down after {duration} weeks, cementing a move {directionLabel}.'
     ]
   },
   {
@@ -325,19 +325,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: -1,
     directionLabel: 'toward progressive ideals',
     axisLabel: 'cultural values',
-    shiftRange: [7, 12],
+    shiftRange: [7, 22],
     durationRange: [4, 6],
     startTemplates: [
       'TREND ALERT: {title} surges — {description}',
       'TREND ALERT: {title} steers debate {directionLabel} through {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps activists mobilised; values index now {currentValue}.',
-      'Petitions deliver another {shiftAbs}-point drop {directionLabel} on the {axisLabel} scale.'
+      'Trend Watch: {title} keeps activists mobilised',
+      'Petitions deliver another shift {directionLabel} on the {axisLabel} scale.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} caps a {totalShiftAbs}-point pivot {directionLabel}.',
-      '{title} winds down, locking in {totalShiftAbs} points {directionLabel}.'
+      'Trend Cools: {title} caps a significant pivot {directionLabel}.',
+      '{title} winds down, locking in a shift {directionLabel}.'
     ]
   },
   {
@@ -348,19 +348,19 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     direction: 1,
     directionLabel: 'toward conservative nostalgia',
     axisLabel: 'cultural values',
-    shiftRange: [6, 11],
+    shiftRange: [6, 21],
     durationRange: [3, 5],
     startTemplates: [
       'TREND ALERT: {title} sweeps heritage festivals — {description}',
       'TREND ALERT: {title} nudges conversations {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Trend Watch: {title} keeps voters reminiscing; values index now {currentValue}.',
-      'Cultural galas add another {shiftAbs}-point climb {directionLabel}.'
+      'Trend Watch: {title} keeps voters reminiscing',
+      'Cultural galas add another shift {directionLabel}.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} leaves a {totalShiftAbs}-point imprint {directionLabel}.',
-      '{title} concludes, preserving {totalShiftAbs} points {directionLabel}.'
+      'Trend Cools: {title} leaves a significant imprint {directionLabel}.',
+      '{title} concludes, preserving a shift {directionLabel}.'
     ]
   }
 ];
@@ -869,7 +869,7 @@ const RANDOM_NEWS_EVENTS = [
   "JOB GAP WIDENS: UNEMPLOYMENT AT 4.2% IN RUST BELT, 7.8% IN CAPITAL",
   "BUSINESS CONFIDENCE HITS 18-MONTH HIGH AFTER DEREGULATION MOVES",
   "HOME PRICES SOAR TO 847K AVERAGE; GOV'T DEBATES FOREIGN BUYER TAX",
-  "TRADE TALKS WITH EAST PACIFIC BLOC STALL OVER DISPUTED FISHING RIGHTS",
+  "TRADE TALKS WITH {foreign_country} STALL OVER DISPUTED FISHING RIGHTS",
   "'SILICON STEPPE' TECH JOBS GROW 15%; TRADITIONAL MANUFACTURING STAGNATES",
   "INFLATION SPIKES 0.9% IN A MONTH AS PORT STRIKE DRIVES UP ENERGY COSTS",
   "DIPLOMATIC ROW OVER IP TRIGGERS NEW 20% TARIFF ON FARM EXPORTS",
