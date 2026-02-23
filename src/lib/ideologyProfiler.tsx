@@ -1,4 +1,38 @@
-import { VALUES, PoliticalValues } from '@/types/game';
+import { VALUES, PoliticalValues, Candidate } from '@/types/game';
+
+/**
+ * Calculates the weighted average ideology of a group of parties (e.g. a coalition).
+ * Uses the provided percentages (seat share or vote share) to weight the results.
+ */
+export function calculateWeightedIdeology(
+  partners: Candidate[],
+  percentages: Record<string, number>
+): number[] {
+  const coalitionValues: number[] = new Array(VALUES.length).fill(0);
+  let totalWeight = 0;
+
+  partners.forEach(partner => {
+    const weight = percentages[partner.party] || 0;
+    totalWeight += weight;
+
+    VALUES.forEach((_, index) => {
+      // Use 50 as neutral fallback if values are missing
+      coalitionValues[index] += (partner.vals[index] ?? 50) * weight;
+    });
+  });
+
+  if (totalWeight > 0) {
+    VALUES.forEach((_, index) => {
+      coalitionValues[index] = coalitionValues[index] / totalWeight;
+    });
+  } else {
+    // If no weight (shouldn't happen), default to neutral 50s
+    return new Array(VALUES.length).fill(50);
+  }
+
+  return coalitionValues;
+}
+
 
 
 export const DESCRIPTORS: Record<string, Record<string, string | null>> = {

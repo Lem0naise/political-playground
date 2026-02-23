@@ -8824,8 +8824,8 @@
         ]
     },
     {
-        "title": "Border Skirmish with {neighbor_country}",
-        "description": "Troops from {neighbor_country} fired shots across the border near {region}. One of our soldiers was wounded.",
+        "title": "Border Skirmish with {foreign_country}",
+        "description": "Troops from {foreign_country} fired shots across the border near {region}. One of our soldiers was wounded.",
         "choices": [
             {
                 "text": "Retaliate with airstrikes on their outposts.",
@@ -9167,7 +9167,7 @@
     },
     {
         "title": "Pandemic in {region}",
-        "description": "A new strain of {disease} has appeared in {region}. Hospitals are filling up.",
+        "description": "A new strain of a disease has appeared in {region}. Hospitals are filling up.",
         "choices": [
             {
                 "text": "Quarantine the entire region immediately.",
@@ -9432,8 +9432,8 @@
         ]
     },
     {
-        "title": "Terror Plot in {capital}",
-        "description": "Intelligence suggests a plot to bomb the subway in {capital}. Action needed.",
+        "title": "Terror Plot in the Capital",
+        "description": "Intelligence suggests a plot to bomb the subway in {region}. Action needed.",
         "choices": [
             {
                 "text": "Deploy military to streets; heightened surveillance.",
@@ -9851,7 +9851,7 @@
     },
     {
         "title": "University Censorship",
-        "description": "Students at {university} blocked a controversial speaker from entering campus.",
+        "description": "Students at a northern university blocked a controversial speaker from entering campus.",
         "choices": [
             {
                 "text": "Threaten to cut funding if speech is blocked.",
@@ -10230,8 +10230,8 @@
         ]
     },
     {
-        "title": "Deepfake of {politician}",
-        "description": "A convincing AI video shows {politician} saying racist slurs. It's fake, but damage is done.",
+        "title": "Deepfake of major celebrity",
+        "description": "A convincing AI video shows a celebrity saying racist slurs. It's fake, but damage is done.",
         "choices": [
             {
                 "text": "Ban deepfake technology entirely.",

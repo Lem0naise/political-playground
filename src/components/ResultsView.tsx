@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
 import { VALUES } from '@/types/game';
-import { DESCRIPTORS, getIdeologyProfile } from '@/lib/ideologyProfiler';
+import { DESCRIPTORS, getIdeologyProfile, calculateWeightedIdeology } from '@/lib/ideologyProfiler';
 import { CABINET_POSITIONS } from '@/types/game';
 import CabinetView from './CabinetView';
 import PollingGraphModal from './PollingGraphModal';
@@ -132,24 +132,9 @@ export default function ResultsView() {
 
               {/* Coalition Ideology Descriptor */}
               {(() => {
-                // Calculate average ideology of coalition
-                const coalitionValues: number[] = new Array(VALUES.length).fill(0);
-                let totalWeight = 0;
-
-                state.coalitionState.coalitionPartners.forEach(partner => {
-                  const result = sortedResults.find(r => r.candidate.id === partner.id);
-                  const weight = result?.percentage || 0;
-                  totalWeight += weight;
-
-                  VALUES.forEach((_, index) => {
-                    coalitionValues[index] += (partner.vals[index] || 50) * weight;
-                  });
-                });
-
-                // Normalize by total weight
-                VALUES.forEach((_, index) => {
-                  coalitionValues[index] = coalitionValues[index] / totalWeight;
-                });
+                const pollResultMap: Record<string, number> = {};
+                sortedResults.forEach(r => pollResultMap[r.candidate.party] = r.percentage);
+                const coalitionValues = calculateWeightedIdeology(state.coalitionState.coalitionPartners, pollResultMap);
 
                 return (
                   <div className="mt-3 p-2 bg-slate-700/30 border border-slate-600 rounded">

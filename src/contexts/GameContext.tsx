@@ -14,7 +14,7 @@ import {
 } from '@/lib/gameEngine';
 import { calculatePartyCompatibility, autoAllocateUnfilledCabinetPositions } from '@/lib/coalitionEngine';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
-import { getIdeologyDescriptors } from '@/lib/ideologyProfiler';
+import { getIdeologyDescriptors, calculateWeightedIdeology } from '@/lib/ideologyProfiler';
 
 interface GameContextType {
   state: GameState;
@@ -1194,29 +1194,20 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       // Generate Government Formation News
       const govNews: string[] = [];
       if (newGovCandidates.length > 0) {
-        const coalitionValues: number[] = new Array(VALUES.length).fill(0);
-        let totalWeight = 0;
+        const pollResultMap: Record<string, number> = {};
+        currentPollResults.forEach(r => pollResultMap[r.candidate.party] = r.percentage);
 
-        newGovCandidates.forEach(partner => {
-          const result = currentPollResults.find(r => r.candidate.id === partner.id);
-          const weight = result?.percentage || 1;
-          totalWeight += weight;
-
-          VALUES.forEach((_, index) => {
-            coalitionValues[index] += (partner.vals[index] || 0) * weight;
-          });
-        });
-
-        if (totalWeight > 0) {
-          VALUES.forEach((_, index) => {
-            coalitionValues[index] = coalitionValues[index] / totalWeight;
-          });
-        }
+        const coalitionValues = calculateWeightedIdeology(newGovCandidates, pollResultMap);
 
         const descriptors = getIdeologyDescriptors(coalitionValues);
         // Descriptors are sorted by most prominent magnitude first
         let govDescriptor = "centrist";
-        if (descriptors.length > 0 && descriptors[0].desc) {
+        if (descriptors.length >= 3 && descriptors[0].desc && Math.random() < 0.7) {
+          govDescriptor = descriptors[0].desc + ", " + descriptors[1].desc;
+        } else if (descriptors.length >= 2 && descriptors[1].desc && Math.random() < 0.3) {
+          govDescriptor = descriptors[1].desc;
+        }
+        else if (descriptors.length > 0 && descriptors[0].desc) {
           govDescriptor = descriptors[0].desc;
         }
 
@@ -1229,16 +1220,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
             const changeTemplates = [
               `BREAKING: ${previousGov[0]} government falls, ${newLeadParty} forms new ${govDescriptor} ${govType}`,
               `BREAKING: ${newLeadParty} ousts ${previousGov[0]} to form new ${govDescriptor} ${govType}`,
-              `BREAKING: Power shift as ${newLeadParty} replaces ${previousGov[0]} administration`,
+              `BREAKING: Power shift as ${newLeadParty} replaces ${previousGov[0]} administration with new ${govDescriptor} ${govType}.`,
               `BREAKING: ${newLeadParty} takes control from ${previousGov[0]} in new ${govDescriptor} ${govType}`
             ];
             headline = changeTemplates[Math.floor(Math.random() * changeTemplates.length)];
           } else {
             const continueTemplates = [
-              `BREAKING: ${newLeadParty} government survives election`,
-              `BREAKING: ${newLeadParty} secures another term in power`,
-              `BREAKING: ${newLeadParty} retains control of the government`,
-              `BREAKING: ${newLeadParty} continues to govern`
+              `BREAKING: ${newLeadParty}'s ${govDescriptor} ${govType} survives election`,
+              `BREAKING: ${newLeadParty} secures another term in power with ${govDescriptor} administration`,
+              `BREAKING: ${newLeadParty} retains control with ${govDescriptor} ${govType}`,
+              `BREAKING: ${newLeadParty} continues to govern with ${govDescriptor} ${govType}`
             ];
             headline = continueTemplates[Math.floor(Math.random() * continueTemplates.length)];
           }
@@ -1246,7 +1237,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           const initialTemplates = [
             `BREAKING: ${newLeadParty} forms new ${govDescriptor} ${govType}`,
             `BREAKING: ${newLeadParty} takes office to lead new ${govDescriptor} administration`,
-            `BREAKING: New era begins as ${newLeadParty} forms ${govType}`,
+            `BREAKING: New era begins as ${newLeadParty} forms ${govDescriptor} ${govType}`,
             `BREAKING: ${newLeadParty} successfully forms ${govDescriptor} ${govType}`
           ];
           headline = initialTemplates[Math.floor(Math.random() * initialTemplates.length)];
