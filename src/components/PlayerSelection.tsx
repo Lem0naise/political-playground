@@ -17,6 +17,7 @@ export default function PlayerSelection() {
   const [showCreator, setShowCreator] = useState(false);
   const [creating, setCreating] = useState(false);
   const [editingPartyId, setEditingPartyId] = useState<number | null>(null);
+  const [confirmingDeleteId, setConfirmingDeleteId] = useState<number | null>(null);
   const [customParty, setCustomParty] = useState({
     party: '',
     name: '',
@@ -52,6 +53,31 @@ export default function PlayerSelection() {
       rel_sec: 0,
     });
     setEditingPartyId(null);
+  };
+
+  // Handle deleting a party
+  const handleDeleteParty = (candidateId: number) => {
+    if (state.candidates.length <= 1) return;
+    const updatedCandidates = state.candidates.filter(c => c.id !== candidateId);
+    actions.setPartyList(
+      'With Deleted Party',
+      updatedCandidates.map(c => ({
+        id: c.id,
+        name: c.name,
+        party: c.party,
+        party_pop: c.party_pop,
+        prog_cons: c.vals[0],
+        nat_glob: c.vals[1],
+        env_eco: c.vals[2],
+        soc_cap: c.vals[3],
+        pac_mil: c.vals[4],
+        auth_ana: c.vals[5],
+        rel_sec: c.vals[6],
+        colour: c.colour,
+        swing: c.swing || 0,
+      }))
+    );
+    setConfirmingDeleteId(null);
   };
 
   // Handle editing existing party with scroll
@@ -236,13 +262,47 @@ export default function PlayerSelection() {
                       </div>
                       <div className="text-xs text-slate-300 truncate">Led by {candidate.name}</div>
                     </div>
-                    <button
-                      onClick={() => handleEditParty(candidate)}
-                      className="campaign-status text-[0.65rem] px-2 py-1 border border-blue-400/60 text-blue-200 rounded hover:border-yellow-400 hover:text-yellow-200 transition-colors"
-                      title="Edit party"
-                    >
-                      Edit
-                    </button>
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      <button
+                        onClick={() => handleEditParty(candidate)}
+                        className="campaign-status text-[0.65rem] px-2 py-1 border border-blue-400/60 text-blue-200 rounded hover:border-yellow-400 hover:text-yellow-200 transition-colors"
+                        title="Edit party"
+                      >
+                        Edit
+                      </button>
+                      {confirmingDeleteId === candidate.id ? (
+                        <span className="flex items-center gap-1">
+                          <span className="campaign-status text-[0.6rem] text-red-300">Sure?</span>
+                          <button
+                            onClick={() => handleDeleteParty(candidate.id)}
+                            className="campaign-status text-[0.6rem] px-1.5 py-0.5 bg-red-700 hover:bg-red-600 text-white rounded transition-colors"
+                          >
+                            Yes
+                          </button>
+                          <button
+                            onClick={() => setConfirmingDeleteId(null)}
+                            className="campaign-status text-[0.6rem] px-1.5 py-0.5 border border-slate-500 text-slate-300 rounded hover:border-slate-300 transition-colors"
+                          >
+                            No
+                          </button>
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            if (availableCandidates <= 1) return;
+                            setConfirmingDeleteId(candidate.id);
+                          }}
+                          disabled={availableCandidates <= 1}
+                          className={`campaign-status text-[0.65rem] px-2 py-1 border rounded transition-colors ${availableCandidates <= 1
+                              ? 'border-slate-700 text-slate-600 cursor-not-allowed'
+                              : 'border-red-500/50 text-red-300 hover:border-red-400 hover:text-red-200'
+                            }`}
+                          title={availableCandidates <= 1 ? 'Cannot delete last party' : 'Delete party'}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   <div className="space-y-2">

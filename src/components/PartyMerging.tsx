@@ -1,50 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useGame } from '@/contexts/GameContext';
-import { findMergeCandidates, mergeParties, type Party, type MergeCandidate } from '@/lib/partyMerger';
+import { findMergeCandidates, mergeParties, generateMergedPartyNames, type Party, type MergeCandidate } from '@/lib/partyMerger';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
-
-
-// Helper to generate better party name suggestions
-function generatePartyNameSuggestions(p1: Party, p2: Party): string[] {
-  const names = [
-    // Retain either party's name
-    p1.party,
-    p2.party,
-    // Acronym of both names
-    [p1.party, p2.party].map(n => n.split(/\s+/).map(w => w[0]).join('')).join('-'),
-    // Blend: first word of p1 + last word of p2
-    `${p1.party.split(' ')[0]} ${p2.party.split(' ').slice(-1)[0]}`,
-    // "Alliance" or "Coalition" suffix
-    `${p1.party}-${p2.party} Bloc`,
-    `${p1.party} & ${p2.party} Coalition`,
-    // Shortest unique word from each
-    (() => {
-      const p1w = p1.party.split(' ').sort((a, b) => a.length - b.length)[0];
-      const p2w = p2.party.split(' ').sort((a, b) => a.length - b.length)[0];
-      return `${p1w} ${p2w} Alliance`;
-    })(),
-    // Longest unique word from each
-    (() => {
-      const p1w = p1.party.split(' ').sort((a, b) => b.length - a.length)[0];
-      const p2w = p2.party.split(' ').sort((a, b) => b.length - a.length)[0];
-      return `${p1w} ${p2w} Party`;
-    })(),
-    // Shortest unique word from each
-    (() => {
-      const p1w = p1.party.split(' ').sort((a, b) => a.length - b.length)[0];
-      const p2w = p2.party.split(' ').sort((a, b) => a.length - b.length)[0];
-      return `${p2w} ${p1w} Alliance`;
-    })(),
-    // Longest unique word from each
-    (() => {
-      const p1w = p1.party.split(' ').sort((a, b) => b.length - a.length)[0];
-      const p2w = p2.party.split(' ').sort((a, b) => b.length - a.length)[0];
-      return `${p2w} ${p1w} Party`;
-    })(),
-  ];
-  // Remove duplicates and empty
-  return Array.from(new Set(names.filter(Boolean)));
-}
 
 export default function PartyMerging() {
   const { state, actions } = useGame();
@@ -53,9 +10,12 @@ export default function PartyMerging() {
   const [currentMerge, setCurrentMerge] = useState<MergeCandidate | null>(null);
   const [newPartyName, setNewPartyName] = useState('');
   const [selectedLeader, setSelectedLeader] = useState<Party | null>(null);
+  const [totalMerges, setTotalMerges] = useState(0);
+  const [mergesDone, setMergesDone] = useState(0);
+  const [done, setDone] = useState(false);
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
-  const initializeNextMerge = useCallback((candidates: MergeCandidate[]) => {
+  const initializeNextMerge = useCallback((candidates: MergeCandidate[], currentParties: Party[]) => {
     if (candidates.length === 0) {
       setCurrentMerge(null);
       setNewPartyName('');
@@ -65,83 +25,106 @@ export default function PartyMerging() {
 
     const nextMerge = candidates[0];
     setCurrentMerge(nextMerge);
-    const suggestions = generatePartyNameSuggestions(nextMerge.party1, nextMerge.party2);
-    setNewPartyName(suggestions[0] || `${nextMerge.party1.party}-${nextMerge.party2.party} Alliance`);
+    const suggestions = generateMergedPartyNames(nextMerge.party1, nextMerge.party2);
+    setNewPartyName(suggestions[0] || `${nextMerge.party1.party} ${nextMerge.party2.party} Alliance`);
     setSelectedLeader(nextMerge.party1);
+
+    // Suppress unused warning
+    void currentParties;
   }, []);
 
   useEffect(() => {
-    if (!state.pendingParties) {
-      return;
-    }
+    if (!state.pendingParties) return;
 
     setParties(state.pendingParties);
     const candidates = findMergeCandidates(state.pendingParties);
     setMergeCandidates(candidates);
-    initializeNextMerge(candidates);
+    setTotalMerges(candidates.length);
+    setMergesDone(0);
+    initializeNextMerge(candidates, state.pendingParties);
   }, [state.pendingParties, initializeNextMerge]);
 
-  const nameSuggestions = useMemo(() => {
-    if (!currentMerge) {
-      return [];
-    }
-    return generatePartyNameSuggestions(currentMerge.party1, currentMerge.party2);
-  }, [currentMerge]);
+
+
+  // Reroll name suggestions (RNG — just re-trigger the memo by toggling a counter)
+  const [rerollCount, setRerollCount] = useState(0);
+  const rolledSuggestions = useMemo(() => {
+    if (!currentMerge) return [];
+    void rerollCount; // dependency to trigger re-computation
+    return generateMergedPartyNames(currentMerge.party1, currentMerge.party2);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentMerge, rerollCount]);
 
   const remainingMerges = mergeCandidates.length;
   const similarityPercent = currentMerge ? Math.round(currentMerge.similarityScore * 100) : 0;
 
+  // Remaining parties after all pending merges complete
+  const partiesAfterMerging = useMemo(() => {
+    // Each merge removes 2 parties and adds 1, net -1 per merge
+    return parties.length - remainingMerges;
+  }, [parties.length, remainingMerges]);
+
+  const alignmentLabel = useMemo(() => {
+    if (similarityPercent >= 90) return { text: 'near-identical — merger strongly recommended', color: 'text-green-400' };
+    if (similarityPercent >= 80) return { text: 'very close — merger recommended', color: 'text-green-300' };
+    if (similarityPercent >= 70) return { text: 'broadly aligned — merger viable', color: 'text-yellow-300' };
+    return { text: 'some differences — merger optional', color: 'text-orange-400' };
+  }, [similarityPercent]);
+
   const handleMerge = () => {
-    if (!currentMerge || !selectedLeader || !newPartyName.trim()) {
-      return;
-    }
+    if (!currentMerge || !selectedLeader || !newPartyName.trim()) return;
 
     const mergedParty = mergeParties(currentMerge.party1, currentMerge.party2, newPartyName.trim(), selectedLeader);
-
-    const updatedParties = parties.filter(p =>
-      p.party !== currentMerge.party1.party && p.party !== currentMerge.party2.party
+    const updatedParties = parties.filter(
+      p => p.party !== currentMerge.party1.party && p.party !== currentMerge.party2.party
     );
     updatedParties.push(mergedParty);
-
     setParties(updatedParties);
 
     const remainingCandidates = findMergeCandidates(updatedParties);
     setMergeCandidates(remainingCandidates);
-    initializeNextMerge(remainingCandidates);
+    setMergesDone(d => d + 1);
+    setRerollCount(0);
+    initializeNextMerge(remainingCandidates, updatedParties);
   };
 
   const handleSkipAll = () => {
     setMergeCandidates([]);
-    initializeNextMerge([]);
+    setCurrentMerge(null);
+    setNewPartyName('');
+    setSelectedLeader(null);
   };
 
   const handleSkipMerge = () => {
-    const remainingCandidates = mergeCandidates.slice(1);
-    setMergeCandidates(remainingCandidates);
-    initializeNextMerge(remainingCandidates);
+    const remaining = mergeCandidates.slice(1);
+    setMergeCandidates(remaining);
+    setMergesDone(d => d + 1);
+    setRerollCount(0);
+    initializeNextMerge(remaining, parties);
   };
 
+  // When all merges are done, immediately move to player-selection
   useEffect(() => {
-    if (!currentMerge && parties.length > 0) {
+    if (!currentMerge && parties.length > 0 && !done) {
+      setDone(true);
       actions.setPartyList('Custom Coalition', parties);
       actions.setGamePhase('player-selection');
     }
-  }, [currentMerge, parties, actions]);
+  }, [currentMerge, parties, actions, done]);
 
   if (!currentMerge) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
-        <div className="campaign-status text-yellow-400 text-xl animate-pulse">
-          Preparing Final Opposition Array...
-        </div>
-      </div>
-    );
+    // Show nothing — transition fires immediately via useEffect above
+    return null;
   }
+
+  const mergeNumber = mergesDone + 1;
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
       <div className="w-full max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
         <div className="flex flex-col gap-6">
+
+          {/* Header */}
           <div className="text-center space-y-4">
             <div className="flex justify-center">
               <a
@@ -161,18 +144,41 @@ export default function PartyMerging() {
             </p>
           </div>
 
+          {/* Progress bar */}
+          <div className="bg-slate-900/40 border border-slate-700 rounded-xl px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="space-y-1">
+              <div className="campaign-status text-xs text-slate-400 uppercase tracking-widest">Progress</div>
+              <div className="flex items-baseline gap-3">
+                <span className="newspaper-header text-2xl font-black text-yellow-400">
+                  Merge {mergeNumber} of {totalMerges}
+                </span>
+                <span className="text-xs text-slate-400">
+                  {remainingMerges - 1} pairing{remainingMerges - 1 === 1 ? '' : 's'} left after this
+                </span>
+              </div>
+              <div className="w-full bg-slate-800 rounded-full h-1.5 mt-1">
+                <div
+                  className="bg-yellow-400 h-1.5 rounded-full transition-all duration-500"
+                  style={{ width: `${totalMerges > 0 ? ((mergesDone / totalMerges) * 100) : 0}%` }}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col sm:items-end gap-1 text-right">
+              <div className="campaign-status text-xs text-slate-400 uppercase tracking-widest">After all merges</div>
+              <div className="campaign-status text-lg text-slate-100">
+                <span className="text-yellow-400 font-bold">{partiesAfterMerging}</span> parties saved
+              </div>
+            </div>
+          </div>
+
+          {/* Main merge card */}
           <div className="campaign-board p-5 sm:p-6 lg:p-8 rounded-xl space-y-6">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
               <div className="space-y-1">
                 <h2 className="campaign-status text-lg sm:text-xl text-yellow-400">
-                  Should these parties combine?
+                  {alignmentLabel.text.toUpperCase()}
                 </h2>
-                <p className="text-slate-300 text-xs sm:text-sm max-w-lg">
-                  Compare strengths, choose a leader, and confirm the merger. You can skip individual pairings or finish without merging.
-                </p>
-                <div className="campaign-status text-xs text-slate-300">
-                  Similarity {similarityPercent}% • {remainingMerges} pairing{remainingMerges === 1 ? '' : 's'} remaining
-                </div>
+
               </div>
 
               <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
@@ -186,11 +192,12 @@ export default function PartyMerging() {
                   onClick={handleSkipMerge}
                   className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 border border-yellow-400 text-yellow-200 hover:bg-yellow-900/20 font-bold rounded-lg transition-colors duration-200 campaign-status text-sm"
                 >
-                  Skip This Pair
+                  Keep Separate
                 </button>
               </div>
             </div>
 
+            {/* Party comparison */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
               {[currentMerge.party1, currentMerge.party2].map(party => (
                 <div
@@ -199,14 +206,17 @@ export default function PartyMerging() {
                 >
                   <div className="flex items-start gap-3">
                     <span
-                      className="inline-flex w-3 h-3 rounded-full border border-white/70"
+                      className="inline-flex w-3 h-3 mt-1 rounded-full border border-white/70 flex-shrink-0"
                       style={{ backgroundColor: party.colour || 'transparent' }}
-                    ></span>
-                    <div className="min-w-0 space-y-1">
+                    />
+                    <div className="min-w-0 space-y-1 flex-1">
                       <div className="newspaper-header text-lg font-bold leading-tight text-slate-100 truncate">
                         {party.party}
                       </div>
-                      <div className="text-xs text-slate-300 truncate">{party.name}</div>
+                      <div className="text-xs text-slate-300 truncate">Led by {party.name}</div>
+                      <div className="text-xs text-slate-400 font-mono">
+                        Support: {party.party_pop >= 1 ? `${party.party_pop.toFixed(1)}%` : `${(party.party_pop * 100).toFixed(1)}%`}
+                      </div>
                       <div className="text-[0.65rem] text-slate-400">
                         {getIdeologyProfile([
                           party.prog_cons,
@@ -224,11 +234,21 @@ export default function PartyMerging() {
               ))}
             </div>
 
+            {/* Name + leader selection */}
             <div className="space-y-4">
               <div>
-                <label className="campaign-status text-xs text-slate-300 block mb-2">
-                  New Party Name
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="campaign-status text-xs text-slate-300">
+                    New Party Name
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setRerollCount(c => c + 1)}
+                    className="campaign-status text-xs text-yellow-400 hover:text-yellow-200 border border-yellow-500/40 rounded px-2 py-0.5 transition-colors"
+                  >
+                    ↻ New suggestions
+                  </button>
+                </div>
                 <input
                   type="text"
                   value={newPartyName}
@@ -237,7 +257,7 @@ export default function PartyMerging() {
                   className="w-full rounded-lg border border-slate-600 bg-slate-900/40 text-slate-100 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60"
                 />
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {nameSuggestions.map(suggestion => (
+                  {rolledSuggestions.map(suggestion => (
                     <button
                       key={suggestion}
                       type="button"
@@ -270,13 +290,16 @@ export default function PartyMerging() {
                     >
                       <div className="flex items-center gap-3">
                         <span
-                          className="inline-flex w-2.5 h-2.5 rounded-full border border-white/60"
+                          className="inline-flex w-2.5 h-2.5 rounded-full border border-white/60 flex-shrink-0"
                           style={{ backgroundColor: party.colour || 'transparent' }}
-                        ></span>
+                        />
                         <div className="min-w-0">
                           <div className="text-xs font-semibold truncate">{party.name}</div>
                           <div className="text-[0.65rem] text-slate-400 truncate">{party.party}</div>
                         </div>
+                        {selectedLeader?.party === party.party && (
+                          <span className="ml-auto campaign-status text-[0.6rem] text-yellow-400">✓ selected</span>
+                        )}
                       </div>
                     </button>
                   ))}
@@ -284,20 +307,15 @@ export default function PartyMerging() {
               </div>
             </div>
 
+            {/* Actions */}
             <div className="flex flex-col sm:flex-row justify-end gap-3">
-              <button
-                onClick={handleSkipMerge}
-                className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition-colors duration-200 campaign-status text-sm"
-              >
-                ◄ Skip This Pair
-              </button>
 
               <button
                 onClick={handleMerge}
                 disabled={!newPartyName.trim() || !selectedLeader}
                 className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-sm disabled:cursor-not-allowed"
               >
-                Confirm Merge
+                Merge These Parties →
               </button>
             </div>
           </div>
