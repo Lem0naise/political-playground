@@ -83,8 +83,8 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Exports chatter fuels another {shiftAbs}-point move {directionLabel} along the {axisLabel} axis.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} locks in a {totalShiftAbs}-point surge {directionLabel}.',
-      '{title} wraps after {duration} upbeat weeks, anchoring a {totalShiftAbs}-point swing {directionLabel}.'
+      'Trend Cools: {title} locks in a surge {directionLabel}.',
+      '{title} wraps after {duration} upbeat weeks, anchoring a significant shift {directionLabel}.'
     ]
   },
   {
@@ -106,8 +106,8 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Emergency town halls add another {shiftAbs}-point tilt {directionLabel}.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} ends after {duration} weeks with a {totalShiftAbs}-point realignment {directionLabel}.',
-      '{title} winds down, locking in {totalShiftAbs} points {directionLabel} on climate policy.'
+      'Trend Cools: {title} ends after {duration} weeks with a realignment {directionLabel}.',
+      '{title} winds down, locking in a shift {directionLabel} on climate policy.'
     ]
   },
   {
@@ -152,8 +152,8 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Union rallies notch another {shiftAbs}-point slide {directionLabel} on the {axisLabel} scale.'
     ],
     completionTemplates: [
-      'Trend Cools: {title} locks in {totalShiftAbs} points {directionLabel}.',
-      '{title} winds down, leaving policy {directionLabel} by {totalShiftAbs} points.'
+      'Trend Cools: {title} locks in a significant shift {directionLabel}.',
+      '{title} winds down, leaving policy {directionLabel}'
     ]
   },
   {

@@ -432,7 +432,7 @@ export default function PlayerSelection() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © {currentYear}</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 2.1.0</p>
+            <p>Version 2.2.0</p>
           </div>
         </div>
       </div>
