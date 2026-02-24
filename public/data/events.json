@@ -10068,7 +10068,7 @@
                 "boost": 24
             },
             {
-                "text": "Ignored them.",
+                "text": "Ignore them.",
                 "effect": {
                     "auth_ana": -2,
                     "soc_cap": 2

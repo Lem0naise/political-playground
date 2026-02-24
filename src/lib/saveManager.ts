@@ -14,13 +14,16 @@ export function exportSaveGame(gameState: GameState) {
         engineState: getEngineState()
     };
 
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(save));
+    const blob = new Blob([JSON.stringify(save)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
     const dlAnchorElem = document.createElement('a');
-    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("href", url);
     dlAnchorElem.setAttribute("download", "political-playground-save.json");
     document.body.appendChild(dlAnchorElem);
     dlAnchorElem.click();
     document.body.removeChild(dlAnchorElem);
+    URL.revokeObjectURL(url);
 }
 
 export function importSaveGame(jsonString: string): GameState | null {

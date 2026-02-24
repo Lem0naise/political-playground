@@ -14,20 +14,19 @@
       "The Independent Press"
     ],
     "foreign_country": [
-      "a neighboring nation",
-      "a major economic bloc",
-      "a regional power",
-      "an emerging superpower",
-      "traditional allies",
-      "rival nations",
-      "a maritime neighbor",
-      "continental partners",
-      "a former colonial power",
-      "an island nation"
+      "Russia",
+      "United States",
+      "China",
+      "European Union",
+      "United Kingdom",
+      "Japan",
+      "Brazil",
+      "India",
+      "Australia"
     ],
     "organisation": [
       "The UN",
-      "international observers",
+      "World Trade Organisation",
       "trade unions",
       "business leaders",
       "environmental groups",
@@ -65,24 +64,24 @@
       "TeleCom Networks"
     ],
     "region": [
-      "the northern territories",
-      "the coastal regions",
-      "the industrial heartland",
-      "the capital district",
-      "the rural provinces",
-      "the metropolitan area",
-      "the border regions",
-      "the central plains",
-      "the mountainous areas",
-      "the agricultural belt",
-      "the southern provinces",
-      "the eastern districts",
-      "the western territories",
-      "the port cities",
-      "the mining regions"
+      "northern territories",
+      "coastal regions",
+      "industrial heartland",
+      "capital district",
+      "rural provinces",
+      "metropolitan area",
+      "border regions",
+      "central plains",
+      "mountainous areas",
+      "agricultural belt",
+      "southern provinces",
+      "eastern districts",
+      "western territories",
+      "port cities",
+      "mining regions"
     ],
     "city": [
-      "the capital",
+      "capital",
       "major cities",
       "industrial towns",
       "coastal ports",
@@ -495,7 +494,7 @@
         "Middle Eastern powers"
       ]
     },
-    "Germany": {
+    "GERMANY": {
       "newspaper": [
         "Süddeutsche Zeitung",
         "Frankfurter Allgemeine",
@@ -548,7 +547,7 @@
         "EU partners"
       ]
     },
-    "France": {
+    "FRANCE": {
       "newspaper": [
         "Le Monde",
         "Le Figaro",
@@ -581,7 +580,8 @@
         "Alsace",
         "the Riviera",
         "the Loire Valley",
-        "Occitanie"
+        "Occitanie",
+        "Corsica"
       ],
       "city": [
         "Paris",
@@ -591,17 +591,28 @@
         "Nice",
         "Bordeaux",
         "Strasbourg",
-        "Lille"
+        "Lille",
+        "Corsica"
       ],
       "foreign_country": [
         "the European Union",
         "francophone Africa",
         "the United States",
         "China",
-        "EU partners"
+        "EU partners",
+        "The Maghreb",
+        "West Africa",
+        "Germany",
+        "Italy",
+        "Spain",
+        "United Kingdom",
+        "Switzerland",
+        "Belgium",
+        "Netherlands",
+        "Luxembourg"
       ]
     },
-    "Austria": {
+    "AUSTRIA": {
       "region": [
         "Tyrol",
         "Styria",
@@ -625,7 +636,7 @@
         "EU partners"
       ]
     },
-    "Canada": {
+    "CANADA": {
       "newspaper": [
         "The Globe and Mail",
         "Toronto Star",
@@ -678,7 +689,7 @@
         "NAFTA partners"
       ]
     },
-    "Australia": {
+    "AUSTRALIA": {
       "newspaper": [
         "The Sydney Morning Herald",
         "The Age",
