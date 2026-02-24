@@ -255,10 +255,23 @@
         "Metro"
       ],
       "company": [
-        "Irish Brew"
+        "Irish Brew",
+        "Irish companies",
+        "Bank of Ireland",
+        "Revolut",
+        "Paddy Power"
       ],
       "organisation": [
-        "Irish Times"
+        "UN",
+        "WHO",
+        "EU",
+        "NATO",
+        "Red Cross",
+        "Amnesty International",
+        "Greenpeace",
+        "World Bank",
+        "IMF",
+        "WTO"
       ],
       "region": [
         "Northern Ireland",
