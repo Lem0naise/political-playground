@@ -392,14 +392,18 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       let trendHistory = state.trendHistory;
       let nextTrendPoll = state.nextTrendPoll;
       let updatedCountryValues = state.countryData.vals;
+      let updatedBlocs = state.countryData.blocs;
       const votingDataRef = state.votingData;
 
       if (!activeTrend && nextTrendPoll !== null && nextPollNum >= nextTrendPoll && nextPollNum < state.totalPolls) {
         const previousKey = trendHistory.length > 0 ? trendHistory[trendHistory.length - 1].valueKey : undefined;
         const newTrend = createTrend(nextPollNum, previousKey);
         globalTrendNews.push(formatTrendStartHeadline(newTrend));
-        const stepResult = applyTrendStep(newTrend, updatedCountryValues, votingDataRef);
+        const stepResult = applyTrendStep(newTrend, updatedCountryValues, votingDataRef, updatedBlocs);
         updatedCountryValues = stepResult.values;
+        if (stepResult.blocs) {
+          updatedBlocs = stepResult.blocs;
+        }
         if (stepResult.ongoingNews) {
           globalTrendNews.push(stepResult.ongoingNews);
         }
@@ -415,8 +419,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           nextTrendPoll = null;
         }
       } else if (activeTrend) {
-        const stepResult = applyTrendStep(activeTrend, updatedCountryValues, votingDataRef);
+        const stepResult = applyTrendStep(activeTrend, updatedCountryValues, votingDataRef, updatedBlocs);
         updatedCountryValues = stepResult.values;
+        if (stepResult.blocs) {
+          updatedBlocs = stepResult.blocs;
+        }
         if (stepResult.ongoingNews) {
           globalTrendNews.push(stepResult.ongoingNews);
         }
@@ -432,9 +439,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
       }
 
-      const countryDataAfterTrend = updatedCountryValues === state.countryData.vals
-        ? state.countryData
-        : { ...state.countryData, vals: updatedCountryValues };
+      const countryDataAfterTrend = {
+        ...state.countryData,
+        vals: updatedCountryValues,
+        blocs: updatedBlocs
+      };
 
       const { results: newResults, newsEvents, blocStats: newBlocStats } = conductPoll(votingDataRef, state.candidates, nextPollNum, countryDataAfterTrend);
 

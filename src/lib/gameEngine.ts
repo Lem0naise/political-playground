@@ -1,4 +1,4 @@
-import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY } from '@/types/game';
+import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, VoterBloc } from '@/types/game';
 
 // Generate random normal distribution using Box-Muller transform
 function randomNormal(mean: number = 0, std: number = 1): number {
@@ -449,6 +449,7 @@ export function formatTrendStartHeadline(trend: ActiveTrend): string {
 export interface TrendStepResult {
   trend: ActiveTrend | null;
   values: PoliticalValues;
+  blocs?: VoterBloc[];
   ongoingNews?: string;
   completionNews?: string;
   completedTrend?: ActiveTrend;
@@ -457,7 +458,8 @@ export interface TrendStepResult {
 export function applyTrendStep(
   trend: ActiveTrend,
   countryValues: PoliticalValues,
-  votingData: number[][]
+  votingData: number[][],
+  blocs?: VoterBloc[]
 ): TrendStepResult {
   const axisIndex = VALUES.indexOf(trend.valueKey as typeof VALUES[number]);
   const expectedShift = trend.remainingWeeks <= 1
@@ -472,6 +474,20 @@ export function applyTrendStep(
     ...countryValues,
     [trend.valueKey]: clampedValue
   };
+
+  let newBlocs = blocs;
+  if (blocs && actualShift !== 0) {
+    newBlocs = blocs.map(bloc => {
+      const newCenterValue = Math.max(-100, Math.min(100, bloc.center[trend.valueKey] + actualShift));
+      return {
+        ...bloc,
+        center: {
+          ...bloc.center,
+          [trend.valueKey]: newCenterValue
+        }
+      };
+    });
+  }
 
   if (axisIndex !== -1 && votingData[axisIndex]) {
     const axisData = votingData[axisIndex];
@@ -501,6 +517,7 @@ export function applyTrendStep(
     return {
       trend: updatedTrend,
       values: newValues,
+      blocs: newBlocs,
       ongoingNews
     };
   }
@@ -519,6 +536,7 @@ export function applyTrendStep(
   return {
     trend: null,
     values: newValues,
+    blocs: newBlocs,
     ongoingNews,
     completionNews,
     completedTrend
