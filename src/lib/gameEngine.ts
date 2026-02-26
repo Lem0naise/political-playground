@@ -39,6 +39,7 @@ export function createCandidate(
 const TREND_INTERVAL_MIN = 2;
 const TREND_INTERVAL_MAX = 4;
 const TREND_VOTER_NOISE = 0.35;
+export const MAX_ACTIVE_TRENDS = 2;
 
 const TREND_DEFINITIONS: TrendDefinition[] = [
   {
@@ -62,7 +63,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward stricter borders',
     axisLabel: 'national identity',
     shiftRange: [7, 20],
-    durationRange: [10, 16],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'National Debate: {title} dominates headlines; analysts expect {duration}-week turbulence.'
@@ -97,7 +98,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward open borders',
     axisLabel: 'national identity',
     shiftRange: [6, 11],
-    durationRange: [8, 14],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Economic Shift: {title} lifts optimism {directionLabel} for the next {duration} weeks.'
@@ -132,7 +133,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward environmental action',
     axisLabel: 'climate-policy',
     shiftRange: [8, 18],
-    durationRange: [10, 16],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'National Crisis: {title} shifts public focus {directionLabel} for at least {duration} weeks.'
@@ -167,7 +168,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward industrial growth',
     axisLabel: 'climate-policy',
     shiftRange: [6, 10],
-    durationRange: [8, 14],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Economic Shift: {title} pulls the debate {directionLabel} through the next {duration} weeks.'
@@ -202,7 +203,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward worker protections',
     axisLabel: 'economic model',
     shiftRange: [7, 13],
-    durationRange: [10, 16],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Labour Shift: {title} nudges public debate {directionLabel} for roughly {duration} weeks.'
@@ -237,7 +238,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward free-market reforms',
     axisLabel: 'economic model',
     shiftRange: [6, 11],
-    durationRange: [8, 14],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Market Shift: {title} drifts sentiment {directionLabel} for the next {duration} weeks.'
@@ -272,7 +273,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward hawkish security',
     axisLabel: 'security posture',
     shiftRange: [7, 13],
-    durationRange: [10, 16],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Security Crisis: {title} drives discourse {directionLabel} for the next {duration} weeks.'
@@ -307,7 +308,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward demilitarisation',
     axisLabel: 'security posture',
     shiftRange: [6, 16],
-    durationRange: [8, 14],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Peace Shift: {title} reorients the security debate {directionLabel} for {duration} weeks.'
@@ -342,7 +343,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward law-and-order authority',
     axisLabel: 'civil liberty',
     shiftRange: [6, 14],
-    durationRange: [10, 16],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Public Safety Crisis: {title} drags sentiment {directionLabel} for the next {duration} weeks.'
@@ -377,7 +378,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward civil liberties',
     axisLabel: 'civil liberty',
     shiftRange: [6, 15],
-    durationRange: [8, 14],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Rights Shift: {title} turns the spotlight {directionLabel} for {duration} weeks.'
@@ -412,7 +413,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward religious values',
     axisLabel: 'cultural identity',
     shiftRange: [7, 13],
-    durationRange: [10, 16],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Cultural Shift: {title} swings public discourse {directionLabel} for {duration} weeks.'
@@ -447,7 +448,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward secular values',
     axisLabel: 'cultural identity',
     shiftRange: [6, 12],
-    durationRange: [8, 14],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Cultural Shift: {title} edges public sentiment {directionLabel} for {duration} weeks.'
@@ -482,7 +483,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward progressive ideals',
     axisLabel: 'cultural values',
     shiftRange: [7, 13],
-    durationRange: [10, 16],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Cultural Shift: {title} steers debate {directionLabel} through {duration} weeks.'
@@ -517,7 +518,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
     directionLabel: 'toward conservative nostalgia',
     axisLabel: 'cultural values',
     shiftRange: [6, 12],
-    durationRange: [8, 14],
+    durationRange: [3, 15],
     startTemplates: [
       'Breaking: {title} — {description}',
       'Cultural Shift: {title} nudges public conversation {directionLabel} for {duration} weeks.'

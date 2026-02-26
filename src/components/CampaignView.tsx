@@ -132,64 +132,107 @@ export default function CampaignView() {
                   NEWS FEED
                 </div>
 
-                {state.activeTrend.length > 0 && (
-                  <div className="mt-2 mb-3 flex flex-col gap-2">
-                    {state.activeTrend.map(trend => (
-                      <div key={trend.id} className="border border-red-500/50 bg-red-900/20 rounded p-2 sm:p-3">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                          <div>
-                            <p className="text-[10px] font-mono uppercase tracking-wider text-red-400 font-bold mb-0.5">NATIONAL TREND</p>
-                            <h3 className="text-sm sm:text-base font-bold text-white leading-tight uppercase">
-                              {trend.title}
-                            </h3>
-                            <p className="text-xs text-slate-300 mt-1">
-                              {trend.description}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                  {state.politicalNews.slice(0, 7).map((news, idx) => {
-                    const newspaper = getRandomNewspaper();
+                {(() => {
+                  const NEWS_SLOTS = 7;
 
-                    if (idx === 0) {
-                      return (
-                        <div key={idx} className="sm:col-span-2 lg:col-span-2 border border-slate-600 bg-slate-700/50 rounded-lg overflow-hidden">
-                          <div className="p-2 sm:p-3 flex gap-3">
-                            <div className="w-1 bg-red-500 rounded-full"></div>
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-[10px] text-slate-400 font-mono italic">{newspaper}</span>
-                              </div>
-                              <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
-                                {news}
-                              </h3>
-                              <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wide mt-1">
-                                Week {state.currentPoll}
+                  // Each trend gets a priority index based on how far through its lifetime it is.
+                  // Fresh trends (remainingWeeks ≈ duration) → index 0 (top).
+                  // Expiring trends (remainingWeeks ≈ 0) → near the bottom.
+                  const trendEntries = state.activeTrend.map(trend => {
+                    const progress = 1 - (trend.remainingWeeks / trend.duration); // 0 (new) → 1 (expired)
+                    const insertAt = Math.round(progress * (NEWS_SLOTS - 1));
+                    return { type: 'trend' as const, trend, insertAt };
+                  });
+
+                  // Build the base news list (up to NEWS_SLOTS items)
+                  const baseNews = state.politicalNews.slice(0, NEWS_SLOTS).map((news, i) => ({
+                    type: 'news' as const, news, originalIdx: i
+                  }));
+
+                  // Splice each trend into the news list at its computed position,
+                  // then trim back to NEWS_SLOTS so the grid never overflows.
+                  // Sort trends by insertAt ascending so earlier ones go in first without offsetting later ones.
+                  const feed: Array<
+                    { type: 'trend'; trend: typeof trendEntries[0]['trend']; insertAt: number } |
+                    { type: 'news'; news: string; originalIdx: number }
+                  > = [...baseNews];
+
+                  [...trendEntries].sort((a, b) => a.insertAt - b.insertAt).forEach(({ trend, insertAt }) => {
+                    const pos = Math.min(insertAt, feed.length);
+                    feed.splice(pos, 0, { type: 'trend', trend, insertAt });
+                  });
+
+                  const trimmed = feed.slice(0, NEWS_SLOTS);
+
+                  return (
+                    <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                      {trimmed.map((item, idx) => {
+                        const isFirst = idx === 0;
+
+                        if (item.type === 'trend') {
+                          return (
+                            <div
+                              key={`trend-${item.trend.id}`}
+                              className={`${isFirst ? 'sm:col-span-2 lg:col-span-2' : ''} border border-red-500/60 bg-red-900/20 rounded-lg overflow-hidden`}
+                            >
+                              <div className={`p-2 ${isFirst ? 'sm:p-3' : ''} flex gap-3`}>
+                                <div className="w-1 bg-red-500 rounded-full flex-shrink-0"></div>
+                                <div>
+                                  <span className="text-[10px] text-red-400 font-mono italic font-bold uppercase tracking-wider">Nationwide Trend</span>
+                                  <h3 className={`${isFirst ? 'text-base sm:text-lg' : 'text-xs sm:text-sm'} font-bold text-white leading-snug mt-0.5`}>
+                                    {item.trend.title}
+                                  </h3>
+                                  <p className="text-[11px] text-slate-300 mt-1 leading-snug">
+                                    {item.trend.description}
+                                  </p>
+                                  <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wide mt-1">
+                                    Week {state.currentPoll} · {item.trend.remainingWeeks}w remaining
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      );
-                    }
+                          );
+                        }
 
-                    return (
-                      <div key={idx} className="border border-slate-600/50 bg-slate-700/30 rounded-lg overflow-hidden">
-                        <div className="p-2">
-                          <div className="flex items-center gap-1 mb-1">
-                            <span className="text-[10px] text-slate-400 font-mono italic truncate">{newspaper}</span>
+                        const newspaper = getRandomNewspaper();
+
+                        if (isFirst) {
+                          return (
+                            <div key={`news-${item.originalIdx}`} className="sm:col-span-2 lg:col-span-2 border border-slate-600 bg-slate-700/50 rounded-lg overflow-hidden">
+                              <div className="p-2 sm:p-3 flex gap-3">
+                                <div className="w-1 bg-red-500 rounded-full"></div>
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="text-[10px] text-slate-400 font-mono italic">{newspaper}</span>
+                                  </div>
+                                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                                    {item.news}
+                                  </h3>
+                                  <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wide mt-1">
+                                    Week {state.currentPoll}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div key={`news-${item.originalIdx}`} className="border border-slate-600/50 bg-slate-700/30 rounded-lg overflow-hidden">
+                            <div className="p-2">
+                              <div className="flex items-center gap-1 mb-1">
+                                <span className="text-[10px] text-slate-400 font-mono italic truncate">{newspaper}</span>
+                              </div>
+                              <h4 className="text-xs sm:text-sm font-medium text-slate-200 leading-snug">
+                                {item.news}
+                              </h4>
+                            </div>
                           </div>
-                          <h4 className="text-xs sm:text-sm font-medium text-slate-200 leading-snug">
-                            {news}
-                          </h4>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
               </div>
             )}
 

@@ -10,7 +10,8 @@ import {
   formatTrendStartHeadline,
   scheduleNextTrendPoll,
   snapshotInitialChoices,
-  getVoterTransferMatrix
+  getVoterTransferMatrix,
+  MAX_ACTIVE_TRENDS
 } from '@/lib/gameEngine';
 import { calculatePartyCompatibility, autoAllocateUnfilledCabinetPositions } from '@/lib/coalitionEngine';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
@@ -411,23 +412,25 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       }
       activeTrends = stillActiveTrends;
 
-      // Maybe spawn a new trend (if the poll timer has triggered)
+      // Maybe spawn a new trend (if the poll timer has triggered and cap not reached)
       if (nextTrendPoll !== null && nextPollNum >= nextTrendPoll && nextPollNum < state.totalPolls) {
-        // Exclude axes already covered by active trends
-        const activeKeys = activeTrends.map(t => t.valueKey);
-        const newTrend = createTrend(nextPollNum, activeKeys.length > 0 ? activeKeys : undefined);
-        globalTrendNews.push(formatTrendStartHeadline(newTrend));
-        const stepResult = applyTrendStep(newTrend, updatedCountryValues, votingDataRef, updatedBlocs);
-        updatedCountryValues = stepResult.values;
-        if (stepResult.blocs) updatedBlocs = stepResult.blocs;
-        if (stepResult.ongoingNews) globalTrendNews.push(stepResult.ongoingNews);
-        if (stepResult.completionNews) globalTrendNews.push(stepResult.completionNews);
-        if (stepResult.completedTrend) {
-          trendHistory = [...trendHistory, stepResult.completedTrend];
-        } else if (stepResult.trend) {
-          activeTrends = [...activeTrends, stepResult.trend];
+        if (activeTrends.length < MAX_ACTIVE_TRENDS) {
+          // Exclude axes already covered by active trends
+          const activeKeys = activeTrends.map(t => t.valueKey);
+          const newTrend = createTrend(nextPollNum, activeKeys.length > 0 ? activeKeys : undefined);
+          globalTrendNews.push(formatTrendStartHeadline(newTrend));
+          const stepResult = applyTrendStep(newTrend, updatedCountryValues, votingDataRef, updatedBlocs);
+          updatedCountryValues = stepResult.values;
+          if (stepResult.blocs) updatedBlocs = stepResult.blocs;
+          if (stepResult.ongoingNews) globalTrendNews.push(stepResult.ongoingNews);
+          if (stepResult.completionNews) globalTrendNews.push(stepResult.completionNews);
+          if (stepResult.completedTrend) {
+            trendHistory = [...trendHistory, stepResult.completedTrend];
+          } else if (stepResult.trend) {
+            activeTrends = [...activeTrends, stepResult.trend];
+          }
         }
-        // Always reschedule next spawn
+        // Always reschedule next spawn (even if capped, so we retry on the next interval)
         nextTrendPoll = scheduleNextTrendPoll(nextPollNum);
       }
 
