@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { importSaveGame } from '@/lib/saveManager';
+import { VERSION } from '@/lib/version';
 
 export default function MainMenu() {
   const { actions } = useGame();
@@ -87,9 +88,7 @@ export default function MainMenu() {
                 <h2 className="campaign-status text-lg sm:text-xl text-yellow-400">
                   Choose Your Location
                 </h2>
-                <p className="text-slate-300 text-xs sm:text-sm max-w-sm">
-                  Currently, the country only changes the political demographics.
-                </p>
+
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 w-full">
@@ -191,7 +190,7 @@ export default function MainMenu() {
                     <div className="campaign-status text-sm font-semibold">{countryCode}</div>
                     <div className="text-xs text-slate-300 font-mono">{voters} voters</div>
                     <div className="text-xs text-slate-400 truncate">{countryData?.hos ?? '—'}</div>
-                    <div className="text-xs text-green-400 truncate">{countryData?.blocs ? 'Has Advanced Bloc-Based Voters' : ''}</div>
+                    <div className="text-xs text-red-400 truncate">{countryData?.blocs ? '' : 'No Bloc-Based Voters'}</div>
                   </button>
                 );
               })}
@@ -215,7 +214,7 @@ export default function MainMenu() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © 2025-2026</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 2.2.0</p>
+            <p>Version {VERSION}</p>
           </div>
         </div>
       </div>

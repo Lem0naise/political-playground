@@ -132,19 +132,23 @@ export default function CampaignView() {
                   NEWS FEED
                 </div>
 
-                {state.activeTrend && (
-                  <div className="mt-2 border border-red-500/50 bg-red-900/20 rounded p-2 sm:p-3 mb-3">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                      <div>
-                        <p className="text-[10px] font-mono uppercase tracking-wider text-red-400 font-bold mb-0.5">NATIONAL TREND</p>
-                        <h3 className="text-sm sm:text-base font-bold text-white leading-tight uppercase">
-                          {state.activeTrend.title}
-                        </h3>
-                        <p className="text-xs text-slate-300 mt-1">
-                          {state.activeTrend.description}
-                        </p>
+                {state.activeTrend.length > 0 && (
+                  <div className="mt-2 mb-3 flex flex-col gap-2">
+                    {state.activeTrend.map(trend => (
+                      <div key={trend.id} className="border border-red-500/50 bg-red-900/20 rounded p-2 sm:p-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                          <div>
+                            <p className="text-[10px] font-mono uppercase tracking-wider text-red-400 font-bold mb-0.5">NATIONAL TREND</p>
+                            <h3 className="text-sm sm:text-base font-bold text-white leading-tight uppercase">
+                              {trend.title}
+                            </h3>
+                            <p className="text-xs text-slate-300 mt-1">
+                              {trend.description}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 )}
                 <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">

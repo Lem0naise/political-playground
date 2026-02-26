@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { findMergeCandidates, mergeParties, generateMergedPartyNames, type Party, type MergeCandidate } from '@/lib/partyMerger';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
+import { VERSION } from '@/lib/version';
 
 export default function PartyMerging() {
   const { state, actions } = useGame();
@@ -323,7 +324,7 @@ export default function PartyMerging() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © {currentYear}</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 2.2.0</p>
+            <p>Version {VERSION}</p>
           </div>
         </div>
       </div>

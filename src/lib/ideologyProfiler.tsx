@@ -151,11 +151,11 @@ export function getIdeologyProfile(vals: number[]) {
   });
 
   const fontSizes = [
-    "text-2xl sm:text-3xl", // Bumped up the top size slightly for a better "cloud" contrast
     "text-xl sm:text-2xl",
     "text-lg sm:text-xl",
     "text-base sm:text-lg",
-    "text-sm sm:text-base"
+    "text-sm sm:text-base",
+    "text-xs sm:text-sm"
   ];
 
   return (

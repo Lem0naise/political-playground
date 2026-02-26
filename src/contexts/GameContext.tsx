@@ -275,7 +275,7 @@ const initialState: GameState = {
   coalitionState: undefined,
   phase: 'setup',
   pollingHistory: [],
-  activeTrend: null,
+  activeTrend: [],
   trendHistory: [],
   nextTrendPoll: null,
   eventVariables: null,
@@ -296,7 +296,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         countryData: action.payload.countryData,
         totalPolls: action.payload.countryData.totalPolls || 52, // Use totalPolls if provided
         phase: 'party-selection',
-        activeTrend: null,
+        activeTrend: [],
         trendHistory: [],
         nextTrendPoll: null
       };
@@ -369,7 +369,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         currentPoll: 1,
         politicalNews: ["ELECTION SEASON OFFICIALLY BEGINS."],
         pollingHistory: [initialPollingSnapshot],
-        activeTrend: state.activeTrend !== undefined ? state.activeTrend : null,
+        activeTrend: state.activeTrend !== undefined ? state.activeTrend : [],
         trendHistory: state.trendHistory || [],
         nextTrendPoll: state.nextTrendPoll !== null && state.nextTrendPoll !== undefined
           ? state.nextTrendPoll
@@ -388,55 +388,47 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
       const nextPollNum = state.currentPoll + 1;
       const globalTrendNews: string[] = []; // Changed from trendNews to avoid conflict with party trends
-      let activeTrend = state.activeTrend;
+      let activeTrends = state.activeTrend; // ActiveTrend[]
       let trendHistory = state.trendHistory;
       let nextTrendPoll = state.nextTrendPoll;
       let updatedCountryValues = state.countryData.vals;
       let updatedBlocs = state.countryData.blocs;
       const votingDataRef = state.votingData;
 
-      if (!activeTrend && nextTrendPoll !== null && nextPollNum >= nextTrendPoll && nextPollNum < state.totalPolls) {
-        const previousKey = trendHistory.length > 0 ? trendHistory[trendHistory.length - 1].valueKey : undefined;
-        const newTrend = createTrend(nextPollNum, previousKey);
+      // Step each active trend; collect completed ones
+      const stillActiveTrends: typeof activeTrends = [];
+      for (const trend of activeTrends) {
+        const stepResult = applyTrendStep(trend, updatedCountryValues, votingDataRef, updatedBlocs);
+        updatedCountryValues = stepResult.values;
+        if (stepResult.blocs) updatedBlocs = stepResult.blocs;
+        if (stepResult.ongoingNews) globalTrendNews.push(stepResult.ongoingNews);
+        if (stepResult.completionNews) globalTrendNews.push(stepResult.completionNews);
+        if (stepResult.completedTrend) {
+          trendHistory = [...trendHistory, stepResult.completedTrend];
+        } else if (stepResult.trend) {
+          stillActiveTrends.push(stepResult.trend);
+        }
+      }
+      activeTrends = stillActiveTrends;
+
+      // Maybe spawn a new trend (if the poll timer has triggered)
+      if (nextTrendPoll !== null && nextPollNum >= nextTrendPoll && nextPollNum < state.totalPolls) {
+        // Exclude axes already covered by active trends
+        const activeKeys = activeTrends.map(t => t.valueKey);
+        const newTrend = createTrend(nextPollNum, activeKeys.length > 0 ? activeKeys : undefined);
         globalTrendNews.push(formatTrendStartHeadline(newTrend));
         const stepResult = applyTrendStep(newTrend, updatedCountryValues, votingDataRef, updatedBlocs);
         updatedCountryValues = stepResult.values;
-        if (stepResult.blocs) {
-          updatedBlocs = stepResult.blocs;
-        }
-        if (stepResult.ongoingNews) {
-          globalTrendNews.push(stepResult.ongoingNews);
-        }
-        if (stepResult.completionNews) {
-          globalTrendNews.push(stepResult.completionNews);
-        }
+        if (stepResult.blocs) updatedBlocs = stepResult.blocs;
+        if (stepResult.ongoingNews) globalTrendNews.push(stepResult.ongoingNews);
+        if (stepResult.completionNews) globalTrendNews.push(stepResult.completionNews);
         if (stepResult.completedTrend) {
           trendHistory = [...trendHistory, stepResult.completedTrend];
-          activeTrend = null;
-          nextTrendPoll = scheduleNextTrendPoll(nextPollNum);
-        } else {
-          activeTrend = stepResult.trend;
-          nextTrendPoll = null;
+        } else if (stepResult.trend) {
+          activeTrends = [...activeTrends, stepResult.trend];
         }
-      } else if (activeTrend) {
-        const stepResult = applyTrendStep(activeTrend, updatedCountryValues, votingDataRef, updatedBlocs);
-        updatedCountryValues = stepResult.values;
-        if (stepResult.blocs) {
-          updatedBlocs = stepResult.blocs;
-        }
-        if (stepResult.ongoingNews) {
-          globalTrendNews.push(stepResult.ongoingNews);
-        }
-        if (stepResult.completionNews) {
-          globalTrendNews.push(stepResult.completionNews);
-        }
-        if (stepResult.completedTrend) {
-          trendHistory = [...trendHistory, stepResult.completedTrend];
-          activeTrend = null;
-          nextTrendPoll = scheduleNextTrendPoll(nextPollNum);
-        } else {
-          activeTrend = stepResult.trend;
-        }
+        // Always reschedule next spawn
+        nextTrendPoll = scheduleNextTrendPoll(nextPollNum);
       }
 
       const countryDataAfterTrend = {
@@ -1082,7 +1074,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         politicalNews: sortedPoliticalNews,
         playerEventNews: [],
         countryData: countryDataAfterTrend,
-        activeTrend,
+        activeTrend: activeTrends,
         trendHistory,
         nextTrendPoll,
         blocStats: newBlocStats,
@@ -1474,13 +1466,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     case 'SET_TARGETED_BLOC':
-      // If untargeting (blocId is null), trigger cooldown
-      if (action.payload.blocId === null) {
+      // If untargeting (blocId is null) or switching to a different bloc, trigger cooldown
+      if (action.payload.blocId === null || (state.targetedBlocId !== null && state.targetedBlocId !== action.payload.blocId)) {
         return {
           ...state,
           targetedBlocId: null,
           targetingStartWeek: null,
-          targetingCooldownUntil: state.currentPoll + 3 // 3 week cooldown when manually stopped
+          targetingCooldownUntil: state.currentPoll + 3 // 3 week cooldown when manually stopped or switched
         };
       }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useGame } from '@/contexts/GameContext';
+import { VERSION } from '@/lib/version';
 
 export default function PartySelection() {
   const { state, actions } = useGame();
@@ -10,9 +11,15 @@ export default function PartySelection() {
   useEffect(() => {
     fetch('/data/parties.json')
       .then(res => res.json())
-      .then(data => setPartyLists(data))
+      .then(data => {
+        setPartyLists(data);
+        // Auto-select the party list matching the selected country (if one exists)
+        if (state.country && data[state.country]) {
+          setSelectedLists([state.country]);
+        }
+      })
       .catch(err => console.error('Failed to load parties:', err));
-  }, []);
+  }, [state.country]);
 
   const handlePartyListToggle = (listName: string) => {
     setSelectedLists(prev =>
@@ -196,7 +203,7 @@ export default function PartySelection() {
           <div className="text-center text-xs text-slate-400 space-y-1">
             <p>Political Playground © 2025-2026</p>
             <p>Fictional simulator. No real-world endorsement or advice.</p>
-            <p>Version 2.2.0</p>
+            <p>Version {VERSION}</p>
           </div>
         </div>
       </div>

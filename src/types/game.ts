@@ -184,7 +184,7 @@ export interface GameState {
   incumbentGovernment?: string[];
   phase: 'setup' | 'party-selection' | 'partyMerging' | 'player-selection' | 'campaign' | 'results' | 'coalition';
   pollingHistory: PollingSnapshot[];
-  activeTrend: ActiveTrend | null;
+  activeTrend: ActiveTrend[];
   trendHistory: ActiveTrend[];
   nextTrendPoll: number | null;
   blocStats?: BlocStatistics[];
