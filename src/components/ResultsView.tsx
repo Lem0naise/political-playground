@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
-import { VALUES } from '@/types/game';
 import { DESCRIPTORS, getIdeologyProfile, calculateWeightedIdeology } from '@/lib/ideologyProfiler';
 import { CABINET_POSITIONS } from '@/types/game';
 import CabinetView from './CabinetView';
 import PollingGraphModal from './PollingGraphModal';
 import VoterFlowSankey from './VoterFlowSankey';
+import IdeologyScatterPlot from './IdeologyScatterPlot';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
@@ -539,6 +539,10 @@ export default function ResultsView() {
             )}
           </div>
         )}
+
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4">
+          <IdeologyScatterPlot candidates={state.candidates} title="Party Ideology Map" />
+        </div>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 py-4">

@@ -4,6 +4,7 @@ import { Event, EventChoice } from '@/types/game';
 import PollResults from './PollResults';
 import EventModal from './EventModal';
 import PollingGraphModal from './PollingGraphModal';
+import IdeologyScatterPlot from './IdeologyScatterPlot';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 import { exportSaveGame } from '@/lib/saveManager';
 
@@ -278,6 +279,12 @@ export default function CampaignView() {
                 canViewGraph={canViewPollingGraph}
               />
             </div>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4">
+            <IdeologyScatterPlot candidates={state.candidates} title="Party Ideology Map" />
           </div>
         </div>
 
