@@ -54,6 +54,8 @@ export interface Candidate {
   colour: string;
   swing?: number;
   is_player: boolean;
+  funds?: number;
+  politicalCapital?: number;
   momentum?: number;
   previous_popularity?: number;
   trend?: PartyTrend;
@@ -174,6 +176,7 @@ export interface GameState {
   partyList: string;
   candidates: Candidate[];
   playerCandidate: Candidate | null;
+  actionsRemaining?: number;
   currentPoll: number;
   totalPolls: number;
   pollResults: PollResult[];

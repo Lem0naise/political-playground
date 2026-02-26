@@ -1,5 +1,7 @@
 import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, VoterBloc } from '@/types/game';
 
+import { RANDOM_NEWS_EVENTS, ECONOMIC_CRISIS_EVENTS, ECONOMIC_OPTIMISM_EVENTS, POLARIZATION_EVENTS } from '@/lib/newsTemplates';
+
 // Generate random normal distribution using Box-Muller transform
 function randomNormal(mean: number = 0, std: number = 1): number {
   let u = 0, v = 0;
@@ -1063,141 +1065,6 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
 
   return newsEvents;
 }
-const RANDOM_NEWS_EVENTS = [
-  // General Politics
-  "Leak: Ex-Finance Minister's Messages Show Secret Talks With {organisation} Lobbyists",
-  "Infrastructure Bill Gains Surprise Support In Key {region} Seats",
-  "Huge Youth Turnout In {city} Boosts Progressive Parties",
-  "Electoral Commission Unveils Controversial Debate Format With Live AI Fact-Checking",
-  "Environmental Bloc Fractured As {organisation} Endorses Rival Candidate",
-  "Secret Talks Revealed: Three Minor Parties Plot 'Government Of National Unity'",
-  "Campaign Finance Act Passes Key Hurdle Despite Fierce {industry} Lobbying",
-  "Government Collapses By Single Vote; Snap Election Called In {city}",
-  "High Court To Hear Legal Challenge To New Voter ID Laws",
-  "{region} Farmers Form Protest Group Over New Agricultural Water Quotas",
-  "Head Of State's Visit To {foreign_country} Met With Reparations Protests",
-  "Anti-Corruption Prosecutor Charges Three Sitting MPs Linked To {industry}",
-  "Proposal To Lower Voting Age To 16 Splits Ruling Coalition",
-  "{historical_figure} Memorial Defaced In {city} Amid Ongoing Protests",
-  "New Tax Breaks For The {industry} Sector Spark Outrage Among {region} Voters",
-  "Bilateral Summit In {city}: Leaders To Discuss {foreign_country} Trade Tariffs",
-
-  // Economy
-  "{organisation} Shares Plummet 23% On Crypto Exposure Fears",
-  "Job Gap Widens: Unemployment At 4.2% In {region}, 7.8% In Capital",
-  "Business Confidence In {industry} Sector Hits 18-Month High",
-  "{city} Home Prices Soar; Gov't Debates Foreign Buyer Tax",
-  "Trade Talks With {foreign_country} Stall Over Disputed Fishing Rights",
-  "Tech Jobs Grow 15% In {region}; Traditional Manufacturing Stagnates",
-  "Inflation Spikes 0.9% In A Month As Port Strike Drives Up Energy Costs",
-  "Diplomatic Row With {foreign_country} Triggers 20% Tariff On Farm Exports",
-  "Rare Earth Discovery Sparks Economic Boom In {region}",
-  "Tourism Revenue Hits 94% Of Pre-Pandemic Levels After World Expo Success",
-  "Central Bank In Shock Move Raises Interest Rates 50 Bps To Fight Inflation",
-  "Global Supply Chain Disruptions Hit {industry} Manufacturers In {city}",
-  "{organisation} Announces Multi-Billion Dollar Investment In {region} Infrastructure",
-
-  // Society & Culture
-  "6-Hour ER Waits Make Healthcare Reform Top Election Issue",
-  "25,000 Teachers March On {city} Demanding Better Pay",
-  "National Debate Erupts Over Revising Textbooks On {historical_figure}",
-  "Deepfake Videos Of Leaders Prompt Emergency Session On Election Misinformation",
-  "Vandals Hit Historic {city} Temple; Leaders Urge Interfaith Dialogue",
-  "{organisation} Wins Major Grant To Digitize Ancient {region} Dialects",
-  "National Symphony Faces Closure From Funding Cuts; Public Rallies To Save It",
-  "Musician's Endorsement Video Hits 15M Views, Sways Youth Polls",
-  "Top {city} Football Star Arrested On Tax Evasion Charges",
-  "Ancient Ruins Linked To {historical_figure} Halt {region} Dam Project",
-  "Controversial New Biopic Of {historical_figure} Sweeps National Film Awards",
-  "{city} Selected As Host For Next Year's Global {industry} Summit",
-
-  // International & Geopolitics
-  "Climate Summit Ends In Deadlock Over Carbon Credits And Developing Nation Aid",
-  "Economic Collapse In {foreign_country} Sparks Sharp Rise In Border Smuggling",
-  "Nationalist Parties Oppose Foreign Aid Budget, Cite Domestic Needs",
-  "International Observers From 20 Nations Praise New Biometric Voter System",
-  "State-Sponsored Cyberattack Causes Widespread Blackouts In {region}",
-  "{organisation} Report On Human Rights Strains Ties With {foreign_country}",
-  "Naval Vessel Rammed In Disputed Sea; Tensions Rise Over Fishing Waters",
-  "Ambassador Recalled From {foreign_country} Amid Public Spying Accusations",
-  "Joint Military Alliance Showcases New Drone And Hypersonic Tech In Wargames",
-  "Student Exchange With 15-Nation Bloc Expands To Vocational Training",
-  "Diplomatic Expulsions: {foreign_country} Retaliates After Embassy Dispute In {city}",
-  "Joint Peacekeeping Mission Announced By {organisation} And Regional Allies",
-
-  // Environment & Science
-  "Typhoon Exposes Coastal Weaknesses In {region}; Gov't Response Criticized",
-  "{city} Residents Protest Massive Solar Farm Approved By {organisation}",
-  "Capital Faces Stage 4 Water Restrictions; Reservoirs At Record 28% Low",
-  "New Protection Laws Spark Clash Between Conservationists And {industry}",
-  "Mystery Bee Decline Threatens Multi-Billion Dollar Farm Sector",
-  "Wildfire Smoke From {region} Triggers Air Quality Alerts In {city}",
-  "Remote Volcano Erupts, Stranding Thousands And Disrupting Global Air Travel",
-  "{organisation} Announces Joint Manned Mission To Mars With {foreign_country}",
-  "Landmark AI Consciousness Study Retracted Over Fabricated Data Claims",
-  "Cleanup Crews Remove 15 Tons Of Plastic From Major River Delta",
-  "Breakthrough In Fusion Energy Reported By Researchers At {city} University",
-  "Endangered Species Sighted In {region} For The First Time In A Century",
-
-  // Technology & Random
-  "{organisation} Proposes Mandatory Algorithm Audits For {industry} Sector",
-  "Massive Cyber-Heist Drains Millions; National Banking System Halted",
-  "Unexplained Atmospheric Event Creates Auroras Visible Across Entire {region}",
-  "National 'Cheese Crisis' Looms As Bacterial Blight Hits 90% Of Dairy Herds",
-  "Mystery Online Puzzle Captivates Millions In Global Collaboration",
-  "Digital ID Rollout Paused After Cyberattack Attributed To {foreign_country}",
-  "Pop Star Sparks Nationwide Shortage Of Traditional Folk Hats",
-  "Beloved Giant Panda At {city} Zoo Gives Birth To Twins",
-  "Shipwreck Discovered Off The Coast Of {region} Dates Back To {historical_figure}",
-  "Thousands Of Migratory Birds Unexpectedly Descend On Capital City Park",
-  "Self-Driving Taxi Fleet Grounded In {city} Following Minor Collision",
-  "New Quantum Computer Unveiled By {organisation} Shatters Processing Records"
-];
-
-const ECONOMIC_CRISIS_EVENTS = [
-  "Recession Fears Mount As {industry} Giant Closes 3 Plants In {region}",
-  "Credit Crunch: {organisation} Halts Business Lending As Defaults Surge To 9.1%",
-  "Chip Shortage Forces Indefinite Halt To Auto And Electronics Production",
-  "Currency Plunges 15%; Skyrocketing Import Costs Hit Households",
-  "Commercial Real Estate Values Collapse As {city} Office Towers Sit Empty",
-  "SME Revenues Down 40% Amid Supply Chain And Energy Price Chaos",
-  "Spending Cuts Loom For {region} As National Debt-To-GDP Hits 130%",
-  "Central Bank Slashes Growth Forecast As {foreign_country} Trade Slows",
-  "Bailout Talks Stall Between Finance Ministry And Struggling {industry} Sector",
-  "Mass Layoffs Announced At Top {city} Tech Firms Amid Market Downturn",
-  "Hyperinflation Looms: Basic Goods Tripling In Price Across {region}",
-  "Pension Crisis Worsens As {organisation} Declares Bankruptcy"
-];
-
-const ECONOMIC_OPTIMISM_EVENTS = [
-  "{organisation} To Build Mega-Plant In {region}, Creating 9,000 Jobs",
-  "Boom Times: Unemployment Hits 50-Year Low At 2.9% Amid Labor Shortage",
-  "{industry} Exports Surge 30% After Landmark Trade Deal With {foreign_country}",
-  "AI Tools Boost Worker Output 18%, Sparking Wage Growth In Service Sector",
-  "Consumer Confidence In {city} Soars To 20-Year High; Savings Rates Stabilize",
-  "Banks Boost Small Business Lending 25%, Funding Thousands Of Projects",
-  "Massive Infrastructure Plan Kicks Off Throughout {region}, Creating 50,000 Jobs",
-  "Sustained 3.5% Growth Projected Following Major {industry} Breakthroughs",
-  "Startup Hub In {city} Attracts Record Foreign Direct Investment",
-  "Unprecedented Boom In {industry} Leads To Widespread Minimum Wage Hikes",
-  "Trade Surplus Widens As Demand From {foreign_country} Reaches All-Time High",
-  "Government Announces Sweeping Tax Cuts Endorsed By {organisation}"
-];
-
-const POLARIZATION_EVENTS = [
-  "High Court Ruling Triggers Mass Protests Across {region}",
-  "Controversial Act Sparks Public Feud Between {organisation} And Faith Leaders",
-  "Immigration Raids Lead To Standoffs Between Police And {city} Officials",
-  "Clashes At {city} University Over {historical_figure} Statue Force Evacuation",
-  "Culture War Deepens Over Proposed Guidelines For {industry} Advertisers",
-  "Calls For Constitutional Rewrite Deeply Divide {region} Voting Bloc",
-  "Partisan Gridlock Leaves {city} Without Federal Funding For Third Month",
-  "Controversial Diplomatic Mission To {foreign_country} Sparks Bipartisan Outrage",
-  "Rival Protest Groups Clash Violently Outside {organisation} Headquarters",
-  "Debate Over {historical_figure}'s Legacy Leads To Walkout In Parliament",
-  "Proposed Education Bill Triggers Nationwide Strikes By {industry} Workers",
-  "Dispute Over Border Checkpoints In {region} Leads To Constitutional Crisis"
-];
 
 export function applyVoterDynamics(data: number[][], pollIteration: number): string[] {
   const newsEvents: string[] = [];
