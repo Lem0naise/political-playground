@@ -801,9 +801,19 @@ export function getVoterTransferMatrix(
 }
 
 function softmaxPick(utilities: number[], beta: number): number {
-  const maxU = Math.max(...utilities);
-  const exps = utilities.map(u => Math.exp(beta * (u - maxU)));
-  const sum = exps.reduce((a, b) => a + b, 0);
+  let maxU = -Infinity;
+  for (let i = 0; i < utilities.length; i++) {
+    if (utilities[i] > maxU) maxU = utilities[i];
+  }
+
+  const exps = new Array(utilities.length);
+  let sum = 0;
+  for (let i = 0; i < utilities.length; i++) {
+    const value = Math.exp(beta * (utilities[i] - maxU));
+    exps[i] = value;
+    sum += value;
+  }
+
   let r = Math.random() * sum;
   for (let i = 0; i < exps.length; i++) {
     r -= exps[i];
@@ -843,40 +853,66 @@ function salienceWeightsForVoter(voterIndex: number, country?: Country): number[
 }
 
 export function generateVotingData(country: Country): number[][] {
-
   const stdDefault = 45;
   const blocs = country.blocs || [];
   const axes = VALUES; // e.g., ['prog_cons','nat_glob',...]
+  const axisCount = axes.length;
   const pop = Math.max(0, country.pop | 0);
 
   // Prepare arrays per axis
-  const data: number[][] = Array.from({ length: axes.length }, () => new Array<number>(pop));
+  const data: number[][] = Array.from({ length: axisCount }, () => new Array<number>(pop));
   // Prepare bloc assignment memory
   VOTER_BLOC_IDS = new Array(pop).fill(-1);
 
+  const countryMeans = new Array(axisCount);
+  for (let a = 0; a < axisCount; a++) {
+    const key = axes[a];
+    countryMeans[a] = country.vals[key] ?? 0;
+  }
 
   if (!blocs.length) {
     // Unimodal fallback
     for (let i = 0; i < pop; i++) {
-      for (let a = 0; a < axes.length; a++) {
-        const key = axes[a];
-        const mean = country.vals[key] ?? 0;
-        const v = randomNormal(mean, stdDefault);
+      for (let a = 0; a < axisCount; a++) {
+        const v = randomNormal(countryMeans[a], stdDefault);
         data[a][i] = Math.max(-100, Math.min(100, v));
       }
     }
     return data;
   }
 
+  const blocWeights = blocs.map(b => Math.max(0, Math.min(1, b.weight ?? 0)));
+  const weightSum = blocWeights.reduce((s, w) => s + w, 0);
 
-  // Precompute cumulative weights (allow independents if sum < 1)
-  const weightSum = blocs.reduce((s, b) => s + Math.max(0, Math.min(1, b.weight ?? 0)), 0);
+  const blocMeans: number[][] = [];
+  const blocStds: number[][] = [];
+  for (let i = 0; i < blocs.length; i++) {
+    const bloc = blocs[i];
+    const means = new Array(axisCount);
+    const stds = new Array(axisCount);
+    const center = bloc.center ?? ({} as PoliticalValues);
+    const variance = bloc.variance;
+    const varianceByAxis = variance && typeof variance === 'object' ? (variance as any) : null;
+    const varianceScalar = typeof variance === 'number' ? variance : undefined;
+
+    for (let a = 0; a < axisCount; a++) {
+      const key = axes[a];
+      const meanValue = (center as any)[key];
+      const rawStd = varianceByAxis && varianceByAxis[key] !== undefined ? varianceByAxis[key] : varianceScalar ?? stdDefault;
+      means[a] = meanValue !== undefined ? meanValue : countryMeans[a];
+      stds[a] = Math.max(5, Math.min(100, Number(rawStd)));
+    }
+
+    blocMeans.push(means);
+    blocStds.push(stds);
+  }
+
   function pickBloc(): number | null {
     const r = Math.random();
     if (r > weightSum) return null; // independents
     let acc = 0;
-    for (let i = 0; i < blocs.length; i++) {
-      acc += Math.max(0, Math.min(1, blocs[i].weight ?? 0));
+    for (let i = 0; i < blocWeights.length; i++) {
+      acc += blocWeights[i];
       if (r <= acc) return i;
     }
     return null;
@@ -885,18 +921,11 @@ export function generateVotingData(country: Country): number[][] {
   // Sample full vectors per voter from one bloc
   for (let i = 0; i < pop; i++) {
     const bi = pickBloc();
-    const bloc = bi !== null ? blocs[bi] : null;
+    const means = bi !== null ? blocMeans[bi] : countryMeans;
+    const stds = bi !== null ? blocStds[bi] : null;
     if (bi !== null) VOTER_BLOC_IDS[i] = bi;
-    for (let a = 0; a < axes.length; a++) {
-      const key = axes[a];
-      const mean =
-        (bloc?.center?.[key] !== undefined ? bloc!.center![key] : undefined) ??
-        country.vals[key] ?? 0;
-      const std =
-        (bloc?.variance && typeof bloc.variance === 'object' && (bloc.variance as any)[key] !== undefined
-          ? (bloc.variance as any)[key]
-          : (typeof bloc?.variance === 'number' ? (bloc!.variance as number) : stdDefault));
-      const v = randomNormal(mean as number, Math.max(5, Math.min(100, Number(std))));
+    for (let a = 0; a < axisCount; a++) {
+      const v = randomNormal(means[a], stds ? stds[a] : stdDefault);
       data[a][i] = Math.max(-100, Math.min(100, v));
     }
   }
@@ -906,11 +935,14 @@ export function generateVotingData(country: Country): number[][] {
 
 export function voteForCandidate(voterIndex: number, candidates: Candidate[], data: number[][], country?: Country): number | null {
   // Compute raw squared distances for turnout gating and utilities for choice
-  const rawDistSq: number[] = new Array(candidates.length).fill(0);
   const utilities: number[] = new Array(candidates.length).fill(0);
 
   // Normalized salience weights for this voter; sum equals number of axes
   const weights = salienceWeightsForVoter(voterIndex, country);
+
+  let minRawSq = Infinity;
+  let maxUtility = -Infinity;
+  let maxIndex = 0;
 
   for (let i = 0; i < candidates.length; i++) {
     const cand = candidates[i];
@@ -921,7 +953,7 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
       sumSq += d * d;
       weightedLoss += weights[o] * d * d;
     }
-    rawDistSq[i] = sumSq;
+    if (sumSq < minRawSq) minRawSq = sumSq;
 
     // Utility: proximity (negative weighted loss) + gentle popularity + optional swing + loyalty
     let u = -weightedLoss + Math.max(0, cand.party_pop) * 0.5;
@@ -934,10 +966,13 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
       u += LOYALTY_UTILITY;
     }
     utilities[i] = u;
+    if (u > maxUtility) {
+      maxUtility = u;
+      maxIndex = i;
+    }
   }
 
   // Turnout gating based on nearest raw distance (pre-utility)
-  const minRawSq = Math.min(...rawDistSq);
   if (minRawSq > Math.pow(TOO_FAR_DISTANCE, 2) && !VOTE_MANDATE) {
     return null;
   }
@@ -946,7 +981,7 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
   if (PROBABILISTIC_VOTING) {
     return softmaxPick(utilities, SOFTMAX_BETA);
   }
-  return utilities.indexOf(Math.max(...utilities));
+  return maxIndex;
 }
 
 export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: number): string[] {
@@ -1081,10 +1116,8 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
 
   // Economic anxiety factor - affects economic issues more
   let economicAnxiety = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
-  let economicCrisis = false;
   if (Math.random() < 0.1) { // 10% chance of significant economic uncertainty
     economicAnxiety = 0.5 + Math.random() * 1.3; // 0.5 to 1.8
-    economicCrisis = true;
     if (economicAnxiety > 1.4) {
       const crisisEvent = ECONOMIC_CRISIS_EVENTS[Math.floor(Math.random() * ECONOMIC_CRISIS_EVENTS.length)];
       newsEvents.push(crisisEvent);
@@ -1096,7 +1129,6 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
 
   // Social polarization events
   const polarizationEvent = Math.random() < 0.08; // 8% chance
-  const polarizationStrength = polarizationEvent ? 1.2 + Math.random() * 0.8 : 1.0; // 1.2 to 2.0
 
   if (polarizationEvent) {
     const polarizationNews = POLARIZATION_EVENTS[Math.floor(Math.random() * POLARIZATION_EVENTS.length)];
@@ -1104,8 +1136,10 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
   }
 
   // Apply small random changes to voter opinions
-  for (let voterIndex = 0; voterIndex < data[0].length; voterIndex++) {
-    for (let i = 0; i < VALUES.length; i++) {
+  const voterCount = data[0].length;
+  const axisCount = VALUES.length;
+  for (let voterIndex = 0; voterIndex < voterCount; voterIndex++) {
+    for (let i = 0; i < axisCount; i++) {
       if (Math.random() < 0.015) { // 1.5% chance per voter per issue
         const change = (Math.random() - 0.5) * 3; // Smaller change range
         const newValue = data[i][voterIndex] + change;
@@ -1139,8 +1173,9 @@ export function conductPoll(
   // Reset results for this poll
   const pollResults: number[] = new Array(candidates.length).fill(0);
   let notVoted = 0;
+  const voterCount = data[0]?.length || 0;
   // Ensure loyalty memory exists for current electorate size
-  ensureLastChoices(data[0]?.length || 0);
+  ensureLastChoices(voterCount);
 
   // Apply political dynamics to parties
   const politicalNews = applyPoliticalDynamics(candidates, pollIteration);
@@ -1158,8 +1193,11 @@ export function conductPoll(
   const blocTallies: Record<string, number[]> = {};
   const blocSizes: Record<string, number> = {};
   const blocTotalVoters: Record<string, number> = {}; // Total voters in each bloc (voted + abstained)
-  if (country?.blocs && VOTER_BLOC_IDS) {
-    country.blocs.forEach(b => {
+  const blocs = country?.blocs ?? [];
+  const hasBlocs = blocs.length > 0 && !!VOTER_BLOC_IDS;
+  const blocIds = hasBlocs ? blocs.map(b => b.id) : [];
+  if (hasBlocs) {
+    blocs.forEach(b => {
       blocTallies[b.id] = new Array(candidates.length).fill(0);
       blocSizes[b.id] = 0;
       blocTotalVoters[b.id] = 0;
@@ -1167,14 +1205,14 @@ export function conductPoll(
   }
 
   // Poll the entire electorate
-  for (let voterIndex = 0; voterIndex < data[0].length; voterIndex++) {
+  for (let voterIndex = 0; voterIndex < voterCount; voterIndex++) {
     const choice = voteForCandidate(voterIndex, candidates, data, country);
 
     // Track bloc membership regardless of vote
-    if (country?.blocs && VOTER_BLOC_IDS) {
-      const blocId = VOTER_BLOC_IDS[voterIndex];
-      if (blocId >= 0 && blocId < country.blocs.length) {
-        const blocKey = country.blocs[blocId].id;
+    if (hasBlocs) {
+      const blocId = VOTER_BLOC_IDS![voterIndex];
+      if (blocId >= 0 && blocId < blocIds.length) {
+        const blocKey = blocIds[blocId];
         blocTotalVoters[blocKey]++; // Count all voters in this bloc
 
         if (choice !== null) {
@@ -1216,7 +1254,14 @@ export function conductPoll(
     const totalPercentage = results.reduce((sum, result) => sum + result.percentage, 0);
     if (Math.abs(totalPercentage - 100) > 0.01) {
       // Find the candidate with the most votes and adjust their percentage
-      const maxIndex = results.findIndex(r => r.votes === Math.max(...results.map(res => res.votes)));
+      let maxIndex = -1;
+      let maxVotes = -Infinity;
+      for (let i = 0; i < results.length; i++) {
+        if (results[i].votes > maxVotes) {
+          maxVotes = results[i].votes;
+          maxIndex = i;
+        }
+      }
       if (maxIndex !== -1) {
         results[maxIndex].percentage += (100 - totalPercentage);
       }
@@ -1288,9 +1333,11 @@ export function initElectorate(country: Country): number[][] {
   return data;
 }
 
+const VOTE_FORMATTER = new Intl.NumberFormat();
+
 export function formatVotes(votes: number, scaleFactor: number): string {
   const formattedVotes = Math.abs(votes * scaleFactor + (Math.random() * 1000));
-  return Math.round(formattedVotes).toLocaleString();
+  return VOTE_FORMATTER.format(Math.round(formattedVotes));
 }
 
 export function applyEventEffect(

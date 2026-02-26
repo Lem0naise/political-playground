@@ -23,6 +23,8 @@ import {
   POSITION_SHIFT_TEMPLATES
 } from '@/lib/newsTemplates';
 
+const AXIS_KEYS: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
+
 // Helper function to substitute variables in news templates
 export function substituteNewsVariables(
   template: string,
@@ -76,22 +78,25 @@ export function calculatePostElectionStats(
   finalResults: any[],
   initialPollResults: Record<string, number>,
   initialBlocStats: BlocStatistics[] | undefined,
-  finalBlocStats: BlocStatistics[] | undefined,
-  blocStatsHistory: BlocStatistics[][] | undefined
+  finalBlocStats: BlocStatistics[] | undefined
 ): PostElectionStats {
   // Calculate party swings
-  const partySwings = finalResults.map(result => ({
-    party: result.candidate.party,
-    initialPercentage: initialPollResults[result.candidate.party] || 0,
-    finalPercentage: result.percentage,
-    swing: result.percentage - (initialPollResults[result.candidate.party] || 0)
-  })).sort((a, b) => Math.abs(b.swing) - Math.abs(a.swing));
+  const partySwings = finalResults.map(result => {
+    const initialPercentage = initialPollResults[result.candidate.party] || 0;
+    return {
+      party: result.candidate.party,
+      initialPercentage,
+      finalPercentage: result.percentage,
+      swing: result.percentage - initialPercentage
+    };
+  }).sort((a, b) => Math.abs(b.swing) - Math.abs(a.swing));
 
   // Calculate bloc swings (biggest swing for each bloc across all parties)
   const blocSwings: BlocSwingData[] = [];
   if (initialBlocStats && finalBlocStats) {
+    const initialBlocById = new Map(initialBlocStats.map(bloc => [bloc.blocId, bloc]));
     finalBlocStats.forEach(finalBloc => {
-      const initialBloc = initialBlocStats.find(b => b.blocId === finalBloc.blocId);
+      const initialBloc = initialBlocById.get(finalBloc.blocId);
       if (!initialBloc) return;
 
       // Find the party with the biggest swing in this bloc
@@ -175,11 +180,12 @@ export function calculatePostElectionStats(
   let biggestTurnoutDecrease: PostElectionStats['biggestTurnoutDecrease'];
 
   if (initialBlocStats && finalBlocStats) {
+    const initialBlocById = new Map(initialBlocStats.map(bloc => [bloc.blocId, bloc]));
     let maxIncrease = 0;
     let maxDecrease = 0;
 
     finalBlocStats.forEach(finalBloc => {
-      const initialBloc = initialBlocStats.find(b => b.blocId === finalBloc.blocId);
+      const initialBloc = initialBlocById.get(finalBloc.blocId);
       if (!initialBloc) return;
 
       const change = finalBloc.turnout - initialBloc.turnout;
@@ -297,8 +303,7 @@ export function calculateNextPollState(state: GameState): GameState {
       const playerCandidate = state.candidates.find(c => c.is_player);
       if (playerCandidate) {
         // Shift 1% of the difference towards the bloc center on each axis
-        const axisKeys: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
-        axisKeys.forEach((key, index) => {
+        AXIS_KEYS.forEach((key, index) => {
           const currentValue = playerCandidate.vals[index];
           const targetValue = targetedBloc.center[key];
           const difference = targetValue - currentValue;
@@ -321,6 +326,7 @@ export function calculateNextPollState(state: GameState): GameState {
     ...result,
     change: result.percentage - (state.previousPollResults[result.candidate.party] || result.percentage)
   }));
+  const resultsByCandidateId = new Map(resultsWithChange.map(result => [result.candidate.id, result]));
 
   // --- BEGIN: Add news for all parties with polling surges/drops ---
   const partyPollingNews: string[] = [];
@@ -441,7 +447,7 @@ export function calculateNextPollState(state: GameState): GameState {
       }
     } else {
       // 2) If no active trend, there is a chance to spawn a new one
-      const candidateResult = resultsWithChange.find(r => r.candidate.id === candidate.id);
+      const candidateResult = resultsByCandidateId.get(candidate.id);
       const currentPolling = candidateResult ? candidateResult.percentage : 0;
       const currentSwing = candidateResult ? candidateResult.change : 0;
 
@@ -497,7 +503,7 @@ export function calculateNextPollState(state: GameState): GameState {
 
   const nonPlayerCandidates = state.candidates.filter(c => !c.is_player);
   nonPlayerCandidates.forEach(candidate => {
-    const candidateResult = resultsWithChange.find(r => r.candidate.id === candidate.id);
+    const candidateResult = resultsByCandidateId.get(candidate.id);
     const currentPolling = candidateResult ? candidateResult.percentage : 0;
     const currentSwing = candidateResult ? candidateResult.change : 0;
 
@@ -508,8 +514,7 @@ export function calculateNextPollState(state: GameState): GameState {
     // chance per party per poll for a position shift
     if (Math.random() < shiftProbability) {
       // Pick a random axis to shift
-      const axes: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
-      const axisToShift = axes[Math.floor(Math.random() * axes.length)];
+      const axisToShift = AXIS_KEYS[Math.floor(Math.random() * AXIS_KEYS.length)];
 
       // Shift amount: 5-10 points (similar to player events)
       const shiftAmount = (10 + Math.random() * 10) * (Math.random() < 0.5 ? 1 : -1);
@@ -517,7 +522,7 @@ export function calculateNextPollState(state: GameState): GameState {
       // Find the actual candidate object to modify
       const targetCandidate = state.candidates.find(c => c.name === candidate.name);
       if (targetCandidate) {
-        const axisIndex = axes.indexOf(axisToShift);
+        const axisIndex = AXIS_KEYS.indexOf(axisToShift);
         targetCandidate.vals[axisIndex] = Math.max(-100, Math.min(100, targetCandidate.vals[axisIndex] + shiftAmount));
 
         // Generate appropriate news
@@ -580,8 +585,7 @@ export function calculateNextPollState(state: GameState): GameState {
       resultsWithChange,
       state.initialPollResults,
       state.initialBlocStats,
-      newBlocStats,
-      state.blocStatsHistory
+      newBlocStats
     );
     if (postElectionStats) {
       postElectionStats.voterTransfers = significantTransfers;

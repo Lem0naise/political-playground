@@ -1,4 +1,4 @@
-import { Candidate, CABINET_POSITIONS, VALUES } from '@/types/game';
+import { Candidate, CABINET_POSITIONS, VALUES, DEBUG } from '@/types/game';
 
 export interface CoalitionCompatibility {
   candidate: Candidate;
@@ -49,7 +49,9 @@ export function calculatePartyCompatibility(party1: Candidate, party2: Candidate
   }
   // Clamp to [0, 100]
   compatibility = Math.max(0, Math.min(100, compatibility));
-  console.log('DEBUG: calculatePartyCompatibility', { party1: party1.party, party2: party2.party, compatibility });
+  if (DEBUG) {
+    console.log('DEBUG: calculatePartyCompatibility', { party1: party1.party, party2: party2.party, compatibility });
+  }
   return compatibility;
 }
 
@@ -89,16 +91,18 @@ export function calculateCoalitionWillingness(
   // Cabinet position appeal
   const cabinetAppeal = calculateCabinetAppeal(cabinetImportanceOffered, partnerPercentage, compatibility);
   const willingness = Math.max(0, Math.min(100, baseWillingness + cabinetAppeal));
-  console.log('DEBUG: calculateCoalitionWillingness', {
-    leadParty: leadParty.party,
-    partnerParty: partnerParty.party,
-    leadPercentage,
-    partnerPercentage,
-    baseWillingness,
-    cabinetImportanceOffered,
-    cabinetAppeal,
-    willingness
-  });
+  if (DEBUG) {
+    console.log('DEBUG: calculateCoalitionWillingness', {
+      leadParty: leadParty.party,
+      partnerParty: partnerParty.party,
+      leadPercentage,
+      partnerPercentage,
+      baseWillingness,
+      cabinetImportanceOffered,
+      cabinetAppeal,
+      willingness
+    });
+  }
   return willingness;
 }
 
@@ -319,18 +323,20 @@ export function simulateCoalitionNegotiation(
 
   let finalAppeal = baseWillingness + scaledAppeal;
 
-  console.log('DEBUG: simulateCoalitionNegotiation', {
-    leadParty: leadParty.party,
-    partnerParty: partnerParty.party,
-    leadPercentage,
-    partnerPercentage,
-    baseWillingness,
-    cabinetImportanceOffered,
-    cabinetAppeal,
-    policyResponses,
-    policyAppeal,
-    finalAppeal
-  });
+  if (DEBUG) {
+    console.log('DEBUG: simulateCoalitionNegotiation', {
+      leadParty: leadParty.party,
+      partnerParty: partnerParty.party,
+      leadPercentage,
+      partnerPercentage,
+      baseWillingness,
+      cabinetImportanceOffered,
+      cabinetAppeal,
+      policyResponses,
+      policyAppeal,
+      finalAppeal
+    });
+  }
 
 
   let message = '';
@@ -393,13 +399,12 @@ export function findBestCoalitionPartners(
   availableParties: Candidate[],
   results: Array<{ candidate: Candidate; percentage: number }>
 ): Array<{ candidate: Candidate; compatibility: number; willingness: number; percentage: number }> {
-  const leadResult = results.find(r => r.candidate.id === leadParty.id);
-  const leadPercentage = leadResult?.percentage || 0;
+  const resultsById = new Map(results.map(r => [r.candidate.id, r.percentage]));
+  const leadPercentage = resultsById.get(leadParty.id) || 0;
 
   return availableParties
     .map(party => {
-      const result = results.find(r => r.candidate.id === party.id);
-      const percentage = result?.percentage || 0;
+      const percentage = resultsById.get(party.id) || 0;
       const compatibility = calculatePartyCompatibility(leadParty, party);
       const willingness = calculateCoalitionWillingness(leadParty, party, leadPercentage, percentage);
 
@@ -417,12 +422,11 @@ export function findBestCoalitionPartners(
 function calculatePositionsToOffer(
   partnerPercentage: number,
   availablePositions: { name: string; importance: number; available_slots: number }[],
-  totalCabinetSlots: number,
   leadPercentage: number
 ): number {
   // Offer positions roughly proportional to their share of the newly formed government coalition
   const combinedPercentage = leadPercentage + partnerPercentage;
-  const premiumShare = (partnerPercentage / combinedPercentage);
+  const premiumShare = combinedPercentage === 0 ? 0 : (partnerPercentage / combinedPercentage);
   const scaled = Math.round(premiumShare * availablePositions.length); // Use unique positions count roughly
   return Math.max(1, scaled); // Always offer at least 1
 }
@@ -443,28 +447,32 @@ export function simulateAICoalitionNegotiation(
   const compatibility = calculatePartyCompatibility(leadParty, partnerParty);
   const priorityPositions = getPartyPriorityPositions(partnerParty);
   const availablePositions = getAvailableCabinetPositions(allocations);
-
-  // Calculate total available cabinet slots
-  const totalCabinetSlots = availablePositions.reduce((sum, pos) => sum + pos.available_slots, 0);
-
+  const availableByName = new Map(availablePositions.map(pos => [pos.name, pos]));
   // Determine number of positions to offer
-  const numToOffer = calculatePositionsToOffer(partnerPercentage, availablePositions, totalCabinetSlots, leadPercentage);
+  const numToOffer = calculatePositionsToOffer(partnerPercentage, availablePositions, leadPercentage);
 
   // Offer positions based on party's priorities and availability
   let positionsToOffer: string[] = [];
+  const offeredSet = new Set<string>();
   for (const pos of priorityPositions) {
     if (positionsToOffer.length >= numToOffer) break;
-    const found = availablePositions.find(ap => ap.name === pos && ap.available_slots > 0);
-    if (found) positionsToOffer.push(pos);
+    const found = availableByName.get(pos);
+    if (found && found.available_slots > 0) {
+      positionsToOffer.push(pos);
+      offeredSet.add(pos);
+    }
   }
   // If not enough, fill with any available positions
   for (const pos of availablePositions) {
     if (positionsToOffer.length >= numToOffer) break;
-    if (!positionsToOffer.includes(pos.name)) positionsToOffer.push(pos.name);
+    if (!offeredSet.has(pos.name)) {
+      positionsToOffer.push(pos.name);
+      offeredSet.add(pos.name);
+    }
   }
 
   const totalImportance = positionsToOffer.reduce((sum, pos) => {
-    const position = availablePositions.find(p => p.name === pos);
+    const position = availableByName.get(pos);
     return sum + (position?.importance || 10);
   }, 0);
 
@@ -479,15 +487,17 @@ export function simulateAICoalitionNegotiation(
     totalImportance,
     policyResponses
   );
-  console.log('DEBUG: simulateAICoalitionNegotiation', {
-    leadParty: leadParty.party,
-    partnerParty: partnerParty.party,
-    leadPercentage,
-    partnerPercentage,
-    positionsToOffer,
-    totalImportance,
-    policyResponses
-  });
+  if (DEBUG) {
+    console.log('DEBUG: simulateAICoalitionNegotiation', {
+      leadParty: leadParty.party,
+      partnerParty: partnerParty.party,
+      leadPercentage,
+      partnerPercentage,
+      positionsToOffer,
+      totalImportance,
+      policyResponses
+    });
+  }
 
   return {
     success: result.success,
@@ -520,28 +530,32 @@ export function generatePlayerApproachOffer(
 } {
   const priorityPositions = getPartyPriorityPositions(playerParty);
   const availablePositions = getAvailableCabinetPositions(allocations);
-
-  // Calculate total available cabinet slots
-  const totalCabinetSlots = availablePositions.reduce((sum, pos) => sum + pos.available_slots, 0);
-
+  const availableByName = new Map(availablePositions.map(pos => [pos.name, pos]));
   // Determine number of positions to offer
-  const numToOffer = calculatePositionsToOffer(playerPercentage, availablePositions, totalCabinetSlots, leadPercentage);
+  const numToOffer = calculatePositionsToOffer(playerPercentage, availablePositions, leadPercentage);
 
   // Offer positions based on party's priorities and availability
   let offeredPositions: string[] = [];
+  const offeredSet = new Set<string>();
   for (const pos of priorityPositions) {
     if (offeredPositions.length >= numToOffer) break;
-    const found = availablePositions.find(ap => ap.name === pos && ap.available_slots > 0);
-    if (found) offeredPositions.push(pos);
+    const found = availableByName.get(pos);
+    if (found && found.available_slots > 0) {
+      offeredPositions.push(pos);
+      offeredSet.add(pos);
+    }
   }
   // If not enough, fill with any available positions
   for (const pos of availablePositions) {
     if (offeredPositions.length >= numToOffer) break;
-    if (!offeredPositions.includes(pos.name)) offeredPositions.push(pos.name);
+    if (!offeredSet.has(pos.name)) {
+      offeredPositions.push(pos.name);
+      offeredSet.add(pos.name);
+    }
   }
 
   const totalImportance = offeredPositions.reduce((sum, pos) => {
-    const position = availablePositions.find(p => p.name === pos);
+    const position = availableByName.get(pos);
     return sum + (position?.importance || 10);
   }, 0);
 
@@ -578,8 +592,9 @@ export function evaluatePlayerResponse(
   compatibility: number;
 } {
   const availablePositions = getAvailableCabinetPositions(allocations);
+  const availableByName = new Map(availablePositions.map(pos => [pos.name, pos]));
   let acceptedImportance = acceptedPositions.reduce((sum, pos) => {
-    const position = availablePositions.find(p => p.name === pos);
+    const position = availableByName.get(pos);
     return sum + (position?.importance || 10);
   }, 0);
 
@@ -619,16 +634,18 @@ export function evaluatePlayerResponse(
   // We should just check if the player's demands ruined that willingness.
   const finalAppeal = 100 + scaledAppeal + rngFactor;
 
-  console.log('DEBUG: evaluatePlayerResponse', {
-    leadParty: leadParty.party,
-    playerParty: playerParty.party,
-    expectedImportance,
-    acceptedImportance,
-    policyScore,
-    greedPenalty,
-    rngFactor,
-    finalAppeal
-  });
+  if (DEBUG) {
+    console.log('DEBUG: evaluatePlayerResponse', {
+      leadParty: leadParty.party,
+      playerParty: playerParty.party,
+      expectedImportance,
+      acceptedImportance,
+      policyScore,
+      greedPenalty,
+      rngFactor,
+      finalAppeal
+    });
+  }
 
   let message = '';
   if (finalAppeal >= 85) {
