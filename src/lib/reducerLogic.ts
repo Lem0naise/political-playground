@@ -280,34 +280,24 @@ export function calculateNextPollState(state: GameState): GameState {
   const { results: newResults, newsEvents, blocStats: newBlocStats } = conductPoll(votingDataRef, state.candidates, nextPollNum, countryDataAfterTrend);
 
   // --- BEGIN: Apply bloc targeting ideology shift ---
-  let updatedTargetedBlocId = state.targetedBlocId;
-  let updatedTargetingStartWeek = state.targetingStartWeek;
-  let updatedTargetingCooldownUntil = state.targetingCooldownUntil;
+  let updatedTargetedBlocId = state.targetedBlocId ?? null;
+  let updatedTargetingStartWeek = state.targetingStartWeek ?? null;
+  let updatedTargetingWeeksActive = state.targetingWeeksActive ?? 0;
 
-  // Check if we need to end targeting due to 6-week limit
-  if (state.targetedBlocId && state.targetingStartWeek !== null && state.targetingStartWeek !== undefined) {
-    const weeksTargeting = nextPollNum - state.targetingStartWeek;
-
-    if (weeksTargeting >= 6) {
-      // End targeting and start cooldown
-      updatedTargetedBlocId = null;
-      updatedTargetingStartWeek = null;
-      updatedTargetingCooldownUntil = nextPollNum + 3; // 3 week cooldown
-    }
-  }
-
-  // Apply targeting shift if still active
   if (updatedTargetedBlocId && countryDataAfterTrend.blocs) {
     const targetedBloc = countryDataAfterTrend.blocs.find(b => b.id === updatedTargetedBlocId);
     if (targetedBloc) {
       const playerCandidate = state.candidates.find(c => c.is_player);
       if (playerCandidate) {
-        // Shift 1% of the difference towards the bloc center on each axis
+        // Increment the counter each poll while actively targeting
+        updatedTargetingWeeksActive += 1;
+
+        // Apply ideology shift every week of targeting
         AXIS_KEYS.forEach((key, index) => {
           const currentValue = playerCandidate.vals[index];
           const targetValue = targetedBloc.center[key];
           const difference = targetValue - currentValue;
-          const shift = difference * TARGET_SHIFT; // 2% of the difference
+          const shift = difference * TARGET_SHIFT;
           playerCandidate.vals[index] = Math.max(-100, Math.min(100, currentValue + shift));
         });
       }
@@ -615,7 +605,7 @@ export function calculateNextPollState(state: GameState): GameState {
     postElectionStats,
     targetedBlocId: updatedTargetedBlocId,
     targetingStartWeek: updatedTargetingStartWeek,
-    targetingCooldownUntil: updatedTargetingCooldownUntil,
+    targetingWeeksActive: updatedTargetingWeeksActive,
     pollingHistory: [
       ...state.pollingHistory,
       {
