@@ -1032,14 +1032,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...positionShiftNews
       ];
 
-      // Sort the combined array by word count in ascending order.
+      // Sort the combined array by word count in ascending order, then cap to 4 items.
       const sortedPoliticalNews = allNewsItems.sort((a, b) => {
         if (Math.random() < 0.6) {
           return (a.split(' ').length - b.split(' ').length);
         }
         else { return 1; }
-
-      });
+      }).slice(0, 4);
 
       // Calculate post-election stats if this is the final poll
       let postElectionStats: PostElectionStats | undefined = undefined;

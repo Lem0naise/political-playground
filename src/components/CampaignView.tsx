@@ -133,7 +133,7 @@ export default function CampaignView() {
                 </div>
 
                 {(() => {
-                  const NEWS_SLOTS = 7;
+                  const NEWS_SLOTS = 4;
 
                   // Each trend gets a priority index based on how far through its lifetime it is.
                   // Fresh trends (remainingWeeks ≈ duration) → index 0 (top).
@@ -178,15 +178,11 @@ export default function CampaignView() {
                               <div className={`p-2 ${isFirst ? 'sm:p-3' : ''} flex gap-3`}>
                                 <div className="w-1 bg-red-500 rounded-full flex-shrink-0"></div>
                                 <div>
-                                  <span className="text-[10px] text-red-400 font-mono italic font-bold uppercase tracking-wider">Nationwide Trend</span>
-                                  <h3 className={`${isFirst ? 'text-base sm:text-lg' : 'text-xs sm:text-sm'} font-bold text-white leading-snug mt-0.5`}>
+                                  <h3 className={`${isFirst ? 'text-base sm:text-lg' : 'text-xs sm:text-sm'} font-bold text-white leading-snug`}>
                                     {item.trend.title}
                                   </h3>
-                                  <p className="text-[11px] text-slate-300 mt-1 leading-snug">
-                                    {item.trend.description}
-                                  </p>
-                                  <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wide mt-1">
-                                    Week {state.currentPoll} · {item.trend.remainingWeeks}w remaining
+                                  <div className="text-[10px] text-red-400 font-mono uppercase tracking-wide mt-1">
+                                    Trend · {item.trend.remainingWeeks}w remaining
                                   </div>
                                 </div>
                               </div>
