@@ -10,8 +10,8 @@ export interface PoliticalValues {
 
 export interface TrendDefinition {
   id: string;
-  title: string;
-  description: string;
+  titles: string[];
+  descriptions: string[];
   valueKey: PoliticalValueKey;
   direction: 1 | -1;
   directionLabel: string;
@@ -23,7 +23,11 @@ export interface TrendDefinition {
   completionTemplates: string[];
 }
 
-export interface ActiveTrend extends TrendDefinition {
+export interface ActiveTrend extends Omit<TrendDefinition, 'titles' | 'descriptions'> {
+  /** Resolved title chosen at spawn time */
+  title: string;
+  /** Resolved description chosen at spawn time */
+  description: string;
   totalShift: number;
   weeklyShift: number;
   duration: number;
