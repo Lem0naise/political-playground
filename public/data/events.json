@@ -35,6 +35,11 @@
                 },
                 "boost": 5
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -73,6 +78,11 @@
                 },
                 "boost": 4
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -111,6 +121,11 @@
                 },
                 "boost": 8
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -152,6 +167,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -190,6 +210,10 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -228,6 +252,11 @@
                 },
                 "boost": 2
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -266,6 +295,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -304,6 +338,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -342,6 +381,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -382,6 +426,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -420,6 +469,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -458,6 +512,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -496,6 +555,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -534,6 +598,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -572,6 +641,11 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -610,6 +684,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "nat_glob"
         ]
     },
     {
@@ -648,6 +727,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -686,6 +770,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -724,6 +813,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -762,6 +856,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -800,6 +899,10 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -838,6 +941,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -876,6 +984,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -914,6 +1026,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -952,6 +1068,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -990,6 +1110,10 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -1028,6 +1152,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -1066,6 +1194,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "rel_sec"
         ]
     },
     {
@@ -1104,6 +1237,10 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -1142,6 +1279,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -1180,6 +1322,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -1218,6 +1365,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -1256,6 +1408,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob"
         ]
     },
     {
@@ -1294,6 +1450,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -1332,6 +1493,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "soc_cap"
         ]
     },
     {
@@ -1370,6 +1536,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "pac_mil"
         ]
     },
     {
@@ -1408,6 +1579,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -1446,6 +1622,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -1484,6 +1665,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -1522,6 +1708,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "pac_mil"
         ]
     },
     {
@@ -1560,6 +1751,10 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -1598,6 +1793,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -1636,6 +1835,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -1674,6 +1878,10 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob"
         ]
     },
     {
@@ -1712,6 +1920,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -1750,6 +1963,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -1788,6 +2006,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -1826,6 +2049,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -1864,6 +2092,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -1902,6 +2134,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -1940,6 +2177,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -1978,6 +2220,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -2016,6 +2262,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco"
         ]
     },
     {
@@ -2054,6 +2304,10 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -2092,6 +2346,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2130,6 +2389,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "soc_cap"
         ]
     },
     {
@@ -2168,6 +2432,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2206,6 +2475,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -2244,6 +2518,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -2282,6 +2561,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2320,6 +2604,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -2358,6 +2647,10 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -2396,6 +2689,10 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -2434,6 +2731,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -2472,6 +2774,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2510,6 +2817,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -2548,6 +2859,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2586,6 +2902,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -2624,6 +2945,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2662,6 +2988,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2700,6 +3031,10 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -2738,6 +3073,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -2776,6 +3116,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2814,6 +3159,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "soc_cap"
         ]
     },
     {
@@ -2852,6 +3202,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -2890,6 +3244,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -2928,6 +3287,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -2966,6 +3330,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -3004,6 +3373,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -3042,6 +3416,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -3080,6 +3459,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -3118,6 +3502,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco"
         ]
     },
     {
@@ -3156,6 +3544,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -3194,6 +3587,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -3232,6 +3629,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -3270,6 +3671,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -3308,6 +3714,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -3346,6 +3757,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -3384,6 +3800,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "soc_cap"
         ]
     },
     {
@@ -3422,6 +3843,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -3460,6 +3885,11 @@
                 },
                 "boost": 8
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -3498,6 +3928,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -3536,6 +3971,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -3577,6 +4017,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -3615,6 +4060,10 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -3653,6 +4102,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -3691,6 +4145,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -3729,6 +4188,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -3767,6 +4231,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -3805,6 +4274,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -3843,6 +4316,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -3881,6 +4359,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -3919,6 +4402,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -3957,6 +4445,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -3995,6 +4488,11 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -4033,6 +4531,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "nat_glob"
         ]
     },
     {
@@ -4071,6 +4574,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -4109,6 +4617,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4147,6 +4660,11 @@
                 },
                 "boost": 25
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4185,6 +4703,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4223,6 +4745,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -4261,6 +4787,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -4299,6 +4830,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4337,6 +4873,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4375,6 +4916,11 @@
                 },
                 "boost": 15
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -4413,6 +4959,11 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -4451,6 +5002,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -4489,6 +5045,10 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -4527,6 +5087,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4565,6 +5130,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -4603,6 +5173,11 @@
                 },
                 "boost": 24
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "rel_sec"
         ]
     },
     {
@@ -4641,6 +5216,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "env_eco",
+            "pac_mil"
         ]
     },
     {
@@ -4679,6 +5259,11 @@
                 },
                 "boost": 15
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "rel_sec"
         ]
     },
     {
@@ -4717,6 +5302,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4755,6 +5345,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4793,6 +5388,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "pac_mil"
         ]
     },
     {
@@ -4831,6 +5431,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4869,6 +5474,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4907,6 +5517,11 @@
                 },
                 "boost": 8
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4945,6 +5560,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -4983,6 +5603,11 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -5021,6 +5646,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5059,6 +5689,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -5097,6 +5732,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -5135,6 +5775,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5173,6 +5818,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -5211,6 +5861,11 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -5249,6 +5904,10 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5287,6 +5946,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -5325,6 +5988,11 @@
                 },
                 "boost": 28
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5363,6 +6031,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -5401,6 +6074,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "env_eco",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5439,6 +6117,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5477,6 +6160,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5515,6 +6203,10 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -5553,6 +6245,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5591,6 +6288,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -5629,6 +6330,11 @@
                 },
                 "boost": 30
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -5667,6 +6373,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5705,6 +6416,11 @@
                 },
                 "boost": 25
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -5743,6 +6459,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -5781,6 +6502,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana",
+            "pac_mil"
         ]
     },
     {
@@ -5819,6 +6545,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "auth_ana"
         ]
     },
     {
@@ -5857,6 +6588,10 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap"
         ]
     },
     {
@@ -5895,6 +6630,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -5933,6 +6673,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -5971,6 +6716,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6009,6 +6759,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6047,6 +6802,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6085,6 +6845,10 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6123,6 +6887,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -6161,6 +6930,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -6199,6 +6973,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6237,6 +7016,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -6275,6 +7058,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -6313,6 +7101,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6351,6 +7144,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6389,6 +7187,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -6427,6 +7230,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -6465,6 +7273,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -6503,6 +7316,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana",
+            "rel_sec"
         ]
     },
     {
@@ -6541,6 +7359,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "env_eco",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6579,6 +7402,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -6617,6 +7445,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6655,6 +7488,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "auth_ana"
         ]
     },
     {
@@ -6693,6 +7531,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6731,6 +7574,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6769,6 +7617,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -6807,6 +7660,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6845,6 +7703,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6883,6 +7746,11 @@
                 },
                 "boost": 25
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -6921,6 +7789,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -6959,6 +7832,11 @@
                 },
                 "boost": 25
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -6997,6 +7875,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7035,6 +7918,11 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "auth_ana"
         ]
     },
     {
@@ -7073,6 +7961,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7111,6 +8004,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7149,6 +8047,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -7187,6 +8090,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -7225,6 +8133,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7263,6 +8176,11 @@
                 },
                 "boost": 30
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7301,6 +8219,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "pac_mil"
         ]
     },
     {
@@ -7339,6 +8262,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7377,6 +8305,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -7415,6 +8348,11 @@
                 },
                 "boost": 8
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -7453,6 +8391,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -7491,6 +8434,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7529,6 +8477,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -7567,6 +8520,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7605,6 +8563,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -7643,6 +8606,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -7681,6 +8649,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7719,6 +8692,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -7757,6 +8735,11 @@
                 },
                 "boost": 24
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7795,6 +8778,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "env_eco",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7833,6 +8821,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -7871,6 +8863,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "env_eco",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7909,6 +8906,11 @@
                 },
                 "boost": 26
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7947,6 +8949,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -7985,6 +8992,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8023,6 +9035,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -8061,6 +9078,10 @@
                 },
                 "boost": 26
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -8099,6 +9120,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -8137,6 +9163,10 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -8175,6 +9205,11 @@
                 },
                 "boost": 24
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -8213,6 +9248,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8251,6 +9291,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -8289,6 +9334,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -8327,6 +9377,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8365,6 +9420,11 @@
                 },
                 "boost": 25
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8403,6 +9463,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8441,6 +9506,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -8479,6 +9549,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8517,6 +9592,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8555,6 +9634,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "env_eco",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8593,6 +9677,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8631,6 +9720,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -8669,6 +9763,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -8707,6 +9806,11 @@
                 },
                 "boost": 25
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -8745,6 +9849,10 @@
                 },
                 "boost": 40
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8783,6 +9891,11 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -8821,6 +9934,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8859,6 +9977,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -8897,6 +10020,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana",
+            "env_eco"
         ]
     },
     {
@@ -8935,6 +10063,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -8973,6 +10106,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9011,6 +10149,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -9049,6 +10192,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9087,6 +10235,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -9125,6 +10278,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9163,6 +10321,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9201,6 +10364,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9239,6 +10407,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9277,6 +10450,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -9315,6 +10493,11 @@
                 },
                 "boost": 25
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9353,6 +10536,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9391,6 +10579,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -9429,6 +10622,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9467,6 +10665,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -9505,6 +10708,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -9543,6 +10751,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -9581,6 +10794,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9619,6 +10837,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "rel_sec"
         ]
     },
     {
@@ -9657,6 +10880,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9695,6 +10923,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -9733,6 +10966,10 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9771,6 +11008,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "env_eco",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9809,6 +11051,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9847,6 +11094,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9885,6 +11137,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9923,6 +11180,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9961,6 +11223,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -9999,6 +11266,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -10037,6 +11309,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10075,6 +11351,11 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "soc_cap",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -10113,6 +11394,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -10151,6 +11437,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -10189,6 +11480,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10227,6 +11523,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10265,6 +11566,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10303,6 +11609,11 @@
                 },
                 "boost": 25
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "pac_mil",
+            "auth_ana"
         ]
     },
     {
@@ -10341,6 +11652,11 @@
                 },
                 "boost": 26
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10379,6 +11695,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -10417,6 +11738,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10455,6 +11781,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10493,6 +11824,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -10531,6 +11867,10 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -10569,6 +11909,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -10607,6 +11952,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10645,6 +11995,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10683,6 +12038,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10721,6 +12081,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "soc_cap"
         ]
     },
     {
@@ -10759,6 +12124,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -10797,6 +12167,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10835,6 +12210,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10873,6 +12253,11 @@
                 },
                 "boost": 20
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10911,6 +12296,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10949,6 +12339,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -10987,6 +12382,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -11025,6 +12425,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -11063,6 +12468,11 @@
                 },
                 "boost": 18
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -11101,6 +12511,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "env_eco"
         ]
     },
     {
@@ -11139,6 +12554,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "nat_glob",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -11177,6 +12597,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "pac_mil"
         ]
     },
     {
@@ -11215,6 +12640,11 @@
                 },
                 "boost": 10
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "nat_glob",
+            "auth_ana"
         ]
     },
     {
@@ -11253,6 +12683,10 @@
                 },
                 "boost": 22
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "auth_ana"
         ]
     },
     {
@@ -11291,6 +12725,11 @@
                 },
                 "boost": 14
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     },
     {
@@ -11329,6 +12768,11 @@
                 },
                 "boost": 12
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "env_eco",
+            "soc_cap"
         ]
     },
     {
@@ -11367,6 +12811,11 @@
                 },
                 "boost": 16
             }
+        ],
+        "categories": [
+            "prog_cons",
+            "soc_cap",
+            "auth_ana"
         ]
     }
 ]
