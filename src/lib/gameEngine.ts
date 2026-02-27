@@ -1,4 +1,4 @@
-import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, VoterBloc } from '@/types/game';
+import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, VoterBloc, IdeologyDrift, EVENT_DRIFT_WEEKS } from '@/types/game';
 
 import { RANDOM_NEWS_EVENTS, ECONOMIC_CRISIS_EVENTS, ECONOMIC_OPTIMISM_EVENTS, POLARIZATION_EVENTS } from '@/lib/newsTemplates';
 
@@ -1883,20 +1883,43 @@ export function applyEventEffect(
     }
   }
 
-  // NOW apply the changes to the candidate
+  // Schedule gradual ideology drifts instead of applying changes instantly.
+  // Each affected axis gets an IdeologyDrift spread over EVENT_DRIFT_WEEKS polls.
+  const scheduledDrifts: IdeologyDrift[] = [];
   for (let i = 0; i < VALUES.length; i++) {
     const valueKey = VALUES[i];
     if (valueKey in effect && effect[valueKey] !== undefined) {
-      const oldVal = playerCandidate.vals[i] * EVENT_EFFECT_MULTIPLIER; // make half as big
-      playerCandidate.vals[i] += effect[valueKey]! * EVENT_EFFECT_MULTIPLIER;
-      // Clamp values to valid range
-      playerCandidate.vals[i] = Math.max(-100, Math.min(100, playerCandidate.vals[i]));
+      const totalShift = effect[valueKey]! * EVENT_EFFECT_MULTIPLIER;
+      if (Math.abs(totalShift) < 0.01) continue; // skip negligible shifts
+
+      // Check if there's already an active event drift on this axis — if so, merge
+      const existingDrift = playerCandidate.eventDrifts?.find(d => d.axisKey === valueKey);
+      if (existingDrift && existingDrift.weeksRemaining > 0) {
+        // Add the new total shift to the remaining drift by adjusting its weekly rate
+        const remainingOldShift = existingDrift.weeklyShift * existingDrift.weeksRemaining;
+        const combinedShift = remainingOldShift + totalShift;
+        existingDrift.weeklyShift = combinedShift / EVENT_DRIFT_WEEKS;
+        existingDrift.weeksRemaining = EVENT_DRIFT_WEEKS;
+        existingDrift.totalWeeks = EVENT_DRIFT_WEEKS;
+      } else {
+        scheduledDrifts.push({
+          axisKey: valueKey as PoliticalValueKey,
+          axisIndex: i,
+          weeklyShift: totalShift / EVENT_DRIFT_WEEKS,
+          weeksRemaining: EVENT_DRIFT_WEEKS,
+          totalWeeks: EVENT_DRIFT_WEEKS,
+        });
+      }
 
       if (DEBUG) {
-        console.log(`DEBUG: Changed ${valueKey} from ${oldVal} to ${playerCandidate.vals[i]}`);
+        console.log(`DEBUG: Scheduled drift for ${valueKey}: total=${totalShift.toFixed(2)} over ${EVENT_DRIFT_WEEKS} weeks (${(totalShift / EVENT_DRIFT_WEEKS).toFixed(2)}/week)`);
       }
     }
   }
+
+  // Append new drifts to the candidate's existing event drifts
+  const existingDrifts = playerCandidate.eventDrifts || [];
+  playerCandidate.eventDrifts = [...existingDrifts.filter(d => d.weeksRemaining > 0), ...scheduledDrifts];
 
 
   // Generate news based on voter preference analysis

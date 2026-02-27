@@ -20,7 +20,9 @@ import {
   ONGOING_BOOST_TEMPLATES,
   GAFFE_TEMPLATES,
   POSITIVE_TEMPLATES,
-  POSITION_SHIFT_TEMPLATES
+  POSITION_SHIFT_TEMPLATES,
+  IDEOLOGY_DRIFT_ONGOING_TEMPLATES,
+  IDEOLOGY_DRIFT_COMPLETE_TEMPLATES
 } from '@/lib/newsTemplates';
 
 const AXIS_KEYS: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
@@ -486,44 +488,40 @@ export function calculateNextPollState(state: GameState): GameState {
       }
     }
   });
-  // --- END: Party Polling Trends (Gaffes / Positive Events) ---
 
-  // --- BEGIN: Random position shifts for non-player parties ---
+  const DRIFT_WEEKS = 5;          // polls over which total shift is applied
+  const DRIFT_TOTAL_MIN = 20;     // minimum total shift (points on axis)
+  const DRIFT_TOTAL_MAX = 60;     // maximum total shift
   const positionShiftNews: string[] = [];
 
   const nonPlayerCandidates = state.candidates.filter(c => !c.is_player);
   nonPlayerCandidates.forEach(candidate => {
-    const candidateResult = resultsByCandidateId.get(candidate.id);
-    const currentPolling = candidateResult ? candidateResult.percentage : 0;
-    const currentSwing = candidateResult ? candidateResult.change : 0;
+    const targetCandidate = state.candidates.find(c => c.name === candidate.name);
+    if (!targetCandidate) return;
 
-    let shiftProbability = 0.05;
-    shiftProbability += (currentPolling / 100) * 0.3;
-    if (Math.abs(currentSwing) > 2.0) shiftProbability += 0.15;
+    // 1) Tick any in-progress drift first
+    if (targetCandidate.ideologyDrift && targetCandidate.ideologyDrift.weeksRemaining > 0) {
+      const drift = targetCandidate.ideologyDrift;
+      drift.weeksRemaining -= 1;
+      drift.axisIndex = AXIS_KEYS.indexOf(drift.axisKey); // safety: ensure index in sync
+      targetCandidate.vals[drift.axisIndex] = Math.max(
+        -100,
+        Math.min(100, targetCandidate.vals[drift.axisIndex] + drift.weeklyShift)
+      );
 
-    // chance per party per poll for a position shift
-    if (Math.random() < shiftProbability) {
-      // Pick a random axis to shift
-      const axisToShift = AXIS_KEYS[Math.floor(Math.random() * AXIS_KEYS.length)];
+      const isPositiveDrift = drift.weeklyShift > 0;
+      const useLeaderName = Math.random() < 0.5;
 
-      // Shift amount: 5-10 points (similar to player events)
-      const shiftAmount = (10 + Math.random() * 10) * (Math.random() < 0.5 ? 1 : -1);
+      // Clear drift once complete
+      if (drift.weeksRemaining <= 0) {
+        targetCandidate.ideologyDrift = undefined;
 
-      // Find the actual candidate object to modify
-      const targetCandidate = state.candidates.find(c => c.name === candidate.name);
-      if (targetCandidate) {
-        const axisIndex = AXIS_KEYS.indexOf(axisToShift);
-        targetCandidate.vals[axisIndex] = Math.max(-100, Math.min(100, targetCandidate.vals[axisIndex] + shiftAmount));
-
-        // Generate appropriate news
-        const isPositiveShift = shiftAmount > 0;
-        const templates = POSITION_SHIFT_TEMPLATES[axisToShift];
-        const templateArray = isPositiveShift ? templates.positive : templates.negative;
-        const template = templateArray[Math.floor(Math.random() * templateArray.length)];
-
-        const useLeaderName = Math.random() < 0.5;
-        const newsText = substituteNewsVariables(
-          template,
+        // Always fire a completion headline — announces the newly adopted position
+        const completionTemplates = IDEOLOGY_DRIFT_COMPLETE_TEMPLATES[drift.axisKey];
+        const completionArray = isPositiveDrift ? completionTemplates.positive : completionTemplates.negative;
+        const completionTemplate = completionArray[Math.floor(Math.random() * completionArray.length)];
+        positionShiftNews.push(substituteNewsVariables(
+          completionTemplate,
           {
             candidate_name: candidate.name,
             party: candidate.party,
@@ -531,13 +529,129 @@ export function calculateNextPollState(state: GameState): GameState {
           },
           state.eventVariables,
           state.country
-        );
-
-        positionShiftNews.push(newsText);
+        ));
+      } else {
+        // ~40% chance each mid-drift week to generate a follow-up "still shifting" story
+        if (Math.random() < 0.4) {
+          const ongoingTemplates = IDEOLOGY_DRIFT_ONGOING_TEMPLATES[drift.axisKey];
+          const ongoingArray = isPositiveDrift ? ongoingTemplates.positive : ongoingTemplates.negative;
+          const ongoingTemplate = ongoingArray[Math.floor(Math.random() * ongoingArray.length)];
+          positionShiftNews.push(substituteNewsVariables(
+            ongoingTemplate,
+            {
+              candidate_name: candidate.name,
+              party: candidate.party,
+              leader_name: useLeaderName ? candidate.name : candidate.party
+            },
+            state.eventVariables,
+            state.country
+          ));
+        }
       }
+
+      return; // don't evaluate a new drift while one is active
+    }
+
+    // 2) Decide whether to commit a new drift this poll.
+    //    Probability is deliberately low — big ideological moves are rare.
+    const candidateResult = resultsByCandidateId.get(candidate.id);
+    const currentPolling = candidateResult ? candidateResult.percentage : 0;
+    const currentSwing = candidateResult ? candidateResult.change : 0;
+
+    // Base 2%, scaled slightly by size and swing — max ~12% in dramatic circumstances
+    let driftProbability = 0.02;
+    driftProbability += (currentPolling / 100) * 0.06;
+    if (Math.abs(currentSwing) > 2.0) driftProbability += 0.04;
+
+    if (Math.random() < driftProbability) {
+      const axisToShift = AXIS_KEYS[Math.floor(Math.random() * AXIS_KEYS.length)];
+      const axisIndex = AXIS_KEYS.indexOf(axisToShift);
+      const direction = Math.random() < 0.5 ? 1 : -1;
+      const totalShift = (DRIFT_TOTAL_MIN + Math.random() * (DRIFT_TOTAL_MAX - DRIFT_TOTAL_MIN)) * direction;
+      const weeklyShift = totalShift / DRIFT_WEEKS;
+
+      // Commit the drift — first week applied immediately
+      targetCandidate.ideologyDrift = {
+        axisKey: axisToShift,
+        axisIndex,
+        weeklyShift,
+        weeksRemaining: DRIFT_WEEKS - 1, // already applying week 1 now
+        totalWeeks: DRIFT_WEEKS,
+      };
+      targetCandidate.vals[axisIndex] = Math.max(
+        -100,
+        Math.min(100, targetCandidate.vals[axisIndex] + weeklyShift)
+      );
+
+      // Generate news on the poll that kicks off the drift
+      const isPositiveShift = direction > 0;
+      const templates = POSITION_SHIFT_TEMPLATES[axisToShift];
+      const templateArray = isPositiveShift ? templates.positive : templates.negative;
+      const template = templateArray[Math.floor(Math.random() * templateArray.length)];
+      const useLeaderName = Math.random() < 0.5;
+      const newsText = substituteNewsVariables(
+        template,
+        {
+          candidate_name: candidate.name,
+          party: candidate.party,
+          leader_name: useLeaderName ? candidate.name : candidate.party
+        },
+        state.eventVariables,
+        state.country
+      );
+      positionShiftNews.push(newsText);
     }
   });
-  // --- END: Random position shifts for non-player parties ---
+  // --- END: Gradual ideology drift for non-player parties ---
+
+  // --- BEGIN: Process event-driven ideology drifts (player + any candidate) ---
+  // Event drifts are multi-axis IdeologyDrift[] on each candidate, applied over
+  // EVENT_DRIFT_WEEKS. This is the same tick-down pattern as the AI ideologyDrift
+  // but supports multiple concurrent axes from a single event.
+  const eventDriftNews: string[] = [];
+  state.candidates.forEach(candidate => {
+    if (!candidate.eventDrifts || candidate.eventDrifts.length === 0) return;
+
+    const stillActive: typeof candidate.eventDrifts = [];
+    for (const drift of candidate.eventDrifts) {
+      if (drift.weeksRemaining <= 0) continue;
+
+      drift.weeksRemaining -= 1;
+      drift.axisIndex = AXIS_KEYS.indexOf(drift.axisKey); // keep in sync
+      candidate.vals[drift.axisIndex] = Math.max(
+        -100,
+        Math.min(100, candidate.vals[drift.axisIndex] + drift.weeklyShift)
+      );
+
+      if (drift.weeksRemaining > 0) {
+        stillActive.push(drift);
+      } else {
+        // Drift completed — optionally generate a subtle completion news item
+        const isPositive = drift.weeklyShift > 0;
+        const useLeaderName = Math.random() < 0.5;
+        const completionTemplates = IDEOLOGY_DRIFT_COMPLETE_TEMPLATES[drift.axisKey];
+        if (completionTemplates) {
+          const completionArray = isPositive ? completionTemplates.positive : completionTemplates.negative;
+          if (completionArray && completionArray.length > 0 && candidate.is_player && Math.random() < 0.5) {
+            const completionTemplate = completionArray[Math.floor(Math.random() * completionArray.length)];
+            eventDriftNews.push(substituteNewsVariables(
+              completionTemplate,
+              {
+                candidate_name: candidate.name,
+                party: candidate.party,
+                leader_name: useLeaderName ? candidate.name : candidate.party
+              },
+              state.eventVariables,
+              state.country
+            ));
+          }
+        }
+      }
+    }
+
+    candidate.eventDrifts = stillActive.length > 0 ? stillActive : undefined;
+  });
+  // --- END: Process event-driven ideology drifts ---
 
   // Combine all news sources into a single array first
   const substitutedNewsEvents = newsEvents.map(news =>
@@ -550,7 +664,8 @@ export function calculateNextPollState(state: GameState): GameState {
     ...substitutedNewsEvents,
     ...partyPollingNews,
     ...trendNews,
-    ...positionShiftNews
+    ...positionShiftNews,
+    ...eventDriftNews
   ];
 
   // Sort the combined array by word count in ascending order, then cap to 4 items.
@@ -588,8 +703,18 @@ export function calculateNextPollState(state: GameState): GameState {
     updatedBlocStatsHistory.push(newBlocStats);
   }
 
+  // Produce a new candidates array with fresh `vals` references so that React's
+  // reference-equality check detects the per-poll ideology changes (drift, bloc
+  // targeting, etc.) and re-renders components like IdeologyScatterPlot.
+  const freshCandidates = state.candidates.map(c => ({
+    ...c,
+    vals: [...c.vals],
+    eventDrifts: c.eventDrifts ? c.eventDrifts.map(d => ({ ...d })) : undefined
+  }));
+
   return {
     ...state,
+    candidates: freshCandidates,
     currentPoll: nextPollNum,
     pollResults: resultsWithChange,
     previousPollResults: newPreviousResults,

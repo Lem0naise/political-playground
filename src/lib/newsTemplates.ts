@@ -292,6 +292,210 @@ export const POSITION_SHIFT_TEMPLATES: Record<string, { positive: string[]; nega
   }
 };
 
+/** Mid-drift: fired with ~40% chance each week while a drift is in progress */
+export const IDEOLOGY_DRIFT_ONGOING_TEMPLATES: Record<string, { positive: string[]; negative: string[] }> = {
+  prog_cons: {
+    positive: [
+      "{party} continues its shift toward progressive values",
+      "{leader_name} doubles down on the leftward pivot",
+      "Analysts: {party}'s progressive turn is gathering pace",
+      "{party} pushes further on social reform agenda"
+    ],
+    negative: [
+      "{party} presses ahead with its rightward drift on social issues",
+      "{leader_name} continues steering {party} toward conservative ground",
+      "Analysts: {party}'s conservative realignment shows no sign of stopping",
+      "{party} digs deeper into its traditional values platform"
+    ]
+  },
+  nat_glob: {
+    positive: [
+      "{party} continues embrace of international cooperation",
+      "{leader_name} reaffirms globalist economic agenda",
+      "Analysts: {party}'s pro-globalisation tilt deepens",
+      "{party} pushes further toward open-border trade stance"
+    ],
+    negative: [
+      "{party} continues its nationalist drift",
+      "{leader_name} doubles down on 'country first' rhetoric",
+      "Analysts: {party}'s protectionist turn accelerating",
+      "{party} presses ahead on border-first economic platform"
+    ]
+  },
+  env_eco: {
+    positive: [
+      "{party} presses ahead on economic growth and {industry} agenda",
+      "{leader_name} reaffirms pro-business pivot",
+      "Analysts: {party}'s shift toward growth over green continues",
+      "{party} continues distancing itself from environmental regulations"
+    ],
+    negative: [
+      "{party} continues its drift toward greener policies",
+      "{leader_name} doubles down on climate-first platform",
+      "Analysts: {party}'s environmental turn gathers momentum",
+      "{party} pushes further away from {industry} lobby positions"
+    ]
+  },
+  soc_cap: {
+    positive: [
+      "{party} continues its pivot toward free-market capitalism",
+      "{leader_name} reaffirms pro-business economic vision",
+      "Analysts: {party}'s capitalist shift picking up speed",
+      "{party} presses on with deregulation agenda"
+    ],
+    negative: [
+      "{party} continues its drift toward state-led economics",
+      "{leader_name} doubles down on socialist redistribution agenda",
+      "Analysts: {party}'s leftward economic turn shows no sign of stopping",
+      "{party} presses further into public ownership territory"
+    ]
+  },
+  pac_mil: {
+    positive: [
+      "{party} continues its hawkish foreign policy shift",
+      "{leader_name} reaffirms military spending agenda",
+      "Analysts: {party}'s security-first turn deepening",
+      "{party} presses ahead on defence modernisation platform"
+    ],
+    negative: [
+      "{party} continues its dovish pivot on defence",
+      "{leader_name} doubles down on diplomatic-first agenda",
+      "Analysts: {party}'s pacifist shift gathering pace",
+      "{party} pushes further away from military spending commitments"
+    ]
+  },
+  auth_ana: {
+    positive: [
+      "{party} continues its drift toward individual freedoms",
+      "{leader_name} reaffirms liberty-first agenda",
+      "Analysts: {party}'s libertarian turn accelerating",
+      "{party} presses ahead with decentralisation platform"
+    ],
+    negative: [
+      "{party} continues its shift toward 'law and order' politics",
+      "{leader_name} doubles down on strong-state agenda",
+      "Analysts: {party}'s authoritarian drift picking up speed",
+      "{party} presses further into centralised security territory"
+    ]
+  },
+  rel_sec: {
+    positive: [
+      "{party} continues its secular governance push",
+      "{leader_name} reaffirms church-state separation agenda",
+      "Analysts: {party}'s secularist shift deepening",
+      "{party} drifts further from faith-based policy positions"
+    ],
+    negative: [
+      "{party} continues its drift toward faith-based politics",
+      "{leader_name} doubles down on religious values agenda",
+      "Analysts: {party}'s conservative religious turn gathering pace",
+      "{party} presses deeper into {religious_group}-aligned policy territory"
+    ]
+  }
+};
+
+/** Completion: fired once when a drift finishes — announces the new adopted position */
+export const IDEOLOGY_DRIFT_COMPLETE_TEMPLATES: Record<string, { positive: string[]; negative: string[] }> = {
+  prog_cons: {
+    positive: [
+      "{party} completes historic shift to progressive platform",
+      "{leader_name} formally adopts new progressive policy agenda",
+      "{party} has officially moved left — new platform published",
+      "Analysts: {party}'s progressive realignment now complete"
+    ],
+    negative: [
+      "{party} formally adopts new conservative platform",
+      "{leader_name} announces completed rightward pivot",
+      "{party} has officially moved right — new manifesto confirmed",
+      "Analysts: {party}'s conservative realignment now complete"
+    ]
+  },
+  nat_glob: {
+    positive: [
+      "{party} announces fully globalist economic platform",
+      "{leader_name} formalises pro-international trade agenda",
+      "{party} alignment with global institutions now official",
+      "Analysts: {party}'s globalist repositioning is complete"
+    ],
+    negative: [
+      "{party} formally adopts nationalist 'country first' manifesto",
+      "{leader_name} announces completed protectionist pivot",
+      "{party}'s nationalist turn is now fully embedded in policy",
+      "Analysts: {party}'s nationalist realignment is complete"
+    ]
+  },
+  env_eco: {
+    positive: [
+      "{party} formalises pro-growth, pro-{industry} platform",
+      "{leader_name} announces completed pivot to economic priority",
+      "{party} has officially deprioritised environmental commitments",
+      "Analysts: {party}'s economic-first realignment is complete"
+    ],
+    negative: [
+      "{party} formally adopts green-first policy platform",
+      "{leader_name} announces completed climate-first pivot",
+      "{party} has officially enshrined environmental protection in manifesto",
+      "Analysts: {party}'s green realignment is now complete"
+    ]
+  },
+  soc_cap: {
+    positive: [
+      "{party} formally adopts free-market capitalist manifesto",
+      "{leader_name} announces completed pro-business pivot",
+      "{party} drops socialist commitments — new platform confirmed",
+      "Analysts: {party}'s capitalist realignment is complete"
+    ],
+    negative: [
+      "{party} formally adopts democratic socialist economic platform",
+      "{leader_name} announces completed pivot to redistribution agenda",
+      "{party} enshrines wealth redistribution in new manifesto",
+      "Analysts: {party}'s socialist realignment is now complete"
+    ]
+  },
+  pac_mil: {
+    positive: [
+      "{party} formally adopts hawkish national security platform",
+      "{leader_name} announces completed military-first pivot",
+      "{party} has officially committed to major defence spending",
+      "Analysts: {party}'s security-first realignment is complete"
+    ],
+    negative: [
+      "{party} formally adopts pacifist foreign policy platform",
+      "{leader_name} announces completed diplomatic pivot",
+      "{party} enshrines anti-war stance in new manifesto",
+      "Analysts: {party}'s pacifist realignment is now complete"
+    ]
+  },
+  auth_ana: {
+    positive: [
+      "{party} formally adopts libertarian freedom-first platform",
+      "{leader_name} announces completed decentralisation pivot",
+      "{party} enshrines individual rights in new manifesto",
+      "Analysts: {party}'s libertarian realignment is complete"
+    ],
+    negative: [
+      "{party} formally adopts authoritarian 'law and order' platform",
+      "{leader_name} announces completed strong-state pivot",
+      "{party} officially backs centralised security regime",
+      "Analysts: {party}'s authoritarian realignment is now complete"
+    ]
+  },
+  rel_sec: {
+    positive: [
+      "{party} formally adopts secular governance platform",
+      "{leader_name} announces completed secularist pivot",
+      "{party} officially separates faith from policy in new manifesto",
+      "Analysts: {party}'s secularist realignment is complete"
+    ],
+    negative: [
+      "{party} formally adopts faith-based policy platform",
+      "{leader_name} announces completed religious-values pivot",
+      "{party} officially aligns with {religious_group} on new manifesto",
+      "Analysts: {party}'s religious-conservative realignment is now complete"
+    ]
+  }
+};
+
 export const RANDOM_NEWS_EVENTS = [
   // General Politics
   "Leak: Ex-Finance Minister's Messages Show Secret Talks With {organisation} Lobbyists",

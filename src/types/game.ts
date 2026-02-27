@@ -45,6 +45,19 @@ export interface PartyTrend {
   weeklyEffect: number; // Positive for boost, negative for scandal
 }
 
+/**
+ * Models a gradual multi-week ideology shift for an AI party.
+ * Instead of jumping instantly, the shift is applied in equal steps
+ * over `totalWeeks` polls until `weeksRemaining` reaches 0.
+ */
+export interface IdeologyDrift {
+  axisKey: PoliticalValueKey;
+  axisIndex: number;
+  weeklyShift: number;   // Amount applied each poll (signed)
+  weeksRemaining: number;
+  totalWeeks: number;
+}
+
 export interface Candidate {
   id: number;
   name: string;
@@ -59,6 +72,9 @@ export interface Candidate {
   momentum?: number;
   previous_popularity?: number;
   trend?: PartyTrend;
+  ideologyDrift?: IdeologyDrift;
+  /** Active event-driven ideology drifts (player + AI). Multiple axes can drift simultaneously. */
+  eventDrifts?: IdeologyDrift[];
 }
 
 export interface VoterBloc {
@@ -266,6 +282,7 @@ export const POLL_COUNTER = 30;
 export const EVENT_EFFECT_MULTIPLIER = 0.8;
 
 export const TARGET_SHIFT = 0.01; // 1% per week (reduced from 2% — ideology shift kicks in after week 2)
+export const EVENT_DRIFT_WEEKS = 3; // Event ideology shifts spread over 3 weeks instead of instant
 // Voting behaviour configuration
 // Enable probabilistic choice via softmax; when false, deterministic max-utility is used
 export const PROBABILISTIC_VOTING = true;
