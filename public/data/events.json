@@ -1,7 +1,7 @@
 [
     {
-        "title": "Major Debate Coming Up",
-        "description": "A crucial national debate is scheduled for tomorrow. How do you prepare?",
+        "title": "DECISIVE CLASH: NATIONAL DEBATE REVEALED",
+        "description": "The {newspaper} confirms the date for a high-stakes televised confrontation. Analysts predict this could be the turning point in the {city} race.",
         "choices": [
             {
                 "text": "Focus on attacking the opposition parties.",
@@ -43,8 +43,8 @@
         ]
     },
     {
-        "title": "Economic Crisis Hits",
-        "description": "The economy is struggling with rising unemployment, and rates are rising. What's your response?",
+        "title": "RECESSION FEARS: ECONOMY SPUTTERS",
+        "description": "Markets in the {city} tumble as unemployment rises. {organisation} warns that current policies are failing to provide a safety net.",
         "choices": [
             {
                 "text": "Call for a massive government intervention system.",
@@ -86,8 +86,8 @@
         ]
     },
     {
-        "title": "Environmental Disaster",
-        "description": "A major oil spill devastates the coastline of a nearby country. Your country is being blamed for poor shipping regulations. Your stance?",
+        "title": "COASTLINE DISASTER: {company} TANKER LEAK",
+        "description": "A catastrophic spill from a {company} vessel devastates {region} beaches. Environmentalists demand an end to 'shipping's dark ages'.",
         "choices": [
             {
                 "text": "Push for an immediate green energy transition.",
@@ -129,8 +129,8 @@
         ]
     },
     {
-        "title": "Immigration Crisis at Border",
-        "description": "Thousands of migrants are overwhelming your southern border facilities. Your position?",
+        "title": "BORDER AT BREAKING POINT: {foreign_country} CROSSINGS SURGE",
+        "description": "Unprecedented numbers of migrants arrive in the {region}. Local leaders call for urgent intervention as facilities reach maximum capacity.",
         "choices": [
             {
                 "text": "Increase the humaneness of the border system and provide humanitarian aid to the migrants.",
@@ -175,8 +175,8 @@
         ]
     },
     {
-        "title": "Corruption Scandal Breaks",
-        "description": "High-ranking governmental officials have been caught in a bribery scheme. How do you respond?",
+        "title": "DIRTY DEALS EXPOSED: BRIBERY SCANDAL ROCKS {city}",
+        "description": "Leaked documents reveal a massive scheme involving high-ranking officials and {company} executives. Public trust is at an all-time low.",
         "choices": [
             {
                 "text": "Demand complete government transparency.",
@@ -217,8 +217,8 @@
         ]
     },
     {
-        "title": "Religious Freedom vs LGBTQ Rights",
-        "description": "Religious groups clash with LGBTQ advocates over discrimination laws.",
+        "title": "CULTURE WAR: RELIGIOUS GROUPS CLASH WITH LGBTQ ADVOCATES",
+        "description": "A {social_media_platform} storm erupts as {religious_group} and LGBTQ activists face off over controversial new discrimination laws.",
         "choices": [
             {
                 "text": "Implement a law prioritising religious liberty protections.",
@@ -260,8 +260,8 @@
         ]
     },
     {
-        "title": "Youth Unemployment Soars",
-        "description": "Young people face almost 25% unemployment rate. What's your solution?",
+        "title": "LOST GENERATION: YOUTH UNEMPLOYMENT CRISIS HITS {city}",
+        "description": "A staggering 25% of young people in the {region} are out of work. {organisation} warns of a 'ticking time bomb' for the next decade.",
         "choices": [
             {
                 "text": "A massive government job creation program.",
@@ -303,8 +303,8 @@
         ]
     },
     {
-        "title": "Healthcare System Collapse",
-        "description": "Your hospitals are getting overwhelmed, people are dying due to lack of care. Your proposal?",
+        "title": "CODE RED: HEALTHCARE SYSTEM ON VIRTUAL COLLAPSE",
+        "description": "Emergency departments in {city} report record wait times. Nurses are walking out as {organisation} calls the situation 'untenable'.",
         "choices": [
             {
                 "text": "Begin to implement universal healthcare.",
@@ -346,8 +346,8 @@
         ]
     },
     {
-        "title": "Trade War Escalation",
-        "description": "Several of your major trading partners have imposed severe tarrifs. How do you respond?",
+        "title": "TRADE WAR: {foreign_country} SLAPS TARRIFS ON KEY EXPORTS",
+        "description": "Economic relations with {foreign_country} sour as retaliatory taxes hit {industry} and farming. The {newspaper} reports fears of a global slowdown.",
         "choices": [
             {
                 "text": "Retaliate with even higher tariffs.",
@@ -389,8 +389,8 @@
         ]
     },
     {
-        "title": "Mass Protests and Civil Unrest",
-        "description": "Semi-violent protests have erupted in your capital city over recent police brutality. Your response?",
+        "title": "CAPITAL IN CHAOS: PROTESTS ERUPT IN {city}",
+        "description": "Violent clashes between activists and police dominate {social_media_platform}. {activist_group} demand immediate systemic reform after a recent tragedy.",
         "choices": [
             {
                 "text": "Stand with the protestors and begin defunding your police force.",
@@ -434,8 +434,8 @@
         ]
     },
     {
-        "title": "Foreign Cyberattack on Infrastructure",
-        "description": "Power grids shut down nationwide. An enemy nation state is thought to be behind this cyberattack. What's your plan?",
+        "title": "TOTAL BLACKOUT: {foreign_country} BLAMED FOR CYBERATTACK",
+        "description": "The {infrastructure} grid fails across the {region}. {organisation} intelligence points to a targeted strike from {foreign_country}.",
         "choices": [
             {
                 "text": "Launch retaliatory cyber warfare against this nation.",
@@ -477,8 +477,8 @@
         ]
     },
     {
-        "title": "Energy Independence Crisis",
-        "description": "A war in a neighbouring country has caused oil prices triple overnight. Your solution?",
+        "title": "FUEL FEVER: OIL PRICES TRIPLE OVERNIGHT",
+        "description": "Conflict in {foreign_country} sends energy markets into a tailspin. Drivers in the {region} face record-breaking costs at the pump.",
         "choices": [
             {
                 "text": "Emergency transition to renewables to prevent disaster.",
@@ -520,8 +520,8 @@
         ]
     },
     {
-        "title": "School Shooting Epidemic",
-        "description": "Multiple mass shootings rock schools nationwide. Your response?",
+        "title": "NATION IN MOURNING: SHOOTINGS SPARK GUN CONTROL FURY",
+        "description": "A tragic spree at a local school in the {region} leaves the country reeling. {activist_group} calls for immediate legislative action.",
         "choices": [
             {
                 "text": "Ban assault weapons immediately",
@@ -563,8 +563,8 @@
         ]
     },
     {
-        "title": "Pandemic Lockdown Debate",
-        "description": "New deadly virus spreads. Health experts demand lockdowns. Your decision?",
+        "title": "VIRUS VARIANT: LOCKDOWN DEBATE SPLITS NATION",
+        "description": "Leaked data suggests a new strain is spreading through {city}. {organisation} health experts are demanding the return of 'stay at home' orders.",
         "choices": [
             {
                 "text": "Immediate nationwide lockdown",
@@ -606,8 +606,8 @@
         ]
     },
     {
-        "title": "High Court Vacancy",
-        "description": "A constitutional court justice dies, creating a crucial vacancy. Your nominee?",
+        "title": "SUPREME BATTLE: COURT VACANCY TRIGGERS IDEOLOGICAL WAR",
+        "description": "The sudden passing of {historical_figure}'s judicial successor leaves a seat open. Both sides of the aisle prepare for a brutal confirmation fight.",
         "choices": [
             {
                 "text": "Nominate a young progressive activist",
@@ -649,8 +649,8 @@
         ]
     },
     {
-        "title": "Pension System Bankruptcy",
-        "description": "National pension fund will be empty in 2 years. What's your plan?",
+        "title": "PENSION PANIC: FUND TO RUN DRY BY 2028",
+        "description": "A bombshell {newspaper} report reveals that the {organisation} has mismanaged the national retirement fund. Millions of workers face an uncertain future.",
         "choices": [
             {
                 "text": "Raise taxes on the wealthy",
@@ -692,8 +692,8 @@
         ]
     },
     {
-        "title": "Infrastructure Collapse",
-        "description": "Bridges crumble and water systems fail nationwide. Your infrastructure plan?",
+        "title": "CRUMBLING NATION: BRIDGES AND WATER SYSTEMS FAIL",
+        "description": "The {infrastructure} network in the {region} is nearing a total failure. {organisation} warns of decades of neglect coming home to roost.",
         "choices": [
             {
                 "text": "Massive government infrastructure spending",
@@ -735,8 +735,8 @@
         ]
     },
     {
-        "title": "Voting Rights Under Attack",
-        "description": "Local authorities pass laws restricting voting access. Central response needed?",
+        "title": "BALLOT BATTLE: CONTROVERSY OVER VOTING RESTRICTIONS",
+        "description": "New laws in the {region} spark allegations of voter suppression. {activist_group} vows to fight the 'authoritarian' move in court.",
         "choices": [
             {
                 "text": "Central oversight of election laws",
@@ -778,8 +778,8 @@
         ]
     },
     {
-        "title": "Drug Overdose Crisis",
-        "description": "Fentanyl deaths reach record highs. What's your drug policy?",
+        "title": "OVERDOSE EPIDEMIC: FENTANYL DEATHS HIT RECORD HIGHS",
+        "description": "The {city} morgue is at capacity as synthetic opioids devastate the {region}. Families demand a national emergency declaration.",
         "choices": [
             {
                 "text": "Decriminalize and treat as health issue",
@@ -821,8 +821,8 @@
         ]
     },
     {
-        "title": "Big Tech Censorship Controversy",
-        "description": "Social media companies ban prominent political figures. Your response?",
+        "title": "SILICON VALLEY SCANDAL: BIG TECH BAN SPARKS CENSORSHIP ROW",
+        "description": "Major platforms on {social_media_platform} de-platform controversial figures. Free speech advocates and {company} executives are at loggerheads.",
         "choices": [
             {
                 "text": "Break up social media monopolies",
@@ -864,8 +864,8 @@
         ]
     },
     {
-        "title": "Teacher Strike Wave",
-        "description": "Teachers nationwide demand higher pay and better funding. Your stance?",
+        "title": "CLASSROOM CHAOS: TEACHERS WALK OUT OVER PAY",
+        "description": "Schools across the {region} are shuttered as Educators' Unions demand a fair deal. {newspaper} reports parents are at a breaking point.",
         "choices": [
             {
                 "text": "Massive government education funding",
@@ -906,8 +906,8 @@
         ]
     },
     {
-        "title": "Housing Affordability Crisis",
-        "description": "Home prices skyrocket, making homeownership impossible for most. Your solution?",
+        "title": "PRICED OUT: HOUSING MARKET HITS FEVER PITCH",
+        "description": "The dream of homeownership in the {city} is fading as prices soar. {organisation} warns that a generation is being permanently displaced.",
         "choices": [
             {
                 "text": "Massive public housing construction",
@@ -949,8 +949,8 @@
         ]
     },
     {
-        "title": "Corporate Tax Avoidance Scandal",
-        "description": "Major corporations pay zero taxes while profits soar. Your response?",
+        "title": "TAX DODGERS: {company} UNDER FIRE FOR 'ZERO TAX' BILL",
+        "description": "Public outrage grows as records show {company} paid no corporation tax despite record profits. {activist_group} demands immediate loophole closures.",
         "choices": [
             {
                 "text": "Close loopholes and raise corporate taxes",
@@ -991,8 +991,8 @@
         ]
     },
     {
-        "title": "Rural Hospital Closures",
-        "description": "Small-town hospitals shut down, leaving communities without care. Your plan?",
+        "title": "LIFE ON THE LINE: RURAL HOSPITALS SHUTTERED",
+        "description": "Communities in the {region} are left without emergency care as local wards close. {newspaper} investigative team reveals a pattern of neglect.",
         "choices": [
             {
                 "text": "Government subsidies to keep hospitals open",
@@ -1033,8 +1033,8 @@
         ]
     },
     {
-        "title": "Student Loan Debt Crisis",
-        "description": "Graduates crushed by massive student debt. Your solution?",
+        "title": "DEBT TRAP: STUDENTS CRUSHED BY INTEREST HIKES",
+        "description": "A generation of graduates in the {city} is struggling to make ends meet. {organisation} reports that student debt has reached an all-time high.",
         "choices": [
             {
                 "text": "Cancel all student debt immediately",
@@ -1075,8 +1075,8 @@
         ]
     },
     {
-        "title": "Minimum Wage Debate",
-        "description": "Workers demand higher minimum wage. Businesses threaten layoffs. Your stance?",
+        "title": "PAYCHECK SHOWDOWN: MINIMUM WAGE WAR ESCALATES",
+        "description": "{industry} leaders warn of mass layoffs as {organisation} pushes for a 'living wage' mandate. {social_media_platform} is divided on the impact.",
         "choices": [
             {
                 "text": "Implement substantial minimum wage increase",
@@ -1117,8 +1117,8 @@
         ]
     },
     {
-        "title": "Electoral System Controversy",
-        "description": "Candidate wins most votes but loses election due to electoral system. Reform needed?",
+        "title": "SYSTEM FAILURE: POPULAR VOTE ROW EXPLODES",
+        "description": "A controversial result in the {region} triggers a national debate on electoral fairness. {newspaper} editorial calls for a 'modernisation' of the vote.",
         "choices": [
             {
                 "text": "Reform to direct popular vote",
@@ -1159,8 +1159,8 @@
         ]
     },
     {
-        "title": "Mental Health Crisis",
-        "description": "Suicide rates spike and mental health services overwhelmed. Your response?",
+        "title": "SILENT KILLER: MENTAL HEALTH SERVICES OVERWHELMED",
+        "description": "Suicide rates in the {region} reach a ten-year high. {organisation} warns that the current system is 'grossly underfunded'.",
         "choices": [
             {
                 "text": "Universal mental healthcare",
@@ -1202,8 +1202,8 @@
         ]
     },
     {
-        "title": "Gerrymandering Reform",
-        "description": "Districts drawn to guarantee party victories. Democratic representation at stake.",
+        "title": "RIGGED RACE: REDISTRICTING SCANDAL EXPOSED",
+        "description": "Leaked maps reveal how boundaries in the {region} were drawn to favor incumbents. {activist_group} calls it a 'direct assault on democracy'.",
         "choices": [
             {
                 "text": "Independent redistricting commissions",
@@ -1244,8 +1244,8 @@
         ]
     },
     {
-        "title": "Climate Change Action",
-        "description": "Extreme weather devastates communities. Climate scientists demand action. Your plan?",
+        "title": "TURNING POINT: RECORD HEAT SPARKS CLIMATE PANIC",
+        "description": "Extreme weather in the {region} leads to fresh demands for a 'Green Revolution'. {organisation} says the time for 'incremental change' is over.",
         "choices": [
             {
                 "text": "Green transition and carbon taxes",
@@ -1287,8 +1287,8 @@
         ]
     },
     {
-        "title": "Deepfake Disinformation",
-        "description": "AI-generated fake videos make truth impossible to determine. Your solution?",
+        "title": "TRUTH DECAY: DEEPFAKE VIDEOS CLOUD ELECTION",
+        "description": "AI-generated clips of leading figures go viral on {social_media_platform}. {newspaper} warns that the 'truth is no longer self-evident'.",
         "choices": [
             {
                 "text": "Criminalize deepfake creation",
@@ -1330,8 +1330,8 @@
         ]
     },
     {
-        "title": "Reproductive Rights Battle",
-        "description": "High court overturns protections. Regions ban abortion. Your response?",
+        "title": "BODILY AUTONOMY: HIGH COURT SPLITS NATION",
+        "description": "A landmark ruling on reproductive access triggers massive rallies in the {city}. {religious_group} and activists prepare for a long legal war.",
         "choices": [
             {
                 "text": "National law protecting reproductive access",
@@ -1373,8 +1373,8 @@
         ]
     },
     {
-        "title": "Mass Deportation Operation",
-        "description": "Immigration enforcement targets millions of undocumented immigrants. Families separated.",
+        "title": "BORDER BLITZ: DEPORTATION RAIDS SPARK OUTCRY",
+        "description": "Dramatic scenes in the {region} as immigration officers target undocumented families. {organisation} calls for 'humanity over bureaucracy'.",
         "choices": [
             {
                 "text": "Stop all deportations immediately",
@@ -1415,8 +1415,8 @@
         ]
     },
     {
-        "title": "Armed Citizen Stops Shooting",
-        "description": "Armed citizen stops mass shooter at public venue. Gun debate reignites.",
+        "title": "HERO OR VIGILANTE? SHOOTING HALTED BY BYSTANDER",
+        "description": "A fatal incident in the {city} is cut short by an armed citizen. {newspaper} reports on the polarizing debate over 'good guys with guns'.",
         "choices": [
             {
                 "text": "More guns make us safer",
@@ -1458,8 +1458,8 @@
         ]
     },
     {
-        "title": "Police Reform Referendum",
-        "description": "Voters decide whether to defund police and invest in social services.",
+        "title": "LAW AND ORDER: DEFUNDING VOTE LOOMS",
+        "description": "A controversial proposal to redirect police budgets to social services goes to the ballot in {city}. {organisation} warns of a 'security vacuum'.",
         "choices": [
             {
                 "text": "Support defunding police",
@@ -1501,8 +1501,8 @@
         ]
     },
     {
-        "title": "Nuclear Crisis Abroad",
-        "description": "Hostile nation withdraws from nuclear deal and threatens allies. Military action?",
+        "title": "ATOMIC ANXIETY: {foreign_country} DEFIES NUCLEAR UN",
+        "description": "The {newspaper} reports on a terrifying escalation as {foreign_country} withdraws from the non-proliferation treaty. Allies are demanding a firm military stance.",
         "choices": [
             {
                 "text": "Preemptive military strikes",
@@ -1544,8 +1544,8 @@
         ]
     },
     {
-        "title": "Transgender Sports Controversy",
-        "description": "Transgender athletes dominate women's sports. Fairness questioned.",
+        "title": "PODIUM PROTESTS: THE TRANS ATHLETE DEBATE",
+        "description": "A storm erupts on {social_media_platform} after a record-breaking performance in women's athletics. {organisation} is faced with a fairness vs inclusion crisis.",
         "choices": [
             {
                 "text": "Full inclusion in chosen gender sports",
@@ -1587,8 +1587,8 @@
         ]
     },
     {
-        "title": "Social Media Algorithm Bias",
-        "description": "Tech companies accused of censoring conservative voices. Bias proven.",
+        "title": "ALGORITHM ALLEGATIONS: {company} ACCUSED OF CENSORSHIP",
+        "description": "A leaked internal memo from {company} suggests a systemic bias against certain political views. {newspaper} investigative team calls it 'the new gatekeeping'.",
         "choices": [
             {
                 "text": "Regulate algorithms for political neutrality",
@@ -1630,8 +1630,8 @@
         ]
     },
     {
-        "title": "Racial Justice Education in Schools",
-        "description": "Parents protest teaching about systemic racism. School boards divided.",
+        "title": "CLASSROOM KULTURKAMPF: RACIAL JUSTICE DEBATE RAGES",
+        "description": "Parents in the {region} are at loggerheads over a new curriculum focused on systemic racism. {religious_group} and activists clash at school board meetings.",
         "choices": [
             {
                 "text": "Mandate teaching about racial justice",
@@ -1673,8 +1673,8 @@
         ]
     },
     {
-        "title": "Foreign Power Trade Relations",
-        "description": "Major foreign power threatens allied nation. Trade war or military support?",
+        "title": "GLOBAL STANDOFF: {foreign_country} THREATENS REGIONAL STABILITY",
+        "description": "A build-up of forces along the {region} border sends ripples through global markets. {organisation} warns of a 'looming confrontation'.",
         "choices": [
             {
                 "text": "Military alliance with threatened ally",
@@ -1716,8 +1716,8 @@
         ]
     },
     {
-        "title": "Welfare Reform Debate",
-        "description": "Welfare rolls expand as poverty rises. Work requirements proposed.",
+        "title": "SAFETY NET SHAKEUP: WELFARE REFORM ON THE TABLE",
+        "description": "As poverty rates in {city} climb, a controversial 'work for benefits' proposal gains traction. {organisation} warns it will 'punish the vulnerable'.",
         "choices": [
             {
                 "text": "Expand welfare benefits",
@@ -1758,8 +1758,8 @@
         ]
     },
     {
-        "title": "Vaccine Mandate Resistance",
-        "description": "Workers refuse COVID vaccines. Mandates versus personal freedom.",
+        "title": "MANDATE MELTDOWN: WORKERS DEFY VACCINE ORDERS",
+        "description": "{industry} faces a labor crisis as employees in the {region} refuse mandatory jabs. {newspaper} reports on a growing 'freedom of choice' movement.",
         "choices": [
             {
                 "text": "Enforce strict vaccine mandates",
@@ -1800,8 +1800,8 @@
         ]
     },
     {
-        "title": "Historical Injustice Reparations",
-        "description": "Commission recommends massive reparations for historical oppression.",
+        "title": "JUSTICE DELAYED: REPARATIONS DEBATE EXPLODES",
+        "description": "A bombshell report from the {organisation} recommends billions in payouts for historical injustices. {religious_group} and activists clash over the 'moral debt'.",
         "choices": [
             {
                 "text": "Full reparations payments",
@@ -1843,8 +1843,8 @@
         ]
     },
     {
-        "title": "Border Barrier Construction",
-        "description": "Border crossings surge. Calls to complete border barriers intensify.",
+        "title": "THE GREAT WALL: BORDER BARRIER ROW RAGES",
+        "description": "Surging crossings in the {region} trigger fresh demands to 'finish the wall'. {newspaper} reports on the environmental and human cost of the barrier.",
         "choices": [
             {
                 "text": "Complete the border barrier",
@@ -1885,8 +1885,8 @@
         ]
     },
     {
-        "title": "Cryptocurrency Regulation",
-        "description": "Digital currency used for illegal activities and terrorism. Regulation needed?",
+        "title": "CRYPTO CRACKDOWN: {organisation} TARGETS DIGITAL COINS",
+        "description": "Digital currencies on {social_media_platform} are under fire for links to illicit trades. {company} executives warn that regulation could stifle innovation.",
         "choices": [
             {
                 "text": "Ban all cryptocurrencies",
@@ -1928,8 +1928,8 @@
         ]
     },
     {
-        "title": "Religious Exemption Laws",
-        "description": "Businesses refuse service to same-sex couples citing religious beliefs.",
+        "title": "FAITH VS FAIRNESS: THE REFUSAL OF SERVICE ROW",
+        "description": "A high-profile case in the {city} involving {religious_group} and same-sex couples hits the headlines. {newspaper} asks: 'Whose rights come first?'",
         "choices": [
             {
                 "text": "Protect religious freedom",
@@ -1971,8 +1971,8 @@
         ]
     },
     {
-        "title": "Cannabis Legalization",
-        "description": "Many regions legalize cannabis. National prohibition obsolete?",
+        "title": "GREEN RUSH: NATIONAL CANNABIS DEBATE PEAKS",
+        "description": "As more regions in the {region} legalize 'the herb', calls for a federal overhaul grow. {organisation} warns of health impacts while {industry} sees a goldmine.",
         "choices": [
             {
                 "text": "Legalize cannabis nationally",
@@ -2014,8 +2014,8 @@
         ]
     },
     {
-        "title": "Military Conscription Reinstatement",
-        "description": "Military recruitment fails to meet needs. Mandatory service required?",
+        "title": "CALL TO ARMS: CONSCRIPTION DEBATE RETURNS",
+        "description": "With recruitment targets missed in {city}, a proposal for mandatory service returns. {newspaper} polls show a massive generational divide on the issue.",
         "choices": [
             {
                 "text": "Reinstate military conscription",
@@ -2057,8 +2057,8 @@
         ]
     },
     {
-        "title": "Artificial Intelligence Job Loss",
-        "description": "AI eliminates white-collar jobs. Professionals replaced by algorithms.",
+        "title": "ALGORITHM ASCENDANCE: AI REPLACES THE WORKFORCE",
+        "description": "Middle-class professionals in the {region} face redundancy as {company} AI models take over. {organisation} warns of a 'social collapse' if not addressed.",
         "choices": [
             {
                 "text": "Universal basic income",
@@ -2099,8 +2099,8 @@
         ]
     },
     {
-        "title": "Foreign Election Interference",
-        "description": "Hostile nations interfere in elections through social media manipulation.",
+        "title": "ELECTION UNDER ATTACK: {foreign_country} HACKING PROVEN",
+        "description": "Intelligence agencies in {city} confirm a major influence operation from {foreign_country}. {social_media_platform} is orders of magnitude noisier with 'bots'.",
         "choices": [
             {
                 "text": "Cyber warfare retaliation",
@@ -2142,8 +2142,8 @@
         ]
     },
     {
-        "title": "Homelessness Explosion",
-        "description": "Tent cities overwhelm major metropolitan areas. Public health crisis.",
+        "title": "TENT CITY TERROR: HOMELESSNESS CRISIS HITS {city}",
+        "description": "Shanty towns in the capital's {region} grow as families are priced out of housing. {newspaper} investigative team calls it a 'national disgrace'.",
         "choices": [
             {
                 "text": "Housing first programs",
@@ -2185,8 +2185,8 @@
         ]
     },
     {
-        "title": "Cancel Culture Backlash",
-        "description": "Celebrities and politicians 'canceled' for past statements. Free speech?",
+        "title": "CANCELED? THE BATTLE OVER FREE SPEECH AND 'ACCOUNTABILITY'",
+        "description": "A firestorm on {social_media_platform} erupts as {historical_figure}'s modern-day successors face exclusion for past remarks. {newspaper} asks: 'Is this justice or a digital mob?'",
         "choices": [
             {
                 "text": "Protect free speech absolutely",
@@ -2227,8 +2227,8 @@
         ]
     },
     {
-        "title": "Nuclear Power Renaissance",
-        "description": "Climate goals require nuclear power expansion. Environmental groups split.",
+        "title": "NUCLEAR DAWN: THE RACE FOR GREEN ENERGY INDEPENDENCE",
+        "description": "Climate goals in the {region} face a reality check as {organisation} pivots back to atomic power. {newspaper} reports on a deep divide within the environmental movement.",
         "choices": [
             {
                 "text": "Massive nuclear power expansion",
@@ -2269,8 +2269,8 @@
         ]
     },
     {
-        "title": "Political Violence Escalation",
-        "description": "Armed protesters clash at rallies. Democracy under threat from extremists.",
+        "title": "STREETS OF RAGE: POLITICAL VIOLENCE GRIPS {city}",
+        "description": "Armed protesters from rival factions clash in the capital's {region}. {organisation} warns that the 'very fabric of democracy' is under threat.",
         "choices": [
             {
                 "text": "Crack down on all political violence",
@@ -2311,8 +2311,8 @@
         ]
     },
     {
-        "title": "AI Regulation Framework",
-        "description": "Artificial intelligence threatens jobs and privacy. Comprehensive regulation needed?",
+        "title": "THE AI CODES: {organisation} UNVEILS REGULATION BLUEPRINT",
+        "description": "As algorithms take over {industry} jobs, calls for strict oversight reach a fever pitch. {company} leaders warn that red tape could hand the lead to {foreign_country}.",
         "choices": [
             {
                 "text": "Strict government oversight of AI development",
@@ -2354,8 +2354,8 @@
         ]
     },
     {
-        "title": "Social Media Age Restrictions",
-        "description": "Studies show social media harms youth mental health. Age limits proposed.",
+        "title": "SCROLLING SURRENDER: AGE LIMITS FOR {social_media_platform}?",
+        "description": "A damning {newspaper} report links viral trends to a youth mental health crisis in {city}. {organisation} health chiefs are demanding strict new entry requirements.",
         "choices": [
             {
                 "text": "Ban social media for under-16s",
@@ -2397,8 +2397,8 @@
         ]
     },
     {
-        "title": "Gig Economy Worker Rights",
-        "description": "Uber and delivery drivers demand employee benefits and union rights.",
+        "title": "GIG ECONOMY REVOLT: DRIVERS DEMAND DIGNITY",
+        "description": "Thousands of {industry} gig workers in the {region} bring traffic to a standstill. {newspaper} reports on the fight for 'employee' status against {company} giants.",
         "choices": [
             {
                 "text": "Classify gig workers as employees",
@@ -2440,8 +2440,8 @@
         ]
     },
     {
-        "title": "Electric Vehicle Mandates",
-        "description": "Government plans to ban gas car sales by 2035. Auto industry pushes back.",
+        "title": "VOLT FACE: THE GREAT ELECTRIC VEHICLE MANDATE",
+        "description": "Plans to phase out gas cars across the {region} by 2035 spark a backlash from {industry} leaders. {newspaper} asks: 'Is the grid ready for the jump?'",
         "choices": [
             {
                 "text": "Accelerate EV transition with subsidies",
@@ -2483,8 +2483,8 @@
         ]
     },
     {
-        "title": "National Security Ban",
-        "description": "Foreign-owned app accused of data harvesting and propaganda. National ban?",
+        "title": "DATA DRAIN: {foreign_country} APP FACES TOTAL BAN",
+        "description": "Intelligence services in {city} warn that a popular social app is a tool for 'mass harvesting'. {organisation} prepares for a historic national security showdown.",
         "choices": [
             {
                 "text": "Ban the foreign-owned app for national security",
@@ -2526,8 +2526,8 @@
         ]
     },
     {
-        "title": "Central Bank Digital Currency",
-        "description": "Federal Reserve proposes digital dollar to compete with cryptocurrencies.",
+        "title": "DIGITAL DOLLAR: THE RISE OF THE STATE CRYPTO",
+        "description": "The central bank in {city} fast-tracks a digital currency to rival private coins. {newspaper} investigates the end of physical cash in the {region}.",
         "choices": [
             {
                 "text": "Launch government digital currency",
@@ -2569,8 +2569,8 @@
         ]
     },
     {
-        "title": "Journalism Shield Law",
-        "description": "Reporters jailed for protecting sources. Press freedom under attack.",
+        "title": "SHIELD OR SILENCE? THE FIGHT FOR PRESS FREEDOM",
+        "description": "A high-profile arrest of a reporter from {newspaper} sparks outrage across the {region}. {organisation} demands a shield law to protect sources from {city} officials.",
         "choices": [
             {
                 "text": "Absolute protection for journalists",
@@ -2612,8 +2612,8 @@
         ]
     },
     {
-        "title": "Child Tax Credit Expansion",
-        "description": "Families struggle with inflation. Expand child support payments?",
+        "title": "FAMILY FIRST: THE CHILD TAX CREDIT CRUSADE",
+        "description": "As inflation bites in the {region}, {organisation} pushes for a major expansion of support for parents. {newspaper} reports on the struggle of {city} families.",
         "choices": [
             {
                 "text": "Permanent expanded child tax credits",
@@ -2654,8 +2654,8 @@
         ]
     },
     {
-        "title": "Facial Recognition Surveillance",
-        "description": "Police use facial recognition to catch criminals. Privacy advocates alarmed.",
+        "title": "EYE IN THE SKY: FACIAL RECOGNITION ROW ERUPTS",
+        "description": "Police in {city} deploy new AI surveillance to the {region}'s streets. {activist_group} labels the move a 'dystopian overreach' of state power.",
         "choices": [
             {
                 "text": "Ban facial recognition technology",
@@ -2696,8 +2696,8 @@
         ]
     },
     {
-        "title": "Space Tourism Regulation",
-        "description": "Billionaires launch space tourism while people suffer on Earth. Priorities?",
+        "title": "COSMIC CAPITALISTS: THE SPACE TOURISM TAX",
+        "description": "Billionaires launch private rockets from the {region} while {city} struggles with a cost-of-living crisis. {newspaper} asks: 'Should the stars be for sale?'",
         "choices": [
             {
                 "text": "Tax space tourism heavily",
@@ -2739,8 +2739,8 @@
         ]
     },
     {
-        "title": "Inflation Crisis Response",
-        "description": "Cost of living soars. Gas and groceries unaffordable for many families.",
+        "title": "PURCHASING POWER: INFLATION HITS THE BASKET",
+        "description": "Record prices for groceries in the {region} leave families reeling. {newspaper} investigate reports of {city} residents skipping meals to make ends meet.",
         "choices": [
             {
                 "text": "Price controls on essential goods",
@@ -2782,8 +2782,8 @@
         ]
     },
     {
-        "title": "Parental Rights in Education",
-        "description": "Parents demand control over school curriculum and book selections.",
+        "title": "CLASSROOM CONTROL: THE BATTLE OVER CURRICULUM",
+        "description": "Parents in the {region} demand a veto on school books and history lessons. {newspaper} reports on the fierce 'parental rights' movement sweeping {city}.",
         "choices": [
             {
                 "text": "Expand parental veto power over curriculum",
@@ -2824,8 +2824,8 @@
         ]
     },
     {
-        "title": "Algorithmic Hiring Bias",
-        "description": "AI hiring systems discriminate against minorities and women. Action needed?",
+        "title": "RESUME ROBOTS: AI HIRING BIAS EXPOSED",
+        "description": "A bombshell {newspaper} investigative report reveals that {company} algorithms are screening out minorities. {organisation} demands a total audit of AI in HR.",
         "choices": [
             {
                 "text": "Ban algorithmic hiring tools",
@@ -2867,8 +2867,8 @@
         ]
     },
     {
-        "title": "Lab-Grown Meat Approval",
-        "description": "Cultured meat could reduce animal agriculture emissions. Approve for market?",
+        "title": "PETRI DISH PATTIES: THE LAB-GROWN MEAT REVOLUTION",
+        "description": "As {industry} emissions face scrutiny, the first cultured steaks hit the market in {city}. {newspaper} reports on the battle for the future of the {region} dinner table.",
         "choices": [
             {
                 "text": "Fast-track approval for climate benefits",
@@ -2910,8 +2910,8 @@
         ]
     },
     {
-        "title": "Prescription Drug Price Controls",
-        "description": "Insulin and cancer drugs cost thousands. Government price regulation?",
+        "title": "PHARMA FEUD: THE BATTLE OVER DRUG PRICES",
+        "description": "The cost of life-saving medicine in the {region} reach record highs. {newspaper} investigative team exposes the lobbying power of {company} in the {city}.",
         "choices": [
             {
                 "text": "Direct government price controls",
@@ -2953,8 +2953,8 @@
         ]
     },
     {
-        "title": "Drone Delivery Regulations",
-        "description": "{company} wants drone deliveries. Neighbors complain about noise and privacy.",
+        "title": "SKY SLOPES: {company} PUSHES FOR DRONE SKIES",
+        "description": "Residents in the {region} are filing record noise complaints as {company} expands its delivery fleet. {newspaper} investigative team asks: 'Is our privacy up for sale?'",
         "choices": [
             {
                 "text": "Strict limits on drone operations",
@@ -2996,8 +2996,8 @@
         ]
     },
     {
-        "title": "Wealth Tax Implementation",
-        "description": "Billionaires pay lower tax rates than middle class. Wealth tax solution?",
+        "title": "TAXING THE TITANS: THE WEALTH TAX REVOLUTION",
+        "description": "A bombshell report from {organisation} reveals that billionaires pay lower rates than {city} teachers. {newspaper} reports on the growing demand for a 'fair share' bill.",
         "choices": [
             {
                 "text": "Annual wealth tax on ultra-rich",
@@ -3038,8 +3038,8 @@
         ]
     },
     {
-        "title": "Gene Editing Babies",
-        "description": "CRISPR technology could eliminate genetic diseases in newborns. Ethical concerns?",
+        "title": "DESIGNER DECADES: GENE EDITING HITS THE CLINIC",
+        "description": "A local clinic in the {region} uses CRISPR to eliminate a rare disease. {religious_group} and activists are divided on the 'slippery slope' of human modification.",
         "choices": [
             {
                 "text": "Ban all human genetic modification",
@@ -3081,8 +3081,8 @@
         ]
     },
     {
-        "title": "Remote Work Tax Policy",
-        "description": "Workers flee expensive cities for remote work. Tax implications unclear.",
+        "title": "VIRTUAL COMMUTE: THE REMOTE WORK TAX ROW",
+        "description": "Workers fleeing {city} for the {region} face a complex new tax reality. {organisation} warns that local budgets are at a 'breaking point' as office blocks empty.",
         "choices": [
             {
                 "text": "Tax based on where work is performed",
@@ -3124,8 +3124,8 @@
         ]
     },
     {
-        "title": "Social Credit System Proposal",
-        "description": "Track citizen behavior to determine access to services. Social order tool?",
+        "title": "THE RATING GAME: SOCIAL CREDIT PROPOSAL LEAKED",
+        "description": "A draft memo from {city} officials suggests tracking 'citizen behavior' via {social_media_platform}. {newspaper} reports on a wave of 'surveillance state' fears.",
         "choices": [
             {
                 "text": "Implement comprehensive social credit",
@@ -3167,8 +3167,8 @@
         ]
     },
     {
-        "title": "Psychedelic Medicine Legalization",
-        "description": "Psilocybin and MDMA show promise treating PTSD and depression.",
+        "title": "TRIP FOR DEPRESSION: PSYCHEDELIC MEDICINE TRIALS",
+        "description": "Clinics in the {region} report 'miracle results' using Psilocybin for PTSD. {organisation} health experts are debating a national rollout in {city} hospitals.",
         "choices": [
             {
                 "text": "Legalize for medical use",
@@ -3209,8 +3209,8 @@
         ]
     },
     {
-        "title": "Corporate Espionage Response",
-        "description": "Foreign companies steal intellectual property worth billions.",
+        "title": "STOLEN SECRETS: {foreign_country} HITS {company} INTEL",
+        "description": "A massive data breach in {city} exposes trillions in {industry} trade secrets. {organisation} points the finger at a state-sponsored strike from {foreign_country}.",
         "choices": [
             {
                 "text": "Cyber retaliation against thieves",
@@ -3252,8 +3252,8 @@
         ]
     },
     {
-        "title": "Digital Privacy Rights",
-        "description": "Tech companies track every online action. Comprehensive privacy law needed?",
+        "title": "THE COOKIE CRUMBLES: THE PRIVACY BILL OF RIGHTS",
+        "description": "Tech giants on {social_media_platform} face a historic crackdown as {city} officials propose 'absolute data ownership'. {company} lobbyists warn of a web blackout.",
         "choices": [
             {
                 "text": "Strict data protection",
@@ -3295,8 +3295,8 @@
         ]
     },
     {
-        "title": "Streaming Service Regulation",
-        "description": "Netflix and Disney control entertainment. Break up streaming monopolies?",
+        "title": "STREAMING STRANGLEHOLD: MONOPOLY PROBE LAUNCHED",
+        "description": "Entertainment icons on {social_media_platform} are under fire for 'erasing competition'. {organisation} officials in {city} consider a forced breakup of the media giants.",
         "choices": [
             {
                 "text": "Antitrust action against streamers",
@@ -3338,8 +3338,8 @@
         ]
     },
     {
-        "title": "Four-Day Work Week Trial",
-        "description": "Studies show four-day weeks increase productivity. National policy?",
+        "title": "LONG WEEKEND: THE FOUR-DAY WORK WEEK TRIAL",
+        "description": "Productivity in {city} firms surges during a historic pilot program. {newspaper} investigative team reports on the 'death of the Friday' across the {region}.",
         "choices": [
             {
                 "text": "Mandate four-day work week",
@@ -3381,8 +3381,8 @@
         ]
     },
     {
-        "title": "Internet Access as Utility",
-        "description": "Rural areas lack broadband. Internet access a human right?",
+        "title": "DIGITAL DIVIDE: BROADBAND AS A HUMAN RIGHT?",
+        "description": "Isolated towns in the {region} are left in the dark ages as {city} speeds ahead. {organisation} demands the {infrastructure} be treated as a public utility.",
         "choices": [
             {
                 "text": "Government broadband infrastructure",
@@ -3424,8 +3424,8 @@
         ]
     },
     {
-        "title": "Quantum Computing Security",
-        "description": "Quantum computers could break all current encryption. National security crisis?",
+        "title": "ENCRYPTION EMERGENCY: THE QUANTUM THREAT",
+        "description": "National security agencies in {city} warn that a breakthrough in {foreign_country} could break every code on Earth. {newspaper} reports on the 'quantum apocalypse' fears.",
         "choices": [
             {
                 "text": "Massive government quantum program",
@@ -3467,8 +3467,8 @@
         ]
     },
     {
-        "title": "Offshore Wind Farm Expansion",
-        "description": "Coastal wind farms could power millions. Fishing industry objects.",
+        "title": "WIND WAR: OFFSHORE TURBINES SPLIT COASTAL TOWNS",
+        "description": "Plans for a massive wind farm in the {region} trigger a backlash from the local {industry}. {newspaper} reports on the battle between green energy and tradition.",
         "choices": [
             {
                 "text": "Rapid offshore wind expansion",
@@ -3509,8 +3509,8 @@
         ]
     },
     {
-        "title": "Ransomware Emergency Response",
-        "description": "Hackers shut down hospitals and schools demanding millions. Response?",
+        "title": "DIGITAL HOSTAGES: RANSOMWARE ROCKS {city}",
+        "description": "Hackers target the {infrastructure} and hospitals in the {region}, demanding millions in crypto. {newspaper} investigative team reveals a pattern of global strikes.",
         "choices": [
             {
                 "text": "Military cyber response unit",
@@ -3552,8 +3552,8 @@
         ]
     },
     {
-        "title": "Universal Basic Assets",
-        "description": "Give every citizen $1000 and stock portfolio at birth. Wealth equality solution?",
+        "title": "STAKEHOLDERS AT BIRTH: THE UNIVERSAL ASSET DEBATE",
+        "description": "A radical proposal to give every citizen in the {region} a state-funded portfolio goes viral on {social_media_platform}. {organisation} calls it the 'end of poverty'.",
         "choices": [
             {
                 "text": "Universal basic assets program",
@@ -3594,8 +3594,8 @@
         ]
     },
     {
-        "title": "Deepfake Pornography Crisis",
-        "description": "AI creates fake intimate images of anyone. Victims demand action.",
+        "title": "DIGITAL DESECRATION: THE DEEPFAKE EXPLICIT CRISIS",
+        "description": "Survivors of AI-generated abuse in the {region} take their fight to {city} officials. {newspaper} reports on the legal vacuum surrounding 'non-consensual code'.",
         "choices": [
             {
                 "text": "Criminal penalties for deepfake creation",
@@ -3636,8 +3636,8 @@
         ]
     },
     {
-        "title": "Meatpacking Worker Safety",
-        "description": "COVID outbreaks in meat plants. Workers demand better protections.",
+        "title": "BLOOD AND BONE: SCANDAL AT THE MEAT PLANT",
+        "description": "An undercover {newspaper} report expose horrific conditions for {industry} workers in {city}. {activist_group} demands an immediate safety overhaul.",
         "choices": [
             {
                 "text": "Strict safety regulations for plants",
@@ -3679,8 +3679,8 @@
         ]
     },
     {
-        "title": "Carbon Border Tariffs",
-        "description": "Imports from high-pollution countries undercut clean domestic production.",
+        "title": "CARBON CURTAIN: TARRIFS HIT HIGH-POLLUTION IMPORTS",
+        "description": "Trade tensions with {foreign_country} explode as {city} imposes an environmental tax on steel and tech. {newspaper} reports fear of a 'green trade war'.",
         "choices": [
             {
                 "text": "Tariffs on high-carbon imports",
@@ -3722,8 +3722,8 @@
         ]
     },
     {
-        "title": "Satellite Internet Concerns",
-        "description": "Starlink satellites affect astronomy and create space debris. Regulation needed?",
+        "title": "HEAVENS CROWDED: THE SATELLITE SOUP SCANDAL",
+        "description": "Astronomers in the {region} warn that {company} mega-constellations are 'erasing the stars'. {organisation} calls for strict new debris laws on {social_media_platform}.",
         "choices": [
             {
                 "text": "Strict limits on satellite launches",
@@ -3765,8 +3765,8 @@
         ]
     },
     {
-        "title": "Social Media Addiction Treatment",
-        "description": "Tech addiction ruins lives. Government intervention like tobacco?",
+        "title": "THE DOPAMINE TRAP: SOCIAL MEDIA ADDICTION SURGE",
+        "description": "Health experts in {city} warn that {social_media_platform} addiction is destroying the lives of young people in the {region}. {newspaper} asks: 'Should apps be regulated like cigarettes?'",
         "choices": [
             {
                 "text": "Regulate social media like addictive drugs",
@@ -3808,8 +3808,8 @@
         ]
     },
     {
-        "title": "Emotional Support Animal Fraud",
-        "description": "Fake service animals everywhere. Legitimate disabled people suffer.",
+        "title": "SUPPORT ANIMAL SCANDAL: THE FRAUDULENT FLIGHTS",
+        "description": "A wave of 'fake' service animals on public transport triggers a backlash in {city}. {newspaper} investigative team reports on the impact for legitimate users in the {region}.",
         "choices": [
             {
                 "text": "Strict certification for service animals",
@@ -3850,8 +3850,8 @@
         ]
     },
     {
-        "title": "Major Debate Coming Up",
-        "description": "A crucial, nationally televised debate is scheduled. Millions will be watching. How do you prepare to make your case to the nation?",
+        "title": "THE GREAT DEBATE: NATION PREPARES FOR THE CLASH",
+        "description": "As the {newspaper} confirms the final broadcast dates, all eyes in the {region} turn to the televised stage. Experts predict a make-or-break night for {city}'s future.",
         "choices": [
             {
                 "text": "Launch a series of attack ads highlighting opponents' personal failings.",
@@ -3893,8 +3893,8 @@
         ]
     },
     {
-        "title": "Economic Crisis Hits",
-        "description": "The national bank warns of a deep recession as inflation hits a 40-year high and unemployment claims surge. What's your immediate response?",
+        "title": "MARKETS MELTDOWN: ECONOMY STALLS IN THE {region}",
+        "description": "Inflation in {city} reaches a 40-year high as {organisation} warns of a looming winter of discontent. {newspaper} reports on the struggle to keep the lights on.",
         "choices": [
             {
                 "text": "Propose a massive stimulus package and government intervention.",
@@ -3936,8 +3936,8 @@
         ]
     },
     {
-        "title": "Environmental Disaster",
-        "description": "A supertanker has run aground, causing a catastrophic oil spill that devastates the coastline and its wildlife. The nation demands action.",
+        "title": "SLICK TRAGEDY: CATASTROPHE ON THE COASTLINE",
+        "description": "A massive spill from a {company} vessel devastates wildlife in the {region}. {activist_group} takes to {social_media_platform} to demand an end to offshore drilling.",
         "choices": [
             {
                 "text": "Declare a climate emergency and push for an immediate green energy transition.",
@@ -3979,8 +3979,8 @@
         ]
     },
     {
-        "title": "Immigration Crisis at Border",
-        "description": "A massive caravan of migrants has arrived at the border, overwhelming processing facilities and creating a humanitarian emergency.",
+        "title": "BORDER CRISIS: SURGE AT THE {region} CROSSING",
+        "description": "Unprecedented numbers of families arrive at the gates of {city}, overwhelming basic facilities. {newspaper} investigative team reports on the 'humanitarian breaking point'.",
         "choices": [
             {
                 "text": "Declare open borders and mobilize a massive humanitarian aid effort.",
@@ -4025,8 +4025,8 @@
         ]
     },
     {
-        "title": "Corruption Scandal Breaks",
-        "description": "An investigative report reveals high-ranking officials in your own party are caught in a vast bribery scheme. The public is outraged.",
+        "title": "BRIBERY BOMBSHELL: INNER CIRCLE EXPOSED",
+        "description": "A leaked {newspaper} report reveals that high-ranking officials in {city} have been taking payouts from {company}. Public trust in the {region} is at an historic low.",
         "choices": [
             {
                 "text": "Demand total government transparency and declassification of documents.",
@@ -4067,8 +4067,8 @@
         ]
     },
     {
-        "title": "Religious Freedom vs LGBTQ Rights",
-        "description": "A baker refuses to make a wedding cake for a same-sex couple, citing religious beliefs. The case has reached the high court, dividing the nation.",
+        "title": "FAITH VS EQUALITY: THE CAKE SHOP DIVIDE",
+        "description": "A landmark case in the {region} pits religious freedom against anti-discrimination laws. {social_media_platform} is alight as the {city} high court begins its hearing.",
         "choices": [
             {
                 "text": "Uphold religious liberty, allowing businesses to refuse service.",
@@ -4110,8 +4110,8 @@
         ]
     },
     {
-        "title": "Youth Unemployment Soars",
-        "description": "The unemployment rate for people under 25 hits a staggering 25%. A 'lost generation' fears for its future. What's your solution?",
+        "title": "STAGNANT START: THE YOUTH JOBS DROUGHT",
+        "description": "A staggering 25% of the {region}'s youth are out of work. {organisation} warns of a 'permanent trauma' to the economy as {city} graduates struggle for footing.",
         "choices": [
             {
                 "text": "Launch a 'New Deal' style government job and apprenticeship program.",
@@ -4153,8 +4153,8 @@
         ]
     },
     {
-        "title": "Healthcare System Collapse",
-        "description": "Hospitals are overwhelmed and turning away patients. People are dying in waiting rooms due to a lack of beds and staff. The system is broken.",
+        "title": "CODE RED: WARDS OVERWHELMED IN {city}",
+        "description": "Patients in the {region} are being turned away as healthcare services reach total capacity. {newspaper} reports on the front-line nurses at a breaking point.",
         "choices": [
             {
                 "text": "Propose a single-payer, universal healthcare system for all citizens.",
@@ -4196,8 +4196,8 @@
         ]
     },
     {
-        "title": "Trade War Escalation",
-        "description": "A major trading partner has imposed severe tariffs on our goods, threatening key industries. They are not backing down.",
+        "title": "TRADE TURMOIL: {foreign_country} SLAPS TARRIFS ON {industry}",
+        "description": "Economic relations with {foreign_country} sour as retaliatory taxes hit the {region}'s exports. {newspaper} investigative team reports on the risk to thousands of jobs.",
         "choices": [
             {
                 "text": "Retaliate with even higher tariffs. 'We will not be bullied.'",
@@ -4239,8 +4239,8 @@
         ]
     },
     {
-        "title": "Mass Protests and Civil Unrest",
-        "description": "Violent protests erupt in major cities over police brutality. Buildings are burning and the nation is on edge. How do you respond?",
+        "title": "CITIES ABLAZE: UNREST UNLEASHED IN {city}",
+        "description": "Violent clashes between protesters and police dominate {social_media_platform} as the {region} reels from tragedy. {organisation} calls for peace and structural reform.",
         "choices": [
             {
                 "text": "Express solidarity with protesters and support 'defund the police' movements.",
@@ -4281,8 +4281,8 @@
         ]
     },
     {
-        "title": "Foreign Cyberattack on Infrastructure",
-        "description": "Hostile state-sponsored hackers have shut down power grids and water treatment plants nationwide. This is an act of war.",
+        "title": "GRID GONE: CYBERATTACK PARALYSES {infrastructure}",
+        "description": "Lights go out across the {region} as {foreign_country} is blamed for a targeted strike on {city}. {organisation} intelligence confirms a historic breach.",
         "choices": [
             {
                 "text": "Authorize the military to launch retaliatory cyber warfare.",
@@ -4324,8 +4324,8 @@
         ]
     },
     {
-        "title": "Energy Independence Crisis",
-        "description": "Conflicts abroad have caused oil prices to triple overnight. Gas stations are running dry and the economy is grinding to a halt.",
+        "title": "PUMP PAIN: OIL PRICES TRIPLE AS CRISIS DEEPENS",
+        "description": "War in the {region} sends energy markets into a tailspin. Drivers in {city} face record costs as the {infrastructure} struggles to cope with the shock.",
         "choices": [
             {
                 "text": "Mandate an emergency transition to renewables, rationing gasoline.",
@@ -4367,8 +4367,8 @@
         ]
     },
     {
-        "title": "School Shooting Epidemic",
-        "description": "A horrific string of mass shootings has left schools reeling and parents terrified. The nation is screaming for a solution.",
+        "title": "CLASSROOM CARNAGE: NATION IN MOURNING",
+        "description": "A horrific spree at a local school in the {region} leaves the country reeling. {activist_group} take to the {city} streets to demand 'never again' legislation.",
         "choices": [
             {
                 "text": "Draft legislation to ban assault weapons and high-capacity magazines.",
@@ -4410,8 +4410,8 @@
         ]
     },
     {
-        "title": "Pandemic Lockdown Debate",
-        "description": "A new, highly contagious and deadly virus is spreading. Public health experts are demanding a full national lockdown to save lives.",
+        "title": "THE LOCKDOWN DILEMMA: VIRUS GRIPS {city}",
+        "description": "A new strain spreads through the {region}, prompting {organisation} health experts to demand a total shutdown. {newspaper} reports on the split between safety and freedom.",
         "choices": [
             {
                 "text": "Follow the science: Institute an immediate, nationwide lockdown.",
@@ -4453,8 +4453,8 @@
         ]
     },
     {
-        "title": "High Court Vacancy",
-        "description": "A constitutional court justice has died, creating a crucial vacancy that could shape the nation for a generation. Your nominee?",
+        "title": "SUPREME SHIFT: THE FIGHT FOR THE HIGH COURT",
+        "description": "A sudden vacancy in {city} triggers an ideological war. {newspaper} reports on the candidates who could shape the {region}'s laws for decades to come.",
         "choices": [
             {
                 "text": "Nominate a young, brilliant progressive legal activist.",
@@ -4496,8 +4496,8 @@
         ]
     },
     {
-        "title": "Pension System Bankruptcy",
-        "description": "The national pension fund is projected to be empty in 2 years, threatening the retirement of millions of seniors. A painful choice must be made.",
+        "title": "PENSION PITFALL: THE 2028 DEADLINE",
+        "description": "A bombshell report from {organisation} reveals that the national fund will be dry in just two years. Millions of workers in the {region} face an uncertain future.",
         "choices": [
             {
                 "text": "Bail out the system by raising taxes on the wealthiest citizens and corporations.",
@@ -4539,8 +4539,8 @@
         ]
     },
     {
-        "title": "Infrastructure Collapse",
-        "description": "A major bridge has collapsed, and reports show thousands of bridges and water systems are at risk nationwide. A massive investment is needed.",
+        "title": "CRUMBLING CORE: BRIDGE COLLAPSE SPARKS NATIONAL PANIC",
+        "description": "A catastrophic failure of the {infrastructure} in the {region} leaves {city} reeling. {organisation} warns that decades of neglect have left the nation on the brink of structural failure.",
         "choices": [
             {
                 "text": "Launch a massive, government-funded national infrastructure renewal project.",
@@ -4582,8 +4582,8 @@
         ]
     },
     {
-        "title": "Voting Rights Under Attack",
-        "description": "Several local authorities have passed laws restricting voting access, purging voter rolls, and closing polling places. Critics call it voter suppression.",
+        "title": "BALLOT BATTLE: THE POLL-PURGE ROW EXPLODES",
+        "description": "Local authorities in the {region} face allegations of voter suppression after record removals from the rolls. {activist_group} takes the fight for {city}'s democracy to the high court.",
         "choices": [
             {
                 "text": "Pass a national law establishing federal oversight of all election laws.",
@@ -4625,8 +4625,8 @@
         ]
     },
     {
-        "title": "Drug Overdose Crisis",
-        "description": "Fentanyl and opioid deaths are reaching record highs, devastating communities. The current approach isn't working.",
+        "title": "FENTANYL FEVER: OVERDOSE DEATHS HIT RECORD HIGHS",
+        "description": "The {city} morgue is at capacity as synthetic opioids devastate the {region}. {newspaper} investigative team reports on a generation lost to the needle.",
         "choices": [
             {
                 "text": "Decriminalize drug possession and treat addiction as a public health issue.",
@@ -4668,8 +4668,8 @@
         ]
     },
     {
-        "title": "Big Tech Censorship Controversy",
-        "description": "Major social media companies have permanently banned prominent political figures, sparking a fierce debate about free speech and corporate power.",
+        "title": "SILENCED VOICES: THE BIG TECH BAN CONTROVERSY",
+        "description": "Major platforms on {social_media_platform} de-platform leading figures in {city}. {newspaper} asks: 'Is corporate power the new Ministry of Truth?'",
         "choices": [
             {
                 "text": "Initiate antitrust proceedings to break up social media monopolies.",
@@ -4710,8 +4710,8 @@
         ]
     },
     {
-        "title": "Student Loan Debt Crisis",
-        "description": "Millions of citizens are crushed by massive student loan debt, unable to buy homes or start families. They are demanding relief.",
+        "title": "DEBT TRAP: THE GRADUATE INSOLVENCY CRISIS",
+        "description": "Millions of young people in the {region} find themselves unable to buy homes as student loans skyrocket. {organisation} warns of a 'permanent drag' on the {city} economy.",
         "choices": [
             {
                 "text": "Use executive power to cancel all outstanding student debt immediately.",
@@ -4752,8 +4752,8 @@
         ]
     },
     {
-        "title": "Reproductive Rights Battle",
-        "description": "The high court has overturned longstanding protections, allowing regions to ban abortion. The country is fiercely divided.",
+        "title": "BODILY AUTONOMY: NATION SPLITS AFTER HIGH COURT RULING",
+        "description": "Protests erupt in the {city} squares as {religious_group} and activists clash over reproductive access. {newspaper} reports on a {region} divided by ideology.",
         "choices": [
             {
                 "text": "Pass a national law codifying and protecting reproductive access nationwide.",
@@ -4795,8 +4795,8 @@
         ]
     },
     {
-        "title": "Artificial Intelligence Job Loss",
-        "description": "AI is now capable of performing millions of white-collar jobs, from accounting to law. Professionals are being replaced by algorithms.",
+        "title": "ALGORITHM ASCENDANCE: AI REPLACES THE WHITE COLLAR",
+        "description": "Middle-class professionals in the {region} face redundancy as {company} AI models take over legal and accounting tasks. {organisation} warns of a 'social disaster'.",
         "choices": [
             {
                 "text": "Propose a Universal Basic Income (UBI) to support those displaced by AI.",
@@ -4838,8 +4838,8 @@
         ]
     },
     {
-        "title": "Social Credit System Proposal",
-        "description": "A think tank proposes a national social credit system, tracking citizen behavior to reward 'good' actions and punish 'bad' ones. Proponents say it will ensure social order.",
+        "title": "THE RATING GAME: SOCIAL CREDIT PROPOSAL LEAKED",
+        "description": "A draft memo from {city} officials suggests tracking 'citizen behavior' via {social_media_platform}. {newspaper} investigative team warns of a 'surveillance state nightmare'.",
         "choices": [
             {
                 "text": "Implement a comprehensive social credit system tied to banking and services.",
@@ -4881,8 +4881,8 @@
         ]
     },
     {
-        "title": "AGI Safety Emergency",
-        "description": "Top AI scientists issue a stark warning: an uncontrolled Artificial General Intelligence (AGI) could pose an existential risk to humanity. They demand a global pause on development.",
+        "title": "EXISTENTIAL EMERGENCY: THE AGI WARNING",
+        "description": "Top scientists from {company} call for a global pause on advanced AI, warning of a 'risk to humanity'. {newspaper} investigative team reports on the race for the finish line.",
         "choices": [
             {
                 "text": "Enact an immediate moratorium on advanced AI research and development.",
@@ -4924,8 +4924,8 @@
         ]
     },
     {
-        "title": "Right to Repair Movement",
-        "description": "Consumers and farmers are protesting restrictive manufacturer policies that prevent them from repairing their own electronics and tractors. They demand government action.",
+        "title": "REPAIR REVOLT: FARMERS TARGET {company} TOOLKITS",
+        "description": "Protesters in the {region} demand the right to fix their own equipment. {newspaper} reports on the battle for 'technical autonomy' against the giants of {city} {industry}.",
         "choices": [
             {
                 "text": "Enshrine a national 'Right to Repair' in law, forcing manufacturers to provide parts and manuals.",
@@ -4967,8 +4967,8 @@
         ]
     },
     {
-        "title": "Historical Monuments Controversy",
-        "description": "Protesters are demanding the removal of historical statues they deem racist or imperialist. Others defend them as important parts of history.",
+        "title": "STATUE STANDOFF: THE BATTLE OVER HISTORY",
+        "description": "Protesters in {city} squares target monuments from the imperial age. {newspaper} reports on the fierce cultural clash as {activist_group} and traditionalists face off.",
         "choices": [
             {
                 "text": "Pass a law protecting all national monuments from being removed.",
@@ -5010,8 +5010,8 @@
         ]
     },
     {
-        "title": "Judicial Reform Debate",
-        "description": "Confidence in the high court has plummeted amid accusations of politicization. Activists are calling for radical reforms to the judiciary.",
+        "title": "JUDICIAL WAR: THE FIGHT FOR THE HIGH COURT",
+        "description": "Confidence in the {city} high court has plummeted amid accusations of politicization. {newspaper} reports on radical calls from {activist_group} to reshape the judiciary.",
         "choices": [
             {
                 "text": "Propose a bill to expand the number of seats on the high court.",
@@ -5052,8 +5052,8 @@
         ]
     },
     {
-        "title": "Supply Chain Fragility Exposed",
-        "description": "A minor disruption overseas has led to empty shelves and manufacturing shutdowns at home, exposing the vulnerability of our just-in-time global supply chains.",
+        "title": "SHELVES EMPTY: THE SUPPLY CHAIN SHOCK",
+        "description": "A minor disruption in {foreign_country} leads to manufacturing shutdowns in the {region}. {newspaper} investigative team exposes the vulnerability of the {infrastructure}.",
         "choices": [
             {
                 "text": "Launch a massive 'reshoring' initiative with subsidies for domestic manufacturing.",
@@ -5095,8 +5095,8 @@
         ]
     },
     {
-        "title": "Water Rights War",
-        "description": "A decade-long drought has pitted agricultural regions against growing cities, both demanding more water from a shrinking river system. The situation is desperate.",
+        "title": "THIRSTY TOWNS: THE WATER RIGHTS WAR",
+        "description": "A decade-long drought in the {region} pits farmers against {city} residents. {organisation} warns that the shrinking river system is at a breaking point.",
         "choices": [
             {
                 "text": "Prioritize agriculture to ensure the nation's food security.",
@@ -5138,8 +5138,8 @@
         ]
     },
     {
-        "title": "Longevity Treatment Breakthrough",
-        "description": "A new, incredibly expensive therapy has been proven to reverse the aging process, potentially allowing the ultra-wealthy to live for centuries. This raises profound ethical questions.",
+        "title": "ETERNAL ELITE: THE LONGEVITY BREAKTHROUGH",
+        "description": "A local clinic in {city} reveals a therapy to reverse the aging process. {newspaper} asks: 'Should the ultra-wealthy in the {region} live forever?'",
         "choices": [
             {
                 "text": "Regulate it as a drug and let the market decide who can afford it.",
@@ -5181,8 +5181,8 @@
         ]
     },
     {
-        "title": "Arctic Sovereignty Claims",
-        "description": "As polar ice melts, new shipping lanes and vast resources are accessible. A rival nation is making aggressive territorial claims in the Arctic, backed by military icebreakers.",
+        "title": "ARCTIC AMBITION: THE COLD WAR FOR RESOURCES",
+        "description": "As polar ice melts, {foreign_country} makes aggressive territorial claims. {organisation} reports on military icebreakers in the {region}'s new shipping lanes.",
         "choices": [
             {
                 "text": "Assert our own claims by deploying a permanent military presence to the Arctic.",
@@ -5224,8 +5224,8 @@
         ]
     },
     {
-        "title": "National Arts Funding Cut",
-        "description": "To save money, a proposal has been made to completely eliminate federal funding for the arts and humanities. Supporters call it a waste of taxpayer money.",
+        "title": "CULTURE CLASH: THE BATTLE FOR THE ARTS",
+        "description": "A proposal to scrap federal funding for the {infrastructure} of the soul sparks outrage. {newspaper} reports on the fight for {city}'s museums and galleries.",
         "choices": [
             {
                 "text": "Support the cuts; the arts are a luxury the government shouldn't fund.",
@@ -5267,8 +5267,8 @@
         ]
     },
     {
-        "title": "Brain-Computer Interface Hacking",
-        "description": "A prominent politician's neural implant was hacked during a speech, causing them to shout gibberish. People are terrified of this technology. Regulation needed?",
+        "title": "MIND BREACH: NEURAL CHIP HACKED",
+        "description": "A prominent official in {city} is targeted by hackers during a live broadcast on {social_media_platform}. {organisation} warns of the 'final frontier' of privacy in the {region}.",
         "choices": [
             {
                 "text": "Ban all brain-computer interfaces for civilians.",
@@ -5310,8 +5310,8 @@
         ]
     },
     {
-        "title": "The 30-Hour Work Week",
-        "description": "Unions and mental health advocates are pushing for a standard 4-day, 30-hour work week with no loss of pay. Businesses say it will bankrupt them.",
+        "title": "WORKING WEEK REVOLUTION: THE 30-HOUR PUSH",
+        "description": "Unions in the {region} demand a standard 4-day week with no loss of pay. {newspaper} investigative team explores the 'death of the Friday' in {city} offices.",
         "choices": [
             {
                 "text": "Legislate the 30-hour week immediately.",
@@ -5353,8 +5353,8 @@
         ]
     },
     {
-        "title": "Drone Strike Error",
-        "description": "A military drone strike targeting terrorists accidentally hit a wedding in a neutral country, killing 40 civilians. The world is watching.",
+        "title": "TRAGEDY FROM THE SKIES: THE DRONE STRIKE ERROR",
+        "description": "A strike targeting {organisation} militants accidentally hits a wedding in the {region}. {newspaper} reports on the global outrage as {city} officials face a reckoning.",
         "choices": [
             {
                 "text": "Apologize and pay massive reparations to families.",
@@ -5396,8 +5396,8 @@
         ]
     },
     {
-        "title": "AI Art Copyright Suit",
-        "description": "Artists are suing AI companies for training algorithms on their work without pay. The court looks to you for legislative guidance.",
+        "title": "CREATIVE CONFLICT: THE AI COPYRIGHT SUIT",
+        "description": "Artists in {city} sue {company} for training algorithms on their work without pay. {social_media_platform} is alight with the 'death of the creator' debate.",
         "choices": [
             {
                 "text": "Ban AI from training on copyrighted material without consent.",
@@ -5439,8 +5439,8 @@
         ]
     },
     {
-        "title": "Private Prison Scandal",
-        "description": "Leaked documents show a major private prison firm is lobbying judges to give harsher sentences to fill beds. The public is outraged.",
+        "title": "CELLS FOR CASH: THE PRISON SCANDAL",
+        "description": "Leaked documents expose {company} lobbying judges for harsher sentences in the {region}. {newspaper} investigative team reveals the 'prison-industrial complex' in {city}.",
         "choices": [
             {
                 "text": "Nationalize all prisons immediately.",
@@ -5482,8 +5482,8 @@
         ]
     },
     {
-        "title": "Right to Disconnect",
-        "description": "Workers complain they are expected to answer emails 24/7. Should we ban after-hours work communications?",
+        "title": "DIGITAL DETOX: THE RIGHT TO DISCONNECT",
+        "description": "Workers in the {region} demand a ban on after-hours emails from the {company} boss. {newspaper} reports on the 'burnout crisis' gripping {city} offices.",
         "choices": [
             {
                 "text": "Illegalize boss-to-employee contact after hours.",
@@ -5525,8 +5525,8 @@
         ]
     },
     {
-        "title": "Mandatory DNA Database",
-        "description": "Police want a DNA sample from every citizen at birth to solve cold cases. Privacy groups are screaming.",
+        "title": "GENETIC DRAGNET: THE MANDATORY DNA LAW",
+        "description": "Police in {city} demand samples from every citizen in the {region} at birth. {activist_group} labels the move a 'dystopian overreach' of state power.",
         "choices": [
             {
                 "text": "Implement the mandatory database for safety.",
@@ -5568,8 +5568,8 @@
         ]
     },
     {
-        "title": "Meat Tax Proposal",
-        "description": "Environmentalists propose a heavy tax on red meat to curb methane emissions. Ranchers threaten to riot.",
+        "title": "STEAK STAKES: THE MEAT TAX REVOLT",
+        "description": "Environmentalists in the {region} propose a heavy tax on {industry} products. {newspaper} reports on the fury from ranchers on the outskirts of {city}.",
         "choices": [
             {
                 "text": "Implement the tax to save the planet.",
@@ -5611,8 +5611,8 @@
         ]
     },
     {
-        "title": "Cashless Society Mandate",
-        "description": "Banks want to phase out physical cash to stop money laundering. Seniors and privacy advocates object.",
+        "title": "THE END OF CASH: THE DIGITAL DOLLAR PUSH",
+        "description": "Banks in {city} move to phase out physical currency in the {region}. {newspaper} investigate reports of seniors and privacy advocates left behind.",
         "choices": [
             {
                 "text": "Abolish physical currency entirely.",
@@ -5654,8 +5654,8 @@
         ]
     },
     {
-        "title": "Space Debris Collision",
-        "description": "A satellite collision has created a debris field threatening all space travel. International cleanup funds are requested.",
+        "title": "ORBITAL CHAOS: THE GREAT SATELLITE SMASH",
+        "description": "A collision in the stars creates a debris field threatening {company} missions. {organisation} warns that the path to {foreign_country} is now deadlier than ever.",
         "choices": [
             {
                 "text": "Pay significantly into the global cleanup fund.",
@@ -5697,8 +5697,8 @@
         ]
     },
     {
-        "title": "Assisted Suicide Legislation",
-        "description": "A terminally ill celebrity has publicized their desire for medically assisted death. The public is debating the 'Right to Die'.",
+        "title": "THE RIGHT TO DIE: THE FINAL CHOICE",
+        "description": "A public plea from a suffering celebrity in {city} triggers a national debate. {newspaper} reports on the moral divide in the {region} over 'medical assistance'.",
         "choices": [
             {
                 "text": "Legalize assisted suicide for the terminally ill.",
@@ -5740,8 +5740,8 @@
         ]
     },
     {
-        "title": "Empty Home Tax",
-        "description": "Investment firms are buying houses and leaving them empty while homelessness rises. Should we tax vacant properties?",
+        "title": "GHOST HOUSES: THE VACANT PROPERTY TAX",
+        "description": "Investment firms in {city} buy up the {region} while homelessness rises. {newspaper} investigative team asks: 'Should our streets be for people or portfolios?'",
         "choices": [
             {
                 "text": "Heavy tax on any home vacant more than 6 months.",
@@ -5783,8 +5783,8 @@
         ]
     },
     {
-        "title": "UFO Declassification",
-        "description": "Whistleblowers claim the government has recovered non-human biologics. The people demand the truth.",
+        "title": "OUTER LIMITS: THE UFO DISCLOSURE",
+        "description": "Whistleblowers from the {infrastructure} claim non-human biologics have been recovered. {social_media_platform} erupts as {city} prepares to reveal the truth.",
         "choices": [
             {
                 "text": "Full disclosure. Release all files immediately.",
@@ -5826,8 +5826,8 @@
         ]
     },
     {
-        "title": "Gender Neutral Laws",
-        "description": "Activists want to rewrite the constitution to use gender-neutral language (they/them instead of he/she).",
+        "title": "PRONOUN PROTOCOL: THE BATTLE FOR THE CONSTITUTION",
+        "description": "{activist_group} in the {region} demand a shift to gender-neutral language in official documents. {newspaper} reports on the fierce debate between inclusivity and tradition in {city}.",
         "choices": [
             {
                 "text": "Rewrite the documents to be inclusive.",
@@ -5869,8 +5869,8 @@
         ]
     },
     {
-        "title": "Crypto Tax Loophole",
-        "description": "Billions are moving through decentralized finance (DeFi) untaxed. The treasury is losing money.",
+        "title": "DEFI DEFICIT: THE UNTAXED BILLIONS",
+        "description": "A leaked report from the {city} treasury reveals that decentralized finance is draining national coffers. {newspaper} investigative team tracks the {industry}'s move into the shadows.",
         "choices": [
             {
                 "text": "Strictly regulate and tax all crypto transactions.",
@@ -5911,8 +5911,8 @@
         ]
     },
     {
-        "title": "Teacher Political Bias",
-        "description": "Parents are filming teachers expressing political views in class. Demands for 'neutrality' are rising.",
+        "title": "CLASSROOM CAMERAS: THE BATTLE FOR NEUTRALITY",
+        "description": "Viral videos on {social_media_platform} of teachers in the {region} spark a 'bias' scandal. {organisation} in {city} demands strict new rules for political expression in schools.",
         "choices": [
             {
                 "text": "Ban teachers from discussing politics or personal views.",
@@ -5953,8 +5953,8 @@
         ]
     },
     {
-        "title": "Compulsory Voting",
-        "description": "Voter turnout is at an all-time low. Should we make voting a legal requirement like jury duty?",
+        "title": "DUTY OR DENIAL: THE COMPULSORY VOTING ROW",
+        "description": "With turnout in the {region} hitting a record low, {organisation} proposes making the ballot box mandatory. {newspaper} investigative team reports from the streets of {city}.",
         "choices": [
             {
                 "text": "Make voting mandatory with fines for non-compliance.",
@@ -5996,8 +5996,8 @@
         ]
     },
     {
-        "title": "National Service Requirement",
-        "description": "The military is shrinking and civic pride is low. Generals suggest mandatory service for 18-year-olds.",
+        "title": "THE SERVICE SUMMONS: CONSCRIPTION BACK ON THE TABLE",
+        "description": "Generals in {city} warn of a shrinking {infrastructure} and low civic pride. {newspaper} reports on a proposal to draft the youth of the {region} for national duty.",
         "choices": [
             {
                 "text": "Implement mandatory military service (Conscription).",
@@ -6039,8 +6039,8 @@
         ]
     },
     {
-        "title": "Plastic Ban Riots",
-        "description": "A total ban on single-use plastics has caused chaos in supply chains and anger among consumers.",
+        "title": "WRAPPED IN WRATH: THE PLASTIC BAN RIOTS",
+        "description": "A total ban on single-use items causes supply chain chaos for the {industry} in {city}. {newspaper} reports on clashing protesters in the {region}'s shopping districts.",
         "choices": [
             {
                 "text": "Enforce the ban strictly; the Earth comes first.",
@@ -6082,8 +6082,8 @@
         ]
     },
     {
-        "title": "The Gold Standard",
-        "description": "Inflation is erratic. A fringe but growing movement wants to peg the currency to gold again.",
+        "title": "THE YELLOW METAL: A RETURN TO GOLD?",
+        "description": "As inflation in {city} fluctuates, a fringe movement in the {region} gains traction on {social_media_platform}. {newspaper} asks: 'Should we peg our future to gold?'",
         "choices": [
             {
                 "text": "Return to the Gold Standard.",
@@ -6125,8 +6125,8 @@
         ]
     },
     {
-        "title": "Algorithmic Justice",
-        "description": "Courts are using AI to determine bail and sentencing. Data shows it's efficient but biased against minorities.",
+        "title": "SENTENCING SOFTWARE: THE ALGORITHMIC JUDGE",
+        "description": "Courts in {city} adopt AI to determine bail, but data reveals a deep bias in the {region}. {activist_group} takes to {social_media_platform} to demand an end to 'coded justice'.",
         "choices": [
             {
                 "text": "Ban AI in the courtroom entirely.",
@@ -6168,8 +6168,8 @@
         ]
     },
     {
-        "title": "Public Nudity Protest",
-        "description": "A large 'Free the Body' protest occurred in the capital. They demand the right to public nudity.",
+        "title": "BARE TRUTH: THE PUBLIC NUDITY PROTEST",
+        "description": "A massive 'Free the Body' march paralyzes {city} central square. {newspaper} reports on the cultural standoff in the {region} over 'indecency' laws.",
         "choices": [
             {
                 "text": "Arrest them all. Indecency laws must be upheld.",
@@ -6210,8 +6210,8 @@
         ]
     },
     {
-        "title": "Foreign Land Ownership",
-        "description": "Foreign state-owned corporations are buying up vast swathes of farmland. Food security is threatened.",
+        "title": "FIELDS OF INFLUENCE: THE FOREIGN LAND GRAB",
+        "description": "State-owned firms from {foreign_country} buy up vast swathes of the {region}. {organisation} warns of a threat to national food security in {city}.",
         "choices": [
             {
                 "text": "Ban all foreign ownership of agricultural land.",
@@ -6253,8 +6253,8 @@
         ]
     },
     {
-        "title": "Body Cam Livestreams",
-        "description": "Activists demand police body cams be livestreamed publicly 24/7 to prevent brutality.",
+        "title": "WATCHING THE WATCHMEN: THE LIVE BODY CAM PUSH",
+        "description": "Activists in {city} demand 24/7 public access to the {infrastructure} of policing. {newspaper} reports on the clash between transparency and officer privacy in the {region}.",
         "choices": [
             {
                 "text": "Mandate public livestreaming of all police.",
@@ -6295,8 +6295,8 @@
         ]
     },
     {
-        "title": "Sovereign Citizen Standoff",
-        "description": "A group refusing to recognize federal law has taken over a wildlife refuge. They are armed.",
+        "title": "THE REFUGE REBELLION: ARMED STANDOFF IN THE {region}",
+        "description": "A group refusing to recognize {city} law takes over a wildlife park. {newspaper} investigative team reports on the 'sovereign citizen' siege dominating {social_media_platform}.",
         "choices": [
             {
                 "text": "Send in the military to crush the insurrection.",
@@ -6338,8 +6338,8 @@
         ]
     },
     {
-        "title": "Sugar Tax",
-        "description": "Obesity rates are soaring. Health experts want a massive tax on sugary drinks and snacks.",
+        "title": "THE SWEET COST: BATTLE OVER THE SUGAR TAX",
+        "description": "Obesity rates in {city} soar, prompting {organisation} health chiefs to demand a tax on the {industry}. {newspaper} investigative team reports on the 'hidden calories' war.",
         "choices": [
             {
                 "text": "Implement the tax to fund healthcare.",
@@ -6381,8 +6381,8 @@
         ]
     },
     {
-        "title": "Cloning of Extinct Species",
-        "description": "Scientists are ready to clone mammoths. Religious groups call it 'playing God', conservationists worry about ecosystems.",
+        "title": "MAMMOTH MILESTONE: THE DE-EXTINCTION DEBATE",
+        "description": "Scientists in {city} announce they are ready to clone extinct icons. {religious_group} and activists in the {region} clash over the ethics of 'playing God'.",
         "choices": [
             {
                 "text": "Ban de-extinction cloning.",
@@ -6424,8 +6424,8 @@
         ]
     },
     {
-        "title": "Civil Asset Forfeiture",
-        "description": "Police are seizing cash from motorists without charging them with crimes. It funds their departments.",
+        "title": "CASH GRAB: THE BATTLE OVER SEIZED ASSETS",
+        "description": "Police in {city} are accused of 'highway robbery' as they seize funds without charges. {newspaper} investigative team reveals how the {region}'s finest fund their gear.",
         "choices": [
             {
                 "text": "Ban civil asset forfeiture completely.",
@@ -6467,8 +6467,8 @@
         ]
     },
     {
-        "title": "The Net Neutrality War",
-        "description": "ISPs want to charge extra for faster streaming speeds. Tech giants demand equal access.",
+        "title": "WEB WARS: THE FIGHT FOR THE FAST LANE",
+        "description": "ISPs in the {region} push to charge extra for streaming speeds. {newspaper} reports on the battle for {city}'s digital future on {social_media_platform}.",
         "choices": [
             {
                 "text": "Enforce strict Net Neutrality as law.",
@@ -6510,8 +6510,8 @@
         ]
     },
     {
-        "title": "Daylight Savings Abolition",
-        "description": "Everyone hates changing the clocks. Studies show it causes heart attacks.",
+        "title": "TIGHTENING THE CLOCKS: THE END OF SAVINGS?",
+        "description": "Fatigue and heart risk in the {region} trigger calls to end the biannual switch. {newspaper} asks residents of {city}: 'Standard Time or Summer Time?'",
         "choices": [
             {
                 "text": "Permanent Standard Time (darker evenings).",
@@ -6553,8 +6553,8 @@
         ]
     },
     {
-        "title": "Universal Paternity Leave",
-        "description": "Fathers want equal paid time off to mothers. Businesses fear lost productivity.",
+        "title": "FATHERHOOD FRONTIER: THE EQUAL LEAVE CRUSADE",
+        "description": "Dads in the {region} demand the same paid time off as mothers. {newspaper} reports on the {industry} backlash in {city} over 'productivity shocks'.",
         "choices": [
             {
                 "text": "Mandate equal paid leave for both parents.",
@@ -6595,8 +6595,8 @@
         ]
     },
     {
-        "title": "Surrogacy Commercialization",
-        "description": "Wealthy couples are paying poor women to carry their babies. Critics call it 'womb renting'.",
+        "title": "WOMB FOR RENT: THE SURROGACY SCANDAL",
+        "description": "A booming clinic in {city} faces an ethics probe over paid surrogacy in the {region}. {newspaper} investigative team looks into the commodification of the family.",
         "choices": [
             {
                 "text": "Ban paid surrogacy entirely.",
@@ -6638,8 +6638,8 @@
         ]
     },
     {
-        "title": "Climate Refugees",
-        "description": "An island nation is sinking. 50,000 refugees request entry. They have nowhere else to go.",
+        "title": "SINKING SHORES: THE CLIMATE REFUGEE CRISIS",
+        "description": "An island nation in the {region} is submerged by rising tides. {organisation} reports on 50,000 displaced citizens requesting entry to {city}.",
         "choices": [
             {
                 "text": "Accept them all and provide housing.",
@@ -6681,8 +6681,8 @@
         ]
     },
     {
-        "title": "Jury Nullification",
-        "description": "Activists are handing out pamphlets telling jurors they can ignore the law if they think it's unjust. Prosecutors want them arrested.",
+        "title": "JUSTICE IN QUESTION: THE JURY NULLIFICATION ROW",
+        "description": "{activist_group} in {city} distributes pamphlets telling jurors to ignore 'unjust' laws. {newspaper} reports on the fury from prosecutors in the {region}.",
         "choices": [
             {
                 "text": "Arrest the activists for tampering.",
@@ -6724,8 +6724,8 @@
         ]
     },
     {
-        "title": "Anti-Aging for the Elite",
-        "description": "A treatment costing $2M extends life by 20 years. Only the rich can afford it, creating a biological caste system.",
+        "title": "THE BILLIONAIRE BLOOM: BIOLOGICAL CASTE SYSTEM",
+        "description": "A record-breaking longevity treatment in {city} is only accessible to {company} executives. {newspaper} investigative team asks: 'Is the {region} entering a new age of immortality for the 1%?'",
         "choices": [
             {
                 "text": "Nationalize the patent and distribute to all.",
@@ -6767,8 +6767,8 @@
         ]
     },
     {
-        "title": "Smart City Surveillance",
-        "description": "A tech giant wants to build a 'Smart City' with sensors on every corner tracking behavior for efficiency.",
+        "title": "SENTIENT STREETS: THE SMART CITY SURVEILLANCE",
+        "description": "{company} proposes a 'Smart City' pilot in the {region} with sensors on every corner. {newspaper} reports on the fears of a surveillance state in {city}.",
         "choices": [
             {
                 "text": "Block the project; it's a privacy nightmare.",
@@ -6810,8 +6810,8 @@
         ]
     },
     {
-        "title": "Loot Box Gambling",
-        "description": "Video games are selling 'loot boxes' to children. Parents say it's unregulated gambling.",
+        "title": "VIRTUAL OVERLOAD: THE LOOT BOX SCANDAL",
+        "description": "Parents across the {region} slam the {industry} for targeting children with 'loot box' mechanics. {newspaper} investigative team reports on the digital gambling epidemic in {city}.",
         "choices": [
             {
                 "text": "Classify loot boxes as gambling (18+ only).",
@@ -6852,11 +6852,11 @@
         ]
     },
     {
-        "title": "Bilingual Education",
-        "description": "Immigrant population is rising. Should public schools teach in native languages or English only?",
+        "title": "LANGUAGE LESSONS: THE BILINGUAL SCHOOLS ROW",
+        "description": "Rising numbers of residents from {foreign_country} spark a debate on education in {city}. {newspaper} reports on the clash between cultural immersion and traditional assimilation in the {region}.",
         "choices": [
             {
-                "text": "English only. Assimilation is key.",
+                "text": "Ours only. Assimilation is key.",
                 "effect": {
                     "nat_glob": -15,
                     "prog_cons": 10
@@ -6895,8 +6895,8 @@
         ]
     },
     {
-        "title": "Space Weaponization",
-        "description": "A rival nation launched a 'Rod from God' satellite. The Space Treaty is dead.",
+        "title": "ORBITAL ARMORY: THE SPACE WEAPONIZATION RACE",
+        "description": "{foreign_country} launches a 'Rod from God' satellite over the {region}. {newspaper} reports on the death of the Space Treaty and the mobilization of the {infrastructure} in {city}.",
         "choices": [
             {
                 "text": "Launch our own orbital weapons platform immediately.",
@@ -6938,8 +6938,8 @@
         ]
     },
     {
-        "title": "The CEO Pay Cap",
-        "description": "CEOs are making 400x the average worker. Populists want a hard cap.",
+        "title": "FAT CAT FRACTION: THE CEO PAY CAP PUSH",
+        "description": "Executives at {company} earn 400x the average wage in {city}. {newspaper} investigative team explores the growing demand for a hard cap on executive salaries in the {region}.",
         "choices": [
             {
                 "text": "Cap CEO pay at 50x the lowest worker's wage.",
@@ -6981,8 +6981,8 @@
         ]
     },
     {
-        "title": "Prisoner Voting Rights",
-        "description": "Should convicted felons still in prison be allowed to vote in elections?",
+        "title": "BALLOTS BEHIND BARS: THE PRISONER VOTE DEBATE",
+        "description": "A legal challenge in the {region} prompts a national debate on whether felons should vote from {city} cells. {newspaper} investigative team reports on the rights of the incarcerated.",
         "choices": [
             {
                 "text": "Yes, voting is a human right, even for prisoners.",
@@ -7023,8 +7023,8 @@
         ]
     },
     {
-        "title": "Religious Garb in Schools",
-        "description": "Teachers are wearing religious symbols (crosses, hijabs, turbans). Secularists want them banned in public schools.",
+        "title": "VEILS AND VALUES: RELIGIOUS GARB IN THE CLASSROOM",
+        "description": "Teachers in {city} schools wearing symbols from {religious_group} spark a secularist backlash. {newspaper} reports on the battle for the 'neutrality' of education in the {region}.",
         "choices": [
             {
                 "text": "Ban all religious symbols for public employees.",
@@ -7066,8 +7066,8 @@
         ]
     },
     {
-        "title": "Lab-Grown Human Organs",
-        "description": "We can now grow hearts in jars. Religious groups say it lacks a soul; techies say it ends the transplant list.",
+        "title": "HEARTS IN HIERARCHY: THE LAB-GROWN ORGAN RACE",
+        "description": "Clinics in {city} successfully grow human organs in synthetic jars. {newspaper} reports on clashing views between {religious_group} and patients on the transplant list in the {region}.",
         "choices": [
             {
                 "text": "Full government funding to end organ shortages.",
@@ -7109,8 +7109,8 @@
         ]
     },
     {
-        "title": "Private Security Militias",
-        "description": "Wealthy neighborhoods are hiring private paramilitary forces because they don't trust the police.",
+        "title": "GATED GUARDS: THE RISE OF NEIGHBORHOOD MILITIAS",
+        "description": "Wealthy enclaves in the {region} hire paramilitary forces from {company}. {newspaper} investigative team reports on the breakdown of trust in {city} law enforcement.",
         "choices": [
             {
                 "text": "Ban private militias immediately.",
@@ -7152,8 +7152,8 @@
         ]
     },
     {
-        "title": "Mandatory Vaccination",
-        "description": "Measles is back. Health officials want to remove 'religious exemptions' for vaccines in schools.",
+        "title": "OUTBREAK ALARM: THE MANDATORY VAX BATTLE",
+        "description": "The return of measles to {city} sparks a move to end the exemption for {religious_group}. {newspaper} reports on the fierce standoff over public health and personal belief in the {region}.",
         "choices": [
             {
                 "text": "Mandatory vaccines for all, no exceptions.",
@@ -7195,8 +7195,8 @@
         ]
     },
     {
-        "title": "Asteroid Mining Rights",
-        "description": "A corporation has landed on an asteroid worth trillions in platinum. They want to keep it all.",
+        "title": "STAR TREASURE: THE ASTEROID MINING CLAIM",
+        "description": "{company} lands on a trillion-dollar rock in deep space. {newspaper} investigative team asks: 'Does the wealth of the heavens belong to humanity or the {city} elite?'",
         "choices": [
             {
                 "text": "Tax them 90%; space resources belong to humanity.",
@@ -7238,8 +7238,8 @@
         ]
     },
     {
-        "title": "The Patriotism Test",
-        "description": "Nationalists want immigrants to pass a 'cultural values' test, not just a civics test.",
+        "title": "CULTURAL CHECKPOINT: THE PATRIOTISM TEST ROW",
+        "description": "Nationalists in {city} demand immigrants from {foreign_country} pass a 'values' exam. {newspaper} reports on clashing visions of identity in the {region}.",
         "choices": [
             {
                 "text": "Implement the strict cultural test.",
@@ -7281,8 +7281,8 @@
         ]
     },
     {
-        "title": "Polygamy Legalization",
-        "description": "Following marriage equality, groups are suing for the right to plural marriage (multiple spouses).",
+        "title": "PLURAL PARTNERS: THE POLYGAMY LEGAL CHALLENGE",
+        "description": "Lawsuits in the {region} seek to expand marriage to multiple spouses. {newspaper} reports on the moral divide in {city} over the definition of the family.",
         "choices": [
             {
                 "text": "Legalize polygamy for consenting adults.",
@@ -7324,8 +7324,8 @@
         ]
     },
     {
-        "title": "Water Privatization",
-        "description": "A drought-stricken region considers selling its municipal water supply to a multinational corporation.",
+        "title": "LIQUID GOLD: THE WATER PRIVATIZATION BATTLE",
+        "description": "A drought-stricken municipal utility in the {region} is targeted for a buyout by {company}. {newspaper} investigative team asks: 'Is {city} selling its lifeblood?'",
         "choices": [
             {
                 "text": "Block the sale; water is a human right.",
@@ -7367,8 +7367,8 @@
         ]
     },
     {
-        "title": "Military in Schools",
-        "description": "Recruitment numbers are down. The army wants access to all high school student records and mandatory recruiter assemblies.",
+        "title": "BOOTCAMP BATTLE: RECRUITERS IN THE CLASSROOM",
+        "description": "The {infrastructure} of the military demands access to student records in the {region}. {newspaper} reports on clashing protests in {city} over the 'militarization' of education.",
         "choices": [
             {
                 "text": "Grant full access; we need soldiers.",
@@ -7410,8 +7410,8 @@
         ]
     },
     {
-        "title": "Internet ID Card",
-        "description": "To stop bullying and bots, a bill proposes you must scan a government ID to use social media.",
+        "title": "DIGITAL IDENTITY: THE SOCIAL MEDIA ID ROW",
+        "description": "A controversial bill in {city} proposes a mandatory government ID scan for all {social_media_platform} users. {newspaper} reports on the end of online anonymity in the {region}.",
         "choices": [
             {
                 "text": "Pass the bill; end anonymity.",
@@ -7453,8 +7453,8 @@
         ]
     },
     {
-        "title": "Whistleblower Extradition",
-        "description": "An ally wants us to extradite a journalist who exposed their war crimes. They call him a spy.",
+        "title": "THE SPY OR THE TRUTH: THE EXTRADITION STALEMATE",
+        "description": "{foreign_country} demands the handover of a journalist in {city} who exposed high-level corruption. {newspaper} reports on the fierce battle for the 'soul of the press' in the {region}.",
         "choices": [
             {
                 "text": "Refuse; protect freedom of the press.",
@@ -7496,8 +7496,8 @@
         ]
     },
     {
-        "title": "Speed Camera Expansion",
-        "description": "A plan to put automated speed cameras on every street corner to eliminate traffic deaths.",
+        "title": "EYE ON THE ROAD: THE SPEED CAMERA SURGE",
+        "description": "A plan to install automated {infrastructure} on every corner of {city} triggers a public backlash. {newspaper} investigative team asks: 'Is it safety or a {region} cash grab?'",
         "choices": [
             {
                 "text": "Install them everywhere; safety first.",
@@ -7539,8 +7539,8 @@
         ]
     },
     {
-        "title": "Traditional Medicine Integration",
-        "description": "Indigenous groups want traditional herbal medicine covered by national health insurance.",
+        "title": "ANCIENT CURES: THE HERBAL MEDICINE DEBATE",
+        "description": "Indigenous groups in the {region} demand that traditional remedies be covered by the {city} health budget. {newspaper} reports on clashing views between {religious_group} and medical boards.",
         "choices": [
             {
                 "text": "Cover it; respect cultural practices.",
@@ -7582,8 +7582,8 @@
         ]
     },
     {
-        "title": "Urban Farming Grants",
-        "description": "Activists want to tear up parking lots to plant community gardens.",
+        "title": "PARKING TO PASTURE: THE URBAN FARMING PUSH",
+        "description": "Activists in {city} want to tear up concrete to plant community gardens. {newspaper} investigative team reports on the 'green' revolution sweeping the {region}'s metropolitan centers.",
         "choices": [
             {
                 "text": "Fund the gardens; green the cities.",
@@ -7625,8 +7625,8 @@
         ]
     },
     {
-        "title": "Kidfluencer Laws",
-        "description": "Parents are making millions filming their children for YouTube. The kids see none of the money.",
+        "title": "EXPLOITATION OR ENTERTAINMENT: THE KIDFLUENCER ROW",
+        "description": "Parents in the {region} making millions on {social_media_platform} face a new legal reckoning. {newspaper} investigative team reveals the 'stolen childhoods' behind {city}'s viral stars.",
         "choices": [
             {
                 "text": "Coogan Law: 15% of income must go to a trust for the child.",
@@ -7668,8 +7668,8 @@
         ]
     },
     {
-        "title": "Political Truth-in-Advertising",
-        "description": "Candidates are lying blatantly in TV ads. Should we empower a board to censor false political ads?",
+        "title": "FACT OR FICTION: THE POLITICAL AD CLAMPDOWN",
+        "description": "Blatant lies in campaign broadcasts on {social_media_platform} trigger demands for a 'truth board' in {city}. {newspaper} reports on the battle for the {region}'s reality.",
         "choices": [
             {
                 "text": "Yes, ban lying in political ads.",
@@ -7711,8 +7711,8 @@
         ]
     },
     {
-        "title": "Moving the Capital",
-        "description": "The capital is overcrowded and corrupt. A proposal to build a new, planned capital in the interior.",
+        "title": "EXODUS FROM {city}: THE NEW CAPITAL PLAN",
+        "description": "A proposal to build a planned capital deep in the {region}'s interior gains momentum. {newspaper} asks: 'Can a fresh start solve {city}'s systemic corruption?'",
         "choices": [
             {
                 "text": "Build the new capital; a fresh start.",
@@ -7754,8 +7754,8 @@
         ]
     },
     {
-        "title": "Geoengineering Proposal",
-        "description": "We are missing climate targets. Scientists want to spray aerosols in the atmosphere to dim the sun.",
+        "title": "DIMMING THE SUN: THE GEOENGINEERING PROJECT",
+        "description": "Scientists in {city} propose spraying aerosols into the {region}'s atmosphere to curb heating. {newspaper} reports on the global panic over 'hacking the climate'.",
         "choices": [
             {
                 "text": "Authorize the spraying immediately.",
@@ -7797,8 +7797,8 @@
         ]
     },
     {
-        "title": "Human Challenge Trials",
-        "description": "To speed up vaccine development for a new virus, volunteers want to be intentionally infected.",
+        "title": "INFECTION FOR INNOVATION: THE VACCINE TRIALS",
+        "description": "Volunteers in {city} request to be intentionally infected with a new virus to speed up {organisation} research. {newspaper} reports on the ethical storm in the {region}.",
         "choices": [
             {
                 "text": "Allow it; the ends justify the means.",
@@ -7840,8 +7840,8 @@
         ]
     },
     {
-        "title": "Robot Tax",
-        "description": "Factories are fully automating. A tax on robots per human replaced is proposed.",
+        "title": "THE AUTOMATION TOLL: THE ROBOT TAX DEBATE",
+        "description": "As {company} replaces the {region}'s workforce with algorithms, {city} officials propose a per-machine levy. {newspaper} investigative team asks if the {industry} can pay for the safety net.",
         "choices": [
             {
                 "text": "Implement the robot tax.",
@@ -7883,8 +7883,8 @@
         ]
     },
     {
-        "title": "National Anthem Protest",
-        "description": "Athletes are kneeling during the anthem to protest injustice. Fans are booing.",
+        "title": "KNEELING FOR JUSTICE: THE ANTHEM CONTROVERSY",
+        "description": "Athletes in {city} stadiums spark a national row on {social_media_platform} by protesting during the anthem. {newspaper} reports on the identity clash in the {region}.",
         "choices": [
             {
                 "text": "Defend their right to protest.",
@@ -7926,8 +7926,8 @@
         ]
     },
     {
-        "title": "Micro-transaction Ban",
-        "description": "Pay-to-win mechanics in software and cars (heated seats subscriptions) are annoying everyone.",
+        "title": "PAY-TO-PLAY: THE MICRO-TRANSACTION CRACKDOWN",
+        "description": "Subscription fees for basic features in {city}-{industry} products trigger a legislative 'war'. {newspaper} investigative team target {company} for predatory pricing in the {region}.",
         "choices": [
             {
                 "text": "Ban predatory micro-transactions.",
@@ -7969,8 +7969,8 @@
         ]
     },
     {
-        "title": "Vigilante Justice",
-        "description": "Crime is high. Neighborhoods are forming armed patrols. A thief was shot by a patrol.",
+        "title": "STREET JUSTICE: THE RISE OF THE ARMED PATROL",
+        "description": "After a shooting in the {region}, {city} neighborhoods form their own security units. {newspaper} investigative team reports on the breakdown of the state's monopoly on force.",
         "choices": [
             {
                 "text": "Prosecute the shooter; monopoly on violence belongs to the state.",
@@ -8012,8 +8012,8 @@
         ]
     },
     {
-        "title": "Public Funding for IVF",
-        "description": "Fertility rates are crashing. Should the government pay for In Vitro Fertilization?",
+        "title": "FERTILIZING THE FUTURE: FREE IVF PROPOSED",
+        "description": "Crashing birth rates in the {region} prompt {city} officials to propose taxpayer-funded fertility. {newspaper} reports on clashing views from {religious_group} over 'biological engineering'.",
         "choices": [
             {
                 "text": "Free IVF for all couples.",
@@ -8055,8 +8055,8 @@
         ]
     },
     {
-        "title": "Drone Delivery Noise",
-        "description": "The sky is buzzing with delivery drones. People can't sleep.",
+        "title": "BUZZING SKIES: THE DRONE NOISE EPIDEMIC",
+        "description": "The air above {city} enclaves is filled with {company} delivery craft. {newspaper} reports on sleepless nights and the fight for the {region}'s silence.",
         "choices": [
             {
                 "text": "Ban drones over residential areas.",
@@ -8098,8 +8098,8 @@
         ]
     },
     {
-        "title": "The Right to be Forgotten",
-        "description": "Citizens want the right to force Google to delete their past from search results.",
+        "title": "THE DIGITAL RESET: THE RIGHT TO BE FORGOTTEN",
+        "description": "Citizens in {city} demand to force {company} to delete their history from the web. {newspaper} investigative team asks: 'Is memory in the {region} a public record or a private right?'",
         "choices": [
             {
                 "text": "Enshrine the Right to be Forgotten.",
@@ -8141,8 +8141,8 @@
         ]
     },
     {
-        "title": "Ban on Political Dynasties",
-        "description": "The same three families have run the country for decades. A bill proposes banning relatives of presidents from running.",
+        "title": "DYNASTIC DOWNFALL: THE ANTI-FAMILY BILL",
+        "description": "A bill in {city} aims to ban relatives of former leaders from high office in the {region}. {newspaper} reports on the battle to break the grip of {city}'s 'ruling families'.",
         "choices": [
             {
                 "text": "Pass the bill; end the oligarchy.",
@@ -8184,8 +8184,8 @@
         ]
     },
     {
-        "title": "National Internet Firewall",
-        "description": "To stop foreign propaganda and porn, religious groups want a national internet filter.",
+        "title": "THE DIGITAL BORDER: THE NATIONAL FIREWALL",
+        "description": "{religious_group} and officials in the {region} demand a filter to block foreign content. {newspaper} investigative team warns of a 'walled garden' around {city}'s web.",
         "choices": [
             {
                 "text": "Build the firewall. Protect our minds.",
@@ -8227,8 +8227,8 @@
         ]
     },
     {
-        "title": "Occupational Licensing Reform",
-        "description": "You need a license and 200 hours of training to braid hair. It's hurting the poor.",
+        "title": "BUREAUCRATIC BRAID: THE LICENSING REFORM ROW",
+        "description": "A scandal in {city} reveals that basic services like hair braiding require 200 hours of training. {newspaper} reports on the push to slash red tape in the {region}.",
         "choices": [
             {
                 "text": "Abolish most occupational licenses.",
@@ -8270,8 +8270,8 @@
         ]
     },
     {
-        "title": "Autonomous Trucking Protests",
-        "description": "Self-driving trucks are hitting the road. Truckers are blocking highways in protest.",
+        "title": "GHOST RIGS: THE TRUCKER REVOLT",
+        "description": "Self-driving convoys from {company} hit the highways of the {region}. {newspaper} reports as striking drivers block the main routes into {city}.",
         "choices": [
             {
                 "text": "Ban autonomous trucks to save jobs.",
@@ -8313,8 +8313,8 @@
         ]
     },
     {
-        "title": "Abolish the Penny",
-        "description": "It costs 2 cents to make a 1-cent coin. It's useless.",
+        "title": "CHANGE IN THE AIR: KILLING THE PENNY",
+        "description": "The {city} Mint reveals it costs 2 cents to produce a 1-cent coin. {newspaper} investigative team asks: 'Is it time to ditch the smallest currency in the {region}?'",
         "choices": [
             {
                 "text": "Kill the penny. Round to nearest nickel.",
@@ -8356,8 +8356,8 @@
         ]
     },
     {
-        "title": "Genetic Enhancement for Soldiers",
-        "description": "The military wants to use gene therapy to make soldiers stronger and require less sleep.",
+        "title": "SUPER SOLDIERS: THE GENETIC FRONTIER",
+        "description": "The {infrastructure} of the military proposes gene therapy to enhance the {region}'s troops. {newspaper} investigative team reports on the ethical storm in {city} over 'designer warriors'.",
         "choices": [
             {
                 "text": "Approve the 'Super Soldier' program.",
@@ -8399,8 +8399,8 @@
         ]
     },
     {
-        "title": "Rent Control Referendum",
-        "description": "Tenants demand a national cap on rent increases. Landlords say they will stop building.",
+        "title": "ROOF REVOLUTION: THE RENT CONTROL ROW",
+        "description": "Tenants in {city} high-rises demand a national cap on increases. {newspaper} reports on the fierce standoff between {activist_group} and the {region}'s property magnates.",
         "choices": [
             {
                 "text": "Strict rent control nationwide.",
@@ -8442,8 +8442,8 @@
         ]
     },
     {
-        "title": "Online Voting",
-        "description": "Tech firms say they can secure online voting. It would boost turnout massively.",
+        "title": "VOTES VIA VIRTUALITY: THE SMARTPHONE BALLOT",
+        "description": "{company} claims it can secure the next {region} election via mobile app. {newspaper} investigative team asks: 'Is {city} ready for a 100% digital democracy?'",
         "choices": [
             {
                 "text": "Implement voting from smartphones.",
@@ -8485,8 +8485,8 @@
         ]
     },
     {
-        "title": "National ID Card",
-        "description": "We are the only major country without a centralized ID. It would simplify bureaucracy but hurts privacy.",
+        "title": "UNIFIED IDENTITY: THE NATIONAL ID DEBATE",
+        "description": "A proposal for a centralized ID card in {city} triggers privacy alarms on {social_media_platform}. {newspaper} reports on the end of online anonymity in the {region}.",
         "choices": [
             {
                 "text": "Issue a mandatory National ID.",
@@ -8528,8 +8528,8 @@
         ]
     },
     {
-        "title": "Free Public Transport",
-        "description": "Traffic is gridlocked. A proposal to make all buses and trains free to use.",
+        "title": "FAREWELL TO FARES: THE FREE TRANSIT PUSH",
+        "description": "Gridlock in {city} prompts a plan to make the {region}'s buses and trains free. {newspaper} investigative team asks if the {industry} can foot the bill.",
         "choices": [
             {
                 "text": "Make transit free; tax drivers to pay for it.",
@@ -8571,8 +8571,8 @@
         ]
     },
     {
-        "title": "Dual Citizenship Ban",
-        "description": "Nationalists argue you cannot serve two masters. Ban dual citizenship?",
+        "title": "TWO MASTERS: THE DUAL CITIZENSHIP BAN",
+        "description": "Nationalists in {city} demand that residents from {foreign_country} choose a single loyalty. {newspaper} reports on the identity crisis gripping the {region}.",
         "choices": [
             {
                 "text": "Ban it. Choose one country.",
@@ -8614,8 +8614,8 @@
         ]
     },
     {
-        "title": "3D Printed Guns",
-        "description": "Blueprints for plastic guns are online. Anyone can print one at home. Gun control is becoming obsolete.",
+        "title": "PLASTIC PISTOLS: THE 3D PRINTED GUN CRISIS",
+        "description": "Blueprints for untraceable weapons circulate on {social_media_platform}. {newspaper} investigative team reports as {city} officials face the end of traditional gun control in the {region}.",
         "choices": [
             {
                 "text": "Censor the blueprints from the internet.",
@@ -8657,8 +8657,8 @@
         ]
     },
     {
-        "title": "Foreign Aid for Gender Programs",
-        "description": "We are sending millions to other countries to promote gender equality. Conservatives want it cut.",
+        "title": "GLOBAL EQUALITY: THE AID CUT ROW",
+        "description": "Millions in {region} funds sent overseas for gender programs trigger a 'Our Nation First' backlash in {city}. {newspaper} reports on the redirection of foreign support.",
         "choices": [
             {
                 "text": "Cut the aid; Our Nation First.",
@@ -8700,8 +8700,8 @@
         ]
     },
     {
-        "title": "Ban on Lobbying",
-        "description": "{company} is spending billions buying influence. A bill proposes a total ban on paid lobbying.",
+        "title": "INFLUENCE FOR SALE: THE LOBBYING BAN",
+        "description": "{company} is accused of 'buying the {region}' via high-priced fixers in {city}. {newspaper} reports on the bill to outlaw the multi-billion dollar influence industry.",
         "choices": [
             {
                 "text": "Ban paid lobbying entirely.",
@@ -8743,8 +8743,8 @@
         ]
     },
     {
-        "title": "Mandatory Composting",
-        "description": "Landfills are full. A proposal to fine citizens who don't separate food waste.",
+        "title": "GREENER GARBAGE: THE COMPOSTING MANDATE",
+        "description": "As {city} landfills reach capacity, officials in the {region} propose fines for mixing food waste. {newspaper} investigative team reports on the 'trash police' row.",
         "choices": [
             {
                 "text": "Mandate composting with fines.",
@@ -8786,8 +8786,8 @@
         ]
     },
     {
-        "title": "Deep Sea Mining",
-        "description": "Rare earth metals are on the ocean floor. Mining them destroys unique ecosystems.",
+        "title": "ABYSSAL AMBITION: THE DEEP SEA MINING WAR",
+        "description": "{company} vessels target rare earth metals on the floor of the {region}'s waters. {newspaper} investigative team reports on the destruction of unique ecosystems for {city} tech.",
         "choices": [
             {
                 "text": "Ban deep sea mining.",
@@ -8828,8 +8828,8 @@
         ]
     },
     {
-        "title": "The Fair Repair Act",
-        "description": "Companies glue batteries in phones so you can't replace them. Fix it?",
+        "title": "FIX IT YOURSELF: THE FAIR REPAIR ACT",
+        "description": "Tech giants in the {region} are targeted for 'planned obsolescence'. {newspaper} investigative team reports on the push to force {company} to let {city} residents repair their own devices.",
         "choices": [
             {
                 "text": "Mandate repairable designs for all electronics.",
@@ -8871,8 +8871,8 @@
         ]
     },
     {
-        "title": "Taxing Robots",
-        "description": "Automation is replacing workers. Should we tax the robots to fund welfare?",
+        "title": "THE MACHINE TAX: PENALIZING PROGRESS?",
+        "description": "As automation sweeps {city} factories, officials in the {region} propose a levy on the {industry}. {newspaper} asks: 'Can robots pay for the next generation's welfare?'",
         "choices": [
             {
                 "text": "Yes, implement a robot tax.",
@@ -8914,8 +8914,8 @@
         ]
     },
     {
-        "title": "Paid Blood Plasma",
-        "description": "Poor people are selling blood plasma to survive. Critics call it 'vampire capitalism'.",
+        "title": "VAMPIRE CAPITALISM: THE PLASMA SALE SCANDAL",
+        "description": "Desperate residents in {city} are selling blood to survive in the {region}. {newspaper} investigative team looks into the ethics of the multibillion dollar {industry}.",
         "choices": [
             {
                 "text": "Ban payment for bodily fluids.",
@@ -8957,8 +8957,8 @@
         ]
     },
     {
-        "title": "Police Militarization",
-        "description": "Small town police departments are buying surplus tanks and grenade launchers.",
+        "title": "TANKS IN THE TOWNSHIP: THE MILITARIZED POLICE",
+        "description": "Small-town units in the {region} are spotted with surplus grenade launchers. {newspaper} investigative team reveals the {infrastructure} of the 'urban warrior' in {city}.",
         "choices": [
             {
                 "text": "Ban military gear for police.",
@@ -9000,8 +9000,8 @@
         ]
     },
     {
-        "title": "Ban on Zoos",
-        "description": "Animal rights groups say keeping elephants in captivity is torture. Close the zoos?",
+        "title": "CAGES AND CONSCIENCE: THE BAN ON ZOOS",
+        "description": "{activist_group} in {city} demands an end to animal captivity. {newspaper} reports on the movement to close the {region}'s most famous gates.",
         "choices": [
             {
                 "text": "Phase out all zoos and aquariums.",
@@ -9043,8 +9043,8 @@
         ]
     },
     {
-        "title": "Minimum Voting Age",
-        "description": "Youth activists want the voting age lowered to 16. 'It's our future,' they say.",
+        "title": "THE YOUTH BALLOT: VOTING AT SIXTEEN?",
+        "description": "Youth activists in the {region} demand the voting age be lowered. {newspaper} reports on the debate over {city}'s future being shaped by 'untested' voters.",
         "choices": [
             {
                 "text": "Lower it to 16.",
@@ -9085,8 +9085,8 @@
         ]
     },
     {
-        "title": "Space Advertising",
-        "description": "A startup wants to launch a satellite billboard visible from Earth. The night sky will be a Pepsi ad.",
+        "title": "SKYLINE SLOGANS: THE ORBITAL AD BILLBOARD",
+        "description": "{company} plans to launch a satellite billboard visible from every corner of the {region}. {newspaper} investigative team ask: 'Is the night sky above {city} for sale?'",
         "choices": [
             {
                 "text": "Ban orbital advertising globally.",
@@ -9128,8 +9128,8 @@
         ]
     },
     {
-        "title": "Mandatory Retiring Age for Politicians",
-        "description": "Senators are freezing on camera. The public wants a youth movement.",
+        "title": "THE ELDER EXODUS: MANDATORY RETIREMENT ROW",
+        "description": "As several veterans freeze on camera in {city}, a movement in the {region} demands an age cap for office. {newspaper} investigative team looks into the fight for a youth-led government.",
         "choices": [
             {
                 "text": "Force retirement at age 70.",
@@ -9170,8 +9170,8 @@
         ]
     },
     {
-        "title": "Flight Rationing",
-        "description": "To hit climate goals, we must fly less. A 'Frequent Flyer Levy' is proposed.",
+        "title": "GROUNDED GOALS: THE FLIGHT RATIONING PLAN",
+        "description": "To hit climate targets in the {region}, officials in {city} propose a 'Frequent Flyer Levy'. {newspaper} reports as the {industry} warns of a dark age for travel.",
         "choices": [
             {
                 "text": "One return flight per person per year.",
@@ -9213,8 +9213,8 @@
         ]
     },
     {
-        "title": "Virtual Reality Addiction",
-        "description": "People are living in the 'Metaverse' and neglecting real life/jobs. Declare a health crisis?",
+        "title": "VIRTUAL OVERLOAD: THE METAVERSE CRISIS",
+        "description": "Citizens in {city} are neglecting the real world for digital simulations on {social_media_platform}. {newspaper} reports as medical boards in the {region} declare a VR addiction epidemic.",
         "choices": [
             {
                 "text": "Regulate VR usage hours.",
@@ -9256,8 +9256,8 @@
         ]
     },
     {
-        "title": "Wildfire Management",
-        "description": "Forests are burning. Loggers say 'thin the forests'. Ecologists say 'let it burn naturally'.",
+        "title": "INFERNO IN THE {region}: THE WILDFIRE WAR",
+        "description": "Forests surrounding {city} are ablaze. {newspaper} investigative team reports on clashing theories between {industry} loggers and ecologists on how to save the woods.",
         "choices": [
             {
                 "text": "Aggressive logging to clear fuel.",
@@ -9299,8 +9299,8 @@
         ]
     },
     {
-        "title": "International Criminal Court",
-        "description": "The ICC wants to investigate our soldiers for conduct in the last war. We are not members.",
+        "title": "SOLDIERS IN THE DOCK: THE ICC STANDOFF",
+        "description": "The {organisation} human rights court in {city} demands to investigate the {region}'s troops. {newspaper} investigative team reports on the threat to national sovereignty.",
         "choices": [
             {
                 "text": "Cooperate fully; no one is above the law.",
@@ -9342,8 +9342,8 @@
         ]
     },
     {
-        "title": "Taxing University Endowments",
-        "description": "Elite colleges sit on billions in tax-free hedge funds while tuition rises.",
+        "title": "THE IVORY TREASURE: TAXING THE ENDOWMENTS",
+        "description": "Elite colleges in the {region} sit on billions while {city} tuition rates soar. {newspaper} investigative team asks if the {industry} of education can finally pay its fair share.",
         "choices": [
             {
                 "text": "Tax the endowments heavily.",
@@ -9385,8 +9385,8 @@
         ]
     },
     {
-        "title": "Public Broadcasting Independence",
-        "description": "The state broadcaster is critical of the government. Your party wants to cut their funding.",
+        "title": "THE VOICE OF {city} VS THE STATE: MEDIA CUTS",
+        "description": "The state broadcaster in the {region} faces a budget freeze after a series of critical reports. {newspaper} investigative team warns of a blow to the {infrastructure} of free press.",
         "choices": [
             {
                 "text": "Cut the funding; stop subsidizing bias.",
@@ -9428,8 +9428,8 @@
         ]
     },
     {
-        "title": "Homeless Architecture",
-        "description": "Cities are installing spikes on benches to stop homeless sleeping. 'Hostile Architecture'.",
+        "title": "PRICKLY STREETS: THE HOSTILE ARCHITECTURE ROW",
+        "description": "Spikes installed on park benches in {city} trigger a public outcry. {newspaper} investigative team reports on the 'war on the destitute' in the {region}'s shopping districts.",
         "choices": [
             {
                 "text": "Ban hostile architecture; it's cruel.",
@@ -9471,8 +9471,8 @@
         ]
     },
     {
-        "title": "Banning Flag Burning",
-        "description": "Protesters burned the flag. Veterans are demanding a constitutional amendment to ban it.",
+        "title": "FLAMES OF DISSENT: THE FLAG BURNING BAN",
+        "description": "A protest in the {region}'s capital involving a burning banner sparks a Move for a Constitutional Amendment. {newspaper} reports on the battle for the symbols of {city}.",
         "choices": [
             {
                 "text": "Pass the ban; respect the flag.",
@@ -9514,8 +9514,8 @@
         ]
     },
     {
-        "title": "The Tip Culture War",
-        "description": "Tipping screens are everywhere. People are tired of subsidizing wages.",
+        "title": "GRATUITY GRIEVANCE: THE TIP CULTURE WAR",
+        "description": "Tipping screens appearing for basic services in {city} trigger a consumer revolt on {social_media_platform}. {newspaper} investigative team asks if the {industry} should just pay a living wage.",
         "choices": [
             {
                 "text": "Abolish the 'tipped minimum wage' (raise base pay).",
@@ -9557,8 +9557,8 @@
         ]
     },
     {
-        "title": "Corporate Landlords",
-        "description": "Wall Street is buying single-family homes. The middle class can't compete.",
+        "title": "WALL STREET LANDLORDS: THE HOUSING MONOPOLY",
+        "description": "{company} buys up vast swathes of single-family homes in the {region}. {newspaper} investigative team finds {city}'s middle class can no longer compete for a roof.",
         "choices": [
             {
                 "text": "Ban corporations from owning single-family homes.",
@@ -9599,8 +9599,8 @@
         ]
     },
     {
-        "title": "Private Beach Access",
-        "description": "Billionaires are blocking access to public beaches behind their mansions.",
+        "title": "LOCKED SHORES: THE BEACH ACCESS BATTLE",
+        "description": "Billionaires in the {region} are accused of 'stealing the sand' with illegal gates. {newspaper} investigative team reports on the fight for public paths in {city}'s coastal enclaves.",
         "choices": [
             {
                 "text": "Enforce public access; beaches belong to everyone.",
@@ -9642,8 +9642,8 @@
         ]
     },
     {
-        "title": "Algorithm Transparency",
-        "description": "We don't know why social media shows us what it shows. It's radicalizing people.",
+        "title": "CODED CONTROL: THE ALGORITHM AUDIT",
+        "description": "Demands for {company} to reveal how it sorts reality on {social_media_platform} grow in {city}. {newspaper} investigative team reports on the 'black boxes' radicalizing the {region}.",
         "choices": [
             {
                 "text": "Make the algorithms open source.",
@@ -9685,8 +9685,8 @@
         ]
     },
     {
-        "title": "The Panda Diplomacy Crisis",
-        "description": "A hostile nation is recalling all pandas from our zoos as a political snub.",
+        "title": "PANDA POLARIZATION: THE DIPLOMATIC SNUB",
+        "description": "{foreign_country} recalls its pandas from the {region} in a high-stakes political slap. {newspaper} reports on the empty enclosures and the chill in {city}.",
         "choices": [
             {
                 "text": "Let them go; good riddance.",
@@ -9728,8 +9728,8 @@
         ]
     },
     {
-        "title": "Noise Pollution Act",
-        "description": "Cities are too loud. Health risks include heart disease and stress.",
+        "title": "THE SILENT CITY: THE NOISE POLLUTION ROW",
+        "description": "High stress and heart risk in the {region} trigger a crackdown on modified exhausts and sirens. {newspaper} reports on {city}'s fight for a moment of peace.",
         "choices": [
             {
                 "text": "Ban modified car exhausts and loud motorcycles.",
@@ -9771,8 +9771,8 @@
         ]
     },
     {
-        "title": "The 100-Year Bond",
-        "description": "To fund green energy, the treasury wants to sell bonds that mature in 100 years.",
+        "title": "CENTURY CREDIT: THE 100-YEAR GREEN BOND",
+        "description": "The {city} treasury proposes selling debt that won't mature until the next century to fund the {infrastructure} of the future. {newspaper} asks: 'Are we selling the {region}'s grandkids?'",
         "choices": [
             {
                 "text": "Issue the bonds; invest in the future.",
@@ -9814,8 +9814,8 @@
         ]
     },
     {
-        "title": "Mandatory Voting for Shareholders",
-        "description": "Corporate boards are unmanaged. Proposal to make shareholder voting mandatory.",
+        "title": "BOARDROOM BALLOTS: THE SHAREHOLDER MANDATE",
+        "description": "Corporate governance in {city} is in chaos. {newspaper} reports on a proposal to make shareholder voting mandatory for {industry} investors in the {region}.",
         "choices": [
             {
                 "text": "Pass the law; democratize capitalism.",
@@ -9856,8 +9856,8 @@
         ]
     },
     {
-        "title": "{company} Factory Closure",
-        "description": "The manufacturing giant {company} is closing its main plant in {region}, citing high labor costs. Thousands will lose their jobs.",
+        "title": "THE {company} EXODUS: {region} PLANT TO CLOSE",
+        "description": "{company} announces it is shuttering its hub in the {region} due to costs. {newspaper} reports on the thousands of {city} workers set to lose their livelihood.",
         "choices": [
             {
                 "text": "Nationalize the factory to keep it running.",
@@ -9899,8 +9899,8 @@
         ]
     },
     {
-        "title": "{religious_group} Demand Exemption",
-        "description": "Leaders of the {religious_group} community in {city} refuse to follow new secular education standards.",
+        "title": "FAITH VS FINALS: THE {religious_group} EXEMPTION",
+        "description": "Leaders of the {religious_group} in {city} refuse to follow the national curriculum. {newspaper} investigative team reports on the standoff over secular standards in {region} schools.",
         "choices": [
             {
                 "text": "Force them to comply; one law for all.",
@@ -9942,8 +9942,8 @@
         ]
     },
     {
-        "title": "Border Skirmish with {foreign_country}",
-        "description": "Troops from {foreign_country} fired shots across the border near {region}. One of our soldiers was wounded.",
+        "title": "FLASHPOINT AT THE FRONTIER: SHOTS FIRED",
+        "description": "Troops from {foreign_country} open fire near a remote {region} outpost. {newspaper} reports as one soldier is airlifted to {city} in critical condition.",
         "choices": [
             {
                 "text": "Retaliate with airstrikes on their outposts.",
@@ -9985,8 +9985,8 @@
         ]
     },
     {
-        "title": "{industry} Bailout Request",
-        "description": "The entire {industry} sector is on the verge of collapse due to market shifts. They are asking for a massive government bailout.",
+        "title": "BAILOUT BATTLE: THE {industry} CRISIS",
+        "description": "The entire {industry} sector in the {region} teeters on the edge of extinction. {newspaper} reports as CEOs plead with {city} for a multi-billion dollar lifeline.",
         "choices": [
             {
                 "text": "Bail them out; they are 'too big to fail'.",
@@ -10028,8 +10028,8 @@
         ]
     },
     {
-        "title": "{company} Data Leak",
-        "description": "{company} has leaked the private data of 10 million citizens. They claim it was a sophisticated hack.",
+        "title": "DIGITAL DISASTER: THE {company} DATA LEAK",
+        "description": "Private records of 10 million residents in the {region} are exposed in a massive breach. {newspaper} investigative team tracks the hackers targeting {city}'s data.",
         "choices": [
             {
                 "text": "Fine them billions and threaten jail time for executives.",
@@ -10071,8 +10071,8 @@
         ]
     },
     {
-        "title": "Protests in {city}",
-        "description": "Students in {city} are rioting over high tuition fees and lack of jobs.",
+        "title": "CAMPUS CHAOS: RIOTS TEAR THROUGH {city}",
+        "description": "Students in the {region} take to the streets over sky-high fees and lack of jobs. {newspaper} reports as {city} central square is engulfed in smoke.",
         "choices": [
             {
                 "text": "Crack down with riot police.",
@@ -10114,8 +10114,8 @@
         ]
     },
     {
-        "title": "Copper Discovery in {region}",
-        "description": "A massive deposit of copper has been found in a protected nature reserve in {region}.",
+        "title": "RED GOLD: MASSIVE COPPER FIND IN THE {region}",
+        "description": "A trillion-dollar deposit is discovered beneath a protected reserve in the {region}. {newspaper} investigative team asks: '{city} wealth or environmental ruin?'",
         "choices": [
             {
                 "text": "Open the reserve to mining immediately.",
@@ -10157,8 +10157,8 @@
         ]
     },
     {
-        "title": "Currency Crisis",
-        "description": "The value of the currency is dropping rapidly against foreign currencies.",
+        "title": "MARKET MELTDOWN: NATIONAL CURRENCY COLLAPSES",
+        "description": "The value of the economy plunges against {foreign_country} markets. {newspaper} reports on the panic in {city} as savings in the {region} evaporate overnight.",
         "choices": [
             {
                 "text": "Raise interest rates to stabilize the currency.",
@@ -10200,8 +10200,8 @@
         ]
     },
     {
-        "title": "{foreign_country} Spy Scandal",
-        "description": "A diplomat from {foreign_country} was caught buying state secrets from a general.",
+        "title": "SHADOWS IN {city}: THE {foreign_country} SPY RING",
+        "description": "A diplomat from {foreign_country} is caught buying secrets from a general in the {region}. {newspaper} investigative team reveals the depth of foreign interference.",
         "choices": [
             {
                 "text": "Expel all diplomats from {foreign_country}.",
@@ -10243,8 +10243,8 @@
         ]
     },
     {
-        "title": "Automation at {company}",
-        "description": "{company} announces it will replace 50% of its workforce with AI systems.",
+        "title": "ALGORITHMIC AXE: {company} TO REPLACE 50% OF STAFF",
+        "description": "In a move that shocks the {region}, {company} announces it will replace workers with AI. {newspaper} reports on the 'quiet purge' hitting {city} households.",
         "choices": [
             {
                 "text": "Block the layoffs via regulation.",
@@ -10286,8 +10286,8 @@
         ]
     },
     {
-        "title": "{minority_group} Rights Bill",
-        "description": "Activists demand a new bill protecting {minority_group} from discrimination in housing and jobs.",
+        "title": "JUSTICE DELIVERED? THE {minority_group} BILL",
+        "description": "Activists in {city} demand new protections for {minority_group} families. {newspaper} reports on the battle to end discrimination in the {region}'s housing market.",
         "choices": [
             {
                 "text": "Pass the bill immediately.",
@@ -10329,8 +10329,8 @@
         ]
     },
     {
-        "title": "Pandemic in {region}",
-        "description": "A new strain of a disease has appeared in {region}. Hospitals are filling up.",
+        "title": "OUTBREAK ALARM: NEW VIRUS SWEEPS THE {region}",
+        "description": "Hospitals in {city} reach breaking point as a new strain spreads. {newspaper} reports on the {organisation} travel warnings and the panic in the streets.",
         "choices": [
             {
                 "text": "Quarantine the entire region immediately.",
@@ -10372,8 +10372,8 @@
         ]
     },
     {
-        "title": "{company} Monopolization",
-        "description": "{company} has bought its last major competitor. They now control 90% of the {industry} market.",
+        "title": "GOLIATH GRIP: {company} CONSUMES THE COMPETITION",
+        "description": "{company} now controls 90% of the {industry} in the {region}. {newspaper} investigative team asks: 'Is {city}'s free market dead?'",
         "choices": [
             {
                 "text": "Break them up using anti-trust laws.",
@@ -10415,8 +10415,8 @@
         ]
     },
     {
-        "title": "Refugees from {foreign_country}",
-        "description": "Civil war in {foreign_country} has displaced millions. 100,000 are asking for asylum.",
+        "title": "THE LONG MARCH: 100,000 FROM {foreign_country} SEEK ASYLUM",
+        "description": "Civil war in {foreign_country} triggers a humanitarian exodus toward the {region}. {newspaper} reports on the thousands arriving at {city} gates.",
         "choices": [
             {
                 "text": "Accept them and provide path to citizenship.",
@@ -10458,8 +10458,8 @@
         ]
     },
     {
-        "title": "Corruption in {organisation}",
-        "description": "The head of the {organisation} was caught embezzling millions in tax payer money.",
+        "title": "THE HOLLOW CORE: CORRUPTION AT {organisation}",
+        "description": "The chief of {organisation} is accused of embezzling millions in taxpayer funds. {newspaper} investigative team reveals the rot at the heart of {city}'s bureaucracy.",
         "choices": [
             {
                 "text": "Public trial and maximize sentencing.",
@@ -10501,8 +10501,8 @@
         ]
     },
     {
-        "title": "Football League Scandal",
-        "description": "Top players in the national football league are accused of fixing matches for gambling syndicates.",
+        "title": "FIXED FIXTURES: THE FOOTBALL BETTING SCANDAL",
+        "description": "Stars in the {region}'s top league are accused of taking bribes from {foreign_country} gambling rings. {newspaper} reports on the death of the 'beautiful game' in {city}.",
         "choices": [
             {
                 "text": "Government takeover of the league's oversight.",
@@ -10544,8 +10544,8 @@
         ]
     },
     {
-        "title": "Drought in {region}",
-        "description": "Farmers in {region} are losing crops due to lack of water. Food prices are rising.",
+        "title": "PARCHED PASTURES: THE {region} WATER CRISIS",
+        "description": "Farmers in the {region} watch crops wither as the worst drought in a century hits. {newspaper} investigative team reports on the soaring food prices in {city} shops.",
         "choices": [
             {
                 "text": "Subsidize the farmers to keep them afloat.",
@@ -10587,8 +10587,8 @@
         ]
     },
     {
-        "title": "Art Controversy",
-        "description": "A government-funded museum is displaying 'blasphemous' art. {religious_group} is protesting.",
+        "title": "BLASPHEMY IN THE BRUSH: THE MUSEUM SCANDAL",
+        "description": "Government-funded art in {city} sparks a fury among {religious_group} members. {newspaper} investigative team reports on the clash between expression and belief in the {region}.",
         "choices": [
             {
                 "text": "Defend free speech; keep the art.",
@@ -10630,8 +10630,8 @@
         ]
     },
     {
-        "title": "Terror Plot in the Capital",
-        "description": "Intelligence suggests a plot to bomb the subway in {region}. Action needed.",
+        "title": "SUBWAY SABOTAGE: TERROR PLOT FOILED",
+        "description": "Intelligence sources in {city} reveal those meant to bomb the {infrastructure} of the {region}. {newspaper} reports on the frantic hunt for the plotters across the capital.",
         "choices": [
             {
                 "text": "Deploy military to streets; heightened surveillance.",
@@ -10673,8 +10673,8 @@
         ]
     },
     {
-        "title": "Space Race with {foreign_country}",
-        "description": "{foreign_country} has announced a base on the Moon. We are falling behind.",
+        "title": "THE LUNAR LAGGARD: {foreign_country} REACHES THE MOON",
+        "description": "{foreign_country} announces a permanent base in the Sea of Tranquility. {newspaper} investigative team ask if the {region} is falling behind in the final frontier.",
         "choices": [
             {
                 "text": "Triple NASA/Space Agency funding.",
@@ -10716,8 +10716,8 @@
         ]
     },
     {
-        "title": "Nuclear Power in {region}",
-        "description": "A proposal to build a new nuclear plant in {region} to lower carbon emissions.",
+        "title": "ATOMIC AMBITION: NUCLEAR POWER FOR THE {region}",
+        "description": "A proposal for a massive new reactor in the {region} triggers a green energy row. {newspaper} reports on {city}'s plan to slash emissions via split-atoms.",
         "choices": [
             {
                 "text": "Build it; it's clean energy.",
@@ -10759,8 +10759,8 @@
         ]
     },
     {
-        "title": "{company} Tax Evasion",
-        "description": "It's revealed that {company} paid $0 in taxes last year using offshore havens.",
+        "title": "ZERO DOLLAR DRIVE: {company} TAX SCANDAL",
+        "description": "Offshore havens allowed {company} to pay nothing in taxes last year. {newspaper} investigative team exposes the loopholes starving the {region}'s budget.",
         "choices": [
             {
                 "text": "Close the loopholes and demand back taxes.",
@@ -10802,8 +10802,8 @@
         ]
     },
     {
-        "title": "Genetic Modification of Embryos",
-        "description": "Scientists in {city} claim they can edit out hereditary diseases in unborn babies.",
+        "title": "DESIGNER DESTINY: THE {city} GENE BREAKTHROUGH",
+        "description": "Scientists in {city} claim they can edit out disease in the unborn. {newspaper} investigative team reports on the ethical firestorm over 'superior' citizens in the {region}.",
         "choices": [
             {
                 "text": "Ban the practice; it leads to eugenics.",
@@ -10845,8 +10845,8 @@
         ]
     },
     {
-        "title": "Pension Age Protest",
-        "description": "Unions are striking over plans to raise the retirement age to 70.",
+        "title": "NO TO SEVENTY: THE PENSION AGE STRIKE",
+        "description": "Unions across the {region} bring {city} to a standstill as they protest raising the retirement age. {newspaper} reports on the battle for the final years of work.",
         "choices": [
             {
                 "text": "Keep the age as is; tax the rich to pay for it.",
@@ -10888,8 +10888,8 @@
         ]
     },
     {
-        "title": "{foreign_country} Civil War",
-        "description": "Rebels in {foreign_country} are fighting the dictator. They ask for our help.",
+        "title": "DICTATOR VS DEMOCRACY: THE {foreign_country} CIVIL WAR",
+        "description": "Rebels in {foreign_country} plead with the {region} for arms and advisors. {newspaper} reports on the tactical dilemma facing the command in {city}.",
         "choices": [
             {
                 "text": "Send weapons and advisors to the rebels.",
@@ -10931,8 +10931,8 @@
         ]
     },
     {
-        "title": "Gig Economy Rights",
-        "description": "Drivers for {company} demand to be classified as employees, not contractors.",
+        "title": "THE GIG IS UP: {company} DRIVERS DEMAND RIGHTS",
+        "description": "Thousands of {company} contractors in {city} demand to be hired as full employees. {newspaper} reports on the legal battle redefining work in the {region}.",
         "choices": [
             {
                 "text": "Force {company} to hire them as employees.",
@@ -10973,8 +10973,8 @@
         ]
     },
     {
-        "title": "Plastic Waste in Ocean",
-        "description": "Studies show fish in our waters are full of microplastics.",
+        "title": "MICROPLASTIC MERES: THE DYING {region} COAST",
+        "description": "New data shows fish in the {region}'s waters are saturated with toxins. {newspaper} investigative team asks if {city} can survive a total ban on single-use plastics.",
         "choices": [
             {
                 "text": "Ban single-use plastics nationwide.",
@@ -11016,8 +11016,8 @@
         ]
     },
     {
-        "title": "Surveillance Camera Network",
-        "description": "Police want to install facial recognition cameras in every major city.",
+        "title": "THE WATCHFUL EYE: FACIAL RECOGNITION IN {city}",
+        "description": "Police in the {region} propose a network of 'smart cameras' for every street corner. {newspaper} reports on the end of privacy in {city}'s shopping districts.",
         "choices": [
             {
                 "text": "Approve the network; safety first.",
@@ -11059,8 +11059,8 @@
         ]
     },
     {
-        "title": "Homelessness in {city}",
-        "description": "Tent cities in {city} are growing. Business owners demand action.",
+        "title": "TENT TOWNSHIPS: THE {city} HOMELESS CRISIS",
+        "description": "Vast encampments in the {region}'s capital trigger a demands for action from {industry} leaders. {newspaper} investigative team reports on the 'invisible city' in {city}.",
         "choices": [
             {
                 "text": "Build free public housing for all.",
@@ -11102,8 +11102,8 @@
         ]
     },
     {
-        "title": "University Censorship",
-        "description": "Students at a northern university blocked a controversial speaker from entering campus.",
+        "title": "SILENCED SPEAKERS: THE CAMPUS CENSORSHIP ROW",
+        "description": "Students at a major {region} university block a global summit. {newspaper} reports on the war over 'hate speech' vs free expression in {city}'s ivory towers.",
         "choices": [
             {
                 "text": "Threaten to cut funding if speech is blocked.",
@@ -11145,8 +11145,8 @@
         ]
     },
     {
-        "title": "{company} Buyout",
-        "description": "A state-owned enterprise from {foreign_country} wants to buy our biggest tech firm, {company}.",
+        "title": "STATE-OWNED SELLOUT: THE {company} BUYOUT",
+        "description": "A firm from {foreign_country} targets the {region}'s biggest tech giant. {newspaper} investigative team reports on the national security alarm in {city}.",
         "choices": [
             {
                 "text": "Block the sale on national security grounds.",
@@ -11188,8 +11188,8 @@
         ]
     },
     {
-        "title": "Universal Basic Income Pilot",
-        "description": "{region} wants to test giving every citizen a monthly check.",
+        "title": "THE MONTHLY CHECK: THE UBI PILOT",
+        "description": "Officials in the {region} propose giving every citizen a guaranteed income. {newspaper} investigative team asks if {city} can afford the 'new welfare'.",
         "choices": [
             {
                 "text": "Fund the pilot program federally.",
@@ -11231,8 +11231,8 @@
         ]
     },
     {
-        "title": "Wildfires in {region}",
-        "description": "Record heat has led to massive fires in {region}. Emergency services are overwhelmed.",
+        "title": "SUMMER OF SMOKE: INFERNOS GULP THE {region}",
+        "description": "Emergency services in {city} are overwhelmed as record heat turns the countryside to kindling. {newspaper} reports on the 'Climate Emergency' in the {region}.",
         "choices": [
             {
                 "text": "Declare a Climate Emergency and mobilize army.",
@@ -11274,8 +11274,8 @@
         ]
     },
     {
-        "title": "Crypto-Currency Ban",
-        "description": "The central bank says Bitcoin is being used for money laundering and terrorism.",
+        "title": "BITCOIN BLACKOUT: THE CRYPTO CRACKDOWN",
+        "description": "The {city} central bank labels digital assets a tool for {foreign_country} money laundering. {newspaper} reports on the move to ban all tokens in the {region}.",
         "choices": [
             {
                 "text": "Ban all ownership and trading.",
@@ -11316,8 +11316,8 @@
         ]
     },
     {
-        "title": "Veterans Protest",
-        "description": "Veterans are camping on the lawn of the capital demanding better healthcare.",
+        "title": "HONOR DENIED? THE VETERANS' LAWN PROTEST",
+        "description": "Hundreds of former soldiers camp on the {city} capital lawn. {newspaper} investigative team reveals the failure of the {infrastructure} for veteran health in the {region}.",
         "choices": [
             {
                 "text": "Increase the VA budget significantly.",
@@ -11359,8 +11359,8 @@
         ]
     },
     {
-        "title": "Meat Tax Proposal",
-        "description": "Environmentalists propose a tax on red meat to reduce methane emissions.",
+        "title": "THE T-BONE TAX: RED MEAT IN THE CROSSHAIRS",
+        "description": "Environmentalists in the {region} propose a levy on beef to cut methane. {newspaper} investigative team reports on the 'food fight' brewing in {city}.",
         "choices": [
             {
                 "text": "Pass the tax; save the planet.",
@@ -11402,8 +11402,8 @@
         ]
     },
     {
-        "title": "{city} Olympic Bid",
-        "description": "{city} wants to bid for the Olympics. It costs billions but brings prestige.",
+        "title": "THE FIVE RINGS: {city}'S BOLD OLYMPIC BID",
+        "description": "{city} officials propose a multi-billion dollar bid for the Summer Games. {newspaper} asks: 'Prestige for the {region} or a fiscal death trap?'",
         "choices": [
             {
                 "text": "Support the bid; national pride!",
@@ -11445,8 +11445,8 @@
         ]
     },
     {
-        "title": "Right to Repair",
-        "description": "Farmers cannot fix their own tractors because of {company} software locks.",
+        "title": "THE TRACTOR TRAP: RIGHT TO REPAIR ROW",
+        "description": "Farmers in the {region} are locked out of their own machinery by {company} software. {newspaper} reports on the push for {city} to mandate repair rights for the {industry}.",
         "choices": [
             {
                 "text": "Mandate Right to Repair for all goods.",
@@ -11488,8 +11488,8 @@
         ]
     },
     {
-        "title": "Gender Pay Gap in {industry}",
-        "description": "Statistics show women in {industry} earn 20% less than men.",
+        "title": "THE TWENTY PERCENT GAP: {industry} PAY SCANDAL",
+        "description": "Fresh data reveals a massive earnings divide in the {region}'s {industry} sector. {newspaper} investigative team asks if {city} will finally mandate equal pay audits.",
         "choices": [
             {
                 "text": "Mandate equal pay audits and fines.",
@@ -11531,8 +11531,8 @@
         ]
     },
     {
-        "title": "Deepfake of major celebrity",
-        "description": "A convincing AI video shows a celebrity saying racist slurs. It's fake, but damage is done.",
+        "title": "VIRTUAL VILLAINY: THE CELEBRITY DEEPFAKE",
+        "description": "A viral video on {social_media_platform} shows a global star uttering slurs. {newspaper} investigative team reveals it's a {region} AI forgery, but {city} remains in shock.",
         "choices": [
             {
                 "text": "Ban deepfake technology entirely.",
@@ -11574,8 +11574,8 @@
         ]
     },
     {
-        "title": "Military Coup in {foreign_country}",
-        "description": "The military has seized power in {foreign_country}, a key ally.",
+        "title": "JUNTA IN {foreign_country}: ALLY SEIZED BY MILITARY",
+        "description": "Tanks roll into the capital of {foreign_country} as the civilian government is toppled. {newspaper} reports on the emergency meetings in {city} as a key {region} partnership burns.",
         "choices": [
             {
                 "text": "Sanction the new junta immediately.",
@@ -11617,8 +11617,8 @@
         ]
     },
     {
-        "title": "Billionaire Space Race",
-        "description": "Billionaires from {company} are launching rockets while poverty rises.",
+        "title": "ORBITAL OLIGARCHS: THE {company} SPACE RACE",
+        "description": "While poverty lines grow in {city}, {company} launches yet another private rocket into the {region}'s sky. {newspaper} reports on the 'billionaire's playground' in the stars.",
         "choices": [
             {
                 "text": "Tax space tourism at 100%.",
@@ -11660,8 +11660,8 @@
         ]
     },
     {
-        "title": "Water Wars in {region}",
-        "description": "{region} and {region} are fighting over rights to a local river.",
+        "title": "RIVER RIVALRY: THE {region} WATER WAR",
+        "description": "Neighboring territories clash over access to the vanishing {infrastructure} of the local river. {newspaper} reports as {city} faces a drought-driven conflict in the {region}.",
         "choices": [
             {
                 "text": "Federalize the river management.",
@@ -11703,8 +11703,8 @@
         ]
     },
     {
-        "title": "Teacher Strike in {city}",
-        "description": "Teachers in {city} are walking out over pay and class sizes.",
+        "title": "CHALKED OUT: THE GREAT {city} TEACHER STRIKE",
+        "description": "Classrooms across the {region} are empty as instructors walk off the job. {newspaper} reports on the massive pickets in {city} over class sizes and {industry} pay.",
         "choices": [
             {
                 "text": "Give them what they want.",
@@ -11746,8 +11746,8 @@
         ]
     },
     {
-        "title": "Loot Boxes in Video Games",
-        "description": "Parents say games by {company} are gambling for kids.",
+        "title": "DIGITAL DICE: THE {company} GAMBLING ROW",
+        "description": "Parents in the {region} accuse the {industry} of addicting children via 'loot boxes'. {newspaper} investigative team asks if {city} should regulate in-game purchases as gambling.",
         "choices": [
             {
                 "text": "Ban loot boxes.",
@@ -11789,8 +11789,8 @@
         ]
     },
     {
-        "title": "Historic Statue in {city}",
-        "description": "Protesters want to remove a statue of {historical_figure} due to their past.",
+        "title": "BRONZE BURDEN: THE {historical_figure} STATUE DEBATE",
+        "description": "Protesters in {city} demand the removal of a {region} monument. {newspaper} reports on the clash over heritage and the ghosts of our past.",
         "choices": [
             {
                 "text": "Tear it down immediately.",
@@ -11832,8 +11832,8 @@
         ]
     },
     {
-        "title": "Oil Spill in The Ocean",
-        "description": "A tanker from {company} ran aground, devastating the coast of {region}.",
+        "title": "THE BLACK TIDE: DEVASTATING {company} OIL SPILL",
+        "description": "A tanker from {company} bleeds raw crude into the {region}'s pristine waters. {newspaper} investigative team reports on the dead coastline and the fury in {city}.",
         "choices": [
             {
                 "text": "Seize the company's assets to pay for cleanup.",
@@ -11874,8 +11874,8 @@
         ]
     },
     {
-        "title": "Internet Blackout in {region}",
-        "description": "A cyber attack has knocked out internet in {region} for 3 days.",
+        "title": "THE DARK WEB: {region} HIT BY TOTAL BLACKOUT",
+        "description": "A massive cyber attack from {foreign_country} knocks the {region} offline for 72 hours. {newspaper} reports on the chaos in {city} as the {infrastructure} collapses.",
         "choices": [
             {
                 "text": "Treat internet as a utility (regulate strictly).",
@@ -11917,8 +11917,8 @@
         ]
     },
     {
-        "title": "Synthetic Drug Crisis",
-        "description": "A new legal synthetic drug is causing overdoses in {city}.",
+        "title": "SYNTHETIC SCURGE: THE NEW {city} DRUG CRISIS",
+        "description": "A lethal new designer substance floods the streets of the {region}. {newspaper} investigative team tracks the rise of overdoses in {city}'s hardest hit districts.",
         "choices": [
             {
                 "text": "Emergency ban on all analogs.",
@@ -11960,8 +11960,8 @@
         ]
     },
     {
-        "title": "{company} Bio-Hack",
-        "description": "{company} is selling kits to genetically modify your own body at home.",
+        "title": "DIY DNA: THE {company} BIO-HACK KITS",
+        "description": "{company} begins selling home kits to modify human genetics. {newspaper} investigative team reports on the 'garage eugenics' movement taking root in the {region}.",
         "choices": [
             {
                 "text": "Ban bio-hacking immediately.",
@@ -12003,8 +12003,8 @@
         ]
     },
     {
-        "title": "Ghost Guns",
-        "description": "People are 3D printing untraceable guns in {region}.",
+        "title": "GHOST IN THE MACHINE: THE 3D PRINTED GUN THREAT",
+        "description": "Untraceable plastic weapons are spotted across the {region}. {newspaper} investigative team reveals how {city} residents are bypassing all gun laws via {social_media_platform} blueprints.",
         "choices": [
             {
                 "text": "Ban the sharing of gun blueprints online.",
@@ -12046,8 +12046,8 @@
         ]
     },
     {
-        "title": "Clone Rights",
-        "description": "Scientists in {foreign_country} cloned a human. We need a policy.",
+        "title": "SHADOW CITIZENS: THE HUMAN CLONING CRISIS",
+        "description": "Reports of a successful human clone in {foreign_country} trigger a legal panic in {city}. {newspaper} investigative team asks: 'What rights for the {region}'s artificial humans?'",
         "choices": [
             {
                 "text": "Clones are humans with full rights.",
@@ -12089,8 +12089,8 @@
         ]
     },
     {
-        "title": "Carbon Tax Referendum",
-        "description": "Voters are deciding on a heavy carbon tax for all industries.",
+        "title": "PLANET OR POCKETS: THE CARBON TAX VOTE",
+        "description": "Voters in the {region} head to the polls to decide on a historic levy on the {industry}. {newspaper} reports on the high-stakes battle for {city}'s climate future.",
         "choices": [
             {
                 "text": "Campaign for Yes (Save the planet).",
@@ -12132,8 +12132,8 @@
         ]
     },
     {
-        "title": "Jury Nullification in {city}",
-        "description": "A jury in {city} acquitted a man who stole food, despite clear evidence.",
+        "title": "MERCY OR MUTINY? THE {city} JURY ROW",
+        "description": "A jury in the {region}'s capital acquits a local man of theft despite a confession. {newspaper} investigative team reports on the 'conscience' verdict shaking {city}'s legal foundations.",
         "choices": [
             {
                 "text": "Denounce the jury; rule of law matters.",
@@ -12175,8 +12175,8 @@
         ]
     },
     {
-        "title": "Mandatory Voting",
-        "description": "Voter turnout is low. Proposal to fine people who don't vote.",
+        "title": "DEMOCRACY BY DECREE: MANDATORY VOTING PUSH",
+        "description": "Plunging turnout in the {region} prompts a bill to fine those who skip the ballot. {newspaper} reports on the fight for {city}'s soul: duty or freedom?",
         "choices": [
             {
                 "text": "Make voting mandatory.",
@@ -12218,8 +12218,8 @@
         ]
     },
     {
-        "title": "{industry} Strike",
-        "description": "Workers in the {industry} sector are striking, paralyzing the economy.",
+        "title": "THE SILENT MACHINES: {industry} BRINGS {region} TO A HALT",
+        "description": "Workers in the {industry} sector walk off the job in a massive show of force. {newspaper} reports as supply chains in {city} collapse under the weight of the strike.",
         "choices": [
             {
                 "text": "Send police to break the strike.",
@@ -12261,8 +12261,8 @@
         ]
     },
     {
-        "title": "Anti-Aging Treatment",
-        "description": "A treatment extending life by 20 years is available, but costs $1 million.",
+        "title": "ETERNAL YOUTH... FOR THE FEW: THE $1M CURE",
+        "description": "A breakthrough in {city} offers to extend lives by 20 years, but at a price that bankrupts the average resident of the {region}. {newspaper} investigative team reports on the 'immortal elite'.",
         "choices": [
             {
                 "text": "Nationalize it; make it free for all.",
@@ -12304,8 +12304,8 @@
         ]
     },
     {
-        "title": "Smart City Project in {city}",
-        "description": "{company} wants to turn {city} into a 'Smart City' with total surveillance efficiency.",
+        "title": "ALGORITHMIC METROPOLIS: THE SMART CITY PLAN",
+        "description": "{company} proposes to rebuild {city} as a total surveillance hub for maximum efficiency. {newspaper} reports on the 'privacy nightmare' gripping the {region}.",
         "choices": [
             {
                 "text": "Block it; privacy nightmare.",
@@ -12347,8 +12347,8 @@
         ]
     },
     {
-        "title": "{company} vs {foreign_country}",
-        "description": "{company} has a higher GDP than {foreign_country} and is ignoring their laws.",
+        "title": "CORPORATE OVERLORD: {company} DEFIES {foreign_country}",
+        "description": "{company} now boasts a higher GDP than {foreign_country} and is openly ignoring their laws in the {region}. {newspaper} reports as the {organisation} struggles to maintain order.",
         "choices": [
             {
                 "text": "Sanction {company} until they comply.",
@@ -12390,8 +12390,8 @@
         ]
     },
     {
-        "title": "Private Police in {city}",
-        "description": "Wealthy neighborhoods in {city} are hiring private security and banning public police.",
+        "title": "HIRED HANDS: THE PRIVATE POLICE OF {city}",
+        "description": "Wealthy enclaves in the {region}'s capital bankroll their own security and ban state police. {newspaper} investigative team reveals the two-tier justice system in {city}.",
         "choices": [
             {
                 "text": "Ban private police forces.",
@@ -12433,8 +12433,8 @@
         ]
     },
     {
-        "title": "Algorithm Bias Scandal",
-        "description": "The AI used for hiring at {company} was found to discriminate against women.",
+        "title": "CODED CRUELTY: THE {company} HIRING SCANDAL",
+        "description": "The AI used by {company} to filter candidates in the {region} is found to systematically purge women. {newspaper} investigative team reports on the 'biased brains' in {city} boardrooms.",
         "choices": [
             {
                 "text": "Fine {company} and ban the AI.",
@@ -12476,8 +12476,8 @@
         ]
     },
     {
-        "title": "Plastic Eating Bacteria",
-        "description": "Scientists created bacteria that eats plastic, but it might escape the lab.",
+        "title": "THE PLASTIC PLAGUE: LAB-BORN BACTERIA BREAKS FREE",
+        "description": "A strain created to save the {region}'s oceans might be more dangerous than the waste itself. {newspaper} reports on the bio-hazard alarm sounding in {city} labs.",
         "choices": [
             {
                 "text": "Release it; solve the waste crisis.",
@@ -12519,8 +12519,8 @@
         ]
     },
     {
-        "title": "Asteroid Mining Rights",
-        "description": "{company} wants to claim ownership of an asteroid worth trillions.",
+        "title": "SPACE GOLD: {company} CLAIMS ASTEROID TRILLIONS",
+        "description": "A historic claim in the {region} as {company} signals its intent to mine for rare earth metals in deep space. {organisation} warns of a new 'interstellar scramble'.",
         "choices": [
             {
                 "text": "Recognize their claim.",
@@ -12562,8 +12562,8 @@
         ]
     },
     {
-        "title": "Telepathy Chip",
-        "description": "{company} has a brain chip that allows silent communication. Privacy groups are panicked.",
+        "title": "MIND OVER MATTER: {company} BRAIN CHIP REVEALED",
+        "description": "{social_media_platform} is abuzz with the first successful human trial of a telepathic interface. Privacy watchdogs in {city} warn of the 'death of the secret'.",
         "choices": [
             {
                 "text": "Ban the technology.",
@@ -12605,8 +12605,8 @@
         ]
     },
     {
-        "title": "National Anthem Protest",
-        "description": "Athletes are kneeling during the anthem to protest injustice.",
+        "title": "KNEELING CONTROVERSY: NATIONAL ANTHEM PROTESTS DIVIDE STANDS",
+        "description": "Rallies in the {region} grow as athletes continue to kneel. {newspaper} reports on the fierce cultural clash between 'patriots' and 'progressives'.",
         "choices": [
             {
                 "text": "Support their free speech.",
@@ -12648,8 +12648,8 @@
         ]
     },
     {
-        "title": "Voting Age Debate",
-        "description": "Activists want to lower the voting age to 16.",
+        "title": "SWEET SIXTEEN: THE BATTLE OVER VOTING AGE",
+        "description": "{activist_group} takes to the {city} streets demanding the vote for 16-year-olds. {organisation} argues that the youth deserve a say in their future.",
         "choices": [
             {
                 "text": "Lower it to 16.",
@@ -12690,8 +12690,8 @@
         ]
     },
     {
-        "title": "Obesity Crisis",
-        "description": "Obesity rates are skyrocketing. Healthcare costs are unsustainable.",
+        "title": "FAT OF THE LAND: OBESITY CRISIS HITS {city}",
+        "description": "Health experts in the {region} warn that the burden on the {infrastructure} is reaching a breaking point. {newspaper} asks: 'Is a sugar tax the only way?'",
         "choices": [
             {
                 "text": "Tax sugar and processed foods.",
@@ -12733,8 +12733,8 @@
         ]
     },
     {
-        "title": "Drone Delivery Noise",
-        "description": "Citizens in {city} complain about the noise from delivery drones.",
+        "title": "BUZZ KILL: DRONE NOISE SPARKS {city} OUTRAGE",
+        "description": "The residents of the {region} are filing record complaints as {industry} giants expand their skies. {organisation} calls for an immediate noise moratorium.",
         "choices": [
             {
                 "text": "Ban drones in residential areas.",
@@ -12776,8 +12776,8 @@
         ]
     },
     {
-        "title": "Prison Labor",
-        "description": "Prisoners are making goods for {company} for pennies an hour.",
+        "title": "GULAG GOODS? {company} UNDER FIRE FOR PRISON LABOR",
+        "description": "A bombshell {newspaper} expose reveals that {company} products are being manufactured by inmates for 'slave wages'. {activist_group} calls for a total boycott.",
         "choices": [
             {
                 "text": "Ban prison labor; it's slavery.",
