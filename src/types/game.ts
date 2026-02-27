@@ -62,7 +62,8 @@ export interface Candidate {
   id: number;
   name: string;
   party: string;
-  party_pop: number;
+  base_utility_modifier?: number;
+  poll_percentage?: number;
   vals: number[];
   colour: string;
   swing?: number;

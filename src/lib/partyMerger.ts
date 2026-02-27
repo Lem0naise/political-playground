@@ -4,7 +4,7 @@ export interface Party {
   party: string;
   name: string;
   colour: string;
-  party_pop: number;
+  poll_percentage?: number;
   [key: string]: any;
 }
 
@@ -66,7 +66,7 @@ export function mergeParties(party1: Party, party2: Party, newName: string, sele
     party: newName,
     name: selectedLeader.name,
     colour: selectedLeader.colour,
-    party_pop: party1.party_pop + party2.party_pop,
+    poll_percentage: (party1.poll_percentage || 0) + (party2.poll_percentage || 0),
     ...mergedValues,
     swing: selectedLeader.swing || 0,
     merged: true,

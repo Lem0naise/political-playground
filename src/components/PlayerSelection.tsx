@@ -23,7 +23,6 @@ export default function PlayerSelection() {
     party: '',
     name: '',
     colour: '#e11d48',
-    party_pop: 7,
     prog_cons: 0,
     nat_glob: 0,
     env_eco: 0,
@@ -44,7 +43,6 @@ export default function PlayerSelection() {
       party: '',
       name: '',
       colour: '#e11d48',
-      party_pop: 7,
       prog_cons: 0,
       nat_glob: 0,
       env_eco: 0,
@@ -66,7 +64,7 @@ export default function PlayerSelection() {
         id: c.id,
         name: c.name,
         party: c.party,
-        party_pop: c.party_pop,
+        poll_percentage: c.poll_percentage,
         prog_cons: c.vals[0],
         nat_glob: c.vals[1],
         env_eco: c.vals[2],
@@ -87,7 +85,6 @@ export default function PlayerSelection() {
       party: candidate.party,
       name: candidate.name,
       colour: candidate.colour,
-      party_pop: candidate.party_pop,
       prog_cons: candidate.vals[0],
       nat_glob: candidate.vals[1],
       env_eco: candidate.vals[2],
@@ -121,7 +118,6 @@ export default function PlayerSelection() {
             ...c,
             name: customParty.name,
             party: customParty.party,
-            party_pop: customParty.party_pop,
             vals: [
               customParty.prog_cons,
               customParty.nat_glob,
@@ -143,7 +139,7 @@ export default function PlayerSelection() {
           id: c.id,
           name: c.name,
           party: c.party,
-          party_pop: c.party_pop,
+          poll_percentage: c.poll_percentage,
           prog_cons: c.vals[0],
           nat_glob: c.vals[1],
           env_eco: c.vals[2],
@@ -161,7 +157,6 @@ export default function PlayerSelection() {
         id: 999,
         name: customParty.name,
         party: customParty.party,
-        party_pop: customParty.party_pop,
         prog_cons: customParty.prog_cons,
         nat_glob: customParty.nat_glob,
         env_eco: customParty.env_eco,
@@ -178,7 +173,7 @@ export default function PlayerSelection() {
           id: c.id,
           name: c.name,
           party: c.party,
-          party_pop: c.party_pop,
+          poll_percentage: c.poll_percentage,
           prog_cons: c.vals[0],
           nat_glob: c.vals[1],
           env_eco: c.vals[2],
@@ -308,14 +303,14 @@ export default function PlayerSelection() {
 
                   <div className="space-y-2">
                     <div className="text-xs text-slate-400 font-mono">
-                      Support: {candidate.party_pop >= 1 ? candidate.party_pop.toFixed(1) : `${(candidate.party_pop * 100).toFixed(1)}%`}
+                      Support: {candidate.poll_percentage ? `${candidate.poll_percentage.toFixed(1)}%` : '0%'}
                     </div>
                     <div className="w-full bg-slate-800 rounded-full h-2 border border-slate-700">
                       <div
                         className="h-2 rounded-full"
                         style={{
                           backgroundColor: candidate.colour,
-                          width: `${Math.max(5, Math.min(100, candidate.party_pop > 1 ? candidate.party_pop * 2 : candidate.party_pop * 200))}%`
+                          width: `${Math.max(5, Math.min(100, candidate.poll_percentage || 0))}%`
                         }}
                       ></div>
                     </div>
@@ -406,18 +401,6 @@ export default function PlayerSelection() {
                       className="w-16 h-10 rounded border border-slate-600"
                       value={customParty.colour}
                       onChange={e => handleCustomChange('colour', e.target.value)}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-1 text-xs text-slate-300">
-                    <span className="campaign-status text-xs text-yellow-300">Support Level (0-10)</span>
-                    <input
-                      type="number"
-                      min={1}
-                      max={100}
-                      step={0.1}
-                      className="rounded-lg border border-slate-600 bg-slate-900/40 px-3 py-2 text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60"
-                      value={customParty.party_pop}
-                      onChange={e => handleCustomChange('party_pop', Number(e.target.value))}
                     />
                   </label>
                 </div>

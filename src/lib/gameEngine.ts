@@ -15,7 +15,6 @@ export function createCandidate(
   id: number,
   name: string,
   party: string,
-  party_pop: number,
   prog_cons: number,
   nat_glob: number,
   env_eco: number,
@@ -30,7 +29,8 @@ export function createCandidate(
     id,
     name,
     party,
-    party_pop,
+    base_utility_modifier: 0,
+    poll_percentage: 0,
     vals: [prog_cons, nat_glob, env_eco, soc_cap, pac_mil, auth_ana, rel_sec],
     colour: colour || 'gray',
     swing,
@@ -956,7 +956,7 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
     if (sumSq < minRawSq) minRawSq = sumSq;
 
     // Utility: proximity (negative weighted loss) + gentle popularity + optional swing + loyalty
-    let u = -weightedLoss + Math.max(0, cand.party_pop) * 0.5;
+    let u = -weightedLoss + (cand.base_utility_modifier || 0);
     if (cand.swing) {
       u += (cand.swing * 5) * Math.abs(cand.swing * 5);
     }
@@ -1003,18 +1003,18 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     // First poll - minimal variation to establish baseline
     for (const candidate of candidates) {
       const baselineVariation = (Math.random() - 0.5) * 0.4; // -0.2 to 0.2
-      candidate.party_pop += baselineVariation;
+      candidate.base_utility_modifier = (candidate.base_utility_modifier || 0) + baselineVariation;
 
       // Initialize momentum tracking
       if (!candidate.momentum) candidate.momentum = 0;
-      if (!candidate.previous_popularity) candidate.previous_popularity = candidate.party_pop;
+      candidate.previous_popularity = candidate.poll_percentage || 0;
     }
     newsEvents.push("ELECTION SEASON OFFICIALLY BEGINS.");
     return newsEvents;
   }
 
   // Calculate current standings for bandwagon effects
-  const currentStandings = [...candidates].sort((a, b) => b.party_pop - a.party_pop);
+  const currentStandings = [...candidates].sort((a, b) => (b.poll_percentage || 0) - (a.poll_percentage || 0));
   const leader = currentStandings[0];
 
   // Market volatility - occasional larger political shifts
@@ -1028,31 +1028,42 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
   const decliningParties: string[] = [];
 
   for (const candidate of candidates) {
-    const oldPopularity = candidate.party_pop;
+    const pop = candidate.poll_percentage || 0;
+    const oldPop = candidate.previous_popularity || 0;
 
-    // Calculate momentum from recent performance
-    if (candidate.previous_popularity !== undefined) {
-      const momentumChange = candidate.party_pop - candidate.previous_popularity;
-      // Momentum factor - carry forward 30% of recent change
-      candidate.momentum = (candidate.momentum || 0) * 0.7 + momentumChange * 0.3;
+    // Decay base_utility_modifier towards 0 (approx 1-2 points per week as requested)
+    // Only decay if it's large enough, but we want it to fade over time
+    if (candidate.base_utility_modifier) {
+      const decay = 1.0; // Decay rate
+      if (candidate.base_utility_modifier > decay) {
+        candidate.base_utility_modifier -= decay;
+      } else if (candidate.base_utility_modifier < -decay) {
+        candidate.base_utility_modifier += decay;
+      } else {
+        candidate.base_utility_modifier = 0;
+      }
+    } else {
+      candidate.base_utility_modifier = 0;
     }
 
-    // Scaled Incumbency effects - voter fatigue scales non-linearly
+    // Calculate momentum from recent performance
+    const momentumChange = pop - oldPop;
+    candidate.momentum = (candidate.momentum || 0) * 0.7 + momentumChange * 0.3;
+
+    // Scaled Incumbency effects - voter fatigue scales non-linearly with poll percentage
     let incumbencyEffect = 0;
-    if (candidate.party_pop > 10) {
+    if (pop > 10) {
       // Larger penalty for very popular parties (e.g. 50 pop -> -0.1 * 6.25 = -0.625 penalty per week)
-      incumbencyEffect = -0.1 * Math.pow(candidate.party_pop / 20, 2);
-    } else if (candidate.party_pop < 0) {
-      // Stronger recovery for deeply struggling parties to prevent eternal death spirals
-      incumbencyEffect = 0.05 + Math.abs(candidate.party_pop) * 0.01;
+      incumbencyEffect = -0.1 * Math.pow(pop / 20, 2);
+    } else if (pop < 2) { // Changed threshold since we are using actual percentages now
+      // Stronger recovery for deeply struggling parties
+      incumbencyEffect = 0.05 + Math.abs(pop - 2) * 0.01;
     }
 
     // Scaled Bandwagon effect - dominant leaders get a bigger boost, but clamped
     let bandwagonEffect = 0;
-    if (candidate === leader && candidate.party_pop > 15) {
-      bandwagonEffect = 0.1 + (candidate.party_pop / 100) * 0.3; // max ~0.4
-    } else if (candidate.party_pop < -10) {
-      bandwagonEffect = -0.05 - (Math.abs(candidate.party_pop) / 100) * 0.2;
+    if (candidate === leader && pop > 15) {
+      bandwagonEffect = 0.1 + (pop / 100) * 0.3; // max ~0.4
     }
 
     // Apply momentum with decay
@@ -1071,16 +1082,16 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     // Combine all effects
     const totalChange = incumbencyEffect + bandwagonEffect + momentumEffect + naturalVariation + marketVolatility;
 
-    candidate.party_pop += totalChange;
+    candidate.base_utility_modifier += totalChange;
 
     // Store previous popularity for next iteration
-    candidate.previous_popularity = oldPopularity;
+    candidate.previous_popularity = pop;
 
-    // Ensure party popularity doesn't go extreme values
-    if (candidate.party_pop > 100) {
-      candidate.party_pop = 100;
-    } else if (candidate.party_pop < -50) {
-      candidate.party_pop = -50;
+    // Ensure base_utility_modifier doesn't go to extreme values
+    if (candidate.base_utility_modifier > 50) {
+      candidate.base_utility_modifier = 50;
+    } else if (candidate.base_utility_modifier < -50) {
+      candidate.base_utility_modifier = -50;
     }
 
     // Track parties with significant momentum changes for news
@@ -1182,7 +1193,8 @@ export function conductPoll(
   data: number[][],
   candidates: Candidate[],
   pollIteration: number = 0,
-  country?: Country
+  country?: Country,
+  isMock: boolean = false
 ): { results: Array<{ candidate: Candidate; votes: number; percentage: number }>, newsEvents: string[], blocStats?: BlocStatistics[] } {
   // Reset results for this poll
   const pollResults: number[] = new Array(candidates.length).fill(0);
@@ -1192,10 +1204,10 @@ export function conductPoll(
   ensureLastChoices(voterCount);
 
   // Apply political dynamics to parties
-  const politicalNews = applyPoliticalDynamics(candidates, pollIteration);
+  const politicalNews = isMock ? [] : applyPoliticalDynamics(candidates, pollIteration);
 
   // Apply voter opinion evolution
-  const voterNews = applyVoterDynamics(data, pollIteration);
+  const voterNews = isMock ? [] : applyVoterDynamics(data, pollIteration);
 
   // Combine news events
   const allNewsEvents = [...politicalNews, ...voterNews];
@@ -1238,10 +1250,10 @@ export function conductPoll(
 
     if (choice !== null) {
       pollResults[choice]++;
-      if (LAST_CHOICES) LAST_CHOICES[voterIndex] = choice;
+      if (LAST_CHOICES && !isMock) LAST_CHOICES[voterIndex] = choice;
     } else {
       notVoted++;
-      if (LAST_CHOICES) LAST_CHOICES[voterIndex] = -1;
+      if (LAST_CHOICES && !isMock) LAST_CHOICES[voterIndex] = -1;
     }
   }
 
@@ -1390,14 +1402,14 @@ export function applyEventEffect(
   pollingChange = Math.max(-5.0, Math.min(5.0, pollingChange));
 
   // Apply polling change with proper bounds checking
-  const oldPopularity = playerCandidate.party_pop;
-  playerCandidate.party_pop += pollingChange;
+  const oldPopularity = playerCandidate.base_utility_modifier || 0;
+  playerCandidate.base_utility_modifier = (playerCandidate.base_utility_modifier || 0) + pollingChange;
 
-  // Ensure party popularity stays within reasonable bounds
-  if (playerCandidate.party_pop > 100) {
-    playerCandidate.party_pop = 100;
-  } else if (playerCandidate.party_pop < -50) {
-    playerCandidate.party_pop = -50;
+  // Ensure base_utility_modifier stays within reasonable bounds
+  if (playerCandidate.base_utility_modifier > 50) {
+    playerCandidate.base_utility_modifier = 50;
+  } else if (playerCandidate.base_utility_modifier < -50) {
+    playerCandidate.base_utility_modifier = -50;
   }
 
   for (const [valueKey, change] of Object.entries(effect)) {
@@ -1945,7 +1957,7 @@ export function applyEventEffect(
   if (DEBUG) {
     console.log(`DEBUG: Voter alignment: ${voterAlignment.toFixed(2)}, Boost: ${boost}`);
     console.log(`DEBUG: Final polling change: ${pollingChange.toFixed(2)}`);
-    console.log(`DEBUG: Party popularity changed from ${oldPopularity.toFixed(2)} to ${playerCandidate.party_pop.toFixed(2)}`);
+    console.log(`DEBUG: Party popularity changed from ${oldPopularity.toFixed(2)} to ${(playerCandidate.base_utility_modifier || 0).toFixed(2)}`);
   }
 
   return { pollingChange, newsEvents };

@@ -216,7 +216,7 @@ export default function PartyMerging() {
                       </div>
                       <div className="text-xs text-slate-300 truncate">Led by {party.name}</div>
                       <div className="text-xs text-slate-400 font-mono">
-                        Support: {party.party_pop >= 1 ? `${party.party_pop.toFixed(1)}%` : `${(party.party_pop * 100).toFixed(1)}%`}
+                        Support: {party.poll_percentage ? `${party.poll_percentage.toFixed(1)}%` : '0%'}
                       </div>
                       <div className="text-[0.65rem] text-slate-400">
                         {getIdeologyProfile([

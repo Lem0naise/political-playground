@@ -13,7 +13,7 @@ type Bloc = {
 };
 type Country = { pop: number; vals: Partial<PoliticalValues>; blocs?: Bloc[] };
 type Candidate = {
-  name: string; party: string; party_pop: number;
+  name: string; party: string;
   vals: PoliticalValues;
 };
 
@@ -35,7 +35,6 @@ function toCandidate(obj: any): Candidate {
   return {
     name: obj.name,
     party: obj.party,
-    party_pop: Number(obj.party_pop ?? 0),
     vals: {
       prog_cons: Number(obj.prog_cons ?? 0),
       nat_glob: Number(obj.nat_glob ?? 0),
@@ -54,8 +53,7 @@ function distMinusPopularity(voter: PoliticalValues, cand: Candidate): number {
     const d = voter[a] - cand.vals[a];
     sum += d * d;
   }
-  const popularityEffect = Math.pow(Math.max(0, cand.party_pop) * 3, 1.4);
-  return sum - popularityEffect;
+  return sum;
 }
 
 function clamp(x: number) { return Math.max(-100, Math.min(100, x)); }

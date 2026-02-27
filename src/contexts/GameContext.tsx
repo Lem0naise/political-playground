@@ -105,13 +105,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         nextTrendPoll: null
       };
 
-    case 'SET_PARTY_LIST':
+    case 'SET_PARTY_LIST': {
       const candidates = action.payload.parties.map((party, index) =>
         createCandidate(
           index,
           party.name,
           party.party,
-          party.party_pop,
           party.prog_cons,
           party.nat_glob,
           party.env_eco,
@@ -124,12 +123,27 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         )
       );
 
+      const votingData = state.votingData && state.votingData.length > 0
+        ? state.votingData
+        : generateVotingData(state.countryData);
+
+      const { results } = conductPoll(votingData, candidates, 0, state.countryData, true);
+
+      candidates.forEach(cand => {
+        const res = results.find(r => r.candidate.id === cand.id);
+        if (res) {
+          cand.poll_percentage = res.percentage;
+        }
+      });
+
       return {
         ...state,
         partyList: action.payload.partyList,
+        votingData,
         candidates,
         phase: 'player-selection'
       };
+    }
 
     case 'SET_PLAYER_CANDIDATE':
       const updatedCandidates = state.candidates.map(candidate => ({
@@ -167,7 +181,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       const nextState = {
         ...state,
         votingData,
-        pollResults: results,
+        pollResults: results.map(r => ({ ...r, change: 0 })),
         initialPollResults: initialResults,
         previousPollResults: initialResults,
         currentPoll: 1,
@@ -220,11 +234,46 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'RESET_GAME':
       return initialState;
 
-    case 'SET_PENDING_PARTIES':
+    case 'SET_PENDING_PARTIES': {
+      // Run a "Week 0" mock poll to determine initial sizes for merging and selection screens
+      const tempCandidates = action.payload.parties.map((p, index) =>
+        createCandidate(
+          index,
+          p.name,
+          p.party,
+          p.prog_cons,
+          p.nat_glob,
+          p.env_eco,
+          p.soc_cap,
+          p.pac_mil,
+          p.auth_ana,
+          p.rel_sec,
+          p.colour,
+          p.swing
+        )
+      );
+      
+      const votingData = state.votingData && state.votingData.length > 0
+        ? state.votingData
+        : generateVotingData(state.countryData);
+
+      const { results } = conductPoll(votingData, tempCandidates, 0, state.countryData, true);
+
+      const partiesWithSizes = action.payload.parties.map(p => {
+        const candId = tempCandidates.find(c => c.party === p.party)?.id;
+        const res = candId !== undefined ? results.find(r => r.candidate.id === candId) : null;
+        return {
+          ...p,
+          poll_percentage: res ? res.percentage : 0
+        };
+      });
+
       return {
         ...state,
-        pendingParties: action.payload.parties
+        votingData, // save voting data so it's not regenerated
+        pendingParties: partiesWithSizes
       };
+    }
 
     case 'SET_GAME_PHASE':
       return {

@@ -27,13 +27,13 @@ Defined in `src/types/game.ts` as `PoliticalValues`. Range: `-100` to `+100`.
 7. `rel_sec`: Religious (-) vs Secular (+)
 
 ### Entities
-- **Candidates**: belong to a Party, have base popularity (`party_pop`) and specific `vals` (PoliticalValues).
+- **Candidates**: belong to a Party, have base utility modifier (`base_utility_modifier`), polling performance (`poll_percentage`), and specific `vals` (PoliticalValues).
 - **Voter Blocs**: Groups of voters defined by a `center` (ideal values) and `weight`.
 - **Countries**: Have populations, blocs, and baseline values.
 - **Trends**: Temporary shifts in voter values or priorities (e.g., "Climate Alarm" pushes `env_eco` towards Environmental).
 
 ### Simulation Logic
-- **Polling**: Conducted weekly. Voters (simulated via normal distribution around Bloc centers) choose candidates based on **Euclidean distance** between their values and the candidate's values, tempered by `party_pop`.
+- **Polling**: Conducted weekly. Voters (simulated via normal distribution around Bloc centers) choose candidates based on **Euclidean distance** between their values and the candidate's values, tempered by `base_utility_modifier` and other dynamics.
 - **Events**: Multiple-choice scenarios that affect candidate popularity or values.
 - **Coalitions**: Post-election logic for forming governments if no majority is won.
 
@@ -85,7 +85,7 @@ Standalone script for calibrating simulation parameters.
 
 #### Adding New Events
 1. Events are often dynamically generated or template-based (`src/lib/eventTemplates.ts`).
-2. Ensure new events simulate consequences effectively (updating `party_pop` or `vals`).
+2. Ensure new events simulate consequences effectively (updating `base_utility_modifier` or `vals`).
 
 ## 5. Directory Map
 ```

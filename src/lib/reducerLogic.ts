@@ -412,7 +412,7 @@ export function calculateNextPollState(state: GameState): GameState {
       candidate.trend.weeksRemaining -= 1;
 
       // Apply polling impact
-      candidate.party_pop = Math.max(-50, Math.min(100, candidate.party_pop + candidate.trend.weeklyEffect));
+      candidate.base_utility_modifier = Math.max(-50, Math.min(50, (candidate.base_utility_modifier || 0) + candidate.trend.weeklyEffect));
 
       // Every week of a trend has a 40% chance of generating a follow-up news story
       if (Math.random() < 0.4) {
@@ -484,7 +484,7 @@ export function calculateNextPollState(state: GameState): GameState {
 
         // Apply first week's effect immediately
         candidate.trend.weeksRemaining -= 1;
-        candidate.party_pop = Math.max(-50, Math.min(100, candidate.party_pop + candidate.trend.weeklyEffect));
+        candidate.base_utility_modifier = Math.max(-50, Math.min(50, (candidate.base_utility_modifier || 0) + candidate.trend.weeklyEffect));
       }
     }
   });
@@ -712,6 +712,7 @@ export function calculateNextPollState(state: GameState): GameState {
   const freshCandidates = state.candidates.map(c => ({
     ...c,
     vals: [...c.vals],
+    poll_percentage: newPreviousResults[c.party] || c.poll_percentage,
     eventDrifts: c.eventDrifts ? c.eventDrifts.map(d => ({ ...d })) : undefined
   }));
 
