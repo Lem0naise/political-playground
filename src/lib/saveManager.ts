@@ -17,9 +17,16 @@ export function exportSaveGame(gameState: GameState) {
     const blob = new Blob([JSON.stringify(save)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
+    const clean = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+    const countryName = clean(gameState.country) || 'unknown';
+    const partyName = clean(gameState.playerCandidate?.party || 'none') || 'none';
+    const date = new Date().toISOString().split('T')[0];
+    const fileName = `${countryName}-${partyName}-polplayground-${date}.json`;
+
     const dlAnchorElem = document.createElement('a');
     dlAnchorElem.setAttribute("href", url);
-    dlAnchorElem.setAttribute("download", "political-playground-save.json");
+    dlAnchorElem.setAttribute("download", fileName);
     document.body.appendChild(dlAnchorElem);
     dlAnchorElem.click();
     document.body.removeChild(dlAnchorElem);
