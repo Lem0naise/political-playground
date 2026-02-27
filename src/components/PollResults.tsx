@@ -35,12 +35,15 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
   const totalVotes = state.pollResults.reduce((sum, result) => sum + result.votes, 0);
   const turnout = totalVotes > 0 ? ((totalVotes / state.countryData.pop) * 100) : 0;
 
+  // Helper to convert bloc ID to display name
+  const convertBlocName = (id: string): string =>
+    id.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
   return (
     <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white relative">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-2">
         <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 flex items-center">
           LIVE POLLING DATA
-
         </h2>
         <button
           type="button"
@@ -142,34 +145,16 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             VOTER BLOC ANALYSIS
           </h3>
 
-          {/* Cooldown warning */}
-          {state.targetingCooldownUntil !== null && state.targetingCooldownUntil !== undefined && state.currentPoll < state.targetingCooldownUntil && (
-            <div className="mb-2 bg-red-900/30 border border-red-500 rounded p-2 text-xs text-red-300">
-              {state.targetingCooldownUntil - state.currentPoll} weeks until your political analysts can target again.
-            </div>
-          )}
-
           <div className="space-y-2">
             {(() => {
-              // Find the largest bloc weight to use as the scaling reference
               const maxBlocWeight = Math.max(...state.blocStats.map(b => b.weight));
 
-              // Check if in cooldown
-              const inCooldown = state.targetingCooldownUntil !== null &&
-                state.targetingCooldownUntil !== undefined &&
-                state.currentPoll < state.targetingCooldownUntil;
-
               return state.blocStats
-                .sort((a, b) => (b.turnout * b.weight) - (a.turnout * a.weight)) // Sort by weight descending
+                .sort((a, b) => (b.turnout * b.weight) - (a.turnout * a.weight))
                 .map((bloc) => {
-                  const leadingCandidate = sortedResults.find(r => r.candidate.party === bloc.leadingParty);
-                  const leadingColor = leadingCandidate?.candidate.colour || '#888';
                   const blocPopulation = Math.round(state.countryData.pop * bloc.weight);
-
-                  // Find previous bloc stats for this bloc
                   const previousBloc = state.previousBlocStats?.find(b => b.blocId === bloc.blocId);
 
-                  // Turnout percentage and styling
                   const turnoutPct = bloc.turnout * 100;
                   const previousTurnoutPct = previousBloc ? previousBloc.turnout * 100 : turnoutPct;
                   const turnoutChange = turnoutPct - previousTurnoutPct;
@@ -177,17 +162,8 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                   const turnoutColor = turnoutPct >= 70 ? 'text-green-400' :
                     turnoutPct >= 50 ? 'text-yellow-400' : 'text-red-400';
 
-                  // Calculate proportional width relative to the largest bloc
                   const proportionalWidth = (bloc.weight / maxBlocWeight) * 100;
-
                   const isTargeted = state.targetedBlocId === bloc.blocId;
-
-                  // Calculate weeks remaining if targeting this bloc
-                  let weeksRemaining = 0;
-                  if (isTargeted && state.targetingStartWeek !== null && state.targetingStartWeek !== undefined) {
-                    const weeksTargeting = state.currentPoll - state.targetingStartWeek;
-                    weeksRemaining = Math.max(0, 6 - weeksTargeting);
-                  }
 
                   return (
                     <div
@@ -202,22 +178,13 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                             </div>
                             <button
                               onClick={() => actions.setTargetedBloc(isTargeted ? null : bloc.blocId)}
-                              disabled={inCooldown && !isTargeted}
                               className={`text-xs px-1.5 py-0.5 rounded transition-all ${isTargeted
                                   ? 'bg-yellow-500 text-slate-900 hover:bg-yellow-600 font-bold'
-                                  : inCooldown
-                                    ? 'bg-slate-700 text-slate-500 border border-slate-600 cursor-not-allowed opacity-50'
-                                    : 'bg-slate-600 text-slate-300 hover:bg-slate-500 border border-slate-500'
+                                  : 'bg-slate-600 text-slate-300 hover:bg-slate-500 border border-slate-500'
                                 }`}
-                              title={
-                                inCooldown && !isTargeted
-                                  ? 'Targeting on cooldown'
-                                  : isTargeted
-                                    ? 'Stop targeting this bloc'
-                                    : 'Target this voter bloc'
-                              }
+                              title={isTargeted ? 'Stop analysing this bloc' : 'Analyse this voter bloc'}
                             >
-                              {isTargeted ? `✓ ${weeksRemaining}W LEFT` : '+ TARGET'}
+                              {isTargeted ? '✓ ANALYSING' : '+ ANALYSE'}
                             </button>
                           </div>
                           <div className="text-xs text-slate-400 font-mono">
@@ -233,10 +200,9 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                             )}
                           </div>
                         </div>
-
                       </div>
 
-                      {/* Mini bar chart showing top parties, scaled by bloc size */}
+                      {/* Mini bar chart */}
                       <div className="space-y-0.5 mt-1.5">
                         {Object.entries(bloc.percentages)
                           .sort(([, a], [, b]) => b - a)
@@ -244,13 +210,9 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                             const candidate = sortedResults.find(r => r.candidate.party === party);
                             if (!candidate || pct < 0.5) return null;
 
-                            // Calculate change from previous poll
                             const previousPct = previousBloc?.percentages[party] || pct;
                             const change = pct - previousPct;
                             const hasChange = Math.abs(change) > 0.5;
-
-                            // Calculate proportional width relative to the largest bloc
-                            const proportionalWidth = (bloc.weight / maxBlocWeight) * 100;
 
                             return (
                               <div key={party} className="flex items-center gap-1">
@@ -261,7 +223,6 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                                   )}
                                 </div>
 
-                                {/* Container that represents the bloc's proportion of the whole electorate */}
                                 <div className="flex-1 flex items-center">
                                   <div
                                     className="bg-slate-700 rounded-full h-1.5 relative"
@@ -298,8 +259,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
         </div>
       )}
 
-
-      {/* Player Ideology Profile */}
+      {/* Player Ideology Profile + Analyst Intel */}
       {sortedResults.some(r => r.candidate.is_player) && (
         <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-600">
           <h3 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2">
@@ -317,7 +277,6 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                   {getIdeologyDescriptors(result.candidate.vals)
                     .slice(0, 4)
                     .map((descriptor, idx) => {
-                      // Font sizes for descending importance
                       const fontSizes = ['text-sm', 'text-xs', 'text-xs', 'text-xs'];
                       const fontWeights = ['font-bold', 'font-semibold', 'font-medium', 'font-normal'];
 
@@ -335,30 +294,55 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             );
           })}
 
-          {/* Target Bloc Perception */}
-          {state.targetedBlocId && state.countryData.blocs && sortedResults.some(r => r.candidate.is_player) && (() => {
+          {/* Analyst intel panel — shown while actively targeting a bloc */}
+          {state.targetedBlocId && state.countryData.blocs && (() => {
             const targetedBloc = state.countryData.blocs.find(b => b.id === state.targetedBlocId);
             const playerResult = sortedResults.find(r => r.candidate.is_player);
-
             if (!targetedBloc || !playerResult) return null;
 
-            const comparisons = getComparativeDescriptors(playerResult.candidate.vals, targetedBloc.center);
+            const weeksActive = state.targetingWeeksActive ?? 0;
 
-            // Convert bloc ID to display name (e.g., "urban_progressives" -> "Urban Progressives")
-            const convertBlocName = (id: string): string => {
-              return id.split('_')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-            };
+            // Before first reveal: show progress bar
+            if (weeksActive < 3) {
+              const weeksUntil = 3 - weeksActive;
+              return (
+                <div className="mt-2 bg-slate-800/50 border border-yellow-500/20 rounded-lg p-2">
+                  <div className="text-xs text-yellow-500/80 font-mono mb-1.5 font-bold">
+                    ANALYSTS ON '{convertBlocName(targetedBloc.id).toUpperCase()}':
+                  </div>
+                  <div className="text-xs text-slate-400 font-mono italic">
+                    Preparing report... {weeksUntil} week{weeksUntil !== 1 ? 's' : ''} until first findings.
+                  </div>
+                  <div className="mt-1.5 w-full bg-slate-700 rounded-full h-1">
+                    <div
+                      className="bg-yellow-500/60 h-1 rounded-full transition-all duration-500"
+                      style={{ width: `${(weeksActive / 3) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            }
 
+            // Week 3+: compute how many descriptors to reveal.
+            // Reveal 1 at week 3, then +1 every 2 weeks (week 5, 7, 9 …)
+            const allComparisons = getComparativeDescriptors(playerResult.candidate.vals, targetedBloc.center);
+            const revealCount = Math.min(
+              allComparisons.length,
+              1 + Math.floor((weeksActive - 3) / 2)
+            );
+            const visible = allComparisons.slice(0, revealCount);
 
+            // Next unlock info
+            const nextUnlockWeek = 3 + revealCount * 2; // approximate for display
+            const weeksUntilNext = revealCount < allComparisons.length
+              ? nextUnlockWeek - weeksActive
+              : null;
 
-            // If no meaningful differences, show aligned message
-            if (comparisons.length === 0) {
+            if (allComparisons.length === 0) {
               return (
                 <div className="mt-2 bg-slate-800/50 border border-blue-500/30 rounded-lg p-2">
                   <div className="text-xs text-blue-400 font-mono mb-1.5 font-bold">
-                    YOUR TARGET BLOC '{convertBlocName(targetedBloc.id).toUpperCase()}' FINDS YOU:
+                    ANALYST REPORT — '{convertBlocName(targetedBloc.id).toUpperCase()}':
                   </div>
                   <div className="text-xs text-green-400 uppercase tracking-wide font-semibold">
                     WELL ALIGNED WITH THEIR VALUES
@@ -367,36 +351,41 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
               );
             }
 
-
-
             return (
               <div className="mt-2 bg-slate-800/50 border border-blue-500/30 rounded-lg p-2">
                 <div className="text-xs text-blue-400 font-mono mb-1.5 font-bold">
-                  YOUR TARGET BLOC '{convertBlocName(targetedBloc.id).toUpperCase()}' FINDS YOU:
+                  ANALYST REPORT — '{convertBlocName(targetedBloc.id).toUpperCase()}' FINDS YOU:
                 </div>
                 <div className="space-y-1">
-                  {comparisons.slice(0, 4).map((comparison, idx) => {
-                    const fontSizes = ['text-sm', 'text-xs', 'text-xs', 'text-xs'];
-                    const fontWeights = ['font-bold', 'font-semibold', 'font-medium', 'font-normal'];
+                  {visible.map((comparison, idx) => {
+                    const fontSizes = ['text-sm', 'text-xs', 'text-xs', 'text-xs', 'text-xs', 'text-xs', 'text-xs'];
+                    const fontWeights = ['font-bold', 'font-semibold', 'font-medium', 'font-normal', 'font-normal', 'font-normal', 'font-normal'];
 
                     return (
                       <div
                         key={comparison.key}
-                        className={`${fontSizes[idx]} ${fontWeights[idx]} text-slate-200 uppercase tracking-wide`}
+                        className={`${fontSizes[idx] ?? 'text-xs'} ${fontWeights[idx] ?? 'font-normal'} text-slate-200 uppercase tracking-wide`}
                       >
                         {comparison.desc}
                       </div>
                     );
                   })}
                 </div>
+                {weeksUntilNext !== null && weeksUntilNext > 0 && (
+                  <div className="text-[10px] text-slate-500 font-mono mt-1.5 italic">
+                    Further findings in {weeksUntilNext} week{weeksUntilNext !== 1 ? 's' : ''}.
+                  </div>
+                )}
+                {revealCount >= allComparisons.length && (
+                  <div className="text-[10px] text-green-600/70 font-mono mt-1.5 italic">
+                    Full analysis complete.
+                  </div>
+                )}
               </div>
             );
           })()}
         </div>
       )}
-
-
-
     </div>
   );
 }

@@ -85,7 +85,7 @@ const initialState: GameState = {
   eventVariables: null,
   targetedBlocId: null,
   targetingStartWeek: null,
-  targetingCooldownUntil: null,
+  targetingWeeksActive: 0,
   initialBlocStats: undefined,
   blocStatsHistory: [],
   postElectionStats: undefined
@@ -373,7 +373,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         eventVariables: state.eventVariables, // Keep custom event variable logic
         targetedBlocId: state.targetedBlocId,
         targetingStartWeek: state.targetingStartWeek != null ? state.targetingStartWeek - state.totalPolls : null,
-        targetingCooldownUntil: state.targetingCooldownUntil != null ? Math.max(0, state.targetingCooldownUntil - state.totalPolls) : null,
+        targetingWeeksActive: state.targetingWeeksActive ?? 0,
       };
     }
 
@@ -564,27 +564,22 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     case 'SET_TARGETED_BLOC':
-      // If untargeting (blocId is null) or switching to a different bloc, trigger cooldown
-      if (action.payload.blocId === null || (state.targetedBlocId !== null && state.targetedBlocId !== action.payload.blocId)) {
+      // If explicitly untargeting (null), clear state
+      if (action.payload.blocId === null) {
         return {
           ...state,
           targetedBlocId: null,
           targetingStartWeek: null,
-          targetingCooldownUntil: state.currentPoll + 3 // 3 week cooldown when manually stopped or switched
+          targetingWeeksActive: 0
         };
       }
 
-      // If trying to target during cooldown, ignore
-      if (state.targetingCooldownUntil !== null && state.targetingCooldownUntil !== undefined && state.currentPoll < state.targetingCooldownUntil) {
-        return state; // Don't allow targeting during cooldown
-      }
-
-      // Start new targeting
+      // Start (or switch to) targeting — reset the weeks counter
       return {
         ...state,
         targetedBlocId: action.payload.blocId,
         targetingStartWeek: state.currentPoll,
-        targetingCooldownUntil: null // Clear any old cooldown
+        targetingWeeksActive: 0
       };
 
     default:

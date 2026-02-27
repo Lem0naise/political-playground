@@ -202,7 +202,8 @@ export interface GameState {
   eventVariables?: any | null;
   targetedBlocId?: string | null;
   targetingStartWeek?: number | null;
-  targetingCooldownUntil?: number | null;
+  /** How many polls have elapsed while this bloc is actively targeted. Resets to 0 when targeting stops. */
+  targetingWeeksActive?: number;
 }
 
 export interface CoalitionState {
@@ -262,7 +263,7 @@ export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
 export const EVENT_EFFECT_MULTIPLIER = 0.8;
 
-export const TARGET_SHIFT = 0.02;
+export const TARGET_SHIFT = 0.01; // 1% per week (reduced from 2% — ideology shift kicks in after week 2)
 // Voting behaviour configuration
 // Enable probabilistic choice via softmax; when false, deterministic max-utility is used
 export const PROBABILISTIC_VOTING = true;
