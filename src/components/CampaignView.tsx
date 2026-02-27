@@ -50,7 +50,28 @@ export default function CampaignView() {
 
       // Present event every 3-4 polls
       if (pollsSinceEvent >= 3 && Math.random() < 0.6) {
-        const randomEvent = events[Math.floor(Math.random() * events.length)];
+        // Build a weight for each event based on active trends.
+        // Events whose categories overlap a live trend get a significant boost,
+        // mimicking the real-world 24-hour news cycle.
+        const TREND_WEIGHT_MULTIPLIER = 8;
+        const activeTrendAxes = new Set(state.activeTrend.map(t => t.valueKey));
+
+        const weights = events.map(ev => {
+          if (ev.categories && ev.categories.some(cat => activeTrendAxes.has(cat))) {
+            return TREND_WEIGHT_MULTIPLIER;
+          }
+          return 1;
+        });
+
+        const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+        let pick = Math.random() * totalWeight;
+        let eventIndex = 0;
+        for (let i = 0; i < weights.length; i++) {
+          pick -= weights[i];
+          if (pick <= 0) { eventIndex = i; break; }
+        }
+
+        const randomEvent = events[eventIndex];
 
         // Instantiate the event with variable substitution
         const instantiatedEvent = instantiateEvent(randomEvent, eventVariables, state.country);

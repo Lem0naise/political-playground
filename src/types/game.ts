@@ -84,6 +84,8 @@ export interface Event {
   title: string;
   description: string;
   choices: EventChoice[];
+  /** Ideology axes this event relates to — used for trend-based weighting */
+  categories?: PoliticalValueKey[];
 }
 
 export interface EventChoice {
