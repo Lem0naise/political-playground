@@ -973,8 +973,20 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
   }
 
   // Turnout gating based on nearest raw distance (pre-utility)
-  if (minRawSq > Math.pow(TOO_FAR_DISTANCE, 2) && !VOTE_MANDATE) {
-    return null;
+  if (!VOTE_MANDATE) {
+    if (minRawSq > Math.pow(TOO_FAR_DISTANCE, 2)) {
+      return null;
+    }
+    // Gradient apathy: if the best candidate is still fairly far away, chance to stay home increases
+    const apathyStartDistance = TOO_FAR_DISTANCE * 0.5;
+    const apathyStartSq = Math.pow(apathyStartDistance, 2);
+    if (minRawSq > apathyStartSq) {
+      const apathyRangeSq = Math.pow(TOO_FAR_DISTANCE, 2) - apathyStartSq;
+      const apathyChance = ((minRawSq - apathyStartSq) / apathyRangeSq) * 0.6; // Max 60% chance to abstain
+      if (Math.random() < apathyChance) {
+        return null; // Voter stays home out of apathy
+      }
+    }
   }
 
   // Choice: probabilistic softmax or deterministic max-utility
@@ -1025,20 +1037,22 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
       candidate.momentum = (candidate.momentum || 0) * 0.7 + momentumChange * 0.3;
     }
 
-    // Incumbency effects - popular parties face erosion, struggling ones get recovery
+    // Scaled Incumbency effects - voter fatigue scales non-linearly
     let incumbencyEffect = 0;
     if (candidate.party_pop > 10) {
-      incumbencyEffect = -0.1 * (candidate.party_pop / 20); // Voter fatigue
-    } else {
-      incumbencyEffect = 0.05; // Small recovery boost for struggling parties
+      // Larger penalty for very popular parties (e.g. 50 pop -> -0.1 * 6.25 = -0.625 penalty per week)
+      incumbencyEffect = -0.1 * Math.pow(candidate.party_pop / 20, 2);
+    } else if (candidate.party_pop < 0) {
+      // Stronger recovery for deeply struggling parties to prevent eternal death spirals
+      incumbencyEffect = 0.05 + Math.abs(candidate.party_pop) * 0.01;
     }
 
-    // Bandwagon effect - leading parties get small boost
+    // Scaled Bandwagon effect - dominant leaders get a bigger boost, but clamped
     let bandwagonEffect = 0;
     if (candidate === leader && candidate.party_pop > 15) {
-      bandwagonEffect = 0.2;
+      bandwagonEffect = 0.1 + (candidate.party_pop / 100) * 0.3; // max ~0.4
     } else if (candidate.party_pop < -10) {
-      bandwagonEffect = -0.1; // Additional losses for struggling parties
+      bandwagonEffect = -0.05 - (Math.abs(candidate.party_pop) / 100) * 0.2;
     }
 
     // Apply momentum with decay
@@ -1140,7 +1154,7 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
   const axisCount = VALUES.length;
   for (let voterIndex = 0; voterIndex < voterCount; voterIndex++) {
     for (let i = 0; i < axisCount; i++) {
-      if (Math.random() < 0.015) { // 1.5% chance per voter per issue
+      if (Math.random() < 0.010) { // 1.0% chance per voter per issue (reduced for stability)
         const change = (Math.random() - 0.5) * 3; // Smaller change range
         const newValue = data[i][voterIndex] + change;
         data[i][voterIndex] = Math.max(-100, Math.min(100, newValue));
@@ -1362,7 +1376,7 @@ export function applyEventEffect(
   let pollingChange = baseChange * Math.min(boost / 12.0, 1.5);
 
   // Add moderate randomness for event uncertainty
-  const randomFactor = (Math.random() - 0.5) * 2; // -1.0 to 1.0
+  const randomFactor = (Math.random() - 0.5) * 1.5; // Slightly reduced pure RNG
   pollingChange += randomFactor;
 
   // Simplified minimum effect logic

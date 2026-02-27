@@ -382,8 +382,8 @@ export function calculateNextPollState(state: GameState): GameState {
     const partyA = sortedCurrentResults[i];
     const partyB = sortedCurrentResults[i + 1];
 
-    // If both parties are > 10%
-    if (partyA.percentage >= 10 && partyB.percentage >= 10) {
+    // If both parties are > 8%
+    if (partyA.percentage >= 8 && partyB.percentage >= 8) {
       const prevPctA = state.previousPollResults[partyA.candidate.party] || 0;
       const prevPctB = state.previousPollResults[partyB.candidate.party] || 0;
 
@@ -566,7 +566,10 @@ export function calculateNextPollState(state: GameState): GameState {
     if (Math.random() < driftProbability) {
       const axisToShift = AXIS_KEYS[Math.floor(Math.random() * AXIS_KEYS.length)];
       const axisIndex = AXIS_KEYS.indexOf(axisToShift);
-      const direction = Math.random() < 0.5 ? 1 : -1;
+      const currentValue = targetCandidate.vals[axisIndex];
+      // "Ideological gravity": drift towards the center if extreme.
+      const driftProbPositive = 0.5 - (currentValue / 200); // currentValue is -100 to 100
+      const direction = Math.random() < driftProbPositive ? 1 : -1;
       const totalShift = (DRIFT_TOTAL_MIN + Math.random() * (DRIFT_TOTAL_MAX - DRIFT_TOTAL_MIN)) * direction;
       const weeklyShift = totalShift / DRIFT_WEEKS;
 
