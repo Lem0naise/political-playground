@@ -754,6 +754,1610 @@
         "ASEAN nations",
         "Pacific partners"
       ]
+    },
+    "CHINA": {
+      "newspaper": [
+        "People's Daily",
+        "Global Times",
+        "China Daily",
+        "South China Morning Post",
+        "Xinhua News",
+        "Caixin Global"
+      ],
+      "company": [
+        "Alibaba Group",
+        "Tencent Holdings",
+        "Huawei Technologies",
+        "ICBC",
+        "Sinopec",
+        "Xiaomi Corporation",
+        "BYD Auto",
+        "PetroChina",
+        "China Mobile",
+        "Baidu"
+      ],
+      "region": [
+        "the Pearl River Delta",
+        "the Yangtze River Delta",
+        "Tibet",
+        "Xinjiang",
+        "Inner Mongolia",
+        "the Northeast Industrial Belt",
+        "Hainan Island",
+        "the Sichuan Basin"
+      ],
+      "city": [
+        "Beijing",
+        "Shanghai",
+        "Guangzhou",
+        "Shenzhen",
+        "Chongqing",
+        "Tianjin",
+        "Hangzhou",
+        "Chengdu",
+        "Wuhan",
+        "Nanjing"
+      ],
+      "foreign_country": [
+        "the United States",
+        "Russia",
+        "Japan",
+        "South Korea",
+        "India",
+        "Taiwan",
+        "the European Union",
+        "ASEAN nations",
+        "Pakistan"
+      ],
+      "organisation": [
+        "The Central Committee",
+        "The State Council",
+        "The People's Liberation Army",
+        "The National People's Congress",
+        "The Belt and Road Initiative Board",
+        "The BRICS Alliance"
+      ]
+    },
+    "INDIA": {
+      "newspaper": [
+        "The Times of India",
+        "The Hindu",
+        "Hindustan Times",
+        "The Indian Express",
+        "The Economic Times",
+        "Dainik Jagran",
+        "Anandabazar Patrika"
+      ],
+      "company": [
+        "Reliance Industries",
+        "Tata Group",
+        "Infosys",
+        "HDFC Bank",
+        "ICICI Bank",
+        "Adani Group",
+        "Wipro",
+        "State Bank of India",
+        "Mahindra Group",
+        "Larsen & Toubro"
+      ],
+      "region": [
+        "the Hindi Heartland",
+        "the Deccan Plateau",
+        "the Himalayas",
+        "the Thar Desert",
+        "the North East Seven Sisters",
+        "the Western Ghats",
+        "the Indo-Gangetic Plain"
+      ],
+      "city": [
+        "New Delhi",
+        "Mumbai",
+        "Bangalore",
+        "Chennai",
+        "Kolkata",
+        "Hyderabad",
+        "Ahmedabad",
+        "Pune",
+        "Surat",
+        "Jaipur"
+      ],
+      "foreign_country": [
+        "Pakistan",
+        "China",
+        "the United States",
+        "Russia",
+        "the United Kingdom",
+        "Bangladesh",
+        "Nepal",
+        "Sri Lanka",
+        "the BRICS nations"
+      ],
+      "organisation": [
+        "The Lok Sabha",
+        "The Rajya Sabha",
+        "ISRO",
+        "The Reserve Bank of India",
+        "NITI Aayog",
+        "The Supreme Court of India"
+      ]
+    },
+    "RUSSIA": {
+      "newspaper": [
+        "Izvestia",
+        "Kommersant",
+        "Vedomosti",
+        "Novaya Gazeta",
+        "Pravda",
+        "Rossiyskaya Gazeta",
+        "RBK"
+      ],
+      "company": [
+        "Gazprom",
+        "Rosneft",
+        "Sberbank",
+        "Lukoil",
+        "Yandex",
+        "Rostec",
+        "Norilsk Nickel",
+        "VTB Bank",
+        "Severstal",
+        "Alrosa"
+      ],
+      "region": [
+        "Siberia",
+        "the Urals",
+        "the Caucasus",
+        "the Far East",
+        "Central Russia",
+        "the Arctic Circle",
+        "the Volga Region"
+      ],
+      "city": [
+        "Moscow",
+        "Saint Petersburg",
+        "Novosibirsk",
+        "Yekaterinburg",
+        "Kazan",
+        "Nizhny Novgorod",
+        "Chelyabinsk",
+        "Vladivostok",
+        "Samara"
+      ],
+      "foreign_country": [
+        "the United States",
+        "the European Union",
+        "Ukraine",
+        "China",
+        "Belarus",
+        "Kazakhstan",
+        "Turkey",
+        "NATO allies"
+      ],
+      "organisation": [
+        "The Kremlin",
+        "The State Duma",
+        "The FSB",
+        "The Russian Orthodox Church",
+        "The BRICS Secretariat"
+      ]
+    },
+    "JAPAN": {
+      "newspaper": [
+        "Yomiuri Shimbun",
+        "Asahi Shimbun",
+        "Mainichi Shimbun",
+        "The Nikkei",
+        "The Japan Times",
+        "Sankei Shimbun"
+      ],
+      "company": [
+        "Toyota Motor",
+        "Sony Group",
+        "Mitsubishi Corporation",
+        "SoftBank Group",
+        "Nintendo",
+        "Honda Motor",
+        "Panasonic",
+        "Keyence",
+        "NTT",
+        "Hitachi"
+      ],
+      "region": [
+        "the Kanto Region",
+        "the Kansai Region",
+        "Hokkaido",
+        "Kyushu",
+        "Okinawa",
+        "the Tohoku Region",
+        "Chubu",
+        "Shikoku"
+      ],
+      "city": [
+        "Tokyo",
+        "Osaka",
+        "Nagoya",
+        "Yokohama",
+        "Kyoto",
+        "Fukuoka",
+        "Sapporo",
+        "Hiroshima",
+        "Sendai"
+      ],
+      "foreign_country": [
+        "the United States",
+        "China",
+        "South Korea",
+        "North Korea",
+        "Russia",
+        "Taiwan",
+        "the European Union",
+        "Australia"
+      ],
+      "organisation": [
+        "The National Diet",
+        "The Bank of Japan",
+        "KEIDANREN",
+        "The Ministry of Finance",
+        "The Self-Defense Forces"
+      ]
+    },
+    "BRAZIL": {
+      "newspaper": [
+        "Folha de S.Paulo",
+        "O Globo",
+        "Estado de Minas",
+        "Valor Econômico",
+        "Gazeta do Povo",
+        "Correio Braziliense"
+      ],
+      "company": [
+        "Petrobras",
+        "Vale",
+        "Itaú Unibanco",
+        "Ambev",
+        "Bradesco",
+        "JBS",
+        "Embraer",
+        "Magazine Luiza",
+        "Natura",
+        "B3"
+      ],
+      "region": [
+        "the Amazon Rainforest",
+        "the Northeast",
+        "the Southeast Heartland",
+        "the South",
+        "the Central-West",
+        "the Pantanal Wetlands"
+      ],
+      "city": [
+        "Brasília",
+        "São Paulo",
+        "Rio de Janeiro",
+        "Salvador",
+        "Belo Horizonte",
+        "Fortaleza",
+        "Curitiba",
+        "Recife",
+        "Porto Alegre"
+      ],
+      "foreign_country": [
+        "Argentina",
+        "the United States",
+        "China",
+        "the European Union",
+        "Paraguay",
+        "Uruguay",
+        "Venezuela",
+        "the Mercosur"
+      ]
+    },
+    "ITALY": {
+      "newspaper": [
+        "Corriere della Sera",
+        "La Repubblica",
+        "La Stampa",
+        "Il Sole 24 Ore",
+        "Il Messaggero",
+        "Avvenire"
+      ],
+      "company": [
+        "Eni",
+        "Enel",
+        "Stellantis",
+        "UniCredit",
+        "Intesa Sanpaolo",
+        "Prada",
+        "Ferrari",
+        "Leonardo",
+        "Telecom Italia",
+        "Generali"
+      ],
+      "region": [
+        "Lombardy",
+        "Tuscany",
+        "Sicily",
+        "Sardinia",
+        "the Veneto",
+        "Campania",
+        "Emilia-Romagna",
+        "Piedmont",
+        "Apulia"
+      ],
+      "city": [
+        "Rome",
+        "Milan",
+        "Naples",
+        "Turin",
+        "Palermo",
+        "Genoa",
+        "Bologna",
+        "Florence",
+        "Venice"
+      ],
+      "foreign_country": [
+        "the European Union",
+        "France",
+        "Germany",
+        "the United States",
+        "Libya",
+        "the Vatican City",
+        "Austria",
+        "Switzerland"
+      ]
+    },
+    "SPAIN": {
+      "newspaper": [
+        "El País",
+        "El Mundo",
+        "ABC",
+        "La Vanguardia",
+        "El Confidencial",
+        "La Razón",
+        "20 minutos"
+      ],
+      "company": [
+        "Santander",
+        "Inditex",
+        "Telefónica",
+        "Iberdrola",
+        "BBVA",
+        "Repsol",
+        "ACS",
+        "CaixaBank"
+      ],
+      "region": [
+        "Catalonia",
+        "Andalusia",
+        "the Basque Country",
+        "Madrid",
+        "Galicia",
+        "Valencia",
+        "the Canary Islands",
+        "the Balearic Islands"
+      ],
+      "city": [
+        "Madrid",
+        "Barcelona",
+        "Valencia",
+        "Seville",
+        "Zaragoza",
+        "Málaga",
+        "Murcia",
+        "Palma",
+        "Bilbao"
+      ],
+      "foreign_country": [
+        "the European Union",
+        "Morocco",
+        "Portugal",
+        "France",
+        "the United Kingdom",
+        "the United States",
+        "Latin American partners"
+      ]
+    },
+    "ARGENTINA": {
+      "newspaper": [
+        "La Nación",
+        "Clarín",
+        "Página/12",
+        "Ámbito Financiero",
+        "Infobae",
+        "Perfil"
+      ],
+      "company": [
+        "YPF",
+        "Mercado Libre",
+        "Techint",
+        "Banca Galicia",
+        "Arcor",
+        "Globant",
+        "Pampa Energía",
+        "Despegar"
+      ],
+      "region": [
+        "the Pampas",
+        "Patagonia",
+        "the Cuyo",
+        "the Gran Chaco",
+        "the North West",
+        "the Littoral",
+        "Tierra del Fuego"
+      ],
+      "city": [
+        "Buenos Aires",
+        "Córdoba",
+        "Rosario",
+        "Mendoza",
+        "La Plata",
+        "San Miguel de Tucumán",
+        "Mar del Plata",
+        "Salta"
+      ],
+      "foreign_country": [
+        "Brazil",
+        "Chile",
+        "Uruguay",
+        "the United States",
+        "China",
+        "the European Union",
+        "the IMF",
+        "the Falkland Islands"
+      ]
+    },
+    "CHILE": {
+      "newspaper": [
+        "El Mercurio",
+        "La Tercera",
+        "Las Últimas Noticias",
+        "La Cuarta",
+        "The Clinic"
+      ],
+      "company": [
+        "Codelco",
+        "Antofagasta Minerals",
+        "Falabella",
+        "LATAM Airlines",
+        "CMPC",
+        "Enel Chile"
+      ],
+      "region": [
+        "the Atacama Desert",
+        "the Central Valley",
+        "the Lake District",
+        "Chilean Patagonia",
+        "Easter Island",
+        "the Andes"
+      ],
+      "city": [
+        "Santiago",
+        "Valparaíso",
+        "Concepción",
+        "La Serena",
+        "Antofagasta",
+        "Temuco",
+        "Viña del Mar"
+      ],
+      "foreign_country": [
+        "Argentina",
+        "Peru",
+        "Bolivia",
+        "the United States",
+        "China",
+        "the European Union",
+        "Brazil"
+      ]
+    },
+    "MEXICO": {
+      "newspaper": [
+        "El Universal",
+        "Reforma",
+        "La Jornada",
+        "Excélsior",
+        "Milenio",
+        "El Economista"
+      ],
+      "company": [
+        "Pemex",
+        "América Móvil",
+        "Cemex",
+        "Bimbo",
+        "Femsa",
+        "Grupo México",
+        "Televisa"
+      ],
+      "region": [
+        "the Yucatan Peninsula",
+        "Baja California",
+        "the Sierra Madre",
+        "the Central Plateau",
+        "the borderlands"
+      ],
+      "city": [
+        "Mexico City",
+        "Guadalajara",
+        "Monterrey",
+        "Puebla",
+        "Tijuana",
+        "León",
+        "Ciudad Juárez"
+      ],
+      "foreign_country": [
+        "the United States",
+        "Canada",
+        "Guatemala",
+        "China",
+        "the European Union",
+        "Brazil"
+      ]
+    },
+    "BELGIUM": {
+      "newspaper": [
+        "Le Soir",
+        "De Standaard",
+        "La Libre Belgique",
+        "Het Laatste Nieuws",
+        "De Morgen",
+        "L'Echo",
+        "De Tijd"
+      ],
+      "company": [
+        "AB InBev",
+        "Solvay",
+        "Umicore",
+        "Ageas",
+        "Colruyt Group",
+        "Proximus",
+        "Delhaize",
+        "KBC Group",
+        "UCB"
+      ],
+      "region": [
+        "Flanders",
+        "Wallonia",
+        "the Brussels-Capital Region",
+        "the Ardennes",
+        "the Belgian Coast"
+      ],
+      "city": [
+        "Brussels",
+        "Antwerp",
+        "Ghent",
+        "Charleroi",
+        "Liège",
+        "Bruges",
+        "Namur",
+        "Leuven"
+      ],
+      "foreign_country": [
+        "France",
+        "Germany",
+        "the Netherlands",
+        "Luxembourg",
+        "the European Union",
+        "the United Kingdom",
+        "NATO"
+      ]
+    },
+    "NETHERLANDS": {
+      "newspaper": [
+        "De Telegraaf",
+        "Algemeen Dagblad",
+        "de Volkskrant",
+        "NRC Handelsblad",
+        "Trouw",
+        "Het Parool"
+      ],
+      "company": [
+        "Shell",
+        "Unilever",
+        "ASML",
+        "ING Group",
+        "Philips",
+        "Heineken",
+        "AkzoNobel",
+        "Ahold Delhaize",
+        "Rabobank"
+      ],
+      "region": [
+        "the Randstad",
+        "the polders",
+        "the Wadden Islands",
+        "Limburg",
+        "Zeeland",
+        "Friesland",
+        "North Brabant"
+      ],
+      "city": [
+        "Amsterdam",
+        "Rotterdam",
+        "The Hague",
+        "Utrecht",
+        "Eindhoven",
+        "Tilburg",
+        "Groningen",
+        "Almere"
+      ],
+      "foreign_country": [
+        "Germany",
+        "Belgium",
+        "the United Kingdom",
+        "the United States",
+        "the European Union",
+        "France"
+      ]
+    },
+    "POLAND": {
+      "newspaper": [
+        "Gazeta Wyborcza",
+        "Rzeczpospolita",
+        "Dziennik Gazeta Prawna",
+        "Fakt",
+        "Super Express",
+        "Newsweek Polska"
+      ],
+      "company": [
+        "PKN Orlen",
+        "PKO Bank Polski",
+        "PZU",
+        "KGHM",
+        "PGE",
+        "Allegro",
+        "CD Projekt Red"
+      ],
+      "region": [
+        "Silesia",
+        "Masuria",
+        "the Tatra Mountains",
+        "Pomerania",
+        "Greater Poland",
+        "Lesser Poland"
+      ],
+      "city": [
+        "Warsaw",
+        "Kraków",
+        "Łódź",
+        "Wrocław",
+        "Poznań",
+        "Gdańsk",
+        "Szczecin",
+        "Bydgoszcz"
+      ],
+      "foreign_country": [
+        "Germany",
+        "Ukraine",
+        "Russia",
+        "the United States",
+        "the European Union",
+        "the Czech Republic",
+        "Slovakia"
+      ]
+    },
+    "SWEDEN": {
+      "newspaper": [
+        "Dagens Nyheter",
+        "Aftonbladet",
+        "Expressen",
+        "Svenska Dagbladet",
+        "Göteborgs-Posten",
+        "Sydsvenskan"
+      ],
+      "company": [
+        "Volvo Group",
+        "Ericsson",
+        "H&M",
+        "IKEA",
+        "Spotify",
+        "Sandvik",
+        "Atlas Copco",
+        "Securitas",
+        "Skanska"
+      ],
+      "region": [
+        "Scania",
+        "Lapland",
+        "the Stockholm Archipelago",
+        "Götaland",
+        "Svealand",
+        "Norrland",
+        "Gotland"
+      ],
+      "city": [
+        "Stockholm",
+        "Gothenburg",
+        "Malmö",
+        "Uppsala",
+        "Västerås",
+        "Örebro",
+        "Linköping"
+      ],
+      "foreign_country": [
+        "Finland",
+        "Norway",
+        "Denmark",
+        "Germany",
+        "the United States",
+        "Russia",
+        "the European Union"
+      ]
+    },
+    "NORWAY": {
+      "newspaper": [
+        "Aftenposten",
+        "Verdens Gang",
+        "Dagbladet",
+        "Dagens Næringsliv",
+        "Klassekampen",
+        "Bergens Tidende"
+      ],
+      "company": [
+        "Equinor",
+        "Norsk Hydro",
+        "Yara International",
+        "Telenor",
+        "DNB Bank",
+        "Mowi",
+        "Orkla"
+      ],
+      "region": [
+        "the fjords",
+        "the Arctic North",
+        "the Eastern Plains",
+        "the Southern Coast",
+        "the Highlands"
+      ],
+      "city": [
+        "Oslo",
+        "Bergen",
+        "Trondheim",
+        "Stavanger",
+        "Drammen",
+        "Fredrikstad",
+        "Tromsø"
+      ],
+      "foreign_country": [
+        "Sweden",
+        "Denmark",
+        "Finland",
+        "Russia",
+        "the United Kingdom",
+        "the United States",
+        "the European Union"
+      ]
+    },
+    "FINLAND": {
+      "newspaper": [
+        "Helsingin Sanomat",
+        "Ilta-Sanomat",
+        "Iltalehti",
+        "Aamulehti",
+        "Taloussanomat"
+      ],
+      "company": [
+        "Nokia",
+        "Neste",
+        "Stora Enso",
+        "KONE",
+        "UPM",
+        "Supercell",
+        "Sampo"
+      ],
+      "region": [
+        "Lapland",
+        "the Thousand Lakes",
+        "the Archipelago Sea",
+        "Karelia",
+        "Ostrobothnia"
+      ],
+      "city": [
+        "Helsinki",
+        "Espoo",
+        "Tampere",
+        "Vantaa",
+        "Oulu",
+        "Turku",
+        "Jyväskylä"
+      ],
+      "foreign_country": [
+        "Sweden",
+        "Norway",
+        "Russia",
+        "Estonia",
+        "the United States",
+        "the European Union"
+      ]
+    },
+    "DENMARK": {
+      "newspaper": [
+        "Jyllands-Posten",
+        "Politiken",
+        "Berlingske",
+        "Ekstra Bladet",
+        "B.T.",
+        "Information"
+      ],
+      "company": [
+        "Novo Nordisk",
+        "Maersk",
+        "LEGO",
+        "Vestas",
+        "Carlsberg",
+        "Danske Bank",
+        "DSV"
+      ],
+      "region": [
+        "Jutland",
+        "Zealand",
+        "Funen",
+        "the Faroe Islands",
+        "Greenland",
+        "Bornholm"
+      ],
+      "city": [
+        "Copenhagen",
+        "Aarhus",
+        "Odense",
+        "Aalborg",
+        "Esbjerg",
+        "Randers",
+        "Kolding"
+      ],
+      "foreign_country": [
+        "Germany",
+        "Sweden",
+        "Norway",
+        "the United Kingdom",
+        "the United States",
+        "the European Union"
+      ]
+    },
+    "GREECE": {
+      "newspaper": [
+        "Kathimerini",
+        "To Vima",
+        "Ta Nea",
+        "Efimerida ton Syntakton",
+        "Naftemporiki"
+      ],
+      "company": [
+        "Hellenic Petroleum",
+        "OPAP",
+        "OTE",
+        "National Bank of Greece",
+        "Public Power Corporation",
+        "Aegean Airlines"
+      ],
+      "region": [
+        "Attica",
+        "the Peloponnese",
+        "the Greek Islands",
+        "Macedonia",
+        "Crete",
+        "Thessaly",
+        "Epirus"
+      ],
+      "city": [
+        "Athens",
+        "Thessaloniki",
+        "Patras",
+        "Heraklion",
+        "Larissa",
+        "Volos",
+        "Ioannina"
+      ],
+      "foreign_country": [
+        "Turkey",
+        "Cyprus",
+        "Germany",
+        "France",
+        "the United Kingdom",
+        "the United States",
+        "the European Union"
+      ]
+    },
+    "TURKEY": {
+      "newspaper": [
+        "Hürriyet",
+        "Sabah",
+        "Sözcü",
+        "Milliyet",
+        "Cumhuriyet",
+        "Habertürk"
+      ],
+      "company": [
+        "Koç Holding",
+        "Sabancı Holding",
+        "Turkish Airlines",
+        "Ereğli Iron and Steel",
+        "Tüpraş",
+        "Aselsan",
+        "Garanti BBVA"
+      ],
+      "region": [
+        "Anatolia",
+        "Thrace",
+        "the Aegean Coast",
+        "the Black Sea Region",
+        "the Mediterranean Coast",
+        "the Southeast Heartland"
+      ],
+      "city": [
+        "Ankara",
+        "Istanbul",
+        "Izmir",
+        "Bursa",
+        "Antalya",
+        "Adana",
+        "Konya",
+        "Gaziantep"
+      ],
+      "foreign_country": [
+        "Greece",
+        "Syria",
+        "Iraq",
+        "Iran",
+        "the United States",
+        "Russia",
+        "the European Union",
+        "Azerbaijan"
+      ]
+    },
+    "ISRAEL": {
+      "newspaper": [
+        "Haaretz",
+        "The Jerusalem Post",
+        "Yedioth Ahronoth",
+        "Israel Hayom",
+        "Maariv",
+        "The Times of Israel"
+      ],
+      "company": [
+        "Teva Pharmaceuticals",
+        "Check Point",
+        "Intel Israel",
+        "Bank Leumi",
+        "Bank Hapoalim",
+        "Amdocs",
+        "Elbit Systems"
+      ],
+      "region": [
+        "the Negev Desert",
+        "the Galilee",
+        "the Coastal Plain",
+        "the Judean Mountains",
+        "the Arava"
+      ],
+      "city": [
+        "Jerusalem",
+        "Tel Aviv",
+        "Haifa",
+        "Rishon LeZion",
+        "Petah Tikva",
+        "Ashdod",
+        "Beersheba"
+      ],
+      "foreign_country": [
+        "the United States",
+        "the European Union",
+        "Iran",
+        "Jordan",
+        "Egypt",
+        "the United Arab Emirates"
+      ]
+    },
+    "SOUTH_KOREA": {
+      "newspaper": [
+        "Chosun Ilbo",
+        "JoongAng Ilbo",
+        "Dong-A Ilbo",
+        "The Korea Times",
+        "The Korea Herald",
+        "Hankyoreh"
+      ],
+      "company": [
+        "Samsung Electronics",
+        "Hyundai Motor",
+        "SK Hynix",
+        "LG Electronics",
+        "POSCO",
+        "Kia",
+        "Naver",
+        "Kakao"
+      ],
+      "region": [
+        "the Seoul Capital Area",
+        "Gyeongsang",
+        "Jeolla",
+        "Chungcheong",
+        "Gangwon",
+        "Jeju Island"
+      ],
+      "city": [
+        "Seoul",
+        "Busan",
+        "Incheon",
+        "Daegu",
+        "Daejeon",
+        "Gwangju",
+        "Ulsan",
+        "Suwon"
+      ],
+      "foreign_country": [
+        "North Korea",
+        "the United States",
+        "China",
+        "Japan",
+        "Russia",
+        "the European Union"
+      ]
+    },
+    "EGYPT": {
+      "newspaper": [
+        "Al-Ahram",
+        "Al-Masry Al-Youm",
+        "Youm7",
+        "Al-Watan",
+        "Daily News Egypt"
+      ],
+      "company": [
+        "Suez Canal Authority",
+        "EgyptAir",
+        "Telecom Egypt",
+        "Orascom Construction",
+        "National Bank of Egypt"
+      ],
+      "region": [
+        "the Nile Delta",
+        "Upper Egypt",
+        "the Sinai Peninsula",
+        "the Western Desert",
+        "the Red Sea Coast"
+      ],
+      "city": [
+        "Cairo",
+        "Alexandria",
+        "Giza",
+        "Shubra El Kheima",
+        "Port Said",
+        "Suez",
+        "Luxor"
+      ],
+      "foreign_country": [
+        "the United States",
+        "Israel",
+        "Saudi Arabia",
+        "Libya",
+        "Sudan",
+        "Ethiopia",
+        "the European Union"
+      ]
+    },
+    "NIGERIA": {
+      "newspaper": [
+        "The Guardian",
+        "The Punch",
+        "ThisDay",
+        "Vanguard",
+        "Daily Trust",
+        "The Nation"
+      ],
+      "company": [
+        "NNPC",
+        "Dangote Group",
+        "MTN Nigeria",
+        "First Bank of Nigeria",
+        "Zenith Bank",
+        "Glo"
+      ],
+      "region": [
+        "the Niger Delta",
+        "the Middle Belt",
+        "the Savannah",
+        "the Yoruba Heartland",
+        "the Igbo South"
+      ],
+      "city": [
+        "Abuja",
+        "Lagos",
+        "Kano",
+        "Ibadan",
+        "Port Harcourt",
+        "Benin City",
+        "Kaduna"
+      ],
+      "foreign_country": [
+        "the United States",
+        "United Kingdom",
+        "China",
+        "South Africa",
+        "Ghana",
+        "the African Union"
+      ]
+    },
+    "UKRAINE": {
+      "newspaper": [
+        "Kyiv Independent",
+        "Ukrayinska Pravda",
+        "Kyiv Post",
+        "Dzerkalo Tyzhnia",
+        "NV",
+        "Censor.net"
+      ],
+      "company": [
+        "Naftogaz",
+        "Metinvest",
+        "DTEK",
+        "PrivatBank",
+        "Kernel",
+        "Roshen",
+        "SoftServe"
+      ],
+      "region": [
+        "the Donbas",
+        "Crimea",
+        "the steppes",
+        "the Carpathian Mountains",
+        "the Dnieper Valley"
+      ],
+      "city": [
+        "Kyiv",
+        "Kharkiv",
+        "Odesa",
+        "Dnipro",
+        "Donetsk",
+        "Lviv",
+        "Zaporizhzhia"
+      ],
+      "foreign_country": [
+        "Russia",
+        "the European Union",
+        "the United States",
+        "Poland",
+        "Belarus",
+        "Germany",
+        "United Kingdom"
+      ]
+    },
+    "EU": {
+      "newspaper": [
+        "Politico Europe",
+        "EUobserver",
+        "Euronews",
+        "Financial Times",
+        "Le Monde",
+        "Der Spiegel"
+      ],
+      "company": [
+        "Airbus",
+        "TotalEnergies",
+        "Volkswagen Group",
+        "ASML",
+        "LVMH",
+        "SAP",
+        "Siemens"
+      ],
+      "region": [
+        "the Eurozone",
+        "the Schengen Area",
+        "the Mediterranean",
+        "Eastern Europe",
+        "Scandinavia",
+        "the Benelux"
+      ],
+      "city": [
+        "Brussels",
+        "Strasbourg",
+        "Frankfurt",
+        "Luxembourg City",
+        "Paris",
+        "Berlin"
+      ],
+      "foreign_country": [
+        "the United States",
+        "China",
+        "Russia",
+        "United Kingdom",
+        "India",
+        "Turkey",
+        "Switzerland"
+      ]
+    },
+    "AIRSTRIP_ONE": {
+      "newspaper": [
+        "The Times",
+        "The News Gallery",
+        "The Standard",
+        "Party Weekly"
+      ],
+      "company": [
+        "Ministry of Truth",
+        "Ministry of Plenty",
+        "Ministry of Peace",
+        "Ministry of Love"
+      ],
+      "region": [
+        "London",
+        "Victory Mansions",
+        "the Prole quarters",
+        "the Floating Fortress"
+      ],
+      "city": [
+        "London",
+        "Airstrip One"
+      ],
+      "foreign_country": [
+        "Eurasia",
+        "Eastasia"
+      ]
+    },
+    "SORDLAND": {
+      "newspaper": [
+        "Holsord Post",
+        "Sordland Today",
+        "The Lachaven Times",
+        "Voice of Sordland"
+      ],
+      "company": [
+        "Sordish State Corporation",
+        "Gasom",
+        "Underhall Construction",
+        "Bergia Steel"
+      ],
+      "region": [
+        "Bergia",
+        "Agnland",
+        "Lorna",
+        "Gruni"
+      ],
+      "city": [
+        "Holsord",
+        "Lachaven",
+        "Conriat",
+        "Deyr"
+      ],
+      "foreign_country": [
+        "Agnolia",
+        "Wehlen",
+        "Lespia",
+        "Valgsland",
+        "Rumburg"
+      ]
+    },
+    "SAUDI_ARABIA": {
+      "newspaper": [
+        "Arab News",
+        "Al Riyadh",
+        "Asharq Al-Awsat",
+        "Saudi Gazette",
+        "Okaz"
+      ],
+      "company": [
+        "Saudi Aramco",
+        "SABIC",
+        "STC",
+        "Al Rajhi Bank",
+        "Ma'aden"
+      ],
+      "region": [
+        "the Hejaz",
+        "the Najd",
+        "the Rub' al Khali",
+        "the Asir Mountains",
+        "the Persian Gulf Coast"
+      ],
+      "city": [
+        "Riyadh",
+        "Jeddah",
+        "Mecca",
+        "Medina",
+        "Dammam",
+        "Dhahran",
+        "Taif"
+      ],
+      "foreign_country": [
+        "the United States",
+        "Iran",
+        "the United Arab Emirates",
+        "Yemen",
+        "Egypt",
+        "China"
+      ]
+    },
+    "IRAN": {
+      "newspaper": [
+        "Tehran Times",
+        "Kayhan",
+        "Shargh",
+        "Ettela'at",
+        "Financial Tribune"
+      ],
+      "company": [
+        "NIOC",
+        "Iran Khodro",
+        "SAIPA",
+        "Mobarakeh Steel",
+        "Bank Melli Iran"
+      ],
+      "region": [
+        "the Zagros Mountains",
+        "the Alborz Range",
+        "the Dasht-e Kavir",
+        "the Persian Gulf Coast",
+        "Caspian Sea region"
+      ],
+      "city": [
+        "Tehran",
+        "Mashhad",
+        "Isfahan",
+        "Karaj",
+        "Shiraz",
+        "Tabriz",
+        "Qom"
+      ],
+      "foreign_country": [
+        "the United States",
+        "Israel",
+        "Saudi Arabia",
+        "Russia",
+        "China",
+        "Iraq"
+      ]
+    },
+    "NORTH_KOREA": {
+      "newspaper": [
+        "Rodong Sinmun",
+        "Minju Choson",
+        "The Pyongyang Times"
+      ],
+      "company": [
+        "Taedonggang Brewing Company",
+        "Foreign Trade Bank",
+        "Korea Computer Center"
+      ],
+      "region": [
+        "Pyonyang Province",
+        "the Tumen River",
+        "Mount Paektu",
+        "the Kaesong Industrial Region"
+      ],
+      "city": [
+        "Pyongyang",
+        "Hamhung",
+        "Chongjin",
+        "Nampo",
+        "Wonsan"
+      ],
+      "foreign_country": [
+        "South Korea",
+        "the United States",
+        "China",
+        "Russia",
+        "Japan"
+      ]
+    },
+    "GERMANY_1936": {
+      "newspaper": [
+        "Völkischer Beobachter",
+        "Der Stürmer",
+        "Das Schwarze Korps"
+      ],
+      "company": [
+        "IG Farben",
+        "Krupp",
+        "Messerschmitt",
+        "Henschel & Son",
+        "Volkswagen"
+      ],
+      "region": [
+        "Prussia",
+        "Bavaria",
+        "the Rhineland",
+        "the Sudetenland",
+        "the Polish Corridor"
+      ],
+      "city": [
+        "Berlin",
+        "Munich",
+        "Nuremberg",
+        "Hamburg",
+        "Essen"
+      ],
+      "foreign_country": [
+        "the United Kingdom",
+        "France",
+        "the Soviet Union",
+        "Italy",
+        "Austria",
+        "Poland"
+      ]
+    },
+    "SOVIET_UNION_1925": {
+      "newspaper": [
+        "Pravda",
+        "Izvestia",
+        "Krasnaya Zvezda"
+      ],
+      "company": [
+        "Gosplan",
+        "People's Commissariat of Heavy Industry",
+        "Tsentrosoyuz"
+      ],
+      "region": [
+        "the Steppes",
+        "the Urals",
+        "Siberia",
+        "the Caucasus",
+        "Central Asia"
+      ],
+      "city": [
+        "Moscow",
+        "Leningrad",
+        "Kharkov",
+        "Kiev",
+        "Tsaritsyn"
+      ],
+      "foreign_country": [
+        "the United Kingdom",
+        "Germany",
+        "France",
+        "the United States",
+        "Poland",
+        "Japan"
+      ]
+    },
+    "SOVIET_UNION_1991": {
+      "newspaper": [
+        "Pravda",
+        "Argumenty i Fakty",
+        "Moskovskiye Novosti"
+      ],
+      "company": [
+        "Aeroflot",
+        "AvtoVAZ",
+        "Gazprom",
+        "Kamaz"
+      ],
+      "region": [
+        "the Republics",
+        "the Baltic states",
+        "the Caucasus",
+        "Central Asia",
+        "Siberia"
+      ],
+      "city": [
+        "Moscow",
+        "Leningrad",
+        "Kiev",
+        "Minsk",
+        "Tashkent",
+        "Alma-Ata"
+      ],
+      "foreign_country": [
+        "the United States",
+        "Germany",
+        "France",
+        "United Kingdom",
+        "China",
+        "Poland"
+      ]
+    },
+    "KENYA": {
+      "newspaper": [
+        "Daily Nation",
+        "The Standard",
+        "The Star",
+        "The EastAfrican"
+      ],
+      "company": [
+        "Safaricom",
+        "Kenya Airways",
+        "East African Breweries",
+        "Equity Bank",
+        "KCB Group"
+      ],
+      "region": [
+        "the Rift Valley",
+        "the Coast",
+        "the Central Highlands",
+        "Lake Victoria region",
+        "the Northern Frontier"
+      ],
+      "city": [
+        "Nairobi",
+        "Mombasa",
+        "Kisumu",
+        "Nakuru",
+        "Eldoret"
+      ],
+      "foreign_country": [
+        "the United Kingdom",
+        "the United States",
+        "China",
+        "Tanzania",
+        "Uganda",
+        "Ethiopia",
+        "the African Union"
+      ]
+    },
+    "YUGOSLAVIA_1990": {
+      "newspaper": [
+        "Borba",
+        "Politika",
+        "Oslobođenje",
+        "Vjesnik",
+        "Delo"
+      ],
+      "company": [
+        "JAT",
+        "Zastava",
+        "Ina",
+        "Genex",
+        "Energoinvest"
+      ],
+      "region": [
+        "Serbia",
+        "Croatia",
+        "Slovenia",
+        "Bosnia and Herzegovina",
+        "Macedonia",
+        "Montenegro",
+        "Kosovo",
+        "Vojvodina"
+      ],
+      "city": [
+        "Belgrade",
+        "Zagreb",
+        "Ljubljana",
+        "Sarajevo",
+        "Skopje",
+        "Titograd"
+      ],
+      "foreign_country": [
+        "the Soviet Union",
+        "the United States",
+        "the European Community",
+        "Austria",
+        "Hungary",
+        "Italy"
+      ]
+    },
+    "ROMAN_EMPIRE_117_AD": {
+      "newspaper": [
+        "Acta Diurna",
+        "the Criers",
+        "the Forum walls"
+      ],
+      "company": [
+        "the Grain Fleet",
+        "the Appian Way tolls",
+        "the Imperial Mint",
+        "the Gladiator Schools"
+      ],
+      "region": [
+        "Italia",
+        "Gaul",
+        "Hispania",
+        "Britannia",
+        "Egypt",
+        "Syria",
+        "Dacia",
+        "Mauritania"
+      ],
+      "city": [
+        "Rome",
+        "Alexandria",
+        "Antioch",
+        "Carthage",
+        "Londinium",
+        "Byzantium"
+      ],
+      "foreign_country": [
+        "Parthia",
+        "the Germanic Tribes",
+        "the Caledonians",
+        "the Kushites"
+      ]
     }
   }
 }
