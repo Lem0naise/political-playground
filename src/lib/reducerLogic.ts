@@ -490,8 +490,8 @@ export function calculateNextPollState(state: GameState): GameState {
   });
 
   const DRIFT_WEEKS = 5;          // polls over which total shift is applied
-  const DRIFT_TOTAL_MIN = 20;     // minimum total shift (points on axis)
-  const DRIFT_TOTAL_MAX = 60;     // maximum total shift
+  const DRIFT_TOTAL_MIN = 15;     // minimum total shift (points on axis)
+  const DRIFT_TOTAL_MAX = 30;     // maximum total shift
   const positionShiftNews: string[] = [];
 
   const nonPlayerCandidates = state.candidates.filter(c => !c.is_player);
@@ -632,7 +632,7 @@ export function calculateNextPollState(state: GameState): GameState {
         const completionTemplates = IDEOLOGY_DRIFT_COMPLETE_TEMPLATES[drift.axisKey];
         if (completionTemplates) {
           const completionArray = isPositive ? completionTemplates.positive : completionTemplates.negative;
-          if (completionArray && completionArray.length > 0 && candidate.is_player && Math.random() < 0.5) {
+          if (completionArray && completionArray.length > 0 && !candidate.is_player && Math.random() < 0.3) {
             const completionTemplate = completionArray[Math.floor(Math.random() * completionArray.length)];
             eventDriftNews.push(substituteNewsVariables(
               completionTemplate,
