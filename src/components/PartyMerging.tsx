@@ -77,7 +77,7 @@ export default function PartyMerging() {
 
     const mergedParty = mergeParties(currentMerge.party1, currentMerge.party2, newPartyName.trim(), selectedLeader);
     const updatedParties = parties.filter(
-      p => p.party !== currentMerge.party1.party && p.party !== currentMerge.party2.party
+      p => p.id !== currentMerge.party1.id && p.id !== currentMerge.party2.id
     );
     updatedParties.push(mergedParty);
     setParties(updatedParties);
@@ -202,7 +202,7 @@ export default function PartyMerging() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
               {[currentMerge.party1, currentMerge.party2].map(party => (
                 <div
-                  key={party.party}
+                  key={party.id}
                   className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3"
                 >
                   <div className="flex items-start gap-3">
@@ -281,10 +281,10 @@ export default function PartyMerging() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[currentMerge.party1, currentMerge.party2].map(party => (
                     <button
-                      key={`${party.party}-leader`}
+                      key={`${party.id}-leader`}
                       type="button"
                       onClick={() => setSelectedLeader(party)}
-                      className={`text-left px-3 py-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${selectedLeader?.party === party.party
+                      className={`text-left px-3 py-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${selectedLeader?.id === party.id
                         ? 'border-yellow-400 bg-yellow-900/30 text-yellow-100'
                         : 'border-slate-600 bg-slate-800/40 text-slate-200 hover:border-yellow-600 hover:bg-slate-700/40'
                         }`}
@@ -298,7 +298,7 @@ export default function PartyMerging() {
                           <div className="text-xs font-semibold truncate">{party.name}</div>
                           <div className="text-[0.65rem] text-slate-400 truncate">{party.party}</div>
                         </div>
-                        {selectedLeader?.party === party.party && (
+                        {selectedLeader?.id === party.id && (
                           <span className="ml-auto campaign-status text-[0.6rem] text-yellow-400">✓ selected</span>
                         )}
                       </div>
