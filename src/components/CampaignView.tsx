@@ -111,7 +111,7 @@ export default function CampaignView() {
             </h1>
           </div>
           <div className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
-            <div className="campaign-board w-full mr-6 p-3 sm:p-4 rounded-lg text-white">
+            <div className="campaign-board w-full sm:mr-6 p-3 sm:p-4 rounded-lg text-white">
               <div className="w-full bg-slate-600 rounded-full h-2 mb-2 border border-slate-500">
                 <div
                   className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-500 relative overflow-hidden"
@@ -225,9 +225,9 @@ export default function CampaignView() {
                                 <div className="w-1 bg-red-500 rounded-full"></div>
                                 <div>
                                   <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-[10px] text-slate-400 font-mono italic">{newspaper}</span>
+                                    <span className="text-[10px] text-slate-400 font-mono italic truncate">{newspaper}</span>
                                   </div>
-                                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug break-words">
                                     {item.news}
                                   </h3>
                                   <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wide mt-1">
@@ -245,7 +245,7 @@ export default function CampaignView() {
                               <div className="flex items-center gap-1 mb-1">
                                 <span className="text-[10px] text-slate-400 font-mono italic truncate">{newspaper}</span>
                               </div>
-                              <h4 className="text-xs sm:text-sm font-medium text-slate-200 leading-snug">
+                              <h4 className="text-xs sm:text-sm font-medium text-slate-200 leading-snug break-words">
                                 {item.news}
                               </h4>
                             </div>
