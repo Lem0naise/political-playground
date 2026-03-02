@@ -101,10 +101,9 @@ export default function CampaignView() {
         <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 to-blue-900/20"></div>
         <div className="relative max-w-7xl mx-auto px-2 sm:px-4 py-1 sm:py-2">
           <div className="text-center mb-1 sm:mb-2">
-            <h1 className=" border-b border-red-500 pb-2 newspaper-header text-2xl sm:text-3xl font-black text-white mb-1 tracking-tight">
+            <h1 className="border-b border-red-500 pb-2 newspaper-header text-2xl sm:text-3xl font-black text-white mb-1 tracking-tight inline-block">
               THE POLITICAL PLAYGROUND
             </h1>
-
           </div>
           <div className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
             <div className="campaign-board w-full mr-6 p-3 sm:p-4 rounded-lg text-white">
@@ -155,7 +154,7 @@ export default function CampaignView() {
                 </div>
 
                 {(() => {
-                  const NEWS_SLOTS = 4;
+                  const NEWS_SLOTS = 8;
 
                   // Each trend gets a priority index based on how far through its lifetime it is.
                   // Fresh trends (remainingWeeks ≈ duration) → index 0 (top).

@@ -578,8 +578,8 @@ function CoalitionLog({ entries }: { entries: string[] }) {
     <div ref={ref} className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
       {entries.map((entry, i) => {
         const isMandate = entry.includes('mandate now passes') || entry.includes('minority government');
-        const isSuccess = /agrees to join|welcomed|enter|agreement reached|joined|agreed|enthusiastically/i.test(entry);
-        const isReject = /rejected|declined|declines|better|failed|refuses|disapproves|demands|walks away|refused|more|refused|broke down|gives up/i.test(entry);
+        const isSuccess = /accepts|agrees to join|welcomed|enter|agreement reached|joined|agreed|enthusiastically/i.test(entry);
+        const isReject = /rejected|declined|declines|better|failed|refuses|disapproves|demands|walks away|refused|sabotage|more|refused|broke down|gives up/i.test(entry);
         return (
           <div
             key={i}

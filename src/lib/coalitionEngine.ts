@@ -321,7 +321,9 @@ export function simulateCoalitionNegotiation(
   const compatibilityFactor = compatibility !== 0 ? Math.max(0, compatibility / 100) : 0;
   const scaledAppeal = (cabinetAppeal + policyAppeal) * compatibilityFactor;
 
-  let finalAppeal = baseWillingness + scaledAppeal;
+  // Add an RNG factor between -15 and +15 to introduce uncertainty
+  const rngFactor = (Math.random() * 30) - 15;
+  let finalAppeal = baseWillingness + scaledAppeal + rngFactor;
 
   if (DEBUG) {
     console.log('DEBUG: simulateCoalitionNegotiation', {
@@ -334,6 +336,7 @@ export function simulateCoalitionNegotiation(
       cabinetAppeal,
       policyResponses,
       policyAppeal,
+      rngFactor,
       finalAppeal
     });
   }
@@ -341,7 +344,7 @@ export function simulateCoalitionNegotiation(
 
   let message = '';
 
-  if (finalAppeal > 100) {
+  if (finalAppeal >= 100) {
     const options = [
       `${partnerParty.party} agrees to join the coalition!`,
       `${partnerParty.party} enthusiastically accepts the offer to form a government!`,
@@ -350,7 +353,7 @@ export function simulateCoalitionNegotiation(
     ];
     message = options[Math.floor(Math.random() * options.length)];
 
-  } else if (finalAppeal > 90) {
+  } else if (finalAppeal >= 90) {
     const options = [
       `${partnerParty.party} agrees to join the coalition after very careful consideration.`,
       `After intense internal debate, ${partnerParty.party} has decided to enter the coalition.`,
@@ -359,7 +362,7 @@ export function simulateCoalitionNegotiation(
     ];
     message = options[Math.floor(Math.random() * options.length)];
 
-  } else if (finalAppeal > 40) {
+  } else if (finalAppeal >= 40) {
     const options = [
       `${partnerParty.party} disapproves of the coalition terms.`,
       `${partnerParty.party} might be open to a coalition, but backbenchers sabotage the deal.`,
@@ -379,11 +382,6 @@ export function simulateCoalitionNegotiation(
     ];
     message = options[Math.floor(Math.random() * options.length)];
   }
-
-
-  // Add an RNG factor between -15 and +15 to introduce uncertainty
-  const rngFactor = (Math.random() * 30) - 15;
-  finalAppeal += rngFactor;
 
   return {
     success: finalAppeal >= 90,

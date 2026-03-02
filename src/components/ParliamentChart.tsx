@@ -9,32 +9,36 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function ParliamentChart({
     results,
     playerResult,
+    incumbentGovernment,
 }: {
     results: { candidate: Candidate; percentage: number }[];
     playerResult?: { candidate: Candidate; percentage: number };
+    incumbentGovernment?: string[];
 }) {
-    const data = useMemo(() => {
-        // Sort from Progressive (left) to Conservative (right) for standard parliament seating.
-        // Assuming vals[0] is prog_cons. If not available, it defaults to 0.
-        const sortedData = [...results].sort((a, b) => {
+    const sortedData = useMemo(() => {
+        return [...results].sort((a, b) => {
             const valA = a.candidate.vals?.[0] ?? 0;
             const valB = b.candidate.vals?.[0] ?? 0;
             return valA - valB;
         });
-
-        return {
-            labels: sortedData.map((r) => r.candidate.party),
-            datasets: [
-                {
-                    data: sortedData.map((r) => r.percentage),
-                    backgroundColor: sortedData.map((r) => r.candidate.colour || '#94a3b8'),
-                    borderColor: '#0f172a', // Slate 900
-                    borderWidth: 2,
-                    hoverOffset: 4,
-                },
-            ],
-        };
     }, [results]);
+
+    const data = useMemo(() => ({
+        labels: sortedData.map((r) => r.candidate.party),
+        datasets: [
+            {
+                data: sortedData.map((r) => r.percentage),
+                backgroundColor: sortedData.map((r) => r.candidate.colour || '#94a3b8'),
+                borderColor: sortedData.map((r) =>
+                    incumbentGovernment?.includes(r.candidate.party) ? '#ffffff' : '#0f172a'
+                ),
+                borderWidth: sortedData.map((r) =>
+                    incumbentGovernment?.includes(r.candidate.party) ? 4 : 2
+                ),
+                hoverOffset: 4,
+            },
+        ],
+    }), [sortedData, incumbentGovernment]);
 
     const options = {
         rotation: -90,
@@ -42,9 +46,7 @@ export default function ParliamentChart({
         cutout: '55%',
         maintainAspectRatio: false,
         plugins: {
-            legend: {
-                display: false,
-            },
+            legend: { display: false },
             tooltip: {
                 callbacks: {
                     label: (context: TooltipItem<'doughnut'>) => {
@@ -63,7 +65,7 @@ export default function ParliamentChart({
                     {playerResult ? `${playerResult.percentage.toFixed(1)}%` : '100%'}
                 </div>
                 <div className="text-[10px] sm:text-xs text-slate-500 font-mono uppercase tracking-widest mt-1 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {playerResult ? `${playerResult.candidate.party} Share` : 'Vote Share'}
+                    {playerResult ? `Your Votes` : 'Vote Share'}
                 </div>
             </div>
         </div>

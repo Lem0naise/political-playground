@@ -50,8 +50,8 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
           onClick={onViewGraph}
           disabled={!canViewGraph}
           className={`text-[10px] sm:text-xs font-semibold rounded px-2 py-1 border transition-colors ${canViewGraph
-              ? 'border-slate-400 text-slate-100 hover:bg-slate-600/60'
-              : 'border-slate-600 text-slate-400 opacity-60 cursor-not-allowed'
+            ? 'border-slate-400 text-slate-100 hover:bg-slate-600/60'
+            : 'border-slate-600 text-slate-400 opacity-60 cursor-not-allowed'
             }`}
         >
           View graph
@@ -67,8 +67,8 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             <div
               key={result.candidate.id}
               className={`p-1.5 sm:p-2 rounded-lg border relative overflow-hidden ${isPlayer
-                  ? 'border-yellow-400 bg-yellow-900/20'
-                  : 'border-slate-600 bg-slate-800/50'
+                ? 'border-yellow-400 bg-yellow-900/20'
+                : 'border-slate-600 bg-slate-800/50'
                 }`}
             >
               <div className="flex items-center justify-between mb-1">
@@ -126,7 +126,17 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
         })}
       </div>
 
-      <div className="pt-1 sm:pt-2 border-t border-slate-600">
+      <div className="pt-1 sm:pt-2 border-t border-slate-600 space-y-1.5">
+        {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
+          <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></div>
+            <span className="uppercase tracking-widest text-slate-500 text-[9px]">Incumbent PM</span>
+            <span className="text-slate-300 font-bold truncate">
+              {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
+            </span>
+            <span className="text-slate-500 truncate">({state.incumbentGovernment[0]})</span>
+          </div>
+        )}
         <div className="text-xs text-slate-300 font-mono">
           <div className="flex justify-between">
             <span>ESTIMATED TURNOUT:</span>
@@ -179,8 +189,8 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                             <button
                               onClick={() => actions.setTargetedBloc(isTargeted ? null : bloc.blocId)}
                               className={`text-xs px-1.5 py-0.5 rounded transition-all ${isTargeted
-                                  ? 'bg-yellow-500 text-slate-900 hover:bg-yellow-600 font-bold'
-                                  : 'bg-slate-600 text-slate-300 hover:bg-slate-500 border border-slate-500'
+                                ? 'bg-yellow-500 text-slate-900 hover:bg-yellow-600 font-bold'
+                                : 'bg-slate-600 text-slate-300 hover:bg-slate-500 border border-slate-500'
                                 }`}
                               title={isTargeted ? 'Stop analysing this bloc' : 'Analyse this voter bloc'}
                             >

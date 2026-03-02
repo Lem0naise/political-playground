@@ -8,7 +8,8 @@ import {
   scheduleNextTrendPoll,
   getVoterTransferMatrix,
   MAX_ACTIVE_TRENDS,
-  BlocStatistics
+  BlocStatistics,
+  checkForLeadershipChanges
 } from '@/lib/gameEngine';
 import {
   SURGE_MESSAGES,
@@ -313,8 +314,25 @@ export function calculateNextPollState(state: GameState): GameState {
     newPreviousResults[result.candidate.party] = result.percentage;
   });
 
+  // --- BEGIN: Check for AI Leadership Changes ---
+  const { candidates: activeCandidates, news: leadershipNews } = checkForLeadershipChanges(
+    state.candidates,
+    state.initialPollResults,
+    newPreviousResults,
+    state.eventVariables,
+    state.country
+  );
+  // --- END: Check for AI Leadership Changes ---
+
+  // Re-map results to point to the active candidates
+  const finalCandidatesMap = new Map(activeCandidates.map(c => [c.id, c]));
+  const finalNewResults = newResults.map(r => ({
+    ...r,
+    candidate: finalCandidatesMap.get(r.candidate.id) || r.candidate
+  }));
+
   // Calculate changes from previous poll
-  const resultsWithChange = newResults.map(result => ({
+  const resultsWithChange = finalNewResults.map(result => ({
     ...result,
     change: result.percentage - (state.previousPollResults[result.candidate.party] || result.percentage)
   }));
@@ -406,7 +424,7 @@ export function calculateNextPollState(state: GameState): GameState {
   const trendNews: string[] = [];
 
   // We process ALL candidates (including player)
-  state.candidates.forEach(candidate => {
+  activeCandidates.forEach(candidate => {
     // 1) Evaluate if they have an active PartyTrend
     if (candidate.trend && candidate.trend.weeksRemaining > 0) {
       candidate.trend.weeksRemaining -= 1;
@@ -494,9 +512,9 @@ export function calculateNextPollState(state: GameState): GameState {
   const DRIFT_TOTAL_MAX = 30;     // maximum total shift
   const positionShiftNews: string[] = [];
 
-  const nonPlayerCandidates = state.candidates.filter(c => !c.is_player);
+  const nonPlayerCandidates = activeCandidates.filter(c => !c.is_player);
   nonPlayerCandidates.forEach(candidate => {
-    const targetCandidate = state.candidates.find(c => c.name === candidate.name);
+    const targetCandidate = activeCandidates.find(c => c.id === candidate.id);
     if (!targetCandidate) return;
 
     // 1) Tick any in-progress drift first
@@ -612,7 +630,7 @@ export function calculateNextPollState(state: GameState): GameState {
   // EVENT_DRIFT_WEEKS. This is the same tick-down pattern as the AI ideologyDrift
   // but supports multiple concurrent axes from a single event.
   const eventDriftNews: string[] = [];
-  state.candidates.forEach(candidate => {
+  activeCandidates.forEach(candidate => {
     if (!candidate.eventDrifts || candidate.eventDrifts.length === 0) return;
 
     const stillActive: typeof candidate.eventDrifts = [];
@@ -668,22 +686,23 @@ export function calculateNextPollState(state: GameState): GameState {
     ...partyPollingNews,
     ...trendNews,
     ...positionShiftNews,
-    ...eventDriftNews
+    ...eventDriftNews,
+    ...leadershipNews
   ];
 
-  // Sort the combined array by word count in ascending order, then cap to 4 items.
+  // Sort the combined array by word count in ascending order, then cap to 6 items.
   const sortedPoliticalNews = allNewsItems.sort((a, b) => {
     if (Math.random() < 0.6) {
       return (a.split(' ').length - b.split(' ').length);
     }
     else { return 1; }
-  }).slice(0, 4);
+  }).slice(0, 8);
 
   // Calculate post-election stats if this is the final poll
   let postElectionStats: PostElectionStats | undefined = undefined;
   if (nextPollNum >= state.totalPolls) {
     // Compute voter transfers from initial poll to final poll
-    const candidateNames = state.candidates.map(c => c.party);
+    const candidateNames = activeCandidates.map(c => c.party);
     const rawTransfers = getVoterTransferMatrix(candidateNames);
     // Keep all transfers >=1% of the from-party's own voters (includes Not Voting on both sides)
     const significantTransfers = rawTransfers.filter(
@@ -709,7 +728,7 @@ export function calculateNextPollState(state: GameState): GameState {
   // Produce a new candidates array with fresh `vals` references so that React's
   // reference-equality check detects the per-poll ideology changes (drift, bloc
   // targeting, etc.) and re-renders components like IdeologyScatterPlot.
-  const freshCandidates = state.candidates.map(c => ({
+  const freshCandidates = activeCandidates.map(c => ({
     ...c,
     vals: [...c.vals],
     poll_percentage: newPreviousResults[c.party] || c.poll_percentage,
