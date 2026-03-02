@@ -68,7 +68,21 @@ export default function ResultsView() {
       <div className="max-w-7xl mx-auto space-y-3">
 
         {/* Header */}
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4 text-center">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4 text-center relative">
+          {/* Desktop PM indicator */}
+          {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
+            <div className="absolute left-3 top-3 hidden md:flex items-center gap-2 bg-slate-900/60 border border-slate-600 rounded-md px-3 py-1.5 shadow-sm" title="Leading the Incumbent Government">
+              <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shrink-0"></div>
+              <div className="text-left">
+                <div className="text-[9px] text-slate-400 font-mono tracking-widest uppercase">Incumbent PM</div>
+                <div className="text-xs font-bold text-slate-200 whitespace-nowrap">
+                  {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
+                  <span className="text-slate-400 font-normal ml-1">({state.incumbentGovernment[0]})</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           <h1 className="campaign-status text-2xl sm:text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">
             FINAL ELECTION RESULTS
           </h1>
@@ -78,6 +92,20 @@ export default function ResultsView() {
             <span>•</span>
             <span>{formatVotes(totalVotes, state.countryData.scale)} VOTES CAST</span>
           </div>
+
+          {/* Mobile PM indicator */}
+          {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
+            <div className="md:hidden mt-4 mx-auto flex items-center justify-center gap-2 bg-slate-900/60 border border-slate-600 rounded-md px-3 py-1.5 shadow-sm max-w-[280px]">
+              <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shrink-0"></div>
+              <div className="text-center truncate">
+                <div className="text-[9px] text-slate-400 font-mono tracking-widest uppercase">Incumbent PM</div>
+                <div className="text-xs font-bold text-slate-200 truncate">
+                  {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
+                  <span className="text-slate-400 font-normal ml-1">({state.incumbentGovernment[0]})</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Winner Announcement */}
