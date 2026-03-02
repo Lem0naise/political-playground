@@ -103,8 +103,7 @@ export default function ResultsView() {
             </div>
             {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
               <div className="mt-3 flex items-center justify-center gap-2 text-xs text-slate-400 font-mono">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></div>
-                <span className="uppercase tracking-widest text-slate-500">Incumbent</span>
+                <span className="uppercase tracking-widest text-slate-500">Incumbent PM:</span>
                 <span className="text-slate-300 font-bold">
                   {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
                 </span>

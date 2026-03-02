@@ -58,6 +58,15 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
         </button>
       </div>
 
+      {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
+        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400 mb-2">
+          <span className="text-slate-300 font-bold text-xs truncate">
+            PM: {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
+          </span>
+          <span className="text-slate-500 text-xs truncate">({state.incumbentGovernment[0]})</span>
+        </div>
+      )}
+
       <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
         {sortedResults.map((result, index) => {
           const isPlayer = result.candidate.is_player;
@@ -127,16 +136,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
       </div>
 
       <div className="pt-1 sm:pt-2 border-t border-slate-600 space-y-1.5">
-        {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
-          <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
-            <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></div>
-            <span className="uppercase tracking-widest text-slate-500 text-[9px]">Incumbent PM</span>
-            <span className="text-slate-300 font-bold truncate">
-              {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
-            </span>
-            <span className="text-slate-500 truncate">({state.incumbentGovernment[0]})</span>
-          </div>
-        )}
+
         <div className="text-xs text-slate-300 font-mono">
           <div className="flex justify-between">
             <span>ESTIMATED TURNOUT:</span>

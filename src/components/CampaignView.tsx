@@ -303,7 +303,16 @@ export default function CampaignView() {
           <div className="lg:col-span-2">
             <div className="campaign-board p-2 sm:p-3 rounded-lg lg:sticky lg:top-4">
               <h3 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2 text-center border-b border-slate-600 pb-1">
-                POLLING DATA
+
+                {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
+                  <div>
+                    <span className="font-bold text-xs truncate mr-2">
+                      PM: {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
+                    </span>
+                    <span className="text-slate-400 text-xs truncate">({state.incumbentGovernment[0]})</span>
+                  </div>
+                )}
+
               </h3>
               <PollResults
                 onViewGraph={() => setShowPollingGraph(true)}
