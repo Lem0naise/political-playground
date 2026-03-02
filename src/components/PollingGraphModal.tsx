@@ -61,8 +61,8 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
         backgroundColor: hexToRgba(color, 0.15),
         pointBackgroundColor: color,
         pointBorderColor: '#0f172a',
-        pointHoverRadius: 3,
-        pointRadius: 2,
+        pointHoverRadius: 4,
+        pointRadius: 2.5,
         fill: false,
         tension: 0.1,
       };
@@ -130,12 +130,7 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
     },
     plugins: {
       legend: {
-        position: 'bottom' as const,
-        labels: {
-          color: '#e2e8f0',
-          padding: 16,
-          usePointStyle: true,
-        },
+        display: false,
       },
       tooltip: {
         callbacks: {
@@ -156,24 +151,42 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-6xl rounded-xl bg-slate-700/25 border border-slate-700 shadow-2xl backdrop-blur-md"
-        style={{ minHeight: '70vh' }}
+        className="relative flex flex-col w-full max-w-6xl rounded-xl bg-slate-900/90 border border-slate-600 shadow-[0_0_40px_rgba(0,0,0,0.4)] backdrop-blur-lg"
+        style={{ height: '85vh', maxHeight: '900px' }}
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-slate-700 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-slate-700 px-6 py-4 bg-slate-800/50 rounded-t-xl shrink-0">
           <div>
-            <h2 className="text-lg font-bold text-white tracking-tight">Campaign Polling Trajectory</h2>
-            <p className="text-xs text-slate-300 font-mono">Tracking weekly polling averages by party</p>
+            <h2 className="text-xl font-bold text-white tracking-tight">Campaign Polling Trajectory</h2>
+            <p className="text-sm text-slate-300 font-mono">Tracking weekly polling averages by party</p>
           </div>
           <button
             onClick={onClose}
-            className="rounded-md border border-slate-600 px-3 py-1 text-xs font-semibold text-slate-200 hover:bg-slate-800"
+            className="rounded-md border border-slate-500 px-4 py-1.5 text-sm font-semibold text-slate-200 hover:bg-slate-700 bg-slate-800 transition-colors"
           >
             Close
           </button>
         </div>
-        <div className="h-[60vh] px-6 pb-6 pt-4">
-          <Line data={data} options={options} />
+        <div className="flex-1 px-6 pb-6 pt-4 flex flex-col min-h-0 bg-gradient-to-b from-transparent to-slate-900/50 rounded-b-xl">
+          <div className="flex-1 min-h-[300px] relative w-full pb-2 border-b border-slate-700/50">
+            <Line data={data} options={options} />
+          </div>
+          <div className="mt-4 max-h-[15vh] overflow-y-auto pr-2 custom-scrollbar shrink-0">
+            <div className="flex flex-wrap gap-x-3 gap-y-2 justify-center">
+              {candidates.map((candidate) => {
+                const color = candidate.colour || '#0f172a';
+                return (
+                  <div key={candidate.id} className="flex items-center gap-2 text-xs text-slate-200 bg-slate-800/80 px-2.5 py-1.5 rounded-md border border-slate-600/50 shadow-sm transition-all hover:bg-slate-700">
+                    <span
+                      className="w-3.5 h-3.5 rounded-full inline-block border border-white/50"
+                      style={{ backgroundColor: color }}
+                    ></span>
+                    <span className="font-medium whitespace-nowrap">{candidate.party}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -95,7 +95,7 @@ export default function CampaignView() {
   const canViewPollingGraph = state.pollingHistory.length > 0;
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8f6f0 0%, #e7e5e4 50%, #d6d3d1 100%)' }}>
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
       {/* Newspaper Header Banner */}
       <div className="bg-slate-900 text-white border-b-2 border-red-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 to-blue-900/20"></div>

@@ -7,6 +7,7 @@ import CabinetView from './CabinetView';
 import PollingGraphModal from './PollingGraphModal';
 import VoterFlowSankey from './VoterFlowSankey';
 import IdeologyScatterPlot from './IdeologyScatterPlot';
+import ParliamentChart from './ParliamentChart';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
@@ -151,6 +152,14 @@ export default function ResultsView() {
               />
             </div>
           )}
+        </div>
+
+        {/* Parliament Seating */}
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4 shadow-sm">
+          <h3 className="campaign-status text-sm sm:text-base font-bold text-yellow-400 mb-3 text-center tracking-wide">
+            SEATS WON - PARLIAMENT VIEW
+          </h3>
+          <ParliamentChart results={sortedResults} playerResult={playerResult} />
         </div>
 
         {/* Player Performance */}
@@ -438,6 +447,8 @@ export default function ResultsView() {
                   })}
               </div>
             </div>
+
+
 
             {/* Bloc Swings */}
             {state.postElectionStats.blocSwings.length > 0 && (

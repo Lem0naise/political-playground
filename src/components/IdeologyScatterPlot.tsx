@@ -44,6 +44,16 @@ export default function IdeologyScatterPlot({
     []
   );
 
+  const randomStrokeColors = useMemo(() => {
+    const map = new Map<number, string>();
+    candidates.forEach((c, idx) => {
+      // Golden angle approximation for well-distributed hues
+      const hue = (idx * 137.508) % 360;
+      map.set(c.id, `hsl(${hue}, 85%, 65%)`);
+    });
+    return map;
+  }, [candidates]);
+
   const points = useMemo(() => {
     const unique = new Map<number, Candidate>();
     candidates.forEach((c) => unique.set(c.id, c));
@@ -228,13 +238,13 @@ export default function IdeologyScatterPlot({
             {points.map(({ c, x, y }) => {
               const cx = toSvgX(x);
               const cy = toSvgY(y);
-              const r = c.is_player ? 6 : 5;
+              const r = c.is_player ? 9 : 7;
               return (
                 <g key={c.id}>
                   <circle
                     cx={cx}
                     cy={cy}
-                    r={r + 3}
+                    r={r + 4}
                     fill={c.is_player ? 'rgba(250,204,21,0.18)' : 'rgba(255,255,255,0.06)'}
                   />
                   <circle
@@ -242,8 +252,8 @@ export default function IdeologyScatterPlot({
                     cy={cy}
                     r={r}
                     fill={c.colour || '#94a3b8'}
-                    stroke={c.is_player ? 'rgba(250,204,21,0.95)' : 'rgba(255,255,255,0.85)'}
-                    strokeWidth={c.is_player ? 2 : 1}
+                    stroke={c.is_player ? 'rgba(250,204,21,0.95)' : (randomStrokeColors.get(c.id) || 'rgba(255,255,255,0.85)')}
+                    strokeWidth={c.is_player ? 2.5 : 2}
                   >
                     <title>
                       {`${c.party}${c.is_player ? ' (You)' : ''}\n${xMeta.label}: ${x.toFixed(0)}\n${yMeta.label}: ${y.toFixed(0)}`}
@@ -257,12 +267,15 @@ export default function IdeologyScatterPlot({
 
         <div className="mt-2 border-t border-slate-700 pt-2">
           <div className="text-[10px] text-slate-400 mb-1">Legend</div>
-          <div className="flex flex-wrap gap-x-3 gap-y-1.5 max-h-24 overflow-auto pr-1">
+          <div className="flex flex-wrap gap-x-3 gap-y-1.5 max-h-24 overflow-auto pr-1 custom-scrollbar">
             {points.map(({ c }) => (
-              <div key={`legend-${c.id}`} className="flex items-center gap-2 text-[11px] text-slate-200">
+              <div key={`legend-${c.id}`} className="flex items-center gap-2 text-[11px] text-slate-200 bg-slate-800/50 px-1.5 py-0.5 rounded border border-slate-700/50">
                 <span
-                  className="w-2.5 h-2.5 rounded-full border border-white/80 flex-shrink-0"
-                  style={{ backgroundColor: c.colour || '#94a3b8' }}
+                  className="w-3 h-3 rounded-full border-[1.5px] flex-shrink-0"
+                  style={{ 
+                    backgroundColor: c.colour || '#94a3b8', 
+                    borderColor: c.is_player ? 'rgba(250,204,21,0.95)' : (randomStrokeColors.get(c.id) || 'rgba(255,255,255,0.85)')
+                  }}
                 ></span>
                 <span className={c.is_player ? 'text-yellow-300 font-semibold' : ''}>{c.party}</span>
               </div>
