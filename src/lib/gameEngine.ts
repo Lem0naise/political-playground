@@ -71,7 +71,7 @@ export function checkForLeadershipChanges(
     const currentPolling = currentResults[candidate.party];
     if (currentPolling === undefined) return candidate;
 
-    // Threshold: dropping below 50% of initial level AND initial was decent (e.g., > 1%)
+    // Threshold: dropping more than 50% of initial level AND initial was decent (e.g., > 1%)
     if (initialPolling >= 1 && currentPolling < initialPolling * 0.5) {
       // 10% chance per week they are below the threshold
       if (Math.random() < 0.1) {
