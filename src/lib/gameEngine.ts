@@ -73,8 +73,8 @@ export function checkForLeadershipChanges(
 
     // Threshold: dropping below 50% of initial level AND initial was decent (e.g., > 1%)
     if (initialPolling >= 1 && currentPolling < initialPolling * 0.5) {
-      // 2% chance per week they are below the threshold
-      if (Math.random() < 0.02) {
+      // 10% chance per week they are below the threshold
+      if (Math.random() < 0.1) {
         const oldName = candidate.name;
         const newName = generateLeaderName(eventVariables, country);
 
