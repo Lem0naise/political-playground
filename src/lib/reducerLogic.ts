@@ -411,8 +411,12 @@ export function calculateNextPollState(state: GameState): GameState {
         // High chance to generate news
         if (Math.random() < 0.6) {
           const template = OVERTAKE_TEMPLATES[Math.floor(Math.random() * OVERTAKE_TEMPLATES.length)];
-          let headline = template.replace(/\{partyA\}/g, partyA.candidate.party)
-            .replace(/\{partyB\}/g, partyB.candidate.party);
+          let headline = substituteNewsVariables(
+            template,
+            { partyA: partyA.candidate.party, partyB: partyB.candidate.party },
+            state.eventVariables,
+            state.country
+          );
           partyPollingNews.push(headline);
         }
       }
