@@ -100,37 +100,10 @@ export default function CampaignView() {
       <div className="bg-slate-900 text-white border-b-2 border-red-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 to-blue-900/20"></div>
         <div className="relative max-w-7xl mx-auto px-2 sm:px-4 py-1 sm:py-2">
-          <div className="text-center mb-1 sm:mb-2 relative">
-            {/* Desktop PM indicator */}
-            {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
-              <div className="absolute left-0 top-0 hidden md:flex items-center gap-2 bg-slate-800/90 border border-slate-700 rounded-md px-3 py-1.5 shadow-sm" title="Leading the Incumbent Government">
-                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shrink-0"></div>
-                <div className="text-left">
-                  <div className="text-[9px] text-slate-400 font-mono tracking-widest uppercase">Prime Minister</div>
-                  <div className="text-xs font-bold text-slate-200 whitespace-nowrap">
-                    {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
-                    <span className="text-slate-400 font-normal ml-1 truncate">({state.incumbentGovernment[0]})</span>
-                  </div>
-                </div>
-              </div>
-            )}
+          <div className="text-center mb-1 sm:mb-2">
             <h1 className="border-b border-red-500 pb-2 newspaper-header text-2xl sm:text-3xl font-black text-white mb-1 tracking-tight inline-block">
               THE POLITICAL PLAYGROUND
             </h1>
-
-            {/* Mobile PM indicator */}
-            {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
-              <div className="md:hidden mt-2 mb-2 mx-auto flex items-center justify-center gap-2 bg-slate-800/90 border border-slate-700 rounded-md px-3 py-1.5 shadow-sm max-w-[280px]">
-                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shrink-0"></div>
-                <div className="text-center truncate">
-                  <div className="text-[9px] text-slate-400 font-mono tracking-widest uppercase">Prime Minister</div>
-                  <div className="text-xs font-bold text-slate-200 truncate">
-                    {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
-                    <span className="text-slate-400 font-normal ml-1">({state.incumbentGovernment[0]})</span>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
           <div className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
             <div className="campaign-board w-full mr-6 p-3 sm:p-4 rounded-lg text-white">
