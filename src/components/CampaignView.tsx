@@ -181,7 +181,7 @@ export default function CampaignView() {
                 </div>
 
                 {(() => {
-                  const NEWS_SLOTS = 4;
+                  const NEWS_SLOTS = 8;
 
                   // Each trend gets a priority index based on how far through its lifetime it is.
                   // Fresh trends (remainingWeeks ≈ duration) → index 0 (top).

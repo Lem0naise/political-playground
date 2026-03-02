@@ -38,6 +38,73 @@ export function createCandidate(
   };
 }
 
+export function generateLeaderName(eventVariables: any, country: string): string {
+  let firstNames = eventVariables?.generic?.firstNames || [];
+  let lastNames = eventVariables?.generic?.lastNames || [];
+
+  // Fallback if not populated
+  if (firstNames.length === 0) firstNames = ["Chris", "Alex", "Sam", "Taylor", "Jordan", "Morgan", "Casey"];
+  if (lastNames.length === 0) lastNames = ["Smith", "Jones", "Williams", "Taylor", "Brown", "Davies", "Evans"];
+
+  const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+
+  return `${first} ${last}`;
+}
+
+export function checkForLeadershipChanges(
+  candidates: Candidate[],
+  initialPollResults: Record<string, number>,
+  currentResults: Record<string, number>,
+  eventVariables: any,
+  country: string
+): { candidates: Candidate[]; news: string[] } {
+  const news: string[] = [];
+  const updatedCandidates = candidates.map(candidate => {
+    // Only AI parties consider changing leaders
+    if (candidate.is_player) return candidate;
+
+    // Must be tracking the party's initial polling
+    const initialPolling = initialPollResults[candidate.party];
+    if (initialPolling === undefined) return candidate;
+
+    const currentPolling = currentResults[candidate.party];
+    if (currentPolling === undefined) return candidate;
+
+    // Threshold: dropping below 50% of initial level AND initial was decent (e.g., > 1%)
+    if (initialPolling >= 1 && currentPolling < initialPolling * 0.5) {
+      // 2% chance per week they are below the threshold
+      if (Math.random() < 0.02) {
+        const oldName = candidate.name;
+        const newName = generateLeaderName(eventVariables, country);
+
+        // Slightly reset base utility modifier to give the new leader a chance
+        const baseModifierReset = Math.max(0, (candidate.base_utility_modifier || 0) + 1.5);
+
+        const newsOptions = [
+          `Following nosedive in polls, ${oldName} resigns as leader of ${candidate.party}`,
+          `${candidate.party} shakeup:  ${oldName} replaced by ${newName}`,
+          `${candidate.party} revolt! ${oldName} out, ${newName} in`,
+          `Leadership crisis in ${candidate.party} - ${newName} replaces ${oldName}`,
+          `${newName} announced as new leader of ${candidate.party}`
+        ];
+        news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+        news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+
+
+        return {
+          ...candidate,
+          name: newName,
+          base_utility_modifier: baseModifierReset,
+        };
+      }
+    }
+    return candidate;
+  });
+
+  return { candidates: updatedCandidates, news };
+}
+
 const TREND_INTERVAL_MIN = 2;
 const TREND_INTERVAL_MAX = 4;
 const TREND_VOTER_NOISE = 0.35;
