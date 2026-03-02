@@ -85,10 +85,15 @@ export default function CampaignView() {
     }
   }, [state.currentPoll, events, eventVariables, lastEventPoll, state.country]);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0 });
+  };
+
   const handleEventChoice = (event: Event, choice: EventChoice) => {
     actions.handleEvent(event, choice);
     actions.nextPoll();
     setCurrentEvent(null);
+    scrollToTop();
   };
 
   const weeksLeft = state.totalPolls - state.currentPoll;
@@ -260,14 +265,20 @@ export default function CampaignView() {
                 <div className="relative">
                   {state.currentPoll === 0 ? (
                     <button
-                      onClick={actions.startCampaign}
+                      onClick={() => {
+                        actions.startCampaign();
+                        scrollToTop();
+                      }}
                       className="px-6 sm:px-8 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
                     >
                       LAUNCH CAMPAIGN
                     </button>
                   ) : (
                     <button
-                      onClick={actions.nextPoll}
+                      onClick={() => {
+                        actions.nextPoll();
+                        scrollToTop();
+                      }}
                       className="px-6 sm:px-8 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 campaign-status text-sm sm:text-base shadow-lg w-full sm:w-auto"
                     >
                       {state.currentPoll === state.totalPolls - 1 ? 'FINAL POLLING' : 'CONTINUE >'}
