@@ -71,10 +71,17 @@ export function checkForLeadershipChanges(
     const currentPolling = currentResults[candidate.party];
     if (currentPolling === undefined) return candidate;
 
-    // Threshold: dropping more than 50% of initial level AND initial was decent (e.g., > 1%)
-    if (initialPolling >= 1 && currentPolling < initialPolling * 0.5) {
-      // 10% chance per week they are below the threshold
-      if (Math.random() < 0.1) {
+    // Scaling threshold: chance increases as poll drop increases
+    if (initialPolling >= 1 && currentPolling < initialPolling) {
+      const dropPercentage = (initialPolling - currentPolling) / initialPolling;
+
+      // Scaling probability:
+      // Drop 30% -> ~1.3% chance
+      // Drop 50% -> 10% chance
+      // Drop 90% -> ~100% chance
+      const leadershipChangeProb = Math.min(1, 1.6 * Math.pow(dropPercentage, 4));
+
+      if (Math.random() < leadershipChangeProb) {
         const oldName = candidate.name;
         const newName = generateLeaderName(eventVariables, country);
 
