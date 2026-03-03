@@ -1,4 +1,4 @@
-import { GameState, PoliticalValues, PostElectionStats, BlocSwingData, PartyBlocSupport, TARGET_SHIFT } from '@/types/game';
+import { GameState, PoliticalValues, PostElectionStats, BlocSwingData, PartyBlocSupport } from '@/types/game';
 import { EventVariables } from '@/lib/eventTemplates';
 import {
   applyTrendStep,
@@ -282,31 +282,6 @@ export function calculateNextPollState(state: GameState): GameState {
 
   const { results: newResults, newsEvents, blocStats: newBlocStats } = conductPoll(votingDataRef, state.candidates, nextPollNum, countryDataAfterTrend);
 
-  // --- BEGIN: Apply bloc targeting ideology shift ---
-  let updatedTargetedBlocId = state.targetedBlocId ?? null;
-  let updatedTargetingStartWeek = state.targetingStartWeek ?? null;
-  let updatedTargetingWeeksActive = state.targetingWeeksActive ?? 0;
-
-  if (updatedTargetedBlocId && countryDataAfterTrend.blocs) {
-    const targetedBloc = countryDataAfterTrend.blocs.find(b => b.id === updatedTargetedBlocId);
-    if (targetedBloc) {
-      const playerCandidate = state.candidates.find(c => c.is_player);
-      if (playerCandidate) {
-        // Increment the counter each poll while actively targeting
-        updatedTargetingWeeksActive += 1;
-
-        // Apply ideology shift every week of targeting
-        AXIS_KEYS.forEach((key, index) => {
-          const currentValue = playerCandidate.vals[index];
-          const targetValue = targetedBloc.center[key];
-          const difference = targetValue - currentValue;
-          const shift = difference * TARGET_SHIFT;
-          playerCandidate.vals[index] = Math.max(-100, Math.min(100, currentValue + shift));
-        });
-      }
-    }
-  }
-  // --- END: Apply bloc targeting ideology shift ---
 
   // Update previous poll results
   const newPreviousResults: Record<string, number> = {};
@@ -756,9 +731,6 @@ export function calculateNextPollState(state: GameState): GameState {
     previousBlocStats: state.blocStats,
     blocStatsHistory: updatedBlocStatsHistory,
     postElectionStats,
-    targetedBlocId: updatedTargetedBlocId,
-    targetingStartWeek: updatedTargetingStartWeek,
-    targetingWeeksActive: updatedTargetingWeeksActive,
     pollingHistory: [
       ...state.pollingHistory,
       {
