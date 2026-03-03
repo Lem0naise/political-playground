@@ -112,7 +112,8 @@
           "nat_glob": 1.1
         }
       }
-    ]
+    ],
+    "nameStyle": "anglo"
   },
   "USA": {
     "pop": 35000,
@@ -192,7 +193,7 @@
         "id": "libertarian_disrupters",
         "weight": 0.08,
         "variance": 30,
-        "turnout": 0.80,
+        "turnout": 0.8,
         "center": {
           "prog_cons": 20,
           "nat_glob": -80,
@@ -228,7 +229,8 @@
           "prog_cons": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "anglo"
   },
   "CANADA": {
     "pop": 38250,
@@ -266,7 +268,7 @@
       },
       {
         "id": "working_class_squeezed",
-        "weight": 0.30,
+        "weight": 0.3,
         "variance": 42,
         "turnout": 0.9,
         "center": {
@@ -286,7 +288,7 @@
       },
       {
         "id": "suburban_moderates",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 45,
         "turnout": 0.9,
         "center": {
@@ -326,7 +328,7 @@
       },
       {
         "id": "quebec_sovereigntists",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 30,
         "turnout": 0.9,
         "center": {
@@ -344,7 +346,8 @@
           "env_eco": 0.8
         }
       }
-    ]
+    ],
+    "nameStyle": "anglo"
   },
   "AUSTRALIA": {
     "pop": 26000,
@@ -446,7 +449,7 @@
       },
       {
         "id": "climate_activists",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 18,
         "turnout": 0.92,
         "center": {
@@ -465,7 +468,8 @@
           "nat_glob": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "anglo"
   },
   "BRAZIL": {
     "pop": 21500,
@@ -581,7 +585,8 @@
           "prog_cons": 1.7
         }
       }
-    ]
+    ],
+    "nameStyle": "portuguese"
   },
   "ARGENTINA": {
     "pop": 4580,
@@ -679,7 +684,7 @@
       },
       {
         "id": "squeezed_informal_workers",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 35,
         "turnout": 0.9,
         "center": {
@@ -696,7 +701,8 @@
           "auth_ana": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "hispanic"
   },
   "CHILE": {
     "pop": 1960,
@@ -714,7 +720,7 @@
     "blocs": [
       {
         "id": "radical_student_left",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 18,
         "turnout": 0.85,
         "center": {
@@ -755,7 +761,7 @@
       },
       {
         "id": "traditional_right_elite",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 25,
         "turnout": 0.89,
         "center": {
@@ -796,7 +802,7 @@
       },
       {
         "id": "disenchanted_working_class",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 35,
         "turnout": 0.82,
         "center": {
@@ -814,7 +820,8 @@
           "soc_cap": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "hispanic"
   },
   "GERMANY": {
     "pop": 85029,
@@ -834,7 +841,7 @@
         "id": "christian_democrats",
         "weight": 0.28,
         "variance": 28,
-        "turnout": 0.80,
+        "turnout": 0.8,
         "center": {
           "prog_cons": 10,
           "nat_glob": 60,
@@ -852,7 +859,7 @@
       },
       {
         "id": "social_democrats",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 26,
         "turnout": 0.78,
         "center": {
@@ -950,7 +957,8 @@
           "nat_glob": 1.6
         }
       }
-    ]
+    ],
+    "nameStyle": "german"
   },
   "FRANCE": {
     "pop": 67212,
@@ -1049,7 +1057,7 @@
       },
       {
         "id": "ecological_secularists",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 40,
         "turnout": 0.9,
         "center": {
@@ -1067,7 +1075,8 @@
           "prog_cons": 1.1
         }
       }
-    ]
+    ],
+    "nameStyle": "french"
   },
   "ITALY": {
     "pop": 59110,
@@ -1167,7 +1176,7 @@
       },
       {
         "id": "radical_greens_left",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 32,
         "turnout": 0.9,
         "center": {
@@ -1185,7 +1194,8 @@
           "pac_mil": 1.4
         }
       }
-    ]
+    ],
+    "nameStyle": "italian"
   },
   "SPAIN": {
     "pop": 47421,
@@ -1300,7 +1310,8 @@
           "rel_sec": 1.4
         }
       }
-    ]
+    ],
+    "nameStyle": "hispanic"
   },
   "POLAND": {
     "pop": 37950,
@@ -1399,7 +1410,7 @@
       },
       {
         "id": "secular_progressive_youth",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 45,
         "turnout": 0.9,
         "center": {
@@ -1417,7 +1428,8 @@
           "env_eco": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "slavic"
   },
   "SWEDEN": {
     "pop": 10450,
@@ -1431,7 +1443,8 @@
       "rel_sec": 75
     },
     "scale": 1000,
-    "hos": "King Carl XVI Gustaf"
+    "hos": "King Carl XVI Gustaf",
+    "nameStyle": "nordic"
   },
   "NORWAY": {
     "pop": 5425,
@@ -1449,7 +1462,7 @@
     "blocs": [
       {
         "id": "welfare_traditionalists",
-        "weight": 0.30,
+        "weight": 0.3,
         "variance": 20,
         "turnout": 0.82,
         "center": {
@@ -1547,7 +1560,8 @@
           "env_eco": 1.5
         }
       }
-    ]
+    ],
+    "nameStyle": "nordic"
   },
   "MEXICO": {
     "pop": 12770,
@@ -1561,7 +1575,7 @@
       "rel_sec": 23
     },
     "scale": 10000,
-    "hos": "Andrés Manuel López Obrador",
+    "hos": "Andr\u00e9s Manuel L\u00f3pez Obrador",
     "blocs": [
       {
         "id": "morena_populists",
@@ -1585,7 +1599,7 @@
       },
       {
         "id": "catholic_conservatives",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 25,
         "turnout": 0.65,
         "center": {
@@ -1665,7 +1679,8 @@
           "prog_cons": 0.8
         }
       }
-    ]
+    ],
+    "nameStyle": "hispanic"
   },
   "FINLAND": {
     "pop": 5541,
@@ -1723,7 +1738,7 @@
       },
       {
         "id": "welfare_loyalists",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 40,
         "turnout": 0.9,
         "center": {
@@ -1781,7 +1796,8 @@
           "env_eco": 0.5
         }
       }
-    ]
+    ],
+    "nameStyle": "nordic"
   },
   "DENMARK": {
     "pop": 5843,
@@ -1840,7 +1856,7 @@
       },
       {
         "id": "market_liberals",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 25,
         "turnout": 0.87,
         "center": {
@@ -1899,7 +1915,8 @@
           "rel_sec": 0.6
         }
       }
-    ]
+    ],
+    "nameStyle": "nordic"
   },
   "BELGIUM": {
     "pop": 11843,
@@ -1978,7 +1995,7 @@
       },
       {
         "id": "socialist_solidarity_bloc",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 32,
         "turnout": 0.9,
         "center": {
@@ -2016,7 +2033,8 @@
           "nat_glob": 1.4
         }
       }
-    ]
+    ],
+    "nameStyle": "french"
   },
   "NETHERLANDS": {
     "pop": 17700,
@@ -2074,7 +2092,7 @@
       },
       {
         "id": "green_left_socialists",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 30,
         "turnout": 0.9,
         "center": {
@@ -2132,7 +2150,8 @@
           "env_eco": 0.7
         }
       }
-    ]
+    ],
+    "nameStyle": "dutch"
   },
   "SWITZERLAND": {
     "pop": 8700,
@@ -2267,7 +2286,8 @@
           "nat_glob": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "german"
   },
   "IRELAND": {
     "pop": 6012,
@@ -2382,7 +2402,8 @@
           "auth_ana": 1.5
         }
       }
-    ]
+    ],
+    "nameStyle": "anglo"
   },
   "AUSTRIA": {
     "pop": 9212,
@@ -2498,7 +2519,8 @@
           "nat_glob": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "german"
   },
   "GREECE": {
     "pop": 10430,
@@ -2616,7 +2638,8 @@
           "env_eco": 1.1
         }
       }
-    ]
+    ],
+    "nameStyle": "greek"
   },
   "PORTUGAL": {
     "pop": 10120,
@@ -2634,7 +2657,7 @@
     "blocs": [
       {
         "id": "urban_socialists",
-        "weight": 0.30,
+        "weight": 0.3,
         "variance": 28,
         "turnout": 0.9,
         "center": {
@@ -2733,7 +2756,8 @@
           "prog_cons": 1.6
         }
       }
-    ]
+    ],
+    "nameStyle": "portuguese"
   },
   "EU": {
     "pop": 44812,
@@ -2850,7 +2874,8 @@
           "nat_glob": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "anglo"
   },
   "RUSSIA": {
     "pop": 14300,
@@ -2967,7 +2992,8 @@
           "auth_ana": 1.4
         }
       }
-    ]
+    ],
+    "nameStyle": "slavic"
   },
   "UKRAINE": {
     "pop": 38410,
@@ -3005,7 +3031,7 @@
       },
       {
         "id": "exhausted_realists",
-        "weight": 0.30,
+        "weight": 0.3,
         "variance": 30,
         "turnout": 0.85,
         "center": {
@@ -3083,7 +3109,8 @@
           "soc_cap": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "slavic"
   },
   "CHINA": {
     "pop": 142500,
@@ -3122,7 +3149,7 @@
       },
       {
         "id": "tech_nationalist_professionals",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 25,
         "turnout": 0.9,
         "center": {
@@ -3162,7 +3189,7 @@
       },
       {
         "id": "liberal_urban_dissenters",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 35,
         "turnout": 0.9,
         "center": {
@@ -3182,7 +3209,7 @@
       },
       {
         "id": "marginalized_rural_traditionalists",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 28,
         "turnout": 0.9,
         "center": {
@@ -3200,7 +3227,8 @@
           "env_eco": 0.6
         }
       }
-    ]
+    ],
+    "nameStyle": "chinese"
   },
   "INDIA": {
     "pop": 142800,
@@ -3259,9 +3287,9 @@
       },
       {
         "id": "regional_identitarians",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 35,
-        "turnout": 0.70,
+        "turnout": 0.7,
         "center": {
           "prog_cons": 40,
           "nat_glob": -50,
@@ -3281,7 +3309,7 @@
         "id": "urban_aspirational",
         "weight": 0.12,
         "variance": 25,
-        "turnout": 0.60,
+        "turnout": 0.6,
         "center": {
           "prog_cons": 10,
           "nat_glob": 30,
@@ -3317,7 +3345,8 @@
           "prog_cons": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "indian"
   },
   "JAPAN": {
     "pop": 12395,
@@ -3335,7 +3364,7 @@
     "blocs": [
       {
         "id": "conservative_establishment",
-        "weight": 0.30,
+        "weight": 0.3,
         "variance": 24,
         "turnout": 0.68,
         "center": {
@@ -3433,7 +3462,8 @@
           "soc_cap": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "japanese"
   },
   "SOUTH KOREA": {
     "pop": 5178,
@@ -3471,7 +3501,7 @@
       },
       {
         "id": "liberal_democrats",
-        "weight": 0.30,
+        "weight": 0.3,
         "variance": 25,
         "turnout": 0.74,
         "center": {
@@ -3511,9 +3541,9 @@
       },
       {
         "id": "progressive_young_women",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 15,
-        "turnout": 0.70,
+        "turnout": 0.7,
         "center": {
           "prog_cons": -90,
           "nat_glob": 30,
@@ -3549,7 +3579,8 @@
           "nat_glob": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "korean"
   },
   "INDONESIA": {
     "pop": 27550,
@@ -3607,7 +3638,7 @@
       },
       {
         "id": "orthodox_islamists",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 22,
         "turnout": 0.78,
         "center": {
@@ -3627,7 +3658,7 @@
       },
       {
         "id": "resource_oligarchs",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 25,
         "turnout": 0.75,
         "center": {
@@ -3647,7 +3678,7 @@
       },
       {
         "id": "urban_reformers",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 20,
         "turnout": 0.79,
         "center": {
@@ -3665,7 +3696,8 @@
           "prog_cons": 1.5
         }
       }
-    ]
+    ],
+    "nameStyle": "indonesian"
   },
   "TURKEY": {
     "pop": 87000,
@@ -3679,7 +3711,7 @@
       "rel_sec": -40
     },
     "scale": 1000,
-    "hos": "Recep Tayyip Erdoğan",
+    "hos": "Recep Tayyip Erdo\u011fan",
     "blocs": [
       {
         "id": "anatolian_conservatives",
@@ -3783,7 +3815,8 @@
           "prog_cons": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "turkish"
   },
   "IRAN": {
     "pop": 8855,
@@ -3822,7 +3855,7 @@
       },
       {
         "id": "z_generation_dissenters",
-        "weight": 0.30,
+        "weight": 0.3,
         "variance": 28,
         "turnout": 0.9,
         "center": {
@@ -3883,7 +3916,7 @@
       },
       {
         "id": "marginalized_ethnic_minorities",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 35,
         "turnout": 0.9,
         "center": {
@@ -3901,7 +3934,8 @@
           "soc_cap": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "persian"
   },
   "SAUDI ARABIA": {
     "pop": 3640,
@@ -3915,7 +3949,8 @@
       "rel_sec": -95
     },
     "scale": 10000,
-    "hos": "King Salman"
+    "hos": "King Salman",
+    "nameStyle": "arabic"
   },
   "ISRAEL": {
     "pop": 955,
@@ -4031,7 +4066,8 @@
           "soc_cap": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "hebrew"
   },
   "EGYPT": {
     "pop": 10930,
@@ -4110,7 +4146,7 @@
       },
       {
         "id": "underground_traditionalists",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 15,
         "turnout": 0.9,
         "center": {
@@ -4148,7 +4184,8 @@
           "soc_cap": 1.1
         }
       }
-    ]
+    ],
+    "nameStyle": "arabic"
   },
   "SOUTH AFRICA": {
     "pop": 6041,
@@ -4228,7 +4265,7 @@
       },
       {
         "id": "radical_socialists",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 32,
         "turnout": 0.9,
         "center": {
@@ -4286,7 +4323,8 @@
           "nat_glob": 1.2
         }
       }
-    ]
+    ],
+    "nameStyle": "anglo"
   },
   "NIGERIA": {
     "pop": 21850,
@@ -4300,7 +4338,8 @@
       "rel_sec": -80
     },
     "scale": 10000,
-    "hos": "Bola Tinubu"
+    "hos": "Bola Tinubu",
+    "nameStyle": "african"
   },
   "KENYA": {
     "pop": 5400,
@@ -4359,7 +4398,7 @@
       },
       {
         "id": "mount_kenya_pragmatists",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 35,
         "turnout": 0.9,
         "center": {
@@ -4417,7 +4456,8 @@
           "soc_cap": 1.1
         }
       }
-    ]
+    ],
+    "nameStyle": "african"
   },
   "SOMALIA": {
     "pop": 17000,
@@ -4431,7 +4471,8 @@
       "rel_sec": -90
     },
     "scale": 1000,
-    "hos": "Hassan Sheikh Mohamud"
+    "hos": "Hassan Sheikh Mohamud",
+    "nameStyle": "african"
   },
   "NORTH KOREA": {
     "pop": 25083,
@@ -4445,7 +4486,8 @@
       "rel_sec": 100
     },
     "scale": 1000,
-    "hos": "Kim Jong Un"
+    "hos": "Kim Jong Un",
+    "nameStyle": "korean"
   },
   "SOVIET UNION 1925": {
     "pop": 14000,
@@ -4459,7 +4501,8 @@
       "rel_sec": 95
     },
     "scale": 10000,
-    "hos": "Alexei Rykov"
+    "hos": "Alexei Rykov",
+    "nameStyle": "slavic"
   },
   "SOVIET UNION 1991": {
     "pop": 29000,
@@ -4497,7 +4540,7 @@
       },
       {
         "id": "urban_intelligentsia",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 30,
         "turnout": 0.9,
         "center": {
@@ -4536,7 +4579,7 @@
       },
       {
         "id": "republic_nationalists",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 30,
         "turnout": 0.9,
         "center": {
@@ -4553,7 +4596,8 @@
           "auth_ana": 1.5
         }
       }
-    ]
+    ],
+    "nameStyle": "slavic"
   },
   "ROMAN EMPIRE 117 AD": {
     "pop": 6500,
@@ -4567,7 +4611,8 @@
       "rel_sec": -85
     },
     "scale": 10000,
-    "hos": "Emperor Trajan"
+    "hos": "Emperor Trajan",
+    "nameStyle": "italian"
   },
   "AIRSTRIP ONE": {
     "pop": 4000,
@@ -4644,7 +4689,8 @@
           "env_eco": 0.1
         }
       }
-    ]
+    ],
+    "nameStyle": "anglo"
   },
   "SORDLAND": {
     "pop": 3512,
@@ -4658,7 +4704,8 @@
       "rel_sec": 12
     },
     "scale": 10000,
-    "hos": "Anton Rayne"
+    "hos": "Anton Rayne",
+    "nameStyle": "slavic"
   },
   "KRESIMIRIA, REPUBLIC OF": {
     "pop": 8520,
@@ -4676,7 +4723,7 @@
     "blocs": [
       {
         "id": "statist_establishment",
-        "weight": 0.30,
+        "weight": 0.3,
         "variance": 15,
         "turnout": 0.85,
         "center": {
@@ -4716,7 +4763,7 @@
       },
       {
         "id": "northern_eco_socialists",
-        "weight": 0.20,
+        "weight": 0.2,
         "variance": 20,
         "turnout": 0.85,
         "center": {
@@ -4757,7 +4804,7 @@
       },
       {
         "id": "bosken_separatists",
-        "weight": 0.10,
+        "weight": 0.1,
         "variance": 10,
         "turnout": 0.95,
         "center": {
@@ -4777,7 +4824,8 @@
           "prog_cons": 0.1
         }
       }
-    ]
+    ],
+    "nameStyle": "slavic"
   },
   "YUGOSLAVIA 1990": {
     "pop": 23230,
@@ -4791,7 +4839,7 @@
       "rel_sec": 15
     },
     "scale": 10000,
-    "hos": "Slobodan Milošević",
+    "hos": "Slobodan Milo\u0161evi\u0107",
     "blocs": [
       {
         "id": "serb_national_centralists",
@@ -4896,7 +4944,8 @@
           "env_eco": 0.3
         }
       }
-    ]
+    ],
+    "nameStyle": "slavic"
   },
   "ESTONIA": {
     "pop": 1330,
@@ -5015,7 +5064,8 @@
           "pac_mil": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "baltic"
   },
   "CZECHIA": {
     "pop": 10510,
@@ -5132,7 +5182,8 @@
           "auth_ana": 1.3
         }
       }
-    ]
+    ],
+    "nameStyle": "slavic"
   },
   "URUGUAY": {
     "pop": 3420,
@@ -5146,6 +5197,7 @@
       "rel_sec": 95
     },
     "scale": 10000,
-    "hos": "Luis Lacalle Pou"
+    "hos": "Luis Lacalle Pou",
+    "nameStyle": "hispanic"
   }
 }

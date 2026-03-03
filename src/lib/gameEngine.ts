@@ -2,6 +2,8 @@ import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, D
 
 import { RANDOM_NEWS_EVENTS, ECONOMIC_CRISIS_EVENTS, ECONOMIC_OPTIMISM_EVENTS, POLARIZATION_EVENTS } from '@/lib/newsTemplates';
 
+import countriesDataRaw from '../../public/data/countries.json';
+const countriesData = countriesDataRaw as Record<string, any>;
 // Generate random normal distribution using Box-Muller transform
 function randomNormal(mean: number = 0, std: number = 1): number {
   let u = 0, v = 0;
@@ -39,8 +41,13 @@ export function createCandidate(
 }
 
 export function generateLeaderName(eventVariables: any, country: string): string {
-  let firstNames = eventVariables?.generic?.firstNames || [];
-  let lastNames = eventVariables?.generic?.lastNames || [];
+  const countryInfo = countriesData[country] || {};
+  const nameStyle = countryInfo.nameStyle || 'anglo';
+  const nameStyles = eventVariables?.nameStyles || {};
+  const styleData = nameStyles[nameStyle] || nameStyles['anglo'] || {};
+
+  let firstNames = styleData.firstNames || [];
+  let lastNames = styleData.lastNames || [];
 
   // Fallback if not populated
   if (firstNames.length === 0) firstNames = ["Chris", "Alex", "Sam", "Taylor", "Jordan", "Morgan", "Casey"];
@@ -92,6 +99,10 @@ export function checkForLeadershipChanges(
           `Following nosedive in polls, ${oldName} resigns as leader of ${candidate.party}`,
           `${candidate.party} shakeup:  ${oldName} replaced by ${newName}`,
           `${candidate.party} revolt! ${oldName} out, ${newName} in`,
+          `${newName} wins ${candidate.party} leadership election`,
+          `${newName} wins leadership of ${candidate.party}`,
+          `${candidate.party} elects ${newName} as new leader`,
+          `${candidate.party} leadership race ends - ${newName} takes over`,
           `Leadership crisis in ${candidate.party} - ${newName} replaces ${oldName}`,
           `${newName} announced as new leader of ${candidate.party}`
         ];
