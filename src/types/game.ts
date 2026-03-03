@@ -76,6 +76,7 @@ export interface Candidate {
   ideologyDrift?: IdeologyDrift;
   /** Active event-driven ideology drifts (player + AI). Multiple axes can drift simultaneously. */
   eventDrifts?: IdeologyDrift[];
+  leaderCooldown?: number;
 }
 
 export interface VoterBloc {
@@ -109,6 +110,11 @@ export interface EventChoice {
   text: string;
   effect: Partial<PoliticalValues>;
   boost: number;
+  internalAction?: {
+    type: 'CHANGE_LEADER';
+    newName: string;
+    oldName?: string;
+  };
 }
 
 export interface PollResult {
@@ -223,6 +229,8 @@ export interface GameState {
   targetingStartWeek?: number | null;
   /** How many polls have elapsed while this bloc is actively targeted. Resets to 0 when targeting stops. */
   targetingWeeksActive?: number;
+  /** Optional custom event queued for the player, e.g. a leadership crisis */
+  pendingPlayerEvent?: Event | null;
 }
 
 export interface CoalitionState {

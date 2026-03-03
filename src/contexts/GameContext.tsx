@@ -6,7 +6,8 @@ import {
   applyEventEffect,
   createCandidate,
   snapshotInitialChoices,
-  scheduleNextTrendPoll
+  scheduleNextTrendPoll,
+  checkPostElectionLeadershipChanges
 } from '@/lib/gameEngine';
 import { calculatePartyCompatibility, autoAllocateUnfilledCabinetPositions } from '@/lib/coalitionEngine';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
@@ -219,6 +220,28 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         state.countryData
       );
 
+      const eventNewsToPass = [...eventNews];
+      if (action.payload.choice.internalAction?.type === 'CHANGE_LEADER') {
+        updatedPlayerCandidate.name = action.payload.choice.internalAction.newName;
+        updatedPlayerCandidate.leaderCooldown = 5;
+        const oldName = action.payload.choice.internalAction.oldName || state.playerCandidate.name;
+        const newName = updatedPlayerCandidate.name;
+
+        const newsOptions = [
+          `Following election losses, ${oldName} resigns as leader of ${updatedPlayerCandidate.party}`,
+          `ELECTION: ${updatedPlayerCandidate.party} shakeup:  ${oldName} replaced by ${newName}`,
+          `${updatedPlayerCandidate.party} revolt! ${oldName} out, ${newName} in`,
+          `${newName} wins ${updatedPlayerCandidate.party} leadership election after ${oldName} resigns`,
+          `LOSS: ${newName} ousts ${oldName} as leader of ${updatedPlayerCandidate.party}`,
+          `${updatedPlayerCandidate.party} elects ${newName} as new leader after ${oldName} resigns due to election loss`,
+          `${updatedPlayerCandidate.party} leadership race ends - ${newName} takes over after ${oldName} resigns due to election loss`,
+          `Leadership crisis in ${updatedPlayerCandidate.party} - ${newName} replaces ${oldName}`,
+          `${newName} announced as new leader of ${updatedPlayerCandidate.party} after ${oldName} resigns due to election loss`
+        ];
+        // We push to the regular political news feed instead of the eventNews so it acts like a global news item
+        eventNewsToPass.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+      }
+
       // Update the candidates array with the modified player candidate
       const candidatesAfterEvent = state.candidates.map(candidate =>
         candidate.id === state.playerCandidate?.id ? updatedPlayerCandidate : candidate
@@ -228,7 +251,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...state,
         playerCandidate: updatedPlayerCandidate,
         candidates: candidatesAfterEvent,
-        playerEventNews: eventNews
+        playerEventNews: eventNewsToPass,
+        politicalNews: action.payload.choice.internalAction?.type === 'CHANGE_LEADER'
+          ? [...state.politicalNews, eventNewsToPass[eventNewsToPass.length - 1]]
+          : state.politicalNews,
+        pendingPlayerEvent: null
       };
 
     case 'RESET_GAME':
@@ -252,7 +279,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           p.swing
         )
       );
-      
+
       const votingData = state.votingData && state.votingData.length > 0
         ? state.votingData
         : generateVotingData(state.countryData);
@@ -398,16 +425,30 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         govNews.push(headline);
       }
 
+      const postElecChanges = checkPostElectionLeadershipChanges(
+        state.candidates,
+        state.initialPollResults,
+        initialPolls,
+        state.incumbentGovernment,
+        governmentParties,
+        state.eventVariables,
+        state.country || 'USA'
+      );
+
+      const allGovNews = [...govNews, ...postElecChanges.news];
+
       return {
         ...state,
         phase: 'campaign',
+        candidates: postElecChanges.candidates,
+        pendingPlayerEvent: postElecChanges.playerCrisisEvent ?? null,
         incumbentGovernment: governmentParties,
         currentPoll: 0,
         pollResults: [],
         pollingHistory: [],
         initialPollResults: initialPolls,
         previousPollResults: initialPolls,
-        politicalNews: govNews,
+        politicalNews: allGovNews,
         playerEventNews: [],
         activeTrend: state.activeTrend,
         trendHistory: state.trendHistory,

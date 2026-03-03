@@ -736,7 +736,8 @@ export function calculateNextPollState(state: GameState): GameState {
     ...c,
     vals: [...c.vals],
     poll_percentage: newPreviousResults[c.party] || c.poll_percentage,
-    eventDrifts: c.eventDrifts ? c.eventDrifts.map(d => ({ ...d })) : undefined
+    eventDrifts: c.eventDrifts ? c.eventDrifts.map(d => ({ ...d })) : undefined,
+    leaderCooldown: c.leaderCooldown ? Math.max(0, c.leaderCooldown - 1) : 0
   }));
 
   return {

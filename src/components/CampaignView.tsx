@@ -85,6 +85,14 @@ export default function CampaignView() {
     }
   }, [state.currentPoll, events, eventVariables, lastEventPoll, state.country]);
 
+  // Handle specially queued player events like post-election leadership crises
+  useEffect(() => {
+    if (state.pendingPlayerEvent && !currentEvent) {
+      setNewsSource('The Daily News'); // Generic source for internal party crises
+      setCurrentEvent(state.pendingPlayerEvent);
+    }
+  }, [state.pendingPlayerEvent, currentEvent]);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0 });
   };
