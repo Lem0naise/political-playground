@@ -290,7 +290,6 @@ export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
 export const EVENT_EFFECT_MULTIPLIER = 0.8;
 
-export const TARGET_SHIFT = 0.01; // 1% per week (reduced from 2% — ideology shift kicks in after week 2)
 export const EVENT_DRIFT_WEEKS = 3; // Event ideology shifts spread over 3 weeks instead of instant
 // Voting behaviour configuration
 // Enable probabilistic choice via softmax; when false, deterministic max-utility is used
@@ -298,7 +297,7 @@ export const PROBABILISTIC_VOTING = true;
 // Softmax temperature (beta): higher => crisper choices, lower => smoother
 export const SOFTMAX_BETA = 0.0008;
 // Loyalty bonus added to utility when voter sticks with previous choice
-export const LOYALTY_UTILITY = 600;
+export const LOYALTY_UTILITY = 900; // 800 is roughly equivalent to a candidate being 11 units closer on all 7 ideologies than they actually are
 
 // Optional persistent electorate structure for generating once at game start
 export interface Electorate {
@@ -308,3 +307,6 @@ export interface Electorate {
 }
 
 export type PoliticalValueKey = keyof PoliticalValues;
+
+
+// increase loyalty to fix the wild swings, test australia. currently want to add an option to form coalition at the very start, as an event option?
