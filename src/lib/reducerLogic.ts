@@ -756,6 +756,7 @@ export function calculateNextPollState(state: GameState): GameState {
         percentages: { ...newPreviousResults }
       }
     ],
-    phase: nextPollNum >= state.totalPolls ? 'results' : 'campaign'
+    phase: nextPollNum >= state.totalPolls ? 'results' : 'campaign',
+    targetingWeeksActive: updatedTargetingWeeksActive
   };
 }

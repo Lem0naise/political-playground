@@ -305,8 +305,8 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             const weeksActive = state.targetingWeeksActive ?? 0;
 
             // Before first reveal: show progress bar
-            if (weeksActive < 3) {
-              const weeksUntil = 3 - weeksActive;
+            if (weeksActive < 4) {
+              const weeksUntil = 4 - weeksActive;
               return (
                 <div className="mt-2 bg-slate-800/50 border border-yellow-500/20 rounded-lg p-2">
                   <div className="text-xs text-yellow-500/80 font-mono mb-1.5 font-bold">
@@ -318,7 +318,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
                   <div className="mt-1.5 w-full bg-slate-700 rounded-full h-1">
                     <div
                       className="bg-yellow-500/60 h-1 rounded-full transition-all duration-500"
-                      style={{ width: `${(weeksActive / 3) * 100}%` }}
+                      style={{ width: `${(weeksActive / 4) * 100}%` }}
                     />
                   </div>
                 </div>
@@ -330,12 +330,12 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             const allComparisons = getComparativeDescriptors(playerResult.candidate.vals, targetedBloc.center);
             const revealCount = Math.min(
               allComparisons.length,
-              1 + Math.floor((weeksActive - 3) / 2)
+              1 + Math.floor((weeksActive - 4) / 2)
             );
             const visible = allComparisons.slice(0, revealCount);
 
             // Next unlock info
-            const nextUnlockWeek = 3 + revealCount * 2; // approximate for display
+            const nextUnlockWeek = 4 + revealCount * 2; // approximate for display
             const weeksUntilNext = revealCount < allComparisons.length
               ? nextUnlockWeek - weeksActive
               : null;
