@@ -2,6 +2,7 @@ import { useGame } from '@/contexts/GameContext';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 import { useState, useRef, useMemo } from 'react';
 import { VERSION } from '@/lib/version';
+import { generateLeaderName } from '@/lib/gameEngine';
 
 export default function PlayerSelection() {
   const { state, actions } = useGame();
@@ -290,8 +291,8 @@ export default function PlayerSelection() {
                           }}
                           disabled={availableCandidates <= 1}
                           className={`campaign-status text-[0.65rem] px-2 py-1 border rounded transition-colors ${availableCandidates <= 1
-                              ? 'border-slate-700 text-slate-600 cursor-not-allowed'
-                              : 'border-red-500/50 text-red-300 hover:border-red-400 hover:text-red-200'
+                            ? 'border-slate-700 text-slate-600 cursor-not-allowed'
+                            : 'border-red-500/50 text-red-300 hover:border-red-400 hover:text-red-200'
                             }`}
                           title={availableCandidates <= 1 ? 'Cannot delete last party' : 'Delete party'}
                         >
@@ -330,7 +331,11 @@ export default function PlayerSelection() {
 
               <button
                 type="button"
-                onClick={() => setShowCreator(true)}
+                onClick={() => {
+                  const newName = generateLeaderName(state.eventVariables || {}, state.country || 'USA');
+                  setCustomParty(prev => ({ ...prev, name: newName }));
+                  setShowCreator(true);
+                }}
                 className="bg-slate-900/40 border border-dashed border-yellow-500/40 text-left p-4 sm:p-5 rounded-lg flex flex-col justify-between gap-4 text-slate-100 hover:border-yellow-400 hover:bg-slate-800/40 transition-all duration-200"
               >
                 <div className="flex items-center gap-3 sm:gap-4">
@@ -386,13 +391,26 @@ export default function PlayerSelection() {
                   </label>
                   <label className="flex flex-col gap-1 text-xs text-slate-300">
                     <span className="campaign-status text-xs text-yellow-300">Leader Name</span>
-                    <input
-                      type="text"
-                      className="rounded-lg border border-slate-600 bg-slate-900/40 px-3 py-2 text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60"
-                      value={customParty.name}
-                      onChange={e => handleCustomChange('name', e.target.value)}
-                      placeholder="e.g. Jane Doe"
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        className="flex-1 rounded-lg border border-slate-600 bg-slate-900/40 px-3 py-2 text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60"
+                        value={customParty.name}
+                        onChange={e => handleCustomChange('name', e.target.value)}
+                        placeholder="e.g. Jane Doe"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newName = generateLeaderName(state.eventVariables || {}, state.country || 'USA');
+                          handleCustomChange('name', newName);
+                        }}
+                        className="px-3 rounded-lg border border-slate-600 bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors flex items-center justify-center font-bold text-lg"
+                        title="Generate Random Name"
+                      >
+                        ⟳
+                      </button>
+                    </div>
                   </label>
                   <label className="flex flex-col gap-1 text-xs text-slate-300">
                     <span className="campaign-status text-xs text-yellow-300">Party Colour</span>
