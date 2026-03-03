@@ -631,3 +631,228 @@ export const POLARIZATION_EVENTS = [
   "Proposed Education Bill Triggers Nationwide Strikes By {industry} Workers",
   "Dispute Over Border Checkpoints In {region} Leads To Constitutional Crisis"
 ];
+
+export const BLOC_REACTION_TEMPLATES: Record<string, {
+  rightShiftPositive: string[];
+  rightShiftNegative: string[];
+  leftShiftPositive: string[];
+  leftShiftNegative: string[];
+}> = {
+  soc_cap: {
+    // left: soc, right: cap
+    rightShiftPositive: [
+      `{blocName} Applaud {nameChoice}'s Economic Growth Agenda`,
+      `{nameChoice} Declares: 'Let the Market Decide!'`,
+      `{blocName} Cheer as {nameChoice} Slashes Red Tape`,
+      `{nameChoice}'s Pro-Business Stance Boosts Confidence Among {blocName}`,
+      `{blocName} Celebrate {nameChoice}'s Focus on Free Enterprise`
+    ],
+    rightShiftNegative: [
+      `{nameChoice} Touts 'Trickle-Down'—{blocName} See Empty Promises`,
+      `{blocName} Left Behind in {nameChoice}'s Corporate Bonanza`,
+      `{blocName} Demand Fair Share as {nameChoice} Courts Business Leaders`,
+      `Critics Warn: {nameChoice}'s Tax Cuts Leave {blocName} Behind`,
+      `{nameChoice} Under Fire from {blocName} for Being 'Too Pro-Business'`
+    ],
+    leftShiftPositive: [
+      `{nameChoice}'s Social Spending Push Resonates with {blocName}`,
+      `{blocName} Back {nameChoice}'s Vision for a Fairer Society`,
+      `{nameChoice} Promises Stronger Safety Net—{blocName} Erupt in Cheers`,
+      `'No One Left Behind': {nameChoice} Wins Over {blocName}`,
+      `{blocName} Rally as {nameChoice} Pledges Relief for Working Families`
+    ],
+    leftShiftNegative: [
+      `{blocName} Fear Soaring Debt Under {nameChoice}'s Social Agenda`,
+      `{nameChoice}'s Spending Plans Raise Economic Red Flags for {blocName}`,
+      `{blocName} Slam {nameChoice}'s 'Unrealistic' Redistribution Plans`,
+      `{blocName} Worry About 'Tax-and-Spend' Policies from {nameChoice}`,
+      `{nameChoice} Labeled Economically Reckless by {blocName}`
+    ]
+  },
+  prog_cons: {
+    // left: prog, right: cons
+    rightShiftPositive: [
+      `{blocName} Rally Around {nameChoice}'s Traditional Values Platform`,
+      `{nameChoice}'s 'Moral Foundation' Message Strikes a Chord with {blocName}`,
+      `{nameChoice} Promises to Restore 'Family First' Principles for {blocName}`,
+      `Support Surges Among {blocName} for {nameChoice}'s Conservative Vision`,
+      `{blocName} Praise {nameChoice}'s Commitment to Tradition`
+    ],
+    rightShiftNegative: [
+      `{nameChoice}'s Traditional Values Message Seen as 'Out of Touch' by {blocName}`,
+      `{blocName} Skeptical of {nameChoice}'s Conservative Pivot`,
+      `{blocName} Reject {nameChoice}'s 'Old-Fashioned' Agenda`,
+      `{nameChoice} Calls for Return to Past Values—{blocName} Push Back`,
+      `{blocName} Accuse {nameChoice} of Ignoring Social Progress`
+    ],
+    leftShiftPositive: [
+      `{blocName} Embrace {nameChoice}'s Push for an Inclusive Society`,
+      `{nameChoice}'s Progressive Reforms Lauded as 'Forward-Thinking' by {blocName}`,
+      `{nameChoice} Champions Equality—{blocName} Rally in Support`,
+      `Bold Social Change: {nameChoice}'s Vision Inspires {blocName}`,
+      `{blocName} Applaud {nameChoice}'s Commitment to Inclusion`
+    ],
+    leftShiftNegative: [
+      `Backlash from {blocName} Against {nameChoice}'s Progressive Reforms`,
+      `{blocName} Worry About 'Radical' Social Experiments by {nameChoice}`,
+      `{nameChoice} Accused by {blocName} of Pushing 'Too Much, Too Fast'`,
+      `{blocName} Say {nameChoice} Is Moving Society Too Quickly`,
+      `{nameChoice}'s Sweeping Social Changes Alienate {blocName}`
+    ]
+  },
+  env_eco: {
+    // left: env, right: eco
+    rightShiftPositive: [
+      `{nameChoice}'s Pro-Development Focus Promises Prosperity for {blocName}`,
+      `{blocName} Praise {nameChoice}'s Growth-First Agenda`,
+      `{blocName} Back {nameChoice}'s Push for Infrastructure and Industry`,
+      `{nameChoice} Champions Jobs—{blocName} Applaud`,
+      `Boom Times Predicted by {blocName} Under {nameChoice}'s Leadership`
+    ],
+    rightShiftNegative: [
+      `{blocName} Criticize {nameChoice} for Prioritizing Economy Over Environment`,
+      `{blocName} Denounce {nameChoice}'s 'Development-First' Stance`,
+      `{nameChoice} Sides with Big Industry Over Nature, {blocName} Say`,
+      `{blocName} Slam {nameChoice}'s Rollback of Green Rules`,
+      `{nameChoice}'s Focus on Growth Alarms {blocName}`
+    ],
+    leftShiftPositive: [
+      `{nameChoice}'s Green Policies Hailed by {blocName}`,
+      `{blocName} Support {nameChoice}'s Strong Stance on Environment`,
+      `Climate Action Plan from {nameChoice} Wins Over {blocName}`,
+      `{blocName} Rally Behind {nameChoice}'s Clean Energy Push`,
+      `{nameChoice} Declares 'The Future is Renewable'—{blocName} Agree`
+    ],
+    leftShiftNegative: [
+      `{nameChoice}'s Green Agenda Slammed as 'Job-Killer' by {blocName}`,
+      `{blocName} Worry {nameChoice}'s Eco-Policies Will Harm Economy`,
+      `{nameChoice}'s Climate Plan A Disaster for Workers, Say {blocName}`,
+      `{blocName} Blast {nameChoice} for 'Choking Growth'`,
+      `{nameChoice}'s Strict Environmental Rules Resisted by {blocName}`
+    ]
+  },
+  nat_glob: {
+    // left: nat, right: glob
+    rightShiftPositive: [
+      `{blocName} Support {nameChoice}'s Internationalist Vision`,
+      `{nameChoice}'s Global Cooperation Stance Seen as Essential by {blocName}`,
+      `{blocName} Praise {nameChoice}'s Commitment to Global Partnerships`,
+      `{nameChoice} Champions Open Borders—{blocName} Approve`,
+      `{blocName} Back {nameChoice}'s Embrace of Multilateral Solutions`
+    ],
+    rightShiftNegative: [
+      `{nameChoice} Attacked by {blocName} for 'Globalist' Agenda`,
+      `{blocName} Fear {nameChoice} Puts Global Interests Before National Ones`,
+      `{blocName} Slam {nameChoice} for Siding with Foreign Powers`,
+      `National Identity at Risk Under {nameChoice}'s Global Vision, say {blocName}`,
+      `{nameChoice}'s International Concessions Anger {blocName}`
+    ],
+    leftShiftPositive: [
+      `'Nation-First' Agenda from {nameChoice} Gains Traction with {blocName}`,
+      `{blocName} Back {nameChoice}'s 'Domestic First' Approach`,
+      `Borders, Jobs, and Pride: {nameChoice}'s Message Resounds with {blocName}`,
+      `{blocName} Rally Behind {nameChoice}'s Call to Protect National Identity`,
+      `{nameChoice} Touts 'Homegrown Solutions'—{blocName} Cheer`
+    ],
+    leftShiftNegative: [
+      `{nameChoice}'s 'Nation-First' Rhetoric Sparks Isolationism Fears among {blocName}`,
+      `{blocName} Warn {nameChoice}'s Nationalism Risks Global Standing`,
+      `{nameChoice}'s Hardline Borders Alarm {blocName}`,
+      `{blocName} Protest {nameChoice}'s Anti-Immigrant Policies`,
+      `{nameChoice}'s Nationalism Could Trigger Trade Wars, {blocName} Warn`
+    ]
+  },
+  pac_mil: {
+    // left: pac, right: mil
+    rightShiftPositive: [
+      `{blocName} Back {nameChoice}'s Call for Stronger National Defense`,
+      `Support Grows among {blocName} for {nameChoice}'s Military Readiness Push`,
+      `{nameChoice} Pledges to Rebuild Armed Forces—{blocName} Approve`,
+      `{blocName} Show Trust in {nameChoice}'s Tough Stance on Security`,
+      `{nameChoice} Declares 'Peace Through Strength' to {blocName} Applause`
+    ],
+    rightShiftNegative: [
+      `{blocName} Label {nameChoice}'s Defense Stance as 'Warmongering'`,
+      `Fears of Conflict Escalate Among {blocName} Over {nameChoice}'s Hawkish Tone`,
+      `{nameChoice}'s Push for Military Spending Criticized by {blocName}`,
+      `{blocName} Resist {nameChoice}'s Belligerent Foreign Policy`,
+      `{nameChoice}'s Aggressive Security Stance Alarms {blocName}`
+    ],
+    leftShiftPositive: [
+      `Peace-First Policy by {nameChoice} Earns Praise from {blocName}`,
+      `{blocName} See {nameChoice}'s Diplomacy Push as Path to Stability`,
+      `{nameChoice} Says 'Talk, Not Tanks'—{blocName} Cheers`,
+      `'No More Endless Wars': {nameChoice} Draws Applause from {blocName}`,
+      `{blocName} Support {nameChoice}'s Commitment to Descalation`
+    ],
+    leftShiftNegative: [
+      `{nameChoice}'s Peace Advocacy Slammed as 'Weak' by {blocName}`,
+      `Security Concerns Rise Among {blocName} Over {nameChoice}'s Pacifist Stance`,
+      `{blocName} Claim {nameChoice} Is Bowing Down to Rivals`,
+      `{nameChoice}'s Push for Disarmament Resisted by {blocName}`,
+      `{blocName} Call {nameChoice}'s Diplomatic Approach 'Naive'`
+    ]
+  },
+  auth_ana: {
+    // left: auth, right: ana
+    rightShiftPositive: [
+      `'Individual Freedom' a Rallying Cry for {blocName} Supporting {nameChoice}`,
+      `{nameChoice}'s Libertarian Stance Energizes {blocName}`,
+      `{blocName} Cheer {nameChoice}'s Stand Against Government Overreach`,
+      `'Live and Let Live': {nameChoice}'s Message Resonates with {blocName}`,
+      `{nameChoice} Declares 'Your Life, Your Choices' to {blocName} Applause`
+    ],
+    rightShiftNegative: [
+      `{blocName} Warn {nameChoice}'s Libertarian Push Is a Recipe for Chaos`,
+      `{blocName} Question Practicality of {nameChoice}'s 'Freedom' Agenda`,
+      `{nameChoice}'s 'Hands-Off' Approach Sparks Safety Fears among {blocName}`,
+      `{blocName} Claim {nameChoice}'s Deregulation Means No Rules, No Order`,
+      `{nameChoice} Letting Corporations Run Wild, {blocName} Fear`
+    ],
+    leftShiftPositive: [
+      `{nameChoice}'s Law-and-Order Platform Resonates with {blocName}`,
+      `{blocName} Back {nameChoice}'s Pledge for Safer Communities`,
+      `{nameChoice} Promises Crackdown on Crime—{blocName} Cheer`,
+      `'Zero Tolerance': {nameChoice}'s Tough Stance Wins {blocName} Support`,
+      `{blocName} Rally Behind {nameChoice}'s Security Plan`
+    ],
+    leftShiftNegative: [
+      `Civil Liberties Fears Mount Among {blocName} Over {nameChoice}'s Platform`,
+      `{nameChoice} Accused of 'Authoritarian Creep' by {blocName}`,
+      `{blocName} Warn {nameChoice} Would Silence Critics`,
+      `{nameChoice}'s 'Iron Fist' Policies Protested by {blocName}`,
+      `{blocName} Claim {nameChoice} Is Threatening Basic Freedoms`
+    ]
+  },
+  rel_sec: {
+    // left: rel, right: sec
+    rightShiftPositive: [
+      `Support for Secular Governance Grows Among {blocName} for {nameChoice}`,
+      `{nameChoice}'s Inclusive Stance Wins Favor with {blocName}`,
+      `{nameChoice} Champions Separation of Church and State—{blocName} Approve`,
+      `{blocName} Praise {nameChoice} for Keeping Religion Out of Policy`,
+      `{nameChoice} Declares 'Government for All' to {blocName} Applause`
+    ],
+    rightShiftNegative: [
+      `{nameChoice}'s Secular Stance Sparks Outcry from {blocName}`,
+      `{blocName} Feel Sidelined by {nameChoice}'s Policies`,
+      `{nameChoice} Accused of Erasing Tradition by {blocName}`,
+      `{blocName} Warn {nameChoice}'s Agenda Threatens Religious Freedom`,
+      `{nameChoice}'s Removal of Religious Symbols Protested by {blocName}`
+    ],
+    leftShiftPositive: [
+      `{nameChoice}'s Emphasis on Faith and Values Connects with {blocName}`,
+      `{blocName} Applaud {nameChoice}'s Focus on a Moral Compass`,
+      `{nameChoice} Pledges to Restore Faith—{blocName} Rejoice`,
+      `{blocName} Flock to {nameChoice}'s 'Family and Faith' Message`,
+      `{nameChoice} Champions Religious Traditions, Winning Over {blocName}`
+    ],
+    leftShiftNegative: [
+      `{nameChoice} Faces Backlash from {blocName} for Blurring Church and State`,
+      `{blocName} Claim {nameChoice}'s Religious Focus Alienates Voters`,
+      `Concerns Rise Among {blocName} Over {nameChoice}'s Faith Initiatives`,
+      `{blocName} Oppose {nameChoice}'s Efforts to Expand Religious Influence`,
+      `{nameChoice}'s Links to Religious Doctrine Slammed by {blocName}`
+    ]
+  }
+};
