@@ -153,14 +153,17 @@ export function checkPostElectionLeadershipChanges(
 
     const dropPercentage = (initialPolling - currentPolling) / initialPolling;
 
-    // Base chance up to 50% from vote drop
-    let resignationProb = Math.min(0.5, 1.0 * Math.pow(dropPercentage, 3));
+    // Base chance up to 90% from vote drop
+    let resignationProb = Math.min(0.9, 1.6 * Math.pow(dropPercentage, 3));
 
     // Penalty for losing government
     const wasInGov = outgoingGov?.includes(candidate.party);
     const isInGov = newGov.includes(candidate.party);
     if (wasInGov && !isInGov) {
       resignationProb += 0.50; // Massive +50% chance
+    }
+    if (candidate.is_player) {
+      resignationProb += 0.1; // player is more likely to face leadership challenges (more fun)
     }
 
     if (Math.random() < resignationProb) {

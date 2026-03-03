@@ -58,14 +58,6 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
         </button>
       </div>
 
-      {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
-        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400 mb-2">
-          <span className="text-slate-300 font-bold text-xs truncate">
-            PM: {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
-          </span>
-          <span className="text-slate-500 text-xs truncate">({state.incumbentGovernment[0]})</span>
-        </div>
-      )}
 
       <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
         {sortedResults.map((result, index) => {
