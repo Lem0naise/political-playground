@@ -283,6 +283,24 @@ export function calculateNextPollState(state: GameState): GameState {
   const { results: newResults, newsEvents, blocStats: newBlocStats } = conductPoll(votingDataRef, state.candidates, nextPollNum, countryDataAfterTrend);
 
 
+  // --- BEGIN: Apply bloc targeting ideology shift ---
+  let updatedTargetedBlocId = state.targetedBlocId ?? null;
+  let updatedTargetingStartWeek = state.targetingStartWeek ?? null;
+  let updatedTargetingWeeksActive = state.targetingWeeksActive ?? 0;
+
+  if (updatedTargetedBlocId && countryDataAfterTrend.blocs) {
+    const targetedBloc = countryDataAfterTrend.blocs.find(b => b.id === updatedTargetedBlocId);
+    if (targetedBloc) {
+      const playerCandidate = state.candidates.find(c => c.is_player);
+      if (playerCandidate) {
+        // Increment the counter each poll while actively targeting
+        updatedTargetingWeeksActive += 1;
+      }
+    }
+  }
+  // --- END: Apply bloc targeting ideology shift ---
+
+
   // Update previous poll results
   const newPreviousResults: Record<string, number> = {};
   newResults.forEach(result => {
