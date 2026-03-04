@@ -743,9 +743,12 @@ export function calculateNextPollState(state: GameState): GameState {
     leaderCooldown: c.leaderCooldown ? Math.max(0, c.leaderCooldown - 1) : 0
   }));
 
+  const syncedPlayerCandidate = freshCandidates.find(c => c.is_player) ?? state.playerCandidate;
+
   return {
     ...state,
     candidates: freshCandidates,
+    playerCandidate: syncedPlayerCandidate,
     currentPoll: nextPollNum,
     pollResults: resultsWithChange,
     previousPollResults: newPreviousResults,

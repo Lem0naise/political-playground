@@ -224,21 +224,41 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       if (action.payload.choice.internalAction?.type === 'CHANGE_LEADER' && action.payload.choice.internalAction.newName) {
         updatedPlayerCandidate.name = action.payload.choice.internalAction.newName;
         updatedPlayerCandidate.leaderCooldown = 15; // Long cooldown after change
-        updatedPlayerCandidate.leadershipBaseline = (state.previousPollResults[updatedPlayerCandidate.party] || 0) * 1.2;
+
+        // Reset the utility penalty slightly to give them a fighting chance (matches AI behavior)
+        updatedPlayerCandidate.base_utility_modifier = Math.max(0, (updatedPlayerCandidate.base_utility_modifier || 0) + 1.5);
+
+        // Post-election baseline is the exact result; mid-campaign has a bit of a buffer
+        updatedPlayerCandidate.leadershipBaseline = state.currentPoll === 0
+          ? (state.previousPollResults[updatedPlayerCandidate.party] || 0)
+          : (state.previousPollResults[updatedPlayerCandidate.party] || 0) * 1.2;
+
         const oldName = action.payload.choice.internalAction.oldName || state.playerCandidate.name;
         const newName = updatedPlayerCandidate.name;
+        const isPostElection = state.currentPoll === 0;
 
-        const newsOptions = [
-          `Following election losses, ${oldName} resigns as leader of ${updatedPlayerCandidate.party}`,
-          `ELECTION: ${updatedPlayerCandidate.party} shakeup:  ${oldName} replaced by ${newName}`,
+        let newsOptions = [
           `${updatedPlayerCandidate.party} revolt! ${oldName} out, ${newName} in`,
-          `${newName} wins ${updatedPlayerCandidate.party} leadership election after ${oldName} resigns`,
-          `LOSS: ${newName} ousts ${oldName} as leader of ${updatedPlayerCandidate.party}`,
+          `${newName} wins leadership of ${updatedPlayerCandidate.party} after ${oldName} resigns`,
           `${updatedPlayerCandidate.party} elects ${newName} as new leader after ${oldName} resigns`,
-          `${updatedPlayerCandidate.party} leadership race ends - ${newName} takes over after ${oldName} resigns`,
-          `Leadership crisis in ${updatedPlayerCandidate.party} - ${newName} replaces ${oldName}`,
-          `${newName} announced as new leader of ${updatedPlayerCandidate.party} after ${oldName} resigns`
+          `Leadership crisis in ${updatedPlayerCandidate.party} - ${newName} replaces ${oldName}`
         ];
+
+        if (isPostElection) {
+          newsOptions.push(
+            `Following election losses, ${oldName} resigns as leader of ${updatedPlayerCandidate.party}`,
+            `ELECTION: ${updatedPlayerCandidate.party} shakeup:  ${oldName} replaced by ${newName}`,
+            `LOSS: ${newName} ousts ${oldName} as leader of ${updatedPlayerCandidate.party}`,
+            `${updatedPlayerCandidate.party} leadership race ends - ${newName} takes over after ${oldName} resigns due to election loss`
+          );
+        } else {
+          newsOptions.push(
+            `Following nosedive in polls, ${oldName} resigns as leader of ${updatedPlayerCandidate.party}`,
+            `${updatedPlayerCandidate.party} shakeup:  ${oldName} resigns, replaced by ${newName}`,
+            `${newName} wins ${updatedPlayerCandidate.party} leadership election after ${oldName} resigns`
+          );
+        }
+
         // We push to the regular political news feed instead of the eventNews so it acts like a global news item
         eventNewsToPass.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
       } else if (action.payload.choice.internalAction?.type === 'STAY_LEADER') {

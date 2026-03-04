@@ -101,7 +101,11 @@ export default function CampaignView() {
 
   const handleEventChoice = (event: Event, choice: EventChoice) => {
     actions.handleEvent(event, choice);
-    actions.nextPoll();
+    if (state.currentPoll === 0) {
+      actions.startCampaign();
+    } else {
+      actions.nextPoll();
+    }
     setCurrentEvent(null);
     scrollToTop();
   };
