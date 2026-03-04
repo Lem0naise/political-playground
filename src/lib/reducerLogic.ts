@@ -308,12 +308,13 @@ export function calculateNextPollState(state: GameState): GameState {
   });
 
   // --- BEGIN: Check for AI Leadership Changes ---
-  const { candidates: activeCandidates, news: leadershipNews } = checkForLeadershipChanges(
+  const { candidates: activeCandidates, news: leadershipNews, playerCrisisEvent } = checkForLeadershipChanges(
     state.candidates,
     state.initialPollResults,
     newPreviousResults,
     state.eventVariables,
-    state.country
+    state.country,
+    state.incumbentGovernment,
   );
   // --- END: Check for AI Leadership Changes ---
 
@@ -757,6 +758,7 @@ export function calculateNextPollState(state: GameState): GameState {
       }
     ],
     phase: nextPollNum >= state.totalPolls ? 'results' : 'campaign',
-    targetingWeeksActive: updatedTargetingWeeksActive
+    targetingWeeksActive: updatedTargetingWeeksActive,
+    pendingPlayerEvent: playerCrisisEvent || null
   };
 }

@@ -64,15 +64,17 @@ export function checkForLeadershipChanges(
   initialPollResults: Record<string, number>,
   currentResults: Record<string, number>,
   eventVariables: any,
-  country: string
-): { candidates: Candidate[]; news: string[] } {
+  country: string,
+  incumbentGovernment?: string[],
+): { candidates: Candidate[]; news: string[]; playerCrisisEvent?: Event | null } {
   const news: string[] = [];
+  let playerCrisisEvent: Event | null = null;
   const updatedCandidates = candidates.map(candidate => {
-    // Only AI parties consider changing leaders
-    if (candidate.is_player) return candidate;
 
     // Check if the party has recently replaced its leader
-    if (candidate.leaderCooldown && candidate.leaderCooldown > 0) return candidate;
+    let leaderCooldown = 0;
+    if (candidate.leaderCooldown && candidate.leaderCooldown > 0) { leaderCooldown = candidate.leaderCooldown; }
+    // instead of immediately returning, make it affect the leadership change probability
 
     // Must be tracking the party's initial polling
     const initialPolling = initialPollResults[candidate.party];
@@ -81,34 +83,101 @@ export function checkForLeadershipChanges(
     const currentPolling = currentResults[candidate.party];
     if (currentPolling === undefined) return candidate;
 
+    const titleCase = (str: string) => str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
     // Scaling threshold: chance increases as poll drop increases
     if (initialPolling >= 1 && currentPolling < initialPolling) {
       const dropPercentage = (initialPolling - currentPolling) / initialPolling;
 
       // Scaling probability:
-      // Drop 30% -> ~1.3% chance
-      // Drop 50% -> 10% chance
-      // Drop 90% -> ~100% chance
-      const leadershipChangeProb = Math.min(1, 1.6 * Math.pow(dropPercentage, 4));
+      // Drop 30% -> ~5.4% chance
+      // Drop 50% -> 25% chance
+      // Drop 70% -> ~68% chance
+      let leadershipChangeProb = (Math.min(1, 2.0 * Math.pow(dropPercentage, 3)));
+
+      if (leaderCooldown > 0) {
+        leadershipChangeProb = leadershipChangeProb * (1 - (leaderCooldown / 10));
+      }
 
       if (Math.random() < leadershipChangeProb) {
         const oldName = candidate.name;
         const newName = generateLeaderName(eventVariables, country);
 
+
         // Slightly reset base utility modifier to give the new leader a chance
         const baseModifierReset = Math.max(0, (candidate.base_utility_modifier || 0) + 1.5);
 
-        const newsOptions = [
+        const isGovLeader = incumbentGovernment && incumbentGovernment.length > 0 && incumbentGovernment[0] === candidate.party;
+
+
+        if (candidate.is_player) {
+          const titles = [
+            "Leadership Crisis!",
+            "Knives Out!",
+            "Polling Collapse!",
+            "Party Revolt!"
+          ];
+          const descriptions = [
+            `The latest polls are a disaster, and factions within ${candidate.party} are demanding your resignation. ${newName} has emerged as the prospective new leader. Do you step down, or fight to keep your position?`,
+            `Your polling performance has angered party insiders. A prominent backbencher, ${newName}, is aggressively courting officials to oust you from the leadership of ${candidate.party}. Do you bow out gracefully or dig in?`,
+            `The campaign is in freefall, and the ratings are ugly. Key figures in ${candidate.party} are officially calling for your head, throwing their support behind ${newName}. How do you respond?`,
+            `Sensing blood in the water after a bruising week in the polls, ${newName} has launched a formal leadership challenge against you. The mood in ${candidate.party} is mutinous. Will you surrender the reigns or wage a messy internal war?`
+          ];
+
+          const titleSelection = titles[Math.floor(Math.random() * titles.length)];
+          const descSelection = descriptions[Math.floor(Math.random() * descriptions.length)];
+
+          // Generate event for player
+          playerCrisisEvent = {
+            title: titleSelection,
+            description: descSelection,
+            choices: [
+              {
+                text: `Step down and let ${newName} lead.`,
+                effect: {},
+                boost: -10,
+                internalAction: {
+                  type: 'CHANGE_LEADER',
+                  newName: newName,
+                  oldName: oldName
+                }
+              },
+              {
+                text: "Refuse to stand down.",
+                effect: {},
+                boost: -30,
+                internalAction: {
+                  type: 'STAY_LEADER'
+                }
+              }
+            ]
+          };
+          return candidate; // Don't change name right now, player must choose
+        }
+
+        let newsOptions = [
           `Following nosedive in polls, ${oldName} resigns as leader of ${candidate.party}`,
-          `${candidate.party} shakeup:  ${oldName} replaced by ${newName}`,
+          `${candidate.party} shakeup:  ${oldName} resigns, replaced by ${newName}`,
           `${candidate.party} revolt! ${oldName} out, ${newName} in`,
-          `${newName} wins ${candidate.party} leadership election`,
-          `${newName} wins leadership of ${candidate.party}`,
-          `${candidate.party} elects ${newName} as new leader`,
-          `${candidate.party} leadership race ends - ${newName} takes over`,
-          `Leadership crisis in ${candidate.party} - ${newName} replaces ${oldName}`,
-          `${newName} announced as new leader of ${candidate.party}`
+          `${newName} wins ${candidate.party} leadership election after ${oldName} resigns`,
+          `${newName} wins leadership of ${candidate.party} after ${oldName} resigns`,
+          `${candidate.party} elects ${newName} as new leader after ${oldName} resigns`,
+          `${candidate.party} leadership race ends - ${newName} takes over after ${oldName} resigns`,
+          `Leadership crisis in ${candidate.party} - ${newName} replaces ${oldName} after resignation`,
+          `${oldName} resigns, ${newName} announced as new leader of ${candidate.party}`
         ];
+
+        if (isGovLeader) {
+          newsOptions = [
+            `CRISIS: Prime Minister ${oldName} resigns following polling collapse`,
+            `Prime Minister ${oldName} ousted in ${candidate.party} leadership coup; ${newName} to take over`,
+            `BREAKING: ${oldName} steps down as Prime Minister of ${titleCase(country)}`,
+            `${newName} replaces ${oldName} as Prime Minister of ${titleCase(country)} following internal revolt`,
+            `${candidate.party} elects ${newName} to replace ${oldName} as Prime Minister`,
+            `Prime Minister ${oldName} is OUT, ${newName} is the new Prime Minister`
+          ];
+        }
+
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
 
@@ -117,14 +186,14 @@ export function checkForLeadershipChanges(
           ...candidate,
           name: newName,
           base_utility_modifier: baseModifierReset,
-          leaderCooldown: 5
+          leaderCooldown: 10
         };
       }
     }
     return candidate;
   });
 
-  return { candidates: updatedCandidates, news };
+  return { candidates: updatedCandidates, news, playerCrisisEvent };
 }
 
 export function checkPostElectionLeadershipChanges(
@@ -134,14 +203,14 @@ export function checkPostElectionLeadershipChanges(
   outgoingGov: string[] | undefined,
   newGov: string[],
   eventVariables: any,
-  country: string
+  country: string,
+  hosTitle: string = 'Prime Minister'
 ): { candidates: Candidate[]; news: string[]; playerCrisisEvent?: Event | null } {
   const news: string[] = [];
   let playerCrisisEvent: Event | null = null;
 
   const updatedCandidates = candidates.map(candidate => {
-    // Check if the party has recently replaced its leader
-    if (candidate.leaderCooldown && candidate.leaderCooldown > 0) return candidate;
+    // Don't Check if the party has recently replaced its leader for post-election changes
 
     const initialPolling = initialPollResults[candidate.party];
     const currentPolling = currentResults[candidate.party];
@@ -154,7 +223,10 @@ export function checkPostElectionLeadershipChanges(
     const dropPercentage = (initialPolling - currentPolling) / initialPolling;
 
     // Base chance up to 90% from vote drop
-    let resignationProb = Math.min(0.9, 1.6 * Math.pow(dropPercentage, 3));
+    // Drop 30% -> 27% chance
+    // Drop 50% -> 75% chance
+    // Drop 60% -> 100% chance
+    let resignationProb = Math.min(0.9, 3.0 * Math.pow(dropPercentage, 2));
 
     // Penalty for losing government
     const wasInGov = outgoingGov?.includes(candidate.party);
@@ -212,11 +284,12 @@ export function checkPostElectionLeadershipChanges(
         };
         return candidate; // Don't change name right now, player must choose
       } else {
+        const isGovLeader = outgoingGov && outgoingGov.length > 0 && outgoingGov[0] === candidate.party;
+
         // AI actually resigns
         const baseModifierReset = Math.max(0, (candidate.base_utility_modifier || 0) + 1.5);
 
-        const newsOptions = [
-
+        let newsOptions = [
           `Following election losses, ${oldName} resigns as leader of ${candidate.party}`,
           `ELECTION: ${candidate.party} shakeup:  ${oldName} replaced by ${newName}`,
           `${candidate.party} revolt! ${oldName} out, ${newName} in`,
@@ -227,13 +300,25 @@ export function checkPostElectionLeadershipChanges(
           `Leadership crisis in ${candidate.party} - ${newName} replaces ${oldName}`,
           `${newName} announced as new leader of ${candidate.party} after ${oldName} resigns due to election loss`
         ];
+
+        if (isGovLeader) {
+          newsOptions = [
+            `ELECTION SHOCK: Prime Minister ${oldName} resigns following defeat`,
+            `Prime Minister ${oldName} steps down; ${newName} to lead ${candidate.party} in opposition`,
+            `END OF AN ERA: ${oldName} resigns as Prime Minister following bruising election`,
+            `${candidate.party} selects ${newName} as new leader to replace outgoing Prime Minister ${oldName}`,
+            `REVOLT: ${candidate.party} ousts Prime Minister ${oldName} after election disaster; ${newName} in`
+          ];
+        }
+
+        news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
 
         return {
           ...candidate,
           name: newName,
           base_utility_modifier: baseModifierReset,
-          leaderCooldown: 5
+          leaderCooldown: 10
         };
       }
     } else {

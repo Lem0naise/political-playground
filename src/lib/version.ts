@@ -6,8 +6,8 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '3.7.0',
-    date: '2026-03-03',
+    version: '3.8.0',
+    date: '2026-03-04',
     changes: [
       "Add cooldown for leader change. Allow player's parties to have leadership replacements, after a bad election loss.",
     ],

@@ -7,6 +7,8 @@ import PollingGraphModal from './PollingGraphModal';
 import IdeologyScatterPlot from './IdeologyScatterPlot';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 import { exportSaveGame } from '@/lib/saveManager';
+import { VERSION } from '@/lib/version';
+
 
 export default function CampaignView() {
   const { state, actions } = useGame();
@@ -346,7 +348,9 @@ export default function CampaignView() {
           <p>Political Playground © 2025-2026</p>
           <p>Fictional simulator. No real-world accuracy, endorsement or advice.</p>
           <p>Created by <a href="https://indigo.spot">Indigo Nolan</a></p>
+          <p>Version {VERSION}</p>
         </div>
+
       </div>
       {showPollingGraph && (
         <PollingGraphModal

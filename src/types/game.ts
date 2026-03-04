@@ -111,8 +111,8 @@ export interface EventChoice {
   effect: Partial<PoliticalValues>;
   boost: number;
   internalAction?: {
-    type: 'CHANGE_LEADER';
-    newName: string;
+    type: 'CHANGE_LEADER' | 'STAY_LEADER';
+    newName?: string;
     oldName?: string;
   };
 }
