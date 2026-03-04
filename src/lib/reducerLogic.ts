@@ -308,14 +308,23 @@ export function calculateNextPollState(state: GameState): GameState {
   });
 
   // --- BEGIN: Check for AI Leadership Changes ---
-  const { candidates: activeCandidates, news: leadershipNews, playerCrisisEvent } = checkForLeadershipChanges(
-    state.candidates,
-    state.initialPollResults,
-    newPreviousResults,
-    state.eventVariables,
-    state.country,
-    state.incumbentGovernment,
-  );
+  let activeCandidates = state.candidates;
+  let leadershipNews: string[] = [];
+  let playerCrisisEvent: any = null;
+
+  if (nextPollNum < state.totalPolls) {
+    const changes = checkForLeadershipChanges(
+      state.candidates,
+      state.initialPollResults,
+      newPreviousResults,
+      state.eventVariables,
+      state.country,
+      state.incumbentGovernment,
+    );
+    activeCandidates = changes.candidates;
+    leadershipNews = changes.news;
+    playerCrisisEvent = changes.playerCrisisEvent || null;
+  }
   // --- END: Check for AI Leadership Changes ---
 
   // Re-map results to point to the active candidates
