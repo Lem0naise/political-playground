@@ -77,7 +77,7 @@ export function checkForLeadershipChanges(
     // instead of immediately returning, make it affect the leadership change probability
 
     // Must be tracking the party's initial polling
-    const initialPolling = initialPollResults[candidate.party];
+    const initialPolling = candidate.leadershipBaseline ?? initialPollResults[candidate.party];
     if (initialPolling === undefined) return candidate;
 
     const currentPolling = currentResults[candidate.party];
@@ -93,10 +93,14 @@ export function checkForLeadershipChanges(
       // Drop 30% -> ~5.4% chance
       // Drop 50% -> 25% chance
       // Drop 70% -> ~68% chance
-      let leadershipChangeProb = (Math.min(1, 2.0 * Math.pow(dropPercentage, 3)));
+      let leadershipChangeProb = (Math.min(1, 1.9 * Math.pow(dropPercentage, 4)));
 
-      if (leaderCooldown > 0) {
-        leadershipChangeProb = leadershipChangeProb * (1 - (leaderCooldown / 10));
+      if (leaderCooldown > 5) {
+        // Absolute immunity when cooldown is high
+        leadershipChangeProb = 0;
+      } else if (leaderCooldown > 0) {
+        // Tapers off as cooldown drops from 5 to 1
+        leadershipChangeProb = leadershipChangeProb * (1 - (leaderCooldown / 5));
       }
 
       if (Math.random() < leadershipChangeProb) {
@@ -186,7 +190,8 @@ export function checkForLeadershipChanges(
           ...candidate,
           name: newName,
           base_utility_modifier: baseModifierReset,
-          leaderCooldown: 10
+          leaderCooldown: 10,
+          leadershipBaseline: currentPolling * 1.2
         };
       }
     }
@@ -212,7 +217,7 @@ export function checkPostElectionLeadershipChanges(
   const updatedCandidates = candidates.map(candidate => {
     // Don't Check if the party has recently replaced its leader for post-election changes
 
-    const initialPolling = initialPollResults[candidate.party];
+    const initialPolling = candidate.leadershipBaseline ?? initialPollResults[candidate.party];
     const currentPolling = currentResults[candidate.party];
 
     if (initialPolling === undefined || currentPolling === undefined) return candidate;
@@ -318,7 +323,8 @@ export function checkPostElectionLeadershipChanges(
           ...candidate,
           name: newName,
           base_utility_modifier: baseModifierReset,
-          leaderCooldown: 10
+          leaderCooldown: 10,
+          leadershipBaseline: currentPolling
         };
       }
     } else {

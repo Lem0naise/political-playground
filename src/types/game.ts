@@ -77,6 +77,7 @@ export interface Candidate {
   /** Active event-driven ideology drifts (player + AI). Multiple axes can drift simultaneously. */
   eventDrifts?: IdeologyDrift[];
   leaderCooldown?: number;
+  leadershipBaseline?: number;
 }
 
 export interface VoterBloc {

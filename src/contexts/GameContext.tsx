@@ -224,6 +224,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       if (action.payload.choice.internalAction?.type === 'CHANGE_LEADER' && action.payload.choice.internalAction.newName) {
         updatedPlayerCandidate.name = action.payload.choice.internalAction.newName;
         updatedPlayerCandidate.leaderCooldown = 15; // Long cooldown after change
+        updatedPlayerCandidate.leadershipBaseline = (state.previousPollResults[updatedPlayerCandidate.party] || 0) * 1.2;
         const oldName = action.payload.choice.internalAction.oldName || state.playerCandidate.name;
         const newName = updatedPlayerCandidate.name;
 
