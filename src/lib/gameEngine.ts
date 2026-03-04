@@ -89,10 +89,10 @@ export function checkForLeadershipChanges(
     if (initialPolling >= 1 && currentPolling < initialPolling) {
       const dropPercentage = (initialPolling - currentPolling) / initialPolling;
 
-      // Scaling probability:
-      // Drop 30% -> ~5.4% chance
-      // Drop 50% -> 25% chance
-      // Drop 70% -> ~68% chance
+      // Scaling probability every week:
+      // Drop 30% -> ~1.539% chance
+      // Drop 50% -> ~11.8% chance
+      // Drop 70% -> ~45.6% chance
       let leadershipChangeProb = (Math.min(1, 1.9 * Math.pow(dropPercentage, 4)));
 
       if (leaderCooldown > 5) {
@@ -194,6 +194,22 @@ export function checkForLeadershipChanges(
           leadershipBaseline: currentPolling * 1.2
         };
       }
+      else {
+
+        if (!candidate.is_player && (dropPercentage > 0.25) && (Math.random() < 0.05)) { //  5% of the time when they roll to not resign, 'resists calls to stand down', etc etc
+          const newsOptions = [
+            `${candidate.name} retains leadership of ${candidate.party} despite election losses`,
+            `${candidate.name} survives leadership challenge in ${candidate.party}`,
+            `${candidate.party} leader ${candidate.name} resists calls to resign`,
+            `${candidate.party} leader ${candidate.name} refuses to step down`,
+            `${candidate.party} leader ${candidate.name} digs in as party turmoil continues`,
+            `${candidate.name} not resigning`,
+            `${candidate.name} refuses to resign`
+          ];
+          news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+        }
+
+      }
     }
     return candidate;
   });
@@ -215,15 +231,13 @@ export function checkPostElectionLeadershipChanges(
   let playerCrisisEvent: Event | null = null;
 
   const updatedCandidates = candidates.map(candidate => {
-    // Don't Check if the party has recently replaced its leader for post-election changes
-
     const initialPolling = candidate.leadershipBaseline ?? initialPollResults[candidate.party];
     const currentPolling = currentResults[candidate.party];
 
     if (initialPolling === undefined || currentPolling === undefined) return candidate;
 
-    // Only consider drops
-    if (initialPolling < 1 || currentPolling >= initialPolling) return candidate;
+    // Only consider large parties
+    if (initialPolling < 1) return candidate;
 
     const dropPercentage = (initialPolling - currentPolling) / initialPolling;
 
@@ -231,7 +245,8 @@ export function checkPostElectionLeadershipChanges(
     // Drop 30% -> 27% chance
     // Drop 50% -> 75% chance
     // Drop 60% -> 100% chance
-    let resignationProb = Math.min(0.9, 3.0 * Math.pow(dropPercentage, 2));
+    let resignationProb = Math.min(1, 4.0 * Math.pow(dropPercentage, 2));
+    if (dropPercentage < 0) { resignationProb = -resignationProb } // if its an increase in polling, it decreases the chance of a leadership challenge, even if party lost government position, but it doesn't completely eliminate it
 
     // Penalty for losing government
     const wasInGov = outgoingGov?.includes(candidate.party);
@@ -240,7 +255,7 @@ export function checkPostElectionLeadershipChanges(
       resignationProb += 0.50; // Massive +50% chance
     }
     if (candidate.is_player) {
-      resignationProb += 0.1; // player is more likely to face leadership challenges (more fun)
+      resignationProb += 0.25; // player is more likely to face leadership challenges (more fun)
     }
 
     if (Math.random() < resignationProb) {
@@ -334,7 +349,11 @@ export function checkPostElectionLeadershipChanges(
         const newsOptions = [
           `${candidate.name} retains leadership of ${candidate.party} despite election losses`,
           `${candidate.name} survives leadership challenge in ${candidate.party}`,
-          `${candidate.party} leader ${candidate.name} resists calls to resign`
+          `${candidate.party} leader ${candidate.name} resists calls to resign after election loss`,
+          `${candidate.party} leader ${candidate.name} refuses to step down, party base angered`,
+          `${candidate.party} leader ${candidate.name} digs in as party turmoil continues`,
+          `${candidate.name} not resigning after election loss`,
+          `${candidate.name} refuses to resign despite election losses`
         ];
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
       }

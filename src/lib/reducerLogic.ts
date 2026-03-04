@@ -510,15 +510,14 @@ export function calculateNextPollState(state: GameState): GameState {
       }
 
       let eventProbability = 0.04;
-      eventProbability += (currentPolling / 100) * 0.4;
-      if (Math.abs(currentSwing) > 2.0) eventProbability += 0.2;
+      eventProbability += (currentPolling / 100) * 0.6;
+      eventProbability += Math.abs(currentSwing) * 0.15; // the bigger the swing, the more likely an event
 
       if (Math.random() < eventProbability) {
         const isGaffe = currentSwing < 0;
         const templates = isGaffe ? GAFFE_TEMPLATES : POSITIVE_TEMPLATES;
         const template = templates[Math.floor(Math.random() * templates.length)];
         const useLeaderName = Math.random() < 0.5;
-
         const rawHeadline = substituteNewsVariables(
           template,
           {
