@@ -219,13 +219,13 @@
         "Parliament's watchdog"
       ],
       "region": [
-        "the North",
+        "North",
         "the Midlands",
         "London",
         "Scotland",
         "Wales",
         "Northern Ireland",
-        "the South West",
+        "South West",
         "East Anglia"
       ],
       "city": [
@@ -239,10 +239,10 @@
         "Edinburgh"
       ],
       "foreign_country": [
-        "the European Union",
-        "the United States",
+        "European Union",
+        "United States",
         "China",
-        "the Commonwealth",
+        "Commonwealth",
         "NATO allies"
       ]
     },
@@ -280,12 +280,12 @@
       ],
       "region": [
         "Northern Ireland",
-        "the South",
+        "South",
         "Antrim",
         "Down",
         "Galway",
-        "the West",
-        "the East"
+        "West",
+        "East"
       ],
       "city": [
         "Dublin",
@@ -298,11 +298,11 @@
         "Kilkenny"
       ],
       "foreign_country": [
-        "the European Union",
-        "the United States",
+        "European Union",
+        "United States",
         "China",
         "Britain",
-        "the Commonwealth",
+        "Commonwealth",
         "NATO allies"
       ]
     },
@@ -372,8 +372,8 @@
         "Finland",
         "Sweden",
         "Germany",
-        "the United States",
-        "the European Union",
+        "United States",
+        "European Union",
         "NATO allies",
         "the Baltic states",
         "the Nordic countries",
@@ -507,7 +507,7 @@
       "foreign_country": [
         "China",
         "Russia",
-        "the European Union",
+        "European Union",
         "NATO allies",
         "Middle Eastern powers"
       ]
@@ -558,9 +558,9 @@
         "Leipzig"
       ],
       "foreign_country": [
-        "the European Union",
+        "European Union",
         "Russia",
-        "the United States",
+        "United States",
         "China",
         "EU partners"
       ]
@@ -613,9 +613,9 @@
         "Corsica"
       ],
       "foreign_country": [
-        "the European Union",
+        "European Union",
         "francophone Africa",
-        "the United States",
+        "United States",
         "China",
         "EU partners",
         "The Maghreb",
@@ -647,9 +647,9 @@
         "Bregenz"
       ],
       "foreign_country": [
-        "the European Union",
+        "European Union",
         "Germany",
-        "the United States",
+        "United States",
         "China",
         "EU partners"
       ]
@@ -686,7 +686,7 @@
         "the Prairies",
         "the Maritimes",
         "Alberta",
-        "the North",
+        "North",
         "Atlantic Canada"
       ],
       "city": [
@@ -700,9 +700,9 @@
         "Winnipeg"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "China",
-        "the European Union",
+        "European Union",
         "Commonwealth partners",
         "NAFTA partners"
       ]
@@ -715,7 +715,7 @@
         "The Daily Telegraph",
         "Herald Sun",
         "The Courier-Mail",
-        "The West Australian",
+        "West Australian",
         "ABC News",
         "The Advertiser",
         "Brisbane Times"
@@ -754,7 +754,7 @@
       ],
       "foreign_country": [
         "China",
-        "the United States",
+        "United States",
         "Indonesia",
         "ASEAN nations",
         "Pacific partners"
@@ -787,7 +787,7 @@
         "Tibet",
         "Xinjiang",
         "Inner Mongolia",
-        "the Northeast Industrial Belt",
+        "Northeast Industrial Belt",
         "Hainan Island",
         "the Sichuan Basin"
       ],
@@ -804,13 +804,13 @@
         "Nanjing"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "Russia",
         "Japan",
         "South Korea",
         "India",
         "Taiwan",
-        "the European Union",
+        "European Union",
         "ASEAN nations",
         "Pakistan"
       ],
@@ -850,8 +850,8 @@
         "the Deccan Plateau",
         "the Himalayas",
         "the Thar Desert",
-        "the North East Seven Sisters",
-        "the Western Ghats",
+        "North East Seven Sisters",
+        "Western Ghats",
         "the Indo-Gangetic Plain"
       ],
       "city": [
@@ -869,7 +869,7 @@
       "foreign_country": [
         "Pakistan",
         "China",
-        "the United States",
+        "United States",
         "Russia",
         "the United Kingdom",
         "Bangladesh",
@@ -929,8 +929,8 @@
         "Samara"
       ],
       "foreign_country": [
-        "the United States",
-        "the European Union",
+        "United States",
+        "European Union",
         "Ukraine",
         "China",
         "Belarus",
@@ -989,13 +989,13 @@
         "Sendai"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "China",
         "South Korea",
         "North Korea",
         "Russia",
         "Taiwan",
-        "the European Union",
+        "European Union",
         "Australia"
       ],
       "organisation": [
@@ -1029,9 +1029,9 @@
       ],
       "region": [
         "the Amazon Rainforest",
-        "the Northeast",
-        "the Southeast Heartland",
-        "the South",
+        "Northeast",
+        "Southeast Heartland",
+        "South",
         "the Central-West",
         "the Pantanal Wetlands"
       ],
@@ -1048,9 +1048,9 @@
       ],
       "foreign_country": [
         "Argentina",
-        "the United States",
+        "United States",
         "China",
-        "the European Union",
+        "European Union",
         "Paraguay",
         "Uruguay",
         "Venezuela",
@@ -1101,10 +1101,10 @@
         "Venice"
       ],
       "foreign_country": [
-        "the European Union",
+        "European Union",
         "France",
         "Germany",
-        "the United States",
+        "United States",
         "Libya",
         "the Vatican City",
         "Austria",
@@ -1153,12 +1153,12 @@
         "Bilbao"
       ],
       "foreign_country": [
-        "the European Union",
+        "European Union",
         "Morocco",
         "Portugal",
         "France",
         "the United Kingdom",
-        "the United States",
+        "United States",
         "Latin American partners"
       ]
     },
@@ -1186,7 +1186,7 @@
         "Patagonia",
         "the Cuyo",
         "the Gran Chaco",
-        "the North West",
+        "North West",
         "the Littoral",
         "Tierra del Fuego"
       ],
@@ -1204,9 +1204,9 @@
         "Brazil",
         "Chile",
         "Uruguay",
-        "the United States",
+        "United States",
         "China",
-        "the European Union",
+        "European Union",
         "the IMF",
         "the Falkland Islands"
       ]
@@ -1248,9 +1248,9 @@
         "Argentina",
         "Peru",
         "Bolivia",
-        "the United States",
+        "United States",
         "China",
-        "the European Union",
+        "European Union",
         "Brazil"
       ]
     },
@@ -1289,11 +1289,11 @@
         "Ciudad Ju\u00e1rez"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "Canada",
         "Guatemala",
         "China",
-        "the European Union",
+        "European Union",
         "Brazil"
       ]
     },
@@ -1340,7 +1340,7 @@
         "Germany",
         "the Netherlands",
         "Luxembourg",
-        "the European Union",
+        "European Union",
         "the United Kingdom",
         "NATO"
       ]
@@ -1388,8 +1388,8 @@
         "Germany",
         "Belgium",
         "the United Kingdom",
-        "the United States",
-        "the European Union",
+        "United States",
+        "European Union",
         "France"
       ]
     },
@@ -1433,8 +1433,8 @@
         "Germany",
         "Ukraine",
         "Russia",
-        "the United States",
-        "the European Union",
+        "United States",
+        "European Union",
         "the Czech Republic",
         "Slovakia"
       ]
@@ -1482,9 +1482,9 @@
         "Norway",
         "Denmark",
         "Germany",
-        "the United States",
+        "United States",
         "Russia",
-        "the European Union"
+        "European Union"
       ]
     },
     "NORWAY": {
@@ -1508,8 +1508,8 @@
       "region": [
         "the fjords",
         "the Arctic North",
-        "the Eastern Plains",
-        "the Southern Coast",
+        "Eastern Plains",
+        "Southern Coast",
         "the Highlands"
       ],
       "city": [
@@ -1527,8 +1527,8 @@
         "Finland",
         "Russia",
         "the United Kingdom",
-        "the United States",
-        "the European Union"
+        "United States",
+        "European Union"
       ]
     },
     "FINLAND": {
@@ -1569,8 +1569,8 @@
         "Norway",
         "Russia",
         "Estonia",
-        "the United States",
-        "the European Union"
+        "United States",
+        "European Union"
       ]
     },
     "DENMARK": {
@@ -1613,8 +1613,8 @@
         "Sweden",
         "Norway",
         "the United Kingdom",
-        "the United States",
-        "the European Union"
+        "United States",
+        "European Union"
       ]
     },
     "GREECE": {
@@ -1657,8 +1657,8 @@
         "Germany",
         "France",
         "the United Kingdom",
-        "the United States",
-        "the European Union"
+        "United States",
+        "European Union"
       ]
     },
     "TURKEY": {
@@ -1685,7 +1685,7 @@
         "the Aegean Coast",
         "the Black Sea Region",
         "the Mediterranean Coast",
-        "the Southeast Heartland"
+        "Southeast Heartland"
       ],
       "city": [
         "Ankara",
@@ -1702,9 +1702,9 @@
         "Syria",
         "Iraq",
         "Iran",
-        "the United States",
+        "United States",
         "Russia",
-        "the European Union",
+        "European Union",
         "Azerbaijan"
       ]
     },
@@ -1743,8 +1743,8 @@
         "Beersheba"
       ],
       "foreign_country": [
-        "the United States",
-        "the European Union",
+        "United States",
+        "European Union",
         "Iran",
         "Jordan",
         "Egypt",
@@ -1790,11 +1790,11 @@
       ],
       "foreign_country": [
         "North Korea",
-        "the United States",
+        "United States",
         "China",
         "Japan",
         "Russia",
-        "the European Union"
+        "European Union"
       ]
     },
     "EGYPT": {
@@ -1816,7 +1816,7 @@
         "the Nile Delta",
         "Upper Egypt",
         "the Sinai Peninsula",
-        "the Western Desert",
+        "Western Desert",
         "the Red Sea Coast"
       ],
       "city": [
@@ -1829,13 +1829,13 @@
         "Luxor"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "Israel",
         "Saudi Arabia",
         "Libya",
         "Sudan",
         "Ethiopia",
-        "the European Union"
+        "European Union"
       ]
     },
     "NIGERIA": {
@@ -1872,7 +1872,7 @@
         "Kaduna"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "United Kingdom",
         "China",
         "South Africa",
@@ -1916,8 +1916,8 @@
       ],
       "foreign_country": [
         "Russia",
-        "the European Union",
-        "the United States",
+        "European Union",
+        "United States",
         "Poland",
         "Belarus",
         "Germany",
@@ -1959,7 +1959,7 @@
         "Berlin"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "China",
         "Russia",
         "United Kingdom",
@@ -2061,7 +2061,7 @@
         "Taif"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "Iran",
         "the United Arab Emirates",
         "Yemen",
@@ -2101,7 +2101,7 @@
         "Qom"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "Israel",
         "Saudi Arabia",
         "Russia",
@@ -2135,7 +2135,7 @@
       ],
       "foreign_country": [
         "South Korea",
-        "the United States",
+        "United States",
         "China",
         "Russia",
         "Japan"
@@ -2206,7 +2206,7 @@
         "the United Kingdom",
         "Germany",
         "France",
-        "the United States",
+        "United States",
         "Poland",
         "Japan"
       ]
@@ -2239,7 +2239,7 @@
         "Alma-Ata"
       ],
       "foreign_country": [
-        "the United States",
+        "United States",
         "Germany",
         "France",
         "United Kingdom",
@@ -2252,7 +2252,7 @@
         "Daily Nation",
         "The Standard",
         "The Star",
-        "The EastAfrican"
+        "EastAfrican"
       ],
       "company": [
         "Safaricom",
@@ -2266,7 +2266,7 @@
         "the Coast",
         "the Central Highlands",
         "Lake Victoria region",
-        "the Northern Frontier"
+        "Northern Frontier"
       ],
       "city": [
         "Nairobi",
@@ -2277,7 +2277,7 @@
       ],
       "foreign_country": [
         "the United Kingdom",
-        "the United States",
+        "United States",
         "China",
         "Tanzania",
         "Uganda",
@@ -2320,7 +2320,7 @@
       ],
       "foreign_country": [
         "the Soviet Union",
-        "the United States",
+        "United States",
         "the European Community",
         "Austria",
         "Hungary",
