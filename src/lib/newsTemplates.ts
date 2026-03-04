@@ -154,14 +154,14 @@ export const ONGOING_BOOST_TEMPLATES = [
   "Approval ratings for {party} still benefiting from {topic} in {city}",
   "{candidate_name} capitalizes on ongoing enthusiasm for {topic}"
 ];
-
 export const GAFFE_TEMPLATES = [
+  // Original Templates
   "{candidate_name} caught in embarrassing {social_media_platform} scandal",
   "{party} candidate arrested at {city} rally",
   "Leaked emails reveal {candidate_name}'s ties to {company}",
   "{leader_name} makes offensive comments about {religious_group}",
   "{party} campaign funds linked to {organisation}",
-  "{candidate_name} caught lying about qualifications",
+  "{party} MP caught lying about qualifications",
   "{party} leader booed off stage in {region}",
   "{leader_name}'s past statements resurface, spark outrage",
   "{candidate_name} accused of accepting bribes from {company}",
@@ -170,10 +170,59 @@ export const GAFFE_TEMPLATES = [
   "Shocking video of {candidate_name} goes viral on {social_media_platform}",
   "{party} campaign in chaos after major internal split",
   "{leader_name} embarrassed at debate with factual errors",
-  "{candidate_name} faces backlash over {foreign_country} remarks"
-];
+  "{candidate_name} faces backlash over {foreign_country} remarks",
 
+  // Hot Mic & Leaked Audio/Video
+  "Hot mic catches {candidate_name} insulting local voters in {city}",
+  "Leaked audio reveals {leader_name}'s true thoughts on the {industry} sector",
+  "{party} candidate caught mocking working-class voters in secret recording",
+  "Undercover sting exposes {party} official selling access to {leader_name}",
+  "{candidate_name} caught swearing at journalists after disastrous {city} interview",
+
+  // Financial Scandals & Hypocrisy
+  "{candidate_name} caught charging luxury holidays to taxpayer expenses",
+  "Investigative report exposes {leader_name}'s secret offshore accounts",
+  "{party} candidate caught flying private to climate change summit",
+  "{candidate_name}'s spouse linked to massive {company} lobbying scandal",
+  "{party} official caught on tape offering government contracts to {company}",
+  "{candidate_name} resigns over alleged tax evasion spanning a decade",
+  "Campaign watchdog launches probe into {party}'s dark money donors",
+
+  // Incompetence & Campaign Disasters
+  "Disaster for {party} as {candidate_name} forgets core manifesto pledge on live TV",
+  "{leader_name} confuses {city} with {foreign_country} in embarrassing speech",
+  "{candidate_name} fails to name the mayor of {city} during local tour",
+  "Fact-checkers destroy {candidate_name}'s latest claims about the {industry}",
+  "{leader_name} mocked for painfully awkward photo-op at {city} factory",
+  "Campaign in crisis: {candidate_name}'s campaign manager quits unexpectedly",
+  "{party} campaign bus breaks down on the way to crucial {city} rally",
+  "{leader_name} accidentally reveals confidential document to press cameras",
+  "{candidate_name} caught hiding from reporters in a fridge",
+  "{leader_name} storms out of {city} interview after tough questions",
+
+  // Extreme Controversies & Misconduct
+  "{party} forced to drop candidate over ties to hostile {foreign_country} intelligence",
+  "{candidate_name} photographed associating with known {organisation} extremists",
+  "{party} candidate claims {religious_group} is part of a global conspiracy",
+  "{leader_name} caught attending secret party during strict national lockdown",
+  "{candidate_name} accused of bullying and toxic behavior at {organisation}",
+  "{party} candidate arrested for DUI after campaign event in {region}",
+  "Outrage as {leader_name} defends controversial actions of {foreign_country} dictator",
+  "{candidate_name} makes highly insensitive joke about recent {city} tragedy",
+  "Historical allegations surface against prominent {party} mega-donor",
+  "{leader_name} makes widely condemned remarks about women in the {industry}",
+
+  // Digital & Modern Missteps
+  "{party} caught astroturfing fake grassroots support on {social_media_platform}",
+  "{candidate_name} caught buying millions of fake followers on {social_media_platform}",
+  "{candidate_name} caught editing own Wikipedia page to hide past scandals",
+  "{party} suspended from {social_media_platform} over co-ordinated disinformation",
+  "{leader_name} refuses to apologize for wildly inappropriate {social_media_platform} post",
+  "Hackers leak {party}'s internal polling showing massive expected losses in {region}",
+  "{candidate_name} accused of using AI to fake endorsement from {religious_group} leaders"
+];
 export const POSITIVE_TEMPLATES = [
+  // Original Templates
   "{candidate_name} receives surprise endorsement from {organisation}",
   "{party} rallies thousands in {city}",
   "{leader_name} praised by {industry} leaders",
@@ -188,7 +237,50 @@ export const POSITIVE_TEMPLATES = [
   "{leader_name}'s grassroots movement spreads across {region}",
   "{candidate_name} delivers knockout blow in debate",
   "{party} volunteer numbers double in {city}",
-  "{leader_name} connects with working-class voters in {region}"
+  "{leader_name} connects with working-class voters in {region}",
+
+  // Debate & Media Triumphs
+  "Instant polls show {candidate_name} as the clear winner of the {city} debate",
+  "{leader_name} masterfully handles hostile interview, earning widespread respect",
+  "Heartwarming interaction between {candidate_name} and local voter goes viral on {social_media_platform}",
+  "{party} releases highly effective attack ad, shifting momentum in {region}",
+  "{candidate_name}'s masterful use of {social_media_platform} engages younger demographic",
+  "Focus groups rave about {leader_name}'s optimistic vision for the future",
+  "Media commentators praise {candidate_name} for a highly disciplined campaign week",
+
+  // Economic & Industry Backing
+  "Major {industry} unions officially throw their weight behind {party}",
+  "{candidate_name} unveils ambitious {industry} revitalization plan for {region}",
+  "Top CEOs and job creators in {city} formally endorse {leader_name}'s economic vision",
+  "{party} praised by economists for fully costed, sensible budget proposals",
+  "{leader_name} successfully mediates {industry} strike in {city}, boosting popularity",
+  "{organisation} names {candidate_name} as the most business-friendly candidate",
+
+  // Grassroots & Campaign Momentum
+  "{party} shatters all-time fundraising records following {candidate_name}'s speech",
+  "Grassroots energy surges as {party} opens dozens of new campaign offices in {region}",
+  "Unexpectedly massive overflow crowd turns out for {leader_name} in {city}",
+  "{party} sees massive spike in youth voter registration in {region}",
+  "{candidate_name}'s campaign merch sells out nationwide in hours",
+  "Internal polling leak shows {party} making massive, unexpected gains in {region}",
+
+  // High-Profile Endorsements & Coalitions
+  "Popular former leader comes out of retirement to aggressively campaign for {candidate_name}",
+  "{organisation} gives {party} its highest-ever rating for transparency and ethics",
+  "Prominent {religious_group} leaders issue historic joint statement backing {candidate_name}",
+  "{leader_name} praised by {foreign_country} head of state for diplomatic statesmanship",
+  "Rival {party} politicians defect to support {candidate_name}, citing strong leadership",
+  "Beloved local celebrity in {city} publicly endorses {leader_name}",
+  "Independent watchdog group declares {candidate_name} the most trustworthy on the ballot",
+
+  // Policy Wins & Character Moments
+  "{candidate_name}'s bold new infrastructure plan is broadly popular in {region}",
+  "Bipartisan applause for {leader_name}'s comprehensive proposals to reform the {industry} sector",
+  "{candidate_name} praised for pausing campaign to assist with {city} disaster relief efforts",
+  "{leader_name} shows genuine empathy while meeting with struggling families in {region}",
+  "{party} introduces wildly popular tax-cut proposal aimed at the middle class",
+  "{candidate_name} successfully champions popular environmental protection bill backed by {organisation}",
+  "{leader_name} praised for cool, calm leadership during recent national security scare"
 ];
 
 export const POSITION_SHIFT_TEMPLATES: Record<string, { positive: string[]; negative: string[] }> = {
