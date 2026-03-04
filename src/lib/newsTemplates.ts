@@ -25,12 +25,17 @@ export const SURGE_MESSAGES = [
   "{newsTitle} campaign electrifies young voters nationwide",
   "Momentum skyrockets following major speech by {newsTitle}",
   "Rival leaders concede ground as {newsTitle} widens lead",
-  "Polling shock: {newsTitle} takes commanding advantagein {city}",
+  "Polling shock: {newsTitle} takes commanding advantage in {city}",
   "Surge in donations from {region} underscores public enthusiasm for {newsTitle}",
   "{newsTitle} hailed as transformative force by supporters in {city}",
   "Experts predict landslide potential in {region} for {newsTitle}",
   "Nationwide rallies signal seismic shift toward {newsTitle}",
-  "All eyes on {newsTitle} after stunning surge to the top in {city} by-election"
+  "All eyes on {newsTitle} after stunning surge to the top in {city} by-election",
+  "{newsTitle} is the name on everyone's lips this week",
+  "A total breakthrough for {newsTitle} in the latest data",
+  "Campaign insiders for {newsTitle} are 'ecstatic' as numbers climb",
+  "From {city} to {region}, the {newsTitle} surge is undeniable",
+  "Can anyone stop {newsTitle}? Latest polls suggest 'No'"
 ];
 
 export const LOSE_MESSAGES = [
@@ -57,13 +62,17 @@ export const LOSE_MESSAGES = [
   "{newsTitle} leadership questioned as ratings crash",
   "Public trust in {newsTitle} hits new low",
   "Disastrous results leave {newsTitle} scrambling for answers",
-  "{newsTitle} blamed for economic missteps - polling nosedives in {city}",
+  "Icy reception for {newsTitle} as polling nosedives in {city}",
   "Crisis talks held as {newsTitle} hemorrhages support in {region}",
   "Voters turn away from {newsTitle} after bruising week in {region}",
   "Opinion polls paint bleak picture for {newsTitle}",
   "Party insiders fear irreversible decline of {newsTitle}",
   "{newsTitle} routed in {region} after public backlash",
-  "Experts: recovery path for {newsTitle} looks increasingly unlikely"
+  "Experts: recovery path for {newsTitle} looks increasingly unlikely",
+  "{newsTitle} faces 'existential threat' after brutal polling week",
+  "Silence from {newsTitle} camp as numbers continue to slide",
+  "Voters in {city} express 'betrayal' over {newsTitle}'s latest move",
+  "A week to forget for {newsTitle} as support vanishes"
 ];
 
 export const STEADY_MESSAGES = [
@@ -96,7 +105,11 @@ export const STEADY_MESSAGES = [
   "{newsTitle} gains credibility after policy rollout",
   "{foreign_country} boosts public image of {newsTitle}",
   "Momentum gradually building behind {newsTitle}",
-  "{newsTitle} performance exceeds expectations in new {city} poll"
+  "{newsTitle} performance exceeds expectations in new {city} poll",
+  "A quiet but effective week for the {newsTitle} camp",
+  "Voters starting to take a second look at {newsTitle}",
+  "Incremental gains for {newsTitle} suggest a slow-burn success",
+  "{newsTitle} is winning the battle of ideas in {region}"
 ];
 
 export const MIXED_MESSAGES = [
@@ -129,7 +142,11 @@ export const MIXED_MESSAGES = [
   "Polling experts: support for {newsTitle} softening in {region}",
   "Donors from {company} uneasy as support for {newsTitle} dips in {region}",
   "Public trust in {newsTitle} shows signs of erosion",
-  "{newsTitle} struggles to control narrative amid losses in {region}"
+  "{newsTitle} struggles to control narrative amid losses in {region}",
+  "The 'honeymoon period' is over for {newsTitle}",
+  "A difficult week of soul-searching for {newsTitle}",
+  "Questions mount as {newsTitle} fails to ignite voter interest",
+  "Polling suggests {newsTitle} is stalling at a critical moment"
 ];
 
 export const OVERTAKE_TEMPLATES = [

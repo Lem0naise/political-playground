@@ -361,6 +361,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Surge in Undocumented Arrivals Strains Frontier Towns',
       'Politicians Clash Over Deportation Policy After High-Profile Case',
     ],
+    shortTitles: ['Border Crisis', 'Immigration Debate', 'Border Security', 'Asylum Surge', 'Migration Politics'],
     descriptions: [
       'A wave of incidents along the border has pushed immigration back to the top of the national agenda, with polls showing record concern.',
       'Leaked internal documents reveal the government has lost track of thousands of visa overstayers, reigniting the border debate.',
@@ -379,12 +380,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'National Debate: {title} dominates headlines; analysts expect {duration}-week turbulence.'
     ],
     ongoingTemplates: [
-      'Ongoing: Fallout from {title} continues to push opinion {directionLabel}.',
-      'Polls show voters drifting {directionLabel} as {title} stays in the news cycle.'
+      'The {shortTitle} continues to dominate the headlines.',
+      'Voters remain focused on {shortTitle} this week.',
+      'Public debate over {shortTitle} is pushing opinion {directionLabel}.',
+      'Media coverage of the {shortTitle} stays intense, nudging voters {directionLabel}.',
+      'The fallout from the {shortTitle} continues to ripple through the electorate.'
     ],
     completionTemplates: [
       'Analysis: After {duration} weeks, {title} leaves a lasting shift {directionLabel}.',
-      'The storm around {title} finally eases, but the electorate has moved decisively {directionLabel}.'
+      'The storm around {title} finally eases, but the electorate has moved decisively {directionLabel}.',
+      'As the {shortTitle} fades, it leaves a clear imprint on the national mood.'
     ]
   },
   {
@@ -396,6 +401,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Government Unveils Ambitious Global Engagement Strategy',
       'Foreign Investment Surge Credited to Open-Border Policies',
     ],
+    shortTitles: ['Trade Summit', 'Free-Trade Deal', 'Global outreach', 'Engagement Strategy', 'Foreign Investment'],
     descriptions: [
       'A sweeping new trade deal promises thousands of jobs and lower prices, boosting public appetite for deeper global integration.',
       'A diplomatic charm offensive—including high-profile cultural festivals and student exchanges—has shifted public opinion toward openness.',
@@ -414,12 +420,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Economic Shift: {title} lifts optimism {directionLabel} for the next {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} continues to drive sentiment {directionLabel}.',
-      'Trade analysts note further movement {directionLabel} as {title} dominates business coverage.'
+      'Momentum builds for the {shortTitle}, lifting optimism {directionLabel}.',
+      'Voters are responding positively to the {shortTitle}.',
+      'The {shortTitle} continues to drive sentiment {directionLabel}.',
+      'Public support for {directionLabel} grows as {shortTitle} stays in focus.',
+      'Economic data tied to the {shortTitle} keeps voters moving {directionLabel}.'
     ],
     completionTemplates: [
       'Analysis: {title} wraps after {duration} weeks, anchoring a significant shift {directionLabel}.',
-      'The momentum from {title} subsides, but a clear realignment {directionLabel} remains.'
+      'The momentum from {title} subsides, but a clear realignment {directionLabel} remains.',
+      'The {shortTitle} concludes, having successfully pivoted the country {directionLabel}.'
     ]
   },
   {
@@ -431,6 +441,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Landmark IPCC Report Triggers Emergency Climate Summit',
       'Heatwave Kills Hundreds, Breaking All Historical Temperature Records',
     ],
+    shortTitles: ['Climate Crisis', 'Global Warming', 'Wildfire Disaster', 'Flood Crisis', 'Climate Emergency'],
     descriptions: [
       'Footage of charred national parks and flooded towns has triggered a surge in public demand for urgent climate action.',
       'A new UN assessment warning of irreversible tipping points has turned climate policy from a fringe issue into the defining question of the campaign.',
@@ -449,12 +460,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'National Crisis: {title} shifts public focus {directionLabel} for at least {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} continues to dominate the climate debate, pushing opinion {directionLabel}.',
-      'Weekly emergency briefings keep {title} in the headlines and voters moving {directionLabel}.'
+      'The urgency of the {shortTitle} continues to dominate the debate.',
+      'Voters are increasingly concerned about {shortTitle}.',
+      'Opinion continues to move {directionLabel} amid the {shortTitle}.',
+      'Emergency measures for the {shortTitle} keep {directionLabel} in the headlines.',
+      'Public pressure for green reform grows as {shortTitle} remains unresolved.'
     ],
     completionTemplates: [
       'Analysis: {title} ends after {duration} weeks having driven a lasting realignment {directionLabel}.',
-      'The crisis triggered by {title} slowly fades, but public opinion is now firmly {directionLabel}.'
+      'The crisis triggered by {title} slowly fades, but public opinion is now firmly {directionLabel}.',
+      'The legacy of the {shortTitle} is a decisive public shift {directionLabel}.'
     ]
   },
   {
@@ -466,6 +481,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Mining Giant Unveils Largest Domestic Investment in a Generation',
       'New Industrial Strategy Prioritises Growth Over Environmental Regulation',
     ],
+    shortTitles: ['Industrial Boom', 'Revival Plan', 'Manufacturing Surge', 'Factory Boom', 'Mining Investment'],
     descriptions: [
       'A surge in factory openings and manufacturing orders has shifted the national conversation from climate targets to economic output.',
       'A high-profile government deregulation drive has business leaders predicting the fastest industrial growth in decades.',
@@ -484,12 +500,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Economic Shift: {title} pulls the debate {directionLabel} through the next {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} keeps economic growth front-of-mind, nudging voters {directionLabel}.',
-      'Business coverage of {title} continues to move public opinion {directionLabel}.'
+      'The {shortTitle} keeps economic growth front-of-mind.',
+      'Industrial optimism from the {shortTitle} nudges voters {directionLabel}.',
+      'Business confidence remains high as the {shortTitle} continues.',
+      'The debate remains tilted {directionLabel} amid talk of {shortTitle}.',
+      'Voters are increasingly focused on jobs from the {shortTitle}.'
     ],
     completionTemplates: [
       'Analysis: {title} completes its run, leaving a footprint {directionLabel}.',
-      'As {title} fades from the headlines, the electorate has shifted measurably {directionLabel}.'
+      'As {title} fades from the headlines, the electorate has shifted measurably {directionLabel}.',
+      'The era of the {shortTitle} leaves the country focused more on {directionLabel}.'
     ]
   },
   {
@@ -501,6 +521,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Gig Economy Scandal: Millions of Workers Denied Basic Labour Rights',
       'Mass Layoffs at Major Corporation Spark Workers\' Rights Movement',
     ],
+    shortTitles: ['Strike Wave', 'Union Victory', 'Labour Scandal', 'Workers\' Rights', 'Wage Stagnation'],
     descriptions: [
       'A series of high-profile strikes across transport, healthcare and education has put workers\' rights at the centre of the political debate.',
       'A damning report on income inequality, widely shared on social media, has fuelled grassroots pressure for redistribution and stronger unions.',
@@ -519,12 +540,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Labour Shift: {title} nudges public debate {directionLabel} for roughly {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} keeps labour rights in the headlines; opinion continues to move {directionLabel}.',
-      'Fresh picket lines and union rallies sustain the shift {directionLabel} triggered by {title}.'
+      'The {shortTitle} continues to fuel the debate on fairness.',
+      'Voters are increasingly sympathetic to {directionLabel} amid the {shortTitle}.',
+      'Union leaders cite the {shortTitle} as a turning point for {axisLabel}.',
+      'The momentum from the {shortTitle} shows no sign of slowing.',
+      'Public discourse remains focused on {shortTitle} and {directionLabel}.'
     ],
     completionTemplates: [
       'Analysis: {title} winds down, but a significant shift {directionLabel} has been locked in.',
-      'Workers\' movement sparked by {title} settles after {duration} weeks, leaving lasting change {directionLabel}.'
+      'Workers\' movement sparked by {title} settles after {duration} weeks, leaving lasting change {directionLabel}.',
+      'The impact of the {shortTitle} has permanently baseline shifted the {axisLabel}.'
     ]
   },
   {
@@ -536,6 +561,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Deregulation Drive Unleashes Private Investment Surge',
       'Central Bank Reports Strongest Growth in Two Decades',
     ],
+    shortTitles: ['Market Boom', 'Economic Boom', 'Deregulation Surge', 'Investment Surge', 'Tech Boom'],
     descriptions: [
       'A booming stock market and record corporate earnings have strengthened the hand of free-market advocates across the political spectrum.',
       'Headline figures showing falling unemployment and rising wages are credited to recent deregulation, boosting faith in market-led solutions.',
@@ -554,12 +580,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Market Shift: {title} drifts sentiment {directionLabel} for the next {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} keeps business confidence high and voters moving {directionLabel}.',
-      'Continued positive economic data from {title} sustains movement {directionLabel}.'
+      'The {shortTitle} continues to lift business confidence.',
+      'Free-market optimism grows amid the ongoing {shortTitle}.',
+      'Voters are responding to the economic gains of the {shortTitle}.',
+      'The {shortTitle} keeps the country focused on {directionLabel}.',
+      'Corporate leaders hail the {shortTitle} as a victory for the {axisLabel}.'
     ],
     completionTemplates: [
       'Analysis: The boom sparked by {title} settles after {duration} weeks, banking a shift {directionLabel}.',
-      '{title} fades from the front pages, but voters have moved measurably {directionLabel}.'
+      '{title} fades from the front pages, but voters have moved measurably {directionLabel}.',
+      'The {shortTitle} concludes, having firmly anchored the country {directionLabel}.'
     ]
   },
   {
@@ -571,6 +601,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Leaked Military Report Warns of Critical Security Vulnerabilities',
       'Ambassador Recalled as Neighbour Conducts Provocative Military Exercises',
     ],
+    shortTitles: ['Security Crisis', 'Terrror Plot', 'Cyberattack', 'Defence Review', 'Border Tensions'],
     descriptions: [
       'A foreign military incursion, even if brief, has sent shockwaves through the public and hardened attitudes toward national defence.',
       'The foiling of a large-scale terror plot has intensified calls for expanded surveillance powers and higher defence spending.',
@@ -589,12 +620,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Security Crisis: {title} drives discourse {directionLabel} for the next {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} keeps security at the top of the agenda; public opinion moves {directionLabel}.',
-      'Defence briefings continue to feed the movement {directionLabel} sparked by {title}.'
+      'Voters remain rattled by the {shortTitle}.',
+      'National security focus deepens as the {shortTitle} continues.',
+      'Calls for {directionLabel} grow louder in response to the {shortTitle}.',
+      'The {shortTitle} keeps defence spending at the top of the agenda.',
+      'Intelligence briefings on the {shortTitle} nudge opinion {directionLabel}.'
     ],
     completionTemplates: [
       'Analysis: {title} concludes with a significant and lasting tilt {directionLabel}.',
-      'The threat environment described in {title} fades, but voters have shifted {directionLabel}.'
+      'The threat environment described in {title} fades, but voters have shifted {directionLabel}.',
+      'The {shortTitle} has left the electorate permanently more {directionLabel}.'
     ]
   },
   {
@@ -606,6 +641,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Veterans\' Group Condemns Government\'s "Endless War" Posture',
       'Defence Budget Scandal: Overruns Cost Taxpayers Twice the Estimate',
     ],
+    shortTitles: ['Defence Scandal', 'Peace Protests', 'Casualty Leak', 'War Backlash', 'Procurement Fraud'],
     descriptions: [
       'A major defence procurement fraud scandal has eroded public trust in military spending and boosted support for demilitarisation.',
       'Mass anti-war protests, timed to a controversial overseas deployment, have put the peace movement back at the centre of politics.',
@@ -624,12 +660,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Peace Shift: {title} reorients the security debate {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} sustains momentum {directionLabel}; peace advocates see real traction.',
-      'Weekly revelations tied to {title} continue moving public opinion {directionLabel}.'
+      'The {shortTitle} continues to embolden the peace movement.',
+      'Public anger over the {shortTitle} is pushing opinion {directionLabel}.',
+      'The fallout from the {shortTitle} stays in the headlines.',
+      'Voters are increasingly skeptical of military spending amid the {shortTitle}.',
+      'Pressure for {directionLabel} builds as the {shortTitle} remains unresolved.'
     ],
     completionTemplates: [
       'Analysis: The movement sparked by {title} leaves a significant imprint {directionLabel}.',
-      '{title} fades after {duration} weeks, but the electorate has moved {directionLabel}.'
+      '{title} fades after {duration} weeks, but the electorate has moved {directionLabel}.',
+      'The {shortTitle} concludes, having left the public decidedly {directionLabel}.'
     ]
   },
   {
@@ -641,6 +681,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Police Report Surge in Gang Activity as Resources Stretched',
       'High-Profile Murder Spree Dominates Weeks of News Coverage',
     ],
+    shortTitles: ['Crime Crisis', 'Gang Exposure', 'Attack Viral', 'Gang Activity', 'Safety Alert'],
     descriptions: [
       'A spate of violent crimes in major cities, widely covered in the media, has hardened public attitudes in favour of stronger law enforcement.',
       'An exposé of a sophisticated organised crime network with apparent links to officials has driven demands for a crackdown.',
@@ -659,12 +700,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Public Safety Crisis: {title} drags sentiment {directionLabel} for the next {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} continues to tighten public attitudes; opinion moves {directionLabel}.',
-      'New developments in {title} sustain the shift {directionLabel}.'
+      'The {shortTitle} continues to tighten public attitudes.',
+      'Security remains a top voter concern as the {shortTitle} develops.',
+      'Public pressure for {directionLabel} builds amid {shortTitle}.',
+      'The {shortTitle} keeps the country focused on safety and order.',
+      'Voters are increasingly responding to {directionLabel} from {shortTitle}.'
     ],
     completionTemplates: [
       'Analysis: {title} settles after {duration} weeks with a significant move {directionLabel}.',
-      'The public safety panic from {title} eases, but voters are now markedly {directionLabel}.'
+      'The public safety panic from {title} eases, but voters are now markedly {directionLabel}.',
+      'The {shortTitle} concludes, having left the public decidedly more {directionLabel}.'
     ]
   },
   {
@@ -676,6 +721,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Landmark Report: One in Four Citizens Surveilled Without Warrant',
       'Prison Overcrowding Crisis Triggers Emergency Rights Review',
     ],
+    shortTitles: ['Rights Ruling', 'Justice Scandal', 'Rights Protests', 'Surveillance Report', 'Rights Review'],
     descriptions: [
       'A landmark court ruling striking down mass surveillance has reignited the civil liberties debate and energised rights advocates.',
       'A major wrongful conviction scandal, involving fabricated police evidence, has shaken public confidence in state authority.',
@@ -694,12 +740,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Rights Shift: {title} turns the spotlight {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} keeps civil liberties in the headlines; voters continue moving {directionLabel}.',
-      'Rights advocates build on momentum from {title}, driving further movement {directionLabel}.'
+      'The {shortTitle} continues to inspire rights advocates.',
+      'Public distrust of state power grows as the {shortTitle} continues.',
+      'Conversation remains focused on liberty and the {shortTitle}.',
+      'The {shortTitle} keeps the country focused on {directionLabel}.',
+      'Voters are increasingly drawn to {directionLabel} amid {shortTitle}.'
     ],
     completionTemplates: [
       'Analysis: {title} leaves the electorate significantly {directionLabel} after {duration} weeks.',
-      'The rights wave from {title} subsides, with a clear and lasting shift {directionLabel}.'
+      'The rights wave from {title} subsides, with a clear and lasting shift {directionLabel}.',
+      'The legacy of the {shortTitle} is a decisive move {directionLabel}.'
     ]
   },
   {
@@ -711,6 +761,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Viral Sermon Condemning Moral Decline Watched 50 Million Times',
       'Growing Church Attendance Signals Shift in National Cultural Identity',
     ],
+    shortTitles: ['Faith Revival', 'Moral Debate', 'Faith Mobilisation', 'Faith Viral', 'Church Surge'],
     descriptions: [
       'A sweeping religious revival movement, culminating in mass gatherings broadcast nationally, has moved faith values to the political forefront.',
       'A series of high-profile endorsements from religious leaders for conservative social policies has galvanised faith-based voters.',
@@ -729,12 +780,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Cultural Shift: {title} swings public discourse {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} sustains the movement {directionLabel}; faith communities remain mobilised.',
-      'Weekly faith events keep {title} in the headlines, pushing opinion further {directionLabel}.'
+      'The {shortTitle} continues to inspire faith communities.',
+      'Traditional values focus remains intense as the {shortTitle} develops.',
+      'Voters are increasingly drawn to {directionLabel} amid {shortTitle}.',
+      'The {shortTitle} keeps faith and tradition in the headlines.',
+      'Public discourse is shaped by the {shortTitle} and {directionLabel}.'
     ],
     completionTemplates: [
       'Analysis: {title} settles with a significant and lasting imprint {directionLabel}.',
-      'The revival sparked by {title} fades after {duration} weeks, leaving the electorate {directionLabel}.'
+      'The revival sparked by {title} fades after {duration} weeks, leaving the electorate {directionLabel}.',
+      'The legacy of the {shortTitle} is a decisive tilt {directionLabel}.'
     ]
   },
   {
@@ -746,6 +801,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Abuse Inquiry Delivers Damning Verdict Against Religious Establishment',
       'Youth Survey: Record Numbers Identify as Non-Religious',
     ],
+    shortTitles: ['Secular Reform', 'Clerical Scandal', 'Science Boom', 'Inquiry Verdict', 'Secular Surge'],
     descriptions: [
       'A sweeping legislative push to remove religious influence from state institutions has galvanised secular voters and shifted the cultural debate.',
       'A devastating abuse inquiry involving a major religious institution has dramatically eroded public trust in faith-based authority.',
@@ -764,12 +820,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Cultural Shift: {title} edges public sentiment {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} continues to push the cultural debate {directionLabel}.',
-      'New developments from {title} add momentum to the shift {directionLabel}.'
+      'The {shortTitle} continues to drive secularisation.',
+      'Rationalist themes remain dominant as the {shortTitle} continues.',
+      'Opinion continues to move {directionLabel} amid the {shortTitle}.',
+      'The {shortTitle} keeps the country focused on secular progress.',
+      'Public discourse is increasingly shaped by {directionLabel} from {shortTitle}.'
     ],
     completionTemplates: [
       'Analysis: {title} winds down after {duration} weeks, cementing a move {directionLabel}.',
-      'The secular wave from {title} recedes, but the electorate has shifted measurably {directionLabel}.'
+      'The secular wave from {title} recedes, but the electorate has shifted measurably {directionLabel}.',
+      'The {shortTitle} has anchored a new consensus around {directionLabel}.'
     ]
   },
   {
@@ -781,6 +841,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Grassroots Coalition Launches Largest Progressive Policy Push in Decades',
       'Historic Rights Ruling Galvanises Progressive Movement Nationwide',
     ],
+    shortTitles: ['Equality Reform', 'Justice Protests', 'Inequality Viral', 'Policy Push', 'Rights Ruling'],
     descriptions: [
       'A wave of grassroots activism, culminating in major street protests, has put progressive social reform back at the top of the political agenda.',
       'A viral documentary exposing deep-seated systemic inequalities has galvanised a new generation of progressive voters.',
@@ -799,12 +860,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Cultural Shift: {title} steers debate {directionLabel} through {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} keeps progressive energy high; opinion continues to move {directionLabel}.',
-      'Sustained activism from {title} drives further movement {directionLabel}.'
+      'The {shortTitle} continues to inspire progressive enthusiasm.',
+      'Voters are increasingly supportive of {directionLabel} amid {shortTitle}.',
+      'The {shortTitle} keeps social justice at the top of the agenda.',
+      'Opinion continues to move {directionLabel} as {shortTitle} develops.',
+      'Public discourse is shaped by the {shortTitle} and {directionLabel}.'
     ],
     completionTemplates: [
       'Analysis: {title} caps a significant pivot {directionLabel} after {duration} weeks.',
-      'The progressive wave from {title} subsides, leaving the electorate shifted {directionLabel}.'
+      'The progressive wave from {title} subsides, leaving the electorate shifted {directionLabel}.',
+      'The legacy of the {shortTitle} is a decisive move {directionLabel}.'
     ]
   },
   {
@@ -816,6 +881,7 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Bestselling Book on National Decline Tops Charts for Twelve Weeks',
       'Constitutional Amendment Proposal to Enshrine Traditional Values Gains Support',
     ],
+    shortTitles: ['Heritage Surge', 'History Wars', 'Cultural nostalgia', 'Decline Debate', 'Values Campaign'],
     descriptions: [
       'A fierce backlash against recent social changes has fuelled a powerful traditionalist revival, drawing millions into a debate about national identity.',
       'A controversial school curriculum reform, seen by many as erasing national heritage, has ignited a culture war with electoral consequences.',
@@ -834,12 +900,16 @@ const TREND_DEFINITIONS: TrendDefinition[] = [
       'Cultural Shift: {title} nudges public conversation {directionLabel} for {duration} weeks.'
     ],
     ongoingTemplates: [
-      'Ongoing: {title} keeps the traditionalist mood alive; voters continue drifting {directionLabel}.',
-      'New cultural touchpoints from {title} sustain the movement {directionLabel}.'
+      'The {shortTitle} continues to fuel traditionalist sentiment.',
+      'Nostalgia remains a powerful force as the {shortTitle} develops.',
+      'Opinion continues to move {directionLabel} amid the {shortTitle}.',
+      'The {shortTitle} keeps national heritage in the headlines.',
+      'Voters are responding to the {directionLabel} themes of {shortTitle}.'
     ],
     completionTemplates: [
       'Analysis: {title} concludes after {duration} weeks, preserving a shift {directionLabel}.',
-      'The nostalgia wave from {title} fades, but the electorate has moved measurably {directionLabel}.'
+      'The nostalgia wave from {title} fades, but the electorate has moved measurably {directionLabel}.',
+      'The {shortTitle} has anchored a more {directionLabel} outlook in the public.'
     ]
   }
 ];
@@ -867,6 +937,7 @@ function buildTrendContext(
 ): Record<string, string> {
   return {
     title: trend.title,
+    shortTitle: trend.shortTitle,
     description: trend.description,
     directionLabel: trend.directionLabel,
     axisLabel: trend.axisLabel,
@@ -904,16 +975,18 @@ export function createTrend(currentWeek: number, excludeValueKeys?: PoliticalVal
   const totalShiftMagnitude = randomInRange(definition.shiftRange[0], definition.shiftRange[1]);
   const totalShift = parseFloat((totalShiftMagnitude * definition.direction).toFixed(2));
 
-  // Randomly resolve a title and description from the arrays at spawn time
+  // Randomly resolve a title, shortTitle, and description from the arrays at spawn time
   const title = definition.titles[Math.floor(Math.random() * definition.titles.length)];
+  const shortTitle = definition.shortTitles[Math.floor(Math.random() * definition.shortTitles.length)];
   const description = definition.descriptions[Math.floor(Math.random() * definition.descriptions.length)];
 
-  // Spread the definition (omitting titles/descriptions arrays) then add resolved singular values
-  const { titles: _t, descriptions: _d, ...rest } = definition;
+  // Spread the definition (omitting titles/shortTitles/descriptions arrays) then add resolved singular values
+  const { titles: _t, shortTitles: _st, descriptions: _d, ...rest } = definition;
 
   return {
     ...rest,
     title,
+    shortTitle,
     description,
     totalShift,
     weeklyShift: parseFloat((totalShift / duration).toFixed(2)),
