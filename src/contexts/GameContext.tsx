@@ -37,6 +37,7 @@ interface GameContextType {
     setTargetedBloc: (blocId: string | null) => void;
     nextCoalitionAttempt: () => void;
     logCoalitionEvent: (message: string) => void;
+    resumeCampaign: () => void;
   };
 }
 
@@ -59,6 +60,7 @@ type GameAction =
   | { type: 'SET_TARGETED_BLOC'; payload: { blocId: string | null } }
   | { type: 'NEXT_COALITION_ATTEMPT' }
   | { type: 'CONTINUE_CAMPAIGN' }
+  | { type: 'RESUME_CAMPAIGN' }
   | { type: 'LOAD_STATE'; payload: { savedState: any } }
   | { type: 'LOG_COALITION_EVENT'; payload: { message: string } };
 
@@ -263,8 +265,47 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         eventNewsToPass.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
       } else if (action.payload.choice.internalAction?.type === 'STAY_LEADER') {
         updatedPlayerCandidate.leaderCooldown = 10; // Moderate reprieve after surviving a challenge
+      } else if (action.payload.choice.internalAction?.type === 'START_COALITION') {
+        // Kick off a coalition formation minigame mid-campaign based on current (week 2) polling
+        const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
+        const leadingParty = sortedResults[0].candidate;
+
+        let initialCabinetAllocations: Record<string, string[]> = {
+          [leadingParty.party]: []
+        };
+
+        return {
+          ...state,
+          playerCandidate: updatedPlayerCandidate,
+          pendingPlayerEvent: null,
+          votingData: state.votingData,
+          phase: 'coalition',
+          coalitionState: {
+            coalitionPartners: [leadingParty],
+            currentCoalitionPercentage: sortedResults[0].percentage,
+            availablePartners: sortedResults.slice(1).map(r => r.candidate),
+            cabinetAllocations: initialCabinetAllocations,
+            isPlayerLead: leadingParty.is_player,
+            negotiationPhase: 'partner-selection',
+            attemptingPartyIndex: 0,
+            coalitionLog: ['Election concluded. Mandate given to largest party...']
+          }
+        };
+      } else if (action.payload.choice.internalAction?.type === 'AUTO_FORM_GOVERNMENT') {
+        // Automatically make the largest party the incumbent gov without a coalition
+        const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
+        const leadingParty = sortedResults[0].candidate;
+        return {
+          ...state,
+          playerCandidate: updatedPlayerCandidate,
+          pendingPlayerEvent: null,
+          votingData: state.votingData,
+          incumbentGovernment: [leadingParty.party]
+        };
       }
 
+      // Add polling changes
+      updatedPlayerCandidate.base_utility_modifier = (updatedPlayerCandidate.base_utility_modifier || 0) + pollingChange;
       // Update the candidates array with the modified player candidate
       const candidatesAfterEvent = state.candidates.map(candidate =>
         candidate.id === state.playerCandidate?.id ? updatedPlayerCandidate : candidate
@@ -371,7 +412,17 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         }
       };
 
+    case 'RESUME_CAMPAIGN':
+      // Return to campaign from a mid-game coalition sequence with the newly formed government
+      return {
+        ...state,
+        phase: 'campaign',
+        incumbentGovernment: state.coalitionState?.coalitionPartners.map(p => p.party) || [],
+        coalitionState: undefined // Clear miniscreen state
+      };
+
     case 'CONTINUE_CAMPAIGN': {
+      // Move from campaign to results screen (post-election)
       // Determine the incumbent government: if coalition is complete, it's the coalition partners, otherwise the single winner
       let governmentParties: string[] = [];
       const isCoalition = state.coalitionState?.negotiationPhase === 'complete';
@@ -782,6 +833,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     continueCampaign: useCallback(() => {
       dispatch({ type: 'CONTINUE_CAMPAIGN' });
+    }, []),
+
+    resumeCampaign: useCallback(() => {
+      dispatch({ type: 'RESUME_CAMPAIGN' });
     }, []),
 
     loadState: useCallback((savedState: any) => {

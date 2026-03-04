@@ -101,6 +101,14 @@ export default function CampaignView() {
 
   const handleEventChoice = (event: Event, choice: EventChoice) => {
     actions.handleEvent(event, choice);
+
+    // If the choice initiates a game phase change, don't tick the week forward
+    if (choice.internalAction?.type === 'START_COALITION' || choice.internalAction?.type === 'AUTO_FORM_GOVERNMENT') {
+      setCurrentEvent(null);
+      scrollToTop();
+      return;
+    }
+
     if (state.currentPoll === 0) {
       actions.startCampaign();
     } else {

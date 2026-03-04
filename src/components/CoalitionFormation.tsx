@@ -888,12 +888,21 @@ export default function CoalitionFormation() {
           />
 
           <div className="text-center pt-2">
-            <button
-              onClick={() => actions.setGamePhase('results')}
-              className="px-10 py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 border border-green-500 text-white font-bold rounded-xl transition-all hover:scale-105"
-            >
-              View Final Results
-            </button>
+            {state.currentPoll < state.totalPolls ? (
+              <button
+                onClick={() => actions.resumeCampaign()}
+                className="px-10 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 border border-blue-500 text-white font-bold rounded-xl transition-all hover:scale-105"
+              >
+                Return to Campaign
+              </button>
+            ) : (
+              <button
+                onClick={() => actions.setGamePhase('results')}
+                className="px-10 py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 border border-green-500 text-white font-bold rounded-xl transition-all hover:scale-105"
+              >
+                View Final Results
+              </button>
+            )}
             <p className="text-slate-500 text-xs mt-3">
               Created by{' '}
               <a href="https://indigo.spot" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline">

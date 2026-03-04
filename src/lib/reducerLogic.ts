@@ -325,6 +325,43 @@ export function calculateNextPollState(state: GameState): GameState {
     leadershipNews = changes.news;
     playerCrisisEvent = changes.playerCrisisEvent || null;
   }
+
+  // -- BEGIN: WEEK 2 INITIAL GOVERNMENT FORMATION --
+  if (nextPollNum === 2 && (!state.incumbentGovernment || state.incumbentGovernment.length === 0)) {
+    const hasPlayer = state.candidates.some(c => c.is_player);
+    if (hasPlayer && !playerCrisisEvent) {
+      playerCrisisEvent = {
+        title: "Initial Government Formation",
+        description: `Following the dramatic entry of ${state.playerCandidate?.name} into the campaign, the political landscape is fractured. Initial polls suggest no single party commands a clear majority. As a key player, do you wish to initiate backroom negotiations to form a coalition government now, or allow the largest polling party to assert a minority government?`,
+        choices: [
+          {
+            text: "Enter coalition negotiations.",
+            effect: {},
+            boost: 0,
+            internalAction: {
+              type: 'START_COALITION'
+            }
+          },
+          {
+            text: "Let the largest party form a minority government.",
+            effect: {},
+            boost: 0,
+            internalAction: {
+              type: 'AUTO_FORM_GOVERNMENT'
+            }
+          }
+        ]
+      };
+    } else if (!hasPlayer) {
+      // If AI only, just slap the largest party in as incumbent to simulate
+      // an initial government. Sort by new polls.
+      const sortedByPolls = [...newResults].sort((a, b) => b.percentage - a.percentage);
+      // NOTE: This will be overwritten by the state update at the end of the function.
+      // Easiest is to handle this down where we construct the return object.
+      // But we will actually do it below.
+    }
+  }
+  // -- END: WEEK 2 INITIAL GOVERNMENT FORMATION --
   // --- END: Check for AI Leadership Changes ---
 
   // Re-map results to point to the active candidates
@@ -744,6 +781,13 @@ export function calculateNextPollState(state: GameState): GameState {
   }));
 
   const syncedPlayerCandidate = freshCandidates.find(c => c.is_player) ?? state.playerCandidate;
+
+  const hasPlayer = state.candidates.some(c => c.is_player);
+  let finalIncumbentGovernment = state.incumbentGovernment;
+  if (nextPollNum === 2 && (!state.incumbentGovernment || state.incumbentGovernment.length === 0) && !hasPlayer) {
+    const sortedByPolls = [...resultsWithChange].sort((a, b) => b.percentage - a.percentage);
+    finalIncumbentGovernment = [sortedByPolls[0].candidate.party];
+  }
 
   return {
     ...state,

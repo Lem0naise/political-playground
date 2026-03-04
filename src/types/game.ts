@@ -112,7 +112,7 @@ export interface EventChoice {
   effect: Partial<PoliticalValues>;
   boost: number;
   internalAction?: {
-    type: 'CHANGE_LEADER' | 'STAY_LEADER';
+    type: 'CHANGE_LEADER' | 'STAY_LEADER' | 'START_COALITION' | 'AUTO_FORM_GOVERNMENT';
     newName?: string;
     oldName?: string;
   };
