@@ -568,9 +568,80 @@ export function calculateNextPollState(state: GameState): GameState {
   });
 
   const DRIFT_WEEKS = 5;          // polls over which total shift is applied
-  const DRIFT_TOTAL_MIN = 15;     // minimum total shift (points on axis)
-  const DRIFT_TOTAL_MAX = 30;     // maximum total shift
+  const DRIFT_TOTAL_MIN = 8;      // minimum total shift (points on axis) — reduced to be less dramatic
+  const DRIFT_TOTAL_MAX = 18;     // maximum total shift — reduced to be less dramatic
   const positionShiftNews: string[] = [];
+
+  /**
+   * Picks a drift axis and direction for a non-player candidate.
+   * ~85% of the time: targets the nearest promising growth bloc and closes
+   * the biggest gap on a single axis (so a right-wing party drifts right toward
+   * moderate-right blocs, never randomly jumping leftward).
+   * ~15% of the time: random axis + gravity-toward-center (leadership mistake).
+   */
+  function chooseDriftTarget(
+    candidate: (typeof activeCandidates)[0],
+    blocs: NonNullable<typeof state.countryData.blocs>,
+    candidateShares: Map<string, number> // blocId -> candidate's share in that bloc
+  ): { axisKey: keyof PoliticalValues; direction: 1 | -1 } | null {
+    // 15% chance: erratic leadership mistake — random axis, gravity-toward-center direction
+    if (Math.random() < 0.15) {
+      const axisKey = AXIS_KEYS[Math.floor(Math.random() * AXIS_KEYS.length)];
+      const axisIndex = AXIS_KEYS.indexOf(axisKey);
+      const currentValue = candidate.vals[axisIndex];
+      const direction = (Math.random() < (0.5 - currentValue / 200)) ? 1 : -1;
+      return { axisKey, direction };
+    }
+
+    // Score each bloc by growth potential:
+    //   potential = weight * (1 - currentShare) — large blocs where we're weak
+    // Filter out blocs that are too ideologically distant (no point chasing them)
+    const MAX_VIABLE_DISTANCE = 120; // Euclidean distance threshold across all 7 axes
+
+    let bestBloc: (typeof blocs)[0] | null = null;
+    let bestScore = -Infinity;
+
+    for (const bloc of blocs) {
+      // Compute Euclidean distance between candidate and bloc center
+      const dist = Math.sqrt(
+        AXIS_KEYS.reduce((sum, key, i) => {
+          const diff = candidate.vals[i] - bloc.center[key];
+          return sum + diff * diff;
+        }, 0)
+      );
+      if (dist > MAX_VIABLE_DISTANCE) continue;
+
+      const share = candidateShares.get(bloc.id) ?? 50; // default 50% if unknown
+      const potential = bloc.weight * (1 - share / 100);
+      if (potential > bestScore) {
+        bestScore = potential;
+        bestBloc = bloc;
+      }
+    }
+
+    if (!bestBloc) return null;
+
+    // Among all axes, find the one with the largest gap to the target bloc's center.
+    // Only consider axes where the gap is at least 3 points (meaningful movement).
+    let bestAxisKey: keyof PoliticalValues | null = null;
+    let bestGap = 2; // minimum threshold
+
+    for (const key of AXIS_KEYS) {
+      const axisIndex = AXIS_KEYS.indexOf(key);
+      const gap = bestBloc.center[key] - candidate.vals[axisIndex];
+      if (Math.abs(gap) > bestGap) {
+        bestGap = Math.abs(gap);
+        bestAxisKey = key;
+      }
+    }
+
+    if (!bestAxisKey) return null;
+
+    const axisIndex = AXIS_KEYS.indexOf(bestAxisKey);
+    const targetValue = bestBloc.center[bestAxisKey];
+    const direction = targetValue > candidate.vals[axisIndex] ? 1 : -1;
+    return { axisKey: bestAxisKey, direction };
+  }
 
   const nonPlayerCandidates = activeCandidates.filter(c => !c.is_player);
   nonPlayerCandidates.forEach(candidate => {
@@ -642,13 +713,33 @@ export function calculateNextPollState(state: GameState): GameState {
     if (Math.abs(currentSwing) > 2.0) driftProbability += 0.04;
 
     if (Math.random() < driftProbability) {
-      const axisToShift = AXIS_KEYS[Math.floor(Math.random() * AXIS_KEYS.length)];
+      // Build a map of per-bloc support for this candidate (from current blocStats)
+      const candidateBlocShares = new Map<string, number>();
+      const currentBlocStats = state.blocStats ?? [];
+      for (const bs of currentBlocStats) {
+        const share = bs.percentages[candidate.party] ?? 0;
+        candidateBlocShares.set(bs.blocId, share);
+      }
+
+      // Choose which axis and direction to drift, using bloc-targeted logic
+      const blocs = state.countryData.blocs ?? [];
+      const driftTarget = blocs.length > 0
+        ? chooseDriftTarget(targetCandidate, blocs, candidateBlocShares)
+        : null;
+
+      // If no viable target found (e.g. party already close to all blocs), skip this cycle
+      if (!driftTarget) return;
+
+      const { axisKey: axisToShift, direction } = driftTarget;
       const axisIndex = AXIS_KEYS.indexOf(axisToShift);
-      const currentValue = targetCandidate.vals[axisIndex];
-      // "Ideological gravity": drift towards the center if extreme.
-      const driftProbPositive = 0.5 - (currentValue / 200); // currentValue is -100 to 100
-      const direction = Math.random() < driftProbPositive ? 1 : -1;
-      const totalShift = (DRIFT_TOTAL_MIN + Math.random() * (DRIFT_TOTAL_MAX - DRIFT_TOTAL_MIN)) * direction;
+
+      // Clamp total shift so it doesn't overshoot the target bloc's center value
+      // (prevents a party from blowing past its intended destination)
+      let totalShift = (DRIFT_TOTAL_MIN + Math.random() * (DRIFT_TOTAL_MAX - DRIFT_TOTAL_MIN)) * direction;
+      const currentVal = targetCandidate.vals[axisIndex];
+      if (direction > 0 && currentVal + totalShift > 100) totalShift = 100 - currentVal;
+      if (direction < 0 && currentVal + totalShift < -100) totalShift = -100 - currentVal;
+
       const weeklyShift = totalShift / DRIFT_WEEKS;
 
       // Commit the drift — first week applied immediately
