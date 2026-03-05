@@ -965,3 +965,67 @@ export const BLOC_REACTION_TEMPLATES: Record<string, {
     ]
   }
 };
+
+// ─── Government-in-power polling headlines ───────────────────────────────────
+
+export const GOVERNMENT_SURGE_TEMPLATES = [
+  "{newsTitle} Government rides wave of approval after policy triumph in {region}",
+  "Ministers hail new polling as vindication of {newsTitle}'s reform agenda",
+  "{newsTitle} consolidates grip on power as governing record wins converts in {city}",
+  "Rising confidence in {newsTitle} government drives record approval in {region}",
+  "Voters reward {newsTitle} for steady hand on the nation's affairs",
+  "{newsTitle} PM wins personal approval surge after landmark speech",
+  "Government delivers on key promise — {newsTitle} polling climbs in {region}",
+  "Coalition holds firm as {newsTitle} charts course through difficult waters",
+  "Governing {newsTitle} opens commanding lead after popular budget announcement",
+  "{newsTitle} Cabinet praised for crisis management as support swells in {city}",
+  "Polls reward {newsTitle} as unemployment falls to record lows in {region}",
+  "The {newsTitle} mandate strengthens — voters back another term"
+];
+
+export const GOVERNMENT_LOSE_TEMPLATES = [
+  "Voters punish {newsTitle} for broken manifesto promises in {region}",
+  "Incumbency penalty bites as {newsTitle} loses ground in {city}",
+  "{newsTitle} government faces backlash over controversial policy rollout",
+  "Managing a country isn't easy — and {newsTitle}'s poll drop proves it",
+  "Opposition capitalise as {newsTitle} government stumbles in {region}",
+  "Scandal in {newsTitle} Cabinet triggers sharp drop in governing party support",
+  "Cost-of-living crisis drags {newsTitle} government polling to new low in {city}",
+  "Voters in {region} punish {newsTitle} for inaction on key domestic issue",
+  "Mid-term blues hit {newsTitle} as voters grow weary of incumbents",
+  "Opposition gains ground as {newsTitle} government loses narrative control",
+  "Governing {newsTitle} exposed amid revelations of internal policy chaos",
+  "Public patience with {newsTitle} government growing thin in {region}"
+];
+
+// ─── Opposition-party polling headlines ───────────────────────────────────────
+
+export const OPPOSITION_SURGE_TEMPLATES = [
+  "{newsTitle} surges as voters search for an alternative to the government",
+  "Fresh challenger energy puts {newsTitle} in striking distance in {region}",
+  "{newsTitle} capitalises on government failures to post major gains in {city}",
+  "Voters flock to {newsTitle} as the credible opposition voice in {region}",
+  "Opposition {newsTitle} riding high as public frustration with incumbents grows",
+  "{newsTitle} pitches itself as the change voters are desperate for",
+  "Government's struggles hand {newsTitle} a stunning surge in {region}",
+  "Out-of-power {newsTitle} narrows gap with remarkable grassroots mobilisation",
+  "{newsTitle} unveils bold alternative manifesto — voters in {city} respond",
+  "Opposition {newsTitle} benefits as scandals rock the government benches",
+  "{city} voters abandoning the incumbents — and {newsTitle} is the main beneficiary",
+  "A formidable opposition: {newsTitle} seen as credible governing alternative in {region}"
+];
+
+export const OPPOSITION_LOSE_TEMPLATES = [
+  "{newsTitle} struggles to cut through while in the wilderness of opposition",
+  "Credibility gap widens for {newsTitle} as ruling party outmanoeuvres critics",
+  "Voters in {region} unconvinced by {newsTitle}'s alternative vision",
+  "Opposition {newsTitle} in disarray with internal splits dominating headlines",
+  "{newsTitle} shadow cabinet under fire for contradictory policy positions",
+  "Out-of-power {newsTitle} fails to land blows on government in {city} debate",
+  "Questions over {newsTitle}'s readiness for government drag polling in {region}",
+  "Voters see no compelling reason to switch to {newsTitle}, polls show",
+  "{newsTitle} loses momentum as the government's message resonates in {region}",
+  "Opposition {newsTitle} blamed for own misfortunes after divisive {city} conference",
+  "Backbench revolt weakens {newsTitle}'s position in opposition",
+  "'Not ready to govern' — the charge against {newsTitle} gains traction in {city}"
+];

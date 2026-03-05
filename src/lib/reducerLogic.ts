@@ -23,7 +23,11 @@ import {
   POSITIVE_TEMPLATES,
   POSITION_SHIFT_TEMPLATES,
   IDEOLOGY_DRIFT_ONGOING_TEMPLATES,
-  IDEOLOGY_DRIFT_COMPLETE_TEMPLATES
+  IDEOLOGY_DRIFT_COMPLETE_TEMPLATES,
+  GOVERNMENT_SURGE_TEMPLATES,
+  GOVERNMENT_LOSE_TEMPLATES,
+  OPPOSITION_SURGE_TEMPLATES,
+  OPPOSITION_LOSE_TEMPLATES
 } from '@/lib/newsTemplates';
 
 const AXIS_KEYS: (keyof PoliticalValues)[] = ['prog_cons', 'nat_glob', 'env_eco', 'soc_cap', 'pac_mil', 'auth_ana', 'rel_sec'];
@@ -380,22 +384,31 @@ export function calculateNextPollState(state: GameState): GameState {
 
   // --- BEGIN: Add news for all parties with polling surges/drops ---
   const partyPollingNews: string[] = [];
+  const incumbentParties = state.incumbentGovernment ?? [];
   resultsWithChange.forEach(result => {
 
     const newsTitle = (Math.random() < 0.7 ? result.candidate.party : result.candidate.name);
+    const isGovParty = incumbentParties.length > 0 && incumbentParties.includes(result.candidate.party);
+    const isOppParty = incumbentParties.length > 0 && !isGovParty;
+    // 60% chance to pull from gov/opp-flavoured pool; rest falls back to generic
+    const useFlavouredPool = Math.random() < 0.6;
 
     let newsProbability = 0.05;
     newsProbability += (result.percentage / 100) * 1.5;
-    if (Math.abs(result.change) > 2.5) {
+    if (Math.abs(result.change) > 1.5) {
       newsProbability += 0.8;
     } else if (Math.abs(result.change) > 1.0) {
       newsProbability += 0.3;
     }
 
     if (Math.random() < newsProbability || (result.candidate === state.playerCandidate)) {
-      if (Math.abs(result.change) > 2.5) {
+      if (Math.abs(result.change) > 1.0) {
         if (result.change > 0) {
-          const template = SURGE_MESSAGES[Math.floor(Math.random() * SURGE_MESSAGES.length)];
+          // Surge headline: prefer gov/opp flavour when available
+          let pool = SURGE_MESSAGES;
+          if (useFlavouredPool && isGovParty) pool = GOVERNMENT_SURGE_TEMPLATES;
+          else if (useFlavouredPool && isOppParty) pool = OPPOSITION_SURGE_TEMPLATES;
+          const template = pool[Math.floor(Math.random() * pool.length)];
           partyPollingNews.push(substituteNewsVariables(
             template,
             { newsTitle },
@@ -403,7 +416,11 @@ export function calculateNextPollState(state: GameState): GameState {
             state.country
           ));
         } else {
-          const template = LOSE_MESSAGES[Math.floor(Math.random() * LOSE_MESSAGES.length)];
+          // Drop headline: prefer gov/opp flavour when available
+          let pool = LOSE_MESSAGES;
+          if (useFlavouredPool && isGovParty) pool = GOVERNMENT_LOSE_TEMPLATES;
+          else if (useFlavouredPool && isOppParty) pool = OPPOSITION_LOSE_TEMPLATES;
+          const template = pool[Math.floor(Math.random() * pool.length)];
           partyPollingNews.push(substituteNewsVariables(
             template,
             { newsTitle },
@@ -411,7 +428,7 @@ export function calculateNextPollState(state: GameState): GameState {
             state.country
           ));
         }
-      } else if (Math.abs(result.change) > 1) {
+      } else if (Math.abs(result.change) > 0.5) {
         if (result.change > 0) {
           const template = STEADY_MESSAGES[Math.floor(Math.random() * STEADY_MESSAGES.length)];
           partyPollingNews.push(substituteNewsVariables(
