@@ -573,6 +573,71 @@ export function generatePlayerApproachOffer(
   };
 }
 
+/**
+ * Gate-check: should the AI (leadParty) bother approaching the player?
+ *
+ * We simulate the scenario as if it were REVERSED — the player is the one
+ * leading and offering ALL available cabinet positions to the AI (a maximally
+ * generous offer), plus a `desperationBoost` to account for the AI being
+ * somewhat more open to coalition than a cold calculation would suggest.
+ *
+ * If the AI wouldn't accept even that generous a deal, it won't approach.
+ */
+export function shouldAIApproachPlayer(
+  leadParty: Candidate,        // the AI party considering making an offer
+  playerParty: Candidate,      // the player being considered as partner
+  leadPercentage: number,
+  playerPercentage: number,
+  allocations: Record<string, string[]>,
+  desperationBoost: number = 20  // extra points to make the AI slightly more likely to reach out
+): boolean {
+  // Total importance of ALL available cabinet positions (most generous offer possible)
+  const availablePositions = getAvailableCabinetPositions(allocations);
+  const totalImportance = availablePositions.reduce((sum, pos) => sum + pos.importance * pos.available_slots, 0);
+
+  // Reversed: player is lead, AI (leadParty) is the partner being considered
+  const compatibility = calculatePartyCompatibility(leadParty, playerParty);
+  let baseWillingness = compatibility;
+
+  // Adjust based on player's strength (the "lead" in the reversed scenario)
+  if (playerPercentage > 40) {
+    baseWillingness += 5;
+  } else if (playerPercentage > 30) {
+    baseWillingness += 2;
+  } else {
+    baseWillingness -= 10;
+  }
+
+  // Adjust based on AI party's strength (the "partner" in the reversed scenario)
+  if (leadPercentage > 15) {
+    baseWillingness -= 10;
+  } else if (leadPercentage < 5) {
+    baseWillingness += 5;
+  }
+
+  // Cabinet appeal for the AI party receiving ALL positions
+  const cabinetAppeal = calculateCabinetAppeal(totalImportance, leadPercentage, compatibility);
+
+  const willingness = Math.max(0, Math.min(100, baseWillingness + cabinetAppeal + desperationBoost));
+
+  if (DEBUG) {
+    console.log('DEBUG: shouldAIApproachPlayer', {
+      leadParty: leadParty.party,
+      playerParty: playerParty.party,
+      compatibility,
+      baseWillingness,
+      totalImportance,
+      cabinetAppeal,
+      desperationBoost,
+      willingness,
+      wouldApproach: willingness >= 50
+    });
+  }
+
+  // Only approach the player if even the most generous reversed offer clears the bar
+  return willingness >= 50;
+}
+
 export function evaluatePlayerResponse(
   leadParty: Candidate,
   playerParty: Candidate,

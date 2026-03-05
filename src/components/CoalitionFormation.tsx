@@ -11,6 +11,7 @@ import {
   simulateAICoalitionNegotiation,
   generatePlayerApproachOffer,
   evaluatePlayerResponse,
+  shouldAIApproachPlayer,
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
 import CabinetView from './CabinetView';
@@ -678,6 +679,27 @@ export default function CoalitionFormation() {
 
     if (nextPartner.candidate.is_player) {
       lastProcessedPartner.current = nextPartner.candidate.id;
+
+      // Gate check: would the AI actually want to join a coalition with the player,
+      // even if the player offered them every available cabinet position?
+      // (Uses a desperation boost so the AI is slightly more willing than a cold calc.)
+      const wouldApproach = shouldAIApproachPlayer(
+        attemptingParty,
+        nextPartner.candidate,
+        attemptingPercentage,
+        nextPartner.percentage,
+        coalitionState.cabinetAllocations
+      );
+
+      if (!wouldApproach) {
+        // AI ideologically unwilling — skip the player silently
+        const skipMsg = `${attemptingParty.party} has decided not to approach ${nextPartner.candidate.party} due to fundamental differences.`;
+        actions.logCoalitionEvent(skipMsg);
+        actions.removePotentialPartner(nextPartner.candidate);
+        lastProcessedPartner.current = null;
+        return;
+      }
+
       const offer = generatePlayerApproachOffer(
         attemptingParty,
         nextPartner.candidate,
