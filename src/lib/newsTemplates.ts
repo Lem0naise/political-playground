@@ -202,7 +202,7 @@ export const GAFFE_TEMPLATES = [
   "{party} candidate caught flying private to climate change summit",
   "{candidate_name}'s spouse linked to massive {company} lobbying scandal",
   "{party} official caught on tape offering government contracts to {company}",
-  "{candidate_name} resigns over alleged tax evasion spanning a decade",
+  "{party} MP resigns over alleged tax evasion spanning a decade",
   "Campaign watchdog launches probe into {party}'s dark money donors",
 
   // Incompetence & Campaign Disasters

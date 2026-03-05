@@ -4,7 +4,6 @@
             "id": 0,
             "name": "Rishi Sunak",
             "party": "Conservatives",
-            
             "prog_cons": 60,
             "nat_glob": -34,
             "env_eco": 66,
@@ -18,7 +17,6 @@
             "id": 1,
             "name": "Ed Davey",
             "party": "Liberal Democrats",
-            
             "prog_cons": -35,
             "nat_glob": 31,
             "env_eco": 12,
@@ -32,7 +30,6 @@
             "id": 2,
             "name": "Keir Starmer",
             "party": "Labour",
-            
             "prog_cons": -5,
             "nat_glob": 41,
             "env_eco": -11,
@@ -46,7 +43,6 @@
             "id": 3,
             "name": "Zack Polanski",
             "party": "Green Party",
-            
             "prog_cons": -37,
             "nat_glob": 31,
             "env_eco": -64,
@@ -60,7 +56,6 @@
             "id": 4,
             "name": "Nigel Farage",
             "party": "Reform UK",
-            
             "prog_cons": 90,
             "nat_glob": -90,
             "env_eco": 65,
@@ -76,7 +71,6 @@
             "id": 0,
             "name": "Donald Trump",
             "party": "Republican Party",
-            
             "prog_cons": 85,
             "nat_glob": -95,
             "env_eco": 90,
@@ -90,7 +84,6 @@
             "id": 1,
             "name": "Hakeem Jeffries",
             "party": "Democratic Party",
-            
             "prog_cons": -65,
             "nat_glob": 65,
             "env_eco": -70,
@@ -104,7 +97,6 @@
             "id": 2,
             "name": "J.D. Vance",
             "party": "Republican (MAGA Heir)",
-            
             "prog_cons": 95,
             "nat_glob": -90,
             "env_eco": 80,
@@ -118,7 +110,6 @@
             "id": 3,
             "name": "Josh Shapiro",
             "party": "Democratic (Moderate/Swing)",
-            
             "prog_cons": -15,
             "nat_glob": 45,
             "env_eco": 10,
@@ -132,7 +123,6 @@
             "id": 4,
             "name": "Chase Oliver",
             "party": "Libertarian Party",
-            
             "prog_cons": -40,
             "nat_glob": -60,
             "env_eco": 85,
@@ -146,7 +136,6 @@
             "id": 5,
             "name": "Jill Stein",
             "party": "Green Party",
-            
             "prog_cons": -80,
             "nat_glob": 70,
             "env_eco": -95,
@@ -162,7 +151,6 @@
             "id": 2,
             "name": "Nika Gvaramia",
             "party": "Coalition for Change",
-            
             "prog_cons": -31,
             "nat_glob": 42,
             "env_eco": 15,
@@ -176,7 +164,6 @@
             "id": 3,
             "name": "Mamuka Khazaradze",
             "party": "Strong Georgia",
-            
             "prog_cons": -35,
             "nat_glob": 41,
             "env_eco": 31,
@@ -190,7 +177,6 @@
             "id": 4,
             "name": "Giorgi Gakharia",
             "party": "For Us",
-            
             "prog_cons": 75,
             "nat_glob": -31,
             "env_eco": 31,
@@ -204,7 +190,6 @@
             "id": 0,
             "name": "Irakli Kobakhidze",
             "party": "Georgian Dream",
-            
             "prog_cons": 75,
             "nat_glob": -65,
             "env_eco": 55,
@@ -218,7 +203,6 @@
             "id": 1,
             "name": "Tina Bokuchava",
             "party": "Unity - National Movement",
-            
             "prog_cons": -35,
             "nat_glob": 75,
             "env_eco": 25,
@@ -234,7 +218,6 @@
             "id": 0,
             "name": "Volodymyr Zelenskyy",
             "party": "Servant of the People",
-            
             "prog_cons": -15,
             "nat_glob": 65,
             "env_eco": 55,
@@ -248,7 +231,6 @@
             "id": 1,
             "name": "Valerii Zaluzhnyi",
             "party": "Coalition for Victory (Potential)",
-            
             "prog_cons": 40,
             "nat_glob": -80,
             "env_eco": 60,
@@ -262,7 +244,6 @@
             "id": 2,
             "name": "Petro Poroshenko",
             "party": "European Solidarity",
-            
             "prog_cons": 55,
             "nat_glob": 80,
             "env_eco": 40,
@@ -276,7 +257,6 @@
             "id": 3,
             "name": "Oleksandr Syrskyi",
             "party": "Military High Command (Non-Partisan)",
-            
             "prog_cons": 10,
             "nat_glob": -20,
             "env_eco": 90,
@@ -290,7 +270,6 @@
             "id": 4,
             "name": "Yulia Tymoshenko",
             "party": "Batkivshchyna",
-            
             "prog_cons": 75,
             "nat_glob": -50,
             "env_eco": 20,
@@ -306,7 +285,6 @@
             "id": 0,
             "name": "Mikhail Gorbachev",
             "party": "CPSU",
-            
             "prog_cons": -40,
             "nat_glob": 30,
             "env_eco": 10,
@@ -320,7 +298,6 @@
             "id": 1,
             "name": "Boris Yeltsin",
             "party": "Democratic Russia",
-            
             "prog_cons": -70,
             "nat_glob": -40,
             "env_eco": 20,
@@ -334,7 +311,6 @@
             "id": 2,
             "name": "Gennady Yanayev",
             "party": "GKChP",
-            
             "prog_cons": 90,
             "nat_glob": -95,
             "env_eco": 80,
@@ -348,7 +324,6 @@
             "id": 3,
             "name": "Nikolay Lysenko",
             "party": "National Republican Party",
-            
             "prog_cons": 85,
             "nat_glob": -90,
             "env_eco": 40,
@@ -364,7 +339,6 @@
             "id": 0,
             "name": "Kyriakos Mitsotakis",
             "party": "New Democracy",
-            
             "prog_cons": 34,
             "nat_glob": 22,
             "env_eco": 31,
@@ -378,7 +352,6 @@
             "id": 1,
             "name": "Stefanos Kasselakis",
             "party": "SYRIZA",
-            
             "prog_cons": -21,
             "nat_glob": -12,
             "env_eco": 31,
@@ -392,7 +365,6 @@
             "id": 2,
             "name": "Nikos Androulakis",
             "party": "Movement for Change",
-            
             "prog_cons": -24,
             "nat_glob": 32,
             "env_eco": 2,
@@ -406,7 +378,6 @@
             "id": 3,
             "name": "Dmitris Koutsoumpas",
             "party": "Communist Party",
-            
             "prog_cons": 14,
             "nat_glob": -12,
             "env_eco": 0,
@@ -420,7 +391,6 @@
             "id": 4,
             "name": "Kyriakos Velopoulos",
             "party": "Solution",
-            
             "prog_cons": 84,
             "nat_glob": -62,
             "env_eco": 0,
@@ -436,7 +406,6 @@
             "id": 0,
             "name": "James Bluesky",
             "party": "KPD",
-            
             "prog_cons": -10,
             "nat_glob": -60,
             "env_eco": 0,
@@ -450,7 +419,6 @@
             "id": 1,
             "name": "Daniel Mason the Third",
             "party": "4C Yes Please",
-            
             "prog_cons": 90,
             "nat_glob": -90,
             "env_eco": 73,
@@ -463,7 +431,6 @@
             "id": 2,
             "name": "Mehmet Allianceinel",
             "party": "National Imperial Front",
-            
             "prog_cons": 55,
             "nat_glob": -75,
             "env_eco": 65,
@@ -476,7 +443,6 @@
             "id": 3,
             "name": "Violet Sonnet",
             "party": "P&P",
-            
             "prog_cons": -21,
             "nat_glob": 39,
             "env_eco": -1,
@@ -490,7 +456,6 @@
             "id": 4,
             "name": "Doric Evison",
             "party": "Prevalence",
-            
             "prog_cons": 27,
             "nat_glob": -15,
             "env_eco": 40,
@@ -504,7 +469,6 @@
             "id": 5,
             "name": "Bill Redfield",
             "party": "Economic Reformists",
-            
             "prog_cons": 80,
             "nat_glob": 100,
             "env_eco": 100,
@@ -517,7 +481,6 @@
             "id": 0,
             "name": "Professor Halford",
             "party": "Hamptonian's Party",
-            
             "prog_cons": -30,
             "nat_glob": 30,
             "env_eco": -20,
@@ -531,7 +494,6 @@
             "id": 0,
             "name": "Josh WilPolitics",
             "party": "WilOfThePeople Party",
-            
             "prog_cons": 70,
             "nat_glob": -50,
             "env_eco": 90,
@@ -547,7 +509,6 @@
             "id": 0,
             "name": "Karl Max",
             "party": "Maxists",
-            
             "prog_cons": -100,
             "nat_glob": 100,
             "env_eco": -100,
@@ -560,7 +521,6 @@
             "id": 1,
             "name": "Adam Smith",
             "party": "Radical Centrist Party",
-            
             "prog_cons": 0,
             "nat_glob": 0,
             "env_eco": 0,
@@ -573,7 +533,6 @@
             "id": 2,
             "name": "Jonathan Gotlor",
             "party": "Gotlorite Front",
-            
             "prog_cons": 100,
             "nat_glob": -100,
             "env_eco": 100,
@@ -588,7 +547,6 @@
             "id": 0,
             "name": "Ursula von der Leyen",
             "party": "European People's Party (EPP)",
-            
             "prog_cons": 35,
             "nat_glob": 70,
             "env_eco": 20,
@@ -602,7 +560,6 @@
             "id": 1,
             "name": "Iratxe Garc\u00eda",
             "party": "Socialists & Democrats (S&D)",
-            
             "prog_cons": -40,
             "nat_glob": 80,
             "env_eco": -35,
@@ -616,7 +573,6 @@
             "id": 2,
             "name": "Val\u00e9rie Hayer",
             "party": "Renew Europe",
-            
             "prog_cons": -60,
             "nat_glob": 95,
             "env_eco": -20,
@@ -630,7 +586,6 @@
             "id": 3,
             "name": "Jordan Bardella",
             "party": "Patriots for Europe",
-            
             "prog_cons": 90,
             "nat_glob": -95,
             "env_eco": 75,
@@ -644,7 +599,6 @@
             "id": 4,
             "name": "Terry Reintke",
             "party": "Greens/EFA",
-            
             "prog_cons": -85,
             "nat_glob": 85,
             "env_eco": -98,
@@ -660,7 +614,6 @@
             "id": 0,
             "name": "Big Brother",
             "party": "The Party (INGSOC)",
-            
             "prog_cons": 100,
             "nat_glob": -100,
             "env_eco": 100,
@@ -674,7 +627,6 @@
             "id": 1,
             "name": "Emmanuel Goldstein",
             "party": "The Brotherhood",
-            
             "prog_cons": -100,
             "nat_glob": 100,
             "env_eco": -100,
@@ -690,7 +642,6 @@
             "id": 0,
             "name": "King Remus Toran",
             "party": "Pro-Remus Front",
-            
             "prog_cons": -30,
             "nat_glob": 14,
             "env_eco": -10,
@@ -703,7 +654,6 @@
             "id": 1,
             "name": "Tiras Uval",
             "party": "Anti-Remus Front",
-            
             "prog_cons": 50,
             "nat_glob": -24,
             "env_eco": 50,
@@ -716,7 +666,6 @@
             "id": 2,
             "name": "Teodor Mannford",
             "party": "Kruhl Alliance",
-            
             "prog_cons": 60,
             "nat_glob": -64,
             "env_eco": 20,
@@ -731,7 +680,6 @@
             "id": 0,
             "name": "Ari Stov",
             "party": "Blue Dawn",
-            
             "prog_cons": -15,
             "nat_glob": -30,
             "env_eco": 10,
@@ -745,7 +693,6 @@
             "id": 1,
             "name": "Vesna Horvatin",
             "party": "Civic Renewal Front",
-            
             "prog_cons": -60,
             "nat_glob": 30,
             "env_eco": -10,
@@ -759,7 +706,6 @@
             "id": 2,
             "name": "Syv Iric",
             "party": "Northern Power",
-            
             "prog_cons": -30,
             "nat_glob": -20,
             "env_eco": -80,
@@ -773,7 +719,6 @@
             "id": 3,
             "name": "Malik Kondratiev",
             "party": "Sons of Kresimir",
-            
             "prog_cons": 85,
             "nat_glob": -90,
             "env_eco": 50,
@@ -787,7 +732,6 @@
             "id": 4,
             "name": "Misko Maretic",
             "party": "Vjetrusa",
-            
             "prog_cons": 60,
             "nat_glob": -70,
             "env_eco": 30,
@@ -801,7 +745,6 @@
             "id": 5,
             "name": "Isaak von Steuer",
             "party": "Bosken Liberation Front",
-            
             "prog_cons": 0,
             "nat_glob": -15,
             "env_eco": -20,
@@ -817,7 +760,6 @@
             "id": 0,
             "name": "Tarquin Soll",
             "party": "United Sordland Party",
-            
             "prog_cons": 30,
             "nat_glob": -30,
             "env_eco": -11,
@@ -830,7 +772,6 @@
             "id": 1,
             "name": "Frens Richter",
             "party": "PFJP",
-            
             "prog_cons": -21,
             "nat_glob": 15,
             "env_eco": 20,
@@ -843,7 +784,6 @@
             "id": 2,
             "name": "Kesaro Kibener",
             "party": "National Front",
-            
             "prog_cons": 76,
             "nat_glob": -95,
             "env_eco": 35,
@@ -856,7 +796,6 @@
             "id": 3,
             "name": "Leon Malenyev",
             "party": "Kommuniste Parte",
-            
             "prog_cons": -12,
             "nat_glob": -45,
             "env_eco": -42,
@@ -871,7 +810,6 @@
             "id": 0,
             "name": "Nicolas Maduro",
             "party": "Great Patriotic Pole",
-            
             "prog_cons": 53,
             "nat_glob": -44,
             "env_eco": 4,
@@ -884,7 +822,6 @@
             "id": 1,
             "name": "Juan Guaido",
             "party": "Popular Will",
-            
             "prog_cons": -31,
             "nat_glob": 31,
             "env_eco": 23,
@@ -897,7 +834,6 @@
             "id": 2,
             "name": "Henry Ramos Allup",
             "party": "Unitary Platform",
-            
             "prog_cons": 32,
             "nat_glob": 41,
             "env_eco": 43,
@@ -912,7 +848,6 @@
             "id": 0,
             "name": "Faysal Ali Warabe",
             "party": "For Justice and Development",
-            
             "prog_cons": -2,
             "nat_glob": -50,
             "env_eco": 41,
@@ -925,7 +860,6 @@
             "id": 1,
             "name": "Muse Bihi",
             "party": "Peace, Unity and Development",
-            
             "prog_cons": -5,
             "nat_glob": 20,
             "env_eco": 12,
@@ -938,7 +872,6 @@
             "id": 2,
             "name": "Hersi Ali Hassan",
             "party": "National Party",
-            
             "prog_cons": 41,
             "nat_glob": -50,
             "env_eco": 41,
@@ -953,7 +886,6 @@
             "id": 0,
             "name": "Michelle O'Neill",
             "party": "Sinn Fein",
-            
             "prog_cons": -31,
             "nat_glob": 23,
             "env_eco": 31,
@@ -967,7 +899,6 @@
             "id": 1,
             "name": "Sir Jeffrey Donaldson",
             "party": "DUP",
-            
             "prog_cons": 61,
             "nat_glob": -52,
             "env_eco": 13,
@@ -981,7 +912,6 @@
             "id": 2,
             "name": "Naomi Long",
             "party": "APNI",
-            
             "prog_cons": 4,
             "nat_glob": 12,
             "env_eco": 41,
@@ -995,7 +925,6 @@
             "id": 3,
             "name": "Doug Beattie",
             "party": "UUP",
-            
             "prog_cons": 51,
             "nat_glob": -34,
             "env_eco": 61,
@@ -1008,7 +937,6 @@
             "id": 4,
             "name": "Colum Eastwood",
             "party": "SDLP",
-            
             "prog_cons": -15,
             "nat_glob": -4,
             "env_eco": 11,
@@ -1023,7 +951,6 @@
             "id": 0,
             "name": "Robert Golob",
             "party": "Freedom Movement",
-            
             "prog_cons": -35,
             "nat_glob": 46,
             "env_eco": -21,
@@ -1036,7 +963,6 @@
             "id": 1,
             "name": "Janez Jansa",
             "party": "Slovenian Democratic Party",
-            
             "prog_cons": 65,
             "nat_glob": -46,
             "env_eco": 41,
@@ -1049,7 +975,6 @@
             "id": 2,
             "name": "Matej Tonin",
             "party": "Christian Democrats",
-            
             "prog_cons": 35,
             "nat_glob": -26,
             "env_eco": 21,
@@ -1062,7 +987,6 @@
             "id": 3,
             "name": "Matjaz Han",
             "party": "Social Democrats",
-            
             "prog_cons": -13,
             "nat_glob": 46,
             "env_eco": -1,
@@ -1075,7 +999,6 @@
             "id": 4,
             "name": "Asta Vrecko",
             "party": "Levica",
-            
             "prog_cons": -15,
             "nat_glob": -26,
             "env_eco": 61,
@@ -1090,7 +1013,6 @@
             "id": 0,
             "name": "Cyril Ramaphosa",
             "party": "African National Congress (ANC)",
-            
             "prog_cons": 35,
             "nat_glob": -25,
             "env_eco": 35,
@@ -1104,7 +1026,6 @@
             "id": 1,
             "name": "John Steenhuisen",
             "party": "Democratic Alliance ",
-            
             "prog_cons": -15,
             "nat_glob": 45,
             "env_eco": 15,
@@ -1118,7 +1039,6 @@
             "id": 2,
             "name": "Jacob Zuma",
             "party": "uMkhonto weSizwe (MK)",
-            
             "prog_cons": 85,
             "nat_glob": -95,
             "env_eco": 65,
@@ -1132,7 +1052,6 @@
             "id": 3,
             "name": "Julius Malema",
             "party": "Economic Freedom Fighters (EFF)",
-            
             "prog_cons": -45,
             "nat_glob": -60,
             "env_eco": -20,
@@ -1146,7 +1065,6 @@
             "id": 4,
             "name": "Velenkosini Hlabisa",
             "party": "Inkatha Freedom Party",
-            
             "prog_cons": 55,
             "nat_glob": -50,
             "env_eco": 20,
@@ -1160,7 +1078,6 @@
             "id": 5,
             "name": "Gayton McKenzie",
             "party": "Patriotic Alliance",
-            
             "prog_cons": 70,
             "nat_glob": -40,
             "env_eco": 55,
@@ -1176,7 +1093,6 @@
             "id": 0,
             "name": "Violet Westwood",
             "party": "People's Voice",
-            
             "prog_cons": -41,
             "nat_glob": 39,
             "env_eco": -15,
@@ -1190,7 +1106,6 @@
             "id": 1,
             "name": "Stephen Barrett",
             "party": "Liberal Party",
-            
             "prog_cons": 51,
             "nat_glob": -51,
             "env_eco": 53,
@@ -1204,7 +1119,6 @@
             "id": 2,
             "name": "Sally McLaughlin",
             "party": "Party for Change",
-            
             "prog_cons": -32,
             "nat_glob": -41,
             "env_eco": 13,
@@ -1217,7 +1131,6 @@
             "id": 3,
             "name": "Thomas Cooke",
             "party": "Renewal",
-            
             "prog_cons": 92,
             "nat_glob": -91,
             "env_eco": 71,
@@ -1232,7 +1145,6 @@
             "id": 0,
             "name": "Xi Jinping",
             "party": "Communist Party (Mainstream/Xi Faction)",
-            
             "prog_cons": 95,
             "nat_glob": -95,
             "env_eco": 85,
@@ -1246,7 +1158,6 @@
             "id": 1,
             "name": "Li Qiang",
             "party": "Communist Party (Technocratic Wing)",
-            
             "prog_cons": 60,
             "nat_glob": 10,
             "env_eco": 95,
@@ -1260,7 +1171,6 @@
             "id": 2,
             "name": "Zhao Leji",
             "party": "Communist Party (Bureaucratic Wing)",
-            
             "prog_cons": 80,
             "nat_glob": -60,
             "env_eco": 50,
@@ -1276,7 +1186,6 @@
             "id": 0,
             "name": "William Ruto",
             "party": "United Democratic Alliance (UDA)",
-            
             "prog_cons": 75,
             "nat_glob": -70,
             "env_eco": 70,
@@ -1290,7 +1199,6 @@
             "id": 1,
             "name": "Raila Odinga",
             "party": "Orange Democratic Movement (ODM)",
-            
             "prog_cons": -40,
             "nat_glob": 40,
             "env_eco": -30,
@@ -1304,7 +1212,6 @@
             "id": 2,
             "name": "Kalonzo Musyoka",
             "party": "Wiper / United Opposition",
-            
             "prog_cons": 10,
             "nat_glob": 30,
             "env_eco": 20,
@@ -1318,7 +1225,6 @@
             "id": 3,
             "name": "Rigathi Gachagua",
             "party": "Independent / Mt Kenya Force",
-            
             "prog_cons": 85,
             "nat_glob": -40,
             "env_eco": 40,
@@ -1334,7 +1240,6 @@
             "id": 0,
             "name": "Narendra Modi",
             "party": "Bharatiya Janata Party",
-            
             "prog_cons": 70,
             "nat_glob": -70,
             "env_eco": 40,
@@ -1348,7 +1253,6 @@
             "id": 1,
             "name": "Rahul Gandhi",
             "party": "Indian National Congress",
-            
             "prog_cons": -10,
             "nat_glob": -10,
             "env_eco": -15,
@@ -1362,7 +1266,6 @@
             "id": 2,
             "name": "Arvind Kejriwal",
             "party": "Aam Aadmi Party",
-            
             "prog_cons": 0,
             "nat_glob": -40,
             "env_eco": -30,
@@ -1376,7 +1279,6 @@
             "id": 3,
             "name": "Mamata Banerjee",
             "party": "All India Trinamool Congress",
-            
             "prog_cons": -10,
             "nat_glob": -60,
             "env_eco": -25,
@@ -1392,7 +1294,6 @@
             "id": 0,
             "name": "Vladimir Putin",
             "party": "United Russia",
-            
             "prog_cons": 88,
             "nat_glob": -85,
             "env_eco": 70,
@@ -1406,7 +1307,6 @@
             "id": 1,
             "name": "Gennady Zyuganov",
             "party": "KPRF",
-            
             "prog_cons": 70,
             "nat_glob": -75,
             "env_eco": 20,
@@ -1420,7 +1320,6 @@
             "id": 2,
             "name": "Leonid Slutsky",
             "party": "Liberal Democratic Party of Russia",
-            
             "prog_cons": 90,
             "nat_glob": -95,
             "env_eco": 60,
@@ -1434,7 +1333,6 @@
             "id": 3,
             "name": "Sergey Mironov",
             "party": "A Just Russia \u2014 For Truth",
-            
             "prog_cons": 30,
             "nat_glob": -60,
             "env_eco": -30,
@@ -1450,7 +1348,6 @@
             "id": 0,
             "name": "Fumio Kishida",
             "party": "Liberal Democratic Party",
-            
             "prog_cons": 55,
             "nat_glob": 20,
             "env_eco": 50,
@@ -1464,7 +1361,6 @@
             "id": 1,
             "name": "Kenta Izumi",
             "party": "Constitutional Democratic Party",
-            
             "prog_cons": -30,
             "nat_glob": 15,
             "env_eco": -20,
@@ -1478,7 +1374,6 @@
             "id": 2,
             "name": "Nobuyuki Baba",
             "party": "Ishin",
-            
             "prog_cons": 45,
             "nat_glob": 10,
             "env_eco": 65,
@@ -1492,7 +1387,6 @@
             "id": 3,
             "name": "Natsuo Yamaguchi",
             "party": "Komeito",
-            
             "prog_cons": 30,
             "nat_glob": -10,
             "env_eco": 20,
@@ -1508,7 +1402,6 @@
             "id": 0,
             "name": "Justin Trudeau",
             "party": "Liberal Party",
-            
             "prog_cons": -55,
             "nat_glob": 65,
             "env_eco": -40,
@@ -1522,7 +1415,6 @@
             "id": 1,
             "name": "Pierre Poilievre",
             "party": "Conservative Party",
-            
             "prog_cons": 50,
             "nat_glob": -25,
             "env_eco": 70,
@@ -1536,7 +1428,6 @@
             "id": 2,
             "name": "Jagmeet Singh",
             "party": "New Democratic Party",
-            
             "prog_cons": -65,
             "nat_glob": 50,
             "env_eco": -50,
@@ -1550,7 +1441,6 @@
             "id": 3,
             "name": "Yves-Fran\u00e7ois Blanchet",
             "party": "Bloc Qu\u00e9b\u00e9cois",
-            
             "prog_cons": -20,
             "nat_glob": -90,
             "env_eco": -30,
@@ -1564,7 +1454,6 @@
             "id": 4,
             "name": "Elizabeth May",
             "party": "Green Party",
-            
             "prog_cons": -85,
             "nat_glob": 60,
             "env_eco": -98,
@@ -1580,7 +1469,6 @@
             "id": 0,
             "name": "Anthony Albanese",
             "party": "Labor Party",
-            
             "prog_cons": -25,
             "nat_glob": 30,
             "env_eco": -30,
@@ -1594,7 +1482,6 @@
             "id": 1,
             "name": "Peter Dutton",
             "party": "Liberal Party",
-            
             "prog_cons": 60,
             "nat_glob": -30,
             "env_eco": 65,
@@ -1608,7 +1495,6 @@
             "id": 2,
             "name": "Adam Bandt",
             "party": "The Greens",
-            
             "prog_cons": -70,
             "nat_glob": 40,
             "env_eco": -80,
@@ -1622,7 +1508,6 @@
             "id": 3,
             "name": "David Littleproud",
             "party": "Nationals",
-            
             "prog_cons": 85,
             "nat_glob": -60,
             "env_eco": 95,
@@ -1638,7 +1523,6 @@
             "id": 0,
             "name": "Luiz In\u00e1cio Lula da Silva",
             "party": "Workers' Party (PT)",
-            
             "prog_cons": -60,
             "nat_glob": 25,
             "env_eco": -45,
@@ -1652,7 +1536,6 @@
             "id": 1,
             "name": "Fl\u00e1vio Bolsonaro",
             "party": "Liberal Party (PL)",
-            
             "prog_cons": 95,
             "nat_glob": -90,
             "env_eco": 80,
@@ -1666,7 +1549,6 @@
             "id": 2,
             "name": "Tarc\u00edsio de Freitas",
             "party": "Republicanos",
-            
             "prog_cons": 30,
             "nat_glob": 10,
             "env_eco": 55,
@@ -1680,7 +1562,6 @@
             "id": 3,
             "name": "Romeu Zema",
             "party": "NOVO",
-            
             "prog_cons": 15,
             "nat_glob": 70,
             "env_eco": 40,
@@ -1696,7 +1577,6 @@
             "id": 0,
             "name": "Giorgia Meloni",
             "party": "Brothers of Italy",
-            
             "prog_cons": 85,
             "nat_glob": -70,
             "env_eco": 65,
@@ -1710,7 +1590,6 @@
             "id": 1,
             "name": "Elly Schlein",
             "party": "Democratic Party",
-            
             "prog_cons": -75,
             "nat_glob": 85,
             "env_eco": -50,
@@ -1724,7 +1603,6 @@
             "id": 2,
             "name": "Giuseppe Conte",
             "party": "Five Star Movement",
-            
             "prog_cons": -20,
             "nat_glob": -30,
             "env_eco": -30,
@@ -1738,7 +1616,6 @@
             "id": 3,
             "name": "Matteo Salvini",
             "party": "League",
-            
             "prog_cons": 95,
             "nat_glob": -95,
             "env_eco": 70,
@@ -1752,7 +1629,6 @@
             "id": 4,
             "name": "Antonio Tajani",
             "party": "Strong Italy",
-            
             "prog_cons": 30,
             "nat_glob": 55,
             "env_eco": 45,
@@ -1766,7 +1642,6 @@
             "id": 5,
             "name": "Nicola Fratoianni",
             "party": "AVS",
-            
             "prog_cons": -80,
             "nat_glob": 40,
             "env_eco": -95,
@@ -1780,7 +1655,6 @@
             "id": 6,
             "name": "Carlo Calenda",
             "party": "Azione",
-            
             "prog_cons": -40,
             "nat_glob": 85,
             "env_eco": 10,
@@ -1796,7 +1670,6 @@
             "id": 0,
             "name": "Recep Tayyip Erdo\u011fan",
             "party": "Justice and Development Party",
-            
             "prog_cons": 85,
             "nat_glob": -75,
             "env_eco": 50,
@@ -1810,13 +1683,12 @@
             "id": 1,
             "name": "\u00d6zg\u00fcr \u00d6zel",
             "party": "Republican People's Party",
-            
             "prog_cons": -5,
             "nat_glob": -40,
             "env_eco": 10,
             "soc_cap": -10,
-            "pac_mil": -60,
-            "auth_ana": -30,
+            "pac_mil": 10,
+            "auth_ana": 30,
             "rel_sec": 85,
             "colour": "red"
         },
@@ -1824,7 +1696,6 @@
             "id": 2,
             "name": "Devlet Bah\u00e7eli",
             "party": "MHP",
-            
             "prog_cons": 95,
             "nat_glob": -98,
             "env_eco": 80,
@@ -1838,7 +1709,6 @@
             "id": 3,
             "name": "T\u00fclay Hatimo\u011fullar\u0131",
             "party": "DEM Party",
-            
             "prog_cons": -70,
             "nat_glob": -60,
             "env_eco": -50,
@@ -1854,7 +1724,6 @@
             "id": 0,
             "name": "Ali Khamenei",
             "party": "Principlists",
-            
             "prog_cons": 78,
             "nat_glob": -80,
             "env_eco": 60,
@@ -1870,7 +1739,6 @@
             "id": 0,
             "name": "Benjamin Netanyahu",
             "party": "Likud",
-            
             "prog_cons": 70,
             "nat_glob": -75,
             "env_eco": 60,
@@ -1884,7 +1752,6 @@
             "id": 1,
             "name": "Yair Lapid",
             "party": "Yesh Atid",
-            
             "prog_cons": -25,
             "nat_glob": -10,
             "env_eco": 10,
@@ -1898,7 +1765,6 @@
             "id": 2,
             "name": "Itamar Ben-Gvir",
             "party": "Otzma Yehudit",
-            
             "prog_cons": 95,
             "nat_glob": -90,
             "env_eco": 50,
@@ -1912,7 +1778,6 @@
             "id": 4,
             "name": "Mansour Abbas",
             "party": "Ra'am (United Arab List)",
-            
             "prog_cons": 45,
             "nat_glob": -20,
             "env_eco": -10,
@@ -1926,7 +1791,6 @@
             "id": 5,
             "name": "Naftali Bennett",
             "party": "Bennett 2026",
-            
             "prog_cons": 60,
             "nat_glob": -70,
             "env_eco": 30,
@@ -1940,7 +1804,6 @@
             "id": 6,
             "name": "Benny Gantz",
             "party": "National Unity",
-            
             "prog_cons": 15,
             "nat_glob": 20,
             "env_eco": 30,
@@ -1954,7 +1817,6 @@
             "id": 7,
             "name": "Avigdor Lieberman",
             "party": "Yisrael Beiteinu",
-            
             "prog_cons": 60,
             "nat_glob": -30,
             "env_eco": 65,
@@ -1968,7 +1830,6 @@
             "id": 8,
             "name": "Yair Golan",
             "party": "The Democrats",
-            
             "prog_cons": -55,
             "nat_glob": 35,
             "env_eco": -45,
@@ -1984,7 +1845,6 @@
             "id": 0,
             "name": "Donald Tusk",
             "party": "Civic Coalition",
-            
             "prog_cons": -40,
             "nat_glob": 65,
             "env_eco": -20,
@@ -1998,7 +1858,6 @@
             "id": 1,
             "name": "Karol Nawrocki",
             "party": "Law and Justice",
-            
             "prog_cons": 85,
             "nat_glob": -80,
             "env_eco": 75,
@@ -2012,7 +1871,6 @@
             "id": 2,
             "name": "S\u0142awomir Mentzen",
             "party": "Confederation",
-            
             "prog_cons": 75,
             "nat_glob": -95,
             "env_eco": 90,
@@ -2026,7 +1884,6 @@
             "id": 3,
             "name": "W\u0142adys\u0142aw Kosiniak-Kamysz",
             "party": "Third Way",
-            
             "prog_cons": 30,
             "nat_glob": 10,
             "env_eco": 35,
@@ -2040,7 +1897,6 @@
             "id": 4,
             "name": "Magdalena Biejat",
             "party": "The Left",
-            
             "prog_cons": -85,
             "nat_glob": 55,
             "env_eco": -75,
@@ -2056,7 +1912,6 @@
             "id": 0,
             "name": "Pedro S\u00e1nchez",
             "party": "PSOE",
-            
             "prog_cons": -45,
             "nat_glob": 60,
             "env_eco": -25,
@@ -2070,7 +1925,6 @@
             "id": 1,
             "name": "Alberto N\u00fa\u00f1ez Feij\u00f3o",
             "party": "People's Party",
-            
             "prog_cons": 50,
             "nat_glob": 30,
             "env_eco": 50,
@@ -2084,7 +1938,6 @@
             "id": 2,
             "name": "Santiago Abascal",
             "party": "Vox",
-            
             "prog_cons": 90,
             "nat_glob": -85,
             "env_eco": 60,
@@ -2098,7 +1951,6 @@
             "id": 4,
             "name": "Ernest Urtasun",
             "party": "Sumar",
-            
             "prog_cons": -10,
             "nat_glob": -45,
             "env_eco": 20,
@@ -2112,7 +1964,6 @@
             "id": 5,
             "name": "Carles Puigdemont",
             "party": "Junts",
-            
             "prog_cons": -10,
             "nat_glob": -98,
             "env_eco": 20,
@@ -2126,7 +1977,6 @@
             "id": 6,
             "name": "Gabriel Rufi\u00e1n",
             "party": "ERC",
-            
             "prog_cons": -60,
             "nat_glob": -95,
             "env_eco": -40,
@@ -2140,7 +1990,6 @@
             "id": 7,
             "name": "Aitor Esteban",
             "party": "PNV",
-            
             "prog_cons": 15,
             "nat_glob": -60,
             "env_eco": 35,
@@ -2156,7 +2005,6 @@
             "id": 0,
             "name": "Bola Tinubu",
             "party": "All Progressives Congress",
-            
             "prog_cons": 40,
             "nat_glob": -30,
             "env_eco": 60,
@@ -2170,7 +2018,6 @@
             "id": 1,
             "name": "Atiku Abubakar",
             "party": "People's Democratic Party",
-            
             "prog_cons": 30,
             "nat_glob": -20,
             "env_eco": 50,
@@ -2184,7 +2031,6 @@
             "id": 2,
             "name": "Peter Obi",
             "party": "Labour Party",
-            
             "prog_cons": 10,
             "nat_glob": 0,
             "env_eco": 30,
@@ -2200,7 +2046,6 @@
             "id": 0,
             "name": "Olaf Scholz",
             "party": "Social Democratic Party",
-            
             "prog_cons": -30,
             "nat_glob": 50,
             "env_eco": 10,
@@ -2214,7 +2059,6 @@
             "id": 1,
             "name": "Friedrich Merz",
             "party": "Christian Democratic Union",
-            
             "prog_cons": 45,
             "nat_glob": 30,
             "env_eco": 50,
@@ -2228,7 +2072,6 @@
             "id": 2,
             "name": "Robert Habeck",
             "party": "Alliance 90/The Greens",
-            
             "prog_cons": -60,
             "nat_glob": 60,
             "env_eco": -75,
@@ -2242,7 +2085,6 @@
             "id": 3,
             "name": "Alice Weidel",
             "party": "Alternative for Germany",
-            
             "prog_cons": 90,
             "nat_glob": -85,
             "env_eco": 70,
@@ -2256,7 +2098,6 @@
             "id": 4,
             "name": "Christian Lindner",
             "party": "Free Democratic Party",
-            
             "prog_cons": 10,
             "nat_glob": 40,
             "env_eco": 60,
@@ -2270,7 +2111,6 @@
             "id": 5,
             "name": "Sahra Wagenknecht",
             "party": "BSW",
-            
             "prog_cons": 40,
             "nat_glob": -60,
             "env_eco": 30,
@@ -2284,7 +2124,6 @@
             "id": 6,
             "name": "Heidi Reichinnek",
             "party": "The Left",
-            
             "prog_cons": -70,
             "nat_glob": -10,
             "env_eco": -45,
@@ -2300,7 +2139,6 @@
             "id": 0,
             "name": "Emmanuel Macron",
             "party": "Renaissance",
-            
             "prog_cons": -10,
             "nat_glob": 70,
             "env_eco": 30,
@@ -2314,7 +2152,6 @@
             "id": 1,
             "name": "Marine Le Pen",
             "party": "National Rally",
-            
             "prog_cons": 85,
             "nat_glob": -80,
             "env_eco": 50,
@@ -2328,7 +2165,6 @@
             "id": 2,
             "name": "Jean-Luc M\u00e9lenchon",
             "party": "La France Insoumise",
-            
             "prog_cons": -70,
             "nat_glob": -20,
             "env_eco": -60,
@@ -2342,7 +2178,6 @@
             "id": 3,
             "name": "\u00c9ric Ciotti",
             "party": "The Republicans",
-            
             "prog_cons": 60,
             "nat_glob": 10,
             "env_eco": 60,
@@ -2356,7 +2191,6 @@
             "id": 4,
             "name": "Olivier Faure",
             "party": "Socialist Party",
-            
             "prog_cons": -35,
             "nat_glob": 55,
             "env_eco": -20,
@@ -2370,7 +2204,6 @@
             "id": 5,
             "name": "Fabien Roussel",
             "party": "Communist Party",
-            
             "prog_cons": -50,
             "nat_glob": -15,
             "env_eco": -10,
@@ -2384,7 +2217,6 @@
             "id": 6,
             "name": "\u00c9ric Zemmour",
             "party": "Reconqu\u00eate",
-            
             "prog_cons": 98,
             "nat_glob": -98,
             "env_eco": 60,
@@ -2400,7 +2232,6 @@
             "id": 0,
             "name": "Geert Wilders",
             "party": "Party for Freedom",
-            
             "prog_cons": 80,
             "nat_glob": -90,
             "env_eco": 70,
@@ -2414,7 +2245,6 @@
             "id": 1,
             "name": "Jesse Klaver",
             "party": "GroenLinks-PvdA",
-            
             "prog_cons": -65,
             "nat_glob": 70,
             "env_eco": -70,
@@ -2428,7 +2258,6 @@
             "id": 3,
             "name": "Henri Bontenbal",
             "party": "CDA (Christian Democratic Appeal)",
-            
             "prog_cons": 35,
             "nat_glob": 30,
             "env_eco": 10,
@@ -2442,7 +2271,6 @@
             "id": 2,
             "name": "Dilan Ye\u015filg\u00f6z-Zegerius",
             "party": "People's Party for Freedom and Democracy",
-            
             "prog_cons": 20,
             "nat_glob": 50,
             "env_eco": 50,
@@ -2456,7 +2284,6 @@
             "id": 3,
             "name": "Pieter Omtzigt",
             "party": "New Social Contract",
-            
             "prog_cons": 30,
             "nat_glob": 20,
             "env_eco": 30,
@@ -2470,7 +2297,6 @@
             "id": 4,
             "name": "Rob Jetten",
             "party": "Democrats 66",
-            
             "prog_cons": -80,
             "nat_glob": 90,
             "env_eco": -90,
@@ -2486,7 +2312,6 @@
             "id": 0,
             "name": "Claudia Sheinbaum",
             "party": "MORENA",
-            
             "prog_cons": -40,
             "nat_glob": -30,
             "env_eco": -20,
@@ -2500,7 +2325,6 @@
             "id": 1,
             "name": "X\u00f3chitl G\u00e1lvez",
             "party": "Broad Front for Mexico",
-            
             "prog_cons": 20,
             "nat_glob": 20,
             "env_eco": 40,
@@ -2514,7 +2338,6 @@
             "id": 2,
             "name": "Jorge \u00c1lvarez M\u00e1ynez",
             "party": "Citizens' Movement",
-            
             "prog_cons": -30,
             "nat_glob": 10,
             "env_eco": -10,
@@ -2530,7 +2353,6 @@
             "id": 0,
             "name": "Javier Milei",
             "party": "La Libertad Avanza",
-            
             "prog_cons": 75,
             "nat_glob": -70,
             "env_eco": 85,
@@ -2544,7 +2366,6 @@
             "id": 1,
             "name": "Sergio Massa",
             "party": "Fuerza Patria",
-            
             "prog_cons": -55,
             "nat_glob": -45,
             "env_eco": 15,
@@ -2558,7 +2379,6 @@
             "id": 2,
             "name": "Patricia Bullrich",
             "party": "Patriotic Alliance",
-            
             "prog_cons": 65,
             "nat_glob": 25,
             "env_eco": 65,
@@ -2572,7 +2392,6 @@
             "id": 3,
             "name": "Axel Kicillof",
             "party": "Federal Left",
-            
             "prog_cons": -85,
             "nat_glob": -60,
             "env_eco": -50,
@@ -2588,7 +2407,6 @@
             "id": 0,
             "name": "Christopher Luxon",
             "party": "National Party",
-            
             "prog_cons": 40,
             "nat_glob": 20,
             "env_eco": 60,
@@ -2602,7 +2420,6 @@
             "id": 1,
             "name": "Chris Hipkins",
             "party": "Labour Party",
-            
             "prog_cons": -40,
             "nat_glob": 40,
             "env_eco": -30,
@@ -2616,7 +2433,6 @@
             "id": 2,
             "name": "Marama Davidson",
             "party": "Green Party",
-            
             "prog_cons": -75,
             "nat_glob": 50,
             "env_eco": -85,
@@ -2630,7 +2446,6 @@
             "id": 3,
             "name": "David Seymour",
             "party": "ACT New Zealand",
-            
             "prog_cons": 50,
             "nat_glob": -30,
             "env_eco": 80,
@@ -2644,7 +2459,6 @@
             "id": 4,
             "name": "Winston Peters",
             "party": "New Zealand First",
-            
             "prog_cons": 60,
             "nat_glob": -70,
             "env_eco": 40,
@@ -2660,7 +2474,6 @@
             "id": 0,
             "name": "Mary Lou McDonald",
             "party": "Sinn F\u00e9in",
-            
             "prog_cons": -40,
             "nat_glob": -60,
             "env_eco": -20,
@@ -2674,7 +2487,6 @@
             "id": 1,
             "name": "Simon Harris",
             "party": "Fine Gael",
-            
             "prog_cons": 15,
             "nat_glob": 50,
             "env_eco": 30,
@@ -2688,7 +2500,6 @@
             "id": 2,
             "name": "Miche\u00e1l Martin",
             "party": "Fianna F\u00e1il",
-            
             "prog_cons": 10,
             "nat_glob": 40,
             "env_eco": 20,
@@ -2702,7 +2513,6 @@
             "id": 2,
             "name": "Michael Higgins",
             "party": "Labour Party",
-            
             "prog_cons": -20,
             "nat_glob": 20,
             "env_eco": -10,
@@ -2718,7 +2528,6 @@
             "id": 0,
             "name": "Magdalena Andersson",
             "party": "Social Democrats",
-            
             "prog_cons": -40,
             "nat_glob": 40,
             "env_eco": -10,
@@ -2732,7 +2541,6 @@
             "id": 1,
             "name": "Ulf Kristersson",
             "party": "Moderate Party",
-            
             "prog_cons": 40,
             "nat_glob": 30,
             "env_eco": 50,
@@ -2746,7 +2554,6 @@
             "id": 2,
             "name": "Jimmie \u00c5kesson",
             "party": "Sweden Democrats",
-            
             "prog_cons": 80,
             "nat_glob": -80,
             "env_eco": 60,
@@ -2762,7 +2569,6 @@
             "id": 0,
             "name": "Yoon Suk Yeol",
             "party": "People Power Party",
-            
             "prog_cons": 60,
             "nat_glob": -20,
             "env_eco": 60,
@@ -2776,7 +2582,6 @@
             "id": 1,
             "name": "Lee Jae-myung",
             "party": "Democratic Party",
-            
             "prog_cons": -30,
             "nat_glob": -10,
             "env_eco": -10,
@@ -2792,7 +2597,6 @@
             "id": 0,
             "name": "Prabowo Subianto",
             "party": "Gerindra Party",
-            
             "prog_cons": 70,
             "nat_glob": -60,
             "env_eco": 50,
@@ -2806,7 +2610,6 @@
             "id": 1,
             "name": "Ganjar Pranowo",
             "party": "PDI-P",
-            
             "prog_cons": -10,
             "nat_glob": -40,
             "env_eco": 10,
@@ -2820,7 +2623,6 @@
             "id": 2,
             "name": "Anies Baswedan",
             "party": "Coalition of Change",
-            
             "prog_cons": 40,
             "nat_glob": -20,
             "env_eco": 20,
@@ -2836,7 +2638,6 @@
             "id": 0,
             "name": "Shehbaz Sharif",
             "party": "Pakistan Muslim League",
-            
             "prog_cons": 65,
             "nat_glob": -30,
             "env_eco": 40,
@@ -2850,7 +2651,6 @@
             "id": 1,
             "name": "Imran Khan",
             "party": "Pakistan Tehreek-e-Insaf",
-            
             "prog_cons": 40,
             "nat_glob": -50,
             "env_eco": 20,
@@ -2864,7 +2664,6 @@
             "id": 2,
             "name": "Bilawal Bhutto Zardari",
             "party": "Pakistan People's Party",
-            
             "prog_cons": -20,
             "nat_glob": 10,
             "env_eco": 10,
@@ -2880,7 +2679,6 @@
             "id": 0,
             "name": "Gabriel Boric",
             "party": "Social Convergence",
-            
             "prog_cons": -70,
             "nat_glob": 30,
             "env_eco": -60,
@@ -2894,7 +2692,6 @@
             "id": 1,
             "name": "Jos\u00e9 Antonio Kast",
             "party": "Republican Party",
-            
             "prog_cons": 95,
             "nat_glob": -70,
             "env_eco": 70,
@@ -2908,7 +2705,6 @@
             "id": 2,
             "name": "Evelyn Matthei",
             "party": "Chile Vamos",
-            
             "prog_cons": 50,
             "nat_glob": 10,
             "env_eco": 50,
@@ -2924,7 +2720,6 @@
             "id": 0,
             "name": "Gustavo Petro",
             "party": "Historic Pact",
-            
             "prog_cons": -60,
             "nat_glob": -20,
             "env_eco": -70,
@@ -2938,7 +2733,6 @@
             "id": 1,
             "name": "Federico Guti\u00e9rrez",
             "party": "Creemos Colombia",
-            
             "prog_cons": 50,
             "nat_glob": 10,
             "env_eco": 40,
@@ -2954,7 +2748,6 @@
             "id": 0,
             "name": "Abdel Fattah el-Sisi",
             "party": "El-Sisi",
-            
             "prog_cons": 80,
             "nat_glob": -70,
             "env_eco": 60,
@@ -2968,7 +2761,6 @@
             "id": 1,
             "name": "Ahmed Tantawy",
             "party": "Civil Democratic Movement",
-            
             "prog_cons": -30,
             "nat_glob": 20,
             "env_eco": 10,
@@ -2982,7 +2774,6 @@
             "id": 2,
             "name": "Farid Zahran",
             "party": "Egyptian Social Democratic Party",
-            
             "prog_cons": -40,
             "nat_glob": 30,
             "env_eco": -20,
@@ -2998,7 +2789,6 @@
             "id": 0,
             "name": "Bongbong Marcos",
             "party": "Partido Federal ng Pilipinas",
-            
             "prog_cons": 75,
             "nat_glob": -50,
             "env_eco": 50,
@@ -3012,7 +2802,6 @@
             "id": 1,
             "name": "Sara Duterte",
             "party": "Hugpong ng Pagbabago",
-            
             "prog_cons": 80,
             "nat_glob": -60,
             "env_eco": 60,
@@ -3026,7 +2815,6 @@
             "id": 2,
             "name": "Leni Robredo",
             "party": "Liberal Party",
-            
             "prog_cons": -40,
             "nat_glob": 30,
             "env_eco": -20,
@@ -3042,7 +2830,6 @@
             "id": 0,
             "name": "Lai Ching-te",
             "party": "Democratic Progressive Party",
-            
             "prog_cons": -50,
             "nat_glob": -60,
             "env_eco": -30,
@@ -3056,7 +2843,6 @@
             "id": 1,
             "name": "Hou Yu-ih",
             "party": "Kuomintang",
-            
             "prog_cons": 40,
             "nat_glob": 20,
             "env_eco": 40,
@@ -3070,7 +2856,6 @@
             "id": 2,
             "name": "Ko Wen-je",
             "party": "Taiwan People's Party",
-            
             "prog_cons": 0,
             "nat_glob": 0,
             "env_eco": 20,
@@ -3086,7 +2871,6 @@
             "id": 0,
             "name": "Anwar Ibrahim",
             "party": "Pakatan Harapan",
-            
             "prog_cons": -30,
             "nat_glob": 20,
             "env_eco": 0,
@@ -3100,7 +2884,6 @@
             "id": 1,
             "name": "Muhyiddin Yassin",
             "party": "Perikatan Nasional",
-            
             "prog_cons": 60,
             "nat_glob": -60,
             "env_eco": 40,
@@ -3114,7 +2897,6 @@
             "id": 2,
             "name": "Ahmad Zahid Hamidi",
             "party": "Barisan Nasional",
-            
             "prog_cons": 50,
             "nat_glob": -50,
             "env_eco": 50,
@@ -3130,7 +2912,6 @@
             "id": 0,
             "name": "Christian Stocker",
             "party": "Austrian People's Party",
-            
             "prog_cons": 55,
             "nat_glob": 15,
             "env_eco": 45,
@@ -3144,7 +2925,6 @@
             "id": 1,
             "name": "Herbert Kickl",
             "party": "Freedom Party",
-            
             "prog_cons": 95,
             "nat_glob": -98,
             "env_eco": 70,
@@ -3158,7 +2938,6 @@
             "id": 2,
             "name": "Andreas Babler",
             "party": "Social Democratic Party",
-            
             "prog_cons": -45,
             "nat_glob": 35,
             "env_eco": -30,
@@ -3172,7 +2951,6 @@
             "id": 3,
             "name": "Beate Meinl-Reisinger",
             "party": "NEOS",
-            
             "prog_cons": -55,
             "nat_glob": 85,
             "env_eco": -15,
@@ -3186,7 +2964,6 @@
             "id": 4,
             "name": "Leonore Gewessler",
             "party": "The Greens",
-            
             "prog_cons": -85,
             "nat_glob": 60,
             "env_eco": -98,
@@ -3202,7 +2979,6 @@
             "id": 0,
             "name": "Marcel Dettling",
             "party": "Swiss People's Party",
-            
             "prog_cons": 75,
             "nat_glob": -85,
             "env_eco": 70,
@@ -3216,7 +2992,6 @@
             "id": 1,
             "name": "Mattea Meyer",
             "party": "Social Democratic Party",
-            
             "prog_cons": -65,
             "nat_glob": 65,
             "env_eco": -60,
@@ -3230,7 +3005,6 @@
             "id": 2,
             "name": "Thierry Burkart",
             "party": "The Liberals",
-            
             "prog_cons": 10,
             "nat_glob": 55,
             "env_eco": 45,
@@ -3244,7 +3018,6 @@
             "id": 3,
             "name": "Gerhard Pfister",
             "party": "The Centre",
-            
             "prog_cons": 25,
             "nat_glob": 35,
             "env_eco": 15,
@@ -3258,7 +3031,6 @@
             "id": 4,
             "name": "Lisa Mazzone",
             "party": "Greens",
-            
             "prog_cons": -75,
             "nat_glob": 40,
             "env_eco": -90,
@@ -3274,7 +3046,6 @@
             "id": 0,
             "name": "Lu\u00eds Montenegro",
             "party": "Social Democratic Party",
-            
             "prog_cons": 25,
             "nat_glob": 50,
             "env_eco": 40,
@@ -3288,7 +3059,6 @@
             "id": 1,
             "name": "Pedro Nuno Santos",
             "party": "Socialist Party",
-            
             "prog_cons": -50,
             "nat_glob": 65,
             "env_eco": -35,
@@ -3302,7 +3072,6 @@
             "id": 2,
             "name": "Andr\u00e9 Ventura",
             "party": "Chega!",
-            
             "prog_cons": 95,
             "nat_glob": -95,
             "env_eco": 70,
@@ -3316,7 +3085,6 @@
             "id": 3,
             "name": "Rui Rocha",
             "party": "Liberal Initiative",
-            
             "prog_cons": -45,
             "nat_glob": 85,
             "env_eco": -15,
@@ -3330,7 +3098,6 @@
             "id": 4,
             "name": "Mariana Mort\u00e1gua",
             "party": "Left Bloc",
-            
             "prog_cons": -95,
             "nat_glob": 30,
             "env_eco": -90,
@@ -3346,7 +3113,6 @@
             "id": 0,
             "name": "Viktor Orb\u00e1n",
             "party": "Fidesz",
-            
             "prog_cons": 90,
             "nat_glob": -85,
             "env_eco": 50,
@@ -3360,7 +3126,6 @@
             "id": 1,
             "name": "P\u00e9ter Magyar",
             "party": "Respect and Freedom Party",
-            
             "prog_cons": 10,
             "nat_glob": 40,
             "env_eco": 20,
@@ -3374,7 +3139,6 @@
             "id": 2,
             "name": "Kl\u00e1ra Dobrev",
             "party": "Democratic Coalition",
-            
             "prog_cons": -40,
             "nat_glob": 70,
             "env_eco": -10,
@@ -3390,7 +3154,6 @@
             "id": 0,
             "name": "Petteri Orpo",
             "party": "National Coalition Party",
-            
             "prog_cons": 35,
             "nat_glob": 40,
             "env_eco": 50,
@@ -3404,7 +3167,6 @@
             "id": 1,
             "name": "Antti Lindtman",
             "party": "Social Democratic Party",
-            
             "prog_cons": -35,
             "nat_glob": 50,
             "env_eco": -20,
@@ -3418,7 +3180,6 @@
             "id": 2,
             "name": "Riikka Purra",
             "party": "Finns Party",
-            
             "prog_cons": 80,
             "nat_glob": -75,
             "env_eco": 60,
@@ -3432,7 +3193,6 @@
             "id": 9,
             "name": "Minja Koskela",
             "party": "We Are Left Alliance",
-            
             "prog_cons": -20,
             "nat_glob": -55,
             "env_eco": 10,
@@ -3448,7 +3208,6 @@
             "id": 0,
             "name": "Jonas Gahr St\u00f8re",
             "party": "Labour Party",
-            
             "prog_cons": -40,
             "nat_glob": 40,
             "env_eco": -40,
@@ -3462,7 +3221,6 @@
             "id": 1,
             "name": "Erna Solberg",
             "party": "Conservative Party",
-            
             "prog_cons": 30,
             "nat_glob": 30,
             "env_eco": 40,
@@ -3476,7 +3234,6 @@
             "id": 2,
             "name": "Trygve Slagsvold Vedum",
             "party": "Centre Party",
-            
             "prog_cons": 20,
             "nat_glob": -40,
             "env_eco": 20,
@@ -3492,7 +3249,6 @@
             "id": 0,
             "name": "Mette Frederiksen",
             "party": "Social Democrats",
-            
             "prog_cons": -20,
             "nat_glob": 20,
             "env_eco": -20,
@@ -3506,7 +3262,6 @@
             "id": 1,
             "name": "Troels Lund Poulsen",
             "party": "Venstre",
-            
             "prog_cons": 20,
             "nat_glob": 40,
             "env_eco": 50,
@@ -3520,7 +3275,6 @@
             "id": 2,
             "name": "Lars L\u00f8kke Rasmussen",
             "party": "Moderates",
-            
             "prog_cons": 0,
             "nat_glob": 50,
             "env_eco": 30,
@@ -3536,7 +3290,6 @@
             "id": 0,
             "name": "Bart De Wever",
             "party": "New Flemish Alliance",
-            
             "prog_cons": 55,
             "nat_glob": -75,
             "env_eco": 45,
@@ -3550,7 +3303,6 @@
             "id": 1,
             "name": "Tom Van Grieken",
             "party": "Vlaams Belang",
-            
             "prog_cons": 90,
             "nat_glob": -98,
             "env_eco": 70,
@@ -3564,7 +3316,6 @@
             "id": 2,
             "name": "Georges-Louis Bouchez",
             "party": "Reformist Movement",
-            
             "prog_cons": 10,
             "nat_glob": 65,
             "env_eco": 30,
@@ -3578,7 +3329,6 @@
             "id": 3,
             "name": "Conner Rousseau",
             "party": "Vooruit",
-            
             "prog_cons": -35,
             "nat_glob": 40,
             "env_eco": -20,
@@ -3592,7 +3342,6 @@
             "id": 4,
             "name": "Raoul Hedebouw",
             "party": "PTB/PVDA",
-            
             "prog_cons": -65,
             "nat_glob": -10,
             "env_eco": -80,
@@ -3608,7 +3357,6 @@
             "id": 0,
             "name": "Yamand\u00fa Orsi",
             "party": "Broad Front",
-            
             "prog_cons": -65,
             "nat_glob": 20,
             "env_eco": -45,
@@ -3622,7 +3370,6 @@
             "id": 1,
             "name": "Alvaro Delgado",
             "party": "National Party",
-            
             "prog_cons": 40,
             "nat_glob": 10,
             "env_eco": 30,
@@ -3636,7 +3383,6 @@
             "id": 2,
             "name": "Guido Manini R\u00edos",
             "party": "Open Cabildo",
-            
             "prog_cons": 85,
             "nat_glob": -75,
             "env_eco": 10,
@@ -3650,7 +3396,6 @@
             "id": 3,
             "name": "Andr\u00e9s Ojeda",
             "party": "Colorado Party",
-            
             "prog_cons": 10,
             "nat_glob": 40,
             "env_eco": 45,
@@ -3664,7 +3409,6 @@
             "id": 4,
             "name": "Pablo Mieres",
             "party": "Independent Party",
-            
             "prog_cons": -20,
             "nat_glob": 60,
             "env_eco": -10,
@@ -3680,7 +3424,6 @@
             "id": 0,
             "name": "Slobodan Milo\u0161evi\u0107",
             "party": "Socialist Party of Serbia",
-            
             "prog_cons": 70,
             "nat_glob": -95,
             "env_eco": 10,
@@ -3694,7 +3437,6 @@
             "id": 1,
             "name": "Franjo Tu\u0111man",
             "party": "Croatian Democratic Union",
-            
             "prog_cons": 90,
             "nat_glob": -90,
             "env_eco": 0,
@@ -3708,7 +3450,6 @@
             "id": 2,
             "name": "Ante Markovi\u0107",
             "party": "Union of Reform Forces",
-            
             "prog_cons": -20,
             "nat_glob": 85,
             "env_eco": 10,
@@ -3722,7 +3463,6 @@
             "id": 3,
             "name": "Milan Ku\u010dan",
             "party": "LCS-Party of Democratic Renewal",
-            
             "prog_cons": -40,
             "nat_glob": 30,
             "env_eco": 20,
@@ -3736,7 +3476,6 @@
             "id": 4,
             "name": "Alija Izetbegovi\u0107",
             "party": "Party of Democratic Action",
-            
             "prog_cons": 60,
             "nat_glob": -40,
             "env_eco": -10,
@@ -3752,7 +3491,6 @@
             "id": 0,
             "name": "Kristen Michal",
             "party": "Reform Party",
-            
             "prog_cons": -15,
             "nat_glob": 90,
             "env_eco": 40,
@@ -3766,7 +3504,6 @@
             "id": 1,
             "name": "Martin Helme",
             "party": "EKRE",
-            
             "prog_cons": 95,
             "nat_glob": -95,
             "env_eco": 80,
@@ -3780,7 +3517,6 @@
             "id": 2,
             "name": "Mihhail K\u00f5lvart",
             "party": "Centre Party",
-            
             "prog_cons": 20,
             "nat_glob": -10,
             "env_eco": 10,
@@ -3794,7 +3530,6 @@
             "id": 3,
             "name": "Lauri L\u00e4\u00e4nemets",
             "party": "Social Democrats",
-            
             "prog_cons": -60,
             "nat_glob": 70,
             "env_eco": -50,
@@ -3808,7 +3543,6 @@
             "id": 4,
             "name": "Urmas Reinsalu",
             "party": "Isamaa",
-            
             "prog_cons": 70,
             "nat_glob": -30,
             "env_eco": 55,
@@ -3824,7 +3558,6 @@
             "id": 0,
             "name": "Petr Fiala",
             "party": "Civic Democratic Party",
-            
             "prog_cons": 45,
             "nat_glob": 40,
             "env_eco": 55,
@@ -3838,7 +3571,6 @@
             "id": 1,
             "name": "Andrej Babi\u0161",
             "party": "ANO 2011",
-            
             "prog_cons": 50,
             "nat_glob": -65,
             "env_eco": 30,
@@ -3852,7 +3584,6 @@
             "id": 2,
             "name": "Ivan Barto\u0161",
             "party": "Pirate Party",
-            
             "prog_cons": -80,
             "nat_glob": 75,
             "env_eco": -70,
@@ -3866,7 +3597,6 @@
             "id": 3,
             "name": "V\u00edt Raku\u0161an",
             "party": "STAN (Mayors)",
-            
             "prog_cons": -35,
             "nat_glob": 80,
             "env_eco": -15,
@@ -3880,7 +3610,6 @@
             "id": 4,
             "name": "Tomio Okamura",
             "party": "SPD",
-            
             "prog_cons": 95,
             "nat_glob": -100,
             "env_eco": 75,

@@ -3740,12 +3740,12 @@
         "variance": 28,
         "turnout": 0.9,
         "center": {
-          "prog_cons": -65,
+          "prog_cons": -25,
           "nat_glob": -30,
           "env_eco": -20,
           "soc_cap": 30,
           "pac_mil": 40,
-          "auth_ana": 75,
+          "auth_ana": 45,
           "rel_sec": 95
         },
         "salience": {
