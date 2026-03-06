@@ -357,6 +357,15 @@ export function checkPostElectionLeadershipChanges(
         ];
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
       }
+
+      // Preserve the effective baseline explicitly. Without this, after the election
+      // initialPollResults is reset to the election result, so a survivor with no
+      // leadershipBaseline would have their baseline silently changed to the election
+      // result rather than keeping the original pre-election polling.
+      return {
+        ...candidate,
+        leadershipBaseline: initialPolling
+      };
     }
 
     return candidate;
