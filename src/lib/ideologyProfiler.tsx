@@ -185,13 +185,18 @@ export function getIdeologyProfile(vals: number[]) {
 /**
  * Generate comparative ideology descriptors showing how a voter bloc perceives the player
  * relative to the bloc's center position on each political axis.
- * Returns descriptors sorted by distance magnitude (most different first).
+ *
+ * When `blocSalience` is provided the results are ordered by salience-weighted distance
+ * (most impactful gap first) and the severity label is boosted on high-salience axes —
+ * matching the intuition that even a moderate mismatch on a core issue matters more than
+ * a large gap on something the bloc barely cares about.
  */
 export function getComparativeDescriptors(
   playerVals: number[],
-  blocCenter: PoliticalValues
-): Array<{ key: string; desc: string; distance: number }> {
-  const comparisons: Array<{ key: string; desc: string; distance: number }> = [];
+  blocCenter: PoliticalValues,
+  blocSalience?: Partial<PoliticalValues>
+): Array<{ key: string; desc: string; distance: number; weightedDistance: number }> {
+  const comparisons: Array<{ key: string; desc: string; distance: number; weightedDistance: number }> = [];
 
   VALUES.forEach((key, idx) => {
     const playerValue = playerVals[idx];
@@ -199,19 +204,29 @@ export function getComparativeDescriptors(
     const distance = playerValue - blocValue;
     const absDistance = Math.abs(distance);
 
-    // Only show if there's a meaningful difference (threshold of 15 points)
-    if (absDistance < 20) return;
+    // Salience for this axis (default 1.0 = normal importance)
+    const salience = (blocSalience && typeof (blocSalience as any)[key] === 'number')
+      ? Math.max(0, (blocSalience as any)[key] as number)
+      : 1.0;
+
+    // Lower the minimum gap threshold for high-salience axes so important
+    // mismatches aren't silently filtered out.
+    const threshold = 20 / Math.sqrt(salience);
+    if (absDistance < threshold) return;
 
     const comparative = COMPARATIVE_DESCRIPTORS[key];
     if (!comparative) return;
 
-    // Determine descriptor based on direction and magnitude
-    let descriptor = '';
     const direction = distance > 0 ? comparative.positive : comparative.negative;
 
-    if (absDistance >= 70) {
+    // Boost effective distance by salience when choosing severity label,
+    // so a moderately-far gap on a core axis reads as serious.
+    const effectiveDistance = absDistance * salience;
+
+    let descriptor: string;
+    if (effectiveDistance >= 70) {
       descriptor = `far too ${direction}`;
-    } else if (absDistance >= 45) {
+    } else if (effectiveDistance >= 45) {
       descriptor = `too ${direction}`;
     } else {
       descriptor = `slightly too ${direction}`;
@@ -220,12 +235,13 @@ export function getComparativeDescriptors(
     comparisons.push({
       key,
       desc: descriptor,
-      distance: absDistance
+      distance: absDistance,
+      weightedDistance: effectiveDistance
     });
   });
 
-  // Sort by distance descending (most different first)
-  comparisons.sort((a, b) => b.distance - a.distance);
+  // Sort by salience-weighted distance (most impactful gap first)
+  comparisons.sort((a, b) => b.weightedDistance - a.weightedDistance);
 
   return comparisons;
 }

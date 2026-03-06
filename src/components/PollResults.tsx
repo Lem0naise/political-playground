@@ -327,7 +327,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
 
             // Week 3+: compute how many descriptors to reveal.
             // Reveal 1 at week 3, then +1 every 2 weeks (week 5, 7, 9 …)
-            const allComparisons = getComparativeDescriptors(playerResult.candidate.vals, targetedBloc.center);
+            const allComparisons = getComparativeDescriptors(playerResult.candidate.vals, targetedBloc.center, targetedBloc.salience);
             const revealCount = Math.min(
               allComparisons.length,
               1 + Math.floor((weeksActive - 4) / 2)
