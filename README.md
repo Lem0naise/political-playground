@@ -73,4 +73,41 @@ npx ts-node simulate.ts <CountryName> <BlocId>
 
 ## Links
 - [Play the Game](https://polplay.indigo.spot)
+- [Source Code (GitHub)](https://github.com/Lem0naise/political-playground/)
 - [Indigo's Website](https://indigo.spot)
+
+---
+
+## Contributing
+
+**The Political Playground** is open source and open to contributions! We welcome new countries, political parties, and game events.
+
+### How to Add a New Country / List of Parties
+
+If you want to add a country or update a party list, follow these steps:
+
+#### 1. Fork and Clone
+Fork the [repository](https://github.com/Lem0naise/political-playground/) and clone it to your local machine.
+
+#### 2. Define the Country
+Open `public/data/countries.json` and add a new entry. A country requires:
+- `pop`: Total population (in thousands).
+- `vals`: National averages for the 7 political axes (Progressive/Conservative, Nationalist/Globalist, etc.).
+- `hos`: Head of State name.
+- `blocs`: An array of voter blocs. Each bloc needs a `weight` (0-1), a `center` (ideology), and `salience` (how much they care about specific axes).
+
+#### 3. Define the Parties
+Open `public/data/parties.json` and add a new key matching your country name.
+- Add an array of candidates.
+- Each candidate needs a `name`, `party`, `colour`, and values for all 7 axes (matching the `PoliticalValues` interface).
+- **Tip**: Ensure the `id` for each candidate is unique within that country.
+
+#### 4. Test Your Changes
+Run the development server:
+```bash
+npm run dev
+```
+Select your new country from the main menu. If it doesn't appear or the game crashes, check your JSON syntax and ensure all 7 axes are defined for every party and bloc.
+
+#### 5. Submit a Pull Request
+Commit your changes, push to your fork, and open a Pull Request on GitHub. Please include a brief description of the sources or logic used for the new country's data!
