@@ -358,7 +358,7 @@ export default function CampaignView() {
         </button>
         <div className="text-center text-xs text-slate-400 space-y-1 mt-10">
           <p>Political Playground © 2025-2026</p>
-          <p>Fictional simulator. No real-world accuracy, endorsement or advice.</p>
+          <p>Fictional election simulator.</p>
           <p>Created by <a href="https://indigo.spot">Indigo Nolan</a></p>
           <p>Version {VERSION}</p>
         </div>
