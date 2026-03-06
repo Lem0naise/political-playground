@@ -1350,19 +1350,21 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
   const weights = salienceWeightsForVoter(voterIndex, country);
 
   let minRawSq = Infinity;
+  let minWeightedSq = Infinity; // salience-weighted best distance, for turnout gating
   let maxUtility = -Infinity;
   let maxIndex = 0;
 
   for (let i = 0; i < candidates.length; i++) {
     const cand = candidates[i];
-    let sumSq = 0; // raw L2 for turnout
-    let weightedLoss = 0; // salience-weighted squared loss for utility
+    let sumSq = 0; // raw L2 (kept for reference but not used for gating)
+    let weightedLoss = 0; // salience-weighted squared loss for utility and turnout
     for (let o = 0; o < VALUES.length; o++) {
       const d = data[o][voterIndex] - cand.vals[o];
       sumSq += d * d;
       weightedLoss += weights[o] * d * d;
     }
     if (sumSq < minRawSq) minRawSq = sumSq;
+    if (weightedLoss < minWeightedSq) minWeightedSq = weightedLoss;
 
     // Utility: proximity (negative weighted loss) + gentle popularity + optional swing + loyalty
     let u = -weightedLoss + (cand.base_utility_modifier || 0);
@@ -1381,17 +1383,18 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
     }
   }
 
-  // Turnout gating based on nearest raw distance (pre-utility)
+  // Turnout gating: use salience-weighted distance so voters only abstain based on axes they care about.
+  // e.g. a bloc with low env_eco salience won't stay home just because a party drifted on climate.
   if (!VOTE_MANDATE) {
-    if (minRawSq > Math.pow(TOO_FAR_DISTANCE, 2)) {
+    if (minWeightedSq > Math.pow(TOO_FAR_DISTANCE, 2)) {
       return null;
     }
     // Gradient apathy: if the best candidate is still fairly far away, chance to stay home increases
     const apathyStartDistance = TOO_FAR_DISTANCE * 0.5;
     const apathyStartSq = Math.pow(apathyStartDistance, 2);
-    if (minRawSq > apathyStartSq) {
+    if (minWeightedSq > apathyStartSq) {
       const apathyRangeSq = Math.pow(TOO_FAR_DISTANCE, 2) - apathyStartSq;
-      const apathyChance = ((minRawSq - apathyStartSq) / apathyRangeSq) * 0.6; // Max 60% chance to abstain
+      const apathyChance = ((minWeightedSq - apathyStartSq) / apathyRangeSq) * 0.6; // Max 60% chance to abstain
       if (Math.random() < apathyChance) {
         return null; // Voter stays home out of apathy
       }
