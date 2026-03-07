@@ -1,6 +1,7 @@
 import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, VoterBloc, IdeologyDrift, EVENT_DRIFT_WEEKS, Event, PollingSnapshot } from '@/types/game';
 
 import { RANDOM_NEWS_EVENTS, ECONOMIC_CRISIS_EVENTS, ECONOMIC_OPTIMISM_EVENTS, POLARIZATION_EVENTS, BLOC_REACTION_TEMPLATES } from '@/lib/newsTemplates';
+import { generateNewPartyName } from '@/lib/partyMerger';
 
 import countriesDataRaw from '../../public/data/countries.json';
 const countriesData = countriesDataRaw as Record<string, any>;
@@ -1364,10 +1365,14 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
       weightedLoss += weights[o] * d * d;
     }
     if (sumSq < minRawSq) minRawSq = sumSq;
-    if (weightedLoss < minWeightedSq) minWeightedSq = weightedLoss;
 
-    // Utility: proximity (negative weighted loss) + gentle popularity + optional swing + loyalty
-    let u = -weightedLoss + (cand.base_utility_modifier || 0);
+    // Add nascent_penalty to the weighted loss so new parties are considered "far away"
+    // preventing them from instantly dropping apathy to 0 and gaining 100% turnout
+    const effectiveLoss = weightedLoss + (cand.nascent_penalty || 0);
+    if (effectiveLoss < minWeightedSq) minWeightedSq = effectiveLoss;
+
+    // Utility: proximity (negative weighted loss) + gentle popularity + optional swing + loyalty + nascent penalty
+    let u = -weightedLoss + (cand.base_utility_modifier || 0) - (cand.nascent_penalty || 0);
     if (cand.swing) {
       u += (cand.swing * 5) * Math.abs(cand.swing * 5);
     }
@@ -1458,6 +1463,15 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
       candidate.base_utility_modifier = 0;
     }
 
+    // Decay nascent penalty: shrink it linearly so it lasts approximately 30 weeks
+    if (candidate.nascent_penalty) {
+      // 20000 / 30 = ~667 points per week
+      candidate.nascent_penalty -= 667;
+      if (candidate.nascent_penalty <= 0) {
+        candidate.nascent_penalty = 0;
+      }
+    }
+
     // Calculate momentum from recent performance
     const momentumChange = pop - oldPop;
     candidate.momentum = (candidate.momentum || 0) * 0.7 + momentumChange * 0.3;
@@ -1500,6 +1514,7 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     candidate.previous_popularity = pop;
 
     // Ensure base_utility_modifier doesn't go to extreme values
+    // TODO: Consider rescaling to [-500, 500] in the future so events have more impact 
     if (candidate.base_utility_modifier > 50) {
       candidate.base_utility_modifier = 50;
     } else if (candidate.base_utility_modifier < -50) {
@@ -1990,3 +2005,90 @@ export function checkForPartyDissolution(
 
   return { candidates: survivingCandidates, news };
 }
+
+function generateRandomHexColour(): string {
+  // Generate a distinct, vibrant random color using HSL to HEX
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = 60 + Math.random() * 40; // 60-100%
+  const lightness = 40 + Math.random() * 20; // 40-60%
+
+  const h = hue;
+  const s = saturation;
+  const l = lightness;
+
+  const hDecimal = l / 100;
+  const a = s * Math.min(hDecimal, 1 - hDecimal) / 100;
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    const color = hDecimal - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color).toString(16).padStart(2, '0');
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+export function checkForNewPartyFormation(
+  blocStats: BlocStatistics[],
+  candidates: Candidate[],
+  eventVariables: any,
+  country: string,
+  countryData: Country
+): { newCandidate?: Candidate; news: string[] } {
+  const news: string[] = [];
+
+  // We only spawn 1 party per week maximum
+  for (const bloc of blocStats) {
+    if (bloc.turnout < 0.40) {
+      // 3% base chance to spawn per week if a bloc feels completely alienated
+      const spawnChance = 0.03 + (bloc.weight * 0.05); // change back to 0.03 + (bloc.weight * 0.05)
+
+      if (Math.random() < Math.max(0.01, spawnChance)) {
+        const voterBloc = countryData.blocs?.find(b => b.id === bloc.blocId);
+        if (!voterBloc) continue;
+
+        const newPartyName = generateNewPartyName(voterBloc.center as PoliticalValues);
+
+        // Ensure the party name doesn't already exist
+        if (candidates.some(c => c.party === newPartyName)) {
+          continue; // Abort this roll, try another bloc
+        }
+
+        const newLeaderName = generateLeaderName(eventVariables, country);
+
+        // Add random noise to the bloc center for the new party's ideology
+        const newVals = VALUES.map(key => {
+          const centerVal = voterBloc.center[key] ?? 0;
+          const noise = (Math.random() - 0.5) * 100; // +/- 50
+          return Math.max(-100, Math.min(100, centerVal + noise));
+        });
+
+        const newId = candidates.length > 0 ? Math.max(...candidates.map(c => c.id)) + 1 : 1;
+
+        const newCandidate: Candidate = {
+          id: newId,
+          name: newLeaderName,
+          party: newPartyName,
+          base_utility_modifier: 0,
+          nascent_penalty: 20000, // Massive initial penalty to limit instant growth
+          poll_percentage: 0,
+          vals: newVals,
+          colour: generateRandomHexColour(),
+          swing: 0,
+          is_player: false
+        };
+
+        const titles = [
+          `New political movement emerging: ${newPartyName} formed to represent alienated voters.`,
+          `BREAKING: Frustration with the establishment leads to the creation of ${newPartyName}.`,
+          `Low voter turnout sparks new political party: ${newLeaderName} launches ${newPartyName}.`,
+          `Sensing an opportunity amongst disenfranchised voters, ${newLeaderName} founds ${newPartyName}.`
+        ];
+
+        news.push(titles[Math.floor(Math.random() * titles.length)]);
+        return { newCandidate, news };
+      }
+    }
+  }
+
+  return { news };
+}
+

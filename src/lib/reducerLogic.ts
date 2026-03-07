@@ -10,7 +10,8 @@ import {
   MAX_ACTIVE_TRENDS,
   BlocStatistics,
   checkForLeadershipChanges,
-  checkForPartyDissolution
+  checkForPartyDissolution,
+  checkForNewPartyFormation
 } from '@/lib/gameEngine';
 import {
   SURGE_MESSAGES,
@@ -342,6 +343,24 @@ export function calculateNextPollState(state: GameState): GameState {
       partyDissolutionNews.push(...dissolutionResult.news);
     }
     // --- END: Check for Party Dissolution ---
+
+    // --- BEGIN: Check for New Party Formation ---
+    if (newBlocStats && newBlocStats.length > 0) {
+      const formationResult = checkForNewPartyFormation(
+        newBlocStats,
+        activeCandidates,
+        state.eventVariables,
+        state.country,
+        countryDataAfterTrend
+      );
+      if (formationResult.newCandidate) {
+        activeCandidates.push(formationResult.newCandidate);
+      }
+      if (formationResult.news.length > 0) {
+        partyDissolutionNews.push(...formationResult.news); // add to same news array for convenience
+      }
+    }
+    // --- END: Check for New Party Formation ---
   }
 
   // -- BEGIN: WEEK 2 INITIAL GOVERNMENT FORMATION --

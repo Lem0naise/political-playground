@@ -1,4 +1,4 @@
-import { VALUES } from '@/types/game';
+import { VALUES, PoliticalValues } from '@/types/game';
 
 export interface Party {
   party: string;
@@ -317,4 +317,66 @@ export function generateMergedPartyNames(party1: Party, party2: Party): string[]
 
   // Deduplicate and return up to 10
   return Array.from(new Set(allSuggestions.filter(Boolean))).slice(0, 10);
+}
+
+/**
+ * Generate a single new party name based purely on an ideology vector.
+ */
+export function generateNewPartyName(vals: PoliticalValues): string {
+  // Average the political values
+  const avgVals: Record<string, number> = {};
+  for (const key of VALUES) {
+    avgVals[key] = vals[key] ?? 0;
+  }
+
+  // Find top 3 dominant axes (by absolute value)
+  const ranked = VALUES
+    .map(key => ({ key, abs: Math.abs(avgVals[key] ?? 0) }))
+    .sort((a, b) => b.abs - a.abs)
+    .slice(0, 3);
+
+  // Collect ideology words from dominant axes
+  const ideologyPairs: [string, string][] = [];
+  for (const { key, abs } of ranked) {
+    if (abs < 20) continue; // Ignore near-neutral axes
+    const bank = IDEOLOGY_WORDS[key];
+    if (!bank) continue;
+    const direction = (avgVals[key] ?? 0) < 0 ? 'negative' : 'positive';
+    ideologyPairs.push(...bank[direction]);
+  }
+
+  const suggestions: string[] = [];
+  const shuffledPairs = shuffle(ideologyPairs);
+
+  if (shuffledPairs.length === 0) {
+    return `New ${pick(STRUCTURAL_SUFFIXES)}`;
+  }
+
+  // Strategy A: adjective + noun from ideology banks
+  for (const [adj, noun] of shuffledPairs.slice(0, 3)) {
+    suggestions.push(`${adj} ${noun}`);
+  }
+
+  // Strategy B: mix adjective from one axis + noun from another
+  if (shuffledPairs.length >= 2) {
+    const { 0: adj } = shuffledPairs[0];
+    const { 1: noun } = shuffledPairs[1];
+    suggestions.push(`${adj} ${noun}`);
+  }
+
+  // Strategy C: prefix + ideology noun
+  const prefixes = ['New', 'Democratic', 'Progressive', 'National', 'Popular', 'Free', 'Independent'];
+  if (shuffledPairs.length > 0) {
+    const { 1: noun } = shuffledPairs[0];
+    suggestions.push(`${pick(prefixes)} ${noun}`);
+  }
+
+  // Strategy D: adjective + suffix
+  if (shuffledPairs.length > 0) {
+    const { 0: adj } = shuffledPairs[0];
+    suggestions.push(`${adj} ${pick(STRUCTURAL_SUFFIXES)}`);
+  }
+
+  const allSuggestions = Array.from(new Set(suggestions.filter(Boolean)));
+  return pick(allSuggestions);
 }

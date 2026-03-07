@@ -81,6 +81,7 @@ export interface Candidate {
   eventDrifts?: IdeologyDrift[];
   leaderCooldown?: number;
   leadershipBaseline?: number;
+  nascent_penalty?: number;
 }
 
 export interface VoterBloc {
@@ -301,7 +302,7 @@ export const PROBABILISTIC_VOTING = true;
 // Softmax temperature (beta): higher => crisper choices, lower => smoother
 export const SOFTMAX_BETA = 0.0008;
 // Loyalty bonus added to utility when voter sticks with previous choice
-export const LOYALTY_UTILITY = 900; // 800 is roughly equivalent to a candidate being 11 units closer on all 7 ideologies than they actually are
+export const LOYALTY_UTILITY = 1200; // 800 is roughly equivalent to a candidate being 11 units closer on all 7 ideologies than they actually are
 
 // Optional persistent electorate structure for generating once at game start
 export interface Electorate {
