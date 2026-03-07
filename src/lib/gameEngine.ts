@@ -1,4 +1,4 @@
-import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, VoterBloc, IdeologyDrift, EVENT_DRIFT_WEEKS, Event } from '@/types/game';
+import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, VoterBloc, IdeologyDrift, EVENT_DRIFT_WEEKS, Event, PollingSnapshot } from '@/types/game';
 
 import { RANDOM_NEWS_EVENTS, ECONOMIC_CRISIS_EVENTS, ECONOMIC_OPTIMISM_EVENTS, POLARIZATION_EVENTS, BLOC_REACTION_TEMPLATES } from '@/lib/newsTemplates';
 
@@ -1935,4 +1935,58 @@ export function applyEventEffect(
   }
 
   return { pollingChange, newsEvents };
+}
+
+export function checkForPartyDissolution(
+  candidates: Candidate[],
+  pollingHistory: PollingSnapshot[],
+  currentResults: Record<string, number>
+): { candidates: Candidate[]; news: string[] } {
+  let survivingCandidates = [...candidates];
+  const news: string[] = [];
+
+  // We need 10 consecutive polls (current + 9 history)
+  if (pollingHistory.length < 9) {
+    return { candidates: survivingCandidates, news };
+  }
+
+  // Get the last 9 polls from history (they are sorted by week usually, but let's just take the last 9)
+  const recentHistory = pollingHistory.slice(-9);
+
+  for (const candidate of candidates) {
+    if (candidate.is_player) continue;
+
+    // Check current poll
+    const currentPct = currentResults[candidate.party] || 0;
+    if (currentPct >= 3.0) continue; // 3.0
+
+    // Check last 9 polls
+    let consistentlyLow = true;
+    for (const snapshot of recentHistory) {
+      const histPct = snapshot.percentages[candidate.party] || 0;
+      if (histPct >= 3.0) { // 3.0
+        consistentlyLow = false;
+        break;
+      }
+    }
+
+    if (consistentlyLow) {
+      // 10% chance to dissolve each week they meet the criteria
+      if (Math.random() < 0.10) { // 0.10
+        survivingCandidates = survivingCandidates.filter(c => c.id !== candidate.id);
+
+        const templates = [
+          `BREAKING: ${candidate.party} officially dissolves after prolonged period of low polling.`,
+          `BREAKING: Following months of dismal support, ${candidate.party} disbands.`,
+          `BREAKING: ${candidate.party} leadership, ${candidate.name}, announces dissolution of the party.`,
+          `BREAKING: ${candidate.party} folds its operations after failing to break 3% in recent polls, says ${candidate.name}`
+        ];
+
+        news.push(templates[Math.floor(Math.random() * templates.length)]);
+
+      }
+    }
+  }
+
+  return { candidates: survivingCandidates, news };
 }

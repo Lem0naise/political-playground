@@ -9,7 +9,8 @@ import {
   getVoterTransferMatrix,
   MAX_ACTIVE_TRENDS,
   BlocStatistics,
-  checkForLeadershipChanges
+  checkForLeadershipChanges,
+  checkForPartyDissolution
 } from '@/lib/gameEngine';
 import {
   SURGE_MESSAGES,
@@ -315,6 +316,7 @@ export function calculateNextPollState(state: GameState): GameState {
   let activeCandidates = state.candidates;
   let leadershipNews: string[] = [];
   let playerCrisisEvent: any = null;
+  let partyDissolutionNews: string[] = [];
 
   if (nextPollNum < state.totalPolls) {
     const changes = checkForLeadershipChanges(
@@ -328,6 +330,18 @@ export function calculateNextPollState(state: GameState): GameState {
     activeCandidates = changes.candidates;
     leadershipNews = changes.news;
     playerCrisisEvent = changes.playerCrisisEvent || null;
+
+    // --- BEGIN: Check for Party Dissolution ---
+    const dissolutionResult = checkForPartyDissolution(
+      activeCandidates,
+      state.pollingHistory,
+      newPreviousResults
+    );
+    activeCandidates = dissolutionResult.candidates;
+    if (dissolutionResult.news.length > 0) {
+      partyDissolutionNews.push(...dissolutionResult.news);
+    }
+    // --- END: Check for Party Dissolution ---
   }
 
   // -- BEGIN: WEEK 2 INITIAL GOVERNMENT FORMATION --
@@ -835,6 +849,7 @@ export function calculateNextPollState(state: GameState): GameState {
     ...state.playerEventNews,
     ...substitutedNewsEvents,
     ...partyPollingNews,
+    ...partyDissolutionNews,
     ...trendNews,
     ...positionShiftNews,
     ...eventDriftNews,
