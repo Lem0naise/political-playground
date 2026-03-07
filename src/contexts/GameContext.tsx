@@ -476,7 +476,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
               `BREAKING: Power shift as ${newLeadParty} replaces ${previousGov[0]} administration with new ${govDescriptor} ${govType}.`,
               `BREAKING: ${newLeadParty} takes control from ${previousGov[0]} in new ${govDescriptor} ${govType}`
             ];
-            headline = changeTemplates[Math.floor(Math.random() * changeTemplates.length)];
+            govNews.push(changeTemplates[Math.floor(Math.random() * changeTemplates.length)]);
+            govNews.push(changeTemplates[Math.floor(Math.random() * changeTemplates.length)]);
+            
           } else {
             const continueTemplates = [
               `BREAKING: ${newLeadParty}'s ${govDescriptor} ${govType} survives election`,
@@ -484,7 +486,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
               `BREAKING: ${newLeadParty} retains control with ${govDescriptor} ${govType}`,
               `BREAKING: ${newLeadParty} continues to govern with ${govDescriptor} ${govType}`
             ];
-            headline = continueTemplates[Math.floor(Math.random() * continueTemplates.length)];
+            govNews.push(continueTemplates[Math.floor(Math.random() * continueTemplates.length)]);
+
+            govNews.push(continueTemplates[Math.floor(Math.random() * continueTemplates.length)]);
           }
         } else {
           const initialTemplates = [
@@ -493,10 +497,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
             `BREAKING: New era begins as ${newLeadParty} forms ${govDescriptor} ${govType}`,
             `BREAKING: ${newLeadParty} successfully forms ${govDescriptor} ${govType}`
           ];
-          headline = initialTemplates[Math.floor(Math.random() * initialTemplates.length)];
+          govNews.push(initialTemplates[Math.floor(Math.random() * initialTemplates.length)]);
         }
 
-        govNews.push(headline);
       }
 
       const postElecChanges = checkPostElectionLeadershipChanges(

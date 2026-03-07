@@ -304,6 +304,17 @@ export function generateMergedPartyNames(party1: Party, party2: Party): string[]
     suggestions.push(`${pick(prefixes)} ${noun}`);
   }
 
+  // Inject simpler combined names at the start
+  const basicSuggestions: string[] = [
+    `${party1.party}-${party2.party}`,
+    `${party1.party} & ${party2.party}`,
+    `United ${party1.party}-${party2.party}`,
+    party1.party,
+    party2.party
+  ];
+
+  const allSuggestions = [...basicSuggestions, ...suggestions];
+
   // Deduplicate and return up to 10
-  return Array.from(new Set(suggestions.filter(Boolean))).slice(0, 10);
+  return Array.from(new Set(allSuggestions.filter(Boolean))).slice(0, 10);
 }

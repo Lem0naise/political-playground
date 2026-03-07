@@ -6,8 +6,8 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '3.15.0',
-    date: '2026-03-06',
+    version: '3.16.0',
+    date: '2026-03-07',
     changes: [
       "Reduce frequency of AI offering coalition positions.",
     ],
