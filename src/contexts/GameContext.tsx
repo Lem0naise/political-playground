@@ -122,7 +122,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           party.auth_ana,
           party.rel_sec,
           party.colour,
-          party.swing
+          party.swing,
+          party.nascent_penalty
         )
       );
 
@@ -340,7 +341,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           p.auth_ana,
           p.rel_sec,
           p.colour,
-          p.swing
+          p.swing,
+          p.nascent_penalty
         )
       );
 
@@ -478,7 +480,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
             ];
             govNews.push(changeTemplates[Math.floor(Math.random() * changeTemplates.length)]);
             govNews.push(changeTemplates[Math.floor(Math.random() * changeTemplates.length)]);
-            
+
           } else {
             const continueTemplates = [
               `BREAKING: ${newLeadParty}'s ${govDescriptor} ${govType} survives election`,

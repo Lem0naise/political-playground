@@ -31,6 +31,7 @@ export default function PlayerSelection() {
     pac_mil: 0,
     auth_ana: 0,
     rel_sec: 0,
+    isNewParty: true,
   });
 
   // Helper for value changes
@@ -51,6 +52,7 @@ export default function PlayerSelection() {
       pac_mil: 0,
       auth_ana: 0,
       rel_sec: 0,
+      isNewParty: true,
     });
     setEditingPartyId(null);
   };
@@ -93,6 +95,7 @@ export default function PlayerSelection() {
       pac_mil: candidate.vals[4],
       auth_ana: candidate.vals[5],
       rel_sec: candidate.vals[6],
+      isNewParty: (candidate.nascent_penalty || 0) > 0,
     });
     setEditingPartyId(candidate.id);
     setShowCreator(true);
@@ -129,6 +132,7 @@ export default function PlayerSelection() {
               customParty.rel_sec
             ],
             colour: customParty.colour,
+            nascent_penalty: customParty.isNewParty ? 20000 : 0,
           };
         }
         return c;
@@ -149,7 +153,8 @@ export default function PlayerSelection() {
           auth_ana: c.vals[5],
           rel_sec: c.vals[6],
           colour: c.colour,
-          swing: c.swing || 0
+          swing: c.swing || 0,
+          nascent_penalty: c.nascent_penalty || 0
         }))
       );
     } else {
@@ -167,6 +172,7 @@ export default function PlayerSelection() {
         rel_sec: customParty.rel_sec,
         colour: customParty.colour,
         swing: 0,
+        nascent_penalty: customParty.isNewParty ? 20000 : 0,
       };
       actions.setPartyList(
         "With Custom Party",
@@ -183,7 +189,8 @@ export default function PlayerSelection() {
           auth_ana: c.vals[5],
           rel_sec: c.vals[6],
           colour: c.colour,
-          swing: c.swing || 0
+          swing: c.swing || 0,
+          nascent_penalty: c.nascent_penalty || 0
         })), newParty]
       );
     }
@@ -421,6 +428,18 @@ export default function PlayerSelection() {
                       onChange={e => handleCustomChange('colour', e.target.value)}
                     />
                   </label>
+                  <label className="flex flex-col gap-1 text-xs text-slate-300">
+                    <span className="campaign-status text-xs text-yellow-300">New Party?</span>
+                    <div className="flex items-center gap-2 h-10">
+                      <input
+                        type="checkbox"
+                        checked={customParty.isNewParty}
+                        onChange={e => handleCustomChange('isNewParty', e.target.checked)}
+                        className="w-4 h-4 rounded border-slate-600 bg-slate-900/40 text-yellow-400 focus:ring-yellow-400/60 focus:ring-opacity-25"
+                      />
+                      <span className="text-slate-400">Apply an initial penalty to simulate a nascent party.</span>
+                    </div>
+                  </label>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -439,7 +458,7 @@ export default function PlayerSelection() {
                         type="range"
                         min={-100}
                         max={100}
-                        value={customParty[slider.key as keyof typeof customParty]}
+                        value={customParty[slider.key as keyof typeof customParty] as number}
                         onChange={e => handleCustomChange(slider.key, Number(e.target.value))}
                         className="w-full accent-yellow-400"
                       />

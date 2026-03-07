@@ -26,7 +26,8 @@ export function createCandidate(
   auth_ana: number,
   rel_sec: number,
   colour?: string,
-  swing?: number
+  swing?: number,
+  nascent_penalty?: number
 ): Candidate {
   return {
     id,
@@ -37,6 +38,7 @@ export function createCandidate(
     vals: [prog_cons, nat_glob, env_eco, soc_cap, pac_mil, auth_ana, rel_sec],
     colour: colour || 'gray',
     swing,
+    nascent_penalty,
     is_player: false
   };
 }
@@ -1343,7 +1345,7 @@ export function generateVotingData(country: Country): number[][] {
   return data;
 }
 
-export function voteForCandidate(voterIndex: number, candidates: Candidate[], data: number[][], country?: Country): number | null {
+export function voteForCandidate(voterIndex: number, candidates: Candidate[], data: number[][], country?: Country, applyLoyalty: boolean = true): number | null {
   // Compute raw squared distances for turnout gating and utilities for choice
   const utilities: number[] = new Array(candidates.length).fill(0);
 
@@ -1378,7 +1380,7 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
     }
     // Loyalty inertia: bonus if voter sticks with previous choice
     const last = LAST_CHOICES?.[voterIndex];
-    if (last !== undefined && last === i) {
+    if (applyLoyalty && last !== undefined && last === i) {
       u += LOYALTY_UTILITY;
     }
     utilities[i] = u;
@@ -1659,7 +1661,7 @@ export function conductPoll(
 
   // Poll the entire electorate
   for (let voterIndex = 0; voterIndex < voterCount; voterIndex++) {
-    const choice = voteForCandidate(voterIndex, candidates, data, country);
+    const choice = voteForCandidate(voterIndex, candidates, data, country, pollIteration > 0);
 
     // Track bloc membership regardless of vote
     if (hasBlocs) {
