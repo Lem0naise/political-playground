@@ -246,6 +246,80 @@
         "NATO allies"
       ]
     },
+    "KRESIMIRIA, REPUBLIC OF": {
+      "newspaper": [
+        "The Pulma Press",
+        "The Civic Post",
+        "Early Bird Chronicle",
+        "The Kresimirian Herald",
+        "The Sinj Herald"
+      ],
+      "company": [
+        "YakaSys",
+        "National Energy",
+        "SeverMin",
+        "Otonik Ordnance",
+        "GradnjaMC",
+        "Maj Holdings",
+        "Krasja",
+        "RiG",
+        "Kasa24"
+      ],
+      "organisation": [
+        "AFIM",
+        "CIA",
+        "Council for Health",
+        "Bosken Intelligence Forces",
+        "Council for Defence"
+      ],
+      "region": [
+        "North",
+        "East",
+        "South",
+        "West",
+        "Sinj",
+        "Bosken South",
+        "Hill-Speak North",
+        "Industrial East",
+        "Pulma Plains"
+      ],
+      "city": [
+        "Sinj",
+        "Cetingrad",
+        "Varazdinske",
+        "Dvor",
+        "Ozla",
+        "Bihac",
+        "Lipovljana",
+        "Bistrica",
+        "Karlovac",
+        "Kromine",
+        "Brod Moravice",
+        "Sprodvice",
+        "Pulma",
+        "Ravna Skrad",
+        "Vijrje",
+        "Novi Otonik",
+        "Sinj",
+        "Polograd"
+      ],
+      "foreign_country": [
+        "Boskenmark",
+        "Republic of Kaskiv",
+        "Alandir",
+        "Aland",
+        "Kruhlstutt",
+        "Kingdom of Kruhlstutt",
+        "Valkari States"
+      ],
+       "historical_figure": [
+      "Filip Novak",
+      "Dominik Loncar",
+      "Revolutionary Wartime General",
+      "Eward Matek",
+      "Ljubo Sanjakorin"
+    ]
+    },
     "IRELAND": {
       "newspaper": [
         "The Times",
