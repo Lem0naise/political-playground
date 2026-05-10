@@ -17,6 +17,9 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
   const deputyPMparties = cabinetAllocations['Deputy Prime Minister'] || [];
   const deputyPMParty = deputyPMparties.length > 0 ? deputyPMparties[0] : null;
   const deputyCandidate = deputyPMParty ? getCandidateByParty(deputyPMParty) : null;
+  const isSinglePartyCoalition = Object.keys(cabinetAllocations).every(
+    pos => cabinetAllocations[pos].every(p => p === winningParty.party)
+  );
 
   let totalPortfolios = 0;
   const portfoliosByParty: Record<string, number> = {};
@@ -79,9 +82,11 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
               <div className="flex-1 pl-1">
                 <div className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">Deputy Prime Minister</div>
                 <div className="text-sm sm:text-lg font-black text-white leading-tight mt-0.5" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
-                  {deputyCandidate.name}
+                  {isSinglePartyCoalition ? deputyCandidate.party : deputyCandidate.name}
                 </div>
-                <div className="text-xs text-slate-200 font-medium mt-0.5">{deputyCandidate.party}</div>
+                {!isSinglePartyCoalition && (
+                  <div className="text-xs text-slate-200 font-medium mt-0.5">{deputyCandidate.party}</div>
+                )}
               </div>
             </div>
           </div>

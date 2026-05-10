@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useGame } from '@/contexts/GameContext';
-import { Event, EventChoice } from '@/types/game';
+import { Event, EventChoice, VALUES, PoliticalValueKey } from '@/types/game';
 import PollResults from './PollResults';
 import EventModal from './EventModal';
 import PollingGraphModal from './PollingGraphModal';
@@ -45,16 +45,22 @@ export default function CampaignView() {
       .catch(err => console.error('Failed to load event variables:', err));
   }, []);
 
+  // Helper: check if an event affects the targeted axis
+  const eventMatchesAxis = (ev: Event, axis: string): boolean => {
+    // Check if any choice affects the target axis
+    return ev.choices.some(choice => {
+      const effectKeys = Object.keys(choice.effect) as Array<keyof typeof choice.effect>;
+      return effectKeys.some(k => k === axis && (choice.effect[k] ?? 0) !== 0);
+    });
+  };
+
   useEffect(() => {
     // Check if we should show an event
-    if (state.currentPoll < state.totalPolls - 2 && events.length > 0 && eventVariables) {
+    if (state.currentPoll < state.totalPolls - 2 && events.length > 0 && eventVariables && !currentEvent) {
       const pollsSinceEvent = state.currentPoll - lastEventPoll;
 
       // Present event every 3-4 polls
       if (pollsSinceEvent >= 3 && Math.random() < 0.6) {
-        // Build a weight for each event based on active trends.
-        // Events whose categories overlap a live trend get a significant boost,
-        // mimicking the real-world 24-hour news cycle.
         const TREND_WEIGHT_MULTIPLIER = 8;
         const activeTrendAxes = new Set(state.activeTrend.map(t => t.valueKey));
 
@@ -65,27 +71,36 @@ export default function CampaignView() {
           return 1;
         });
 
-        const totalWeight = weights.reduce((sum, w) => sum + w, 0);
-        let pick = Math.random() * totalWeight;
-        let eventIndex = 0;
-        for (let i = 0; i < weights.length; i++) {
-          pick -= weights[i];
-          if (pick <= 0) { eventIndex = i; break; }
+        const pickWeightedEvent = (): Event => {
+          const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+          let pick = Math.random() * totalWeight;
+          let eventIndex = 0;
+          for (let i = 0; i < weights.length; i++) {
+            pick -= weights[i];
+            if (pick <= 0) { eventIndex = i; break; }
+          }
+          return events[eventIndex];
+        };
+
+        let pickedEvent = pickWeightedEvent();
+
+        // Axis targeting: re-roll up to 3 more times if the picked event
+        // doesn't affect the player's targeted axis
+        if (state.targetedAxis) {
+          for (let retry = 0; retry < 7; retry++) {
+            if (eventMatchesAxis(pickedEvent, state.targetedAxis)) break;
+            pickedEvent = pickWeightedEvent();
+          }
         }
 
-        const randomEvent = events[eventIndex];
+        const instantiatedEvent = instantiateEvent(pickedEvent, eventVariables, state.country);
 
-        // Instantiate the event with variable substitution
-        const instantiatedEvent = instantiateEvent(randomEvent, eventVariables, state.country);
-
-        // Set a random newspaper source for this event
         setNewsSource(getRandomNewspaper());
-
         setCurrentEvent(instantiatedEvent);
         setLastEventPoll(state.currentPoll);
       }
     }
-  }, [state.currentPoll, events, eventVariables, lastEventPoll, state.country]);
+  }, [state.currentPoll, events, eventVariables, lastEventPoll, state.country, state.targetedAxis, state.totalPolls]);
 
   // Handle specially queued player events like post-election leadership crises
   useEffect(() => {
@@ -120,6 +135,16 @@ export default function CampaignView() {
 
   const weeksLeft = state.totalPolls - state.currentPoll;
   const canViewPollingGraph = state.pollingHistory.length > 0;
+
+  const AXIS_LABELS: Record<PoliticalValueKey, { label: string; low: string; high: string }> = {
+    prog_cons: { label: 'Prog ↔ Cons', low: 'Progressive', high: 'Conservative' },
+    nat_glob: { label: 'Nat ↔ Glob', low: 'Nationalist', high: 'Globalist' },
+    env_eco: { label: 'Env ↔ Eco', low: 'Environmental', high: 'Economic' },
+    soc_cap: { label: 'Soc ↔ Cap', low: 'Socialist', high: 'Capitalist' },
+    pac_mil: { label: 'Pac ↔ Mil', low: 'Pacifist', high: 'Militarist' },
+    auth_ana: { label: 'Auth ↔ Ana', low: 'Authoritarian', high: 'Anarchist' },
+    rel_sec: { label: 'Rel ↔ Sec', low: 'Religious', high: 'Secular' },
+  };
 
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
@@ -340,6 +365,45 @@ export default function CampaignView() {
                 onViewGraph={() => setShowPollingGraph(true)}
                 canViewGraph={canViewPollingGraph}
               />
+
+              <div className="mt-3 border-t border-slate-600 pt-3">
+                <div className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-2 text-center">
+                  Campaign Focus
+                </div>
+                {state.targetingCooldown && state.targetingCooldown > 0 ? (
+                  <div className="text-[10px] sm:text-xs text-slate-500 text-center italic">
+                    {state.targetingCooldown} week{state.targetingCooldown !== 1 ? 's' : ''} until available
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex flex-wrap gap-1 justify-center">
+                      {VALUES.map(axis => {
+                        const ax = AXIS_LABELS[axis];
+                        const isTargeted = state.targetedAxis === axis;
+                        return (
+                          <button
+                            key={axis}
+                            onClick={() => actions.setTargetedAxis(isTargeted ? null : axis)}
+                            className={`text-[10px] sm:text-xs px-2 py-1 rounded-full border transition-all duration-200 ${
+                              isTargeted
+                                ? 'border-yellow-400 bg-yellow-900/40 text-yellow-200 font-bold'
+                                : 'border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500 hover:text-slate-300'
+                            }`}
+                            title={isTargeted ? `Targeting: ${ax.low} ↔ ${ax.high}` : `Target ${ax.low} ↔ ${ax.high} events`}
+                          >
+                            {ax.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {state.targetedAxis && (
+                      <div className="text-[9px] text-yellow-400/70 text-center mt-1.5 italic">
+                        Events favouring {AXIS_LABELS[state.targetedAxis].low}↔{AXIS_LABELS[state.targetedAxis].high} are more likely
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>

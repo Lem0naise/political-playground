@@ -524,7 +524,7 @@ export function calculateNextPollState(state: GameState): GameState {
       candidate.trend.weeksRemaining -= 1;
 
       // Apply polling impact
-      candidate.base_utility_modifier = Math.max(-50, Math.min(50, (candidate.base_utility_modifier || 0) + candidate.trend.weeklyEffect));
+      candidate.base_utility_modifier = Math.max(-500, Math.min(500, (candidate.base_utility_modifier || 0) + candidate.trend.weeklyEffect));
 
       // Every week of a trend has a 40% chance of generating a follow-up news story
       if (Math.random() < 0.4) {
@@ -595,7 +595,7 @@ export function calculateNextPollState(state: GameState): GameState {
 
         // Apply first week's effect immediately
         candidate.trend.weeksRemaining -= 1;
-        candidate.base_utility_modifier = Math.max(-50, Math.min(50, (candidate.base_utility_modifier || 0) + candidate.trend.weeklyEffect));
+        candidate.base_utility_modifier = Math.max(-500, Math.min(500, (candidate.base_utility_modifier || 0) + candidate.trend.weeklyEffect));
       }
     }
   });

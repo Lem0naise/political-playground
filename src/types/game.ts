@@ -71,8 +71,6 @@ export interface Candidate {
   colour: string;
   swing?: number;
   is_player: boolean;
-  funds?: number;
-  politicalCapital?: number;
   momentum?: number;
   previous_popularity?: number;
   trend?: PartyTrend;
@@ -234,6 +232,10 @@ export interface GameState {
   targetingStartWeek?: number | null;
   /** How many polls have elapsed while this bloc is actively targeted. Resets to 0 when targeting stops. */
   targetingWeeksActive?: number;
+  /** Which political axis the player is focusing on for event selection (e.g. 'pac_mil'). */
+  targetedAxis?: PoliticalValueKey | null;
+  /** Weeks remaining before the player can target a new axis. */
+  targetingCooldown?: number;
   /** Optional custom event queued for the player, e.g. a leadership crisis */
   pendingPlayerEvent?: Event | null;
 }

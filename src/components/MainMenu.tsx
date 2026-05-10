@@ -55,8 +55,8 @@ export default function MainMenu() {
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
       <div className="w-full max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
         <div className="flex flex-col gap-6">
-          <div className="text-center space-y-4">
-            <div className="flex justify-center gap-4">
+          <div className="text-center space-y-3">
+            <div className="flex justify-center gap-3">
               <a
                 href="https://indigo.spot"
                 target="_blank"
@@ -82,78 +82,66 @@ export default function MainMenu() {
             </p>
           </div>
 
-          <div className="campaign-board p-5 sm:p-6 lg:p-8 rounded-xl space-y-6">
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <h2 className="campaign-status text-lg sm:text-xl text-yellow-400">
-                  Choose Your Location
-                </h2>
+          <div className="campaign-board p-5 sm:p-6 lg:p-8 rounded-xl space-y-5">
+            <div className="text-center space-y-2">
+              <h2 className="newspaper-header text-2xl sm:text-3xl font-black text-yellow-400 tracking-tight">
+                CHOOSE YOUR LOCATION
+              </h2>
+              <p className="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto">
+                Select a country, set the campaign length, and launch your campaign — or load a previous save to continue where you left off.
+              </p>
+            </div>
 
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3 w-full">
-
-                <div className="w-full sm:w-auto bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="campaign-status text-xs text-slate-300">
-                      Campaign Length
-                    </span>
-                    <span className="campaign-status text-sm text-yellow-400">
-                      {totalPolls} wks
-                    </span>
-                  </div>
-                  <input
-                    id="weeks-slider"
-                    type="range"
-                    min={4}
-                    max={104}
-                    step={1}
-                    value={totalPolls}
-                    onChange={e => setTotalPolls(Number(e.target.value))}
-                    className="mt-2 w-full accent-yellow-400"
-                  />
-
+            <div className="flex flex-col sm:flex-row gap-3 items-stretch">
+              <div className="flex-1 sm:flex-[2] bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="campaign-status text-xs text-slate-300">Campaign Length</span>
+                  <span className="campaign-status text-sm text-yellow-400">{totalPolls} wks</span>
                 </div>
-
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <button
-                    onClick={handleCountrySelect}
-                    disabled={!selectedCountry}
-                    className="flex-1 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base disabled:cursor-not-allowed"
-                  >
-                    {selectedCountry ? `Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
-                  </button>
-
-                  <label className="sm:w-1/3 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base cursor-pointer">
-                    Load Save
-                    <input
-                      type="file"
-                      accept=".json"
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onload = (ev) => {
-                            const result = ev.target?.result as string;
-                            if (result) {
-                              const loadedState = importSaveGame(result);
-                              if (loadedState) {
-                                actions.loadState(loadedState);
-                              } else {
-                                alert('Invalid save file');
-                              }
-                            }
-                          };
-                          reader.readAsText(file);
+                <input
+                  id="weeks-slider"
+                  type="range"
+                  min={4}
+                  max={104}
+                  step={1}
+                  value={totalPolls}
+                  onChange={e => setTotalPolls(Number(e.target.value))}
+                  className="mt-2 w-full accent-yellow-400"
+                />
+              </div>
+              <button
+                onClick={handleCountrySelect}
+                disabled={!selectedCountry}
+                className="flex-1 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base disabled:cursor-not-allowed"
+              >
+                {selectedCountry ? `Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
+              </button>
+              <label className="flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base cursor-pointer">
+                Load Save
+                <input
+                  type="file"
+                  accept=".json"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (ev) => {
+                        const result = ev.target?.result as string;
+                        if (result) {
+                          const loadedState = importSaveGame(result);
+                          if (loadedState) {
+                            actions.loadState(loadedState);
+                          } else {
+                            alert('Invalid save file');
+                          }
                         }
-                      }}
-                    />
-                  </label>
-                </div>
-              </div>
-
-
+                      };
+                      reader.readAsText(file);
+                    }
+                  }}
+                />
+              </label>
             </div>
 
             <div className="relative">
@@ -197,24 +185,17 @@ export default function MainMenu() {
             </div>
 
             {selectedCountry && (
-              <div className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3">
-                <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-slate-200 font-mono">
-                  <span className="campaign-status text-yellow-400 text-xs">
-                    Selected: {selectedCountry}
-                  </span>
-                  <span>Population {selectedPopulation}</span>
-                  <span>Head of State {selectedHos}</span>
-                </div>
+              <div className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-slate-200 font-mono">
+                <span className="campaign-status text-yellow-400 text-xs">Selected: {selectedCountry}</span>
+                <span>Population {selectedPopulation}</span>
+                <span>Head of State {selectedHos}</span>
               </div>
             )}
-
-
           </div>
 
-          <div className="text-center text-xs text-slate-400 space-y-1">
+          <div className="text-center text-xs text-slate-500 space-y-0.5">
             <p>Political Playground © 2025-2026</p>
-            <p>Fictional election simulator.</p>
-            <p>Version {VERSION}</p>
+            <p>Fictional election simulator &middot; Version {VERSION}</p>
           </div>
         </div>
       </div>

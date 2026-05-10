@@ -35,6 +35,7 @@ interface GameContextType {
     allocateCabinetPosition: (position: string, party: string) => void;
     completeCoalitionFormation: () => void;
     setTargetedBloc: (blocId: string | null) => void;
+    setTargetedAxis: (axis: string | null) => void;
     nextCoalitionAttempt: () => void;
     logCoalitionEvent: (message: string) => void;
     resumeCampaign: () => void;
@@ -58,6 +59,7 @@ type GameAction =
   | { type: 'COMPLETE_COALITION_FORMATION' }
   | { type: 'SET_EVENT_VARIABLES'; payload: { eventVariables: EventVariables } }
   | { type: 'SET_TARGETED_BLOC'; payload: { blocId: string | null } }
+  | { type: 'SET_TARGETED_AXIS'; payload: { axis: string | null } }
   | { type: 'NEXT_COALITION_ATTEMPT' }
   | { type: 'CONTINUE_CAMPAIGN' }
   | { type: 'RESUME_CAMPAIGN' }
@@ -87,6 +89,8 @@ const initialState: GameState = {
   nextTrendPoll: null,
   eventVariables: null,
   targetedBlocId: null,
+  targetedAxis: null,
+  targetingCooldown: 0,
   targetingStartWeek: null,
   targetingWeeksActive: 0,
   initialBlocStats: undefined,
@@ -208,7 +212,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'NEXT_POLL':
       if (state.currentPoll >= state.totalPolls) return state;
 
-      return calculateNextPollState(state);
+      const stateWithCooldown = state.targetingCooldown
+        ? { ...state, targetingCooldown: Math.max(0, state.targetingCooldown - 1) }
+        : state;
+
+      return calculateNextPollState(stateWithCooldown);
 
     case 'HANDLE_EVENT':
       if (!state.playerCandidate) return state;
@@ -320,7 +328,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         politicalNews: action.payload.choice.internalAction?.type === 'CHANGE_LEADER'
           ? [...state.politicalNews, eventNewsToPass[eventNewsToPass.length - 1]]
           : state.politicalNews,
-        pendingPlayerEvent: null
+        pendingPlayerEvent: null,
+        targetedAxis: null,
+        targetingCooldown: 3
       };
 
     case 'RESET_GAME':
@@ -542,6 +552,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         // The below properties are cleared on a new campaign
         eventVariables: state.eventVariables, // Keep custom event variable logic
         targetedBlocId: state.targetedBlocId,
+        targetedAxis: state.targetedAxis,
+        targetingCooldown: state.targetingCooldown ?? 0,
         targetingStartWeek: state.targetingStartWeek != null ? state.targetingStartWeek - state.totalPolls : null,
         targetingWeeksActive: state.targetingWeeksActive ?? 0,
       };
@@ -752,6 +764,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         targetingWeeksActive: 0
       };
 
+    case 'SET_TARGETED_AXIS':
+      return {
+        ...state,
+        targetedAxis: action.payload.axis as GameState['targetedAxis']
+      };
+
     default:
       return state;
   }
@@ -830,6 +848,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     setTargetedBloc: useCallback((blocId: string | null) => {
       dispatch({ type: 'SET_TARGETED_BLOC', payload: { blocId } });
+    }, []),
+
+    setTargetedAxis: useCallback((axis: string | null) => {
+      dispatch({ type: 'SET_TARGETED_AXIS', payload: { axis } });
     }, []),
 
     nextCoalitionAttempt: useCallback(() => {
