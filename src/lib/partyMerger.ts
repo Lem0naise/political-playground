@@ -234,12 +234,30 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+const STOPWORDS = new Set(['the', 'and', 'of', 'for', 'a', 'an', 'in', 'on', 'to', 'is', 'by', 'or', 'no', 'not', 'new']);
+const STRUCTURAL_WORDS = new Set(STRUCTURAL_SUFFIXES.map(s => s.toLowerCase()));
+
+function extractSignificantWords(name: string): string[] {
+  return name.split(/[\s-]+/).filter(w => {
+    const lower = w.toLowerCase();
+    return !STOPWORDS.has(lower) && w.length > 1;
+  });
+}
+
+function extractCoreWords(name: string): string[] {
+  return extractSignificantWords(name).filter(w => !STRUCTURAL_WORDS.has(w.toLowerCase()));
+}
+
+function longestWord(words: string[]): string | null {
+  return words.length > 0 ? words.reduce((a, b) => a.length >= b.length ? a : b) : null;
+}
+
 /**
  * Generate ideology-aware name suggestions for two merging parties.
- * Produces 8-10 varied, realistic names seeded from the averaged political values.
+ * Produces up to 10 varied, realistic names seeded from averaged political values
+ * and actual word combinations from both party names.
  */
 export function generateMergedPartyNames(party1: Party, party2: Party): string[] {
-  // Average the political values
   const avgVals: Record<string, number> = {};
   for (const key of VALUES) {
     const v1 = party1[key] ?? 0;
@@ -247,16 +265,14 @@ export function generateMergedPartyNames(party1: Party, party2: Party): string[]
     avgVals[key] = (v1 + v2) / 2;
   }
 
-  // Find top 3 dominant axes (by absolute value)
   const ranked = VALUES
     .map(key => ({ key, abs: Math.abs(avgVals[key] ?? 0) }))
     .sort((a, b) => b.abs - a.abs)
     .slice(0, 3);
 
-  // Collect ideology words from dominant axes
   const ideologyPairs: [string, string][] = [];
   for (const { key, abs } of ranked) {
-    if (abs < 20) continue; // Ignore near-neutral axes
+    if (abs < 20) continue;
     const bank = IDEOLOGY_WORDS[key];
     if (!bank) continue;
     const direction = (avgVals[key] ?? 0) < 0 ? 'negative' : 'positive';
@@ -265,15 +281,15 @@ export function generateMergedPartyNames(party1: Party, party2: Party): string[]
 
   const suggestions: string[] = [];
 
-  // Strategy A: adjective + noun from ideology banks (shuffled for RNG)
+  // Strategy A: adjective + noun from ideology banks (up to 3)
   const shuffledPairs = shuffle(ideologyPairs);
-  for (const [adj, noun] of shuffledPairs.slice(0, 5)) {
+  for (const [adj, noun] of shuffledPairs.slice(0, 3)) {
     suggestions.push(`${adj} ${noun}`);
   }
 
-  // Strategy B: mix adjective from one axis + noun from another
+  // Strategy B: cross-mix adjective from one axis + noun from another (up to 2)
   if (shuffledPairs.length >= 2) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       const { 0: adj } = shuffledPairs[i % shuffledPairs.length];
       const { 1: noun } = shuffledPairs[(i + 1) % shuffledPairs.length];
       const candidate = `${adj} ${noun}`;
@@ -281,41 +297,69 @@ export function generateMergedPartyNames(party1: Party, party2: Party): string[]
     }
   }
 
-  // Strategy C: significant word from each party name + suffix
-  const getSignificantWord = (name: string): string => {
-    const stopwords = new Set(['the', 'and', 'of', 'for', 'a', 'an', 'in', 'on']);
-    const words = name.split(/\s+/).filter(w => !stopwords.has(w.toLowerCase()) && w.length > 2);
-    return words.sort((a, b) => b.length - a.length)[0] || name.split(' ')[0];
-  };
-  const w1 = getSignificantWord(party1.party);
-  const w2 = getSignificantWord(party2.party);
+  // Strategy C: combine actual words from both party names
+  const core1 = extractCoreWords(party1.party);
+  const core2 = extractCoreWords(party2.party);
+  const lw1 = longestWord(core1);
+  const lw2 = longestWord(core2);
   const suffix = pick(STRUCTURAL_SUFFIXES);
-  if (w1 !== w2) {
-    suggestions.push(`${w1} ${w2} ${suffix}`);
-    suggestions.push(`United ${w1} ${suffix}`);
-  } else {
-    suggestions.push(`United ${w1} ${suffix}`);
+
+  if (lw1 && lw2 && lw1.toLowerCase() !== lw2.toLowerCase()) {
+    // Direct combination: "Liberal Democrats"
+    suggestions.push(`${lw1} ${lw2}`);
+    // With suffix: "Liberal Democrats Alliance"
+    if (!lw2.toLowerCase().endsWith('s')) {
+      suggestions.push(`${lw1} ${lw2} ${suffix}`);
+    }
+    // Reversed: "Democratic Liberal Party"
+    suggestions.push(`${lw2} ${lw1} ${suffix}`);
+    // United prefix
+    suggestions.push(`United ${lw1} ${suffix}`);
+
+    // Combine all core words from both sides
+    const allCore = [...core1, ...core2].filter((w, i, arr) =>
+      arr.indexOf(w) === i && w.toLowerCase() !== (lw1?.toLowerCase()) && w.toLowerCase() !== (lw2?.toLowerCase())
+    );
+    if (allCore.length > 0) {
+      const extra = longestWord(allCore);
+      if (extra) suggestions.push(`${lw1} ${lw2} ${extra}`);
+    }
+  } else if (lw1) {
+    suggestions.push(`United ${lw1} ${suffix}`);
+    const otherCore = lw2 || (core2.length > 0 ? core2[0] : null);
+    if (otherCore && otherCore.toLowerCase() !== lw1.toLowerCase()) {
+      suggestions.push(`${lw1} ${otherCore} ${suffix}`);
+    }
   }
 
-  // Strategy D: prefix + ideology noun
-  const prefixes = ['United', 'New', 'Democratic', 'Progressive', 'National', 'Popular'];
+  // Strategy D: prefix + ideology noun (up to 2)
+  const prefixes = ['United', 'New', 'Democratic', 'National', 'Popular'];
   if (shuffledPairs.length > 0) {
-    const { 1: noun } = shuffledPairs[0];
-    suggestions.push(`${pick(prefixes)} ${noun}`);
+    for (let i = 0; i < 2; i++) {
+      const { 1: noun } = shuffledPairs[i % shuffledPairs.length];
+      const pref = prefixes[(i + Math.floor(Math.random() * prefixes.length)) % prefixes.length];
+      suggestions.push(`${pref} ${noun}`);
+    }
   }
 
-  // Inject simpler combined names at the start
+  // Strategy E: ideology adjective + core party word
+  if (shuffledPairs.length > 0 && lw1) {
+    const { 0: adj } = shuffledPairs[0];
+    suggestions.push(`${adj} ${lw1} ${suffix}`);
+  }
+  if (shuffledPairs.length > 0 && lw2 && lw2.toLowerCase() !== (lw1?.toLowerCase() || '')) {
+    const { 0: adj } = shuffledPairs[shuffledPairs.length > 1 ? 1 : 0];
+    suggestions.push(`${adj} ${lw2} ${suffix}`);
+  }
+
+  // Basic fallbacks
   const basicSuggestions: string[] = [
-    `${party1.party}-${party2.party}`,
-    `${party1.party} & ${party2.party}`,
-    `United ${party1.party}-${party2.party}`,
     party1.party,
-    party2.party
+    party2.party,
   ];
 
   const allSuggestions = [...basicSuggestions, ...suggestions];
 
-  // Deduplicate and return up to 10
   return Array.from(new Set(allSuggestions.filter(Boolean))).slice(0, 10);
 }
 

@@ -1516,11 +1516,10 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     candidate.previous_popularity = pop;
 
     // Ensure base_utility_modifier doesn't go to extreme values
-    // TODO: Consider rescaling to [-500, 500] in the future so events have more impact 
-    if (candidate.base_utility_modifier > 50) {
-      candidate.base_utility_modifier = 50;
-    } else if (candidate.base_utility_modifier < -50) {
-      candidate.base_utility_modifier = -50;
+    if (candidate.base_utility_modifier > 500) {
+      candidate.base_utility_modifier = 500;
+    } else if (candidate.base_utility_modifier < -500) {
+      candidate.base_utility_modifier = -500;
     }
 
     // Track parties with significant momentum changes for news
@@ -1826,10 +1825,10 @@ export function applyEventEffect(
   playerCandidate.base_utility_modifier = (playerCandidate.base_utility_modifier || 0) + pollingChange;
 
   // Ensure base_utility_modifier stays within reasonable bounds
-  if (playerCandidate.base_utility_modifier > 50) {
-    playerCandidate.base_utility_modifier = 50;
-  } else if (playerCandidate.base_utility_modifier < -50) {
-    playerCandidate.base_utility_modifier = -50;
+  if (playerCandidate.base_utility_modifier > 500) {
+    playerCandidate.base_utility_modifier = 500;
+  } else if (playerCandidate.base_utility_modifier < -500) {
+    playerCandidate.base_utility_modifier = -500;
   }
 
   // Schedule gradual ideology drifts instead of applying changes instantly.

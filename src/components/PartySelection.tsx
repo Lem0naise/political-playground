@@ -66,7 +66,7 @@ export default function PartySelection() {
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' }}>
       <div className="w-full max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
         <div className="flex flex-col gap-6">
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-3">
             <div className="flex justify-center">
               <a
                 href="https://indigo.spot"
@@ -81,51 +81,46 @@ export default function PartySelection() {
               PARTY HEADQUARTERS
             </h1>
             <p className="campaign-status text-xs sm:text-sm text-red-200 tracking-[0.35em]">
-              OPPOSITION SELECTION • {state.country || 'UNASSIGNED'}
+              OPPOSITION SELECTION &middot; {state.country || 'UNASSIGNED'}
             </p>
           </div>
 
-          <div className="campaign-board p-5 sm:p-6 lg:p-8 rounded-xl space-y-6">
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <h2 className="campaign-status text-lg sm:text-xl text-yellow-400">
-                  Assemble Your Opposition
-                </h2>
-                <p className="text-slate-300 text-xs sm:text-sm max-w-sm">
-                  Select any combination of party lists. The next step will allow you to create custom parties and merge. After that, you will select one of the parties to play as.
-                </p>
+          <div className="campaign-board p-5 sm:p-6 lg:p-8 rounded-xl space-y-5">
+            <div className="text-center space-y-2">
+              <h2 className="newspaper-header text-2xl sm:text-3xl font-black text-yellow-400 tracking-tight">
+                ASSEMBLE YOUR OPPOSITION
+              </h2>
+              <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
+                Select party lists to populate {state.country}. In the next step you can merge ideologically similar parties, create custom ones, and then pick which party to lead.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 items-stretch">
+              <div className="flex-1 bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3 flex items-center justify-between gap-3">
+                <span className="campaign-status text-xs text-slate-300 uppercase tracking-wider">Parties Queued</span>
+                <span className="newspaper-header text-xl font-black text-yellow-400">{totalSelectedParties}</span>
               </div>
-
-              <div className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3 w-full sm:w-auto">
-
-                <div className="campaign-status text-sm text-yellow-400 mb-2">
-                  {totalSelectedParties} parties queued
-                </div>
-                {selectedLists.length > 0 && (<div className="flex flex-wrap gap-2">
+              {selectedLists.length > 0 && (
+                <div className="flex-[2] flex flex-wrap gap-1.5 items-center">
                   {selectedLists.map(listName => (
                     <span
                       key={listName}
                       className="px-2 py-1 text-xs rounded-full border border-yellow-500/40 bg-yellow-900/20 text-yellow-100"
                     >
-                      {listName} • {partyLists[listName]?.length ?? 0}
+                      {listName} &middot; {partyLists[listName]?.length ?? 0}
                     </span>
                   ))}
-                </div>)}
-              </div>
-
+                </div>
+              )}
             </div>
-
-
-
 
             <div className="flex flex-col sm:flex-row justify-between gap-3">
               <button
                 onClick={() => actions.resetGame()}
                 className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg transition-colors duration-200 campaign-status text-sm"
               >
-                ◄ Return to Map
+                &#9664; Return to Map
               </button>
-
               <button
                 onClick={handleProceedToMerging}
                 disabled={selectedLists.length === 0}
@@ -169,9 +164,6 @@ export default function PartySelection() {
                         <div className="newspaper-header text-xl font-bold leading-snug">{listName}</div>
                         <div className="text-xs text-slate-300 font-mono mt-0">{parties.length} parties</div>
                       </div>
-                      {isSelected && (
-                        <span className="text-black font-bold text-xs" />
-                      )}
                     </div>
 
                     <div className="mt-1 space-y-1 items-start">
@@ -197,13 +189,11 @@ export default function PartySelection() {
                 );
               })}
             </div>
-
           </div>
 
-          <div className="text-center text-xs text-slate-400 space-y-1">
+          <div className="text-center text-xs text-slate-500 space-y-0.5">
             <p>Political Playground © 2025-2026</p>
-            <p>Fictional election simulator.</p>
-            <p>Version {VERSION}</p>
+            <p>Fictional election simulator &middot; Version {VERSION}</p>
           </div>
         </div>
       </div>

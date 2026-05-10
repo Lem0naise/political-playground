@@ -282,6 +282,12 @@ export default function PartyMerging() {
                   type="text"
                   value={newPartyName}
                   onChange={event => setNewPartyName(event.target.value)}
+                  onKeyDown={event => {
+                    if (event.key === 'Enter' && newPartyName.trim() && selectedLeader) {
+                      event.preventDefault();
+                      handleMerge();
+                    }
+                  }}
                   placeholder="Enter a merged party name"
                   className="w-full rounded-lg border border-slate-600 bg-slate-900/40 text-slate-100 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60"
                 />
