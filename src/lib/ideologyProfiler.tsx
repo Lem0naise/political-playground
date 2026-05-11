@@ -16,8 +16,7 @@ export function calculateWeightedIdeology(
     totalWeight += weight;
 
     VALUES.forEach((_, index) => {
-      // Use 50 as neutral fallback if values are missing
-      coalitionValues[index] += (partner.vals[index] ?? 50) * weight;
+      coalitionValues[index] += (partner.vals[index] ?? 0) * weight;
     });
   });
 
@@ -26,8 +25,8 @@ export function calculateWeightedIdeology(
       coalitionValues[index] = coalitionValues[index] / totalWeight;
     });
   } else {
-    // If no weight (shouldn't happen), default to neutral 50s
-    return new Array(VALUES.length).fill(50);
+    // If no weight (shouldn't happen), default to neutral center
+    return new Array(VALUES.length).fill(0);
   }
 
   return coalitionValues;

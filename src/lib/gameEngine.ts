@@ -1,7 +1,7 @@
 import { Candidate, Country, VALUES, EVENT_EFFECT_MULTIPLIER, PoliticalValues, DEBUG, TOO_FAR_DISTANCE, VOTE_MANDATE, ActiveTrend, TrendDefinition, PoliticalValueKey, PROBABILISTIC_VOTING, SOFTMAX_BETA, LOYALTY_UTILITY, VoterBloc, IdeologyDrift, EVENT_DRIFT_WEEKS, Event, PollingSnapshot } from '@/types/game';
 
 import { RANDOM_NEWS_EVENTS, ECONOMIC_CRISIS_EVENTS, ECONOMIC_OPTIMISM_EVENTS, POLARIZATION_EVENTS, BLOC_REACTION_TEMPLATES } from '@/lib/newsTemplates';
-import { generateNewPartyName } from '@/lib/partyMerger';
+import { generateNewPartyName, calculateIdeologySimilarity, generateMergedPartyNames, type Party } from '@/lib/partyMerger';
 
 import countriesDataRaw from '../../public/data/countries.json';
 const countriesData = countriesDataRaw as Record<string, any>;
@@ -1182,22 +1182,25 @@ export function snapshotInitialChoices(): void {
  *  Only caller-supplied candidateNames are used; abstainers (index -1) are labelled "Abstain".
  */
 export function getVoterTransferMatrix(
-  candidateNames: string[]
+  candidates: Candidate[]
 ): Array<{ from: string; to: string; count: number; fromTotal: number; percentage: number }> {
   if (!INITIAL_CHOICES || !LAST_CHOICES || INITIAL_CHOICES.length === 0) return [];
 
   const total = INITIAL_CHOICES.length;
 
-  // Count every from→to pair
   const counts: Record<string, number> = {};
-  // Count totals per from-party
   const fromTotals: Record<string, number> = {};
 
+  const candidatesById = new Map<number, Candidate>();
+  for (const c of candidates) candidatesById.set(c.id, c);
+
   for (let i = 0; i < total; i++) {
-    const fromIdx = INITIAL_CHOICES[i];
-    const toIdx = LAST_CHOICES[i];
-    const fromName = fromIdx >= 0 ? (candidateNames[fromIdx] ?? 'Unknown') : 'Abstain';
-    const toName = toIdx >= 0 ? (candidateNames[toIdx] ?? 'Unknown') : 'Abstain';
+    const fromId = INITIAL_CHOICES[i];
+    const toId = LAST_CHOICES[i];
+    const fromCandidate = fromId >= 0 ? candidatesById.get(fromId) : undefined;
+    const toCandidate = toId >= 0 ? candidatesById.get(toId) : undefined;
+    const fromName = fromCandidate ? fromCandidate.party : 'Abstain';
+    const toName = toCandidate ? toCandidate.party : 'Abstain';
     const key = `${fromName}|||${toName}`;
     counts[key] = (counts[key] ?? 0) + 1;
     fromTotals[fromName] = (fromTotals[fromName] ?? 0) + 1;
@@ -1352,21 +1355,17 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
   // Normalized salience weights for this voter; sum equals number of axes
   const weights = salienceWeightsForVoter(voterIndex, country);
 
-  let minRawSq = Infinity;
   let minWeightedSq = Infinity; // salience-weighted best distance, for turnout gating
   let maxUtility = -Infinity;
   let maxIndex = 0;
 
   for (let i = 0; i < candidates.length; i++) {
     const cand = candidates[i];
-    let sumSq = 0; // raw L2 (kept for reference but not used for gating)
     let weightedLoss = 0; // salience-weighted squared loss for utility and turnout
     for (let o = 0; o < VALUES.length; o++) {
       const d = data[o][voterIndex] - cand.vals[o];
-      sumSq += d * d;
       weightedLoss += weights[o] * d * d;
     }
-    if (sumSq < minRawSq) minRawSq = sumSq;
 
     // Add nascent_penalty to the weighted loss so new parties are considered "far away"
     // preventing them from instantly dropping apathy to 0 and gaining 100% turnout
@@ -1378,9 +1377,9 @@ export function voteForCandidate(voterIndex: number, candidates: Candidate[], da
     if (cand.swing) {
       u += (cand.swing * 5) * Math.abs(cand.swing * 5);
     }
-    // Loyalty inertia: bonus if voter sticks with previous choice
-    const last = LAST_CHOICES?.[voterIndex];
-    if (applyLoyalty && last !== undefined && last === i) {
+    // Loyalty inertia: bonus if voter previously chose this candidate (by ID)
+    const lastId = LAST_CHOICES?.[voterIndex];
+    if (applyLoyalty && lastId !== undefined && lastId >= 0 && cand.id === lastId) {
       u += LOYALTY_UTILITY;
     }
     utilities[i] = u;
@@ -1478,20 +1477,18 @@ export function applyPoliticalDynamics(candidates: Candidate[], pollIteration: n
     const momentumChange = pop - oldPop;
     candidate.momentum = (candidate.momentum || 0) * 0.7 + momentumChange * 0.3;
 
-    // Scaled Incumbency effects - voter fatigue scales non-linearly with poll percentage
+    // Incumbency effects - voter fatigue scales non-linearly with poll percentage
     let incumbencyEffect = 0;
     if (pop > 10) {
-      // Larger penalty for very popular parties (e.g. 50 pop -> -0.1 * 6.25 = -0.625 penalty per week)
       incumbencyEffect = -0.1 * Math.pow(pop / 20, 2);
-    } else if (pop < 2) { // Changed threshold since we are using actual percentages now
-      // Stronger recovery for deeply struggling parties
+    } else if (pop < 2) {
       incumbencyEffect = 0.05 + Math.abs(pop - 2) * 0.01;
     }
 
-    // Scaled Bandwagon effect - dominant leaders get a bigger boost, but clamped
+    // Bandwagon effect - dominant leaders get a boost
     let bandwagonEffect = 0;
     if (candidate === leader && pop > 15) {
-      bandwagonEffect = 0.1 + (pop / 100) * 0.3; // max ~0.4
+      bandwagonEffect = 0.1 + (pop / 100) * 0.3;
     }
 
     // Apply momentum with decay
@@ -1593,8 +1590,8 @@ export function applyVoterDynamics(data: number[][], pollIteration: number): str
   const axisCount = VALUES.length;
   for (let voterIndex = 0; voterIndex < voterCount; voterIndex++) {
     for (let i = 0; i < axisCount; i++) {
-      if (Math.random() < 0.010) { // 1.0% chance per voter per issue (reduced for stability)
-        const change = (Math.random() - 0.5) * 3; // Smaller change range
+      if (Math.random() < 0.010) { // 1.0% chance per voter per issue
+        const change = (Math.random() - 0.5) * 3;
         const newValue = data[i][voterIndex] + change;
         data[i][voterIndex] = Math.max(-100, Math.min(100, newValue));
       }
@@ -1678,7 +1675,7 @@ export function conductPoll(
 
     if (choice !== null) {
       pollResults[choice]++;
-      if (LAST_CHOICES && !isMock) LAST_CHOICES[voterIndex] = choice;
+      if (LAST_CHOICES && !isMock) LAST_CHOICES[voterIndex] = candidates[choice].id;
     } else {
       notVoted++;
       if (LAST_CHOICES && !isMock) LAST_CHOICES[voterIndex] = -1;
@@ -1957,39 +1954,50 @@ export function checkForPartyDissolution(
   candidates: Candidate[],
   pollingHistory: PollingSnapshot[],
   currentResults: Record<string, number>
-): { candidates: Candidate[]; news: string[] } {
+): { candidates: Candidate[]; news: string[]; dissolvedParties: string[] } {
   let survivingCandidates = [...candidates];
   const news: string[] = [];
+  const dissolvedParties: string[] = [];
 
-  // We need 10 consecutive polls (current + 9 history)
-  if (pollingHistory.length < 9) {
-    return { candidates: survivingCandidates, news };
+  // Need at least 15 history entries to check for 15 consecutive low polls
+  if (pollingHistory.length < 14) {
+    return { candidates: survivingCandidates, news, dissolvedParties };
   }
 
-  // Get the last 9 polls from history (they are sorted by week usually, but let's just take the last 9)
-  const recentHistory = pollingHistory.slice(-9);
+  const recentHistory = pollingHistory.slice(-14);
 
   for (const candidate of candidates) {
     if (candidate.is_player) continue;
 
-    // Check current poll
     const currentPct = currentResults[candidate.party] || 0;
-    if (currentPct >= 3.0) continue; // 3.0
 
-    // Check last 9 polls
-    let consistentlyLow = true;
-    for (const snapshot of recentHistory) {
-      const histPct = snapshot.percentages[candidate.party] || 0;
-      if (histPct >= 3.0) { // 3.0
-        consistentlyLow = false;
+    // Count consecutive polls below 3%
+    let consecutiveLow = currentPct < 3.0 ? 1 : 0;
+    for (let i = recentHistory.length - 1; i >= 0; i--) {
+      const histPct = recentHistory[i].percentages[candidate.party] || 0;
+      if (histPct < 3.0) {
+        consecutiveLow++;
+      } else {
         break;
       }
     }
 
-    if (consistentlyLow) {
-      // 10% chance to dissolve each week they meet the criteria
-      if (Math.random() < 0.10) { // 0.10
+    // Warning news after 10 consecutive low polls (struggling but still alive)
+    if (consecutiveLow >= 10 && consecutiveLow < 15 && Math.random() < 0.15) {
+      const warnTemplates = [
+        `ANALYSIS: ${candidate.party} has polled below 3% for ${consecutiveLow} straight weeks. Can ${candidate.name} turn it around?`,
+        `REPORT: ${candidate.party} continues to struggle — party insiders express concern over prolonged slump.`,
+        `CONCERN: ${candidate.party} failing to gain traction with voters after ${consecutiveLow} weeks.`,
+        `PRESSURE: Calls grow for ${candidate.name} to step down as ${candidate.party} languishes below 3%.`
+      ];
+      news.push(warnTemplates[Math.floor(Math.random() * warnTemplates.length)]);
+    }
+
+    // Dissolution: 15 consecutive low polls, 10% chance per week
+    if (consecutiveLow >= 15) {
+      if (Math.random() < 0.10) {
         survivingCandidates = survivingCandidates.filter(c => c.id !== candidate.id);
+        dissolvedParties.push(candidate.party);
 
         const templates = [
           `BREAKING: ${candidate.party} officially dissolves after prolonged period of low polling.`,
@@ -1999,12 +2007,200 @@ export function checkForPartyDissolution(
         ];
 
         news.push(templates[Math.floor(Math.random() * templates.length)]);
-
       }
     }
   }
 
-  return { candidates: survivingCandidates, news };
+  return { candidates: survivingCandidates, news, dissolvedParties };
+}
+
+export function checkForPartySplit(
+  candidates: Candidate[],
+  pollingHistory: PollingSnapshot[],
+  currentResults: Record<string, number>,
+  eventVariables: any,
+  country: string
+): { candidates: Candidate[]; news: string[]; splitInfo?: { oldParty: string; newParties: string[] } } {
+  const updatedCandidates = [...candidates];
+  const news: string[] = [];
+
+  for (let i = updatedCandidates.length - 1; i >= 0; i--) {
+    const candidate = updatedCandidates[i];
+    if (candidate.is_player) continue;
+
+    const currentPct = currentResults[candidate.party] || 0;
+    if (currentPct < 10.0) continue;
+
+    const pctChange = candidate.poll_percentage
+      ? (currentPct - (candidate.poll_percentage)) / candidate.poll_percentage
+      : 0;
+    const splitChance = pctChange < 0 ? 0.015 : 0.0075;
+    if (Math.random() >= splitChance) continue;
+
+    const originalLeader = candidate.name;
+    const newLeader = generateLeaderName(eventVariables, country);
+
+    const words = candidate.party.split(/\s+/);
+    const avoidWords = new Set(['party', 'alliance', 'front', 'union', 'league', 'movement', 'coalition', 'democrats', 'forum', 'the', 'and', 'of', 'for', 'new']);
+    const coreParts = words.filter(w => w.length > 2 && !avoidWords.has(w.toLowerCase()));
+
+    const baseVals = [...candidate.vals];
+    const newId1 = Math.max(...candidates.map(c => c.id), 0) + 1;
+    const newId2 = newId1 + 1;
+    const splitShare = 0.3 + Math.random() * 0.4;
+    const keepOriginalOnFirst = Math.random() < 0.5;
+    const leader1 = keepOriginalOnFirst ? originalLeader : newLeader;
+    const leader2 = keepOriginalOnFirst ? newLeader : originalLeader;
+
+    let splinter1Name: string;
+    let splinter2Name: string;
+    let splinter1Colour: string;
+    let splinter2Colour: string;
+
+    if (coreParts.length < 2) {
+      splinter1Name = `${coreParts[0] || candidate.party} Renewal`;
+      splinter2Name = `Real ${coreParts[0] || candidate.party}`;
+      splinter1Colour = generateRandomHexColour();
+      splinter2Colour = generateRandomHexColour();
+    } else {
+      const w1 = coreParts[0];
+      const w2 = coreParts.length > 1 ? coreParts[coreParts.length - 1] : coreParts[0];
+      const suffix = ['Party', 'Alliance', 'Movement', 'Union', 'Democrats'][Math.floor(Math.random() * 5)];
+      splinter1Name = `${w1} ${suffix}`;
+      splinter2Name = `${w2} ${suffix}`;
+      splinter1Colour = generateRandomHexColour();
+      splinter2Colour = generateRandomHexColour();
+
+      if (splinter1Name === splinter2Name || candidates.some(c => c.party === splinter1Name || c.party === splinter2Name)) {
+        const rngLabel = () => ['Democratic', 'United', 'Progressive', 'National', 'Reform', 'Independent'][Math.floor(Math.random() * 6)];
+        splinter1Name = `${rngLabel()} ${w1} ${suffix}`;
+        splinter2Name = `${rngLabel()} ${w2} ${suffix}`;
+      }
+    }
+
+    const splinter1Vals = baseVals.map(v => Math.max(-100, Math.min(100, v + (Math.random() - 0.5) * 40)));
+    const splinter2Vals = baseVals.map(v => Math.max(-100, Math.min(100, v + (Math.random() - 0.5) * 40)));
+
+    const splinter1: Candidate = {
+      id: newId1, name: leader1, party: splinter1Name,
+      colour: splinter1Colour, is_player: false, vals: splinter1Vals,
+      poll_percentage: candidate.poll_percentage ? candidate.poll_percentage * splitShare : 0,
+      swing: candidate.swing || 0,
+      base_utility_modifier: (candidate.base_utility_modifier || 0) * splitShare * 0.5,
+      nascent_penalty: 3000
+    };
+    const splinter2: Candidate = {
+      id: newId2, name: leader2, party: splinter2Name,
+      colour: splinter2Colour, is_player: false, vals: splinter2Vals,
+      poll_percentage: candidate.poll_percentage ? candidate.poll_percentage * (1 - splitShare) : 0,
+      swing: candidate.swing || 0,
+      base_utility_modifier: (candidate.base_utility_modifier || 0) * (1 - splitShare) * 0.5,
+      nascent_penalty: 3000
+    };
+
+    updatedCandidates.splice(i, 1);
+    updatedCandidates.push(splinter1, splinter2);
+
+    const templates = [
+      `BREAKING: ${candidate.party} fractures — ${splinter1Name} led by ${leader1}, ${splinter2Name} under ${leader2}.`,
+      `REPORT: Internal tensions split ${candidate.party} into ${splinter1Name} and ${splinter2Name}.`,
+      `SHIFT: ${candidate.party} polarised into ${splinter1Name} (${leader1}) and ${splinter2Name} (${leader2}).`
+    ];
+    news.push(templates[Math.floor(Math.random() * templates.length)]);
+
+    return {
+      candidates: updatedCandidates,
+      news,
+      splitInfo: { oldParty: candidate.party, newParties: [splinter1.party, splinter2.party] }
+    };
+  }
+
+  return { candidates: updatedCandidates, news };
+}
+
+export function checkForPartyMerger(
+  candidates: Candidate[],
+  currentResults: Record<string, number>,
+  eventVariables: any,
+  country: string
+): { candidates: Candidate[]; news: string[]; mergerInfo?: { oldParties: string[]; newParty: string } } {
+  const updatedCandidates = [...candidates];
+  const news: string[] = [];
+
+  // Only consider merging once per call — find the single most similar, non-player pair
+  let bestPair: { i: number; j: number; score: number } | null = null;
+
+  for (let i = 0; i < updatedCandidates.length; i++) {
+    for (let j = i + 1; j < updatedCandidates.length; j++) {
+      const p1 = updatedCandidates[i];
+      const p2 = updatedCandidates[j];
+      if (p1.is_player || p2.is_player) continue;
+
+      const p1Poll = currentResults[p1.party] || p1.poll_percentage || 0;
+      const p2Poll = currentResults[p2.party] || p2.poll_percentage || 0;
+
+      // Both must have at least some presence
+      if (p1Poll < 2.0 && p2Poll < 2.0) continue;
+
+      const similarity = calculateIdeologySimilarity(p1 as unknown as Party, p2 as unknown as Party);
+
+      if (similarity > 0.92) {
+        if (!bestPair || similarity > bestPair.score) {
+          bestPair = { i, j, score: similarity };
+        }
+      }
+    }
+  }
+
+  if (!bestPair) return { candidates: updatedCandidates, news };
+
+  // Very low chance per week (1.5%)
+  if (Math.random() >= 0.015) return { candidates: updatedCandidates, news };
+
+  const p1 = updatedCandidates[bestPair.i];
+  const p2 = updatedCandidates[bestPair.j];
+  const p1Poll = currentResults[p1.party] || p1.poll_percentage || 0;
+  const p2Poll = currentResults[p2.party] || p2.poll_percentage || 0;
+
+  const names = generateMergedPartyNames(p1 as unknown as Party, p2 as unknown as Party);
+  const mergedName = names[0] || `${p1.party} ${p2.party}`;
+  const survivingLeader = p1Poll >= p2Poll ? p1 : p2;
+  const newId = Math.max(...candidates.map(c => c.id), 0) + 1;
+
+  const mergedVals = VALUES.map((key, idx) => {
+    const v1 = p1.vals?.[idx] ?? 0;
+    const v2 = p2.vals?.[idx] ?? 0;
+    return Math.round((v1 + v2) / 2);
+  });
+
+  const mergedCandidate: Candidate = {
+    id: newId,
+    name: survivingLeader.name,
+    party: mergedName,
+    colour: survivingLeader.colour,
+    is_player: false,
+    vals: mergedVals,
+    poll_percentage: p1Poll + p2Poll,
+    swing: survivingLeader.swing || 0,
+    base_utility_modifier: ((p1.base_utility_modifier || 0) + (p2.base_utility_modifier || 0)) * 0.7,
+    nascent_penalty: 0
+  };
+
+  // Remove the two originals (highest index first)
+  const removeIdx1 = Math.max(bestPair.i, bestPair.j);
+  const removeIdx2 = Math.min(bestPair.i, bestPair.j);
+  updatedCandidates.splice(removeIdx1, 1);
+  updatedCandidates.splice(removeIdx2, 1);
+  updatedCandidates.push(mergedCandidate);
+
+  const templates = [
+    `BREAKING: ${p1.party} and ${p2.party} announce merger to form ${mergedName}, led by ${survivingLeader.name}.`,
+    `UNITY: ${survivingLeader.name} to lead newly merged ${mergedName} after ${p1.party} and ${p2.party} join forces.`,
+    `CONSOLIDATION: ${p1.party} and ${p2.party} unite as ${mergedName} in a bid to strengthen their electoral position.`
+  ];
+  news.push(templates[Math.floor(Math.random() * templates.length)]);
+
+  return { candidates: updatedCandidates, news, mergerInfo: { oldParties: [p1.party, p2.party], newParty: mergedName } };
 }
 
 function generateRandomHexColour(): string {
