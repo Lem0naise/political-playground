@@ -11,7 +11,9 @@ import {
   BlocStatistics,
   checkForLeadershipChanges,
   checkForPartyDissolution,
-  checkForNewPartyFormation
+  checkForNewPartyFormation,
+  checkForPartySplit,
+  checkForPartyMerger
 } from '@/lib/gameEngine';
 import {
   SURGE_MESSAGES,
@@ -241,6 +243,7 @@ export function calculateNextPollState(state: GameState): GameState {
   let updatedCountryValues = state.countryData.vals;
   let updatedBlocs = state.countryData.blocs;
   const votingDataRef = state.votingData;
+  let finalIncumbentGovernment: string[] = state.incumbentGovernment ?? [];
 
   // Step each active trend; collect completed ones
   const stillActiveTrends: typeof activeTrends = [];
@@ -339,6 +342,11 @@ export function calculateNextPollState(state: GameState): GameState {
       newPreviousResults
     );
     activeCandidates = dissolutionResult.candidates;
+    if (dissolutionResult.dissolvedParties.length > 0) {
+      finalIncumbentGovernment = finalIncumbentGovernment.filter(
+        p => !dissolutionResult.dissolvedParties.includes(p)
+      );
+    }
     if (dissolutionResult.news.length > 0) {
       partyDissolutionNews.push(...dissolutionResult.news);
     }
@@ -361,6 +369,54 @@ export function calculateNextPollState(state: GameState): GameState {
       }
     }
     // --- END: Check for New Party Formation ---
+
+    // --- BEGIN: Check for Party Splits ---
+    {
+      const splitResult = checkForPartySplit(
+        activeCandidates,
+        state.pollingHistory,
+        newPreviousResults,
+        state.eventVariables,
+        state.country
+      );
+      activeCandidates = splitResult.candidates;
+      if (splitResult.splitInfo) {
+        const gov = state.incumbentGovernment ?? [];
+        if (gov.includes(splitResult.splitInfo.oldParty)) {
+          finalIncumbentGovernment = finalIncumbentGovernment
+            .filter(p => p !== splitResult.splitInfo!.oldParty)
+            .concat(splitResult.splitInfo.newParties);
+        }
+      }
+      if (splitResult.news.length > 0) {
+        partyDissolutionNews.push(...splitResult.news);
+      }
+    }
+    // --- END: Check for Party Splits ---
+
+    // --- BEGIN: Check for Party Mergers ---
+    {
+      const mergerResult = checkForPartyMerger(
+        activeCandidates,
+        newPreviousResults,
+        state.eventVariables,
+        state.country
+      );
+      activeCandidates = mergerResult.candidates;
+      if (mergerResult.mergerInfo) {
+        const gov = state.incumbentGovernment ?? [];
+        const eitherWasGov = mergerResult.mergerInfo.oldParties.some(p => gov.includes(p));
+        if (eitherWasGov) {
+          finalIncumbentGovernment = finalIncumbentGovernment
+            .filter(p => !mergerResult.mergerInfo!.oldParties.includes(p))
+            .concat([mergerResult.mergerInfo.newParty]);
+        }
+      }
+      if (mergerResult.news.length > 0) {
+        partyDissolutionNews.push(...mergerResult.news);
+      }
+    }
+    // --- END: Check for Party Mergers ---
   }
 
   // -- BEGIN: WEEK 2 INITIAL GOVERNMENT FORMATION --
@@ -887,8 +943,7 @@ export function calculateNextPollState(state: GameState): GameState {
   let postElectionStats: PostElectionStats | undefined = undefined;
   if (nextPollNum >= state.totalPolls) {
     // Compute voter transfers from initial poll to final poll
-    const candidateNames = activeCandidates.map(c => c.party);
-    const rawTransfers = getVoterTransferMatrix(candidateNames);
+    const rawTransfers = getVoterTransferMatrix(activeCandidates);
     // Keep all transfers >=1% of the from-party's own voters (includes Not Voting on both sides)
     const significantTransfers = rawTransfers.filter(
       t => t.percentage >= 1.0
@@ -924,8 +979,7 @@ export function calculateNextPollState(state: GameState): GameState {
   const syncedPlayerCandidate = freshCandidates.find(c => c.is_player) ?? state.playerCandidate;
 
   const hasPlayer = state.candidates.some(c => c.is_player);
-  let finalIncumbentGovernment = state.incumbentGovernment;
-  if (nextPollNum === 2 && (!state.incumbentGovernment || state.incumbentGovernment.length === 0) && !hasPlayer) {
+  if (nextPollNum === 2 && finalIncumbentGovernment.length === 0 && !hasPlayer) {
     const sortedByPolls = [...resultsWithChange].sort((a, b) => b.percentage - a.percentage);
     finalIncumbentGovernment = [sortedByPolls[0].candidate.party];
   }
@@ -955,6 +1009,7 @@ export function calculateNextPollState(state: GameState): GameState {
       }
     ],
     phase: nextPollNum >= state.totalPolls ? 'results' : 'campaign',
+    incumbentGovernment: finalIncumbentGovernment,
     targetingWeeksActive: updatedTargetingWeeksActive,
     pendingPlayerEvent: playerCrisisEvent || null
   };

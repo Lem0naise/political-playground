@@ -52,11 +52,21 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
   const labels = history.map((snapshot) => `${snapshot.week}`);
 
   const datasets = useMemo(() => {
-    return candidates.map((candidate) => {
-      const color = candidate.colour || '#0f172a';
+    const candidateMap = new Map(candidates.map(c => [c.party, c]));
+    // Collect all parties that ever appear in the polling history
+    const allParties = new Set<string>();
+    for (const snapshot of history) {
+      for (const party of Object.keys(snapshot.percentages)) {
+        allParties.add(party);
+      }
+    }
+    // Build a dataset for every party that appears in history
+    return Array.from(allParties).map((party) => {
+      const candidate = candidateMap.get(party);
+      const color = candidate?.colour || '#64748b'; // grey for dissolved parties
       return {
-        label: candidate.party,
-        data: history.map((snapshot) => snapshot.percentages[candidate.party] ?? null),
+        label: party,
+        data: history.map((snapshot) => snapshot.percentages[party] ?? null),
         borderColor: color,
         backgroundColor: hexToRgba(color, 0.15),
         pointBackgroundColor: color,
@@ -75,12 +85,11 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
     let highest: number | null = null;
 
     history.forEach((snapshot) => {
-      candidates.forEach((candidate) => {
-        const value = snapshot.percentages[candidate.party];
+      for (const value of Object.values(snapshot.percentages)) {
         if (typeof value === 'number' && Number.isFinite(value)) {
           highest = highest === null ? value : Math.max(highest, value);
         }
-      });
+      }
     });
 
     if (highest === null) {
