@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { Event, EventChoice, VALUES, PoliticalValueKey } from '@/types/game';
+import { getRandomPaperAssignment, getPriorityBadge, type PaperAssignment } from '@/lib/newsPaperStyles';
 import PollResults from './PollResults';
 import EventModal from './EventModal';
 import PollingGraphModal from './PollingGraphModal';
@@ -198,110 +199,104 @@ export default function CampaignView() {
 
 
 
-            {/* Political News - Dashboard Style */}
+            {/* Political News - Masonry Card Grid */}
             {state.politicalNews.length > 0 && (
               <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4 relative">
-                <div className="absolute -top-2 -left-2 bg-red-600 border border-red-500 text-white px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded shadow-lg transform -rotate-2">
+                <div className="absolute -top-2 -left-2 bg-red-600 border border-red-500 text-white px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded shadow-lg transform -rotate-2 z-10">
                   NEWS FEED
                 </div>
 
-                {(() => {
-                  const NEWS_SLOTS = 8;
+                {/* CSS Columns masonry — responsive: 3 cols desktop, 2 tablet, 1 mobile */}
+                <div className="mt-3 news-masonry">
+                  {state.politicalNews.map((item, idx) => {
+                    const paper: PaperAssignment = getRandomPaperAssignment(eventVariables, state.country);
+                    const style = paper.style;
+                    const isCritical = item.priority === 'critical';
+                    const badge = getPriorityBadge(item.priority);
 
-                  // Each trend gets a priority index based on how far through its lifetime it is.
-                  // Fresh trends (remainingWeeks ≈ duration) → index 0 (top).
-                  // Expiring trends (remainingWeeks ≈ 0) → near the bottom.
-                  const trendEntries = state.activeTrend.map(trend => {
-                    const progress = 1 - (trend.remainingWeeks / trend.duration); // 0 (new) → 1 (expired)
-                    const insertAt = Math.round(progress * (NEWS_SLOTS - 1));
-                    return { type: 'trend' as const, trend, insertAt };
-                  });
+                    return (
+                      <div
+                        key={idx}
+                        className="overflow-hidden border"
+                        style={{
+                          backgroundColor: style.cardBg,
+                          color: style.cardFg,
+                          borderColor: style.accent,
+                          fontFamily: style.bodyFont,
+                        }}
+                      >
+                        {/* Top Bar Header */}
+                        {style.headerLayout === 'topBar' && (
+                          <div className="flex items-center justify-between px-3 py-1.5 border-b" style={{
+                            backgroundColor: style.headerBg,
+                            color: style.headerFg,
+                            borderColor: style.accent,
+                            fontFamily: style.headerFont,
+                          }}>
+                            <span className="text-[10px] sm:text-xs font-bold tracking-wider" style={{ color: style.headerFg }}>
+                              {style.uppercase ? paper.name.toUpperCase() : paper.name}
+                            </span>
+                            {badge && (
+                              <span className="text-[8px] font-black text-white uppercase tracking-widest px-1.5 py-0.5 rounded" style={{ backgroundColor: badge.bg }}>
+                                {badge.label}
+                              </span>
+                            )}
+                          </div>
+                        )}
 
-                  // Build the base news list (up to NEWS_SLOTS items)
-                  const baseNews = state.politicalNews.slice(0, NEWS_SLOTS).map((news, i) => ({
-                    type: 'news' as const, news, originalIdx: i
-                  }));
-
-                  // Splice each trend into the news list at its computed position,
-                  // then trim back to NEWS_SLOTS so the grid never overflows.
-                  // Sort trends by insertAt ascending so earlier ones go in first without offsetting later ones.
-                  const feed: Array<
-                    { type: 'trend'; trend: typeof trendEntries[0]['trend']; insertAt: number } |
-                    { type: 'news'; news: string; originalIdx: number }
-                  > = [...baseNews];
-
-                  [...trendEntries].sort((a, b) => a.insertAt - b.insertAt).forEach(({ trend, insertAt }) => {
-                    const pos = Math.min(insertAt, feed.length);
-                    feed.splice(pos, 0, { type: 'trend', trend, insertAt });
-                  });
-
-                  const trimmed = feed.slice(0, NEWS_SLOTS);
-
-                  return (
-                    <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                      {trimmed.map((item, idx) => {
-                        const isFirst = idx === 0;
-
-                        if (item.type === 'trend') {
-                          return (
-                            <div
-                              key={`trend-${item.trend.id}`}
-                              className={`${isFirst ? 'sm:col-span-2 lg:col-span-2' : ''} border border-red-500/60 bg-red-900/20 rounded-lg overflow-hidden`}
-                            >
-                              <div className={`p-2 ${isFirst ? 'sm:p-3' : ''} flex gap-3`}>
-                                <div className="w-1 bg-red-500 rounded-full flex-shrink-0"></div>
-                                <div>
-                                  <h3 className={`${isFirst ? 'text-base sm:text-lg' : 'text-xs sm:text-sm'} font-bold text-white leading-snug`}>
-                                    {item.trend.title}
-                                  </h3>
-                                  <div className="text-[10px] text-red-400 font-mono uppercase tracking-wide mt-1">
-                                    Trend · {item.trend.remainingWeeks}w remaining
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        }
-
-                        const newspaper = getRandomNewspaper();
-
-                        if (isFirst) {
-                          return (
-                            <div key={`news-${item.originalIdx}`} className="sm:col-span-2 lg:col-span-2 border border-slate-600 bg-slate-700/50 rounded-lg overflow-hidden">
-                              <div className="p-2 sm:p-3 flex gap-3">
-                                <div className="w-1 bg-red-500 rounded-full"></div>
-                                <div>
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-[10px] text-slate-400 font-mono italic truncate">{newspaper}</span>
-                                  </div>
-                                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug break-words">
-                                    {item.news}
-                                  </h3>
-                                  <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wide mt-1">
-                                    Week {state.currentPoll}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        }
-
-                        return (
-                          <div key={`news-${item.originalIdx}`} className="border border-slate-600/50 bg-slate-700/30 rounded-lg overflow-hidden">
-                            <div className="p-2">
-                              <div className="flex items-center gap-1 mb-1">
-                                <span className="text-[10px] text-slate-400 font-mono italic truncate">{newspaper}</span>
-                              </div>
-                              <h4 className="text-xs sm:text-sm font-medium text-slate-200 leading-snug break-words">
-                                {item.news}
-                              </h4>
+                        {/* Full Header */}
+                        {style.headerLayout === 'fullHeader' && (
+                          <div className="px-3 py-2" style={{ backgroundColor: style.headerBg, color: style.headerFg, fontFamily: style.headerFont }}>
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] sm:text-xs font-bold tracking-wider">
+                                {style.uppercase ? paper.name.toUpperCase() : paper.name}
+                              </span>
+                              {badge && (
+                                <span className="text-[8px] font-black text-white uppercase tracking-widest px-1.5 py-0.5 rounded" style={{ backgroundColor: badge.bg }}>
+                                  {badge.label}
+                                </span>
+                              )}
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })()}
+                        )}
+
+                        {/* Body */}
+                        <div className="px-3 py-2.5" style={{ fontFamily: style.headlineFont }}>
+                          {(style.headerLayout !== 'topBar' && style.headerLayout !== 'fullHeader') && (
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <span className="text-[9px] font-bold tracking-wide opacity-70" style={{ fontFamily: style.headerFont, color: style.accent }}>
+                                {style.uppercase ? paper.name.toUpperCase() : paper.name}
+                              </span>
+                              {badge && (
+                                <span className="text-[8px] font-black text-white uppercase tracking-widest px-1.5 py-0.5 rounded" style={{ backgroundColor: badge.bg }}>
+                                  {badge.label}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          <p className={`leading-snug ${isCritical ? 'text-sm sm:text-base font-black' : 'text-xs sm:text-sm font-bold'}`}
+                            style={{ textTransform: style.uppercase ? 'uppercase' : 'none', letterSpacing: style.uppercase ? '0.02em' : 'normal' }}>
+                            {item.text}
+                          </p>
+                        </div>
+
+                        {/* Bottom Bar */}
+                        {style.headerLayout === 'bottomBar' && (
+                          <div className="flex items-center justify-end px-3 py-1 border-t" style={{
+                            backgroundColor: style.headerBg,
+                            color: style.headerFg,
+                            borderColor: style.accent,
+                            fontFamily: style.headerFont,
+                          }}>
+                            <span className="text-[9px] font-bold tracking-wider" style={{ color: style.headerFg }}>
+                              {style.uppercase ? paper.name.toUpperCase() : paper.name}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
 

@@ -1,4 +1,4 @@
-import { GameState, PoliticalValues, PostElectionStats, BlocSwingData, PartyBlocSupport } from '@/types/game';
+import { GameState, PoliticalValues, PostElectionStats, BlocSwingData, PartyBlocSupport, NewsItem } from '@/types/game';
 import { EventVariables } from '@/lib/eventTemplates';
 import {
   applyTrendStep,
@@ -918,30 +918,38 @@ export function calculateNextPollState(state: GameState): GameState {
   });
   // --- END: Process event-driven ideology drifts ---
 
-  // Combine all news sources into a single array first
-  const substitutedNewsEvents = newsEvents.map(news =>
+  // Combine all news sources into a priority-tagged feed
+  const substitutedNewsEvents = newsEvents.map((news: string) =>
     substituteNewsVariables(news, {}, state.eventVariables, state.country)
   );
 
-  const allNewsItems = [
-    ...globalTrendNews,
-    ...state.playerEventNews,
-    ...substitutedNewsEvents,
-    ...partyPollingNews,
-    ...partyDissolutionNews,
-    ...trendNews,
-    ...positionShiftNews,
-    ...eventDriftNews,
-    ...leadershipNews
+  const newsItems: NewsItem[] = [
+    ...leadershipNews.map(text => ({ text, priority: 'critical' as const, category: 'leadership' as const })),
+    ...partyDissolutionNews.map(text => ({ text, priority: 'critical' as const, category: 'dissolution' as const })),
+    ...activeTrends.map(trend => ({ text: `${trend.title} · ${trend.remainingWeeks}w remaining`, priority: 'high' as const, category: 'trend' as const })),
+    ...globalTrendNews.map(text => ({ text, priority: 'high' as const, category: 'trend' as const })),
+    ...state.playerEventNews.map(text => ({ text, priority: 'high' as const, category: 'event' as const })),
+    ...trendNews.map(text => ({ text, priority: 'medium' as const, category: 'trend' as const })),
+    ...positionShiftNews.map(text => ({ text, priority: 'low' as const, category: 'drift' as const })),
+    ...eventDriftNews.map(text => ({ text, priority: 'low' as const, category: 'drift' as const })),
+    ...partyPollingNews.map(text => ({ text, priority: 'medium' as const, category: 'polling' as const })),
+    ...substitutedNewsEvents.map(text => ({ text, priority: 'low' as const, category: 'flavor' as const })),
   ];
 
-  // Sort the combined array by word count in ascending order, then cap to 6 items.
-  const sortedPoliticalNews = allNewsItems.sort((a, b) => {
-    if (Math.random() < 0.6) {
-      return (a.split(' ').length - b.split(' ').length);
-    }
-    else { return 1; }
-  }).slice(0, 8);
+  // Sort by priority: critical → high → medium → low. Within each tier, randomize slightly.
+  const priorityOrder: Record<NewsItem['priority'], number> = { critical: 0, high: 1, medium: 2, low: 3 };
+  newsItems.sort((a, b) => {
+    const pa = priorityOrder[a.priority];
+    const pb = priorityOrder[b.priority];
+    if (pa !== pb) return pa - pb;
+    return Math.random() - 0.5;
+  });
+
+  // Critical items are always included, then fill up to 8 total
+  const criticalItems = newsItems.filter(n => n.priority === 'critical');
+  const nonCriticalItems = newsItems.filter(n => n.priority !== 'critical');
+  const remainingSlots = Math.max(0, 8 - criticalItems.length);
+  const sortedPoliticalNews = [...criticalItems, ...nonCriticalItems.slice(0, remainingSlots)];
 
   // Calculate post-election stats if this is the final poll
   let postElectionStats: PostElectionStats | undefined = undefined;

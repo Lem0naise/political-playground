@@ -1027,5 +1027,49 @@ export const OPPOSITION_LOSE_TEMPLATES = [
   "{newsTitle} loses momentum as the government's message resonates in {region}",
   "Opposition {newsTitle} blamed for own misfortunes after divisive {city} conference",
   "Backbench revolt weakens {newsTitle}'s position in opposition",
-  "'Not ready to govern' — the charge against {newsTitle} gains traction in {city}"
+  "Ruling coalition's confidence grows as {newsTitle} flounders in opposition"
+];
+
+// ─── Party split, merger, and coalition templates ────────────────────────────────
+
+export const PARTY_SPLIT_TEMPLATES = [
+  "BREAKING: {oldParty} fractures — moderate wing forms {splinter1} led by {leader1}, hardliners form {splinter2} under {leader2}.",
+  "REPORT: Internal tensions split {oldParty} into {splinter1} and {splinter2}.",
+  "SHIFT: {oldParty} polarised into {splinter1} ({leader1}) and {splinter2} ({leader2}).",
+  "CRISIS: {oldParty} collapses into rival factions {splinter1} and {splinter2}.",
+  "DIVORCE: {oldParty}'s ideological wings go separate ways — {splinter1} and {splinter2} emerge.",
+  "SCHISM: {leader2} breaks from {oldParty} to lead new {splinter2}, while {leader1} retains {splinter1}.",
+];
+
+export const PARTY_BREAKAWAY_TEMPLATES = [
+  "BREAKING: Faction led by {leader} splinters from {oldParty} to form {breakaway}.",
+  "DIVISION: {breakaway} launched by breakaway faction from {oldParty} under {leader}.",
+  "REBELLION: {leader} breaks ranks with {oldParty} to establish {breakaway}.",
+  "SPLIT: Disgruntled {oldParty} members rally behind {leader} as new {breakaway} party takes shape.",
+  "EXODUS: {leader} walks out of {oldParty} to found rival {breakaway} movement.",
+];
+
+export const PARTY_MERGER_TEMPLATES = [
+  "BREAKING: {party1} and {party2} announce merger to form {merged}, led by {leader}.",
+  "UNITY: {leader} to lead newly merged {merged} after {party1} and {party2} join forces.",
+  "CONSOLIDATION: {party1} and {party2} unite as {merged} in a bid to strengthen their electoral position.",
+  "ALLIANCE: {merged} is born from the union of {party1} and {party2} under {leader}.",
+  "COMBINATION: {party1} absorbs {party2} to create {merged}, with {leader} at the helm.",
+  "FUSION: {merged} emerges as {party1} and {party2} set aside differences to merge.",
+];
+
+export const COALITION_FORMED_TEMPLATES = [
+  "BREAKING: {leadParty} forms coalition government with {partnerParty} — new cabinet unveiled.",
+  "POWER-SHARING: {leadParty} and {partnerParty} strike historic deal to govern together.",
+  "COALITION: {leadParty} secures majority by bringing {partnerParty} into government.",
+  "DEAL STRUCK: {leadParty} and {partnerParty} agree to form administration after intense talks.",
+  "GOVERNMENT: {leadParty} announces coalition agreement with {partnerParty}.",
+];
+
+export const COALITION_COLLAPSE_TEMPLATES = [
+  "BREAKING: Coalition talks collapse between {leadParty} and {partnerParty} over {issue}.",
+  "STALEMATE: {leadParty} fails to reach agreement with {partnerParty} — minority government looms.",
+  "WALKAWAY: {partnerParty} pulls out of coalition negotiations with {leadParty}.",
+  "DEADLOCK: {leadParty} and {partnerParty} unable to bridge gap on key policy demands.",
+  "FAILURE: Coalition bid by {leadParty} rejected by {partnerParty} after final offer refused.",
 ];

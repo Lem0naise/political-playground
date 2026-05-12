@@ -193,7 +193,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         initialPollResults: initialResults,
         previousPollResults: initialResults,
         currentPoll: 1,
-        politicalNews: ["ELECTION SEASON OFFICIALLY BEGINS."],
+        politicalNews: [{ text: "ELECTION SEASON OFFICIALLY BEGINS.", priority: "medium", category: "government" }],
         pollingHistory: [initialPollingSnapshot],
         activeTrend: state.activeTrend !== undefined ? state.activeTrend : [],
         trendHistory: state.trendHistory || [],
@@ -270,7 +270,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           );
         }
 
-        // We push to the regular political news feed instead of the eventNews so it acts like a global news item
+        // We push multiple headlines — it's major national news
+        eventNewsToPass.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+        eventNewsToPass.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
         eventNewsToPass.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
       } else if (action.payload.choice.internalAction?.type === 'STAY_LEADER') {
         updatedPlayerCandidate.leaderCooldown = 10; // Moderate reprieve after surviving a challenge
@@ -326,7 +328,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         candidates: candidatesAfterEvent,
         playerEventNews: eventNewsToPass,
         politicalNews: action.payload.choice.internalAction?.type === 'CHANGE_LEADER'
-          ? [...state.politicalNews, eventNewsToPass[eventNewsToPass.length - 1]]
+          ? [...state.politicalNews, { text: eventNewsToPass[eventNewsToPass.length - 1], priority: 'critical' as const, category: 'leadership' as const }]
           : state.politicalNews,
         pendingPlayerEvent: null,
         targetedAxis: null,
@@ -490,6 +492,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
             ];
             govNews.push(changeTemplates[Math.floor(Math.random() * changeTemplates.length)]);
             govNews.push(changeTemplates[Math.floor(Math.random() * changeTemplates.length)]);
+            govNews.push(changeTemplates[Math.floor(Math.random() * changeTemplates.length)]);
 
           } else {
             const continueTemplates = [
@@ -499,7 +502,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
               `BREAKING: ${newLeadParty} continues to govern with ${govDescriptor} ${govType}`
             ];
             govNews.push(continueTemplates[Math.floor(Math.random() * continueTemplates.length)]);
-
+            govNews.push(continueTemplates[Math.floor(Math.random() * continueTemplates.length)]);
             govNews.push(continueTemplates[Math.floor(Math.random() * continueTemplates.length)]);
           }
         } else {
@@ -509,6 +512,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
             `BREAKING: New era begins as ${newLeadParty} forms ${govDescriptor} ${govType}`,
             `BREAKING: ${newLeadParty} successfully forms ${govDescriptor} ${govType}`
           ];
+          govNews.push(initialTemplates[Math.floor(Math.random() * initialTemplates.length)]);
+          govNews.push(initialTemplates[Math.floor(Math.random() * initialTemplates.length)]);
           govNews.push(initialTemplates[Math.floor(Math.random() * initialTemplates.length)]);
         }
 
@@ -525,7 +530,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         state.countryData.hos
       );
 
-      const allGovNews = [...govNews, ...postElecChanges.news];
+      const allGovNews: import('@/types/game').NewsItem[] = [
+        ...govNews.map(text => ({ text, priority: 'high' as const, category: 'government' as const })),
+        ...postElecChanges.news.map(text => ({ text, priority: 'critical' as const, category: 'leadership' as const }))
+      ];
 
       return {
         ...state,
