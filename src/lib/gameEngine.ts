@@ -187,6 +187,7 @@ export function checkForLeadershipChanges(
 
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+        news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
 
 
         return {
@@ -209,6 +210,7 @@ export function checkForLeadershipChanges(
             `${candidate.name} not resigning`,
             `${candidate.name} refuses to resign`
           ];
+          news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
           news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
         }
 
@@ -336,6 +338,7 @@ export function checkPostElectionLeadershipChanges(
 
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
         news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+        news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
 
         return {
           ...candidate,
@@ -358,10 +361,11 @@ export function checkPostElectionLeadershipChanges(
           `${candidate.name} not resigning after election loss`,
           `${candidate.name} refuses to resign despite election losses`
         ];
-        news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
-      }
+          news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+          news.push(newsOptions[Math.floor(Math.random() * newsOptions.length)]);
+        }
 
-      // Preserve the effective baseline explicitly. Without this, after the election
+        // Preserve the effective baseline explicitly. Without this, after the election
       // initialPollResults is reset to the election result, so a survivor with no
       // leadershipBaseline would have their baseline silently changed to the election
       // result rather than keeping the original pre-election polling.
@@ -2005,8 +2009,18 @@ export function checkForPartyDissolution(
           `BREAKING: ${candidate.party} leadership, ${candidate.name}, announces dissolution of the party.`,
           `BREAKING: ${candidate.party} folds its operations after failing to break 3% in recent polls, says ${candidate.name}`
         ];
+        const reactions = [
+          `ANALYSIS: The collapse of ${candidate.party} reshapes the electoral landscape — where will their voters go?`,
+          `OP-ED: ${candidate.name} reflects on the end of ${candidate.party}: "We gave it everything."`,
+          `REACTION: Rival parties scramble to court former ${candidate.party} supporters.`,
+          `FALLOUT: ${candidate.party}'s dissolution leaves void on the political spectrum.`,
+          `INSIGHT: After ${candidate.party} folds, analysts predict swing toward larger parties.`,
+          `LEGISLATURE: ${candidate.party} MPs face uncertain futures as party ceases to exist.`
+        ];
 
         news.push(templates[Math.floor(Math.random() * templates.length)]);
+        news.push(reactions[Math.floor(Math.random() * reactions.length)]);
+        news.push(reactions[(Math.floor(Math.random() * (reactions.length - 1)) + 1) % reactions.length]);
       }
     }
   }
@@ -2131,7 +2145,15 @@ export function checkForPartySplit(
         `REPORT: Faction led by ${newLeader} splinters from ${candidate.party} to form ${breakawayName}.`,
         `DIVISION: ${breakawayName} launched by breakaway faction from ${candidate.party} under ${newLeader}.`
       ];
+      const reactions = [
+        `ANALYSIS: ${candidate.party} weakened as ${newLeader}'s ${breakawayName} threatens to split the vote.`,
+        `REACTION: ${originalLeader} calls ${breakawayName} a "distraction" as ${newLeader} rallies support.`,
+        `FALLOUT: ${breakawayName}'s emergence raises questions about ${candidate.party}'s internal stability.`,
+        `INSIGHT: Voters in key regions warming to ${newLeader}'s message with ${breakawayName}.`
+      ];
       news.push(templates[Math.floor(Math.random() * templates.length)]);
+      news.push(reactions[Math.floor(Math.random() * reactions.length)]);
+      news.push(reactions[(Math.floor(Math.random() * (reactions.length - 1)) + 1) % reactions.length]);
 
       return {
         candidates: updatedCandidates,
@@ -2186,7 +2208,15 @@ export function checkForPartySplit(
         `REPORT: Internal tensions split ${candidate.party} into ${splinter1Name} and ${splinter2Name}.`,
         `SHIFT: ${candidate.party} polarised into ${splinter1Name} (${leader1}) and ${splinter2Name} (${leader2}).`
       ];
+      const reactions = [
+        `ANALYSIS: The fracture of ${candidate.party} dramatically alters the electoral calculus.`,
+        `REACTION: ${leader1}'s ${splinter1Name} and ${leader2}'s ${splinter2Name} begin battling for core voters.`,
+        `FALLOUT: Both ${splinter1Name} and ${splinter2Name} claim the true mantle of ${candidate.party}.`,
+        `INSIGHT: Splits like this historically halve a party's support — will the same happen here?`
+      ];
       news.push(templates[Math.floor(Math.random() * templates.length)]);
+      news.push(reactions[Math.floor(Math.random() * reactions.length)]);
+      news.push(reactions[(Math.floor(Math.random() * (reactions.length - 1)) + 1) % reactions.length]);
 
       return {
         candidates: updatedCandidates,
@@ -2279,7 +2309,15 @@ export function checkForPartyMerger(
     `UNITY: ${survivingLeader.name} to lead newly merged ${mergedName} after ${p1.party} and ${p2.party} join forces.`,
     `CONSOLIDATION: ${p1.party} and ${p2.party} unite as ${mergedName} in a bid to strengthen their electoral position.`
   ];
+  const reactions = [
+    `ANALYSIS: The merger of ${p1.party} and ${p2.party} creates a formidable new electoral force.`,
+    `REACTION: Rival parties voice concern as ${mergedName} consolidates the political centre.`,
+    `INSIGHT: ${mergedName} could become the dominant force if ${survivingLeader.name} keeps both factions united.`,
+    `FALLOUT: Members of ${p2.party} who opposed the merger may seek new political homes.`
+  ];
   news.push(templates[Math.floor(Math.random() * templates.length)]);
+  news.push(reactions[Math.floor(Math.random() * reactions.length)]);
+  news.push(reactions[(Math.floor(Math.random() * (reactions.length - 1)) + 1) % reactions.length]);
 
   return { candidates: updatedCandidates, news, mergerInfo: { oldParties: [p1.party, p2.party], newParty: mergedName } };
 }
@@ -2360,8 +2398,16 @@ export function checkForNewPartyFormation(
           `Low voter turnout sparks new political party: ${newLeaderName} launches ${newPartyName}.`,
           `Sensing an opportunity amongst disenfranchised voters, ${newLeaderName} founds ${newPartyName}.`
         ];
+        const reactions = [
+          `ANALYSIS: ${newPartyName} could draw votes from across the spectrum if ${newLeaderName} gains traction.`,
+          `REACTION: Established parties dismiss ${newPartyName} as a protest vote — but some are worried.`,
+          `INSIGHT: The rise of ${newPartyName} signals growing discontent with the mainstream.`,
+          `FALLOUT: ${newLeaderName}'s new ${newPartyName} may struggle for ballot access in key regions.`
+        ];
 
         news.push(titles[Math.floor(Math.random() * titles.length)]);
+        news.push(reactions[Math.floor(Math.random() * reactions.length)]);
+        news.push(reactions[(Math.floor(Math.random() * (reactions.length - 1)) + 1) % reactions.length]);
         return { newCandidate, news };
       }
     }

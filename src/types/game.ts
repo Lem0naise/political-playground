@@ -198,6 +198,12 @@ export interface PostElectionStats {
   };
 }
 
+export interface NewsItem {
+  text: string;
+  priority: 'critical' | 'high' | 'medium' | 'low';
+  category?: 'dissolution' | 'leadership' | 'split' | 'merger' | 'formation' | 'coalition' | 'polling' | 'trend' | 'event' | 'gaffe' | 'boost' | 'government' | 'drift' | 'flavor';
+}
+
 export interface GameState {
   country: string;
   countryData: Country;
@@ -210,7 +216,7 @@ export interface GameState {
   pollResults: PollResult[];
   previousPollResults: Record<string, number>;
   initialPollResults: Record<string, number>;
-  politicalNews: string[];
+  politicalNews: NewsItem[];
   playerEventNews: string[];
   votingData: number[][];
   pendingParties?: any[];
