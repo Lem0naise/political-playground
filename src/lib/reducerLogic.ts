@@ -383,9 +383,13 @@ export function calculateNextPollState(state: GameState): GameState {
       if (splitResult.splitInfo) {
         const gov = state.incumbentGovernment ?? [];
         if (gov.includes(splitResult.splitInfo.oldParty)) {
-          finalIncumbentGovernment = finalIncumbentGovernment
-            .filter(p => p !== splitResult.splitInfo!.oldParty)
-            .concat(splitResult.splitInfo.newParties);
+          if (!splitResult.splitInfo.isBreakaway) {
+            // Full split: old party out, both splinters in
+            finalIncumbentGovernment = finalIncumbentGovernment
+              .filter(p => p !== splitResult.splitInfo!.oldParty)
+              .concat(splitResult.splitInfo.newParties);
+          }
+          // Breakaway: parent stays in gov, faction does NOT join — no change
         }
       }
       if (splitResult.news.length > 0) {

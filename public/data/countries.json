@@ -5657,5 +5657,105 @@
         }
       }
     ]
+  },
+  "GROUP": {
+    "pop": 100,
+    "vals": {
+      "prog_cons": 0,
+      "nat_glob": 0,
+      "env_eco": 0,
+      "soc_cap": 0,
+      "pac_mil": 0,
+      "auth_ana": 0,
+      "rel_sec": 0
+    },
+    "scale": 1000,
+    "hos": "Focus Group Moderator",
+    "nameStyle": "generic",
+    "blocs": [
+      {
+        "id": "generic_centrists",
+        "weight": 0.40,
+        "variance": 20,
+        "turnout": 0.85,
+        "center": {
+          "prog_cons": 0,
+          "nat_glob": 0,
+          "env_eco": 0,
+          "soc_cap": 0,
+          "pac_mil": 0,
+          "auth_ana": 0,
+          "rel_sec": 0
+        },
+        "salience": {
+          "env_eco": 1.0,
+          "soc_cap": 1.0,
+          "prog_cons": 1.0
+        }
+      },
+      {
+        "id": "generic_progressives",
+        "weight": 0.25,
+        "variance": 25,
+        "turnout": 0.88,
+        "center": {
+          "prog_cons": -50,
+          "nat_glob": 40,
+          "env_eco": -50,
+          "soc_cap": -40,
+          "pac_mil": -30,
+          "auth_ana": 30,
+          "rel_sec": 45
+        },
+        "salience": {
+          "prog_cons": 1.8,
+          "env_eco": 1.5,
+          "soc_cap": 1.4
+        }
+      },
+      {
+        "id": "generic_conservatives",
+        "weight": 0.25,
+        "variance": 25,
+        "turnout": 0.89,
+        "center": {
+          "prog_cons": 50,
+          "nat_glob": -40,
+          "env_eco": 50,
+          "soc_cap": 40,
+          "pac_mil": 30,
+          "auth_ana": -30,
+          "rel_sec": -45
+        },
+        "salience": {
+          "prog_cons": 1.8,
+          "nat_glob": 1.5,
+          "rel_sec": 1.4
+        }
+      },
+      {
+        "id": "generic_disengaged",
+        "weight": 0.10,
+        "variance": 45,
+        "turnout": 0.35,
+        "center": {
+          "prog_cons": 0,
+          "nat_glob": 0,
+          "env_eco": 0,
+          "soc_cap": 0,
+          "pac_mil": 0,
+          "auth_ana": 0,
+          "rel_sec": 0
+        },
+        "salience": {
+          "env_eco": 0.5,
+          "auth_ana": 0.5,
+          "soc_cap": 0.5
+        }
+      }
+    ]
   }
 }
+
+
+

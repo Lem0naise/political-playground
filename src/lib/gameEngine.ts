@@ -2020,99 +2020,180 @@ export function checkForPartySplit(
   currentResults: Record<string, number>,
   eventVariables: any,
   country: string
-): { candidates: Candidate[]; news: string[]; splitInfo?: { oldParty: string; newParties: string[] } } {
+): { candidates: Candidate[]; news: string[]; splitInfo?: { oldParty: string; newParties: string[]; isBreakaway: boolean } } {
   const updatedCandidates = [...candidates];
   const news: string[] = [];
+
+  const IDEOLOGY_ADJECTIVES: Record<string, string[]> = {
+    progressive: ['Progressive', 'Reform', 'Forward', 'Liberal'],
+    conservative: ['Conservative', 'Traditional', 'Heritage', 'Civic'],
+    nationalist: ['National', 'Patriot', 'Sovereign', 'Homeland'],
+    globalist: ['International', 'Open', 'Cosmopolitan', 'Global'],
+    environmental: ['Green', 'Ecology', 'Sustainable', 'Climate'],
+    economic: ['Growth', 'Prosperity', 'Enterprise', 'Industrial'],
+    socialist: ["People's", 'Democratic', 'Labour', 'Social'],
+    capitalist: ['Free Market', 'Liberty', 'Enterprise', 'Capital'],
+    pacifist: ['Peace', 'Concord', 'Harmony', 'Civic'],
+    militarist: ['Defence', 'Security', 'Strength', 'Guard'],
+    authoritarian: ['Order', 'Constitutional', 'Governance', 'Structured'],
+    anarchist: ['Liberty', 'Freedom', 'Autonomous', 'Civil'],
+    religious: ['Faith', 'Christian', 'Moral', 'Values'],
+    secular: ['Secular', 'Rational', 'Civic', 'Reason'],
+  };
+
+  function getDominantIdeology(vals: number[]): string[] {
+    const axes = ['progressive', 'conservative', 'nationalist', 'globalist', 'environmental', 'economic', 'socialist', 'capitalist', 'pacifist', 'militarist', 'authoritarian', 'anarchist', 'religious', 'secular'];
+    const axesByVal: [number, number, string][] = vals.map((v, i) => [Math.abs(v), v, axes[Math.min(i * 2 + (v < 0 ? 0 : 1), axes.length - 1)]]);
+    axesByVal.sort((a, b) => b[0] - a[0]);
+    return axesByVal.slice(0, 3).map(a => a[2]);
+  }
+
+  function generateSplinterName(core: string, ideologyTags: string[]): string {
+    const suffix = pick(['Party', 'Alliance', 'Movement', 'Union', 'Democrats', 'League', 'Front']);
+    const strategies = [
+      () => `${pick(ideologyTags.flatMap(t => IDEOLOGY_ADJECTIVES[t] || [])) || 'New'} ${core} ${suffix}`,
+      () => `${core} ${suffix}`,
+      () => `New ${core} ${suffix}`,
+      () => `${core} Reform ${suffix}`,
+      () => `${core} for Change`,
+      () => `Independent ${core} ${suffix}`,
+      () => `Real ${core} ${suffix}`,
+    ];
+    return pick(strategies)();
+  }
+
+  function pick<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
 
   for (let i = updatedCandidates.length - 1; i >= 0; i--) {
     const candidate = updatedCandidates[i];
     if (candidate.is_player) continue;
 
     const currentPct = currentResults[candidate.party] || 0;
-    if (currentPct < 10.0) continue;
+    if (currentPct < 8.0) continue;
 
     const pctChange = candidate.poll_percentage
-      ? (currentPct - (candidate.poll_percentage)) / candidate.poll_percentage
+      ? (currentPct - (candidate.poll_percentage)) / Math.max(candidate.poll_percentage, 0.1)
       : 0;
-    const splitChance = pctChange < 0 ? 0.015 : 0.0075;
+    const isDeclining = pctChange < -0.02;
+
+    // Scale chance by size: large successful parties almost never split
+    let splitChance: number;
+    if (currentPct > 30) {
+      splitChance = isDeclining ? 0.002 : 0.0001;
+    } else if (currentPct > 15) {
+      splitChance = isDeclining ? 0.006 : 0.003;
+    } else {
+      splitChance = isDeclining ? 0.01 : 0.005;
+    }
+
     if (Math.random() >= splitChance) continue;
 
     const originalLeader = candidate.name;
     const newLeader = generateLeaderName(eventVariables, country);
-
-    const words = candidate.party.split(/\s+/);
-    const avoidWords = new Set(['party', 'alliance', 'front', 'union', 'league', 'movement', 'coalition', 'democrats', 'forum', 'the', 'and', 'of', 'for', 'new']);
-    const coreParts = words.filter(w => w.length > 2 && !avoidWords.has(w.toLowerCase()));
-
     const baseVals = [...candidate.vals];
-    const newId1 = Math.max(...candidates.map(c => c.id), 0) + 1;
-    const newId2 = newId1 + 1;
-    const splitShare = 0.3 + Math.random() * 0.4;
-    const keepOriginalOnFirst = Math.random() < 0.5;
-    const leader1 = keepOriginalOnFirst ? originalLeader : newLeader;
-    const leader2 = keepOriginalOnFirst ? newLeader : originalLeader;
+    const dominantIdeology = getDominantIdeology(baseVals);
 
-    let splinter1Name: string;
-    let splinter2Name: string;
-    let splinter1Colour: string;
-    let splinter2Colour: string;
+    // Extract core words from the parent party name
+    const avoidWords = new Set(['party', 'alliance', 'front', 'union', 'league', 'movement', 'coalition', 'democrats', 'forum', 'the', 'and', 'of', 'for', 'new', 'real', 'reform', 'independent', 'for', 'change']);
+    const coreParts = candidate.party.split(/[\s-]+/).filter(w => w.length > 2 && !avoidWords.has(w.toLowerCase()));
+    const coreWord = coreParts.length > 0 ? coreParts.reduce((a, b) => a.length >= b.length ? a : b) : candidate.party;
 
-    if (coreParts.length < 2) {
-      splinter1Name = `${coreParts[0] || candidate.party} Renewal`;
-      splinter2Name = `Real ${coreParts[0] || candidate.party}`;
-      splinter1Colour = generateRandomHexColour();
-      splinter2Colour = generateRandomHexColour();
+    const isBreakaway = Math.random() < 0.5;
+
+    if (isBreakaway) {
+      // --- BREAKAWAY FACTION ---
+      // Parent stays intact; a small rebel faction forms
+      const breakawayName = generateSplinterName(coreWord, dominantIdeology);
+      const factionShare = 0.1 + Math.random() * 0.2; // 10-30% of parent's polling
+      const factionVals = baseVals.map(v => Math.max(-100, Math.min(100, v + (Math.random() - 0.5) * 30)));
+
+      const newId = Math.max(...candidates.map(c => c.id), 0) + 1;
+
+      const factionCandidate: Candidate = {
+        id: newId, name: newLeader, party: breakawayName,
+        colour: generateRandomHexColour(), is_player: false, vals: factionVals,
+        poll_percentage: (candidate.poll_percentage || 0) * factionShare,
+        swing: candidate.swing ? candidate.swing * 0.3 : 0,
+        base_utility_modifier: ((candidate.base_utility_modifier || 0) * factionShare * 0.3),
+        nascent_penalty: 12000
+      };
+
+      // Reduce parent's polling by the faction share
+      candidate.poll_percentage = (candidate.poll_percentage || 0) * (1 - factionShare);
+      candidate.base_utility_modifier = (candidate.base_utility_modifier || 0) * (1 - factionShare * 0.5);
+
+      updatedCandidates.push(factionCandidate);
+
+      const templates = [
+        `BREAKING: ${originalLeader} faces rebellion as ${breakawayName} breaks away from ${candidate.party}, led by ${newLeader}.`,
+        `REPORT: Faction led by ${newLeader} splinters from ${candidate.party} to form ${breakawayName}.`,
+        `DIVISION: ${breakawayName} launched by breakaway faction from ${candidate.party} under ${newLeader}.`
+      ];
+      news.push(templates[Math.floor(Math.random() * templates.length)]);
+
+      return {
+        candidates: updatedCandidates,
+        news,
+        splitInfo: { oldParty: candidate.party, newParties: [breakawayName], isBreakaway: true }
+      };
     } else {
-      const w1 = coreParts[0];
-      const w2 = coreParts.length > 1 ? coreParts[coreParts.length - 1] : coreParts[0];
-      const suffix = ['Party', 'Alliance', 'Movement', 'Union', 'Democrats'][Math.floor(Math.random() * 5)];
-      splinter1Name = `${w1} ${suffix}`;
-      splinter2Name = `${w2} ${suffix}`;
-      splinter1Colour = generateRandomHexColour();
-      splinter2Colour = generateRandomHexColour();
-
-      if (splinter1Name === splinter2Name || candidates.some(c => c.party === splinter1Name || c.party === splinter2Name)) {
-        const rngLabel = () => ['Democratic', 'United', 'Progressive', 'National', 'Reform', 'Independent'][Math.floor(Math.random() * 6)];
-        splinter1Name = `${rngLabel()} ${w1} ${suffix}`;
-        splinter2Name = `${rngLabel()} ${w2} ${suffix}`;
+      // --- FULL SPLIT ---
+      // Parent dissolves; two splinter parties form
+      const splinter1Name = generateSplinterName(coreWord, dominantIdeology);
+      let splinter2Name = generateSplinterName(coreWord, dominantIdeology);
+      // Ensure names differ
+      let retries = 0;
+      while (splinter2Name === splinter1Name && retries < 5) {
+        splinter2Name = generateSplinterName(coreWord, dominantIdeology);
+        retries++;
       }
+      if (splinter2Name === splinter1Name) splinter2Name = `Alternative ${coreWord}`;
+
+      const keepOriginalOnFirst = Math.random() < 0.5;
+      const leader1 = keepOriginalOnFirst ? originalLeader : newLeader;
+      const leader2 = keepOriginalOnFirst ? newLeader : originalLeader;
+
+      const splinter1Vals = baseVals.map(v => Math.max(-100, Math.min(100, v + (Math.random() - 0.5) * 40)));
+      const splinter2Vals = baseVals.map(v => Math.max(-100, Math.min(100, v + (Math.random() - 0.5) * 40)));
+
+      const splitShare = 0.3 + Math.random() * 0.4;
+      const newId1 = Math.max(...candidates.map(c => c.id), 0) + 1;
+
+      const splinter1: Candidate = {
+        id: newId1, name: leader1, party: splinter1Name,
+        colour: generateRandomHexColour(), is_player: false, vals: splinter1Vals,
+        poll_percentage: (candidate.poll_percentage || 0) * splitShare,
+        swing: candidate.swing || 0,
+        base_utility_modifier: ((candidate.base_utility_modifier || 0) * splitShare * 0.5),
+        nascent_penalty: 8000
+      };
+      const splinter2: Candidate = {
+        id: newId1 + 1, name: leader2, party: splinter2Name,
+        colour: generateRandomHexColour(), is_player: false, vals: splinter2Vals,
+        poll_percentage: (candidate.poll_percentage || 0) * (1 - splitShare),
+        swing: candidate.swing || 0,
+        base_utility_modifier: ((candidate.base_utility_modifier || 0) * (1 - splitShare) * 0.5),
+        nascent_penalty: 8000
+      };
+
+      updatedCandidates.splice(i, 1);
+      updatedCandidates.push(splinter1, splinter2);
+
+      const templates = [
+        `BREAKING: ${candidate.party} fractures — ${splinter1Name} led by ${leader1}, ${splinter2Name} under ${leader2}.`,
+        `REPORT: Internal tensions split ${candidate.party} into ${splinter1Name} and ${splinter2Name}.`,
+        `SHIFT: ${candidate.party} polarised into ${splinter1Name} (${leader1}) and ${splinter2Name} (${leader2}).`
+      ];
+      news.push(templates[Math.floor(Math.random() * templates.length)]);
+
+      return {
+        candidates: updatedCandidates,
+        news,
+        splitInfo: { oldParty: candidate.party, newParties: [splinter1.party, splinter2.party], isBreakaway: false }
+      };
     }
-
-    const splinter1Vals = baseVals.map(v => Math.max(-100, Math.min(100, v + (Math.random() - 0.5) * 40)));
-    const splinter2Vals = baseVals.map(v => Math.max(-100, Math.min(100, v + (Math.random() - 0.5) * 40)));
-
-    const splinter1: Candidate = {
-      id: newId1, name: leader1, party: splinter1Name,
-      colour: splinter1Colour, is_player: false, vals: splinter1Vals,
-      poll_percentage: candidate.poll_percentage ? candidate.poll_percentage * splitShare : 0,
-      swing: candidate.swing || 0,
-      base_utility_modifier: (candidate.base_utility_modifier || 0) * splitShare * 0.5,
-      nascent_penalty: 3000
-    };
-    const splinter2: Candidate = {
-      id: newId2, name: leader2, party: splinter2Name,
-      colour: splinter2Colour, is_player: false, vals: splinter2Vals,
-      poll_percentage: candidate.poll_percentage ? candidate.poll_percentage * (1 - splitShare) : 0,
-      swing: candidate.swing || 0,
-      base_utility_modifier: (candidate.base_utility_modifier || 0) * (1 - splitShare) * 0.5,
-      nascent_penalty: 3000
-    };
-
-    updatedCandidates.splice(i, 1);
-    updatedCandidates.push(splinter1, splinter2);
-
-    const templates = [
-      `BREAKING: ${candidate.party} fractures — ${splinter1Name} led by ${leader1}, ${splinter2Name} under ${leader2}.`,
-      `REPORT: Internal tensions split ${candidate.party} into ${splinter1Name} and ${splinter2Name}.`,
-      `SHIFT: ${candidate.party} polarised into ${splinter1Name} (${leader1}) and ${splinter2Name} (${leader2}).`
-    ];
-    news.push(templates[Math.floor(Math.random() * templates.length)]);
-
-    return {
-      candidates: updatedCandidates,
-      news,
-      splitInfo: { oldParty: candidate.party, newParties: [splinter1.party, splinter2.party] }
-    };
   }
 
   return { candidates: updatedCandidates, news };
