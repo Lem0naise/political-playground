@@ -756,3 +756,211 @@ export function autoAllocateUnfilledCabinetPositions(
     }
   }
 }
+
+// ─── Counter-Offer Types ─────────────────────────────────────────────────────
+
+export interface CounterDemand {
+  type: 'position_add' | 'policy_concession';
+  /** Position name (e.g. 'Defence') or policy description */
+  detail: string;
+  importance: 'must' | 'would_help';
+}
+
+// ─── Dynamic Programming: Optimal Coalition Finder ───────────────────────────
+
+export interface OptimalCoalition {
+  partners: Candidate[];
+  totalPercentage: number;
+  avgWillingness: number;
+  minCompatibility: number;
+  ideologicalCoherence: number;
+}
+
+export function findOptimalCoalitions(
+  leadParty: Candidate,
+  availablePartners: Candidate[],
+  results: Array<{ candidate: Candidate; percentage: number }>,
+  maxResults: number = 3
+): OptimalCoalition[] {
+  const resultsById = new Map(results.map(r => [r.candidate.id, r.percentage]));
+  const leadPct = resultsById.get(leadParty.id) || 0;
+
+  if (leadPct >= 50) return []; // No coalition needed
+
+  const partners = availablePartners.filter(p => p.id !== leadParty.id);
+  if (partners.length === 0) return [];
+
+  // Generate all subsets of partners (power set)
+  const subsets: Candidate[][] = [];
+  const n = partners.length;
+  const totalSubsets = 1 << n;
+  for (let mask = 1; mask < totalSubsets; mask++) {
+    const subset: Candidate[] = [];
+    let totalPct = leadPct;
+    for (let bit = 0; bit < n; bit++) {
+      if (mask & (1 << bit)) {
+        subset.push(partners[bit]);
+        totalPct += (resultsById.get(partners[bit].id) || 0);
+      }
+    }
+    if (totalPct >= 50) {
+      subsets.push(subset);
+    }
+  }
+
+  // Score each viable combination
+  const scored: OptimalCoalition[] = subsets.map(subset => {
+    let totalWillingness = 0;
+    let minCompat = Infinity;
+    let totalWeight = 0;
+    const allParties = [leadParty, ...subset];
+
+    for (const p of allParties) {
+      const pct = resultsById.get(p.id) || 0;
+      totalWeight += pct;
+      for (const q of allParties) {
+        if (p.id >= q.id) continue;
+        const compat = calculatePartyCompatibility(p, q);
+        const willing = calculateCoalitionWillingness(leadParty, p, leadPct, resultsById.get(p.id) || 0);
+        totalWillingness += willing * pct;
+        if (compat < minCompat) minCompat = compat;
+      }
+    }
+
+    const avgWillingness = totalWeight > 0 ? totalWillingness / totalWeight : 0;
+    const ideologicalCoherence = allParties.reduce((sum, p) => {
+      const compat = calculatePartyCompatibility(leadParty, p);
+      return sum + compat;
+    }, 0) / allParties.length;
+
+    const totalPercentage = leadPct + subset.reduce((s, p) => s + (resultsById.get(p.id) || 0), 0);
+
+    return { partners: subset, totalPercentage, avgWillingness, minCompatibility: minCompat === Infinity ? 0 : minCompat, ideologicalCoherence };
+  });
+
+  // Sort by: highest avgWillingness, then highest ideologicalCoherence, then most partners (prefer broader coalitions)
+  scored.sort((a, b) => {
+    if (Math.abs(b.avgWillingness - a.avgWillingness) > 3) return b.avgWillingness - a.avgWillingness;
+    if (Math.abs(b.ideologicalCoherence - a.ideologicalCoherence) > 2) return b.ideologicalCoherence - a.ideologicalCoherence;
+    return b.partners.length - a.partners.length;
+  });
+
+  return scored.slice(0, maxResults);
+}
+
+// ─── Counter-Offer Engine ─────────────────────────────────────────────────────
+
+export function generateCounterDemands(
+  leadParty: Candidate,
+  partnerParty: Candidate,
+  offeredPositions: string[],
+  cabinetAllocations: Record<string, string[]>,
+  finalAppeal: number
+): CounterDemand[] {
+  const demands: CounterDemand[] = [];
+  const priorityPositions = getPartyPriorityPositions(partnerParty);
+  const availablePositions = getAvailableCabinetPositions(cabinetAllocations);
+
+  // Partner demands positions they wanted but weren't offered
+  const unmetPriorities = priorityPositions.filter(p => !offeredPositions.includes(p));
+  for (const pos of unmetPriorities.slice(0, 2)) {
+    const isAvailable = availablePositions.some(ap => ap.name === pos);
+    if (isAvailable) {
+      demands.push({
+        type: 'position_add',
+        detail: pos,
+        importance: unmetPriorities.indexOf(pos) === 0 ? 'must' : 'would_help'
+      });
+    }
+  }
+
+  // If no position demands or appeal is quite low, add a policy demand
+  if (demands.length === 0 || finalAppeal < 70) {
+    const policyQ = generateCoalitionPolicyQuestion(leadParty, partnerParty);
+    if (policyQ) {
+      // Demand that the lead concede toward the partner's preferred option
+      const partnerPref = policyQ.options.reduce((best, o) =>
+        o.appeal > (best?.appeal || -Infinity) ? o : best, policyQ.options[0]);
+      demands.push({
+        type: 'policy_concession',
+        detail: `${policyQ.topic}: ${partnerPref.text}`,
+        importance: finalAppeal < 50 ? 'must' : 'would_help'
+      });
+    }
+  }
+
+  // If appeal is very close to success, just one small demand
+  if (finalAppeal >= 80 && demands.length > 1) {
+    return demands.slice(0, 1);
+  }
+
+  return demands;
+}
+
+export function evaluateCounterResponse(
+  leadParty: Candidate,
+  partnerParty: Candidate,
+  leadPercentage: number,
+  partnerPercentage: number,
+  acceptedDemands: CounterDemand[],
+  counterDemands: CounterDemand[],
+  baseAppeal: number,
+  policyResponses: number[]
+): { success: boolean; message: string; finalAppeal: number } {
+  const compatibility = calculatePartyCompatibility(leadParty, partnerParty);
+
+  let appealBoost = 0;
+  const totalMusts = counterDemands.filter(d => d.importance === 'must').length;
+  const acceptedMusts = acceptedDemands.filter(d => d.importance === 'must').length;
+
+  if (totalMusts > 0) {
+    // Must accept all "must" demands for any chance
+    if (acceptedMusts === totalMusts) {
+      appealBoost += 20;
+    } else {
+      appealBoost -= 30;
+    }
+  }
+
+  // Bonus for accepting "would_help" demands
+  const acceptedHelps = acceptedDemands.filter(d => d.importance === 'would_help').length;
+  appealBoost += acceptedHelps * 8;
+
+  // Penalty for ignoring demands
+  const ignoredCount = counterDemands.length - acceptedDemands.length;
+  appealBoost -= ignoredCount * 10;
+
+  // Policy response bonus
+  const policyScore = policyResponses.reduce((sum, r) => sum + r, 0);
+  appealBoost += policyScore * 0.3;
+
+  const rngFactor = (Math.random() * 20) - 10;
+  const finalAppeal = baseAppeal + appealBoost + rngFactor;
+
+  let message = '';
+  if (finalAppeal >= 90) {
+    const opts = [
+      `${partnerParty.party} accepts your counter-offer and agrees to join the coalition.`,
+      `${partnerParty.party} leadership approves the revised terms — coalition achieved.`,
+      `After reviewing your counter-proposal, ${partnerParty.party} is satisfied and will join.`
+    ];
+    message = opts[Math.floor(Math.random() * opts.length)];
+  } else if (finalAppeal >= 65) {
+    const opts = [
+      `${partnerParty.party} is still not fully satisfied with the revised terms but is willing to continue negotiating.`,
+      `${partnerParty.party} sees some movement but wants further concessions.`,
+      `Progress has been made, but ${partnerParty.party} wants more before committing.`
+    ];
+    message = opts[Math.floor(Math.random() * opts.length)];
+  } else {
+    const biggestDiff = getBiggestPolicyDifference(leadParty, partnerParty);
+    const opts = [
+      `${partnerParty.party} rejects your counter-offer, citing irreconcilable differences on ${biggestDiff}.`,
+      `Talks have collapsed. ${partnerParty.party} refuses to compromise further on ${biggestDiff}.`,
+      `${partnerParty.party} walks away from the table — your counter-offer was deemed insufficient.`
+    ];
+    message = opts[Math.floor(Math.random() * opts.length)];
+  }
+
+  return { success: finalAppeal >= 80, message, finalAppeal };
+}

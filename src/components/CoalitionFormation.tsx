@@ -12,12 +12,16 @@ import {
   generatePlayerApproachOffer,
   evaluatePlayerResponse,
   shouldAIApproachPlayer,
+  generateCounterDemands,
+  evaluateCounterResponse,
+  findOptimalCoalitions,
+  type CounterDemand,
 } from '@/lib/coalitionEngine';
 import { Candidate } from '@/types/game';
 import CabinetView from './CabinetView';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 
-// ─── NegotiationModal (player-led negotiation with a partner) ───────────────
+// ─── NegotiationModal (player-led negotiation with counter-offers) ─────────────
 
 interface NegotiationModalProps {
   leadParty: Candidate;
@@ -30,18 +34,15 @@ interface NegotiationModalProps {
 }
 
 function NegotiationModal({
-  leadParty,
-  partnerParty,
-  leadPercentage,
-  partnerPercentage,
-  onComplete,
-  onCancel,
-  cabinetAllocations,
+  leadParty, partnerParty, leadPercentage, partnerPercentage,
+  onComplete, onCancel, cabinetAllocations,
 }: NegotiationModalProps) {
-  const [currentStep, setCurrentStep] = useState<'policy' | 'cabinet' | 'reviewing' | 'result'>('policy');
+  const [round, setRound] = useState(1);
+  const [currentStep, setCurrentStep] = useState<'policy' | 'cabinet' | 'reviewing' | 'result' | 'counter'>('policy');
   const [policyResponses, setPolicyResponses] = useState<number[]>([]);
   const [offeredPositions, setOfferedPositions] = useState<string[]>([]);
   const [negotiationResult, setNegotiationResult] = useState<any>(null);
+  const [counterDemands, setCounterDemands] = useState<CounterDemand[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const policyQuestions: any[] = [];
@@ -63,7 +64,7 @@ function NegotiationModal({
     }
   };
 
-  const handleCabinetOffer = () => {
+  const makeOffer = () => {
     setCurrentStep('reviewing');
     setTimeout(() => {
       const totalImportance = offeredPositions.reduce((sum, pos) => {
@@ -74,29 +75,58 @@ function NegotiationModal({
         leadParty, partnerParty, leadPercentage, partnerPercentage, totalImportance, policyResponses
       );
       setNegotiationResult(result);
-      setCurrentStep('result');
-    }, Math.floor(Math.random() * 1500) + 1500); // 1.5 - 3 seconds
+      if (result.success || result.finalAppeal < 40) {
+        setCurrentStep('result');
+      } else {
+        const demands = generateCounterDemands(leadParty, partnerParty, offeredPositions, cabinetAllocations, result.finalAppeal);
+        setCounterDemands(demands);
+        setCurrentStep('counter');
+      }
+    }, 800 + Math.random() * 1200);
   };
 
-  const modalBase = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50';
-  const cardBase = 'bg-slate-800 border border-slate-700 rounded-xl p-5 sm:p-7 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl';
+  const handleCounterResponse = (accept: boolean) => {
+    setCurrentStep('reviewing');
+    setTimeout(() => {
+      const selectedDemands = accept ? counterDemands : [];
+      const result = evaluateCounterResponse(
+        leadParty, partnerParty, leadPercentage, partnerPercentage,
+        selectedDemands, counterDemands, negotiationResult.finalAppeal, policyResponses
+      );
+      setNegotiationResult(result);
+      if (result.success) {
+        if (accept) {
+          const newPositions = [...new Set([...offeredPositions, ...counterDemands.filter(d => d.type === 'position_add').map(d => d.detail)])];
+          setOfferedPositions(newPositions);
+        }
+        setCurrentStep('result');
+      } else if (result.finalAppeal >= 60 && round < 3) {
+        setRound(round + 1);
+        const newDemands = generateCounterDemands(leadParty, partnerParty, offeredPositions, cabinetAllocations, result.finalAppeal);
+        setCounterDemands(newDemands);
+        setCurrentStep('counter');
+      } else {
+        setCurrentStep('result');
+      }
+    }, 800 + Math.random() * 1200);
+  };
 
-  // Party header bar
+  const mb = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50';
+  const cb = 'bg-slate-800 border border-slate-700 rounded-xl p-5 sm:p-7 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl';
+
   const PartyBar = () => (
-    <div className="flex items-center gap-4 mb-5 pb-4 border-b border-slate-700">
+    <div className="flex items-center justify-center gap-4 mb-5 pb-4 border-b border-slate-700">
       <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-full border-2 border-white/30" style={{ backgroundColor: leadParty.colour }} />
+        <div className="w-8 h-8 rounded-full border-2 border-white/30 flex-shrink-0" style={{ backgroundColor: leadParty.colour }} />
         <div>
-          <div className="text-xs text-slate-400"></div>
           <div className="font-bold text-white text-sm">{leadParty.party}</div>
           <div className="text-xs text-slate-400">{leadPercentage.toFixed(1)}%</div>
         </div>
       </div>
-      <div className="text-slate-500 text-xl"> → </div>
-      <div className="flex items-center gap-2 align-right">
-        <div className="w-8 h-8 rounded-full border-2 border-white/30" style={{ backgroundColor: partnerParty.colour }} />
+      <div className="text-slate-500 text-xl font-bold">↔</div>
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-full border-2 border-white/30 flex-shrink-0" style={{ backgroundColor: partnerParty.colour }} />
         <div>
-          <div className="text-xs text-slate-400"></div>
           <div className="font-bold text-white text-sm">{partnerParty.party}</div>
           <div className="text-xs text-slate-400">{partnerPercentage.toFixed(1)}%</div>
         </div>
@@ -105,192 +135,140 @@ function NegotiationModal({
   );
 
   if (currentStep === 'policy' && policyQuestions.length > 0) {
-    const currentQuestion = policyQuestions[currentQuestionIndex];
+    const cq = policyQuestions[currentQuestionIndex];
     return (
-      <div className={modalBase}>
-        <div className={cardBase}>
-          <PartyBar />
-          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-1">
-            Policy Discussion — Question {currentQuestionIndex + 1} of {policyQuestions.length}
-          </h3>
-          <h4 className="text-sm font-semibold text-blue-400 mb-2">{currentQuestion.topic}</h4>
-          <p className="text-slate-300 mb-4 text-sm italic">"{currentQuestion.question}"</p>
-          <div className="space-y-2">
-            {currentQuestion.options.map((option: any, index: number) => (
-              <button
-                key={index}
-                onClick={() => handlePolicyResponse(option.appeal)}
-                className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg transition-colors"
-              >
-                <div className="font-semibold text-white text-sm">{option.text}</div>
-
-              </button>
-            ))}
-          </div>
-          <button onClick={onCancel} className="mt-4 text-xs text-slate-500 hover:text-slate-300 transition-colors">
-            Cancel negotiation
-          </button>
+      <div className={mb}><div className={cb}>
+        <PartyBar />
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider bg-slate-700 px-2 py-0.5 rounded">Round {round}/3</span>
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider">Policy Discussion</span>
         </div>
-      </div>
+        <h3 className="text-sm font-bold text-yellow-400 mb-1">Question {currentQuestionIndex + 1} of {policyQuestions.length}</h3>
+        <h4 className="text-sm font-semibold text-blue-400 mb-2">{cq.topic}</h4>
+        <p className="text-slate-300 mb-4 text-sm italic">"{cq.question}"</p>
+        <div className="space-y-2">
+          {cq.options.map((option: any, idx: number) => (
+            <button key={idx} onClick={() => handlePolicyResponse(option.appeal)} className="w-full text-left p-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg transition-colors">
+              <div className="font-semibold text-white text-sm">{option.text}</div>
+            </button>
+          ))}
+        </div>
+        <button onClick={onCancel} className="mt-4 text-xs text-slate-500 hover:text-slate-300">Cancel negotiation</button>
+      </div></div>
     );
   }
 
   if (currentStep === 'policy' && policyQuestions.length === 0) {
-    return (
-      <div className={modalBase}>
-        <div className={cardBase}>
-          <PartyBar />
-          <p className="text-slate-300 mb-5 text-sm">
-            Your parties share similar enough policies — moving directly to cabinet negotiations.
-          </p>
-          <button
-            onClick={() => setCurrentStep('cabinet')}
-            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
-          >
-            Discuss Cabinet Positions
-          </button>
-        </div>
-      </div>
-    );
+    setTimeout(() => setCurrentStep('cabinet'), 0);
+    return null;
   }
 
   if (currentStep === 'cabinet') {
     return (
-      <div className={modalBase}>
-        <div className={cardBase}>
-          <PartyBar />
-          <h3 className="campaign-status text-base font-bold text-yellow-400 mb-3">Cabinet Positions Offer to {partnerParty.party}</h3>
-          <p className="text-xs text-slate-400 mb-3">
-            Blue = {partnerParty.party}'s priority positions.
-            Select positions to offer them.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-5">
-            {availablePositions.map(position => {
-              // 1. Determine dynamic sizing based on importance
-              let spanClass = "col-span-1";
-              let titleClass = "text-xs";
-              let padClass = "p-2 sm:p-3";
-
-              if (position.importance >= 30) {
-                // Top Tier (Deputy PM): Massive, spans multiple columns
-                spanClass = "col-span-2 sm:col-span-3 md:col-span-2";
-                titleClass = "text-md sm:text-base font-bold";
-
-              } else if (position.importance >= 20) {
-                // High Tier (Finance/Foreign): Large, spans 2 columns
-                spanClass = "col-span-2 sm:col-span-2";
-                titleClass = "text-sm font-semibold";
-
-              } else if (position.importance < 10) {
-                // Junior Tier: Very compact
-                spanClass = "col-span-1";
-                titleClass = "text-[10px] sm:text-xs font-medium";
-
-              } else {
-                // Mid Tier (Agriculture): Standard
-                spanClass = "col-span-1";
-                titleClass = "text-xs font-medium text-slate-100";
-
-              }
-
-              const isOffered = offeredPositions.includes(position.name);
-              const isPriority = priorityPositions.includes(position.name);
-
-              return (
-                <div
-                  key={position.name}
-                  onClick={() => {
-                    if (isOffered) {
-                      setOfferedPositions(offeredPositions.filter(p => p !== position.name));
-                    } else {
-                      setOfferedPositions([...offeredPositions, position.name]);
-                    }
-                  }}
-                  // 2. Apply the dynamic classes alongside your existing selection logic
-                  className={`${spanClass} ${padClass} flex flex-col justify-between border rounded-lg cursor-pointer transition-all ${isOffered
-                    ? 'border-green-500 bg-green-900/30 ring-1 ring-green-500/50'
-                    : isPriority
-                      ? 'border-blue-500 bg-blue-900/20'
-                      : 'border-slate-600 bg-slate-700 hover:bg-slate-600'
-                    }`}
-                >
-                  <div className={`text-white leading-tight ${titleClass}`}>
-                    {position.name}
-                  </div>
-
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex justify-between gap-3">
-            <button
-              onClick={() => { setOfferedPositions([]); handleCabinetOffer(); }}
-              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white text-sm rounded-lg"
-            >
-              Offer nothing
-            </button>
-            <button
-              onClick={handleCabinetOffer}
-              className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-lg"
-            >
-              Make offer ({offeredPositions.length} positions)
-            </button>
-          </div>
-          <button onClick={onCancel} className="block mx-auto mt-3 text-xs text-slate-500 hover:text-slate-300">
-            Cancel
-          </button>
+      <div className={mb}><div className={cb}>
+        <PartyBar />
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider bg-slate-700 px-2 py-0.5 rounded">Round {round}/3</span>
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider">Cabinet Positions</span>
         </div>
-      </div>
+        <h3 className="text-sm font-bold text-yellow-400 mb-1">Offer Positions to {partnerParty.party}</h3>
+        <p className="text-xs text-slate-400 mb-3"><span className="text-blue-400">Blue</span> = their priority positions.</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-5">
+          {availablePositions.map(position => {
+            const isOffered = offeredPositions.includes(position.name);
+            const isPriority = priorityPositions.includes(position.name);
+            const isTopTier = position.importance >= 28;
+            return (
+              <div key={position.name} onClick={() => setOfferedPositions(isOffered ? offeredPositions.filter(p => p !== position.name) : [...offeredPositions, position.name])}
+                className={`${isTopTier ? 'col-span-2' : 'col-span-1'} p-2.5 sm:p-3 flex flex-col justify-between border rounded-lg cursor-pointer transition-all ${
+                  isOffered ? 'border-green-500 bg-green-900/30 ring-1 ring-green-500/50'
+                  : isPriority ? 'border-blue-500 bg-blue-900/20'
+                  : 'border-slate-600 bg-slate-700 hover:bg-slate-600'}`}>
+                <div className={`text-white leading-tight ${isTopTier ? 'text-sm font-bold' : 'text-xs font-semibold'}`}>{position.name}</div>
+                {isTopTier && <div className="text-[10px] text-slate-400 mt-0.5">{position.description}</div>}
+              </div>
+            );
+          })}
+        </div>
+        <div className="flex justify-between gap-3">
+          <button onClick={() => { setOfferedPositions([]); makeOffer(); }} className="px-4 py-2 bg-slate-600 hover:bg-slate-500 text-white text-sm rounded-lg border border-slate-500">Offer nothing</button>
+          <button onClick={makeOffer} className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-lg">Make offer ({offeredPositions.length})</button>
+        </div>
+        <button onClick={onCancel} className="block mx-auto mt-3 text-xs text-slate-500 hover:text-slate-300">Cancel</button>
+      </div></div>
     );
   }
 
   if (currentStep === 'reviewing') {
     return (
-      <div className={modalBase}>
-        <div className={cardBase}>
-          <PartyBar />
-          <div className="flex flex-col items-center justify-center py-10">
-            <div className="w-12 h-12 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin mb-4"></div>
-            <h3 className="text-xl font-bold text-white mb-2">Reviewing Demands...</h3>
-            <p className="text-sm text-slate-400 text-center">
-              {partnerParty.party} leadership is carefully considering your offer.
-            </p>
-          </div>
+      <div className={mb}><div className={cb}>
+        <PartyBar />
+        <div className="flex flex-col items-center justify-center py-10">
+          <div className="w-12 h-12 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin mb-4"></div>
+          <h3 className="text-xl font-bold text-white mb-2">{round > 1 ? 'Evaluating Counter-Offer...' : 'Reviewing Demands...'}</h3>
+          <p className="text-sm text-slate-400 text-center">{partnerParty.party} leadership is considering your {round > 1 ? 'response' : 'offer'}.</p>
         </div>
-      </div>
+      </div></div>
+    );
+  }
+
+  if (currentStep === 'counter' && counterDemands.length > 0) {
+    return (
+      <div className={mb}><div className={cb}>
+        <PartyBar />
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-[10px] text-red-400 uppercase tracking-wider bg-red-900/40 px-2 py-0.5 rounded border border-red-500/40">Round {round}/3</span>
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider">Counter-Offer</span>
+        </div>
+        <div className="bg-orange-900/20 border border-orange-600/40 rounded-lg p-3 mb-4">
+          <p className="text-sm text-orange-200 font-semibold">{partnerParty.party} rejected your offer but is willing to negotiate.</p>
+          <p className="text-xs text-orange-400/80 mt-1">They've made the following demands:</p>
+        </div>
+        <div className="space-y-2 mb-5">
+          {counterDemands.map((demand, i) => (
+            <div key={i} className={`p-3 border rounded-lg flex items-start gap-3 ${demand.importance === 'must' ? 'border-red-500/60 bg-red-900/20' : 'border-yellow-500/40 bg-yellow-900/10'}`}>
+              <div className={`mt-0.5 w-2 h-2 rounded-full flex-shrink-0 ${demand.importance === 'must' ? 'bg-red-400' : 'bg-yellow-400'}`} />
+              <div className="flex-1">
+                <div className="text-sm font-semibold text-white">{demand.type === 'position_add' ? 'Give us ' + demand.detail : demand.detail}</div>
+                <div className="text-[10px] text-slate-400 mt-0.5 uppercase">{demand.importance === 'must' ? 'Non-negotiable' : 'Would help seal the deal'}</div>
+              </div>
+              <div className={`text-[10px] font-bold px-2 py-0.5 rounded ${demand.importance === 'must' ? 'bg-red-600/40 text-red-200' : 'bg-yellow-600/30 text-yellow-200'}`}>
+                {demand.importance === 'must' ? 'MUST' : 'WANT'}
+              </div>
+            </div>
+          ))}
+        </div>
+        {round >= 3 && (
+          <div className="bg-red-900/30 border border-red-600/40 rounded-lg p-3 mb-4 text-center">
+            <p className="text-xs text-red-300 font-semibold">This is the final round. If no agreement, {partnerParty.party} will walk away permanently.</p>
+          </div>
+        )}
+        <div className="flex gap-3">
+          <button onClick={() => handleCounterResponse(false)} className="flex-1 py-2.5 bg-red-600/80 hover:bg-red-700 border border-red-500 text-white font-bold text-sm rounded-lg">Reject Demands</button>
+          <button onClick={() => handleCounterResponse(true)} className="flex-1 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-lg">Accept All Demands</button>
+        </div>
+        <button onClick={onCancel} className="block mx-auto mt-3 text-xs text-slate-500 hover:text-slate-300">Cancel negotiation</button>
+      </div></div>
     );
   }
 
   if (currentStep === 'result' && negotiationResult) {
     return (
-      <div className={modalBase}>
-        <div className={cardBase}>
-          <PartyBar />
-          <div className={`p-4 rounded-lg border mb-5 ${negotiationResult.success ? 'bg-green-900/30 border-green-600' : 'bg-red-900/30 border-red-600'}`}>
-            <p className={`font-bold text-base ${negotiationResult.success ? 'text-green-400' : 'text-red-400'}`}>
-              {negotiationResult.success ? '✓ Coalition agreement reached' : '✗ Negotiations failed'}
-            </p>
-            <p className="text-sm text-slate-300 mt-1">{negotiationResult.message}</p>
-            <p className="text-xs text-slate-400 mt-1">Final appeal: {negotiationResult.finalAppeal.toFixed(0)}%</p>
-          </div>
-          {negotiationResult.success && offeredPositions.length > 0 && (
-            <div className="mb-5">
-              <h4 className="text-xs font-semibold text-blue-400 mb-1.5">Agreed cabinet positions:</h4>
-              <div className="flex flex-wrap gap-1.5">
-                {offeredPositions.map(pos => (
-                  <span key={pos} className="text-xs px-2 py-1 bg-blue-900/40 border border-blue-700 rounded text-blue-300">{pos}</span>
-                ))}
-              </div>
-            </div>
-          )}
-          <button
-            onClick={() => onComplete(negotiationResult.success, offeredPositions)}
-            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg"
-          >
-            Continue
-          </button>
+      <div className={mb}><div className={cb}>
+        <PartyBar />
+        <div className={`p-4 rounded-lg border mb-5 ${negotiationResult.success ? 'bg-green-900/30 border-green-600' : 'bg-red-900/30 border-red-600'}`}>
+          <p className={`font-bold text-base ${negotiationResult.success ? 'text-green-400' : 'text-red-400'}`}>{negotiationResult.success ? '✓ Coalition agreement reached' : '✗ Negotiations failed'}</p>
+          <p className="text-sm text-slate-300 mt-1">{negotiationResult.message}</p>
+          <p className="text-xs text-slate-400 mt-1">Appeal: {negotiationResult.finalAppeal?.toFixed(0) ?? '?'}%</p>
         </div>
-      </div>
+        {negotiationResult.success && offeredPositions.length > 0 && (
+          <div className="mb-5">
+            <h4 className="text-xs font-semibold text-blue-400 mb-1.5">Agreed cabinet positions:</h4>
+            <div className="flex flex-wrap gap-1.5">{offeredPositions.map(pos => (<span key={pos} className="text-xs px-2 py-1 bg-blue-900/40 border border-blue-700 rounded text-blue-300">{pos}</span>))}</div>
+          </div>
+        )}
+        <button onClick={() => onComplete(negotiationResult.success, offeredPositions)} className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg">Continue</button>
+      </div></div>
     );
   }
 
@@ -515,7 +493,7 @@ function SeatTracker({
 
   return (
     <div>
-      {/* Stacked bar */}
+      {/* Stacked bar — scaled to 0-60% for visual clarity */}
       <div className="relative h-6 w-full rounded-full overflow-hidden bg-slate-700">
         {segments.map((seg, i) => {
           const left = segments.slice(0, i).reduce((s, x) => s + x.pct, 0);
@@ -525,15 +503,15 @@ function SeatTracker({
               className="absolute h-full transition-all duration-500"
               style={{
                 backgroundColor: seg.party.colour,
-                left: `${left * 2}%`,
-                width: `${seg.pct * 2}%`,
+                left: `${(left / 60) * 100}%`,
+                width: `${(seg.pct / 60) * 100}%`,
                 opacity: 0.9,
               }}
             />
           );
         })}
         {/* 50% marker */}
-        <div className="absolute top-0 bottom-0 w-0.5 bg-white/80 z-10" style={{ left: '100%' }} />
+        <div className="absolute top-0 bottom-0 w-0.5 bg-white/80 z-10" style={{ left: `${(50 / 60) * 100}%` }} />
       </div>
 
       {/* Labels */}
@@ -1012,6 +990,33 @@ export default function CoalitionFormation() {
                 {isPlayerLead ? 'Choose Coalition Partners' : 'Remaining Parties'}
               </h2>
 
+              {isPlayerLead && coalitionState.availablePartners.length >= 1 && (() => {
+                const optimals = findOptimalCoalitions(attemptingParty, coalitionState.availablePartners, sortedResults, 3);
+                if (optimals.length === 0) return null;
+                return (
+                  <div className="mb-4 bg-slate-900/60 border border-slate-600 rounded-lg p-3">
+                    <div className="text-[10px] font-bold text-yellow-400 uppercase tracking-wider mb-2">
+                      Recommended Coalitions
+                    </div>
+                    <div className="space-y-1.5">
+                      {optimals.slice(0, 3).map((coal, ci) => (
+                        <div key={ci} className="flex items-center gap-2 text-xs">
+                          <span className="text-[10px] font-mono text-slate-500 w-4">{ci + 1}</span>
+                          <div className="flex flex-wrap gap-1 flex-1">
+                            <span className="text-yellow-300 font-semibold">{attemptingParty.party}</span>
+                            {coal.partners.map(p => (
+                              <span key={p.id} className="text-slate-300">+ {p.party}</span>
+                            ))}
+                          </div>
+                          <span className="text-[10px] font-mono text-green-400">{coal.totalPercentage.toFixed(1)}%</span>
+                          <span className="text-[10px] font-mono text-slate-500">{coal.avgWillingness.toFixed(0)} will</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+
               {coalitionState.availablePartners.length === 0 ? (
                 <p className="text-slate-500 text-sm italic">No more available partners.</p>
               ) : (
@@ -1058,6 +1063,9 @@ export default function CoalitionFormation() {
                             {partner.is_player && <span className="ml-1 text-yellow-400 text-xs">◄ You</span>}
                           </div>
                           <div className="text-xs text-slate-400">{result?.percentage.toFixed(1)}% seats</div>
+                          <div className="text-[9px] text-slate-500 mt-0.5 truncate">
+                            Wants: {getPartyPriorityPositions(partner).slice(0, 3).join(', ') || 'Junior Ministries'}
+                          </div>
                           {getIdeologyProfile(partner.vals)}
 
                         </div>
