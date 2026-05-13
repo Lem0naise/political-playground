@@ -170,42 +170,110 @@ export interface PaperAssignment {
 }
 
 const NAME_TO_STYLE: [RegExp, string][] = [
-  [/new york times/i, 'nyt'],
-  [/guardian/i, 'guardian'],
-  [/bbc/i, 'bbc'],
-  [/fox/i, 'fox'],
-  [/cnn/i, 'cnn'],
-  [/reuters/i, 'reuters'],
-  [/post/i, 'nypost'],        // Washington Post, New York Post, National Post
-  [/economist/i, 'economist'],
-  [/daily mail/i, 'dailymail'],
-  [/mail/i, 'dailymail'],
-  [/wall street/i, 'wsj'],
-  [/journal/i, 'wsj'],
-  [/spiegel/i, 'spiegel'],
-  [/le monde/i, 'lemonde'],
-  [/le figaro/i, 'lemonde'],
-  [/times/i, 'nyt'],           // LA Times, Financial Times, Times of India
-  [/telegraph/i, 'telegraph'],
-  [/usa today/i, 'cnn'],
-  [/süddeutsche/i, 'spiegel'],
-  [/frankfurter/i, 'wsj'],
-  [/zeit/i, 'economist'],
-  [/globe/i, 'guardian'],
-  [/star/i, 'cnn'],
-  [/herald/i, 'guardian'],
-  [/gazette|press|chronicle|echo|dispatch/i, 'local'],
-  [/people'?s daily/i, 'fox'],
-  [/pravda/i, 'fox'],
-  [/izvestia|kommersant/i, 'wsj'],
-  [/shimbun/i, 'nyt'],
-  [/nikkei/i, 'wsj'],
-  [/hindu/i, 'guardian'],
-  [/hindustan/i, 'cnn'],
-  [/postimees|eesti|balti/i, 'cnn'],
-  [/õhtuleht/i, 'nypost'],
-  [/Äripäev/i, 'wsj'],
-  [/err/i, 'bbc'],
+  [/^The New York Times$/i, 'nyt'],
+  [/^The Washington Post$/i, 'nypost'],
+  [/^The Wall Street Journal$/i, 'wsj'],
+  [/^USA Today$/i, 'cnn'],
+  [/^Los Angeles Times$/i, 'nyt'],
+  [/^The Guardian$/i, 'guardian'],
+  [/^The Observer$/i, 'guardian'],
+  [/^BBC News$/i, 'bbc'],
+  [/^Fox News$/i, 'fox'],
+  [/^CNN$/i, 'cnn'],
+  [/^Reuters$/i, 'reuters'],
+  [/^The Economist$/i, 'economist'],
+  [/^The Daily Mail$/i, 'dailymail'],
+  [/^The Telegraph$/i, 'telegraph'],
+  [/^Daily Telegraph$/i, 'telegraph'],
+  [/^Der Spiegel$/i, 'spiegel'],
+  [/^Le Monde$/i, 'lemonde'],
+  [/^Le Figaro$/i, 'lemonde'],
+  [/^The Times$/i, 'nyt'],
+  [/^Financial Times$/i, 'wsj'],
+  [/^The Sun$/i, 'nypost'],
+  [/^Metro$/i, 'bbc'],
+  [/^New York Post$/i, 'nypost'],
+  [/^The Sydney Morning Herald$/i, 'guardian'],
+  [/^The Age$/i, 'guardian'],
+  [/^The Australian$/i, 'guardian'],
+  [/^Herald Sun$/i, 'fox'],
+  [/^The Globe and Mail$/i, 'guardian'],
+  [/^Toronto Star$/i, 'cnn'],
+  [/^National Post$/i, 'nypost'],
+  [/^South China Morning Post$/i, 'nyt'],
+  [/^China Daily$/i, 'fox'],
+  [/^The Japan Times$/i, 'nyt'],
+  [/^The Nikkei$/i, 'wsj'],
+  [/^The Korea Times$/i, 'nyt'],
+  [/^The Korea Herald$/i, 'guardian'],
+  [/^The Jerusalem Post$/i, 'guardian'],
+  [/^The Times of India$/i, 'nyt'],
+  [/^The Hindu$/i, 'guardian'],
+  [/^Hindustan Times$/i, 'cnn'],
+  [/^The Indian Express$/i, 'guardian'],
+  [/^The Economic Times$/i, 'wsj'],
+  [/^People'?s Daily$/i, 'fox'],
+  [/^Global Times$/i, 'fox'],
+  [/^Pravda$/i, 'fox'],
+  [/^Izvestia$/i, 'wsj'],
+  [/^Kommersant$/i, 'wsj'],
+  [/^Novaya Gazeta$/i, 'spiegel'],
+  [/^Süddeutsche Zeitung$/i, 'spiegel'],
+  [/^Frankfurter Allgemeine$/i, 'wsj'],
+  [/^Die Zeit$/i, 'economist'],
+  [/^Die Welt$/i, 'guardian'],
+  [/^Bild$/i, 'dailymail'],
+  [/^Postimees$/i, 'cnn'],
+  [/^Õhtuleht$/i, 'nypost'],
+  [/^Eesti Päevaleht$/i, 'guardian'],
+  [/^Äripäev$/i, 'wsj'],
+  [/^ERR Uudised$/i, 'bbc'],
+  [/^Delfi$/i, 'reuters'],
+  [/^Maaleht$/i, 'local'],
+  [/^Lääne Elu$/i, 'local'],
+  [/^Virumaa Teataja$/i, 'local'],
+  [/^Pärnu Postimees$/i, 'cnn'],
+  [/^Corriere della Sera$/i, 'spiegel'],
+  [/^La Repubblica$/i, 'guardian'],
+  [/^La Stampa$/i, 'nyt'],
+  [/^Il Sole 24 Ore$/i, 'economist'],
+  [/^El País$/i, 'guardian'],
+  [/^El Mundo$/i, 'spiegel'],
+  [/^Le Soir$/i, 'lemonde'],
+  [/^De Standaard$/i, 'lemonde'],
+  [/^De Telegraaf$/i, 'dailymail'],
+  [/^de Volkskrant$/i, 'guardian'],
+  [/^NRC Handelsblad$/i, 'nyt'],
+  [/^Dagens Nyheter$/i, 'guardian'],
+  [/^Aftonbladet$/i, 'dailymail'],
+  [/^Helsingin Sanomat$/i, 'nyt'],
+  [/^Ilta-Sanomat$/i, 'dailymail'],
+  [/^Jyllands-Posten$/i, 'nyt'],
+  [/^Politiken$/i, 'guardian'],
+  [/^Yomiuri Shimbun$/i, 'nyt'],
+  [/^Asahi Shimbun$/i, 'guardian'],
+  [/^Mainichi Shimbun$/i, 'cnn'],
+  [/^Kathimerini$/i, 'nyt'],
+  [/^Hürriyet$/i, 'fox'],
+  [/^Haaretz$/i, 'guardian'],
+  [/^Chosun Ilbo$/i, 'nyt'],
+  [/^JoongAng Ilbo$/i, 'guardian'],
+  [/^Al-Ahram$/i, 'fox'],
+  [/^Kyiv Independent$/i, 'cnn'],
+  [/^Kyiv Post$/i, 'guardian'],
+  [/^Folha de S.Paulo$/i, 'guardian'],
+  [/^O Globo$/i, 'spiegel'],
+  [/^La Nación$/i, 'nyt'],
+  [/^Clarín$/i, 'dailymail'],
+  [/^El Universal$/i, 'fox'],
+  [/^Kyiv Independent$/i, 'cnn'],
+  [/^Gazeta Wyborcza$/i, 'guardian'],
+  [/^Rzeczpospolita$/i, 'nyt'],
+  [/^Aftenposten$/i, 'nyt'],
+  [/^Verdens Gang$/i, 'cnn'],
+  [/^Dagbladet$/i, 'dailymail'],
+  [/^El Mercurio$/i, 'nyt'],
+  [/^La Tercera$/i, 'guardian'],
 ];
 
 function hashToStyle(name: string): NewsPaperStyle {
@@ -218,7 +286,7 @@ function hashToStyle(name: string): NewsPaperStyle {
 }
 
 export function matchPaperStyle(name: string): NewsPaperStyle {
-  const lower = name.toLowerCase();
+  const lower = name.trim().toLowerCase();
   for (const [regex, key] of NAME_TO_STYLE) {
     if (regex.test(lower)) {
       return BASE_STYLES.find(s => s.key === key) || BASE_STYLES[0];
@@ -228,19 +296,29 @@ export function matchPaperStyle(name: string): NewsPaperStyle {
 }
 
 export function getRandomPaperAssignment(eventVariables: any, country: string): PaperAssignment {
-  let newspapers: string[] = [];
+  let countryPapers: string[] = [];
 
   if (eventVariables?.countrySpecific?.[country]?.newspaper?.length > 0) {
-    newspapers = eventVariables.countrySpecific[country].newspaper;
-  } else if (eventVariables?.generic?.newspaper?.length > 0) {
-    newspapers = eventVariables.generic.newspaper;
+    countryPapers = [...eventVariables.countrySpecific[country].newspaper];
   }
 
-  if (newspapers.length === 0) {
-    newspapers = ['The Daily News', 'The Times', 'The Gazette', 'The Herald', 'The Post'];
+  const genericFallback = eventVariables?.generic?.newspaper?.length > 0
+    ? eventVariables.generic.newspaper
+    : ['The Daily News', 'The Times', 'The Gazette', 'The Herald', 'The Post'];
+
+  // Pad with generic papers to ensure at least 13 names (one per visual style)
+  while (countryPapers.length < 13) {
+    for (const gp of genericFallback) {
+      if (!countryPapers.includes(gp)) {
+        countryPapers.push(gp);
+        if (countryPapers.length >= 13) break;
+      }
+    }
+    // If still < 13 (all generics are already in), break to avoid infinite loop
+    if (countryPapers.length < 13) break;
   }
 
-  const name = newspapers[Math.floor(Math.random() * newspapers.length)];
+  const name = countryPapers[Math.floor(Math.random() * countryPapers.length)];
   const style = matchPaperStyle(name);
   return { name, style };
 }
