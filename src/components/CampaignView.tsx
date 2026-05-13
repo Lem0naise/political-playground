@@ -337,6 +337,8 @@ export default function CampaignView() {
                 onChoice={(choice) => handleEventChoice(currentEvent, choice)}
                 onClose={() => setCurrentEvent(null)}
                 newsSource={newsSource}
+                eventVariables={eventVariables}
+                country={state.country}
               />
             )}
           </div>
