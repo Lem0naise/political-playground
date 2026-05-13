@@ -35,7 +35,12 @@ export const SURGE_MESSAGES = [
   "A total breakthrough for {newsTitle} in the latest data",
   "Campaign insiders for {newsTitle} are 'ecstatic' as numbers climb",
   "From {city} to {region}, the {newsTitle} surge is undeniable",
-  "Can anyone stop {newsTitle}? Latest polls suggest 'No'"
+  "Can anyone stop {newsTitle}? Latest polls suggest 'No'",
+  "Analysis: {newsTitle} surge — how long can it last?",
+  "Opinion — The case for {newsTitle} is getting stronger",
+  "BREAKING POLL: {newsTitle} now ahead in {city}",
+  "From fringe to frontrunner: the {newsTitle} story",
+  "POLLS: {newsTitle} extends lead in {region}",
 ];
 
 export const LOSE_MESSAGES = [
@@ -72,7 +77,12 @@ export const LOSE_MESSAGES = [
   "{newsTitle} faces 'existential threat' after brutal polling week",
   "Silence from {newsTitle} camp as numbers continue to slide",
   "Voters in {city} express 'betrayal' over {newsTitle}'s latest move",
-  "A week to forget for {newsTitle} as support vanishes"
+  "A week to forget for {newsTitle} as support vanishes",
+  "Analysis: Where did it all go wrong for {newsTitle}?",
+  "Opinion — {newsTitle} is in serious trouble",
+  "RECORD LOW: {newsTitle} hits rock bottom in {city} polling",
+  "CRISIS MEETING: {newsTitle} leaders scramble after poll disaster",
+  "The wheels are coming off for {newsTitle} in {region}",
 ];
 
 export const STEADY_MESSAGES = [
@@ -109,7 +119,11 @@ export const STEADY_MESSAGES = [
   "A quiet but effective week for the {newsTitle} camp",
   "Voters starting to take a second look at {newsTitle}",
   "Incremental gains for {newsTitle} suggest a slow-burn success",
-  "{newsTitle} is winning the battle of ideas in {region}"
+  "{newsTitle} is winning the battle of ideas in {region}",
+  "Analysis: Steady growth, steady gains for {newsTitle}",
+  "Holding course: {newsTitle} remains competitive in {region}",
+  "Quiet confidence in {newsTitle} camp as numbers tick up",
+  "Slow burn: {newsTitle}'s steady approach paying off in {city}",
 ];
 
 export const MIXED_MESSAGES = [
@@ -146,14 +160,21 @@ export const MIXED_MESSAGES = [
   "The 'honeymoon period' is over for {newsTitle}",
   "A difficult week of soul-searching for {newsTitle}",
   "Questions mount as {newsTitle} fails to ignite voter interest",
-  "Polling suggests {newsTitle} is stalling at a critical moment"
+  "Polling suggests {newsTitle} is stalling at a critical moment",
+  "Analysis: The {newsTitle} campaign is losing its edge",
+  "Mixed signals — {newsTitle} up in {city}, down in {region}",
+  "Nothing decided: {newsTitle} stuck in the middle of a volatile race",
+  "Can {newsTitle} turn things around? Latest figures raise doubts",
 ];
 
 export const OVERTAKE_TEMPLATES = [
   "{partyA} surges above {partyB} in latest polls",
   "{partyA} overtakes {partyB} in shock polling shift",
   "New polls show {partyA} passing {partyB} in {region}",
-  "{partyB} loses ground, slips behind {partyA}"
+  "{partyB} loses ground, slips behind {partyA}",
+  "Analysis: What {partyA}'s overtake of {partyB} means for the race",
+  "BREAKING: {partyA} leapfrogs {partyB} in dramatic polling shift",
+  "Rankings reshuffled — {partyA} now ahead of {partyB}",
 ];
 
 export const ONGOING_SCANDAL_TEMPLATES = [
@@ -161,7 +182,10 @@ export const ONGOING_SCANDAL_TEMPLATES = [
   "{party} still struggling to control narrative around {topic}",
   "Voters haven't forgotten the {topic} controversy surrounding {leader_name}",
   "{topic} continues to plague {party}'s polling numbers",
-  "Analysts point to {topic} as cause for {candidate_name}'s ongoing slump"
+  "Analysts point to {topic} as cause for {candidate_name}'s ongoing slump",
+  "The {topic} scandal isn't going away — {party} still feeling the heat",
+  "Fallout continues: {topic} keeps dragging {party} down",
+  "Memo to {party}: voters have not forgotten {topic}",
 ];
 
 export const ONGOING_BOOST_TEMPLATES = [
@@ -169,7 +193,10 @@ export const ONGOING_BOOST_TEMPLATES = [
   "{party}'s momentum holds strong following {topic}",
   "{leader_name}'s {topic} success continues to resonate with voters",
   "Approval ratings for {party} still benefiting from {topic} in {city}",
-  "{candidate_name} capitalizes on ongoing enthusiasm for {topic}"
+  "{candidate_name} capitalizes on ongoing enthusiasm for {topic}",
+  "{topic} keeps paying dividends for {party}",
+  "Still riding high: {party} benefiting from {topic} momentum",
+  "The {topic} bounce continues for {party}",
 ];
 export const GAFFE_TEMPLATES = [
   // Original Templates
@@ -980,7 +1007,11 @@ export const GOVERNMENT_SURGE_TEMPLATES = [
   "Governing {newsTitle} opens commanding lead after popular budget announcement",
   "{newsTitle} Cabinet praised for crisis management as support swells in {city}",
   "Polls reward {newsTitle} as unemployment falls to record lows in {region}",
-  "The {newsTitle} mandate strengthens — voters back another term"
+  "The {newsTitle} mandate strengthens — voters back another term",
+  "Analysis: How {newsTitle} turned the ship around in {region}",
+  "Opinion — {newsTitle} is governing well. The polls show it.",
+  "GOVERNING: {newsTitle} minister's popular reforms boost party ratings",
+  "Incumbency advantage in full effect for {newsTitle} in {city}",
 ];
 
 export const GOVERNMENT_LOSE_TEMPLATES = [
@@ -995,7 +1026,11 @@ export const GOVERNMENT_LOSE_TEMPLATES = [
   "Mid-term blues hit {newsTitle} as voters grow weary of incumbents",
   "Opposition gains ground as {newsTitle} government loses narrative control",
   "Governing {newsTitle} exposed amid revelations of internal policy chaos",
-  "Public patience with {newsTitle} government growing thin in {region}"
+  "Public patience with {newsTitle} government growing thin in {region}",
+  "CRISIS: {newsTitle} cabinet in turmoil as polls slide in {city}",
+  "Analysis: What's gone wrong for {newsTitle} in government?",
+  "WARNING SIGNS: {newsTitle} incumbents losing key {region} support",
+  "The cost of power — {newsTitle}'s approval rating takes a hit",
 ];
 
 // ─── Opposition-party polling headlines ───────────────────────────────────────
@@ -1012,7 +1047,11 @@ export const OPPOSITION_SURGE_TEMPLATES = [
   "{newsTitle} unveils bold alternative manifesto — voters in {city} respond",
   "Opposition {newsTitle} benefits as scandals rock the government benches",
   "{city} voters abandoning the incumbents — and {newsTitle} is the main beneficiary",
-  "A formidable opposition: {newsTitle} seen as credible governing alternative in {region}"
+  "A formidable opposition: {newsTitle} seen as credible governing alternative in {region}",
+  "Analysis: Why voters are turning to {newsTitle}",
+  "Opinion — {newsTitle} is the real threat to the government now",
+  "Momentum builds: {newsTitle} opposition mounting serious challenge in {city}",
+  "BREAKING: {newsTitle} overtakes government in latest {region} polling",
 ];
 
 export const OPPOSITION_LOSE_TEMPLATES = [
@@ -1027,7 +1066,11 @@ export const OPPOSITION_LOSE_TEMPLATES = [
   "{newsTitle} loses momentum as the government's message resonates in {region}",
   "Opposition {newsTitle} blamed for own misfortunes after divisive {city} conference",
   "Backbench revolt weakens {newsTitle}'s position in opposition",
-  "Ruling coalition's confidence grows as {newsTitle} flounders in opposition"
+  "Ruling coalition's confidence grows as {newsTitle} flounders in opposition",
+  "Analysis: Why {newsTitle} isn't connecting with voters in {region}",
+  "EXPOSED: {newsTitle} opposition strategy backfires in {city}",
+  "Stuck in the wilderness: {newsTitle} can't get a break in {region}",
+  "Opinion — {newsTitle} needs a new approach, fast",
 ];
 
 // ─── Party split, merger, and coalition templates ────────────────────────────────
@@ -1039,6 +1082,9 @@ export const PARTY_SPLIT_TEMPLATES = [
   "CRISIS: {oldParty} collapses into rival factions {splinter1} and {splinter2}.",
   "DIVORCE: {oldParty}'s ideological wings go separate ways — {splinter1} and {splinter2} emerge.",
   "SCHISM: {leader2} breaks from {oldParty} to lead new {splinter2}, while {leader1} retains {splinter1}.",
+  "Analysis: The {oldParty} split — winners and losers",
+  "Opinion — {oldParty} was always two parties in one",
+  "REVOLT: {leader2} leads mass defection from {oldParty} to form {splinter2}",
 ];
 
 export const PARTY_BREAKAWAY_TEMPLATES = [
@@ -1047,6 +1093,8 @@ export const PARTY_BREAKAWAY_TEMPLATES = [
   "REBELLION: {leader} breaks ranks with {oldParty} to establish {breakaway}.",
   "SPLIT: Disgruntled {oldParty} members rally behind {leader} as new {breakaway} party takes shape.",
   "EXODUS: {leader} walks out of {oldParty} to found rival {breakaway} movement.",
+  "BREAKING NEWS: {leader} quits {oldParty}, launches {breakaway} faction",
+  "Analysis: What {breakaway} means for the political landscape",
 ];
 
 export const PARTY_MERGER_TEMPLATES = [
@@ -1056,6 +1104,8 @@ export const PARTY_MERGER_TEMPLATES = [
   "ALLIANCE: {merged} is born from the union of {party1} and {party2} under {leader}.",
   "COMBINATION: {party1} absorbs {party2} to create {merged}, with {leader} at the helm.",
   "FUSION: {merged} emerges as {party1} and {party2} set aside differences to merge.",
+  "Analysis: The {party1}-{party2} merger — a strategic masterstroke?",
+  "Opinion — {merged} could reshape the race entirely",
 ];
 
 export const COALITION_FORMED_TEMPLATES = [
@@ -1064,6 +1114,8 @@ export const COALITION_FORMED_TEMPLATES = [
   "COALITION: {leadParty} secures majority by bringing {partnerParty} into government.",
   "DEAL STRUCK: {leadParty} and {partnerParty} agree to form administration after intense talks.",
   "GOVERNMENT: {leadParty} announces coalition agreement with {partnerParty}.",
+  "DEAL DONE: {leadParty} and {partnerParty} agree to share power",
+  "Analysis: What the {leadParty}-{partnerParty} coalition means for policy",
 ];
 
 export const COALITION_COLLAPSE_TEMPLATES = [
@@ -1072,4 +1124,6 @@ export const COALITION_COLLAPSE_TEMPLATES = [
   "WALKAWAY: {partnerParty} pulls out of coalition negotiations with {leadParty}.",
   "DEADLOCK: {leadParty} and {partnerParty} unable to bridge gap on key policy demands.",
   "FAILURE: Coalition bid by {leadParty} rejected by {partnerParty} after final offer refused.",
+  "TALKS BREAK DOWN: {leadParty} and {partnerParty} cannot reach a deal",
+  "Analysis: Why coalition talks between {leadParty} and {partnerParty} failed",
 ];

@@ -120,6 +120,14 @@
                     "soc_cap": -5
                 },
                 "boost": 8
+            },
+            {
+                "text": "Climate alarm is overblown \u2014 double down on fossil fuels",
+                "effect": {
+                    "env_eco": 20,
+                    "prog_cons": 8
+                },
+                "boost": 22
             }
         ],
         "categories": [
@@ -166,6 +174,15 @@
                     "soc_cap": -3
                 },
                 "boost": 16
+            },
+            {
+                "text": "Close all borders \u2014 zero tolerance, no exceptions",
+                "effect": {
+                    "nat_glob": -25,
+                    "pac_mil": 12,
+                    "prog_cons": 15
+                },
+                "boost": 38
             }
         ],
         "categories": [
@@ -251,6 +268,15 @@
                     "auth_ana": 0
                 },
                 "boost": 2
+            },
+            {
+                "text": "Outlaw LGBTQ advocacy \u2014 enforce traditional values by law",
+                "effect": {
+                    "rel_sec": -20,
+                    "prog_cons": 18,
+                    "auth_ana": -10
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -294,6 +320,15 @@
                     "prog_cons": 3
                 },
                 "boost": 14
+            },
+            {
+                "text": "Deport foreign workers \u2014 jobs for our people first",
+                "effect": {
+                    "nat_glob": -15,
+                    "soc_cap": 10,
+                    "prog_cons": 12
+                },
+                "boost": 24
             }
         ],
         "categories": [
@@ -380,6 +415,15 @@
                     "prog_cons": -3
                 },
                 "boost": 20
+            },
+            {
+                "text": "Declare economic war \u2014 cut ALL trade with them immediately",
+                "effect": {
+                    "nat_glob": -20,
+                    "soc_cap": -10,
+                    "pac_mil": 8
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -425,6 +469,15 @@
                     "auth_ana": -8
                 },
                 "boost": 18
+            },
+            {
+                "text": "Deploy the military \u2014 shoot looters on sight",
+                "effect": {
+                    "prog_cons": 22,
+                    "auth_ana": -18,
+                    "pac_mil": 15
+                },
+                "boost": 35
             }
         ],
         "categories": [
@@ -468,6 +521,15 @@
                     "prog_cons": 5
                 },
                 "boost": 16
+            },
+            {
+                "text": "Declare war on {foreign_country} \u2014 total military retaliation",
+                "effect": {
+                    "pac_mil": 25,
+                    "nat_glob": -15,
+                    "prog_cons": 10
+                },
+                "boost": 32
             }
         ],
         "categories": [
@@ -511,6 +573,15 @@
                     "prog_cons": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Drill everywhere \u2014 climate goals be damned",
+                "effect": {
+                    "env_eco": 22,
+                    "nat_glob": -8,
+                    "prog_cons": 10
+                },
+                "boost": 26
             }
         ],
         "categories": [
@@ -554,6 +625,15 @@
                     "auth_ana": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Total gun ban \u2014 confiscate every firearm",
+                "effect": {
+                    "prog_cons": -25,
+                    "auth_ana": -12,
+                    "pac_mil": -8
+                },
+                "boost": 38
             }
         ],
         "categories": [
@@ -597,6 +677,15 @@
                     "prog_cons": -3
                 },
                 "boost": 14
+            },
+            {
+                "text": "No restrictions \u2014 let natural immunity take its course",
+                "effect": {
+                    "prog_cons": 12,
+                    "auth_ana": 15,
+                    "soc_cap": 10
+                },
+                "boost": 24
             }
         ],
         "categories": [
@@ -640,6 +729,15 @@
                     "auth_ana": 5
                 },
                 "boost": 10
+            },
+            {
+                "text": "Packing the court \u2014 add six new progressive justices",
+                "effect": {
+                    "prog_cons": -22,
+                    "auth_ana": -8,
+                    "rel_sec": 5
+                },
+                "boost": 32
             }
         ],
         "categories": [
@@ -683,6 +781,14 @@
                     "prog_cons": 3
                 },
                 "boost": 14
+            },
+            {
+                "text": "Cut all pension benefits \u2014 the young shouldn't pay for the old",
+                "effect": {
+                    "soc_cap": 20,
+                    "prog_cons": 18
+                },
+                "boost": 26
             }
         ],
         "categories": [
@@ -726,6 +832,15 @@
                     "prog_cons": 5
                 },
                 "boost": 18
+            },
+            {
+                "text": "Privatize everything \u2014 government can't be trusted to run anything",
+                "effect": {
+                    "soc_cap": 20,
+                    "prog_cons": 12,
+                    "auth_ana": 5
+                },
+                "boost": 22
             }
         ],
         "categories": [
@@ -769,6 +884,15 @@
                     "soc_cap": 3
                 },
                 "boost": 16
+            },
+            {
+                "text": "Mandatory voter ID with biometric verification \u2014 no exceptions",
+                "effect": {
+                    "auth_ana": -15,
+                    "prog_cons": 15,
+                    "nat_glob": -5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -812,6 +936,15 @@
                     "auth_ana": 5
                 },
                 "boost": 22
+            },
+            {
+                "text": "Mandatory minimum life sentences for dealers",
+                "effect": {
+                    "prog_cons": 18,
+                    "auth_ana": -15,
+                    "pac_mil": 5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -855,6 +988,15 @@
                     "prog_cons": 0
                 },
                 "boost": 14
+            },
+            {
+                "text": "Nationalize all social media platforms \u2014 state controlled",
+                "effect": {
+                    "soc_cap": -15,
+                    "auth_ana": -12,
+                    "prog_cons": -5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -898,6 +1040,15 @@
                     "prog_cons": 3
                 },
                 "boost": 16
+            },
+            {
+                "text": "Fire them all \u2014 replace teachers with AI and remote learning",
+                "effect": {
+                    "soc_cap": 18,
+                    "prog_cons": 15,
+                    "auth_ana": 5
+                },
+                "boost": 30
             }
         ],
         "categories": [
@@ -940,6 +1091,15 @@
                     "prog_cons": -5
                 },
                 "boost": 20
+            },
+            {
+                "text": "Seize vacant properties from corporate landlords",
+                "effect": {
+                    "soc_cap": -20,
+                    "prog_cons": -15,
+                    "auth_ana": -8
+                },
+                "boost": 30
             }
         ],
         "categories": [
@@ -983,6 +1143,15 @@
                     "prog_cons": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Nationalize {company} \u2014 profits belong to the people",
+                "effect": {
+                    "soc_cap": -20,
+                    "prog_cons": -15,
+                    "auth_ana": -8
+                },
+                "boost": 34
             }
         ],
         "categories": [
@@ -1025,6 +1194,15 @@
                     "prog_cons": 0
                 },
                 "boost": 14
+            },
+            {
+                "text": "Let them close \u2014 the market decides who gets healthcare",
+                "effect": {
+                    "soc_cap": 15,
+                    "prog_cons": 10,
+                    "auth_ana": 5
+                },
+                "boost": 22
             }
         ],
         "categories": [
@@ -1067,6 +1245,14 @@
                     "prog_cons": 0
                 },
                 "boost": 14
+            },
+            {
+                "text": "No bailouts \u2014 you signed the loan, you pay it back",
+                "effect": {
+                    "soc_cap": 12,
+                    "prog_cons": 15
+                },
+                "boost": 20
             }
         ],
         "categories": [
@@ -1109,6 +1295,15 @@
                     "prog_cons": 3
                 },
                 "boost": 20
+            },
+            {
+                "text": "Abolish minimum wage entirely \u2014 free market for labor",
+                "effect": {
+                    "soc_cap": 20,
+                    "prog_cons": 15,
+                    "auth_ana": 5
+                },
+                "boost": 24
             }
         ],
         "categories": [
@@ -1151,6 +1346,14 @@
                     "prog_cons": 0
                 },
                 "boost": 18
+            },
+            {
+                "text": "Abolish the electoral college \u2014 direct democracy now",
+                "effect": {
+                    "prog_cons": -15,
+                    "auth_ana": 10
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -1193,6 +1396,15 @@
                     "prog_cons": 3
                 },
                 "boost": 14
+            },
+            {
+                "text": "Faith and family \u2014 not government \u2014 is the answer",
+                "effect": {
+                    "rel_sec": -12,
+                    "prog_cons": 10,
+                    "soc_cap": 8
+                },
+                "boost": 18
             }
         ],
         "categories": [
@@ -1236,6 +1448,14 @@
                     "prog_cons": 3
                 },
                 "boost": 12
+            },
+            {
+                "text": "Let the party in power draw the maps \u2014 that's how it's always worked",
+                "effect": {
+                    "prog_cons": 12,
+                    "auth_ana": -8
+                },
+                "boost": 22
             }
         ],
         "categories": [
@@ -1321,6 +1541,15 @@
                     "prog_cons": 3
                 },
                 "boost": 16
+            },
+            {
+                "text": "Ban all political deepfakes \u2014 jail time for creators",
+                "effect": {
+                    "prog_cons": 8,
+                    "auth_ana": -18,
+                    "soc_cap": -5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -1364,6 +1593,15 @@
                     "auth_ana": 3
                 },
                 "boost": 14
+            },
+            {
+                "text": "Total abortion ban \u2014 no exceptions for any reason",
+                "effect": {
+                    "prog_cons": 22,
+                    "rel_sec": -15,
+                    "auth_ana": -8
+                },
+                "boost": 35
             }
         ],
         "categories": [
@@ -1407,6 +1645,15 @@
                     "prog_cons": -3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Close all borders \u2014 zero net migration immediately",
+                "effect": {
+                    "nat_glob": -22,
+                    "prog_cons": 18,
+                    "pac_mil": 8
+                },
+                "boost": 32
             }
         ],
         "categories": [
@@ -1449,6 +1696,14 @@
                     "auth_ana": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Universal background checks for all gun purchases",
+                "effect": {
+                    "prog_cons": -12,
+                    "auth_ana": -5
+                },
+                "boost": 24
             }
         ],
         "categories": [
@@ -1492,6 +1747,15 @@
                     "auth_ana": -3
                 },
                 "boost": 16
+            },
+            {
+                "text": "Defund and disband the police entirely \u2014 community self-policing",
+                "effect": {
+                    "prog_cons": -25,
+                    "auth_ana": 18,
+                    "pac_mil": -15
+                },
+                "boost": 40
             }
         ],
         "categories": [
@@ -1535,6 +1799,15 @@
                     "prog_cons": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Launch a preemptive nuclear strike \u2014 destroy their program",
+                "effect": {
+                    "pac_mil": 30,
+                    "nat_glob": -20,
+                    "auth_ana": -10
+                },
+                "boost": 42
             }
         ],
         "categories": [
@@ -1578,6 +1851,14 @@
                     "auth_ana": -3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Ban transgender athletes from all competitive sports entirely",
+                "effect": {
+                    "prog_cons": 20,
+                    "rel_sec": -10
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -1664,6 +1945,15 @@
                     "rel_sec": -3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Ban critical race theory from all public schools",
+                "effect": {
+                    "prog_cons": 20,
+                    "rel_sec": -5,
+                    "nat_glob": -8
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -1707,6 +1997,15 @@
                     "prog_cons": 5
                 },
                 "boost": 20
+            },
+            {
+                "text": "Send in the troops \u2014 regime change is the only option",
+                "effect": {
+                    "pac_mil": 22,
+                    "nat_glob": -15,
+                    "prog_cons": 8
+                },
+                "boost": 30
             }
         ],
         "categories": [
@@ -1750,6 +2049,15 @@
                     "prog_cons": -5
                 },
                 "boost": 16
+            },
+            {
+                "text": "Abolish all welfare \u2014 personal responsibility only",
+                "effect": {
+                    "soc_cap": 22,
+                    "prog_cons": 18,
+                    "auth_ana": 5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -1792,6 +2100,15 @@
                     "prog_cons": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Terminate all workers who refuse \u2014 no exceptions",
+                "effect": {
+                    "prog_cons": 18,
+                    "auth_ana": -15,
+                    "soc_cap": -5
+                },
+                "boost": 30
             }
         ],
         "categories": [
@@ -1834,6 +2151,15 @@
                     "auth_ana": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Massive cash reparations \u2014 $500,000 to every descendant",
+                "effect": {
+                    "soc_cap": -25,
+                    "prog_cons": -20,
+                    "auth_ana": -8
+                },
+                "boost": 40
             }
         ],
         "categories": [
@@ -1877,6 +2203,15 @@
                     "prog_cons": 0
                 },
                 "boost": 16
+            },
+            {
+                "text": "Build the wall \u2014 national sovereignty above all",
+                "effect": {
+                    "nat_glob": -18,
+                    "prog_cons": 12,
+                    "pac_mil": 5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -1919,6 +2254,15 @@
                     "prog_cons": 0
                 },
                 "boost": 14
+            },
+            {
+                "text": "Ban all cryptocurrency \u2014 jail for miners and traders",
+                "effect": {
+                    "soc_cap": -12,
+                    "auth_ana": -8,
+                    "prog_cons": 5
+                },
+                "boost": 26
             }
         ],
         "categories": [
@@ -1962,6 +2306,15 @@
                     "prog_cons": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Religious liberty trumps all \u2014 no one should be forced to serve anyone",
+                "effect": {
+                    "rel_sec": -18,
+                    "prog_cons": 15,
+                    "auth_ana": 5
+                },
+                "boost": 26
             }
         ],
         "categories": [
@@ -2005,6 +2358,15 @@
                     "soc_cap": 3
                 },
                 "boost": 20
+            },
+            {
+                "text": "Legalize all drugs \u2014 regulate and tax like alcohol",
+                "effect": {
+                    "prog_cons": -18,
+                    "auth_ana": 15,
+                    "soc_cap": -5
+                },
+                "boost": 32
             }
         ],
         "categories": [
@@ -2048,6 +2410,15 @@
                     "soc_cap": 3
                 },
                 "boost": 16
+            },
+            {
+                "text": "Mandatory national service for every citizen \u2014 no exceptions",
+                "effect": {
+                    "pac_mil": 18,
+                    "auth_ana": -12,
+                    "prog_cons": 8
+                },
+                "boost": 24
             }
         ],
         "categories": [
@@ -2091,6 +2462,15 @@
                     "prog_cons": 0
                 },
                 "boost": 18
+            },
+            {
+                "text": "Ban AI from replacing human workers \u2014 heavy fines for automation",
+                "effect": {
+                    "soc_cap": -15,
+                    "prog_cons": -8,
+                    "auth_ana": -5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -2133,6 +2513,15 @@
                     "soc_cap": 3
                 },
                 "boost": 16
+            },
+            {
+                "text": "Hack back \u2014 destroy {foreign_country}'s infrastructure in retaliation",
+                "effect": {
+                    "pac_mil": 18,
+                    "nat_glob": -12,
+                    "auth_ana": -5
+                },
+                "boost": 30
             }
         ],
         "categories": [
@@ -2176,6 +2565,15 @@
                     "prog_cons": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Criminalize homelessness \u2014 clear the streets",
+                "effect": {
+                    "prog_cons": 15,
+                    "auth_ana": -12,
+                    "soc_cap": 8
+                },
+                "boost": 22
             }
         ],
         "categories": [
@@ -2219,6 +2617,15 @@
                     "prog_cons": 3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Make hate speech a crime \u2014 jail for offensive content",
+                "effect": {
+                    "prog_cons": -15,
+                    "auth_ana": -12,
+                    "rel_sec": 5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -2261,6 +2668,15 @@
                     "prog_cons": -3
                 },
                 "boost": 18
+            },
+            {
+                "text": "Nuclear is the only way \u2014 build plants everywhere, no safety delays",
+                "effect": {
+                    "env_eco": 12,
+                    "prog_cons": 8,
+                    "auth_ana": -5
+                },
+                "boost": 24
             }
         ],
         "categories": [
@@ -2303,6 +2719,15 @@
                     "prog_cons": 3
                 },
                 "boost": 16
+            },
+            {
+                "text": "Arrest the ringleaders \u2014 charge them with treason",
+                "effect": {
+                    "prog_cons": 15,
+                    "auth_ana": -18,
+                    "pac_mil": 10
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -4829,6 +5254,15 @@
                     "prog_cons": -3
                 },
                 "boost": 22
+            },
+            {
+                "text": "Ban AI from replacing human workers \u2014 heavy fines for automation",
+                "effect": {
+                    "soc_cap": -15,
+                    "prog_cons": -8,
+                    "auth_ana": -5
+                },
+                "boost": 28
             }
         ],
         "categories": [
@@ -11308,6 +11742,15 @@
                     "soc_cap": 10
                 },
                 "boost": 18
+            },
+            {
+                "text": "Ban all cryptocurrency \u2014 jail for miners and traders",
+                "effect": {
+                    "soc_cap": -12,
+                    "auth_ana": -8,
+                    "prog_cons": 5
+                },
+                "boost": 26
             }
         ],
         "categories": [
