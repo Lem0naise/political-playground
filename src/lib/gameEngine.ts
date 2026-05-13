@@ -2189,7 +2189,7 @@ export function checkForPartySplit(
         poll_percentage: (candidate.poll_percentage || 0) * splitShare,
         swing: candidate.swing || 0,
         base_utility_modifier: ((candidate.base_utility_modifier || 0) * splitShare * 0.5),
-        nascent_penalty: 8000
+        nascent_penalty: 1500
       };
       const splinter2: Candidate = {
         id: newId1 + 1, name: leader2, party: splinter2Name,
@@ -2197,7 +2197,7 @@ export function checkForPartySplit(
         poll_percentage: (candidate.poll_percentage || 0) * (1 - splitShare),
         swing: candidate.swing || 0,
         base_utility_modifier: ((candidate.base_utility_modifier || 0) * (1 - splitShare) * 0.5),
-        nascent_penalty: 8000
+        nascent_penalty: 1500
       };
 
       updatedCandidates.splice(i, 1);
