@@ -1,0 +1,19 @@
+{
+  "name": "polplay-analytics-worker",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Privacy-preserving player analytics + admin dashboard for The Political Playground",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "wrangler d1 migrations apply polplay-analytics --remote",
+    "db:migrate:local": "wrangler d1 migrations apply polplay-analytics --local"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261103.1",
+    "typescript": "^5.6.3",
+    "wrangler": "^4.16.0"
+  }
+}

@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Political Playground — Analytics</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b1220;
+        --panel: #111c30;
+        --panel-2: #16233a;
+        --line: #263750;
+        --text: #e6edf7;
+        --muted: #93a4bd;
+        --accent: #facc15;
+        --good: #34d399;
+        --blue: #60a5fa;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: linear-gradient(160deg, #0b1220, #101b2e 55%, #182238);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        min-height: 100vh;
+      }
+      main { max-width: 1180px; margin: 0 auto; padding: 32px 20px 64px; }
+      h1 { font-size: 1.6rem; margin: 0 0 4px; letter-spacing: -0.02em; }
+      h2 { font-size: 0.95rem; margin: 0 0 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+      .sub { color: var(--muted); margin: 0 0 24px; font-size: 0.92rem; }
+      .bar {
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+        gap: 12px; margin-bottom: 22px;
+      }
+      .controls { display: flex; gap: 10px; align-items: center; }
+      select, button {
+        background: var(--panel); color: var(--text); border: 1px solid var(--line);
+        border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 0.9rem;
+      }
+      button { cursor: pointer; background: var(--accent); color: #1a1a1a; border-color: var(--accent); font-weight: 650; }
+      button:disabled { opacity: 0.65; cursor: wait; }
+      button.secondary { background: var(--panel); color: var(--text); border-color: var(--line); font-weight: 500; }
+      .status { font-size: 0.85rem; color: var(--muted); min-height: 1.2em; }
+      .status.error { color: #fca5a5; }
+      .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 30px; }
+      .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+      .card .label { color: var(--muted); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.08em; }
+      .card .value { font-size: 1.75rem; font-weight: 700; margin-top: 6px; font-variant-numeric: tabular-nums; }
+      .card .hint { color: var(--muted); font-size: 0.78rem; margin-top: 4px; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; margin-bottom: 18px; }
+      section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+      .row { display: grid; grid-template-columns: 92px 1fr 52px; gap: 10px; align-items: center; padding: 3px 0; font-size: 0.82rem; }
+      .row .day { color: var(--muted); font-variant-numeric: tabular-nums; }
+      .row .num { text-align: right; font-variant-numeric: tabular-nums; }
+      .track { height: 8px; background: var(--panel-2); border-radius: 999px; overflow: hidden; }
+      .fill { height: 100%; background: var(--accent); border-radius: 999px; min-width: 2px; }
+      .fill.blue { background: var(--blue); }
+      table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+      th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--line); }
+      th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+      td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+      tr:last-child td { border-bottom: 0; }
+      .empty { color: var(--muted); font-size: 0.88rem; padding: 12px 0; }
+      footer { margin-top: 30px; color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
+      @media (max-width: 520px) {
+        main { padding: 22px 14px 48px; }
+        .row { grid-template-columns: 78px 1fr 42px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="bar">
+        <div>
+          <h1>Political Playground — Analytics</h1>
+          <p class="sub">Aggregated, anonymous player activity. No IP addresses, user agents, or leader names.</p>
+        </div>
+        <div class="controls">
+          <select id="days" aria-label="Date range">
+            <option value="7">Last 7 days</option>
+            <option value="30" selected>Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="365">Last 365 days</option>
+          </select>
+          <button id="refresh" type="button">Refresh</button>
+        </div>
+      </div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+
+      <div id="cards" class="cards"></div>
+
+      <div class="grid">
+        <section>
+          <h2>New players by day</h2>
+          <div id="new-players"></div>
+        </section>
+        <section>
+          <h2>Daily activity</h2>
+          <div id="daily"></div>
+        </section>
+      </div>
+
+      <div class="grid">
+        <section>
+          <h2>Top countries</h2>
+          <div id="countries"></div>
+        </section>
+        <section>
+          <h2>Top parties</h2>
+          <div id="parties"></div>
+        </section>
+      </div>
+
+      <div class="grid">
+        <section>
+          <h2>Country × party</h2>
+          <div id="combos"></div>
+        </section>
+        <section>
+          <h2>Game versions</h2>
+          <div id="versions"></div>
+        </section>
+      </div>
+
+      <footer>
+        <div id="generated"></div>
+        <div>Retention: events older than 365 days are deleted by the daily cron.</div>
+        <div>Access is protected by Cloudflare Access. The browser never stores a game leader name in an analytics event.</div>
+      </footer>
+    </main>
+
+    <script>
+      (() => {
+        // The query token is a local-development convenience only. Production
+        // access uses the Cloudflare Access cookie, so never put a token in a
+        // production URL.
+        const localHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+        const token = localHost ? new URLSearchParams(window.location.search).get('token') : null;
+        const authHeaders = token ? { Authorization: 'Bearer ' + token } : {};
+        const state = { days: 30, busy: false };
+
+        const el = (id) => document.getElementById(id);
+        const fmt = (value) => new Intl.NumberFormat().format(Number(value) || 0);
+        const pct = (value) => (Number(value) * 100).toFixed(1) + '%';
+        const ratio = (value) => (Number(value) || 0).toFixed(2) + '×';
+        const esc = (value) =>
+          String(value ?? '').replace(/[&<>"']/g, (char) => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+          })[char]);
+
+        function status(message, isError) {
+          const node = el('status');
+          node.textContent = message;
+          node.className = isError ? 'status error' : 'status';
+        }
+
+        function bars(rows, labelKey, valueKey, tone) {
+          if (!rows.length) return '<p class="empty">No events in this window.</p>';
+          const max = Math.max(1, ...rows.map((row) => Number(row[valueKey]) || 0));
+          return rows
+            .map((row) => {
+              const value = Number(row[valueKey]) || 0;
+              const width = Math.max(0, Math.min(100, (value / max) * 100));
+              return (
+                '<div class="row">' +
+                '<span class="day">' + esc(row[labelKey]) + '</span>' +
+                '<div class="track"><div class="fill ' + (tone || '') + '" style="width:' + width.toFixed(2) + '%"></div></div>' +
+                '<span class="num">' + fmt(value) + '</span>' +
+                '</div>'
+              );
+            })
+            .join('');
+        }
+
+        function table(headers, rows) {
+          if (!rows.length) return '<p class="empty">No events in this window.</p>';
+          const head = headers
+            .map((header) => '<th class="' + (header.num ? 'num' : '') + '">' + esc(header.label) + '</th>')
+            .join('');
+          const body = rows
+            .map(
+              (row) =>
+                '<tr>' +
+                row
+                  .map(
+                    (cell, index) =>
+                      '<td class="' + (headers[index].num ? 'num' : '') + '">' + esc(cell) + '</td>'
+                  )
+                  .join('') +
+                '</tr>'
+            )
+            .join('');
+          return '<table><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table>';
+        }
+
+        function render(data) {
+          const summary = data.summary;
+          const cards = [
+            ['Events', fmt(summary.events), data.days + '-day window'],
+            ['Active players', fmt(summary.activePlayers), 'unique visitor IDs'],
+            ['Campaign starts', fmt(summary.campaignStarts), 'first-party selections'],
+            ['Saves', fmt(summary.saves), ratio(summary.startToSaveRate) + ' per start'],
+            ['Save loads', fmt(summary.loads), 'imports of exported saves'],
+            ['New terms', fmt(summary.termsStarted), 'continue-playing actions'],
+            ['Save share', pct(summary.saveRate), 'of all events'],
+          ];
+          el('cards').innerHTML = cards
+            .map(
+              ([label, value, hint]) =>
+                '<div class="card"><div class="label">' + esc(label) + '</div>' +
+                '<div class="value">' + esc(value) + '</div>' +
+                '<div class="hint">' + esc(hint) + '</div></div>'
+            )
+            .join('');
+
+          el('new-players').innerHTML = bars(data.newPlayersByDay, 'day', 'visitors');
+          el('daily').innerHTML = bars(data.daily, 'day', 'activePlayers', 'blue');
+          el('countries').innerHTML = table(
+            [{ label: 'Country' }, { label: 'Starts', num: true }, { label: 'Saves', num: true }],
+            data.countries.map((row) => [row.country, fmt(row.starts), fmt(row.saves)])
+          );
+          el('parties').innerHTML = table(
+            [{ label: 'Party' }, { label: 'Starts', num: true }, { label: 'Saves', num: true }],
+            data.parties.map((row) => [row.party, fmt(row.starts), fmt(row.saves)])
+          );
+          el('combos').innerHTML = table(
+            [
+              { label: 'Country' },
+              { label: 'Party' },
+              { label: 'Starts', num: true },
+              { label: 'Saves', num: true },
+            ],
+            data.combos.map((row) => [row.country, row.party, fmt(row.starts), fmt(row.saves)])
+          );
+          el('versions').innerHTML = table(
+            [{ label: 'Version' }, { label: 'Players', num: true }],
+            data.versions.map((row) => [row.version, fmt(row.players)])
+          );
+          el('generated').textContent =
+            'Window starts ' + new Date(data.since).toLocaleString() + ' · generated ' +
+            new Date(data.generatedAt).toLocaleString();
+        }
+
+        async function load() {
+          if (state.busy) return;
+          state.busy = true;
+          el('refresh').disabled = true;
+          status('Loading…');
+          try {
+            const response = await fetch('/admin/api/stats?days=' + state.days, {
+              headers: authHeaders,
+              credentials: 'same-origin',
+            });
+            if (response.status === 401 || response.status === 403) {
+              throw new Error('Not authorised. Sign in through Cloudflare Access, then refresh.');
+            }
+            if (!response.ok) throw new Error('Request failed with status ' + response.status);
+            const data = await response.json();
+            render(data);
+            status('Updated ' + new Date().toLocaleTimeString() + '.');
+          } catch (error) {
+            status(error instanceof Error ? error.message : 'Could not load analytics.', true);
+          } finally {
+            state.busy = false;
+            el('refresh').disabled = false;
+          }
+        }
+
+        el('days').addEventListener('change', (event) => {
+          state.days = Number(event.target.value) || 30;
+          load();
+        });
+        el('refresh').addEventListener('click', load);
+        load();
+      })();
+    </script>
+  </body>
+</html>
