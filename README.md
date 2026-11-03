@@ -2,7 +2,7 @@
 
 **The Political Playground** is a fictional election simulator game. Players manage a political campaign, navigating weekly polls, dynamic events, and shifting public opinion trends to win the ultimate democratic prize.
 
-Current game version: **4.0.1**.
+Current game version: **4.1.0**.
 
 [**Play Now at polplay.indigo.spot**](https://polplay.indigo.spot)
 
@@ -19,7 +19,7 @@ The simulator models a complex political landscape using a 7-axis ideological mo
 - **Framework**: React 19 + Vite
 - **Language**: TypeScript
 - **Styling**: TailwindCSS v4
-- **State Management**: React `useContext` + `useReducer`
+- **State Management**: React `useContext` + a synchronous reducer wrapper (not `useReducer`)
 - **Charts**: `chart.js` + `react-chartjs-2`
 - **Routing**: `react-router-dom`
 
@@ -49,6 +49,8 @@ Voters are simulated via a normal distribution around **Voter Bloc** centers. Th
 - `src/contexts/GameContext.tsx`: Central state management and game loop logic.
 - `src/types/game.ts`: Source of truth for all data structures and interfaces.
 - `src/lib/coalitionEngine.ts`: Logic for post-election government formation.
+- `src/lib/analytics.ts`: Optional, anonymous gameplay analytics (disabled unless `VITE_ANALYTICS_URL` is set).
+- `worker/`: Cloudflare Worker + D1 analytics API and Access-protected dashboard. See `worker/README.md`.
 - `simulate.ts`: A standalone CLI tool for sampling a single bloc. It predates the current engine and duplicates a simplified vote model, so treat its numbers as indicative only.
 
 ---
@@ -74,6 +76,23 @@ You can run a standalone simulation for a specific country and bloc to test para
 ```bash
 npx ts-node simulate.ts <CountryName> <BlocId>
 ```
+
+### Anonymous Analytics (optional)
+
+The game has no backend, but it can send a small allowlist of events — campaign launch, campaign start, save, save load, new term — to a Cloudflare Worker. The Worker stores aggregate gameplay data in D1 and serves a dashboard behind Cloudflare Access.
+
+Analytics is **off by default**. To enable it for a build, set `VITE_ANALYTICS_URL`:
+
+```bash
+# .env.local for local development
+VITE_ANALYTICS_URL=http://localhost:8787
+```
+
+For the GitHub Pages deploy, set a repository **variable** named `VITE_ANALYTICS_URL`; the deploy workflow passes it to `npm run build`. Vite inlines the value at build time, so a rebuild is required after changing it.
+
+What is sent: an anonymous random visitor ID, a per-tab session ID, the event name, country, party, party list, week, campaign length, and game version. What is **not** sent: IP addresses, user agents, leader names, save files, or full game state. Players can opt out from the main-menu footer, and the browser's Do Not Track setting is honoured. Events older than 365 days are deleted.
+
+Deploying the Worker, creating the D1 database, and configuring Access are covered in [`worker/README.md`](worker/README.md).
 
 ---
 
@@ -107,7 +126,7 @@ Open `public/data/countries.json` and add a new entry. A country requires:
 #### 3. Define the Parties
 Open `public/data/parties.json` and add a new key (usually matching your country name).
 - Add an array of candidates.
-- Each candidate needs a `name` (leader), `party` (party name), `colour`, and values for all 7 axes. `colour` may be any CSS colour, but prefer a hex value that is visible on a dark navy background.
+- Each candidate needs a `name` (leader), `party` (party name), `colour`, and values for all 7 axes. `colour` must be a 6-digit hex value that is visible on a dark navy background; the chart code only parses `#rrggbb`.
 - The `id` field is informational — the game assigns candidate IDs from the array index — but keeping it unique avoids confusing tooling.
 - Party lists are selectable independently of countries (`RANDOM`, `NI`, `PEOPLEPOLITICS` exist), so a list does not have to match a country name.
 

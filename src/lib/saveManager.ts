@@ -1,5 +1,6 @@
 import { GameState, NewsItem } from '@/types/game';
 import { getEngineState, setEngineState, resetEngineState, EngineState } from '@/lib/gameEngine';
+import { track } from '@/lib/analytics';
 
 export const SAVE_VERSION = '2.0';
 
@@ -131,6 +132,14 @@ export function exportSaveGame(gameState: GameState) {
         engineState: getEngineState()
     };
 
+    track('save', {
+        country: gameState.country,
+        party: gameState.playerCandidate?.party,
+        partyList: gameState.partyList,
+        week: gameState.currentPoll,
+        totalPolls: gameState.totalPolls
+    });
+
     const blob = new Blob([JSON.stringify(save)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
@@ -164,6 +173,7 @@ export function importSaveGame(jsonString: string): GameState | null {
                 // No usable voter memory: start clean rather than inherit another game's.
                 resetEngineState();
             }
+            trackSaveLoad(gameState);
             return gameState;
         }
 
@@ -171,10 +181,22 @@ export function importSaveGame(jsonString: string): GameState | null {
         const gameState = normalizeGameState(data);
         if (gameState) {
             resetEngineState();
+            trackSaveLoad(gameState);
             return gameState;
         }
     } catch (e) {
         console.error("Failed to parse save file", e);
     }
     return null;
+}
+
+function trackSaveLoad(gameState: GameState) {
+    track('save_load', {
+        country: gameState.country,
+        party: gameState.playerCandidate?.party,
+        partyList: gameState.partyList,
+        week: gameState.currentPoll,
+        totalPolls: gameState.totalPolls,
+        phase: gameState.phase
+    });
 }

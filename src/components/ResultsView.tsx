@@ -8,10 +8,22 @@ import PollingGraphModal from './PollingGraphModal';
 import VoterFlowSankey from './VoterFlowSankey';
 import IdeologyScatterPlot from './IdeologyScatterPlot';
 import ParliamentChart from './ParliamentChart';
+import { track } from '@/lib/analytics';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
   const [showPollingGraph, setShowPollingGraph] = useState(false);
+
+  const handleContinueCampaign = () => {
+    track('term_start', {
+      country: state.country,
+      party: state.playerCandidate?.party,
+      partyList: state.partyList,
+      totalPolls: state.totalPolls,
+      week: state.currentPoll
+    });
+    actions.continueCampaign();
+  };
 
   if (state.pollResults.length === 0) {
     return (
@@ -565,7 +577,7 @@ export default function ResultsView() {
           )}
           {(!needsCoalition || coalitionComplete) && (
             <button
-              onClick={actions.continueCampaign}
+              onClick={handleContinueCampaign}
               className="px-6 py-3 bg-green-600 hover:bg-green-700 border border-green-500 text-white font-bold rounded-lg transition-colors"
             >
               Continue Playing

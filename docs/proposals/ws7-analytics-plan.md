@@ -1,7 +1,17 @@
 # WS7 — Player Analytics & Admin Dashboard (Cloudflare) — Implementation Plan
 
-**Status:** proposed, not implemented. This is workstream **WS7**; WS5 (data quality) and WS6 (master-v4 fixes) are separate.
+**Status:** implemented in 4.1.0. Code lives in `worker/`; deployment and privacy details are in `worker/README.md`. This document remains the design rationale. WS5 (data quality) and WS6 (master-v4 fixes) are separate.
 **Goal:** record every "play" and "save" action (with the game country and party), store the events anonymously, and expose a private admin dashboard with monthly active players, countries, parties, saves, and trends.
+
+## Implementation summary (4.1.0)
+
+- Deployed at `analytics.indigo.spot`. The original `analytics.polplay.indigo.spot` suggestion is below Universal SSL's single-level wildcard (`*.indigo.spot`), so it needs Total TLS/ACM; the first-level hostname avoids that.
+- `worker/src/index.ts` serves `POST /v1/events`, `GET /admin`, `GET /admin/api/stats`, and `GET /health`; `GET /` redirects to `/admin`.
+- `worker/migrations/0001_init.sql` creates the `events` table and indexes.
+- `src/lib/analytics.ts` sends `campaign_launch`, `campaign_start`, `save`, `save_load`, and `term_start`; the endpoint is configured by `VITE_ANALYTICS_URL` and is a no-op without it.
+- Access protects `/admin*`; `ADMIN_TOKEN` exists for curl and local development only.
+- Made decisions for the open questions: 365-day retention; custom party *names* are not stored; DNT plus an in-game opt-out (no consent banner); Cloudflare Access; Worker + D1.
+- CI typechecks and builds the frontend; the Worker has its own typecheck and deploy. There is still no automated test suite.
 
 ---
 
@@ -22,14 +32,14 @@
 ## 2. Current constraints
 
 - The app is static on GitHub Pages (`polplay.indigo.spot`), with no backend or database.
-- `indigo.spot` is hosted on Cloudflare nameservers (`tosana.ns.cloudflare.com`, `heidi.ns.cloudflare.com`), so a Workers custom domain such as `analytics.polplay.indigo.spot` is straightforward.
+- `indigo.spot` is hosted on Cloudflare nameservers (`tosana.ns.cloudflare.com`, `heidi.ns.cloudflare.com`), so a Workers custom domain such as `analytics.indigo.spot` is straightforward.
 - The only existing persistence is manual JSON save export/import (`saveManager.ts`); there is no autosave.
 - The app has no test suite; the Worker should get its own tests rather than relying on build success.
-- Version is `4.0.0` (`VERSION`); every event should carry it so dashboards can separate releases.
+- Version is `4.1.0` (`VERSION`); every event carries it so dashboards can separate releases.
 
 ## 3. Recommended architecture
 
-**Frontend (GitHub Pages)** → best-effort `fetch` → **Cloudflare Worker** (`analytics.polplay.indigo.spot`) → **D1** → **protected admin dashboard in the same Worker**.
+**Frontend (GitHub Pages)** → best-effort `fetch` → **Cloudflare Worker** (`analytics.indigo.spot`) → **D1** → **protected admin dashboard in the same Worker**.
 
 ```text
 React app ──POST /v1/events──▶ Worker ──INSERT──▶ D1 (SQLite)
@@ -77,7 +87,7 @@ All events also carry:
   "event": "campaign_start",
   "visitorId": "localStorage UUID",
   "sessionId": "sessionStorage UUID",
-  "version": "4.0.0"
+  "version": "4.1.0"
 }
 ```
 
@@ -222,8 +232,8 @@ Rules:
 
 ### Configuration
 
-- Local: `.env.local` `VITE_ANALYTICS_URL=http://localhost:8787/v1/events` (or leave empty).
-- GitHub Actions: repository variable `VITE_ANALYTICS_URL=https://analytics.polplay.indigo.spot/v1/events`; pass it to the build step:
+- Local: `.env.local` `VITE_ANALYTICS_URL=http://localhost:8787` (or leave empty).
+- GitHub Actions: repository variable `VITE_ANALYTICS_URL=https://analytics.indigo.spot`; pass it to the build step:
   ```yaml
   env:
     VITE_ANALYTICS_URL: ${{ vars.VITE_ANALYTICS_URL }}
@@ -237,8 +247,8 @@ Rules:
 1. Create a D1 database: `npx wrangler d1 create polplay-analytics`.
 2. Apply migrations locally and remotely.
 3. Deploy the Worker.
-4. Attach `analytics.polplay.indigo.spot` as a Workers custom domain (zone `indigo.spot` is already on Cloudflare).
-5. Create a Cloudflare Access application for `analytics.polplay.indigo.spot/admin*` (allowlist owner email).
+4. Attach `analytics.indigo.spot` as a Workers custom domain (zone `indigo.spot` is already on Cloudflare).
+5. Create a Cloudflare Access application for `analytics.indigo.spot/admin*` (allowlist owner email).
 6. Set the GitHub repository variable `VITE_ANALYTICS_URL` and redeploy the site.
 7. Add a Cloudflare rate-limiting rule for `POST /v1/events`.
 
@@ -347,14 +357,14 @@ crons = ["15 3 * * *"]
 
 Total: roughly 3.5–5 days of focused work. Ship B+C first (data collection), then D+E.
 
-## 13. Open decisions
+## 13. Open decisions (resolved in 4.1.0)
 
-1. **Retention:** 365 days raw, or shorter (90 / 180)?
-2. **Custom party names:** store them (needed for the stat) or only flag `custom`? Privacy trade-off.
-3. **Consent:** DNT + opt-out only, or an explicit consent banner for EU/UK?
-4. **Dashboard auth:** Cloudflare Access (recommended) versus a custom admin token/cookie.
-5. **Optional events:** session start, election results, coalition outcomes, funnel/retention — all cheap once ingestion exists.
-6. **Provider:** confirm Worker + D1, or choose Umami/PostHog if zero-ops is preferred.
+1. **Retention:** 365 days raw (daily cron).
+2. **Custom party names:** only the `custom_party` flag is stored, not the name.
+3. **Consent:** DNT + in-game opt-out; no consent banner.
+4. **Dashboard auth:** Cloudflare Access, with `ADMIN_TOKEN` for local/curl.
+5. **Optional events:** `session_start` and `election_result` are allowlisted in the Worker but not wired in this build.
+6. **Provider:** Cloudflare Worker + D1.
 
 ## 14. Out of scope (for the first version)
 

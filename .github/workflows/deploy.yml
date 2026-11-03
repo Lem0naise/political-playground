@@ -40,6 +40,8 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
       - name: Build
+        env:
+          VITE_ANALYTICS_URL: ${{ vars.VITE_ANALYTICS_URL }}
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5

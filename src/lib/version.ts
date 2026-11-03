@@ -6,6 +6,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '4.1.0',
+    date: '2026-11-03',
+    changes: [
+      "Optional, privacy-preserving player analytics via a Cloudflare Worker + D1, disabled unless VITE_ANALYTICS_URL is configured.",
+      "Aggregate admin dashboard behind Cloudflare Access, plus an in-game anonymous-analytics opt-out.",
+      "Added worker typecheck/deploy docs and wired the Pages build to a VITE_ANALYTICS_URL repository variable.",
+    ],
+  },
+  {
     version: '4.0.1',
     date: '2026-11-03',
     changes: [

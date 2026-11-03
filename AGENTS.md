@@ -1,10 +1,10 @@
 # AGENTS.md
 
-**The Political Playground** is a fictional election simulator: the player runs a party through a fixed number of weekly polls, reacting to events and shifting opinion to win an election and form a government. React 19 + Vite + TypeScript + TailwindCSS v4, state in `useContext` with a synchronous reducer wrapper, no backend — all data is static JSON in `public/data/`.
+**The Political Playground** is a fictional election simulator: the player runs a party through a fixed number of weekly polls, reacting to events and shifting opinion to win an election and form a government. React 19 + Vite + TypeScript + TailwindCSS v4, state in `useContext` with a synchronous reducer wrapper; the game itself has no backend, and all game data is static JSON in `public/data/`. An optional, privacy-preserving analytics Worker lives in `worker/`.
 
-Current game version: **4.0.1** (`src/lib/version.ts`). v4 added candidate-ID loyalty, scaled base utility, party splits, mid-campaign mergers, axis targeting, and a priority-tagged news feed with newspaper styling.
+Current game version: **4.1.0** (`src/lib/version.ts`). v4 added candidate-ID loyalty, scaled base utility, party splits, mid-campaign mergers, axis targeting, and a priority-tagged news feed with newspaper styling. v4.1 adds optional Cloudflare analytics and an in-game privacy toggle.
 
-Companion docs: `README.md` (player- and contributor-facing), `guidance.md` (older deep dive on the simulation; verify against the code, it predates `reducerLogic.ts`, `partyMerger.ts`, and `saveManager.ts`), `docs/proposals/government-plan.md` (proposed, pre-v4, not implemented), `docs/proposals/ws7-analytics-plan.md` (proposed Cloudflare analytics/dashboard, not implemented).
+Companion docs: `README.md` (player- and contributor-facing), `guidance.md` (older deep dive on the simulation; verify against the code, it predates `reducerLogic.ts`, `partyMerger.ts`, and `saveManager.ts`), `docs/proposals/government-plan.md` (proposed, pre-v4, not implemented), `docs/proposals/ws7-analytics-plan.md` (WS7 design; implemented by `worker/`), `worker/README.md` (analytics deployment and privacy).
 
 ## Commands
 
@@ -17,18 +17,23 @@ Companion docs: `README.md` (player- and contributor-facing), `guidance.md` (old
 | `npm run typecheck` | `tsc --noEmit`; this is the working typecheck |
 | `npm run lint` | Alias of `typecheck` |
 | `npx ts-node simulate.ts <COUNTRY> <BLOC_ID>` | Standalone bloc calibration (defaults `UK` / `left_behind_patriots`) |
+| `cd worker && npm install && npm run typecheck` | Typecheck the analytics Worker |
+| `cd worker && npm run db:migrate:local` | Apply D1 migrations to the local wrangler database |
+| `cd worker && npx wrangler dev` | Local Worker on http://localhost:8787 |
 
 `simulate.ts` reads `public/data/countries.json` and `public/data/parties.json` relative to the cwd, samples 40 000 voters for one bloc, and prints party shares. It is not in `tsconfig.json`'s `include` and still uses a simplified distance model (no salience/loyalty/softmax), so treat it as a sanity check. `ts-node` is not a dependency — npx downloads it on first use.
 
 ## Verification
 
-There is **no test suite**: no test runner, no `*.test.*` files, and no CI on pull requests. Before committing:
+There is **no test suite**: no test runner, no `*.test.*` files, and no frontend CI on pull requests (the Worker has a typecheck workflow). Before committing:
 
 1. Validate any edited JSON parses, e.g. `node -e "JSON.parse(require('fs').readFileSync('public/data/countries.json','utf8'))"`.
-2. Run `npm run typecheck` and `npm run build`.
+2. Run `npm run typecheck` and `npm run build`. If you touched `worker/`, also run `cd worker && npm run typecheck` and `npx wrangler deploy --dry-run`.
 3. Smoke-test the affected phase with `npm run dev`. Phases are reducer state rather than routes, so a successful build proves nothing about the game loop.
 
-Deployment is the only automated gate: pushing to `master` runs `.github/workflows/deploy.yml` (`npm ci --legacy-peer-deps` → `npm run typecheck` → `npm run build` → publish `dist/` to GitHub Pages at `polplay.indigo.spot`, per `CNAME`). Local `npm run build` still does not typecheck; CI does.
+Deployment is the only automated gate: pushing to `master` runs `.github/workflows/deploy.yml` (`npm ci --legacy-peer-deps` → `npm run typecheck` → `npm run build` → publish `dist/` to GitHub Pages at `polplay.indigo.spot`, per `CNAME`). Local `npm run build` still does not typecheck; CI does. The Worker is deployed separately with `cd worker && npx wrangler deploy`; `.github/workflows/worker.yml` only typechecks it.
+
+Frontend analytics is opt-in at build time through the `VITE_ANALYTICS_URL` repository variable. If unset, `src/lib/analytics.ts` is a no-op. Setting it only in the Worker does not enable frontend tracking. The dashboard only trusts the Access email header when `TRUST_ACCESS_HEADER = "true"` in `worker/wrangler.toml`; for a fresh deployment keep it `false` until Access is live. This checkout is currently deployed with `"true"`.
 
 ## Architecture
 
@@ -57,6 +62,8 @@ Coalition formation is entered from `ResultsView` (or automatically by `Coalitio
 | `src/lib/newsPaperStyles.ts` | 13 newspaper visual styles; deterministic paper assignment per headline |
 | `src/lib/ideologyProfiler.tsx` | Axis descriptors, weighted ideology labels, and a JSX-rendering `getIdeologyProfile` (card or inline variant) |
 | `src/lib/saveManager.ts` | Versioned save export/import (`SAVE_VERSION = '2.0'`); `normalizeGameState` migrates v1/v3 string-news saves |
+| `src/lib/analytics.ts` | Optional fire-and-forget analytics; no-op unless `VITE_ANALYTICS_URL` is set; honours DNT and a localStorage opt-out |
+| `worker/` | Cloudflare Worker + D1 analytics API and Access-protected dashboard; see `worker/README.md` |
 | `src/lib/version.ts` | `CHANGELOG` + `VERSION` |
 | `src/components/*.tsx` | Phase views plus modals/charts (Chart.js + `chartjs-chart-sankey`) |
 | `src/app/globals.css` | Tailwind v4 import, Google fonts (Outfit, Special Elite), CSS vars, campaign/newspaper classes, `news-masonry` |
@@ -76,6 +83,7 @@ There is **no** constituency/FPTP system, no `mapGenerator`, no `mapData`/`elect
 8. `NEXT_POLL` → `calculateNextPollState`: clone candidates/voter data → tick/spawn trends → `conductPoll` → increment targeting week counter → leadership changes → party dissolution → new party formation → splits → mergers → week-2 initial government event → priority news assembly → post-election stats (final poll only) → `phase: 'results'` once `totalPolls` is reached.
 9. `ResultsView` offers coalition formation (largest ≤ `MAJORITY_THRESHOLD`) or `continueCampaign`; `CONTINUE_CAMPAIGN` starts a new term (`currentPoll: 0`) and resets polls/stats while keeping candidates, trends, event variables, and the incumbent government. `RESUME_CAMPAIGN` returns from a mid-campaign coalition.
 10. Save/load round-trips `gameState` plus engine state through `saveManager` and `LOAD_STATE`; `normalizeGameState` migrates old saves. There is no autosave.
+11. When analytics is configured, `MainMenu` sends `campaign_launch`, `PlayerSelection` sends `campaign_start`, `exportSaveGame` sends `save`, `importSaveGame` sends `save_load`, and `ResultsView` sends `term_start`. Requests are fire-and-forget and never gate gameplay.
 
 Every phase component reads only `useGame()`; nothing is URL-addressable except `/`.
 
@@ -132,7 +140,7 @@ There is no token layer and no primitives. The real system:
 - **`src/app/globals.css`** is 100 lines: Google fonts **Outfit** and **Special Elite**, largely unused CSS vars, and a handful of classes — `.newspaper-header`, `.campaign-status`, `.font-oswald` (also Outfit), `.news-body`, `.urgent-banner`, `.vintage-border`, `.campaign-board`, and `.news-masonry` (CSS-columns newspaper layout). Its `@keyframes pulse` overrides Tailwind's pulse animation.
 - **News**: `newsPaperStyles.ts` defines 13 newspaper looks (card background/foreground, accent, header layout, fonts, uppercase). `CampaignView` renders a masonry feed of styled cards; `EventModal` also renders as a newspaper. Paper assignment is deterministic per headline/event (hash of country + text/title), so it does not reshuffle on re-render.
 - **Charts**: Chart.js via `react-chartjs-2` plus `chartjs-chart-sankey`. There is no shared chart theme; components set their own colours. `hexToRgba` only handles 6-digit hex (party colours are now hex).
-- **Chrome**: each phase re-implements its own header/footer; `App.tsx` adds a global GitHub footer whose positioning utilities are inert. The setup screens repeat the "Built by Indigo" pill, and five screens repeat the version/copyright block.
+- **Chrome**: each phase re-implements its own header/footer; `App.tsx` adds a global GitHub footer whose positioning utilities are inert. The setup screens repeat the "Built by Indigo" pill, and five screens repeat the version/copyright block. `MainMenu` also carries the anonymous-analytics opt-out toggle.
 - **Accessibility/motion**: no `prefers-reduced-motion` handling; several `animate-pulse`/`animate-spin`/`hover:scale-*` decorations; modals trap scroll and support Escape but have no focus trap; many controls use arbitrary sizes such as `text-[10px]`.
 
 Use the existing Tailwind/newspaper patterns when adding UI; do not assume primitives or tokens exist, and prefer fixing shared patterns (footer, palette, paper assignment) over adding new styling systems.
@@ -146,4 +154,5 @@ Use the existing Tailwind/newspaper patterns when adding UI; do not assume primi
 - **Coalition modals** still use plain fixed overlays without focus traps, and some negotiation timeouts are not cancelled on unmount. There is no `prefers-reduced-motion` handling; `globals.css` `@keyframes pulse` overrides Tailwind's pulse animation.
 - **Newspaper names** are real-world outlets (BBC, Fox News, NYT, …). That is a deliberate satirical choice today, but it is a distribution/trademark decision.
 - **`simulate.ts`** is outside `tsconfig` and uses a simplified distance model; it is a sanity check, not a calibration source.
+- **Analytics is opt-in and not end-to-end in CI.** `VITE_ANALYTICS_URL` is a repository build variable; the Worker has its own deploy, D1 migration, custom domain, and Access policy in `worker/README.md`. If the frontend variable is unset there is no tracking, whatever the Worker is doing. The deployed dashboard requires the Access app; `TRUST_ACCESS_HEADER` is `"true"` now that it is live. For a fresh deployment, keep it `false` until Access is configured.
 - **`dist/`** is generated build output (gitignored); do not edit it.

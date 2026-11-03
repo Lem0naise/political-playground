@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { importSaveGame } from '@/lib/saveManager';
 import { VERSION } from '@/lib/version';
+import { analyticsBlockedByDnt, analyticsOptedOut, isAnalyticsConfigured, setAnalyticsOptedOut, track } from '@/lib/analytics';
 
 export default function MainMenu() {
   const { actions } = useGame();
@@ -12,6 +13,9 @@ export default function MainMenu() {
   const [loading, setLoading] = useState(true);
   const [countriesError, setCountriesError] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [analyticsOff, setAnalyticsOff] = useState(() => analyticsOptedOut());
+  const analyticsBlocked = analyticsBlockedByDnt();
+  const analyticsConfigured = isAnalyticsConfigured();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const loadCountries = useCallback(() => {
@@ -58,6 +62,11 @@ export default function MainMenu() {
         countryData.vals[key] += Math.round(10 * (Math.random() - 0.5));
       }
       actions.setCountry(selectedCountry, { ...countryData, totalPolls });
+      track('campaign_launch', {
+        country: selectedCountry,
+        partyList: selectedCountry,
+        totalPolls
+      });
     }
   };
 
@@ -251,6 +260,25 @@ export default function MainMenu() {
           <div className="text-center text-xs text-slate-500 space-y-0.5">
             <p>Political Playground © 2025-2026</p>
             <p>Fictional election simulator &middot; Version {VERSION}</p>
+            {analyticsConfigured && (
+              <p>
+                {analyticsBlocked ? (
+                  <span>Anonymous analytics blocked by your browser&apos;s Do Not Track setting.</span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = !analyticsOff;
+                      setAnalyticsOptedOut(next);
+                      setAnalyticsOff(next);
+                    }}
+                    className="underline decoration-slate-600 underline-offset-2 hover:text-slate-300"
+                  >
+                    {analyticsOff ? 'Enable anonymous analytics' : 'Disable anonymous analytics'}
+                  </button>
+                )}
+              </p>
+            )}
           </div>
         </div>
       </div>

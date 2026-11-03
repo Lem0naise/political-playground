@@ -3,6 +3,7 @@ import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 import { useState, useRef, useMemo } from 'react';
 import { VERSION } from '@/lib/version';
 import { generateLeaderName } from '@/lib/gameEngine';
+import { track } from '@/lib/analytics';
 
 export default function PlayerSelection() {
   const { state, actions } = useGame();
@@ -11,8 +12,17 @@ export default function PlayerSelection() {
   const creatorFormRef = useRef<HTMLDivElement>(null);
 
   const handlePlayerSelect = (candidateId: number) => {
+    const candidate = state.candidates.find(entry => entry.id === candidateId);
     actions.setPlayerCandidate(candidateId);
     actions.startCampaign();
+    if (candidate) {
+      track('campaign_start', {
+        country: state.country,
+        party: candidate.party,
+        partyList: state.partyList,
+        totalPolls: state.totalPolls
+      });
+    }
   };
 
   // --- Custom Party Creator State ---
