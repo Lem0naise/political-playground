@@ -1,13 +1,21 @@
 import React from 'react';
 import { Candidate } from '@/types/game';
+import { DEFAULT_HEAD_OF_GOVERNMENT_TITLE } from '@/lib/officeTitles';
 
 interface CabinetViewProps {
   cabinetAllocations: Record<string, string[]>;
   winningParty: Candidate;
   candidates: Candidate[];
+  headOfGovernmentTitle?: string;
 }
 
-const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningParty, candidates }) => {
+const CabinetView: React.FC<CabinetViewProps> = ({
+  cabinetAllocations,
+  winningParty,
+  candidates,
+  headOfGovernmentTitle,
+}) => {
+  const leaderTitle = headOfGovernmentTitle?.trim() || DEFAULT_HEAD_OF_GOVERNMENT_TITLE;
   if (!cabinetAllocations || Object.keys(cabinetAllocations).length === 0) return null;
 
   const getCandidateByParty = (party: string) => candidates.find(c => c.party === party);
@@ -55,13 +63,13 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-        {/* Prime Minister Card */}
+        {/* Head of government card */}
         <div className="border rounded p-3 flex items-center gap-3"
           style={{ backgroundColor: `${pmCandidate.colour}30`, borderColor: pmCandidate.colour }}>
           <div className="flex items-center gap-3 w-full relative">
             <div className="w-2 h-full absolute left-[-12px] top-[-12px] bottom-[-12px] rounded-l" style={{ backgroundColor: pmCandidate.colour }}></div>
             <div className="flex-1 pl-1">
-              <div className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">Prime Minister</div>
+              <div className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">{leaderTitle}</div>
               <div className="text-sm sm:text-lg font-black text-white leading-tight mt-0.5" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
                 {pmCandidate.name}
               </div>
@@ -80,7 +88,7 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
             <div className="flex items-center gap-3 w-full relative">
               <div className="w-2 h-full absolute left-[-12px] top-[-12px] bottom-[-12px] rounded-l" style={{ backgroundColor: deputyCandidate.colour }}></div>
               <div className="flex-1 pl-1">
-                <div className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">Deputy Prime Minister</div>
+                <div className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">Deputy {leaderTitle}</div>
                 <div className="text-sm sm:text-lg font-black text-white leading-tight mt-0.5" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
                   {isSinglePartyCoalition ? deputyCandidate.party : deputyCandidate.name}
                 </div>

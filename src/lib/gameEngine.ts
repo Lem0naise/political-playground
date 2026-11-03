@@ -82,6 +82,7 @@ export function checkForLeadershipChanges(
   eventVariables: any,
   country: string,
   incumbentGovernment?: string[],
+  leaderTitle: string = 'Prime Minister',
 ): { candidates: Candidate[]; news: string[]; playerCrisisEvent?: Event | null } {
   const news: string[] = [];
   let playerCrisisEvent: Event | null = null;
@@ -189,12 +190,12 @@ export function checkForLeadershipChanges(
 
         if (isGovLeader) {
           newsOptions = [
-            `CRISIS: Prime Minister ${oldName} resigns following polling collapse`,
-            `Prime Minister ${oldName} ousted in ${candidate.party} leadership coup; ${newName} to take over`,
-            `BREAKING: ${oldName} steps down as Prime Minister of ${titleCase(country)}`,
-            `${newName} replaces ${oldName} as Prime Minister of ${titleCase(country)} following internal revolt`,
-            `${candidate.party} elects ${newName} to replace ${oldName} as Prime Minister`,
-            `Prime Minister ${oldName} is OUT, ${newName} is the new Prime Minister`
+            `CRISIS: ${leaderTitle} ${oldName} resigns following polling collapse`,
+            `${leaderTitle} ${oldName} ousted in ${candidate.party} leadership coup; ${newName} to take over`,
+            `BREAKING: ${oldName} steps down as ${leaderTitle} of ${titleCase(country)}`,
+            `${newName} replaces ${oldName} as ${leaderTitle} of ${titleCase(country)} following internal revolt`,
+            `${candidate.party} elects ${newName} to replace ${oldName} as ${leaderTitle}`,
+            `${leaderTitle} ${oldName} is OUT, ${newName} is the new ${leaderTitle}`
           ];
         }
 
@@ -243,7 +244,7 @@ export function checkPostElectionLeadershipChanges(
   newGov: string[],
   eventVariables: any,
   country: string,
-  hosTitle: string = 'Prime Minister'
+  leaderTitle: string = 'Prime Minister'
 ): { candidates: Candidate[]; news: string[]; playerCrisisEvent?: Event | null } {
   const news: string[] = [];
   let playerCrisisEvent: Event | null = null;
@@ -341,11 +342,11 @@ export function checkPostElectionLeadershipChanges(
 
         if (isGovLeader) {
           newsOptions = [
-            `ELECTION SHOCK: Prime Minister ${oldName} resigns following defeat`,
-            `Prime Minister ${oldName} steps down; ${newName} to lead ${candidate.party} in opposition`,
-            `END OF AN ERA: ${oldName} resigns as Prime Minister following bruising election`,
-            `${candidate.party} selects ${newName} as new leader to replace outgoing Prime Minister ${oldName}`,
-            `REVOLT: ${candidate.party} ousts Prime Minister ${oldName} after election disaster; ${newName} in`
+            `ELECTION SHOCK: ${leaderTitle} ${oldName} resigns following defeat`,
+            `${leaderTitle} ${oldName} steps down; ${newName} to lead ${candidate.party} in opposition`,
+            `END OF AN ERA: ${oldName} resigns as ${leaderTitle} following bruising election`,
+            `${candidate.party} selects ${newName} as new leader to replace outgoing ${leaderTitle} ${oldName}`,
+            `REVOLT: ${candidate.party} ousts ${leaderTitle} ${oldName} after election disaster; ${newName} in`
           ];
         }
 

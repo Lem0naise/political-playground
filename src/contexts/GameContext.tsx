@@ -17,6 +17,7 @@ import { getIdeologyDescriptors, calculateWeightedIdeology } from '@/lib/ideolog
 import { ensureUniquePartyNames } from '@/lib/partyMerger';
 
 import { calculateNextPollState } from '@/lib/reducerLogic';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 
 interface GameContextType {
   state: GameState;
@@ -76,7 +77,7 @@ const initialState: GameState = {
   candidates: [],
   playerCandidate: null,
   currentPoll: 0,
-  totalPolls: 52, // POLL COUNTER, 52 DEFAULT
+  totalPolls: 52, // 52-week default
   pollResults: [],
   previousPollResults: {},
   initialPollResults: {},
@@ -547,7 +548,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         governmentParties,
         state.eventVariables,
         state.country || 'USA',
-        state.countryData.hos
+        getHeadOfGovernmentTitle(state.countryData)
       );
 
       const allGovNews: import('@/types/game').NewsItem[] = [

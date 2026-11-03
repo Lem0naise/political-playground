@@ -9,9 +9,11 @@ import VoterFlowSankey from './VoterFlowSankey';
 import IdeologyScatterPlot from './IdeologyScatterPlot';
 import ParliamentChart from './ParliamentChart';
 import { track } from '@/lib/analytics';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
+  const leaderTitle = getHeadOfGovernmentTitle(state.countryData);
   const [showPollingGraph, setShowPollingGraph] = useState(false);
 
   const handleContinueCampaign = () => {
@@ -107,7 +109,7 @@ export default function ResultsView() {
             </div>
             {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
               <div className="mt-3 flex items-center justify-center gap-2 text-xs text-slate-400 font-mono">
-                <span className="uppercase tracking-widest text-slate-500">Incumbent PM:</span>
+                <span className="uppercase tracking-widest text-slate-500">Incumbent {leaderTitle}:</span>
                 <span className="text-slate-300 font-bold">
                   {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
                 </span>
@@ -159,6 +161,7 @@ export default function ResultsView() {
                 cabinetAllocations={state.coalitionState.cabinetAllocations}
                 winningParty={winner.candidate}
                 candidates={state.candidates}
+                headOfGovernmentTitle={leaderTitle}
               />
             </div>
           )}

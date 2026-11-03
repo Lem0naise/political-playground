@@ -3,6 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import type { TooltipItem } from 'chart.js';
 import { Candidate } from '@/types/game';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -15,6 +16,7 @@ export default function ParliamentChart({
     playerResult?: { candidate: Candidate; percentage: number };
     incumbentGovernment?: string[];
 }) {
+    const reducedMotion = useReducedMotion();
     const sortedData = useMemo(() => {
         return [...results].sort((a, b) => {
             const valA = a.candidate.vals?.[0] ?? 0;
@@ -41,6 +43,7 @@ export default function ParliamentChart({
     }), [sortedData, incumbentGovernment]);
 
     const options = {
+        animation: reducedMotion ? (false as const) : undefined,
         rotation: -90,
         circumference: 180,
         cutout: '55%',

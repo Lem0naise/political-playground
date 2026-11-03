@@ -1001,7 +1001,7 @@ export const GOVERNMENT_SURGE_TEMPLATES = [
   "{newsTitle} consolidates grip on power as governing record wins converts in {city}",
   "Rising confidence in {newsTitle} government drives record approval in {region}",
   "Voters reward {newsTitle} for steady hand on the nation's affairs",
-  "{newsTitle} PM wins personal approval surge after landmark speech",
+  "{newsTitle} {leaderTitle} wins personal approval surge after landmark speech",
   "Government delivers on key promise — {newsTitle} polling climbs in {region}",
   "Coalition holds firm as {newsTitle} charts course through difficult waters",
   "Governing {newsTitle} opens commanding lead after popular budget announcement",

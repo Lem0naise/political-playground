@@ -2,7 +2,7 @@
 
 **The Political Playground** is a fictional election simulator: the player runs a party through a fixed number of weekly polls, reacting to events and shifting opinion to win an election and form a government. React 19 + Vite + TypeScript + TailwindCSS v4, state in `useContext` with a synchronous reducer wrapper; the game itself has no backend, and all game data is static JSON in `public/data/`. An optional, privacy-preserving analytics Worker lives in `worker/`.
 
-Current game version: **4.1.0** (`src/lib/version.ts`). v4 added candidate-ID loyalty, scaled base utility, party splits, mid-campaign mergers, axis targeting, and a priority-tagged news feed with newspaper styling. v4.1 adds optional Cloudflare analytics and an in-game privacy toggle.
+Current game version: **4.2.0** (`src/lib/version.ts`). v4 added candidate-ID loyalty, scaled base utility, party splits, mid-campaign mergers, axis targeting, and a priority-tagged news feed with newspaper styling. v4.1 added optional Cloudflare analytics and an in-game privacy toggle. v4.2 adds coalition-dialog accessibility, country-specific head-of-government titles, reduced-motion support, and dead-data cleanup.
 
 Companion docs: `README.md` (player- and contributor-facing), `guidance.md` (older deep dive on the simulation; verify against the code, it predates `reducerLogic.ts`, `partyMerger.ts`, and `saveManager.ts`), `docs/proposals/government-plan.md` (proposed, pre-v4, not implemented), `docs/proposals/ws7-analytics-plan.md` (WS7 design; implemented by `worker/`), `worker/README.md` (analytics deployment and privacy).
 
@@ -20,6 +20,7 @@ Companion docs: `README.md` (player- and contributor-facing), `guidance.md` (old
 | `cd worker && npm install && npm run typecheck` | Typecheck the analytics Worker |
 | `cd worker && npm run db:migrate:local` | Apply D1 migrations to the local wrangler database |
 | `cd worker && npx wrangler dev` | Local Worker on http://localhost:8787 |
+| `npm run validate:data` | Validate country/party/event data and the title/inert-field invariants |
 
 `simulate.ts` reads `public/data/countries.json` and `public/data/parties.json` relative to the cwd, samples 40 000 voters for one bloc, and prints party shares. It is not in `tsconfig.json`'s `include` and still uses a simplified distance model (no salience/loyalty/softmax), so treat it as a sanity check. `ts-node` is not a dependency — npx downloads it on first use.
 
@@ -27,7 +28,7 @@ Companion docs: `README.md` (player- and contributor-facing), `guidance.md` (old
 
 There is **no test suite**: no test runner, no `*.test.*` files, and no frontend CI on pull requests (the Worker has a typecheck workflow). Before committing:
 
-1. Validate any edited JSON parses, e.g. `node -e "JSON.parse(require('fs').readFileSync('public/data/countries.json','utf8'))"`.
+1. Run `npm run validate:data`, which parses the JSON and checks country titles, removed inert bloc keys, party colours/axes, and event-variable key matches.
 2. Run `npm run typecheck` and `npm run build`. If you touched `worker/`, also run `cd worker && npm run typecheck` and `npx wrangler deploy --dry-run`.
 3. Smoke-test the affected phase with `npm run dev`. Phases are reducer state rather than routes, so a successful build proves nothing about the game loop.
 
@@ -63,6 +64,10 @@ Coalition formation is entered from `ResultsView` (or automatically by `Coalitio
 | `src/lib/ideologyProfiler.tsx` | Axis descriptors, weighted ideology labels, and a JSX-rendering `getIdeologyProfile` (card or inline variant) |
 | `src/lib/saveManager.ts` | Versioned save export/import (`SAVE_VERSION = '2.0'`); `normalizeGameState` migrates v1/v3 string-news saves |
 | `src/lib/analytics.ts` | Optional fire-and-forget analytics; no-op unless `VITE_ANALYTICS_URL` is set; honours DNT and a localStorage opt-out |
+| `src/lib/officeTitles.ts` | Head-of-government fallback and display mapping for stable cabinet keys |
+| `src/hooks/useDialogBehavior.ts` | Coalition-dialog focus trap, Escape/scroll lock, and focus restoration |
+| `src/hooks/useReducedMotion.ts` | Live `prefers-reduced-motion` query for chart options |
+| `scripts/validate-data.mjs` | Dependency-free data invariant checks used by CI |
 | `worker/` | Cloudflare Worker + D1 analytics API and Access-protected dashboard; see `worker/README.md` |
 | `src/lib/version.ts` | `CHANGELOG` + `VERSION` |
 | `src/components/*.tsx` | Phase views plus modals/charts (Chart.js + `chartjs-chart-sankey`) |
@@ -90,7 +95,7 @@ Every phase component reads only `useGame()`; nothing is URL-addressable except 
 ## Simulation rules
 
 - **7 axes** in `VALUES` order: `prog_cons`, `nat_glob`, `env_eco`, `soc_cap`, `pac_mil`, `auth_ana`, `rel_sec`, each `-100..+100`. JSON data stores seven named fields; `Candidate.vals` is a 7-tuple in `VALUES` order.
-- **Blocs** have `weight`, `center`, optional scalar-or-per-axis `variance`, optional per-axis `salience` (normalised so the mean weight is 1), and `turnout`. `VoterBloc.turnout` is **inert metadata** (the engine never reads it), `partyAffinity` is declared but unused, and bloc `name` is not supported (labels are title-cased from `id`). Bloc weights sum to exactly 1 in all shipped countries, so the "remainder = independents" path is effectively unused; 7 countries have no `blocs` and fall back to a unimodal normal electorate.
+- **Blocs** have `weight`, `center`, optional scalar-or-per-axis `variance`, and optional per-axis `salience` (normalised so the mean weight is 1). `VoterBloc.turnout`/`partyAffinity` were removed in 4.2; bloc `name` is unsupported (labels are title-cased from `id`). Bloc weights sum to exactly 1 in all shipped countries, so the "remainder = independents" path is effectively unused; 7 countries have no `blocs` and fall back to a unimodal normal electorate.
 - **Utility** = `-(salience-weighted squared distance) + base_utility_modifier - nascent_penalty + signed(swing × 5)²`, plus `LOYALTY_UTILITY` when the voter chose the **same candidate ID** last week. `base_utility_modifier` is clamped to ±500 in both `applyPoliticalDynamics` and `applyEventEffect`.
 - **Turnout**: a voter abstains if the best salience-weighted distance² exceeds `TOO_FAR_DISTANCE²` (140²), with a graded apathy chance up to 60 % between `0.5 × TOO_FAR_DISTANCE` and that limit. `VOTE_MANDATE = false`.
 - **Choice**: softmax with `SOFTMAX_BETA = 0.0008` when `PROBABILISTIC_VOTING` (true); otherwise argmax utility.
@@ -105,7 +110,7 @@ Every phase component reads only `useGame()`; nothing is URL-addressable except 
 - **Events**: 299 events, all with `categories`, each with choices `{ text, effect, boost }`. No shipped event sets `internalAction`, but the reducer supports `CHANGE_LEADER`, `STAY_LEADER`, `START_COALITION`, `AUTO_FORM_GOVERNMENT`.
 - **News**: each poll assembles `NewsItem[]` (`text`, `priority: critical|high|medium|low`, optional `category`). Items are sorted by priority (stable within a tier) and the feed is capped at 8.
 - **Axis targeting**: `targetedAxis` biases event selection for the next event; any event choice clears it and starts a 3-week `targetingCooldown`. Bloc targeting (`targetedBlocId`/`targetingWeeksActive`) separately drives the analyst report in `PollResults`.
-- **Tuning constants** live in `src/types/game.ts`, except `MAX_ACTIVE_TRENDS`, `TREND_INTERVAL_MIN/MAX`, `TREND_VOTER_NOISE` (in `gameEngine.ts`) and the drift/split constants in `reducerLogic.ts`/`gameEngine.ts`. `COALITION_FACTOR`, `TOO_CLOSE_PARTY`, and `POLL_COUNTER` are exported but unused; the real default campaign length is the hardcoded 52.
+- **Tuning constants** live in `src/types/game.ts`, except `MAX_ACTIVE_TRENDS`, `TREND_INTERVAL_MIN/MAX`, `TREND_VOTER_NOISE` (in `gameEngine.ts`) and the drift/split constants in `reducerLogic.ts`/`gameEngine.ts`. The real default campaign length is the hardcoded 52.
 
 ## Engine state invariants
 
@@ -113,7 +118,7 @@ Every phase component reads only `useGame()`; nothing is URL-addressable except 
 
 ## Editing game data
 
-- **`public/data/countries.json`** — keyed by country display name (54 entries). Requires `pop` (the synthetic voter count; large values are slow), `vals` (all 7 axes), `scale` (display-only multiplier; `MainMenu` shows `pop × scale`), and `hos` (head of state, display only — the government title is hardcoded "Prime Minister"). Optional `blocs[]` with `weight`, `center`, `variance`, `salience`, `turnout`; 7 countries omit blocs and use the unimodal fallback. Optional `nameStyle` selects a leader-name bank (read through an `any` cast, not typed on `Country`). There is no `mapData` or `electoralSystem`.
+- **`public/data/countries.json`** — keyed by country display name (54 entries). Requires `pop` (the synthetic voter count; large values are slow), `vals` (all 7 axes), `scale` (display-only multiplier; `MainMenu` shows `pop × scale`), `hos` (head-of-state display name), and `headOfGovernmentTitle` (the office used by the winning leader). Optional `blocs[]` with `weight`, `center`, `variance`, `salience`; 7 countries omit blocs and use the unimodal fallback. Optional `nameStyle` selects a leader-name bank (read through an `any` cast, not typed on `Country`). There is no `mapData` or `electoralSystem`.
 - **`public/data/parties.json`** — keyed by *party list*, not strictly by country (64 lists). Lists are freely multi-selectable (`RANDOM`, `NI`, `PEOPLEPOLITICS` exist), and 10 real-country lists have no matching country (`GEORGIA`, `VENEZUELA`, `SLOVENIA`, `NEW ZEALAND`, `PAKISTAN`, `COLOMBIA`, `PHILIPPINES`, `MALAYSIA`, `HUNGARY`, `KRESIMIRIA, KINGDOM OF`). Each entry needs `name`, `party`, `colour` (hex, visible on navy), and all 7 axes; `swing` and `nascent_penalty` are optional but no shipped party sets either. Colours are unique within each list. The `id` field is informational — `createCandidate` assigns the array index — and duplicates were cleaned up.
 - **`public/data/events.json`** — 299 events of `{ title, description, categories, choices: [{ text, effect: Partial<PoliticalValues>, boost }] }`. `categories` drives trend weighting; choices may set `internalAction` (supported, none shipped).
 - **`public/data/event_variables.json`** — `{ generic, countrySpecific, nameStyles }`; supplies `{placeholder}` tokens and leader-name banks. `countrySpecific` keys must match `countries.json` keys **exactly**; all 54 now do.
@@ -137,21 +142,18 @@ Add an entry to `TREND_DEFINITIONS` in `src/lib/gameEngine.ts` with a unique `id
 There is no token layer and no primitives. The real system:
 
 - **Styling**: TailwindCSS v4 utilities used directly, predominantly the `slate` and `yellow` scales plus red/green/blue accents. Screen backgrounds are inline `linear-gradient(135deg, #0f172a, #1e293b, #334155)` on setup/campaign screens and Tailwind gradient classes on results/coalition screens.
-- **`src/app/globals.css`** is 100 lines: Google fonts **Outfit** and **Special Elite**, largely unused CSS vars, and a handful of classes — `.newspaper-header`, `.campaign-status`, `.font-oswald` (also Outfit), `.news-body`, `.urgent-banner`, `.vintage-border`, `.campaign-board`, and `.news-masonry` (CSS-columns newspaper layout). Its `@keyframes pulse` overrides Tailwind's pulse animation.
+- **`src/app/globals.css`** is ~110 lines: Google fonts **Outfit** and **Special Elite**, largely unused CSS vars, and a handful of classes — `.newspaper-header`, `.campaign-status`, `.font-oswald` (also Outfit), `.news-body`, `.urgent-banner`, `.vintage-border`, `.campaign-board`, and `.news-masonry` (CSS-columns newspaper layout). Its `@keyframes pulse` overrides Tailwind's pulse animation.
 - **News**: `newsPaperStyles.ts` defines 13 newspaper looks (card background/foreground, accent, header layout, fonts, uppercase). `CampaignView` renders a masonry feed of styled cards; `EventModal` also renders as a newspaper. Paper assignment is deterministic per headline/event (hash of country + text/title), so it does not reshuffle on re-render.
 - **Charts**: Chart.js via `react-chartjs-2` plus `chartjs-chart-sankey`. There is no shared chart theme; components set their own colours. `hexToRgba` only handles 6-digit hex (party colours are now hex).
 - **Chrome**: each phase re-implements its own header/footer; `App.tsx` adds a global GitHub footer whose positioning utilities are inert. The setup screens repeat the "Built by Indigo" pill, and five screens repeat the version/copyright block. `MainMenu` also carries the anonymous-analytics opt-out toggle.
-- **Accessibility/motion**: no `prefers-reduced-motion` handling; several `animate-pulse`/`animate-spin`/`hover:scale-*` decorations; modals trap scroll and support Escape but have no focus trap; many controls use arbitrary sizes such as `text-[10px]`.
+- **Accessibility/motion**: global `prefers-reduced-motion` CSS disables decorative transitions/animations, and Chart.js animations are disabled through `useReducedMotion`. Coalition dialogs now trap focus, restore focus, and clear pending timers. Other modals may still lack focus traps; many controls use arbitrary sizes such as `text-[10px]`.
 
 Use the existing Tailwind/newspaper patterns when adding UI; do not assume primitives or tokens exist, and prefer fixing shared patterns (footer, palette, paper assignment) over adding new styling systems.
 
 ## Known issues
 
 - **Local `npm run build` does not typecheck.** CI runs `npm run typecheck` before the build, so type errors are caught on `master`; run the same command locally.
-- **No tests, no autosave.** Refreshing loses the run; save export is only on the campaign screen. Exports include the full `votingData` and engine arrays, so files are multi-megabyte for large countries. `SAVE_VERSION = '2.0'` and `normalizeGameState` migrate v1/v3.17 string-news saves, but there is no auto-save.
-- **Office title**: `countryData.hos` is passed to `checkPostElectionLeadershipChanges` but its `hosTitle` parameter is unused, and `CabinetView`/news hardcode "Prime Minister" for every country.
-- **Inert data fields/constants**: `VoterBloc.turnout` is never read, `partyAffinity` is unused, bloc `name` is unsupported, and `COALITION_FACTOR`, `TOO_CLOSE_PARTY`, `POLL_COUNTER` are exported but unused (default campaign length is the hardcoded 52).
-- **Coalition modals** still use plain fixed overlays without focus traps, and some negotiation timeouts are not cancelled on unmount. There is no `prefers-reduced-motion` handling; `globals.css` `@keyframes pulse` overrides Tailwind's pulse animation.
+- **No test runner, no autosave.** `scripts/validate-data.mjs` covers data invariants only. Refreshing loses the run; save export is only on the campaign screen. Exports include the full `votingData` and engine arrays, so files are multi-megabyte for large countries. `SAVE_VERSION = '2.0'` and `normalizeGameState` migrate v1/v3.17 string-news saves, but there is no auto-save.
 - **Newspaper names** are real-world outlets (BBC, Fox News, NYT, …). That is a deliberate satirical choice today, but it is a distribution/trademark decision.
 - **`simulate.ts`** is outside `tsconfig` and uses a simplified distance model; it is a sanity check, not a calibration source.
 - **Analytics is opt-in and not end-to-end in CI.** `VITE_ANALYTICS_URL` is a repository build variable; the Worker has its own deploy, D1 migration, custom domain, and Access policy in `worker/README.md`. If the frontend variable is unset there is no tracking, whatever the Worker is doing. The deployed dashboard requires the Access app; `TRUST_ACCESS_HEADER` is `"true"` now that it is live. For a fresh deployment, keep it `false` until Access is configured.

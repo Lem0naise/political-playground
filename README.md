@@ -2,7 +2,7 @@
 
 **The Political Playground** is a fictional election simulator game. Players manage a political campaign, navigating weekly polls, dynamic events, and shifting public opinion trends to win the ultimate democratic prize.
 
-Current game version: **4.1.0**.
+Current game version: **4.2.0**.
 
 [**Play Now at polplay.indigo.spot**](https://polplay.indigo.spot)
 
@@ -63,7 +63,8 @@ Voters are simulated via a normal distribution around **Voter Bloc** centers. Th
 # Install dependencies exactly as CI does
 npm ci --legacy-peer-deps
 
-# Typecheck (optional but recommended)
+# Validate data and typecheck
+npm run validate:data
 npm run typecheck
 
 # Run development server
@@ -120,7 +121,8 @@ Open `public/data/countries.json` and add a new entry. A country requires:
 - `scale`: Display-only multiplier used by the main menu (`pop × scale` is shown as the electorate size).
 - `vals`: National averages for the 7 political axes (Progressive/Conservative, Nationalist/Globalist, etc.).
 - `hos`: Head of State name (display only).
-- Optional `blocs`: An array of voter blocs. Each bloc needs a `weight`, a `center` (ideology), and optional `variance` / `salience` / `turnout`. Countries without blocs use a single normal distribution around `vals`.
+- `headOfGovernmentTitle`: The office the winning party leader takes, e.g. `Prime Minister`, `President`, `Chancellor`, `Taoiseach`.
+- Optional `blocs`: An array of voter blocs. Each bloc needs a `weight`, a `center` (ideology), and optional `variance` / `salience`. Countries without blocs use a single normal distribution around `vals`.
 - Optional `nameStyle`: which leader-name bank to use (see `event_variables.json` `nameStyles`).
 
 #### 3. Define the Parties
@@ -131,8 +133,9 @@ Open `public/data/parties.json` and add a new key (usually matching your country
 - Party lists are selectable independently of countries (`RANDOM`, `NI`, `PEOPLEPOLITICS` exist), so a list does not have to match a country name.
 
 #### 4. Test Your Changes
-Typecheck and build:
+Validate, typecheck, and build:
 ```bash
+npm run validate:data
 npm run typecheck
 npm run build
 ```

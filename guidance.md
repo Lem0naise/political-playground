@@ -30,8 +30,8 @@ Defined in `src/types/game.ts` as `PoliticalValues`. Range: `-100` to `+100`.
 
 ### Entities
 - **Candidates**: belong to a Party, have `base_utility_modifier`, polling performance (`poll_percentage`), and `vals` — a 7-number tuple in `VALUES` order, not a `PoliticalValues` object.
-- **Voter Blocs**: Groups of voters defined by a `center` (ideal values), optional `weight`, `variance`, and `salience`. `turnout` is metadata only; the engine computes turnout from distance/apathy.
-- **Countries**: Have a synthetic voter count (`pop`), a display multiplier (`scale`), baseline values, optional blocs, and a head of state (`hos`).
+- **Voter Blocs**: Groups of voters defined by a `center` (ideal values), optional `weight`, `variance`, and `salience`. Turnout is computed by the engine; the old per-bloc `turnout` metadata was removed in 4.2.
+- **Countries**: Have a synthetic voter count (`pop`), a display multiplier (`scale`), baseline values, optional blocs, a head-of-state display name (`hos`), and a head-of-government title (`headOfGovernmentTitle`).
 - **Trends**: Temporary shifts in voter values or priorities (e.g., "Climate Alarm" pushes `env_eco` towards Environmental).
 
 ### Simulation Logic

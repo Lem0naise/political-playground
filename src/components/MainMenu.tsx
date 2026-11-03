@@ -3,6 +3,7 @@ import { useGame } from '@/contexts/GameContext';
 import { importSaveGame } from '@/lib/saveManager';
 import { VERSION } from '@/lib/version';
 import { analyticsBlockedByDnt, analyticsOptedOut, isAnalyticsConfigured, setAnalyticsOptedOut, track } from '@/lib/analytics';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 
 export default function MainMenu() {
   const { actions } = useGame();
@@ -49,6 +50,7 @@ export default function MainMenu() {
     return (selectedData.pop * selectedData.scale).toLocaleString();
   }, [selectedData]);
   const selectedHos = selectedData?.hos ?? '—';
+  const selectedGovernmentTitle = getHeadOfGovernmentTitle(selectedData);
 
   const handleCountrySelect = () => {
     if (selectedCountry && countries[selectedCountry]) {
@@ -253,6 +255,7 @@ export default function MainMenu() {
                 <span className="campaign-status text-yellow-400 text-xs">Selected: {selectedCountry}</span>
                 <span>Electorate {selectedPopulation}</span>
                 <span>Head of State {selectedHos}</span>
+                <span>Government {selectedGovernmentTitle}</span>
               </div>
             )}
           </div>

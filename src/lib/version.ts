@@ -6,6 +6,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '4.2.0',
+    date: '2026-11-03',
+    changes: [
+      "Coalition negotiations now trap focus, restore focus on close, and clear pending timers when unmounted.",
+      "Reduced-motion preference disables decorative UI motion and Chart.js animations.",
+      "Country data now supplies the head-of-government title (President, Chancellor, Premier, etc.) for news, cabinet and campaign labels.",
+      "Removed dead bloc data and unused constants/state fields; added a data validator to CI.",
+    ],
+  },
+  {
     version: '4.1.0',
     date: '2026-11-03',
     changes: [

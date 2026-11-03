@@ -20,22 +20,8 @@ import {
 import { Candidate, MAJORITY_THRESHOLD } from '@/types/game';
 import CabinetView from './CabinetView';
 import { getIdeologyProfile } from '@/lib/ideologyProfiler';
-
-/** Escape-to-close and body scroll lock for the coalition dialogs. */
-function useDialogBehavior(onClose: () => void) {
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', onKeyDown);
-    };
-  }, [onClose]);
-}
+import { formatCabinetPosition, getHeadOfGovernmentTitle } from '@/lib/officeTitles';
+import { useDialogBehavior } from '@/hooks/useDialogBehavior';
 
 // ─── NegotiationModal (player-led negotiation with counter-offers) ─────────────
 
@@ -47,11 +33,12 @@ interface NegotiationModalProps {
   onComplete: (success: boolean, positions: string[]) => void;
   onCancel: () => void;
   cabinetAllocations: Record<string, string[]>;
+  leaderTitle: string;
 }
 
 function NegotiationModal({
   leadParty, partnerParty, leadPercentage, partnerPercentage,
-  onComplete, onCancel, cabinetAllocations,
+  onComplete, onCancel, cabinetAllocations, leaderTitle,
 }: NegotiationModalProps) {
   const [round, setRound] = useState(1);
   const [currentStep, setCurrentStep] = useState<'policy' | 'cabinet' | 'reviewing' | 'result' | 'counter'>('policy');
@@ -61,7 +48,23 @@ function NegotiationModal({
   const [counterDemands, setCounterDemands] = useState<CounterDemand[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  useDialogBehavior(onCancel);
+  const dialogRef = useDialogBehavior(
+    onCancel,
+    `${currentStep}:${currentQuestionIndex}:${round}`
+  );
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const schedule = (callback: () => void, delay: number) => {
+    if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      timeoutRef.current = null;
+      callback();
+    }, delay);
+  };
+
+  useEffect(() => () => {
+    if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+  }, []);
 
   const policyQuestions: any[] = [];
   const q1 = generateCoalitionPolicyQuestion(leadParty, partnerParty);
@@ -71,6 +74,12 @@ function NegotiationModal({
 
   const availablePositions = getAvailableCabinetPositions(cabinetAllocations);
   const priorityPositions = getPartyPriorityPositions(partnerParty);
+
+  useEffect(() => {
+    if (currentStep === 'policy' && policyQuestions.length === 0) {
+      setCurrentStep('cabinet');
+    }
+  }, [currentStep, policyQuestions.length]);
 
   const handlePolicyResponse = (appeal: number) => {
     const newResponses = [...policyResponses, appeal];
@@ -85,7 +94,7 @@ function NegotiationModal({
   const makeOffer = (positions: string[] = offeredPositions) => {
     setOfferedPositions(positions);
     setCurrentStep('reviewing');
-    setTimeout(() => {
+    schedule(() => {
       const totalImportance = positions.reduce((sum, pos) => {
         const p = availablePositions.find(p => p.name === pos);
         return sum + (p?.importance || 0);
@@ -106,7 +115,7 @@ function NegotiationModal({
 
   const handleCounterResponse = (accept: boolean) => {
     setCurrentStep('reviewing');
-    setTimeout(() => {
+    schedule(() => {
       const selectedDemands = accept ? counterDemands : [];
       const result = evaluateCounterResponse(
         leadParty, partnerParty, leadPercentage, partnerPercentage,
@@ -156,7 +165,7 @@ function NegotiationModal({
   if (currentStep === 'policy' && policyQuestions.length > 0) {
     const cq = policyQuestions[currentQuestionIndex];
     return (
-      <div className={mb}><div className={cb}>
+      <div className={mb}><div className={cb} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition negotiation" tabIndex={-1}>
         <PartyBar />
         <div className="flex items-center gap-2 mb-3">
           <span className="text-[10px] text-slate-500 uppercase tracking-wider bg-slate-700 px-2 py-0.5 rounded">Round {round}/3</span>
@@ -178,13 +187,20 @@ function NegotiationModal({
   }
 
   if (currentStep === 'policy' && policyQuestions.length === 0) {
-    setTimeout(() => setCurrentStep('cabinet'), 0);
-    return null;
+    return (
+      <div className={mb}><div className={cb} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition negotiation" tabIndex={-1}>
+        <PartyBar />
+        <div className="flex flex-col items-center justify-center py-10">
+          <div className="w-12 h-12 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin mb-4"></div>
+          <p className="text-sm text-slate-400">Preparing cabinet discussions…</p>
+        </div>
+      </div></div>
+    );
   }
 
   if (currentStep === 'cabinet') {
     return (
-      <div className={mb}><div className={cb}>
+      <div className={mb}><div className={cb} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition negotiation" tabIndex={-1}>
         <PartyBar />
         <div className="flex items-center gap-2 mb-3">
           <span className="text-[10px] text-slate-500 uppercase tracking-wider bg-slate-700 px-2 py-0.5 rounded">Round {round}/3</span>
@@ -207,7 +223,7 @@ function NegotiationModal({
                   isOffered ? 'border-green-500 bg-green-900/30 ring-1 ring-green-500/50'
                   : isPriority ? 'border-blue-500 bg-blue-900/20'
                   : 'border-slate-600 bg-slate-700 hover:bg-slate-600'}`}>
-                <div className={`text-white leading-tight ${isTopTier ? 'text-sm font-bold' : 'text-xs font-semibold'}`}>{position.name}</div>
+                <div className={`text-white leading-tight ${isTopTier ? 'text-sm font-bold' : 'text-xs font-semibold'}`}>{formatCabinetPosition(position.name, leaderTitle)}</div>
                 {isTopTier && <div className="text-[10px] text-slate-400 mt-0.5">{position.description}</div>}
               </button>
             );
@@ -224,7 +240,7 @@ function NegotiationModal({
 
   if (currentStep === 'reviewing') {
     return (
-      <div className={mb}><div className={cb}>
+      <div className={mb}><div className={cb} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition negotiation" aria-busy="true" tabIndex={-1}>
         <PartyBar />
         <div className="flex flex-col items-center justify-center py-10">
           <div className="w-12 h-12 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin mb-4"></div>
@@ -237,7 +253,7 @@ function NegotiationModal({
 
   if (currentStep === 'counter' && counterDemands.length > 0) {
     return (
-      <div className={mb}><div className={cb}>
+      <div className={mb}><div className={cb} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition negotiation" tabIndex={-1}>
         <PartyBar />
         <div className="flex items-center gap-2 mb-3">
           <span className="text-[10px] text-red-400 uppercase tracking-wider bg-red-900/40 px-2 py-0.5 rounded border border-red-500/40">Round {round}/3</span>
@@ -252,7 +268,7 @@ function NegotiationModal({
             <div key={i} className={`p-3 border rounded-lg flex items-start gap-3 ${demand.importance === 'must' ? 'border-red-500/60 bg-red-900/20' : 'border-yellow-500/40 bg-yellow-900/10'}`}>
               <div className={`mt-0.5 w-2 h-2 rounded-full flex-shrink-0 ${demand.importance === 'must' ? 'bg-red-400' : 'bg-yellow-400'}`} />
               <div className="flex-1">
-                <div className="text-sm font-semibold text-white">{demand.type === 'position_add' ? 'Give us ' + demand.detail : demand.detail}</div>
+                <div className="text-sm font-semibold text-white">{demand.type === 'position_add' ? 'Give us ' + formatCabinetPosition(demand.detail, leaderTitle) : demand.detail}</div>
                 <div className="text-[10px] text-slate-400 mt-0.5 uppercase">{demand.importance === 'must' ? 'Non-negotiable' : 'Would help seal the deal'}</div>
               </div>
               <div className={`text-[10px] font-bold px-2 py-0.5 rounded ${demand.importance === 'must' ? 'bg-red-600/40 text-red-200' : 'bg-yellow-600/30 text-yellow-200'}`}>
@@ -277,9 +293,9 @@ function NegotiationModal({
 
   if (currentStep === 'result' && negotiationResult) {
     return (
-      <div className={mb}><div className={cb}>
+      <div className={mb}><div className={cb} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition negotiation" tabIndex={-1}>
         <PartyBar />
-        <div className={`p-4 rounded-lg border mb-5 ${negotiationResult.success ? 'bg-green-900/30 border-green-600' : 'bg-red-900/30 border-red-600'}`}>
+        <div aria-live="polite" className={`p-4 rounded-lg border mb-5 ${negotiationResult.success ? 'bg-green-900/30 border-green-600' : 'bg-red-900/30 border-red-600'}`}>
           <p className={`font-bold text-base ${negotiationResult.success ? 'text-green-400' : 'text-red-400'}`}>{negotiationResult.success ? '✓ Coalition agreement reached' : '✗ Negotiations failed'}</p>
           <p className="text-sm text-slate-300 mt-1">{negotiationResult.message}</p>
           <p className="text-xs text-slate-400 mt-1">Appeal: {negotiationResult.finalAppeal?.toFixed(0) ?? '?'}%</p>
@@ -287,7 +303,7 @@ function NegotiationModal({
         {negotiationResult.success && offeredPositions.length > 0 && (
           <div className="mb-5">
             <h4 className="text-xs font-semibold text-blue-400 mb-1.5">Agreed cabinet positions:</h4>
-            <div className="flex flex-wrap gap-1.5">{offeredPositions.map(pos => (<span key={pos} className="text-xs px-2 py-1 bg-blue-900/40 border border-blue-700 rounded text-blue-300">{pos}</span>))}</div>
+            <div className="flex flex-wrap gap-1.5">{offeredPositions.map(pos => (<span key={pos} className="text-xs px-2 py-1 bg-blue-900/40 border border-blue-700 rounded text-blue-300">{formatCabinetPosition(pos, leaderTitle)}</span>))}</div>
           </div>
         )}
         <button onClick={() => onComplete(negotiationResult.success, offeredPositions)} className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg">Continue</button>
@@ -308,6 +324,7 @@ function PlayerApproachModal({
   offer,
   onComplete,
   onReject,
+  leaderTitle,
 }: {
   leadParty: Candidate;
   playerParty: Candidate;
@@ -316,13 +333,35 @@ function PlayerApproachModal({
   offer: any;
   onComplete: (success: boolean, positions: string[], responses: number[]) => void;
   onReject: () => void;
+  leaderTitle: string;
 }) {
   const [currentStep, setCurrentStep] = useState<'offer' | 'policy' | 'cabinet' | 'reviewing'>('offer');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [policyResponses, setPolicyResponses] = useState<number[]>([]);
   const [acceptedPositions, setAcceptedPositions] = useState<string[]>([]);
 
-  useDialogBehavior(onReject);
+  const dialogRef = useDialogBehavior(
+    onReject,
+    `${currentStep}:${currentQuestionIndex}`
+  );
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const schedule = (callback: () => void, delay: number) => {
+    if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      timeoutRef.current = null;
+      callback();
+    }, delay);
+  };
+
+  useEffect(() => () => {
+    if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+  }, []);
+
+  const acceptOffer = () => {
+    setCurrentStep('reviewing');
+    schedule(() => onComplete(true, acceptedPositions, policyResponses), Math.floor(Math.random() * 1500) + 1500);
+  };
 
   const modalBase = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50';
   const cardBase = 'bg-slate-800 border border-slate-700 rounded-xl p-5 sm:p-7 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl';
@@ -352,7 +391,7 @@ function PlayerApproachModal({
   if (currentStep === 'offer') {
     return (
       <div className={modalBase}>
-        <div className={cardBase}>
+        <div className={cardBase} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition invitation" tabIndex={-1}>
           <PartyBar />
           <h3 className="campaign-status text-base font-bold text-yellow-400 mb-2">
             Coalition Invitation
@@ -363,7 +402,7 @@ function PlayerApproachModal({
               <h4 className="text-xs font-semibold text-blue-400 mb-2">Offered cabinet positions:</h4>
               <div className="flex flex-wrap gap-1.5">
                 {offer.offeredPositions.map((pos: string) => (
-                  <span key={pos} className="text-xs px-2 py-1 bg-blue-900/40 border border-blue-700 rounded text-blue-300">{pos}</span>
+                  <span key={pos} className="text-xs px-2 py-1 bg-blue-900/40 border border-blue-700 rounded text-blue-300">{formatCabinetPosition(pos, leaderTitle)}</span>
                 ))}
               </div>
             </div>
@@ -391,7 +430,7 @@ function PlayerApproachModal({
     const currentQuestion = offer.questions[currentQuestionIndex];
     return (
       <div className={modalBase}>
-        <div className={cardBase}>
+        <div className={cardBase} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition invitation" tabIndex={-1}>
           <PartyBar />
           <h3 className="campaign-status text-base font-bold text-yellow-400 mb-1">
             Policy Discussion — Question {currentQuestionIndex + 1} of {offer.questions.length}
@@ -426,7 +465,7 @@ function PlayerApproachModal({
   if (currentStep === 'cabinet') {
     return (
       <div className={modalBase}>
-        <div className={cardBase}>
+        <div className={cardBase} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition invitation" tabIndex={-1}>
           <PartyBar />
           <h3 className="campaign-status text-base font-bold text-yellow-400 mb-3">
             {leadParty.party} offers these cabinet positions:
@@ -452,7 +491,7 @@ function PlayerApproachModal({
                     : 'border-slate-600 bg-slate-700 hover:bg-slate-600 text-white'
                     }`}
                 >
-                  {position} {acceptedPositions.includes(position) ? '✓' : ''}
+                  {formatCabinetPosition(position, leaderTitle)} {acceptedPositions.includes(position) ? '✓' : ''}
                 </button>
               ))}
             </div>
@@ -465,12 +504,7 @@ function PlayerApproachModal({
               Reject offer
             </button>
             <button
-              onClick={() => {
-                setCurrentStep('reviewing');
-                setTimeout(() => {
-                  onComplete(true, acceptedPositions, policyResponses);
-                }, Math.floor(Math.random() * 1500) + 1500);
-              }}
+              onClick={acceptOffer}
               className="flex-1 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-lg"
             >
               Accept ({acceptedPositions.length} positions)
@@ -484,9 +518,9 @@ function PlayerApproachModal({
   if (currentStep === 'reviewing') {
     return (
       <div className={modalBase}>
-        <div className={cardBase}>
+        <div className={cardBase} ref={dialogRef} role="dialog" aria-modal="true" aria-label="Coalition invitation" aria-busy="true" tabIndex={-1}>
           <PartyBar />
-          <div className="flex flex-col items-center justify-center py-10">
+          <div className="flex flex-col items-center justify-center py-10" aria-live="polite">
             <div className="w-12 h-12 border-4 border-slate-600 border-t-yellow-400 rounded-full animate-spin mb-4"></div>
             <h3 className="text-xl font-bold text-white mb-2">Awaiting Response...</h3>
             <p className="text-sm text-slate-400 text-center">
@@ -610,6 +644,7 @@ function CoalitionLog({ entries }: { entries: string[] }) {
 
 export default function CoalitionFormation() {
   const { state, actions } = useGame();
+  const leaderTitle = getHeadOfGovernmentTitle(state.countryData);
   const [selectedPartner, setSelectedPartner] = useState<Candidate | null>(null);
   const [showNegotiationDetails, setShowNegotiationDetails] = useState(false);
   const [playerApproachOffer, setPlayerApproachOffer] = useState<any>(null);
@@ -898,6 +933,7 @@ export default function CoalitionFormation() {
             cabinetAllocations={coalitionState.cabinetAllocations}
             winningParty={coalitionState.coalitionPartners[0]}
             candidates={state.candidates}
+            headOfGovernmentTitle={leaderTitle}
           />
 
           <div className="text-center pt-2">
@@ -1077,7 +1113,7 @@ export default function CoalitionFormation() {
                           </div>
                           <div className="text-xs text-slate-400">{result?.percentage.toFixed(1)}% vote</div>
                           <div className="text-[9px] text-slate-500 mt-0.5 truncate">
-                            Wants: {getPartyPriorityPositions(partner).slice(0, 3).join(', ') || 'Junior Ministries'}
+                            Wants: {getPartyPriorityPositions(partner).slice(0, 3).map(p => formatCabinetPosition(p, leaderTitle)).join(', ') || 'Junior Ministries'}
                           </div>
                           {getIdeologyProfile(partner.vals, 'inline')}
 
@@ -1124,6 +1160,7 @@ export default function CoalitionFormation() {
             partnerParty={selectedPartner}
             leadPercentage={attemptingPercentage}
             partnerPercentage={sortedResults.find(r => r.candidate.id === selectedPartner.id)?.percentage || 0}
+            leaderTitle={leaderTitle}
             onComplete={(success, positions) => {
               const logMsg = success
                 ? `${attemptingParty.party} → ${selectedPartner.party}: Coalition agreement reached.`
@@ -1153,6 +1190,7 @@ export default function CoalitionFormation() {
             offer={playerApproachOffer}
             onComplete={handlePlayerApproachResponse}
             onReject={() => handlePlayerApproachResponse(false, [], [])}
+            leaderTitle={leaderTitle}
           />
         )}
       </div>

@@ -9,10 +9,12 @@ import IdeologyScatterPlot from './IdeologyScatterPlot';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 import { exportSaveGame } from '@/lib/saveManager';
 import { VERSION } from '@/lib/version';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 
 
 export default function CampaignView() {
   const { state, actions } = useGame();
+  const leaderTitle = getHeadOfGovernmentTitle(state.countryData);
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [eventVariables, setEventVariables] = useState<EventVariables | null>(null);
@@ -368,7 +370,7 @@ export default function CampaignView() {
                 {state.incumbentGovernment && state.incumbentGovernment.length > 0 ? (
                   <div>
                     <span className="font-bold text-xs truncate mr-2">
-                      PM: {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
+                      {leaderTitle}: {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
                     </span>
                     <span className="text-slate-400 text-xs truncate">({state.incumbentGovernment[0]})</span>
                   </div>

@@ -15,6 +15,7 @@ import { useEffect, useRef, useMemo, useState } from 'react';
 import { Chart, Tooltip, Legend } from 'chart.js';
 import { SankeyController, Flow } from 'chartjs-chart-sankey';
 import { VoterTransferEntry, Candidate } from '@/types/game';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 Chart.register(SankeyController, Flow, Tooltip, Legend);
 
@@ -144,6 +145,7 @@ function TransferTable({ transfers, candidates, initialPollResults }: {
 // ─── Main Sankey component ────────────────────────────────────────────────────
 
 export default function VoterFlowSankey({ transfers, candidates, pollResults, initialPollResults }: Props) {
+    const reducedMotion = useReducedMotion();
     const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const chartRef = useRef<Chart | null>(null);
@@ -276,6 +278,7 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: reducedMotion ? (false as const) : undefined,
                 plugins: {
                     tooltip: {
                         callbacks: {
@@ -307,7 +310,7 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
             chartRef.current?.destroy();
             chartRef.current = null;
         };
-    }, [displayTransfers, candidates, leftOrder, rightOrder]);
+    }, [displayTransfers, candidates, leftOrder, rightOrder, reducedMotion]);
 
     // All unique party names for legend
     const legendParties = useMemo(() => {

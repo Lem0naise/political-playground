@@ -1,6 +1,7 @@
 import { GameState, NewsItem } from '@/types/game';
 import { getEngineState, setEngineState, resetEngineState, EngineState } from '@/lib/gameEngine';
 import { track } from '@/lib/analytics';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 
 export const SAVE_VERSION = '2.0';
 
@@ -76,13 +77,18 @@ export function normalizeGameState(raw: unknown): GameState | null {
         : 'setup';
 
     const base = raw as Record<string, unknown>;
+    const normalizedCountryData = {
+        ...(countryData as Record<string, unknown>),
+        headOfGovernmentTitle: getHeadOfGovernmentTitle(
+            countryData as { headOfGovernmentTitle?: string }
+        )
+    };
     return {
         country: raw.country,
-        countryData: countryData as unknown as GameState['countryData'],
+        countryData: normalizedCountryData as unknown as GameState['countryData'],
         partyList: typeof base.partyList === 'string' ? base.partyList : '',
         candidates,
         playerCandidate,
-        actionsRemaining: typeof base.actionsRemaining === 'number' ? base.actionsRemaining : undefined,
         currentPoll,
         totalPolls,
         pollResults: Array.isArray(base.pollResults) ? base.pollResults as GameState['pollResults'] : [],
@@ -95,7 +101,6 @@ export function normalizeGameState(raw: unknown): GameState | null {
         votingData: Array.isArray(base.votingData) ? base.votingData as number[][] : [],
         pendingParties: Array.isArray(base.pendingParties) ? base.pendingParties : undefined,
         coalitionState: base.coalitionState as GameState['coalitionState'],
-        testingData: base.testingData,
         incumbentGovernment: Array.isArray(base.incumbentGovernment)
             ? (base.incumbentGovernment as unknown[]).filter((party): party is string => typeof party === 'string')
             : undefined,

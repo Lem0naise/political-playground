@@ -1,4 +1,5 @@
 import { GameState, PoliticalValues, PostElectionStats, BlocSwingData, PartyBlocSupport, NewsItem } from '@/types/game';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 import { EventVariables } from '@/lib/eventTemplates';
 import {
   applyTrendStep,
@@ -237,6 +238,7 @@ export function calculatePostElectionStats(
 
 export function calculateNextPollState(state: GameState): GameState {
   const nextPollNum = state.currentPoll + 1;
+  const leaderTitle = getHeadOfGovernmentTitle(state.countryData);
   const globalTrendNews: string[] = [];
   let activeTrends = state.activeTrend;
   let trendHistory = state.trendHistory;
@@ -333,6 +335,7 @@ export function calculateNextPollState(state: GameState): GameState {
       state.eventVariables,
       state.country,
       state.incumbentGovernment,
+      leaderTitle,
     );
     activeCandidates = changes.candidates;
     leadershipNews = changes.news;
@@ -508,7 +511,7 @@ export function calculateNextPollState(state: GameState): GameState {
           const template = pool[Math.floor(Math.random() * pool.length)];
           partyPollingNews.push(substituteNewsVariables(
             template,
-            { newsTitle },
+            { newsTitle, leaderTitle },
             state.eventVariables,
             state.country
           ));
@@ -520,7 +523,7 @@ export function calculateNextPollState(state: GameState): GameState {
           const template = pool[Math.floor(Math.random() * pool.length)];
           partyPollingNews.push(substituteNewsVariables(
             template,
-            { newsTitle },
+            { newsTitle, leaderTitle },
             state.eventVariables,
             state.country
           ));
@@ -530,7 +533,7 @@ export function calculateNextPollState(state: GameState): GameState {
           const template = STEADY_MESSAGES[Math.floor(Math.random() * STEADY_MESSAGES.length)];
           partyPollingNews.push(substituteNewsVariables(
             template,
-            { newsTitle },
+            { newsTitle, leaderTitle },
             state.eventVariables,
             state.country
           ));
@@ -538,7 +541,7 @@ export function calculateNextPollState(state: GameState): GameState {
           const template = MIXED_MESSAGES[Math.floor(Math.random() * MIXED_MESSAGES.length)];
           newsEvents.push(substituteNewsVariables(
             template,
-            { newsTitle },
+            { newsTitle, leaderTitle },
             state.eventVariables,
             state.country
           ));

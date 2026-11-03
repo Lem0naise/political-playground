@@ -88,8 +88,6 @@ export interface VoterBloc {
   center: PoliticalValues;
   variance?: number | Partial<PoliticalValues>; // uniform std or per-axis stddev
   salience?: Partial<PoliticalValues>; // optional per-axis weights
-  partyAffinity?: Record<string, number>; // party name -> utility bonus
-  turnout?: number; // turnout multiplier (default 1)
 }
 
 
@@ -98,6 +96,8 @@ export interface Country {
   vals: PoliticalValues;
   scale: number;
   hos: string;
+  /** Office held by the winning party leader, e.g. "Prime Minister", "President", "Chancellor". */
+  headOfGovernmentTitle?: string;
   blocs?: VoterBloc[]
 }
 
@@ -210,7 +210,6 @@ export interface GameState {
   partyList: string;
   candidates: Candidate[];
   playerCandidate: Candidate | null;
-  actionsRemaining?: number;
   currentPoll: number;
   totalPolls: number;
   pollResults: PollResult[];
@@ -221,7 +220,6 @@ export interface GameState {
   votingData: number[][];
   pendingParties?: any[];
   coalitionState?: CoalitionState;
-  testingData?: any; // Just for completeness, don't think we need this
   incumbentGovernment?: string[];
   phase: 'setup' | 'party-selection' | 'partyMerging' | 'player-selection' | 'campaign' | 'results' | 'coalition';
   pollingHistory: PollingSnapshot[];
@@ -297,10 +295,7 @@ export const CABINET_POSITIONS: Record<string, CabinetPosition> = {
 // Game configuration constants
 export const DEBUG = false;
 export const TOO_FAR_DISTANCE = 140; // higher means more voters
-export const COALITION_FACTOR = 1.1;
-export const TOO_CLOSE_PARTY = 200;
 export const VOTE_MANDATE = false;
-export const POLL_COUNTER = 30;
 // A party/coalition needs a strict majority of the vote share; exactly 50% is not a majority.
 export const MAJORITY_THRESHOLD = 50;
 export const EVENT_EFFECT_MULTIPLIER = 0.8;

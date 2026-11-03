@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import type { TooltipItem } from 'chart.js';
 import { Candidate, PollingSnapshot } from '@/types/game';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler);
 
@@ -43,6 +44,7 @@ function hexToRgba(hex: string, alpha = 0.35) {
 }
 
 export default function PollingGraphModal({ open, onClose, history, candidates }: PollingGraphModalProps) {
+  const reducedMotion = useReducedMotion();
   const modalRoot = typeof document !== 'undefined' ? document.body : null;
 
   const labels = history.map((snapshot) => `${snapshot.week}`);
@@ -98,6 +100,7 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
   const options = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
+    animation: reducedMotion ? (false as const) : undefined,
     interaction: {
       intersect: false,
       mode: 'nearest' as const,
@@ -148,7 +151,7 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
         },
       },
     },
-  }), [yAxisMax]);
+  }), [yAxisMax, reducedMotion]);
 
   useEffect(() => {
     if (!open) return;

@@ -24,8 +24,8 @@ Success = in one session the player sees a different event pool, different news 
 
 - `incumbentGovernment` is maintained across elections but only affects news pool flavour (`GOVERNMENT_*` / `OPPOSITION_*` templates), "G" badges, the PM label, `ParliamentChart` tinting, and the post-election leadership-challenge penalty. **It has zero effect on polling.**
 - The `incumbencyEffect` in `applyPoliticalDynamics` is poll-share fatigue applied to every party — opposition suffers it equally.
-- `VoterBloc.turnout` in `countries.json` (0.42–1.0) is **never read** by the polling engine; bloc turnout is entirely emergent from the distance/apathy gate in `voteForCandidate`.
-- `actionsRemaining` is declared but unused. (`funds` and `politicalCapital` were removed from `Candidate` in v4.) The only weekly player agency is event choices.
+- The old `VoterBloc.turnout` values in `countries.json` (0.42–1.0) were removed in WS3 because they were never read. When implementing this proposal, add an explicit typed `turnoutBias` field (or derive a bias from initial `BlocStatistics`) rather than restoring the old metadata.
+- `actionsRemaining` was removed in 4.2 because it was declared but unused. (`funds` and `politicalCapital` were removed from `Candidate` in v4.) The only weekly player agency is event choices.
 - Role events do not exist; all 299 events in `public/data/events.json` are generic.
 
 ---
