@@ -1,6 +1,6 @@
-# Player Analytics & Admin Dashboard — Implementation Plan
+# WS7 — Player Analytics & Admin Dashboard (Cloudflare) — Implementation Plan
 
-**Status:** proposed, not implemented.
+**Status:** proposed, not implemented. This is workstream **WS7**; WS5 (data quality) and WS6 (master-v4 fixes) are separate.
 **Goal:** record every "play" and "save" action (with the game country and party), store the events anonymously, and expose a private admin dashboard with monthly active players, countries, parties, saves, and trends.
 
 ---

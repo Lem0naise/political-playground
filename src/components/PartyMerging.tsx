@@ -141,7 +141,7 @@ export default function PartyMerging() {
               onClick={handleSkipAll}
               className="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors campaign-status"
             >
-              No, Skip Merging
+              Skip All Mergers
             </button>
             <button
               onClick={() => setOptedIn(true)}
@@ -217,12 +217,6 @@ export default function PartyMerging() {
                 >
                   Skip All Mergers
                 </button>
-                <button
-                  onClick={handleSkipMerge}
-                  className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 border border-yellow-400 text-yellow-200 hover:bg-yellow-900/20 font-bold rounded-lg transition-colors duration-200 campaign-status text-sm"
-                >
-                  Keep Separate
-                </button>
               </div>
             </div>
 
@@ -255,7 +249,7 @@ export default function PartyMerging() {
                           party.pac_mil,
                           party.auth_ana,
                           party.rel_sec
-                        ])}
+                        ], 'inline')}
                       </div>
                     </div>
                   </div>
@@ -267,7 +261,7 @@ export default function PartyMerging() {
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="campaign-status text-xs text-slate-300">
+                  <label htmlFor="merged-party-name" className="campaign-status text-xs text-slate-300">
                     New Party Name
                   </label>
                   <button
@@ -279,6 +273,7 @@ export default function PartyMerging() {
                   </button>
                 </div>
                 <input
+                  id="merged-party-name"
                   type="text"
                   value={newPartyName}
                   onChange={event => setNewPartyName(event.target.value)}

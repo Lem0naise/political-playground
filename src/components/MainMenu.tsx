@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { importSaveGame } from '@/lib/saveManager';
 import { VERSION } from '@/lib/version';
@@ -9,13 +9,33 @@ export default function MainMenu() {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [totalPolls, setTotalPolls] = useState(52);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [countriesError, setCountriesError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const loadCountries = useCallback(() => {
+    setLoading(true);
+    setCountriesError(null);
+    fetch('/data/countries.json')
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        setCountries(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load countries:', err);
+        setCountriesError('Could not load the country list. Check your connection and try again.');
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
-    fetch('/data/countries.json')
-      .then(res => res.json())
-      .then(data => setCountries(data))
-      .catch(err => console.error('Failed to load countries:', err));
-  }, []);
+    loadCountries();
+  }, [loadCountries]);
 
   const selectedData = useMemo(() => selectedCountry ? countries[selectedCountry] : null, [countries, selectedCountry]);
   const selectedPopulation = useMemo(() => {
@@ -28,8 +48,12 @@ export default function MainMenu() {
 
   const handleCountrySelect = () => {
     if (selectedCountry && countries[selectedCountry]) {
-      // Add some randomization to voting demographics like in the original
-      const countryData = { ...countries[selectedCountry] };
+      // Add some randomization to voting demographics like in the original.
+      // Clone `vals` too: it is nested inside the fetched object.
+      const countryData = {
+        ...countries[selectedCountry],
+        vals: { ...countries[selectedCountry].vals }
+      };
       for (const key in countryData.vals) {
         countryData.vals[key] += Math.round(10 * (Math.random() - 0.5));
       }
@@ -95,7 +119,7 @@ export default function MainMenu() {
             <div className="flex flex-col sm:flex-row gap-3 items-stretch">
               <div className="flex-1 sm:flex-[2] bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="campaign-status text-xs text-slate-300">Campaign Length</span>
+                  <label htmlFor="weeks-slider" className="campaign-status text-xs text-slate-300">Campaign Length</label>
                   <span className="campaign-status text-sm text-yellow-400">{totalPolls} wks</span>
                 </div>
                 <input
@@ -116,52 +140,80 @@ export default function MainMenu() {
               >
                 {selectedCountry ? `Launch Campaign in ${selectedCountry}` : 'Select a location to launch'}
               </button>
-              <label className="flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base cursor-pointer">
-                Load Save
-                <input
-                  type="file"
-                  accept=".json"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onload = (ev) => {
-                        const result = ev.target?.result as string;
-                        if (result) {
-                          const loadedState = importSaveGame(result);
-                          if (loadedState) {
-                            actions.loadState(loadedState);
-                          } else {
-                            alert('Invalid save file');
-                          }
-                        }
-                      };
-                      reader.readAsText(file);
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                className="sr-only"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = (ev) => {
+                    const result = ev.target?.result as string;
+                    if (!result) return;
+                    const loadedState = importSaveGame(result);
+                    if (loadedState) {
+                      setLoadError(null);
+                      actions.loadState(loadedState);
+                    } else {
+                      setLoadError('That file is not a valid Political Playground save.');
                     }
-                  }}
-                />
-              </label>
+                  };
+                  reader.onerror = () => setLoadError('Could not read that file.');
+                  reader.readAsText(file);
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 campaign-status text-sm sm:text-base"
+              >
+                Load Save
+              </button>
             </div>
+            {loadError && (
+              <p role="alert" className="text-xs text-red-300 border border-red-500/40 bg-red-900/20 rounded-lg px-3 py-2">
+                {loadError}
+              </p>
+            )}
 
             <div className="relative">
               <input
                 type="search"
+                aria-label="Search countries by name or leader"
                 value={searchTerm}
                 onChange={event => setSearchTerm(event.target.value)}
-                placeholder="Search by code or leader"
+                placeholder="Search countries or leaders"
                 className="w-full rounded-lg bg-slate-900/40 border border-slate-700 text-slate-200 placeholder:text-slate-500 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
-              {filteredCountries.length === 0 && (
+              {loading && (
+                <div className="col-span-full text-center text-slate-400 text-sm py-6 border border-dashed border-slate-700 rounded-lg">
+                  Loading locations…
+                </div>
+              )}
+              {countriesError && (
+                <div role="alert" className="col-span-full text-center text-red-300 text-sm py-6 border border-red-500/40 rounded-lg space-y-2">
+                  <p>{countriesError}</p>
+                  <button
+                    type="button"
+                    onClick={loadCountries}
+                    className="px-3 py-1.5 text-xs font-bold bg-slate-700 hover:bg-slate-600 rounded-lg"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+              {!loading && !countriesError && filteredCountries.length === 0 && (
                 <div className="col-span-full text-center text-slate-400 text-sm py-6 border border-dashed border-slate-700 rounded-lg">
                   No matching locations. Try another search.
                 </div>
               )}
 
-              {filteredCountries.map(([countryCode, countryData]) => {
+              {!loading && !countriesError && filteredCountries.map(([countryCode, countryData]) => {
                 const voters = countryData?.pop && countryData?.scale
                   ? (countryData.pop * countryData.scale).toLocaleString()
                   : '—';
@@ -170,6 +222,7 @@ export default function MainMenu() {
                   <button
                     key={countryCode}
                     onClick={() => setSelectedCountry(countryCode)}
+                    aria-pressed={selectedCountry === countryCode}
                     className={`text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${selectedCountry === countryCode
                       ? 'border-yellow-400 bg-yellow-900/30 text-yellow-200'
                       : 'border-slate-600 bg-slate-800/40 text-slate-100 hover:border-yellow-600 hover:bg-slate-700/40'
@@ -178,7 +231,9 @@ export default function MainMenu() {
                     <div className="campaign-status text-sm font-semibold">{countryCode}</div>
                     <div className="text-xs text-slate-300 font-mono">{voters} voters</div>
                     <div className="text-xs text-slate-400 truncate">{countryData?.hos ?? '—'}</div>
-                    <div className="text-xs text-red-400 truncate">{countryData?.blocs ? '' : 'No Bloc-Based Voters'}</div>
+                    {!countryData?.blocs && (
+                      <div className="text-xs text-slate-500 truncate">Unimodal electorate</div>
+                    )}
                   </button>
                 );
               })}
@@ -187,7 +242,7 @@ export default function MainMenu() {
             {selectedCountry && (
               <div className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-slate-200 font-mono">
                 <span className="campaign-status text-yellow-400 text-xs">Selected: {selectedCountry}</span>
-                <span>Population {selectedPopulation}</span>
+                <span>Electorate {selectedPopulation}</span>
                 <span>Head of State {selectedHos}</span>
               </div>
             )}

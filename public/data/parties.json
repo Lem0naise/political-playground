@@ -11,7 +11,7 @@
             "pac_mil": -20,
             "auth_ana": -21,
             "rel_sec": 1,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -24,7 +24,7 @@
             "pac_mil": 0,
             "auth_ana": 33,
             "rel_sec": 32,
-            "colour": "gold"
+            "colour": "#ca8a04"
         },
         {
             "id": 2,
@@ -37,7 +37,7 @@
             "pac_mil": 4,
             "auth_ana": -1,
             "rel_sec": 74,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 3,
@@ -50,7 +50,7 @@
             "pac_mil": -10,
             "auth_ana": 31,
             "rel_sec": 13,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 4,
@@ -63,7 +63,7 @@
             "pac_mil": 90,
             "auth_ana": -42,
             "rel_sec": -3,
-            "colour": "black"
+            "colour": "#676b75"
         }
     ],
     "USA": [
@@ -78,7 +78,7 @@
             "pac_mil": 65,
             "auth_ana": -98,
             "rel_sec": -45,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -91,7 +91,7 @@
             "pac_mil": -20,
             "auth_ana": 85,
             "rel_sec": 75,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -104,7 +104,7 @@
             "pac_mil": 55,
             "auth_ana": -90,
             "rel_sec": -95,
-            "colour": "darkred"
+            "colour": "#ab4444"
         },
         {
             "id": 3,
@@ -117,7 +117,7 @@
             "pac_mil": 25,
             "auth_ana": 45,
             "rel_sec": 20,
-            "colour": "skyblue"
+            "colour": "#0ea5e9"
         },
         {
             "id": 4,
@@ -130,7 +130,7 @@
             "pac_mil": -95,
             "auth_ana": 98,
             "rel_sec": 60,
-            "colour": "gold"
+            "colour": "#ca8a04"
         },
         {
             "id": 5,
@@ -143,7 +143,7 @@
             "pac_mil": -85,
             "auth_ana": 40,
             "rel_sec": 85,
-            "colour": "green"
+            "colour": "#16a34a"
         }
     ],
     "GEORGIA": [
@@ -158,7 +158,7 @@
             "pac_mil": 25,
             "auth_ana": -31,
             "rel_sec": 21,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 3,
@@ -171,7 +171,7 @@
             "pac_mil": 11,
             "auth_ana": 12,
             "rel_sec": 21,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 4,
@@ -184,7 +184,7 @@
             "pac_mil": 41,
             "auth_ana": -42,
             "rel_sec": -31,
-            "colour": "black"
+            "colour": "#676b75"
         },
         {
             "id": 0,
@@ -197,7 +197,7 @@
             "pac_mil": 45,
             "auth_ana": -85,
             "rel_sec": -60,
-            "colour": "indigo"
+            "colour": "#6366f1"
         },
         {
             "id": 1,
@@ -210,7 +210,7 @@
             "pac_mil": 35,
             "auth_ana": 65,
             "rel_sec": 75,
-            "colour": "red"
+            "colour": "#dc2626"
         }
     ],
     "UKRAINE": [
@@ -225,7 +225,7 @@
             "pac_mil": 85,
             "auth_ana": -75,
             "rel_sec": 10,
-            "colour": "springgreen"
+            "colour": "#10b981"
         },
         {
             "id": 1,
@@ -238,7 +238,7 @@
             "pac_mil": 98,
             "auth_ana": -40,
             "rel_sec": -20,
-            "colour": "gold"
+            "colour": "#ca8a04"
         },
         {
             "id": 2,
@@ -251,7 +251,7 @@
             "pac_mil": 90,
             "auth_ana": 65,
             "rel_sec": -30,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 3,
@@ -264,7 +264,7 @@
             "pac_mil": 100,
             "auth_ana": -95,
             "rel_sec": 0,
-            "colour": "darkolivegreen"
+            "colour": "#556b2f"
         },
         {
             "id": 4,
@@ -277,7 +277,7 @@
             "pac_mil": 50,
             "auth_ana": -20,
             "rel_sec": -85,
-            "colour": "red"
+            "colour": "#dc2626"
         }
     ],
     "SOVIET UNION 1991": [
@@ -292,7 +292,7 @@
             "pac_mil": -30,
             "auth_ana": 20,
             "rel_sec": 80,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -305,7 +305,7 @@
             "pac_mil": -20,
             "auth_ana": 80,
             "rel_sec": 40,
-            "colour": "white"
+            "colour": "#f8fafc"
         },
         {
             "id": 2,
@@ -318,7 +318,7 @@
             "pac_mil": 90,
             "auth_ana": -95,
             "rel_sec": 90,
-            "colour": "darkred"
+            "colour": "#ab4444"
         },
         {
             "id": 3,
@@ -331,7 +331,7 @@
             "pac_mil": 60,
             "auth_ana": -70,
             "rel_sec": -80,
-            "colour": "black"
+            "colour": "#676b75"
         }
     ],
     "GREECE": [
@@ -346,7 +346,7 @@
             "pac_mil": -25,
             "auth_ana": -34,
             "rel_sec": -37,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -359,7 +359,7 @@
             "pac_mil": 15,
             "auth_ana": 4,
             "rel_sec": 37,
-            "colour": "pink"
+            "colour": "#ec4899"
         },
         {
             "id": 2,
@@ -372,7 +372,7 @@
             "pac_mil": -5,
             "auth_ana": 4,
             "rel_sec": 0,
-            "colour": "pink"
+            "colour": "#ee5a5e"
         },
         {
             "id": 3,
@@ -385,7 +385,7 @@
             "pac_mil": 15,
             "auth_ana": -4,
             "rel_sec": 32,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 4,
@@ -398,7 +398,7 @@
             "pac_mil": 45,
             "auth_ana": -74,
             "rel_sec": -2,
-            "colour": "lightblue"
+            "colour": "#7dd3fc"
         }
     ],
     "PEOPLEPOLITICS": [
@@ -413,7 +413,7 @@
             "pac_mil": 35,
             "auth_ana": -85,
             "rel_sec": 95,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -425,7 +425,8 @@
             "soc_cap": 41,
             "pac_mil": 82,
             "auth_ana": -40,
-            "rel_sec": 100
+            "rel_sec": 100,
+            "colour": "#3b82f6"
         },
         {
             "id": 2,
@@ -437,7 +438,8 @@
             "soc_cap": 81,
             "pac_mil": 72,
             "auth_ana": -63,
-            "rel_sec": -62
+            "rel_sec": -62,
+            "colour": "#22c55e"
         },
         {
             "id": 3,
@@ -450,7 +452,7 @@
             "pac_mil": -5,
             "auth_ana": 14,
             "rel_sec": 12,
-            "colour": "skyblue"
+            "colour": "#0ea5e9"
         },
         {
             "id": 4,
@@ -463,7 +465,7 @@
             "pac_mil": 12,
             "auth_ana": -51,
             "rel_sec": 0,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 5,
@@ -475,10 +477,11 @@
             "soc_cap": 100,
             "pac_mil": 0,
             "auth_ana": 90,
-            "rel_sec": 0
+            "rel_sec": 0,
+            "colour": "#f97316"
         },
         {
-            "id": 0,
+            "id": 6,
             "name": "Professor Halford",
             "party": "Hamptonian's Party",
             "prog_cons": -30,
@@ -488,10 +491,10 @@
             "pac_mil": -50,
             "auth_ana": 0,
             "rel_sec": 50,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
-            "id": 0,
+            "id": 7,
             "name": "Josh WilPolitics",
             "party": "WilOfThePeople Party",
             "prog_cons": 70,
@@ -501,7 +504,7 @@
             "pac_mil": 30,
             "auth_ana": -40,
             "rel_sec": -20,
-            "colour": "purple"
+            "colour": "#ea45ec"
         }
     ],
     "RADICALS": [
@@ -515,7 +518,8 @@
             "soc_cap": -100,
             "pac_mil": -100,
             "auth_ana": 100,
-            "rel_sec": 100
+            "rel_sec": 100,
+            "colour": "#ef4444"
         },
         {
             "id": 1,
@@ -527,7 +531,8 @@
             "soc_cap": 0,
             "pac_mil": 0,
             "auth_ana": 0,
-            "rel_sec": 0
+            "rel_sec": 0,
+            "colour": "#3b82f6"
         },
         {
             "id": 2,
@@ -539,7 +544,8 @@
             "soc_cap": 100,
             "pac_mil": 100,
             "auth_ana": -100,
-            "rel_sec": -100
+            "rel_sec": -100,
+            "colour": "#22c55e"
         }
     ],
     "EU": [
@@ -554,11 +560,11 @@
             "pac_mil": 85,
             "auth_ana": -25,
             "rel_sec": -40,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
-            "name": "Iratxe Garc\u00eda",
+            "name": "Iratxe García",
             "party": "Socialists & Democrats (S&D)",
             "prog_cons": -40,
             "nat_glob": 80,
@@ -567,11 +573,11 @@
             "pac_mil": -10,
             "auth_ana": 20,
             "rel_sec": 65,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
-            "name": "Val\u00e9rie Hayer",
+            "name": "Valérie Hayer",
             "party": "Renew Europe",
             "prog_cons": -60,
             "nat_glob": 95,
@@ -580,7 +586,7 @@
             "pac_mil": 40,
             "auth_ana": 70,
             "rel_sec": 80,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 3,
@@ -593,7 +599,7 @@
             "pac_mil": 30,
             "auth_ana": -90,
             "rel_sec": -50,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 4,
@@ -606,7 +612,7 @@
             "pac_mil": -80,
             "auth_ana": 45,
             "rel_sec": 90,
-            "colour": "green"
+            "colour": "#16a34a"
         }
     ],
     "AIRSTRIP ONE": [
@@ -621,7 +627,7 @@
             "pac_mil": 100,
             "auth_ana": -100,
             "rel_sec": 100,
-            "colour": "black"
+            "colour": "#676b75"
         },
         {
             "id": 1,
@@ -634,7 +640,7 @@
             "pac_mil": -100,
             "auth_ana": 100,
             "rel_sec": -100,
-            "colour": "gold"
+            "colour": "#ca8a04"
         }
     ],
     "KRESIMIRIA, KINGDOM OF": [
@@ -648,7 +654,8 @@
             "soc_cap": -15,
             "pac_mil": 11,
             "auth_ana": -3,
-            "rel_sec": 4
+            "rel_sec": 4,
+            "colour": "#ef4444"
         },
         {
             "id": 1,
@@ -660,7 +667,8 @@
             "soc_cap": 52,
             "pac_mil": -61,
             "auth_ana": -63,
-            "rel_sec": -58
+            "rel_sec": -58,
+            "colour": "#3b82f6"
         },
         {
             "id": 2,
@@ -672,7 +680,8 @@
             "soc_cap": -2,
             "pac_mil": 21,
             "auth_ana": -73,
-            "rel_sec": -18
+            "rel_sec": -18,
+            "colour": "#22c55e"
         }
     ],
     "KRESIMIRIA, REPUBLIC OF": [
@@ -687,7 +696,7 @@
             "pac_mil": 30,
             "auth_ana": -75,
             "rel_sec": -10,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -700,7 +709,7 @@
             "pac_mil": -20,
             "auth_ana": 50,
             "rel_sec": 60,
-            "colour": "cyan"
+            "colour": "#06b6d4"
         },
         {
             "id": 2,
@@ -713,7 +722,7 @@
             "pac_mil": -10,
             "auth_ana": 50,
             "rel_sec": 20,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 3,
@@ -726,7 +735,7 @@
             "pac_mil": 80,
             "auth_ana": -40,
             "rel_sec": -95,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 4,
@@ -739,7 +748,7 @@
             "pac_mil": 95,
             "auth_ana": -30,
             "rel_sec": -20,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 5,
@@ -752,7 +761,7 @@
             "pac_mil": -40,
             "auth_ana": 80,
             "rel_sec": 80,
-            "colour": "red"
+            "colour": "#dc2626"
         }
     ],
     "SORDLAND": [
@@ -766,7 +775,8 @@
             "soc_cap": -51,
             "pac_mil": 12,
             "auth_ana": -61,
-            "rel_sec": 24
+            "rel_sec": 24,
+            "colour": "#ef4444"
         },
         {
             "id": 1,
@@ -778,7 +788,8 @@
             "soc_cap": 22,
             "pac_mil": 4,
             "auth_ana": 2,
-            "rel_sec": 1
+            "rel_sec": 1,
+            "colour": "#3b82f6"
         },
         {
             "id": 2,
@@ -790,7 +801,8 @@
             "soc_cap": 12,
             "pac_mil": 61,
             "auth_ana": -75,
-            "rel_sec": -67
+            "rel_sec": -67,
+            "colour": "#22c55e"
         },
         {
             "id": 3,
@@ -802,7 +814,8 @@
             "soc_cap": -98,
             "pac_mil": 12,
             "auth_ana": -20,
-            "rel_sec": 86
+            "rel_sec": 86,
+            "colour": "#eab308"
         }
     ],
     "VENEZUELA": [
@@ -816,7 +829,8 @@
             "soc_cap": -61,
             "pac_mil": 19,
             "auth_ana": -41,
-            "rel_sec": 2
+            "rel_sec": 2,
+            "colour": "#ef4444"
         },
         {
             "id": 1,
@@ -828,7 +842,8 @@
             "soc_cap": 41,
             "pac_mil": 12,
             "auth_ana": 21,
-            "rel_sec": -4
+            "rel_sec": -4,
+            "colour": "#3b82f6"
         },
         {
             "id": 2,
@@ -840,7 +855,8 @@
             "soc_cap": 71,
             "pac_mil": 22,
             "auth_ana": -1,
-            "rel_sec": 11
+            "rel_sec": 11,
+            "colour": "#22c55e"
         }
     ],
     "SOMALIA": [
@@ -854,7 +870,8 @@
             "soc_cap": -30,
             "pac_mil": 39,
             "auth_ana": 40,
-            "rel_sec": 0
+            "rel_sec": 0,
+            "colour": "#ef4444"
         },
         {
             "id": 1,
@@ -866,7 +883,8 @@
             "soc_cap": 10,
             "pac_mil": 30,
             "auth_ana": -10,
-            "rel_sec": 40
+            "rel_sec": 40,
+            "colour": "#3b82f6"
         },
         {
             "id": 2,
@@ -878,7 +896,8 @@
             "soc_cap": -20,
             "pac_mil": 40,
             "auth_ana": -30,
-            "rel_sec": -50
+            "rel_sec": -50,
+            "colour": "#22c55e"
         }
     ],
     "NI": [
@@ -893,7 +912,7 @@
             "pac_mil": 31,
             "auth_ana": 35,
             "rel_sec": -24,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 1,
@@ -906,7 +925,7 @@
             "pac_mil": 31,
             "auth_ana": 41,
             "rel_sec": -41,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 2,
@@ -919,7 +938,7 @@
             "pac_mil": -25,
             "auth_ana": 14,
             "rel_sec": 72,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 3,
@@ -931,7 +950,8 @@
             "soc_cap": 72,
             "pac_mil": 15,
             "auth_ana": -41,
-            "rel_sec": -42
+            "rel_sec": -42,
+            "colour": "#c3f710"
         },
         {
             "id": 4,
@@ -943,7 +963,8 @@
             "soc_cap": 12,
             "pac_mil": -14,
             "auth_ana": -3,
-            "rel_sec": 12
+            "rel_sec": 12,
+            "colour": "#a855f7"
         }
     ],
     "SLOVENIA": [
@@ -957,7 +978,8 @@
             "soc_cap": -1,
             "pac_mil": 14,
             "auth_ana": 13,
-            "rel_sec": 22
+            "rel_sec": 22,
+            "colour": "#ef4444"
         },
         {
             "id": 1,
@@ -969,7 +991,8 @@
             "soc_cap": 5,
             "pac_mil": 44,
             "auth_ana": -10,
-            "rel_sec": -12
+            "rel_sec": -12,
+            "colour": "#3b82f6"
         },
         {
             "id": 2,
@@ -981,7 +1004,8 @@
             "soc_cap": 41,
             "pac_mil": -24,
             "auth_ana": -13,
-            "rel_sec": -42
+            "rel_sec": -42,
+            "colour": "#22c55e"
         },
         {
             "id": 3,
@@ -993,7 +1017,8 @@
             "soc_cap": -11,
             "pac_mil": -14,
             "auth_ana": -3,
-            "rel_sec": 22
+            "rel_sec": 22,
+            "colour": "#eab308"
         },
         {
             "id": 4,
@@ -1005,7 +1030,8 @@
             "soc_cap": -51,
             "pac_mil": 24,
             "auth_ana": 13,
-            "rel_sec": 32
+            "rel_sec": 32,
+            "colour": "#a855f7"
         }
     ],
     "SOUTH AFRICA": [
@@ -1020,7 +1046,7 @@
             "pac_mil": -15,
             "auth_ana": -20,
             "rel_sec": 25,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 1,
@@ -1033,7 +1059,7 @@
             "pac_mil": -10,
             "auth_ana": 65,
             "rel_sec": 45,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -1046,7 +1072,7 @@
             "pac_mil": 80,
             "auth_ana": -85,
             "rel_sec": -95,
-            "colour": "darkgreen"
+            "colour": "#32774c"
         },
         {
             "id": 3,
@@ -1059,7 +1085,7 @@
             "pac_mil": 75,
             "auth_ana": -30,
             "rel_sec": 35,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 4,
@@ -1072,7 +1098,7 @@
             "pac_mil": 20,
             "auth_ana": -25,
             "rel_sec": -65,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 5,
@@ -1085,7 +1111,7 @@
             "pac_mil": 95,
             "auth_ana": -60,
             "rel_sec": -55,
-            "colour": "maroon"
+            "colour": "#9e5353"
         }
     ],
     "RANDOM": [
@@ -1100,7 +1126,7 @@
             "pac_mil": -5,
             "auth_ana": 14,
             "rel_sec": 12,
-            "colour": "skyblue"
+            "colour": "#0ea5e9"
         },
         {
             "id": 1,
@@ -1113,7 +1139,7 @@
             "pac_mil": 42,
             "auth_ana": -41,
             "rel_sec": -61,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 2,
@@ -1125,7 +1151,8 @@
             "soc_cap": -71,
             "pac_mil": 22,
             "auth_ana": 51,
-            "rel_sec": 80
+            "rel_sec": 80,
+            "colour": "#22c55e"
         },
         {
             "id": 3,
@@ -1137,7 +1164,8 @@
             "soc_cap": -5,
             "pac_mil": 42,
             "auth_ana": -81,
-            "rel_sec": 0
+            "rel_sec": 0,
+            "colour": "#eab308"
         }
     ],
     "CHINA": [
@@ -1152,7 +1180,7 @@
             "pac_mil": 98,
             "auth_ana": -100,
             "rel_sec": 95,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -1165,7 +1193,7 @@
             "pac_mil": 60,
             "auth_ana": -80,
             "rel_sec": 80,
-            "colour": "darkred"
+            "colour": "#ab4444"
         },
         {
             "id": 2,
@@ -1178,7 +1206,7 @@
             "pac_mil": 75,
             "auth_ana": -95,
             "rel_sec": 90,
-            "colour": "maroon"
+            "colour": "#9e5353"
         }
     ],
     "KENYA": [
@@ -1193,7 +1221,7 @@
             "pac_mil": 60,
             "auth_ana": -85,
             "rel_sec": -95,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 1,
@@ -1206,7 +1234,7 @@
             "pac_mil": -20,
             "auth_ana": 20,
             "rel_sec": 30,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 2,
@@ -1219,7 +1247,7 @@
             "pac_mil": 10,
             "auth_ana": 60,
             "rel_sec": -30,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 3,
@@ -1232,7 +1260,7 @@
             "pac_mil": 50,
             "auth_ana": -30,
             "rel_sec": -80,
-            "colour": "gold"
+            "colour": "#ca8a04"
         }
     ],
     "INDIA": [
@@ -1247,7 +1275,7 @@
             "pac_mil": 75,
             "auth_ana": -60,
             "rel_sec": -85,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 1,
@@ -1260,7 +1288,7 @@
             "pac_mil": -70,
             "auth_ana": -20,
             "rel_sec": 50,
-            "colour": "skyblue"
+            "colour": "#0ea5e9"
         },
         {
             "id": 2,
@@ -1273,7 +1301,7 @@
             "pac_mil": 0,
             "auth_ana": -50,
             "rel_sec": 40,
-            "colour": "white"
+            "colour": "#f8fafc"
         },
         {
             "id": 3,
@@ -1286,7 +1314,7 @@
             "pac_mil": 5,
             "auth_ana": -70,
             "rel_sec": 60,
-            "colour": "green"
+            "colour": "#16a34a"
         }
     ],
     "RUSSIA": [
@@ -1301,7 +1329,7 @@
             "pac_mil": -80,
             "auth_ana": -95,
             "rel_sec": -60,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -1314,7 +1342,7 @@
             "pac_mil": -40,
             "auth_ana": -70,
             "rel_sec": 20,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
@@ -1327,12 +1355,12 @@
             "pac_mil": 90,
             "auth_ana": -85,
             "rel_sec": -60,
-            "colour": "blue"
+            "colour": "#6850ef"
         },
         {
             "id": 3,
             "name": "Sergey Mironov",
-            "party": "A Just Russia \u2014 For Truth",
+            "party": "A Just Russia — For Truth",
             "prog_cons": 30,
             "nat_glob": -60,
             "env_eco": -30,
@@ -1340,7 +1368,7 @@
             "pac_mil": 50,
             "auth_ana": -50,
             "rel_sec": -20,
-            "colour": "gold"
+            "colour": "#ca8a04"
         }
     ],
     "JAPAN": [
@@ -1355,7 +1383,7 @@
             "pac_mil": -90,
             "auth_ana": -25,
             "rel_sec": 30,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -1368,7 +1396,7 @@
             "pac_mil": -50,
             "auth_ana": -5,
             "rel_sec": 40,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -1381,7 +1409,7 @@
             "pac_mil": 30,
             "auth_ana": 60,
             "rel_sec": 20,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 3,
@@ -1394,7 +1422,7 @@
             "pac_mil": -60,
             "auth_ana": -20,
             "rel_sec": -40,
-            "colour": "pink"
+            "colour": "#ec4899"
         }
     ],
     "CANADA": [
@@ -1409,7 +1437,7 @@
             "pac_mil": -75,
             "auth_ana": -10,
             "rel_sec": 55,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -1422,7 +1450,7 @@
             "pac_mil": 60,
             "auth_ana": -20,
             "rel_sec": 0,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -1435,12 +1463,12 @@
             "pac_mil": -20,
             "auth_ana": 5,
             "rel_sec": 30,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 3,
-            "name": "Yves-Fran\u00e7ois Blanchet",
-            "party": "Bloc Qu\u00e9b\u00e9cois",
+            "name": "Yves-François Blanchet",
+            "party": "Bloc Québécois",
             "prog_cons": -20,
             "nat_glob": -90,
             "env_eco": -30,
@@ -1448,7 +1476,7 @@
             "pac_mil": -20,
             "auth_ana": 20,
             "rel_sec": 95,
-            "colour": "cyan"
+            "colour": "#06b6d4"
         },
         {
             "id": 4,
@@ -1461,7 +1489,7 @@
             "pac_mil": -60,
             "auth_ana": 45,
             "rel_sec": 90,
-            "colour": "green"
+            "colour": "#16a34a"
         }
     ],
     "AUSTRALIA": [
@@ -1476,7 +1504,7 @@
             "pac_mil": -65,
             "auth_ana": -15,
             "rel_sec": 30,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -1489,7 +1517,7 @@
             "pac_mil": -50,
             "auth_ana": -40,
             "rel_sec": -10,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -1502,7 +1530,7 @@
             "pac_mil": -10,
             "auth_ana": 20,
             "rel_sec": 60,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 3,
@@ -1515,13 +1543,13 @@
             "pac_mil": 50,
             "auth_ana": -30,
             "rel_sec": -20,
-            "colour": "darkgreen"
+            "colour": "#32774c"
         }
     ],
     "BRAZIL": [
         {
             "id": 0,
-            "name": "Luiz In\u00e1cio Lula da Silva",
+            "name": "Luiz Inácio Lula da Silva",
             "party": "Workers' Party (PT)",
             "prog_cons": -60,
             "nat_glob": 25,
@@ -1530,11 +1558,11 @@
             "pac_mil": -30,
             "auth_ana": 35,
             "rel_sec": 40,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
-            "name": "Fl\u00e1vio Bolsonaro",
+            "name": "Flávio Bolsonaro",
             "party": "Liberal Party (PL)",
             "prog_cons": 95,
             "nat_glob": -90,
@@ -1543,11 +1571,11 @@
             "pac_mil": 98,
             "auth_ana": -95,
             "rel_sec": -90,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 2,
-            "name": "Tarc\u00edsio de Freitas",
+            "name": "Tarcísio de Freitas",
             "party": "Republicanos",
             "prog_cons": 30,
             "nat_glob": 10,
@@ -1556,7 +1584,7 @@
             "pac_mil": 50,
             "auth_ana": 20,
             "rel_sec": -45,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 3,
@@ -1569,7 +1597,7 @@
             "pac_mil": 20,
             "auth_ana": 60,
             "rel_sec": 10,
-            "colour": "orange"
+            "colour": "#ea580c"
         }
     ],
     "ITALY": [
@@ -1584,7 +1612,7 @@
             "pac_mil": 50,
             "auth_ana": -90,
             "rel_sec": -70,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -1597,7 +1625,7 @@
             "pac_mil": -20,
             "auth_ana": 80,
             "rel_sec": 90,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
@@ -1610,7 +1638,7 @@
             "pac_mil": -70,
             "auth_ana": 40,
             "rel_sec": 40,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 3,
@@ -1623,7 +1651,7 @@
             "pac_mil": 60,
             "auth_ana": -75,
             "rel_sec": -40,
-            "colour": "navy"
+            "colour": "#5469a6"
         },
         {
             "id": 4,
@@ -1636,7 +1664,7 @@
             "pac_mil": 20,
             "auth_ana": -20,
             "rel_sec": -45,
-            "colour": "lightblue"
+            "colour": "#7dd3fc"
         },
         {
             "id": 5,
@@ -1649,7 +1677,7 @@
             "pac_mil": -90,
             "auth_ana": 60,
             "rel_sec": 95,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 6,
@@ -1662,13 +1690,13 @@
             "pac_mil": 35,
             "auth_ana": 65,
             "rel_sec": 60,
-            "colour": "blue"
+            "colour": "#6850ef"
         }
     ],
     "TURKEY": [
         {
             "id": 0,
-            "name": "Recep Tayyip Erdo\u011fan",
+            "name": "Recep Tayyip Erdoğan",
             "party": "Justice and Development Party",
             "prog_cons": 85,
             "nat_glob": -75,
@@ -1677,11 +1705,11 @@
             "pac_mil": 40,
             "auth_ana": -85,
             "rel_sec": -80,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 1,
-            "name": "\u00d6zg\u00fcr \u00d6zel",
+            "name": "Özgür Özel",
             "party": "Republican People's Party",
             "prog_cons": -5,
             "nat_glob": -40,
@@ -1690,11 +1718,11 @@
             "pac_mil": 10,
             "auth_ana": 30,
             "rel_sec": 85,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
-            "name": "Devlet Bah\u00e7eli",
+            "name": "Devlet Bahçeli",
             "party": "MHP",
             "prog_cons": 95,
             "nat_glob": -98,
@@ -1703,11 +1731,11 @@
             "pac_mil": 95,
             "auth_ana": -90,
             "rel_sec": -60,
-            "colour": "darkred"
+            "colour": "#ab4444"
         },
         {
             "id": 3,
-            "name": "T\u00fclay Hatimo\u011fullar\u0131",
+            "name": "Tülay Hatimoğulları",
             "party": "DEM Party",
             "prog_cons": -70,
             "nat_glob": -60,
@@ -1716,7 +1744,7 @@
             "pac_mil": -85,
             "auth_ana": 85,
             "rel_sec": 90,
-            "colour": "purple"
+            "colour": "#9333ea"
         }
     ],
     "IRAN": [
@@ -1731,7 +1759,7 @@
             "pac_mil": 40,
             "auth_ana": -97,
             "rel_sec": -100,
-            "colour": "green"
+            "colour": "#16a34a"
         }
     ],
     "ISRAEL": [
@@ -1746,7 +1774,7 @@
             "pac_mil": 50,
             "auth_ana": -55,
             "rel_sec": -30,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -1759,7 +1787,7 @@
             "pac_mil": -50,
             "auth_ana": -10,
             "rel_sec": 70,
-            "colour": "skyblue"
+            "colour": "#0ea5e9"
         },
         {
             "id": 2,
@@ -1772,7 +1800,7 @@
             "pac_mil": 70,
             "auth_ana": -70,
             "rel_sec": -95,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 4,
@@ -1785,7 +1813,7 @@
             "pac_mil": -85,
             "auth_ana": 40,
             "rel_sec": -60,
-            "colour": "darkgreen"
+            "colour": "#32774c"
         },
         {
             "id": 5,
@@ -1798,7 +1826,7 @@
             "pac_mil": 90,
             "auth_ana": 25,
             "rel_sec": -15,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 6,
@@ -1811,7 +1839,7 @@
             "pac_mil": 45,
             "auth_ana": 20,
             "rel_sec": 35,
-            "colour": "blue"
+            "colour": "#6850ef"
         },
         {
             "id": 7,
@@ -1824,7 +1852,7 @@
             "pac_mil": 95,
             "auth_ana": -40,
             "rel_sec": 95,
-            "colour": "navy"
+            "colour": "#6a57b3"
         },
         {
             "id": 8,
@@ -1837,7 +1865,7 @@
             "pac_mil": 30,
             "auth_ana": 45,
             "rel_sec": 85,
-            "colour": "red"
+            "colour": "#dc2626"
         }
     ],
     "POLAND": [
@@ -1852,7 +1880,7 @@
             "pac_mil": 60,
             "auth_ana": 85,
             "rel_sec": 70,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -1865,11 +1893,11 @@
             "pac_mil": 85,
             "auth_ana": -75,
             "rel_sec": -90,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 2,
-            "name": "S\u0142awomir Mentzen",
+            "name": "Sławomir Mentzen",
             "party": "Confederation",
             "prog_cons": 75,
             "nat_glob": -95,
@@ -1878,11 +1906,11 @@
             "pac_mil": 70,
             "auth_ana": -30,
             "rel_sec": -30,
-            "colour": "navy"
+            "colour": "#6a57b3"
         },
         {
             "id": 3,
-            "name": "W\u0142adys\u0142aw Kosiniak-Kamysz",
+            "name": "Władysław Kosiniak-Kamysz",
             "party": "Third Way",
             "prog_cons": 30,
             "nat_glob": 10,
@@ -1891,7 +1919,7 @@
             "pac_mil": 75,
             "auth_ana": 10,
             "rel_sec": -50,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 4,
@@ -1904,13 +1932,13 @@
             "pac_mil": 10,
             "auth_ana": 70,
             "rel_sec": 95,
-            "colour": "red"
+            "colour": "#dc2626"
         }
     ],
     "SPAIN": [
         {
             "id": 0,
-            "name": "Pedro S\u00e1nchez",
+            "name": "Pedro Sánchez",
             "party": "PSOE",
             "prog_cons": -45,
             "nat_glob": 60,
@@ -1919,11 +1947,11 @@
             "pac_mil": -60,
             "auth_ana": -20,
             "rel_sec": 60,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
-            "name": "Alberto N\u00fa\u00f1ez Feij\u00f3o",
+            "name": "Alberto Núñez Feijóo",
             "party": "People's Party",
             "prog_cons": 50,
             "nat_glob": 30,
@@ -1932,7 +1960,7 @@
             "pac_mil": -70,
             "auth_ana": -25,
             "rel_sec": -20,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -1945,7 +1973,7 @@
             "pac_mil": 80,
             "auth_ana": -60,
             "rel_sec": -50,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 4,
@@ -1958,7 +1986,7 @@
             "pac_mil": -20,
             "auth_ana": 20,
             "rel_sec": 30,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 5,
@@ -1971,11 +1999,11 @@
             "pac_mil": -10,
             "auth_ana": 70,
             "rel_sec": 50,
-            "colour": "cyan"
+            "colour": "#06b6d4"
         },
         {
             "id": 6,
-            "name": "Gabriel Rufi\u00e1n",
+            "name": "Gabriel Rufián",
             "party": "ERC",
             "prog_cons": -60,
             "nat_glob": -95,
@@ -1984,7 +2012,7 @@
             "pac_mil": -20,
             "auth_ana": 60,
             "rel_sec": 80,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 7,
@@ -1997,7 +2025,7 @@
             "pac_mil": 10,
             "auth_ana": 20,
             "rel_sec": 45,
-            "colour": "green"
+            "colour": "#18b59b"
         }
     ],
     "NIGERIA": [
@@ -2012,7 +2040,7 @@
             "pac_mil": -50,
             "auth_ana": -40,
             "rel_sec": -20,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 1,
@@ -2025,7 +2053,7 @@
             "pac_mil": -60,
             "auth_ana": -35,
             "rel_sec": -15,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
@@ -2038,7 +2066,7 @@
             "pac_mil": 50,
             "auth_ana": -10,
             "rel_sec": -30,
-            "colour": "yellow"
+            "colour": "#eab308"
         }
     ],
     "GERMANY": [
@@ -2053,7 +2081,7 @@
             "pac_mil": 10,
             "auth_ana": -15,
             "rel_sec": 40,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -2066,7 +2094,7 @@
             "pac_mil": 20,
             "auth_ana": -30,
             "rel_sec": -20,
-            "colour": "black"
+            "colour": "#676b75"
         },
         {
             "id": 2,
@@ -2079,7 +2107,7 @@
             "pac_mil": -20,
             "auth_ana": 20,
             "rel_sec": 50,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 3,
@@ -2092,7 +2120,7 @@
             "pac_mil": 30,
             "auth_ana": -50,
             "rel_sec": -10,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 4,
@@ -2105,7 +2133,7 @@
             "pac_mil": 15,
             "auth_ana": 25,
             "rel_sec": 30,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 5,
@@ -2118,7 +2146,7 @@
             "pac_mil": -70,
             "auth_ana": -20,
             "rel_sec": 20,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 6,
@@ -2131,7 +2159,7 @@
             "pac_mil": -80,
             "auth_ana": 30,
             "rel_sec": 90,
-            "colour": "darkred"
+            "colour": "#ab4444"
         }
     ],
     "FRANCE": [
@@ -2146,7 +2174,7 @@
             "pac_mil": 20,
             "auth_ana": -25,
             "rel_sec": 60,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 1,
@@ -2159,11 +2187,11 @@
             "pac_mil": 25,
             "auth_ana": -60,
             "rel_sec": -30,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 2,
-            "name": "Jean-Luc M\u00e9lenchon",
+            "name": "Jean-Luc Mélenchon",
             "party": "La France Insoumise",
             "prog_cons": -70,
             "nat_glob": -20,
@@ -2172,11 +2200,11 @@
             "pac_mil": 40,
             "auth_ana": -40,
             "rel_sec": 70,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 3,
-            "name": "\u00c9ric Ciotti",
+            "name": "Éric Ciotti",
             "party": "The Republicans",
             "prog_cons": 60,
             "nat_glob": 10,
@@ -2185,7 +2213,7 @@
             "pac_mil": 30,
             "auth_ana": -40,
             "rel_sec": -15,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 4,
@@ -2198,7 +2226,7 @@
             "pac_mil": -10,
             "auth_ana": 0,
             "rel_sec": 65,
-            "colour": "pink"
+            "colour": "#ec4899"
         },
         {
             "id": 5,
@@ -2211,12 +2239,12 @@
             "pac_mil": 20,
             "auth_ana": -20,
             "rel_sec": 80,
-            "colour": "red"
+            "colour": "#df8638"
         },
         {
             "id": 6,
-            "name": "\u00c9ric Zemmour",
-            "party": "Reconqu\u00eate",
+            "name": "Éric Zemmour",
+            "party": "Reconquête",
             "prog_cons": 98,
             "nat_glob": -98,
             "env_eco": 60,
@@ -2224,7 +2252,7 @@
             "pac_mil": 40,
             "auth_ana": -95,
             "rel_sec": -60,
-            "colour": "black"
+            "colour": "#676b75"
         }
     ],
     "NETHERLANDS": [
@@ -2239,7 +2267,7 @@
             "pac_mil": 10,
             "auth_ana": -55,
             "rel_sec": -80,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -2252,7 +2280,7 @@
             "pac_mil": -10,
             "auth_ana": 10,
             "rel_sec": 60,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 3,
@@ -2265,11 +2293,11 @@
             "pac_mil": 45,
             "auth_ana": 15,
             "rel_sec": -55,
-            "colour": "darkgreen"
+            "colour": "#32774c"
         },
         {
             "id": 2,
-            "name": "Dilan Ye\u015filg\u00f6z-Zegerius",
+            "name": "Dilan Yeşilgöz-Zegerius",
             "party": "People's Party for Freedom and Democracy",
             "prog_cons": 20,
             "nat_glob": 50,
@@ -2278,10 +2306,10 @@
             "pac_mil": 20,
             "auth_ana": -20,
             "rel_sec": 40,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
-            "id": 3,
+            "id": 5,
             "name": "Pieter Omtzigt",
             "party": "New Social Contract",
             "prog_cons": 30,
@@ -2291,7 +2319,7 @@
             "pac_mil": 0,
             "auth_ana": 30,
             "rel_sec": -25,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 4,
@@ -2304,7 +2332,7 @@
             "pac_mil": 30,
             "auth_ana": 75,
             "rel_sec": 85,
-            "colour": "lightgreen"
+            "colour": "#86efac"
         }
     ],
     "MEXICO": [
@@ -2319,11 +2347,11 @@
             "pac_mil": 30,
             "auth_ana": -45,
             "rel_sec": 50,
-            "colour": "maroon"
+            "colour": "#9e5353"
         },
         {
             "id": 1,
-            "name": "X\u00f3chitl G\u00e1lvez",
+            "name": "Xóchitl Gálvez",
             "party": "Broad Front for Mexico",
             "prog_cons": 20,
             "nat_glob": 20,
@@ -2332,11 +2360,11 @@
             "pac_mil": 10,
             "auth_ana": -10,
             "rel_sec": -10,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
-            "name": "Jorge \u00c1lvarez M\u00e1ynez",
+            "name": "Jorge Álvarez Máynez",
             "party": "Citizens' Movement",
             "prog_cons": -30,
             "nat_glob": 10,
@@ -2345,7 +2373,7 @@
             "pac_mil": 0,
             "auth_ana": 15,
             "rel_sec": 40,
-            "colour": "orange"
+            "colour": "#ea580c"
         }
     ],
     "ARGENTINA": [
@@ -2360,7 +2388,7 @@
             "pac_mil": 55,
             "auth_ana": 60,
             "rel_sec": 25,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 1,
@@ -2373,7 +2401,7 @@
             "pac_mil": -10,
             "auth_ana": -65,
             "rel_sec": 20,
-            "colour": "skyblue"
+            "colour": "#0ea5e9"
         },
         {
             "id": 2,
@@ -2386,7 +2414,7 @@
             "pac_mil": 95,
             "auth_ana": -70,
             "rel_sec": -25,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 3,
@@ -2399,7 +2427,7 @@
             "pac_mil": -30,
             "auth_ana": -30,
             "rel_sec": 45,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         }
     ],
     "NEW ZEALAND": [
@@ -2414,7 +2442,7 @@
             "pac_mil": 10,
             "auth_ana": -10,
             "rel_sec": 20,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -2427,7 +2455,7 @@
             "pac_mil": -20,
             "auth_ana": 0,
             "rel_sec": 40,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
@@ -2440,7 +2468,7 @@
             "pac_mil": -40,
             "auth_ana": 30,
             "rel_sec": 60,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 3,
@@ -2453,7 +2481,7 @@
             "pac_mil": 20,
             "auth_ana": 60,
             "rel_sec": 30,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 4,
@@ -2466,14 +2494,14 @@
             "pac_mil": 30,
             "auth_ana": -30,
             "rel_sec": -10,
-            "colour": "black"
+            "colour": "#676b75"
         }
     ],
     "IRELAND": [
         {
             "id": 0,
             "name": "Mary Lou McDonald",
-            "party": "Sinn F\u00e9in",
+            "party": "Sinn Féin",
             "prog_cons": -40,
             "nat_glob": -60,
             "env_eco": -20,
@@ -2481,7 +2509,7 @@
             "pac_mil": -30,
             "auth_ana": -20,
             "rel_sec": 50,
-            "colour": "darkgreen"
+            "colour": "#32774c"
         },
         {
             "id": 1,
@@ -2494,12 +2522,12 @@
             "pac_mil": 0,
             "auth_ana": -10,
             "rel_sec": 20,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
-            "name": "Miche\u00e1l Martin",
-            "party": "Fianna F\u00e1il",
+            "name": "Micheál Martin",
+            "party": "Fianna Fáil",
             "prog_cons": 10,
             "nat_glob": 40,
             "env_eco": 20,
@@ -2507,10 +2535,10 @@
             "pac_mil": 0,
             "auth_ana": -5,
             "rel_sec": 10,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
-            "id": 2,
+            "id": 3,
             "name": "Michael Higgins",
             "party": "Labour Party",
             "prog_cons": -20,
@@ -2520,7 +2548,7 @@
             "pac_mil": -30,
             "auth_ana": 10,
             "rel_sec": 0,
-            "colour": "red"
+            "colour": "#dc2626"
         }
     ],
     "SWEDEN": [
@@ -2535,7 +2563,7 @@
             "pac_mil": 10,
             "auth_ana": -10,
             "rel_sec": 60,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -2548,11 +2576,11 @@
             "pac_mil": 30,
             "auth_ana": -20,
             "rel_sec": 30,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
-            "name": "Jimmie \u00c5kesson",
+            "name": "Jimmie Åkesson",
             "party": "Sweden Democrats",
             "prog_cons": 80,
             "nat_glob": -80,
@@ -2561,7 +2589,7 @@
             "pac_mil": 20,
             "auth_ana": -40,
             "rel_sec": -20,
-            "colour": "yellow"
+            "colour": "#eab308"
         }
     ],
     "SOUTH KOREA": [
@@ -2576,7 +2604,7 @@
             "pac_mil": 40,
             "auth_ana": -50,
             "rel_sec": 10,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -2589,7 +2617,7 @@
             "pac_mil": 20,
             "auth_ana": -20,
             "rel_sec": 30,
-            "colour": "blue"
+            "colour": "#2563eb"
         }
     ],
     "INDONESIA": [
@@ -2604,7 +2632,7 @@
             "pac_mil": 60,
             "auth_ana": -70,
             "rel_sec": -60,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -2617,7 +2645,7 @@
             "pac_mil": 20,
             "auth_ana": -30,
             "rel_sec": 40,
-            "colour": "red"
+            "colour": "#df8638"
         },
         {
             "id": 2,
@@ -2630,7 +2658,7 @@
             "pac_mil": 10,
             "auth_ana": -25,
             "rel_sec": -40,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         }
     ],
     "PAKISTAN": [
@@ -2645,7 +2673,7 @@
             "pac_mil": 40,
             "auth_ana": -60,
             "rel_sec": -70,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 1,
@@ -2658,7 +2686,7 @@
             "pac_mil": 20,
             "auth_ana": -40,
             "rel_sec": -50,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
@@ -2671,7 +2699,7 @@
             "pac_mil": 10,
             "auth_ana": -30,
             "rel_sec": 20,
-            "colour": "black"
+            "colour": "#676b75"
         }
     ],
     "CHILE": [
@@ -2686,11 +2714,11 @@
             "pac_mil": -20,
             "auth_ana": 20,
             "rel_sec": 70,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 1,
-            "name": "Jos\u00e9 Antonio Kast",
+            "name": "José Antonio Kast",
             "party": "Republican Party",
             "prog_cons": 95,
             "nat_glob": -70,
@@ -2699,7 +2727,7 @@
             "pac_mil": 50,
             "auth_ana": -80,
             "rel_sec": -80,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -2712,7 +2740,7 @@
             "pac_mil": 30,
             "auth_ana": -40,
             "rel_sec": -30,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         }
     ],
     "COLOMBIA": [
@@ -2727,11 +2755,11 @@
             "pac_mil": -50,
             "auth_ana": -30,
             "rel_sec": 60,
-            "colour": "purple"
+            "colour": "#9333ea"
         },
         {
             "id": 1,
-            "name": "Federico Guti\u00e9rrez",
+            "name": "Federico Gutiérrez",
             "party": "Creemos Colombia",
             "prog_cons": 50,
             "nat_glob": 10,
@@ -2740,7 +2768,7 @@
             "pac_mil": 40,
             "auth_ana": -40,
             "rel_sec": -20,
-            "colour": "blue"
+            "colour": "#2563eb"
         }
     ],
     "EGYPT": [
@@ -2755,7 +2783,7 @@
             "pac_mil": 70,
             "auth_ana": -90,
             "rel_sec": -40,
-            "colour": "black"
+            "colour": "#676b75"
         },
         {
             "id": 1,
@@ -2768,7 +2796,7 @@
             "pac_mil": -20,
             "auth_ana": 40,
             "rel_sec": 60,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 2,
@@ -2781,7 +2809,7 @@
             "pac_mil": -10,
             "auth_ana": 50,
             "rel_sec": 70,
-            "colour": "pink"
+            "colour": "#ec4899"
         }
     ],
     "PHILIPPINES": [
@@ -2796,7 +2824,7 @@
             "pac_mil": 50,
             "auth_ana": -75,
             "rel_sec": -40,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -2809,7 +2837,7 @@
             "pac_mil": 60,
             "auth_ana": -80,
             "rel_sec": -50,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 2,
@@ -2822,7 +2850,7 @@
             "pac_mil": -10,
             "auth_ana": 20,
             "rel_sec": 30,
-            "colour": "pink"
+            "colour": "#ec4899"
         }
     ],
     "MALAYSIA": [
@@ -2837,7 +2865,7 @@
             "pac_mil": 0,
             "auth_ana": -10,
             "rel_sec": 10,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -2850,7 +2878,7 @@
             "pac_mil": 20,
             "auth_ana": -50,
             "rel_sec": -60,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 2,
@@ -2863,7 +2891,7 @@
             "pac_mil": 30,
             "auth_ana": -40,
             "rel_sec": -50,
-            "colour": "blue"
+            "colour": "#2563eb"
         }
     ],
     "AUSTRIA": [
@@ -2878,7 +2906,7 @@
             "pac_mil": 20,
             "auth_ana": -25,
             "rel_sec": -45,
-            "colour": "turquoise"
+            "colour": "#2dd4bf"
         },
         {
             "id": 1,
@@ -2891,7 +2919,7 @@
             "pac_mil": -40,
             "auth_ana": -75,
             "rel_sec": -20,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -2904,7 +2932,7 @@
             "pac_mil": -15,
             "auth_ana": 10,
             "rel_sec": 60,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 3,
@@ -2917,7 +2945,7 @@
             "pac_mil": 10,
             "auth_ana": 75,
             "rel_sec": 50,
-            "colour": "pink"
+            "colour": "#ec4899"
         },
         {
             "id": 4,
@@ -2930,7 +2958,7 @@
             "pac_mil": -20,
             "auth_ana": 45,
             "rel_sec": 85,
-            "colour": "green"
+            "colour": "#16a34a"
         }
     ],
     "SWITZERLAND": [
@@ -2945,7 +2973,7 @@
             "pac_mil": 20,
             "auth_ana": -30,
             "rel_sec": -20,
-            "colour": "darkgreen"
+            "colour": "#32774c"
         },
         {
             "id": 1,
@@ -2958,7 +2986,7 @@
             "pac_mil": -40,
             "auth_ana": 15,
             "rel_sec": 65,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
@@ -2971,7 +2999,7 @@
             "pac_mil": 15,
             "auth_ana": 25,
             "rel_sec": 45,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 3,
@@ -2984,7 +3012,7 @@
             "pac_mil": 0,
             "auth_ana": 0,
             "rel_sec": -45,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 4,
@@ -2997,13 +3025,13 @@
             "pac_mil": -60,
             "auth_ana": 20,
             "rel_sec": 70,
-            "colour": "lightgreen"
+            "colour": "#86efac"
         }
     ],
     "PORTUGAL": [
         {
             "id": 0,
-            "name": "Lu\u00eds Montenegro",
+            "name": "Luís Montenegro",
             "party": "Social Democratic Party",
             "prog_cons": 25,
             "nat_glob": 50,
@@ -3012,7 +3040,7 @@
             "pac_mil": 10,
             "auth_ana": -15,
             "rel_sec": -20,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 1,
@@ -3025,11 +3053,11 @@
             "pac_mil": -15,
             "auth_ana": 10,
             "rel_sec": 60,
-            "colour": "pink"
+            "colour": "#ec4899"
         },
         {
             "id": 2,
-            "name": "Andr\u00e9 Ventura",
+            "name": "André Ventura",
             "party": "Chega!",
             "prog_cons": 95,
             "nat_glob": -95,
@@ -3038,7 +3066,7 @@
             "pac_mil": 60,
             "auth_ana": -90,
             "rel_sec": -50,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 3,
@@ -3051,11 +3079,11 @@
             "pac_mil": 5,
             "auth_ana": 75,
             "rel_sec": 50,
-            "colour": "cyan"
+            "colour": "#06b6d4"
         },
         {
             "id": 4,
-            "name": "Mariana Mort\u00e1gua",
+            "name": "Mariana Mortágua",
             "party": "Left Bloc",
             "prog_cons": -95,
             "nat_glob": 30,
@@ -3064,13 +3092,13 @@
             "pac_mil": -80,
             "auth_ana": 50,
             "rel_sec": 98,
-            "colour": "red"
+            "colour": "#dc2626"
         }
     ],
     "HUNGARY": [
         {
             "id": 0,
-            "name": "Viktor Orb\u00e1n",
+            "name": "Viktor Orbán",
             "party": "Fidesz",
             "prog_cons": 90,
             "nat_glob": -85,
@@ -3079,11 +3107,11 @@
             "pac_mil": 30,
             "auth_ana": -85,
             "rel_sec": -70,
-            "colour": "orange"
+            "colour": "#ea580c"
         },
         {
             "id": 1,
-            "name": "P\u00e9ter Magyar",
+            "name": "Péter Magyar",
             "party": "Respect and Freedom Party",
             "prog_cons": 10,
             "nat_glob": 40,
@@ -3092,11 +3120,11 @@
             "pac_mil": 10,
             "auth_ana": 20,
             "rel_sec": 20,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
-            "name": "Kl\u00e1ra Dobrev",
+            "name": "Klára Dobrev",
             "party": "Democratic Coalition",
             "prog_cons": -40,
             "nat_glob": 70,
@@ -3105,7 +3133,7 @@
             "pac_mil": 0,
             "auth_ana": 10,
             "rel_sec": 60,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         }
     ],
     "FINLAND": [
@@ -3120,7 +3148,7 @@
             "pac_mil": 40,
             "auth_ana": -15,
             "rel_sec": 30,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -3133,7 +3161,7 @@
             "pac_mil": 20,
             "auth_ana": -5,
             "rel_sec": 30,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 2,
@@ -3146,7 +3174,7 @@
             "pac_mil": 30,
             "auth_ana": -40,
             "rel_sec": 15,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 9,
@@ -3159,13 +3187,13 @@
             "pac_mil": -30,
             "auth_ana": 20,
             "rel_sec": 30,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         }
     ],
     "NORWAY": [
         {
             "id": 0,
-            "name": "Jonas Gahr St\u00f8re",
+            "name": "Jonas Gahr Støre",
             "party": "Labour Party",
             "prog_cons": -40,
             "nat_glob": 40,
@@ -3174,7 +3202,7 @@
             "pac_mil": 10,
             "auth_ana": -10,
             "rel_sec": 50,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -3187,7 +3215,7 @@
             "pac_mil": 20,
             "auth_ana": -15,
             "rel_sec": 20,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -3200,7 +3228,7 @@
             "pac_mil": 0,
             "auth_ana": 0,
             "rel_sec": 10,
-            "colour": "green"
+            "colour": "#16a34a"
         }
     ],
     "DENMARK": [
@@ -3215,7 +3243,7 @@
             "pac_mil": 20,
             "auth_ana": -30,
             "rel_sec": 50,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
@@ -3228,11 +3256,11 @@
             "pac_mil": 10,
             "auth_ana": -10,
             "rel_sec": 40,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
-            "name": "Lars L\u00f8kke Rasmussen",
+            "name": "Lars Løkke Rasmussen",
             "party": "Moderates",
             "prog_cons": 0,
             "nat_glob": 50,
@@ -3241,7 +3269,7 @@
             "pac_mil": 15,
             "auth_ana": 10,
             "rel_sec": 45,
-            "colour": "purple"
+            "colour": "#9333ea"
         }
     ],
     "BELGIUM": [
@@ -3256,7 +3284,7 @@
             "pac_mil": 25,
             "auth_ana": -85,
             "rel_sec": 30,
-            "colour": "gold"
+            "colour": "#ca8a04"
         },
         {
             "id": 1,
@@ -3269,7 +3297,7 @@
             "pac_mil": 40,
             "auth_ana": -95,
             "rel_sec": -30,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 2,
@@ -3282,7 +3310,7 @@
             "pac_mil": 15,
             "auth_ana": -20,
             "rel_sec": 75,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 3,
@@ -3295,7 +3323,7 @@
             "pac_mil": -20,
             "auth_ana": 10,
             "rel_sec": 55,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 4,
@@ -3308,13 +3336,13 @@
             "pac_mil": -85,
             "auth_ana": 60,
             "rel_sec": 80,
-            "colour": "darkred"
+            "colour": "#ab4444"
         }
     ],
     "URUGUAY": [
         {
             "id": 0,
-            "name": "Yamand\u00fa Orsi",
+            "name": "Yamandú Orsi",
             "party": "Broad Front",
             "prog_cons": -65,
             "nat_glob": 20,
@@ -3323,7 +3351,7 @@
             "pac_mil": -40,
             "auth_ana": 25,
             "rel_sec": 90,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 1,
@@ -3336,11 +3364,11 @@
             "pac_mil": 20,
             "auth_ana": -15,
             "rel_sec": 40,
-            "colour": "lightblue"
+            "colour": "#7dd3fc"
         },
         {
             "id": 2,
-            "name": "Guido Manini R\u00edos",
+            "name": "Guido Manini Ríos",
             "party": "Open Cabildo",
             "prog_cons": 85,
             "nat_glob": -75,
@@ -3349,11 +3377,11 @@
             "pac_mil": 80,
             "auth_ana": -60,
             "rel_sec": -20,
-            "colour": "gold"
+            "colour": "#ca8a04"
         },
         {
             "id": 3,
-            "name": "Andr\u00e9s Ojeda",
+            "name": "Andrés Ojeda",
             "party": "Colorado Party",
             "prog_cons": 10,
             "nat_glob": 40,
@@ -3362,7 +3390,7 @@
             "pac_mil": 10,
             "auth_ana": 10,
             "rel_sec": 85,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 4,
@@ -3375,13 +3403,13 @@
             "pac_mil": -20,
             "auth_ana": 30,
             "rel_sec": 80,
-            "colour": "purple"
+            "colour": "#9333ea"
         }
     ],
     "YUGOSLAVIA 1990": [
         {
             "id": 0,
-            "name": "Slobodan Milo\u0161evi\u0107",
+            "name": "Slobodan Milošević",
             "party": "Socialist Party of Serbia",
             "prog_cons": 70,
             "nat_glob": -95,
@@ -3390,11 +3418,11 @@
             "pac_mil": 95,
             "auth_ana": -90,
             "rel_sec": 30,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 1,
-            "name": "Franjo Tu\u0111man",
+            "name": "Franjo Tuđman",
             "party": "Croatian Democratic Union",
             "prog_cons": 90,
             "nat_glob": -90,
@@ -3403,11 +3431,11 @@
             "pac_mil": 90,
             "auth_ana": -80,
             "rel_sec": -85,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
-            "name": "Ante Markovi\u0107",
+            "name": "Ante Marković",
             "party": "Union of Reform Forces",
             "prog_cons": -20,
             "nat_glob": 85,
@@ -3416,11 +3444,11 @@
             "pac_mil": -60,
             "auth_ana": 30,
             "rel_sec": 70,
-            "colour": "yellow"
+            "colour": "#eab308"
         },
         {
             "id": 3,
-            "name": "Milan Ku\u010dan",
+            "name": "Milan Kučan",
             "party": "LCS-Party of Democratic Renewal",
             "prog_cons": -40,
             "nat_glob": 30,
@@ -3429,11 +3457,11 @@
             "pac_mil": -50,
             "auth_ana": 45,
             "rel_sec": 60,
-            "colour": "pink"
+            "colour": "#ec4899"
         },
         {
             "id": 4,
-            "name": "Alija Izetbegovi\u0107",
+            "name": "Alija Izetbegović",
             "party": "Party of Democratic Action",
             "prog_cons": 60,
             "nat_glob": -40,
@@ -3442,7 +3470,7 @@
             "pac_mil": 40,
             "auth_ana": -20,
             "rel_sec": -90,
-            "colour": "green"
+            "colour": "#16a34a"
         }
     ],
     "ESTONIA": [
@@ -3457,7 +3485,7 @@
             "pac_mil": 30,
             "auth_ana": 40,
             "rel_sec": 80,
-            "colour": "gold"
+            "colour": "#ca8a04"
         },
         {
             "id": 1,
@@ -3470,11 +3498,11 @@
             "pac_mil": 60,
             "auth_ana": -45,
             "rel_sec": -40,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 2,
-            "name": "Mihhail K\u00f5lvart",
+            "name": "Mihhail Kõlvart",
             "party": "Centre Party",
             "prog_cons": 20,
             "nat_glob": -10,
@@ -3483,11 +3511,11 @@
             "pac_mil": -20,
             "auth_ana": -10,
             "rel_sec": 10,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 3,
-            "name": "Lauri L\u00e4\u00e4nemets",
+            "name": "Lauri Läänemets",
             "party": "Social Democrats",
             "prog_cons": -60,
             "nat_glob": 70,
@@ -3496,7 +3524,7 @@
             "pac_mil": -10,
             "auth_ana": 20,
             "rel_sec": 75,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 4,
@@ -3509,7 +3537,7 @@
             "pac_mil": 50,
             "auth_ana": -15,
             "rel_sec": -25,
-            "colour": "blue"
+            "colour": "#2563eb"
         }
     ],
     "CZECHIA": [
@@ -3524,11 +3552,11 @@
             "pac_mil": 45,
             "auth_ana": -15,
             "rel_sec": 35,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 1,
-            "name": "Andrej Babi\u0161",
+            "name": "Andrej Babiš",
             "party": "ANO 2011",
             "prog_cons": 50,
             "nat_glob": -65,
@@ -3537,11 +3565,11 @@
             "pac_mil": 10,
             "auth_ana": -50,
             "rel_sec": 15,
-            "colour": "navy"
+            "colour": "#6a57b3"
         },
         {
             "id": 2,
-            "name": "Ivan Barto\u0161",
+            "name": "Ivan Bartoš",
             "party": "Pirate Party",
             "prog_cons": -80,
             "nat_glob": 75,
@@ -3550,11 +3578,11 @@
             "pac_mil": -40,
             "auth_ana": 85,
             "rel_sec": 95,
-            "colour": "black"
+            "colour": "#676b75"
         },
         {
             "id": 3,
-            "name": "V\u00edt Raku\u0161an",
+            "name": "Vít Rakušan",
             "party": "STAN (Mayors)",
             "prog_cons": -35,
             "nat_glob": 80,
@@ -3563,7 +3591,7 @@
             "pac_mil": 20,
             "auth_ana": 40,
             "rel_sec": 60,
-            "colour": "violet"
+            "colour": "#8b5cf6"
         },
         {
             "id": 4,
@@ -3576,7 +3604,7 @@
             "pac_mil": 60,
             "auth_ana": -30,
             "rel_sec": 20,
-            "colour": "orange"
+            "colour": "#ea580c"
         }
     ],
     "TAIWAN": [
@@ -3591,7 +3619,7 @@
             "pac_mil": 70,
             "auth_ana": 30,
             "rel_sec": 45,
-            "colour": "green"
+            "colour": "#16a34a"
         },
         {
             "id": 1,
@@ -3604,7 +3632,7 @@
             "pac_mil": -30,
             "auth_ana": -20,
             "rel_sec": 15,
-            "colour": "blue"
+            "colour": "#2563eb"
         },
         {
             "id": 2,
@@ -3617,7 +3645,7 @@
             "pac_mil": 20,
             "auth_ana": 75,
             "rel_sec": 60,
-            "colour": "cyan"
+            "colour": "#06b6d4"
         },
         {
             "id": 3,
@@ -3630,7 +3658,7 @@
             "pac_mil": 45,
             "auth_ana": 80,
             "rel_sec": 80,
-            "colour": "yellow"
+            "colour": "#eab308"
         }
     ],
     "SINGAPORE": [
@@ -3645,7 +3673,7 @@
             "pac_mil": 35,
             "auth_ana": -80,
             "rel_sec": 30,
-            "colour": "darkblue"
+            "colour": "#5469a6"
         },
         {
             "id": 1,
@@ -3658,7 +3686,7 @@
             "pac_mil": 15,
             "auth_ana": 25,
             "rel_sec": 45,
-            "colour": "lightblue"
+            "colour": "#7dd3fc"
         },
         {
             "id": 2,
@@ -3671,7 +3699,7 @@
             "pac_mil": 25,
             "auth_ana": 15,
             "rel_sec": 10,
-            "colour": "red"
+            "colour": "#dc2626"
         },
         {
             "id": 3,
@@ -3684,7 +3712,7 @@
             "pac_mil": -20,
             "auth_ana": 80,
             "rel_sec": 75,
-            "colour": "pink"
+            "colour": "#ec4899"
         }
     ]
 }

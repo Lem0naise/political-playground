@@ -143,21 +143,6 @@
       "Industrial Pioneer",
       "Constitutional Architect"
     ],
-    "crisis_type": [
-      "Economic Downturn",
-      "Natural Disaster",
-      "Public Health Emergency",
-      "Infrastructure Failure",
-      "Diplomatic Incident"
-    ],
-    "scandal_type": [
-      "Corruption",
-      "Tax Evasion",
-      "Environmental Violation",
-      "Labour Abuse",
-      "Data Breach",
-      "Safety Negligence"
-    ],
     "minority_group": [
       "Immigrant Communities",
       "Religious Minorities",
@@ -454,7 +439,7 @@
         "the United Kingdom"
       ]
     },
-    "SOUTH_AFRICA": {
+    "SOUTH AFRICA": {
       "newspaper": [
         "Mail & Guardian",
         "TimesLIVE",
@@ -1825,7 +1810,7 @@
         "the United Arab Emirates"
       ]
     },
-    "SOUTH_KOREA": {
+    "SOUTH KOREA": {
       "newspaper": [
         "Chosun Ilbo",
         "JoongAng Ilbo",
@@ -2042,7 +2027,7 @@
         "Switzerland"
       ]
     },
-    "AIRSTRIP_ONE": {
+    "AIRSTRIP ONE": {
       "newspaper": [
         "The Times",
         "The News Gallery",
@@ -2103,7 +2088,7 @@
         "Rumburg"
       ]
     },
-    "SAUDI_ARABIA": {
+    "SAUDI ARABIA": {
       "newspaper": [
         "Arab News",
         "Al Riyadh",
@@ -2183,7 +2168,7 @@
         "Iraq"
       ]
     },
-    "NORTH_KOREA": {
+    "NORTH KOREA": {
       "newspaper": [
         "Rodong Sinmun",
         "Minju Choson",
@@ -2215,7 +2200,7 @@
         "Japan"
       ]
     },
-    "SOVIET_UNION_1925": {
+    "SOVIET UNION 1925": {
       "newspaper": [
         "Pravda",
         "Izvestia",
@@ -2249,7 +2234,7 @@
         "Japan"
       ]
     },
-    "SOVIET_UNION_1991": {
+    "SOVIET UNION 1991": {
       "newspaper": [
         "Pravda",
         "Argumenty i Fakty",
@@ -2323,7 +2308,7 @@
         "the African Union"
       ]
     },
-    "YUGOSLAVIA_1990": {
+    "YUGOSLAVIA 1990": {
       "newspaper": [
         "Borba",
         "Politika",
@@ -2365,7 +2350,7 @@
         "Italy"
       ]
     },
-    "ROMAN_EMPIRE_117_AD": {
+    "ROMAN EMPIRE 117 AD": {
       "newspaper": [
         "Acta Diurna",
         "the Criers",
@@ -2400,6 +2385,246 @@
         "the Germanic Tribes",
         "the Caledonians",
         "the Kushites"
+      ]
+    },
+    "SWITZERLAND": {
+      "newspaper": [
+        "Neue Zürcher Zeitung",
+        "Tages-Anzeiger",
+        "Blick",
+        "Le Temps",
+        "Tribune de Genève"
+      ],
+      "city": [
+        "Zurich",
+        "Geneva",
+        "Basel",
+        "Bern",
+        "Lausanne"
+      ],
+      "region": [
+        "Zurich",
+        "Vaud",
+        "Bern",
+        "Basel-Stadt",
+        "Ticino"
+      ],
+      "company": [
+        "Nestlé",
+        "Novartis",
+        "Roche",
+        "UBS",
+        "Swiss Re"
+      ]
+    },
+    "PORTUGAL": {
+      "newspaper": [
+        "Público",
+        "Diário de Notícias",
+        "Expresso",
+        "Correio da Manhã",
+        "Jornal de Notícias"
+      ],
+      "city": [
+        "Lisbon",
+        "Porto",
+        "Braga",
+        "Coimbra",
+        "Faro"
+      ],
+      "region": [
+        "Lisbon",
+        "Porto",
+        "Algarve",
+        "Alentejo",
+        "Madeira"
+      ],
+      "company": [
+        "Galp",
+        "EDP",
+        "Jerónimo Martins",
+        "Sonae",
+        "TAP Air Portugal"
+      ]
+    },
+    "INDONESIA": {
+      "newspaper": [
+        "Kompas",
+        "Tempo",
+        "The Jakarta Post",
+        "Republika",
+        "Jawa Pos"
+      ],
+      "city": [
+        "Jakarta",
+        "Surabaya",
+        "Bandung",
+        "Medan",
+        "Makassar"
+      ],
+      "region": [
+        "Java",
+        "Sumatra",
+        "Bali",
+        "Kalimantan",
+        "Sulawesi"
+      ],
+      "company": [
+        "Pertamina",
+        "Bank Mandiri",
+        "Telkom Indonesia",
+        "Astra International",
+        "GoTo"
+      ]
+    },
+    "SOMALIA": {
+      "newspaper": [
+        "Hiiraan Online",
+        "Garowe Online",
+        "Shabelle Media",
+        "Somali Guardian",
+        "Goobjoog"
+      ],
+      "city": [
+        "Mogadishu",
+        "Hargeisa",
+        "Bosaso",
+        "Kismayo",
+        "Baidoa"
+      ],
+      "region": [
+        "Banadir",
+        "Puntland",
+        "Somaliland",
+        "Jubaland",
+        "Galmudug"
+      ],
+      "company": [
+        "Hormuud Telecom",
+        "Somtel",
+        "Dahabshiil",
+        "Amal Express",
+        "Golis Telecom"
+      ]
+    },
+    "CZECHIA": {
+      "newspaper": [
+        "Mladá fronta DNES",
+        "Právo",
+        "Hospodářské noviny",
+        "Lidové noviny",
+        "Deník N"
+      ],
+      "city": [
+        "Prague",
+        "Brno",
+        "Ostrava",
+        "Plzeň",
+        "Olomouc"
+      ],
+      "region": [
+        "Bohemia",
+        "Moravia",
+        "Silesia",
+        "Vysočina",
+        "Prague"
+      ],
+      "company": [
+        "Škoda Auto",
+        "ČEZ",
+        "Agrofert",
+        "Kofola",
+        "Seznam.cz"
+      ]
+    },
+    "URUGUAY": {
+      "newspaper": [
+        "El País",
+        "La República",
+        "El Observador",
+        "La Diaria",
+        "Búsqueda"
+      ],
+      "city": [
+        "Montevideo",
+        "Salto",
+        "Paysandú",
+        "Maldonado",
+        "Colonia"
+      ],
+      "region": [
+        "Montevideo",
+        "Canelones",
+        "Maldonado",
+        "Salto",
+        "Paysandú"
+      ],
+      "company": [
+        "ANCAP",
+        "Antel",
+        "Conaprole",
+        "Banco República",
+        "UTE"
+      ]
+    },
+    "TAIWAN": {
+      "newspaper": [
+        "Liberty Times",
+        "United Daily News",
+        "China Times",
+        "Taipei Times",
+        "Apple Daily"
+      ],
+      "city": [
+        "Taipei",
+        "Kaohsiung",
+        "Taichung",
+        "Tainan",
+        "Hsinchu"
+      ],
+      "region": [
+        "Taipei",
+        "Kaohsiung",
+        "Taichung",
+        "Tainan",
+        "Hualien"
+      ],
+      "company": [
+        "TSMC",
+        "Foxconn",
+        "MediaTek",
+        "Delta Electronics",
+        "China Airlines"
+      ]
+    },
+    "SINGAPORE": {
+      "newspaper": [
+        "The Straits Times",
+        "Lianhe Zaobao",
+        "Today",
+        "The Business Times",
+        "Berita Harian"
+      ],
+      "city": [
+        "Singapore",
+        "Jurong",
+        "Tampines",
+        "Woodlands",
+        "Bedok"
+      ],
+      "region": [
+        "Central",
+        "East",
+        "West",
+        "North",
+        "North-East"
+      ],
+      "company": [
+        "Singapore Airlines",
+        "DBS Bank",
+        "Singtel",
+        "Grab",
+        "Sea Group"
       ]
     }
   },

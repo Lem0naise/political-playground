@@ -1444,6 +1444,7 @@
     },
     "scale": 1000,
     "hos": "King Carl XVI Gustaf",
+    "nameStyle": "nordic",
     "blocs": [
       {
         "id": "social_democrats",
@@ -5063,7 +5064,7 @@
       "auth_ana": -80,
       "rel_sec": 15
     },
-    "scale": 10000,
+    "scale": 1000,
     "hos": "Slobodan Milo\u0161evi\u0107",
     "blocs": [
       {
@@ -5183,7 +5184,7 @@
       "auth_ana": 35,
       "rel_sec": 85
     },
-    "scale": 10000,
+    "scale": 1000,
     "hos": "Alar Karis",
     "blocs": [
       {
@@ -5303,7 +5304,7 @@
       "auth_ana": 10,
       "rel_sec": 75
     },
-    "scale": 10000,
+    "scale": 1000,
     "hos": "Petr Pavel",
     "blocs": [
       {
@@ -5421,7 +5422,7 @@
       "auth_ana": 20,
       "rel_sec": 95
     },
-    "scale": 10000,
+    "scale": 1000,
     "hos": "Luis Lacalle Pou",
     "nameStyle": "hispanic"
   },

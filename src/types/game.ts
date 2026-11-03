@@ -301,6 +301,8 @@ export const COALITION_FACTOR = 1.1;
 export const TOO_CLOSE_PARTY = 200;
 export const VOTE_MANDATE = false;
 export const POLL_COUNTER = 30;
+// A party/coalition needs a strict majority of the vote share; exactly 50% is not a majority.
+export const MAJORITY_THRESHOLD = 50;
 export const EVENT_EFFECT_MULTIPLIER = 0.8;
 
 export const EVENT_DRIFT_WEEKS = 3; // Event ideology shifts spread over 3 weeks instead of instant

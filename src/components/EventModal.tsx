@@ -1,17 +1,16 @@
 import { Event, EventChoice } from '@/types/game';
-import { getRandomPaperAssignment, type PaperAssignment } from '@/lib/newsPaperStyles';
+import { getPaperAssignment, type PaperAssignment } from '@/lib/newsPaperStyles';
 
 interface EventModalProps {
   event: Event;
   onChoice: (choice: EventChoice) => void;
-  onClose: () => void;
   newsSource?: string;
   eventVariables?: any;
   country?: string;
 }
 
-export default function EventModal({ event, onChoice, onClose, newsSource, eventVariables, country }: EventModalProps) {
-  const paper: PaperAssignment = getRandomPaperAssignment(eventVariables, country);
+export default function EventModal({ event, onChoice, newsSource, eventVariables, country }: EventModalProps) {
+  const paper: PaperAssignment = getPaperAssignment(eventVariables, country, event.title);
   const style = paper.style;
 
   const handleChoice = (choice: EventChoice) => {
@@ -136,6 +135,16 @@ export default function EventModal({ event, onChoice, onClose, newsSource, event
                               border: `1px solid ${style.accent}`
                             }}>
                             MODERATE COVERAGE
+                          </span>
+                        )}
+                        {choice.boost < 0 && (
+                          <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5"
+                            style={{
+                              backgroundColor: 'transparent',
+                              color: '#b91c1c',
+                              border: '1px solid #b91c1c'
+                            }}>
+                            RISKY
                           </span>
                         )}
                       </div>

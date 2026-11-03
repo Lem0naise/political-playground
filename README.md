@@ -2,7 +2,7 @@
 
 **The Political Playground** is a fictional election simulator game. Players manage a political campaign, navigating weekly polls, dynamic events, and shifting public opinion trends to win the ultimate democratic prize.
 
-Current game version: **4.0.0**.
+Current game version: **4.0.1**.
 
 [**Play Now at polplay.indigo.spot**](https://polplay.indigo.spot)
 

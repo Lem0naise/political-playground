@@ -6,6 +6,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '4.0.1',
+    date: '2026-11-03',
+    changes: [
+      "Fixed jumping vote totals, duplicate party names, double-applied event effects and engine memory leaking between games.",
+      "Party colours are now visible on the dark background; corrected country scales, event-variable keys and duplicate data.",
+      "Save format 2.0 with migration for older string-news saves; new terms keep government news and event text.",
+      "Added a working typecheck to CI and polished menu loading/errors, the news feed and coalition screens.",
+    ],
+  },
+  {
     version: '4.0.0',
     date: '2026-05-11',
     changes: [

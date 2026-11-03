@@ -65,7 +65,7 @@ export default function ParliamentChart({
                     {playerResult ? `${playerResult.percentage.toFixed(1)}%` : '100%'}
                 </div>
                 <div className="text-[10px] sm:text-xs text-slate-500 font-mono uppercase tracking-widest mt-1 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {playerResult ? `Your Votes` : 'Vote Share'}
+                    {playerResult ? `Your share` : 'Vote Share'}
                 </div>
             </div>
         </div>

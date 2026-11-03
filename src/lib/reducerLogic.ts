@@ -3,6 +3,7 @@ import { EventVariables } from '@/lib/eventTemplates';
 import {
   applyTrendStep,
   conductPoll,
+  cloneCandidate,
   createTrend,
   formatTrendStartHeadline,
   scheduleNextTrendPoll,
@@ -242,7 +243,9 @@ export function calculateNextPollState(state: GameState): GameState {
   let nextTrendPoll = state.nextTrendPoll;
   let updatedCountryValues = state.countryData.vals;
   let updatedBlocs = state.countryData.blocs;
-  const votingDataRef = state.votingData;
+  // Work on copies: the engine mutates candidates and voter data in place.
+  const candidates = state.candidates.map(cloneCandidate);
+  const votingDataRef = state.votingData.map(row => [...row]);
   let finalIncumbentGovernment: string[] = state.incumbentGovernment ?? [];
 
   // Step each active trend; collect completed ones
@@ -289,7 +292,7 @@ export function calculateNextPollState(state: GameState): GameState {
     blocs: updatedBlocs
   };
 
-  const { results: newResults, newsEvents, blocStats: newBlocStats } = conductPoll(votingDataRef, state.candidates, nextPollNum, countryDataAfterTrend);
+  const { results: newResults, newsEvents, blocStats: newBlocStats } = conductPoll(votingDataRef, candidates, nextPollNum, countryDataAfterTrend);
 
 
   // --- BEGIN: Apply bloc targeting ideology shift ---
@@ -300,7 +303,7 @@ export function calculateNextPollState(state: GameState): GameState {
   if (updatedTargetedBlocId && countryDataAfterTrend.blocs) {
     const targetedBloc = countryDataAfterTrend.blocs.find(b => b.id === updatedTargetedBlocId);
     if (targetedBloc) {
-      const playerCandidate = state.candidates.find(c => c.is_player);
+      const playerCandidate = candidates.find(c => c.is_player);
       if (playerCandidate) {
         // Increment the counter each poll while actively targeting
         updatedTargetingWeeksActive += 1;
@@ -317,14 +320,14 @@ export function calculateNextPollState(state: GameState): GameState {
   });
 
   // --- BEGIN: Check for AI Leadership Changes ---
-  let activeCandidates = state.candidates;
+  let activeCandidates = candidates;
   let leadershipNews: string[] = [];
   let playerCrisisEvent: any = null;
   let partyDissolutionNews: string[] = [];
 
   if (nextPollNum < state.totalPolls) {
     const changes = checkForLeadershipChanges(
-      state.candidates,
+      activeCandidates,
       state.initialPollResults,
       newPreviousResults,
       state.eventVariables,
@@ -425,11 +428,12 @@ export function calculateNextPollState(state: GameState): GameState {
 
   // -- BEGIN: WEEK 2 INITIAL GOVERNMENT FORMATION --
   if (nextPollNum === 2 && (!state.incumbentGovernment || state.incumbentGovernment.length === 0)) {
-    const hasPlayer = state.candidates.some(c => c.is_player);
+    const hasPlayer = candidates.some(c => c.is_player);
     if (hasPlayer && !playerCrisisEvent) {
+      const playerName = candidates.find(c => c.is_player)?.name ?? 'your party leader';
       playerCrisisEvent = {
         title: "Initial Government Formation",
-        description: `Following the dramatic entry of ${state.playerCandidate?.name} into the campaign, the political landscape is fractured. Initial polls suggest no single party commands a clear majority. As a key player, do you wish to initiate backroom negotiations to form a coalition government now, or allow the largest polling party to assert a minority government?`,
+        description: `Following the dramatic entry of ${playerName} into the campaign, the political landscape is fractured. Initial polls suggest no single party commands a clear majority. As a key player, do you wish to initiate backroom negotiations to form a coalition government now, or allow the largest polling party to assert a minority government?`,
         choices: [
           {
             text: "Enter coalition negotiations.",
@@ -494,7 +498,7 @@ export function calculateNextPollState(state: GameState): GameState {
       newsProbability += 0.3;
     }
 
-    if (Math.random() < newsProbability || (result.candidate === state.playerCandidate)) {
+    if (Math.random() < newsProbability || result.candidate.is_player) {
       if (Math.abs(result.change) > 1.0) {
         if (result.change > 0) {
           // Surge headline: prefer gov/opp flavour when available
@@ -936,20 +940,11 @@ export function calculateNextPollState(state: GameState): GameState {
     ...substitutedNewsEvents.map(text => ({ text, priority: 'low' as const, category: 'flavor' as const })),
   ];
 
-  // Sort by priority: critical → high → medium → low. Within each tier, randomize slightly.
+  // Sort by priority (stable within a tier) and enforce the 8-item cap.
   const priorityOrder: Record<NewsItem['priority'], number> = { critical: 0, high: 1, medium: 2, low: 3 };
-  newsItems.sort((a, b) => {
-    const pa = priorityOrder[a.priority];
-    const pb = priorityOrder[b.priority];
-    if (pa !== pb) return pa - pb;
-    return Math.random() - 0.5;
-  });
-
-  // Critical items are always included, then fill up to 8 total
-  const criticalItems = newsItems.filter(n => n.priority === 'critical');
-  const nonCriticalItems = newsItems.filter(n => n.priority !== 'critical');
-  const remainingSlots = Math.max(0, 8 - criticalItems.length);
-  const sortedPoliticalNews = [...criticalItems, ...nonCriticalItems.slice(0, remainingSlots)];
+  const sortedPoliticalNews = [...newsItems]
+    .sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority])
+    .slice(0, 8);
 
   // Calculate post-election stats if this is the final poll
   let postElectionStats: PostElectionStats | undefined = undefined;
@@ -988,9 +983,9 @@ export function calculateNextPollState(state: GameState): GameState {
     leaderCooldown: c.leaderCooldown ? Math.max(0, c.leaderCooldown - 1) : 0
   }));
 
-  const syncedPlayerCandidate = freshCandidates.find(c => c.is_player) ?? state.playerCandidate;
+  const syncedPlayerCandidate = freshCandidates.find(c => c.is_player) ?? candidates.find(c => c.is_player) ?? state.playerCandidate;
 
-  const hasPlayer = state.candidates.some(c => c.is_player);
+  const hasPlayer = candidates.some(c => c.is_player);
   if (nextPollNum === 2 && finalIncumbentGovernment.length === 0 && !hasPlayer) {
     const sortedByPolls = [...resultsWithChange].sort((a, b) => b.percentage - a.percentage);
     finalIncumbentGovernment = [sortedByPolls[0].candidate.party];

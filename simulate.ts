@@ -9,7 +9,7 @@ type Bloc = {
   id: string;
   weight?: number;
   center: Partial<PoliticalValues>;
-  variance?: Partial<PoliticalValues>;
+  variance?: number | Partial<PoliticalValues>;
 };
 type Country = { pop: number; vals: Partial<PoliticalValues>; blocs?: Bloc[] };
 type Candidate = {
@@ -60,7 +60,7 @@ function clamp(x: number) { return Math.max(-100, Math.min(100, x)); }
 
 function simulateBloc(bloc: Bloc, candidates: Candidate[], samples = 30000): Map<string, number> {
   const center: any = bloc.center || {};
-  const variance: any = bloc.variance || {};
+  const variance = bloc.variance;
   const counts = new Map<string, number>();
   for (const c of candidates) counts.set(c.party, 0);
 
@@ -68,7 +68,9 @@ function simulateBloc(bloc: Bloc, candidates: Candidate[], samples = 30000): Map
     const voter: any = {};
     for (const a of AXES) {
       const mean = Number(center[a] ?? 0);
-      const std = Number(variance[a] ?? 25);
+      const rawStd = typeof variance === 'number' ? variance : variance?.[a];
+      // Match the engine: scalar variance, default 45, clamped to 5..100.
+      const std = Math.max(5, Math.min(100, Number(rawStd ?? 45)));
       voter[a] = clamp(randomNormal(mean, std));
     }
     let best = candidates[0], bestScore = distMinusPopularity(voter as PoliticalValues, best);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { VERSION } from '@/lib/version';
 
@@ -7,19 +7,35 @@ export default function PartySelection() {
   const [partyLists, setPartyLists] = useState<Record<string, any[]>>({});
   const [selectedLists, setSelectedLists] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadParties = useCallback(() => {
+    setLoading(true);
+    setLoadError(null);
     fetch('/data/parties.json')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         setPartyLists(data);
         // Auto-select the party list matching the selected country (if one exists)
         if (state.country && data[state.country]) {
           setSelectedLists([state.country]);
         }
+        setLoading(false);
       })
-      .catch(err => console.error('Failed to load parties:', err));
+      .catch(err => {
+        console.error('Failed to load parties:', err);
+        setLoadError('Could not load the party lists. Check your connection and try again.');
+        setLoading(false);
+      });
   }, [state.country]);
+
+  useEffect(() => {
+    loadParties();
+  }, [loadParties]);
 
   const handlePartyListToggle = (listName: string) => {
     setSelectedLists(prev =>
@@ -81,14 +97,14 @@ export default function PartySelection() {
               PARTY HEADQUARTERS
             </h1>
             <p className="campaign-status text-xs sm:text-sm text-red-200 tracking-[0.35em]">
-              OPPOSITION SELECTION &middot; {state.country || 'UNASSIGNED'}
+              PARTY LISTS &middot; {state.country || 'UNASSIGNED'}
             </p>
           </div>
 
           <div className="campaign-board p-5 sm:p-6 lg:p-8 rounded-xl space-y-5">
             <div className="text-center space-y-2">
               <h2 className="newspaper-header text-2xl sm:text-3xl font-black text-yellow-400 tracking-tight">
-                ASSEMBLE YOUR OPPOSITION
+                ASSEMBLE YOUR PARTY LISTS
               </h2>
               <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
                 Select party lists to populate {state.country}. In the next step you can merge ideologically similar parties, create custom ones, and then pick which party to lead.
@@ -133,6 +149,7 @@ export default function PartySelection() {
             <div className="relative">
               <input
                 type="search"
+                aria-label="Search party lists by list or party name"
                 value={searchTerm}
                 onChange={event => setSearchTerm(event.target.value)}
                 placeholder="Search by list or party name"
@@ -141,19 +158,37 @@ export default function PartySelection() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {filteredPartyLists.length === 0 && (
+              {loading && (
+                <div className="col-span-full text-center text-slate-400 text-sm py-6 border border-dashed border-slate-700 rounded-lg">
+                  Loading party lists…
+                </div>
+              )}
+              {loadError && (
+                <div role="alert" className="col-span-full text-center text-red-300 text-sm py-6 border border-red-500/40 rounded-lg space-y-2">
+                  <p>{loadError}</p>
+                  <button
+                    type="button"
+                    onClick={loadParties}
+                    className="px-3 py-1.5 text-xs font-bold bg-slate-700 hover:bg-slate-600 rounded-lg"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+              {!loading && !loadError && filteredPartyLists.length === 0 && (
                 <div className="col-span-full text-center text-slate-400 text-sm py-6 border border-dashed border-slate-700 rounded-lg">
                   No party lists match your search. Try another term.
                 </div>
               )}
 
-              {filteredPartyLists.map(([listName, parties]) => {
+              {!loading && !loadError && filteredPartyLists.map(([listName, parties]) => {
                 const isSelected = selectedLists.includes(listName);
 
                 return (
                   <button
                     key={listName}
                     onClick={() => handlePartyListToggle(listName)}
+                    aria-pressed={isSelected}
                     className={`flex flex-col text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400/60 ${isSelected
                       ? 'border-yellow-400 bg-yellow-900/30 text-yellow-100'
                       : 'border-slate-600 bg-slate-800/40 text-slate-100 hover:border-yellow-600 hover:bg-slate-700/40'
@@ -164,6 +199,7 @@ export default function PartySelection() {
                         <div className="newspaper-header text-xl font-bold leading-snug">{listName}</div>
                         <div className="text-xs text-slate-300 font-mono mt-0">{parties.length} parties</div>
                       </div>
+                      {isSelected && <span aria-hidden="true" className="text-yellow-300 font-bold">✓</span>}
                     </div>
 
                     <div className="mt-1 space-y-1 items-start">

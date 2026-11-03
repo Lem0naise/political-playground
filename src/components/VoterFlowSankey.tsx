@@ -17,7 +17,6 @@ import { SankeyController, Flow } from 'chartjs-chart-sankey';
 import { VoterTransferEntry, Candidate } from '@/types/game';
 
 Chart.register(SankeyController, Flow, Tooltip, Legend);
-Chart.defaults.font.family = "'Outfit', sans-serif";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -310,8 +309,6 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
         };
     }, [displayTransfers, candidates, leftOrder, rightOrder]);
 
-    if (transfers.length === 0) return null;
-
     // All unique party names for legend
     const legendParties = useMemo(() => {
         const seen = new Set<string>();
@@ -321,6 +318,8 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
         }
         return out;
     }, [leftOrder, rightOrder]);
+
+    if (transfers.length === 0) return null;
 
     const canvasHeight = Math.max(500, Math.max(leftOrder.length, rightOrder.length) * 80 + 40);
 

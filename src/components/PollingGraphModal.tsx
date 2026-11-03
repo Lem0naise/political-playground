@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Line } from 'react-chartjs-2';
 import {
@@ -44,10 +44,6 @@ function hexToRgba(hex: string, alpha = 0.35) {
 
 export default function PollingGraphModal({ open, onClose, history, candidates }: PollingGraphModalProps) {
   const modalRoot = typeof document !== 'undefined' ? document.body : null;
-
-  if (!open || history.length === 0 || !modalRoot) {
-    return null;
-  }
 
   const labels = history.map((snapshot) => `${snapshot.week}`);
 
@@ -154,19 +150,40 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
     },
   }), [yAxisMax]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open, onClose]);
+
+  if (!open || history.length === 0 || !modalRoot) {
+    return null;
+  }
+
   const modalContent = (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 px-4 py-6"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 px-4 py-6 overflow-y-auto"
       onClick={onClose}
     >
       <div
         className="relative flex flex-col w-full max-w-6xl rounded-xl bg-slate-900/90 border border-slate-600 shadow-[0_0_40px_rgba(0,0,0,0.4)] backdrop-blur-lg"
         style={{ height: '85vh', maxHeight: '900px' }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="polling-graph-title"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-700 px-6 py-4 bg-slate-800/50 rounded-t-xl shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-white tracking-tight">Campaign Polling Trajectory</h2>
+            <h2 id="polling-graph-title" className="text-xl font-bold text-white tracking-tight">Campaign Polling Trajectory</h2>
             <p className="text-sm text-slate-300 font-mono">Tracking weekly polling averages by party</p>
           </div>
           <button
@@ -177,7 +194,7 @@ export default function PollingGraphModal({ open, onClose, history, candidates }
           </button>
         </div>
         <div className="flex-1 px-6 pb-6 pt-4 flex flex-col min-h-0 bg-gradient-to-b from-transparent to-slate-900/50 rounded-b-xl">
-          <div className="flex-1 min-h-[300px] relative w-full pb-2 border-b border-slate-700/50">
+          <div className="flex-1 min-h-[300px] relative w-full pb-2 border-b border-slate-700/50" role="img" aria-label="Line chart of weekly polling percentages by party">
             <Line data={data} options={options} />
           </div>
           <div className="mt-4 max-h-[15vh] overflow-y-auto pr-2 custom-scrollbar shrink-0">

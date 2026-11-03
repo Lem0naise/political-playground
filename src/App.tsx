@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { GameProvider } from '@/contexts/GameContext';
 import Home from '@/pages/Home';
-import HomeNew from '@/pages/HomeNew';
 
 export default function App() {
   const siteTitle = "The Political Playground - Fictional Election Simulator";
@@ -54,7 +53,6 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/new" element={<HomeNew />} />
       </Routes>
 
       <footer className=" bottom-4 right-4 z-50 hover:opacity-90 transition-opacity bg-slate-900 flex justify-center p-2">

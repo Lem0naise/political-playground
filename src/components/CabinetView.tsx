@@ -1,5 +1,5 @@
 import React from 'react';
-import { Candidate, CABINET_POSITIONS } from '@/types/game';
+import { Candidate } from '@/types/game';
 
 interface CabinetViewProps {
   cabinetAllocations: Record<string, string[]>;
@@ -107,7 +107,7 @@ const CabinetView: React.FC<CabinetViewProps> = ({ cabinetAllocations, winningPa
               }}
             >
               {p.percentage >= 15 && (
-                <span className="text-[10px] sm:text-xs font-bold text-white drop-shadow-md truncate px-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-[10px] sm:text-xs font-bold text-white drop-shadow-md truncate px-1 opacity-90">
                   {p.candidate!.party}
                 </span>
               )}
