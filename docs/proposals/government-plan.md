@@ -1,7 +1,8 @@
 # Government vs Opposition — Implementation Plan: Approval → Turnout, Role-Tagged Events
 
-**Status:** proposed, not yet implemented.
+**Status:** proposed, not yet implemented. Written before the v4.0.0 simulation overhaul; symbols/paths below were re-anchored but re-check them against the code before starting.
 **Supersedes:** the earlier, larger proposal (weekly action economy, portfolios, role-based vote utility). That version was cut for scope and pacing — see "Out of scope".
+**Not applicable:** this checkout has no FPTP/constituency/procedural-map system. All FPTP/procedural-map assumptions from the original draft have been removed.
 
 **Core principle:** approval does **not** change minds, it changes **who shows up**. That keeps the mechanic legible ("my voters stayed home") and keeps the game from turning into a stat-management screen.
 
@@ -23,8 +24,8 @@ Success = in one session the player sees a different event pool, different news 
 
 - `incumbentGovernment` is maintained across elections but only affects news pool flavour (`GOVERNMENT_*` / `OPPOSITION_*` templates), "G" badges, the PM label, `ParliamentChart` tinting, and the post-election leadership-challenge penalty. **It has zero effect on polling.**
 - The `incumbencyEffect` in `applyPoliticalDynamics` is poll-share fatigue applied to every party — opposition suffers it equally.
-- `VoterBloc.turnout` in `countries.json` (0.73–0.9) is **never read** by the polling engine; bloc turnout is entirely emergent from the distance/apathy gate in `voteForCandidate`.
-- `actionsRemaining`, `funds`, and `politicalCapital` are declared and unused; the only weekly player agency is event choices.
+- `VoterBloc.turnout` in `countries.json` (0.42–1.0) is **never read** by the polling engine; bloc turnout is entirely emergent from the distance/apathy gate in `voteForCandidate`.
+- `actionsRemaining` is declared but unused. (`funds` and `politicalCapital` were removed from `Candidate` in v4.) The only weekly player agency is event choices.
 - Role events do not exist; all 299 events in `public/data/events.json` are generic.
 
 ---
@@ -82,10 +83,10 @@ So at approval 30, a bloc voting 80 % government gets a −10 % participation bi
 
 | File | Change |
 |---|---|
-| `src/lib/gameEngine.ts` — `conductPoll` (~line 1814) | optional `blocTurnoutBias?: number[]` (indexed like `country.blocs`), forwarded to `conductFptpPoll` (~1267) and the PR polling loop (~1867) |
-| `src/lib/gameEngine.ts` — `voteForCandidate` (~1541) | final optional `turnoutBias = 0`: <br>• `if (turnoutBias < 0 && Math.random() < -turnoutBias) return null;` — demoralised supporters stay home (the main effect) <br>• `if (turnoutBias > 0)` scale the hard distance limit by `(1 + 0.3 * turnoutBias)` and the apathy chance by `(1 - 2 * turnoutBias)` — modest enthusiasm boost, never resurrection of hard abstainers |
-| `src/lib/reducerLogic.ts` | after evolving approval, compute the bias array and pass it into `conductPoll` (~line 289) |
-| `src/contexts/GameContext.tsx` — `START_CAMPAIGN` (~line 228) | compute and pass the same bias; mock polls (`SET_PARTY_LIST`, `SET_PENDING_PARTIES`) pass none |
+| `src/lib/gameEngine.ts` — `conductPoll` | optional `blocTurnoutBias?: number[]` (indexed like `country.blocs`), forwarded through the existing polling loop |
+| `src/lib/gameEngine.ts` — `voteForCandidate` | final optional `turnoutBias = 0`: <br>• `if (turnoutBias < 0 && Math.random() < -turnoutBias) return null;` — demoralised supporters stay home (the main effect) <br>• `if (turnoutBias > 0)` scale the hard distance limit by `(1 + 0.3 * turnoutBias)` and the apathy chance by `(1 - 2 * turnoutBias)` — modest enthusiasm boost, never resurrection of hard abstainers |
+| `src/lib/reducerLogic.ts` | after evolving approval, compute the bias array and pass it into `conductPoll` inside `calculateNextPollState` |
+| `src/contexts/GameContext.tsx` — `START_CAMPAIGN` | compute and pass the same bias; mock polls (`SET_PARTY_LIST`, `SET_PENDING_PARTIES`) pass none |
 | `src/lib/governmentEngine.ts` (new) | `computeBlocTurnoutBias(blocs, govParties, approval, blocStats)` |
 
 **Why no new UI is needed:** abstainers leave the numerator and denominator, so national percentages shift; each bloc's turnout line already moves in `PollResults`; `postElectionStats.biggestTurnoutIncrease/Decrease` already surfaces it on the results screen. The 18 % cap means one poll cannot collapse a bloc.
@@ -104,7 +105,7 @@ So at approval 30, a bloc voting 80 % government gets a −10 % participation bi
 | Layer | Location and behaviour |
 |---|---|
 | **Data** | Append **16** events to `public/data/events.json` (the existing 299 stay untouched), 4-space indentation, same schema plus `role`, and `approval` on choices that read as credit/blame. `instantiateEvent` already spreads choices, so `approval` survives placeholder substitution; `role` is read on the raw event before instantiation. |
-| **Selection** | Extract the weight-building block from `src/components/CampaignView.tsx` (~lines 59–76) into a pure `weightEvents(events, playerRole, activeTrendKeys)` in `governmentEngine.ts`: mismatched `role` → weight 0; matching `role` → ×12; trend-category match → ×8 (existing behaviour); `challenger` → all role events 0. With 299 generics + 8 per role this puts role events at roughly **20–25 % of events** (~4 per campaign), so they colour a run without replacing the existing pool. |
+| **Selection** | Extract the weight-building block from `src/components/CampaignView.tsx` (the `weights` construction inside the event effect) into a pure `weightEvents(events, playerRole, activeTrendKeys)` in `governmentEngine.ts`: mismatched `role` → weight 0; matching `role` → ×12; trend-category match → ×8 (existing behaviour); `challenger` → all role events 0. With 299 generics + 8 per role this puts role events at roughly **20–25 % of events** (~4 per campaign), so they colour a run without replacing the existing pool. |
 | **Application** | `HANDLE_EVENT` in `src/contexts/GameContext.tsx` adds `choice.approval` to `governmentApproval` (clamped; ignored when no government exists). |
 | **Docs** | Update the events section of `AGENTS.md` with `role` / `approval`. |
 
@@ -142,7 +143,7 @@ Opposition events mostly move approval **down** — their lever is suppressing g
 
 ## Mechanic 4 — News & verdict (tiny)
 
-- `useFlavouredPool` in `reducerLogic` (~line 428) goes from `Math.random() < 0.6` to `< 0.85`, so the **existing** `GOVERNMENT_*` / `OPPOSITION_*` headline pools dominate. No new pools for this.
+- `useFlavouredPool` in `reducerLogic` changes from `Math.random() < 0.6` to `< 0.85`, so the **existing** `GOVERNMENT_*` / `OPPOSITION_*` headline pools dominate. No new pools for this.
 - On trend spawn, add one role line next to `formatTrendStartHeadline` ("Government braced for {trend}" / "{player} seizes on {trend}"). One line, only on spawn.
 - Approval headlines only on band crossings (30 / 40 / 60 / 70) or every 6 weeks — three small pools in `newsTemplates.ts`, no weekly spam.
 - `ResultsView`: change the existing "Player Performance" heading to a role-aware verdict (`GOVERNMENT RETURNED` / `GOVERNMENT DEFEATED` / `YOU TAKE OFFICE` / `OPPOSITION HOLDS`) and show final approval. Text only.
@@ -154,10 +155,10 @@ Opposition events mostly move approval **down** — their lever is suppressing g
 | Where | Change |
 |---|---|
 | `src/types/game.ts` | `PlayerRole`, `GameState.{governmentApproval, previousApproval, weeksInGovernment}`, `Event.role`, `EventChoice.approval`, approval / turnout / weight constants |
-| `src/lib/gameEngine.ts` | `conductPoll(..., blocTurnoutBias?: number[])`; `voteForCandidate(..., turnoutBias = 0)`; FPTP forwarding |
+| `src/lib/gameEngine.ts` | `conductPoll(..., blocTurnoutBias?: number[])`; `voteForCandidate(..., turnoutBias = 0)` |
 | `src/lib/reducerLogic.ts` | evolve approval, compute bias, pass to poll, approval / trend news |
 | `src/contexts/GameContext.tsx` | init / reset fields; formation / resume / continue approval; `HANDLE_EVENT` approval delta; `START_CAMPAIGN` bias; `LOAD_STATE` normalise |
-| `src/lib/saveManager.ts` | `SAVE_VERSION = '1.1'`, `normalizeGameState` fills missing fields (old 1.0 saves load with approval 55) |
+| `src/lib/saveManager.ts` | `SAVE_VERSION = '1.1'`, `normalizeGameState` fills missing fields (old 1.0 saves load with approval 55; also migrate the v4 `NewsItem` news schema) |
 | `src/lib/newsTemplates.ts` | approval band pools, trend role lines |
 | `src/components/CampaignView.tsx` | role banner replaces the malformed PM `<h3>` block; `weightEvents` call |
 | `src/components/PollResults.tsx` | unchanged — it already shows per-bloc turnout changes |
@@ -174,7 +175,6 @@ No new components, no router changes, no changes to coalition / cabinet / merger
 - **Government party dissolved:** `getGovernmentParties` intersects with live candidates so support / role lookups never dangle.
 - **Junior coalition partner:** shares the approval figure; no separate treatment.
 - **No prior bloc stats (first poll of a role):** support falls back to 0.5 → negligible bias, no jump.
-- **Procedural / FPTP campaigns:** bias flows through the shared `voteForCandidate`; bloc lookups are national; voters with bloc index `-1` get 0.
 - **Old saves:** normalised to approval 55 / previous 55 / weeks 0.
 - **Approval extremes:** clamped to 5–95 on every write; bias clamped to ±0.18.
 
@@ -182,7 +182,7 @@ No new components, no router changes, no changes to coalition / cabinet / merger
 
 ## Verification
 
-- `npm run build`.
+- `npm run typecheck` and `npm run build`.
 - Optional but recommended: add `vitest` + `npm run test` with four pure-function tests — approval clamps / honeymoon / fatigue, `computeBlocTurnoutBias` sign and clamp (government-backing blocs fall at low approval, rise at high), `getPlayerRole` including dissolved parties, `weightEvents` role / trend / challenger matrix. Update `AGENTS.md` (commands, architecture, simulation rules, data schema) if the test runner is added.
 - Manual checklist:
   1. New game → week-2 caretaker choice; approval starts 55.
@@ -191,8 +191,7 @@ No new components, no router changes, no changes to coalition / cabinet / merger
   4. Run to election; check the verdict and the biggest turnout drop.
   5. `CONTINUE_CAMPAIGN` → approval reset and role flip.
   6. Save / load; import a pre-change save.
-  7. Check a procedural map (FPTP) campaign still polls.
-- Note: `npm run lint` is currently broken in this checkout (`TS6310` — referenced project disables emit), so build + manual checks are the gates; fixing the tsconfig is out of scope.
+- There is no automated game-loop test, so the manual checklist remains the real gate.
 
 ---
 
@@ -201,7 +200,7 @@ No new components, no router changes, no changes to coalition / cabinet / merger
 1. The same starting position, played as government vs opposition, produces a different event pool, different news framing, and measurably different bloc turnout (government-backing blocs demoralise as approval falls).
 2. Approval is always 5–95, persists, and survives old-save import.
 3. No new action buttons and no change to event frequency; the 299 existing events remain in rotation; role events are a seasoning (~20–25 %), not a replacement.
-4. `npm run build` passes and the manual checklist is clean; coalition, merger, FPTP and leadership-crisis flows are unregressed.
+4. `npm run build` passes and the manual checklist is clean; coalition, merger and leadership-crisis flows are unregressed.
 
 ---
 

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback, useState, useEffect } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, VoterTransferEntry, VALUES } from '@/types/game';
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, VoterTransferEntry, NewsItem, VALUES } from '@/types/game';
 import {
   generateVotingData,
   conductPoll,
@@ -186,14 +186,14 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         percentages: { ...initialResults }
       };
 
-      const nextState = {
+      const nextState: GameState = {
         ...state,
         votingData,
         pollResults: results.map(r => ({ ...r, change: 0 })),
         initialPollResults: initialResults,
         previousPollResults: initialResults,
         currentPoll: 1,
-        politicalNews: [{ text: "ELECTION SEASON OFFICIALLY BEGINS.", priority: "medium", category: "government" }],
+        politicalNews: [{ text: "ELECTION SEASON OFFICIALLY BEGINS.", priority: "medium", category: "government" } satisfies NewsItem],
         pollingHistory: [initialPollingSnapshot],
         activeTrend: state.activeTrend !== undefined ? state.activeTrend : [],
         trendHistory: state.trendHistory || [],

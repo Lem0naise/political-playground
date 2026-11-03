@@ -295,11 +295,12 @@ export function matchPaperStyle(name: string): NewsPaperStyle {
   return hashToStyle(name);
 }
 
-export function getRandomPaperAssignment(eventVariables: any, country: string): PaperAssignment {
+export function getRandomPaperAssignment(eventVariables: any, country?: string): PaperAssignment {
+  const countryKey = country ?? '';
   let countryPapers: string[] = [];
 
-  if (eventVariables?.countrySpecific?.[country]?.newspaper?.length > 0) {
-    countryPapers = [...eventVariables.countrySpecific[country].newspaper];
+  if (eventVariables?.countrySpecific?.[countryKey]?.newspaper?.length > 0) {
+    countryPapers = [...eventVariables.countrySpecific[countryKey].newspaper];
   }
 
   const genericFallback = eventVariables?.generic?.newspaper?.length > 0

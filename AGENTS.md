@@ -4,7 +4,7 @@
 
 Current game version: **4.0.0** (`src/lib/version.ts`). v4 added candidate-ID loyalty, scaled base utility, party splits, mid-campaign mergers, axis targeting, and a priority-tagged news feed with newspaper styling.
 
-Companion docs: `README.md` (player- and contributor-facing; its install/data instructions are currently wrong — see Known issues), `guidance.md` (older deep dive on the simulation; verify against the code, it predates `reducerLogic.ts`, `partyMerger.ts`, and `saveManager.ts`). `government_plan.md` is an untracked, pre-v4 design proposal; it is not implemented.
+Companion docs: `README.md` (player- and contributor-facing), `guidance.md` (older deep dive on the simulation; verify against the code, it predates `reducerLogic.ts`, `partyMerger.ts`, and `saveManager.ts`), `docs/proposals/government-plan.md` (proposed, pre-v4, not implemented).
 
 ## Commands
 
@@ -14,7 +14,8 @@ Companion docs: `README.md` (player- and contributor-facing; its install/data in
 | `npm run dev` | Vite dev server on http://localhost:5173 |
 | `npm run build` | Production build into `dist/` — **does not typecheck** (Vite/esbuild strips types) |
 | `npm run preview` | Serve the built `dist/` |
-| `npm run lint` | Intended typecheck; **currently aborts — see Known issues** |
+| `npm run typecheck` | `tsc --noEmit`; this is the working typecheck |
+| `npm run lint` | Alias of `typecheck` |
 | `npx ts-node simulate.ts <COUNTRY> <BLOC_ID>` | Standalone bloc calibration (defaults `UK` / `left_behind_patriots`) |
 
 `simulate.ts` reads `public/data/countries.json` and `public/data/parties.json` relative to the cwd, samples 40 000 voters for one bloc, and prints party shares. It is not in `tsconfig.json`'s `include`, and its variance handling is wrong (see Known issues). `ts-node` is not a dependency — npx downloads it on first use.
@@ -24,10 +25,10 @@ Companion docs: `README.md` (player- and contributor-facing; its install/data in
 There is **no test suite**: no test runner, no `*.test.*` files, and no CI on pull requests. Before committing:
 
 1. Validate any edited JSON parses, e.g. `node -e "JSON.parse(require('fs').readFileSync('public/data/countries.json','utf8'))"`.
-2. Run `npm run build`.
+2. Run `npm run typecheck` and `npm run build`.
 3. Smoke-test the affected phase with `npm run dev`. Phases are reducer state rather than routes, so a successful build proves nothing about the game loop.
 
-Deployment is the only automated gate: pushing to `master` runs `.github/workflows/deploy.yml` (`npm ci --legacy-peer-deps` → `npm run build` → publish `dist/` to GitHub Pages at `polplay.indigo.spot`, per `CNAME`). Because the build does not typecheck, type errors can deploy.
+Deployment is the only automated gate: pushing to `master` runs `.github/workflows/deploy.yml` (`npm ci --legacy-peer-deps` → `npm run typecheck` → `npm run build` → publish `dist/` to GitHub Pages at `polplay.indigo.spot`, per `CNAME`). Local `npm run build` still does not typecheck; CI does.
 
 ## Architecture
 
@@ -59,7 +60,7 @@ Coalition formation is entered from `ResultsView` (or automatically by `Coalitio
 | `src/lib/version.ts` | `CHANGELOG` + `VERSION` |
 | `src/components/*.tsx` | Phase views plus modals/charts (Chart.js + `chartjs-chart-sankey`) |
 | `src/app/globals.css` | Tailwind v4 import, Google fonts (Outfit, Special Elite), CSS vars, campaign/newspaper classes, `news-masonry` |
-| `public/data/*.json` | `countries.json`, `parties.json`, `events.json`, `event_variables.json`; served at `/data/*`. `old_events.json` is unreferenced legacy |
+| `public/data/*.json` | `countries.json`, `parties.json`, `events.json`, `event_variables.json`; served at `/data/*` |
 
 There is **no** constituency/FPTP system, no `mapGenerator`, no `mapData`/`electoralSystem`, no `src/components/ui/`, no `src/components/layout/`, no `src/lib/chartTheme.ts`, and no `@theme` token block. Do not assume those exist.
 
@@ -104,12 +105,12 @@ Every phase component reads only `useGame()`; nothing is URL-addressable except 
 
 ## Editing game data
 
-- **`public/data/countries.json`** — keyed by country display name (55 entries). Requires `pop` (the synthetic voter count; large values are slow), `vals` (all 7 axes), `scale` (display-only multiplier; `MainMenu` shows `pop × scale`), and `hos` (head of state, display only — the government title is hardcoded "Prime Minister"). Optional `blocs[]` with `weight`, `center`, `variance`, `salience`, `turnout`; 7 countries omit blocs and use the unimodal fallback. Optional `nameStyle` selects a leader-name bank (read through an `any` cast, not typed on `Country`). There is no `mapData` or `electoralSystem`. Note `GROUP` is an incomplete fixture (no party list, invalid `nameStyle: "generic"`).
+- **`public/data/countries.json`** — keyed by country display name (54 entries). Requires `pop` (the synthetic voter count; large values are slow), `vals` (all 7 axes), `scale` (display-only multiplier; `MainMenu` shows `pop × scale`), and `hos` (head of state, display only — the government title is hardcoded "Prime Minister"). Optional `blocs[]` with `weight`, `center`, `variance`, `salience`, `turnout`; 7 countries omit blocs and use the unimodal fallback. Optional `nameStyle` selects a leader-name bank (read through an `any` cast, not typed on `Country`). There is no `mapData` or `electoralSystem`.
 - **`public/data/parties.json`** — keyed by *party list*, not strictly by country (64 lists). Lists are freely multi-selectable (`RANDOM`, `NI`, `PEOPLEPOLITICS` exist), and 10 real-country lists have no matching country (`GEORGIA`, `VENEZUELA`, `SLOVENIA`, `NEW ZEALAND`, `PAKISTAN`, `COLOMBIA`, `PHILIPPINES`, `MALAYSIA`, `HUNGARY`, `KRESIMIRIA, KINGDOM OF`). Each entry needs `name`, `party`, `colour`, and all 7 axes; `swing` and `nascent_penalty` are optional but no shipped party sets either. `colour` is required by convention but **28 entries omit it**; 31 entries use named/dark colours (`black`, `darkblue`, `navy`) that are nearly invisible on the navy background. The `id` field is informational — `createCandidate` assigns the array index — but it is duplicated in several lists.
 - **`public/data/events.json`** — 299 events of `{ title, description, categories, choices: [{ text, effect: Partial<PoliticalValues>, boost }] }`. `categories` drives trend weighting; choices may set `internalAction` (supported, none shipped).
-- **`public/data/event_variables.json`** — `{ generic, countrySpecific, nameStyles }`; supplies `{placeholder}` tokens and leader-name banks. `countrySpecific` keys must match `countries.json` keys **exactly**: 9 currently use underscores (`SOUTH_AFRICA`, `SOUTH_KOREA`, …) and are unreachable by the exact-match lookups in `eventTemplates.ts` and `newsPaperStyles.ts`; `GERMANY_1936` matches no country.
+- **`public/data/event_variables.json`** — `{ generic, countrySpecific, nameStyles }`; supplies `{placeholder}` tokens and leader-name banks. `countrySpecific` keys must match `countries.json` keys **exactly**: 9 currently use underscores (`SOUTH_AFRICA`, `SOUTH_KOREA`, …) and are unreachable by the exact-match lookups in `eventTemplates.ts` and `newsPaperStyles.ts`.
 
-When adding a country, also add a matching party list (README covers the workflow, but its `pop`/`scale` units are wrong — see Known issues). `update_parties.py` targets a hardcoded path in a different checkout — do not run it as-is. `countries_keys.txt` / `parties_keys.txt` are stale key snapshots, not sources of truth.
+When adding a country, also add a matching party list (README covers the workflow).
 
 ## Adding a trend
 
@@ -121,7 +122,7 @@ Add an entry to `TREND_DEFINITIONS` in `src/lib/gameEngine.ts` with a unique `id
 - State updates in `gameReducer` must be immutable. A new action touches three places: the `GameAction` union, a `gameReducer` case, and the `actions` wrapper — and `LOAD_STATE` must remain able to reconstruct it. Existing violations are listed in Known issues.
 - Keep simulation logic in `src/lib/`, React-free; `gameEngine.ts` (~109 KB) and `GameContext.tsx` are already oversized, so extract rather than grow them.
 - Use the `@/` alias (→ `src/`) for imports; single quotes, 2-space indentation, semicolons.
-- Bump `CHANGELOG` in `src/lib/version.ts` for any user-visible change; `VERSION` derives from its first entry. Keep `package.json`'s `version` in sync (it currently is not).
+- Bump `CHANGELOG` in `src/lib/version.ts` for any user-visible change; `VERSION` derives from its first entry. Keep `package.json`'s `version` in sync.
 
 ## UI system
 
@@ -138,7 +139,7 @@ Use the existing Tailwind/newspaper patterns when adding UI; do not assume primi
 
 ## Known issues
 
-- **`npm run lint` is broken.** `tsc --noEmit` aborts with `TS6310: Referenced project 'tsconfig.node.json' may not disable emit` because `tsconfig.node.json` sets both `composite: true` and `noEmit: true`. Dropping the `references` entry from `tsconfig.json` exposes two real errors: `EventModal.tsx` passes a possibly-undefined `country` to `getRandomPaperAssignment`, and `GameContext.tsx`'s `START_CAMPAIGN` news literal widens `priority`/`category` to `string` instead of `NewsItem`. `npm run build` does not typecheck.
+- **`npm run build` does not typecheck locally.** CI runs `npm run typecheck` before the build, so type errors are caught on `master`; run the same command locally.
 - **No tests, no autosave.** Refreshing loses the run; save export is only on the campaign screen. Exports include the full `votingData` and engine arrays, so files are multi-megabyte for large countries. `saveManager` hardcodes `version: '1.0'` and has no migration, so v3.17 saves (string news) do not load correctly into v4 (`NewsItem[]`).
 - **`simulate.ts`** is outside `tsconfig` and reads scalar `variance` as an object (`variance[a]`), silently using 25 while the engine uses the scalar/default 45. Its output is not a valid calibration.
 - **Impure reducer / StrictMode**: `gameReducer` calls `conductPoll`, trend stepping, leadership, dissolution, splits, mergers, and news generation, all of which mutate module engine state and candidates. React StrictMode double-invokes reducers, so the dev build can double-apply these and diverge.
@@ -149,7 +150,5 @@ Use the existing Tailwind/newspaper patterns when adding UI; do not assume primi
 - **Jittery displays**: `formatVotes` adds `Math.random() * 1000` on every call, so vote totals, turnout and bloc populations change on each render; `getRandomPaperAssignment` is called in render for news cards and `EventModal`, so mastheads reshuffle.
 - **Newspaper assignment** pads country papers with global newspapers, but exact-key lookup misses countries with underscored `countrySpecific` keys; the paper names are real-world outlets (BBC, Fox News, NYT, …), which may be undesirable for distribution.
 - **Coalition thresholds** are written inconsistently (`> 50` in `START_COALITION_FORMATION`, `<= 50` in the results/auto-start checks, `>= 50` for "majority achieved"), so exactly 50 % is simultaneously "hung parliament" and "majority". The coalition and results UI also says "% seats"/"SEATS WON" although only vote share exists.
-- **Stale artefacts**: `public/data/old_events.json` is unused; `countries_keys.txt` (missing TAIWAN, SINGAPORE, GROUP; contains GERMANY 1936) and `parties_keys.txt` (missing SINGAPORE) are stale; `update_parties.py` writes to `/home/indigo/Code/political-playground/...`; `dist/` is a stale prototype build (version 3.17.1) that is ignored by git and should not be trusted.
-- **Config/data drift**: `package.json` is `1.1.0` while `VERSION` is `4.0.0`; 28 parties lack `colour`; 4 countries have a 10× `scale` error (ESTONIA, CZECHIA, YUGOSLAVIA 1990, URUGUAY); `SWEDEN` lacks `nameStyle`; `GROUP` has no party list; `event_variables` has 9 unreachable underscored country keys and two unused generic keys (`crisis_type`, `scandal_type`); `countryData.hos` is passed to `checkPostElectionLeadershipChanges` but its `hosTitle` parameter is unused ("Prime Minister" is hardcoded).
+- **Data drift**: 28 parties lack `colour`; 4 countries have a 10× `scale` error (ESTONIA, CZECHIA, YUGOSLAVIA 1990, URUGUAY); `SWEDEN` lacks `nameStyle`; `event_variables` has 9 unreachable underscored country keys and two unused generic keys (`crisis_type`, `scandal_type`); `countryData.hos` is passed to `checkPostElectionLeadershipChanges` but its `hosTitle` parameter is unused ("Prime Minister" is hardcoded).
 - **`/new`** is a broken legacy route; `HomeNew` omits phases that `PartySelection` always enters.
-- **README/guidance** contain stale instructions: `npm install` does not resolve React 19; `pop` is described as "population in thousands" (it is the synthetic voter count) and `scale` is omitted; `guidance.md` says `Candidate.vals` is `PoliticalValues` and calls `src/App.tsx` the entry point.

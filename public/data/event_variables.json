@@ -2215,42 +2215,6 @@
         "Japan"
       ]
     },
-    "GERMANY_1936": {
-      "newspaper": [
-        "V\u00f6lkischer Beobachter",
-        "Der St\u00fcrmer",
-        "Das Schwarze Korps"
-      ],
-      "company": [
-        "IG Farben",
-        "Krupp",
-        "Messerschmitt",
-        "Henschel & Son",
-        "Volkswagen"
-      ],
-      "region": [
-        "Prussia",
-        "Bavaria",
-        "the Rhineland",
-        "the Sudetenland",
-        "the Polish Corridor"
-      ],
-      "city": [
-        "Berlin",
-        "Munich",
-        "Nuremberg",
-        "Hamburg",
-        "Essen"
-      ],
-      "foreign_country": [
-        "the United Kingdom",
-        "France",
-        "the Soviet Union",
-        "Italy",
-        "Austria",
-        "Poland"
-      ]
-    },
     "SOVIET_UNION_1925": {
       "newspaper": [
         "Pravda",

@@ -5,7 +5,7 @@ import Home from '@/pages/Home';
 import HomeNew from '@/pages/HomeNew';
 
 export default function App() {
-  const siteTitle = "The Political Playground - Election Simulation Game";
+  const siteTitle = "The Political Playground - Fictional Election Simulator";
   const siteDesc = "If the Political Compass is not enough, try The Political Playground. Master the 7-axis voter simulation - strategy, polling, and political maneuvers in a deep, logic-driven campaign simulator.";
   const siteUrl = "https://polplay.indigo.spot";
 
@@ -40,13 +40,11 @@ export default function App() {
         <meta property="og:url" content={siteUrl} />
         <meta property="og:title" content={siteTitle} />
         <meta property="og:description" content={siteDesc} />
-        <meta property="og:image" content={`${siteUrl}/og-preview.png`} />
 
         {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={siteTitle} />
         <meta name="twitter:description" content={siteDesc} />
-        <meta name="twitter:image" content={`${siteUrl}/twitter-card.png`} />
 
         {/* Structured Data Script */}
         <script type="application/ld+json">
