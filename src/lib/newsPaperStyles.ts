@@ -295,11 +295,16 @@ export function matchPaperStyle(name: string): NewsPaperStyle {
   return hashToStyle(name);
 }
 
-export function getRandomPaperAssignment(eventVariables: any, country: string): PaperAssignment {
+export function getPaperAssignment(
+  eventVariables: any,
+  country: string | undefined,
+  seed: string
+): PaperAssignment {
+  const countryKey = country ?? '';
   let countryPapers: string[] = [];
 
-  if (eventVariables?.countrySpecific?.[country]?.newspaper?.length > 0) {
-    countryPapers = [...eventVariables.countrySpecific[country].newspaper];
+  if (eventVariables?.countrySpecific?.[countryKey]?.newspaper?.length > 0) {
+    countryPapers = [...eventVariables.countrySpecific[countryKey].newspaper];
   }
 
   const genericFallback = eventVariables?.generic?.newspaper?.length > 0
@@ -318,7 +323,14 @@ export function getRandomPaperAssignment(eventVariables: any, country: string): 
     if (countryPapers.length < 13) break;
   }
 
-  const name = countryPapers[Math.floor(Math.random() * countryPapers.length)];
+  // Deterministic per headline/event, so the paper does not change on re-render.
+  let hash = 2166136261;
+  const key = `${countryKey}|${seed}`;
+  for (let i = 0; i < key.length; i++) {
+    hash ^= key.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  const name = countryPapers[Math.abs(hash) % countryPapers.length];
   const style = matchPaperStyle(name);
   return { name, style };
 }

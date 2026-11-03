@@ -12,12 +12,12 @@
     },
     "scale": 1000,
     "hos": "King Charles III",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "middle_britons",
         "weight": 0.38,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -15,
           "nat_glob": 10,
@@ -36,7 +36,6 @@
         "id": "well_off_centrists",
         "weight": 0.18,
         "variance": 40,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -10,
           "nat_glob": 35,
@@ -56,7 +55,6 @@
         "id": "traditionalist_seniors",
         "weight": 0.17,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 55,
           "nat_glob": -30,
@@ -76,7 +74,6 @@
         "id": "left_behind_patriots",
         "weight": 0.15,
         "variance": 55,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 65,
           "nat_glob": -65,
@@ -96,7 +93,6 @@
         "id": "urban_progressives",
         "weight": 0.12,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -45,
           "nat_glob": 35,
@@ -128,12 +124,12 @@
     },
     "scale": 10000,
     "hos": "Donald Trump",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "maga_populists",
         "weight": 0.34,
         "variance": 20,
-        "turnout": 0.95,
         "center": {
           "prog_cons": 90,
           "nat_glob": -95,
@@ -153,7 +149,6 @@
         "id": "progressive_urbanites",
         "weight": 0.28,
         "variance": 25,
-        "turnout": 0.88,
         "center": {
           "prog_cons": -85,
           "nat_glob": 70,
@@ -173,7 +168,6 @@
         "id": "suburban_moderates",
         "weight": 0.24,
         "variance": 35,
-        "turnout": 0.85,
         "center": {
           "prog_cons": 5,
           "nat_glob": 40,
@@ -193,7 +187,6 @@
         "id": "libertarian_disrupters",
         "weight": 0.08,
         "variance": 30,
-        "turnout": 0.8,
         "center": {
           "prog_cons": 20,
           "nat_glob": -80,
@@ -213,7 +206,6 @@
         "id": "traditionalist_minorities",
         "weight": 0.06,
         "variance": 32,
-        "turnout": 0.75,
         "center": {
           "prog_cons": 65,
           "nat_glob": -25,
@@ -245,12 +237,12 @@
     },
     "scale": 1000,
     "hos": "King Charles III",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "urban_progressives",
         "weight": 0.28,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -65,
           "nat_glob": 55,
@@ -270,7 +262,6 @@
         "id": "working_class_squeezed",
         "weight": 0.3,
         "variance": 42,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 15,
           "nat_glob": -10,
@@ -290,7 +281,6 @@
         "id": "suburban_moderates",
         "weight": 0.2,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -25,
           "nat_glob": 40,
@@ -310,7 +300,6 @@
         "id": "western_populists",
         "weight": 0.12,
         "variance": 38,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 65,
           "nat_glob": -60,
@@ -330,7 +319,6 @@
         "id": "quebec_sovereigntists",
         "weight": 0.1,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -35,
           "nat_glob": -75,
@@ -362,12 +350,12 @@
     },
     "scale": 1000,
     "hos": "King Charles III",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "suburban_pragmatists",
         "weight": 0.35,
         "variance": 25,
-        "turnout": 0.94,
         "center": {
           "prog_cons": -20,
           "nat_glob": 10,
@@ -388,7 +376,6 @@
         "id": "inner_city_progressives",
         "weight": 0.22,
         "variance": 20,
-        "turnout": 0.95,
         "center": {
           "prog_cons": -70,
           "nat_glob": 50,
@@ -409,7 +396,6 @@
         "id": "regional_conservatives",
         "weight": 0.18,
         "variance": 28,
-        "turnout": 0.93,
         "center": {
           "prog_cons": 50,
           "nat_glob": -40,
@@ -430,7 +416,6 @@
         "id": "working_class_traditionalists",
         "weight": 0.15,
         "variance": 30,
-        "turnout": 0.91,
         "center": {
           "prog_cons": 20,
           "nat_glob": -10,
@@ -451,7 +436,6 @@
         "id": "climate_activists",
         "weight": 0.1,
         "variance": 18,
-        "turnout": 0.92,
         "center": {
           "prog_cons": -90,
           "nat_glob": 70,
@@ -484,12 +468,12 @@
     },
     "scale": 10000,
     "hos": "Lula da Silva",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "lulista_loyalists",
         "weight": 0.35,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -65,
           "nat_glob": 15,
@@ -509,7 +493,6 @@
         "id": "bolsonarista_faithful",
         "weight": 0.28,
         "variance": 22,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 95,
           "nat_glob": -90,
@@ -530,7 +513,6 @@
         "id": "urban_southeast_moderates",
         "weight": 0.18,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": 40,
@@ -550,7 +532,6 @@
         "id": "agrobusiness_nationalists",
         "weight": 0.12,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 50,
           "nat_glob": -50,
@@ -570,7 +551,6 @@
         "id": "evangelical_moralists",
         "weight": 0.07,
         "variance": 20,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -10,
@@ -601,12 +581,12 @@
     },
     "scale": 10000,
     "hos": "Javier Milei",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "libertarian_youth_core",
         "weight": 0.32,
         "variance": 22,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 75,
           "nat_glob": -65,
@@ -626,7 +606,6 @@
         "id": "hardline_peronist_resistance",
         "weight": 0.28,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -60,
           "nat_glob": -30,
@@ -646,7 +625,6 @@
         "id": "institutional_center_right",
         "weight": 0.18,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 50,
           "nat_glob": 30,
@@ -666,7 +644,6 @@
         "id": "provincial_stability_seekers",
         "weight": 0.12,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": -20,
@@ -686,7 +663,6 @@
         "id": "squeezed_informal_workers",
         "weight": 0.1,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 0,
           "nat_glob": -10,
@@ -717,12 +693,12 @@
     },
     "scale": 10000,
     "hos": "Gabriel Boric",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "radical_student_left",
         "weight": 0.2,
         "variance": 18,
-        "turnout": 0.85,
         "center": {
           "prog_cons": -80,
           "nat_glob": 40,
@@ -743,7 +719,6 @@
         "id": "center_left_concertacion",
         "weight": 0.22,
         "variance": 28,
-        "turnout": 0.87,
         "center": {
           "prog_cons": -40,
           "nat_glob": 45,
@@ -763,7 +738,6 @@
         "id": "traditional_right_elite",
         "weight": 0.2,
         "variance": 25,
-        "turnout": 0.89,
         "center": {
           "prog_cons": 30,
           "nat_glob": 40,
@@ -783,7 +757,6 @@
         "id": "hardline_nationalist_right",
         "weight": 0.18,
         "variance": 20,
-        "turnout": 0.88,
         "center": {
           "prog_cons": 80,
           "nat_glob": -50,
@@ -804,7 +777,6 @@
         "id": "disenchanted_working_class",
         "weight": 0.2,
         "variance": 35,
-        "turnout": 0.82,
         "center": {
           "prog_cons": -15,
           "nat_glob": -10,
@@ -836,12 +808,12 @@
     },
     "scale": 1000,
     "hos": "Frank-Walter Steinmeier",
+    "headOfGovernmentTitle": "Chancellor",
     "blocs": [
       {
         "id": "christian_democrats",
         "weight": 0.28,
         "variance": 28,
-        "turnout": 0.8,
         "center": {
           "prog_cons": 10,
           "nat_glob": 60,
@@ -861,7 +833,6 @@
         "id": "social_democrats",
         "weight": 0.2,
         "variance": 26,
-        "turnout": 0.78,
         "center": {
           "prog_cons": -50,
           "nat_glob": 65,
@@ -881,7 +852,6 @@
         "id": "green_urbanites",
         "weight": 0.15,
         "variance": 18,
-        "turnout": 0.82,
         "center": {
           "prog_cons": -85,
           "nat_glob": 80,
@@ -901,7 +871,6 @@
         "id": "right_wing_populists",
         "weight": 0.18,
         "variance": 24,
-        "turnout": 0.76,
         "center": {
           "prog_cons": 70,
           "nat_glob": -80,
@@ -921,7 +890,6 @@
         "id": "market_liberals",
         "weight": 0.08,
         "variance": 22,
-        "turnout": 0.81,
         "center": {
           "prog_cons": -30,
           "nat_glob": 70,
@@ -941,7 +909,6 @@
         "id": "anti_establishment_left",
         "weight": 0.11,
         "variance": 32,
-        "turnout": 0.74,
         "center": {
           "prog_cons": -30,
           "nat_glob": -40,
@@ -973,12 +940,12 @@
     },
     "scale": 1000,
     "hos": "Emmanuel Macron",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "metropolitan_centrists",
         "weight": 0.26,
         "variance": 38,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -20,
           "nat_glob": 75,
@@ -998,7 +965,6 @@
         "id": "sovereigntist_populists",
         "weight": 0.32,
         "variance": 42,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 75,
           "nat_glob": -65,
@@ -1019,7 +985,6 @@
         "id": "radical_left_youth",
         "weight": 0.19,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -75,
           "nat_glob": -15,
@@ -1039,7 +1004,6 @@
         "id": "provincial_conservatives",
         "weight": 0.13,
         "variance": 40,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 55,
           "nat_glob": 15,
@@ -1059,7 +1023,6 @@
         "id": "ecological_secularists",
         "weight": 0.1,
         "variance": 40,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -45,
           "nat_glob": 40,
@@ -1091,12 +1054,12 @@
     },
     "scale": 1000,
     "hos": "Sergio Mattarella",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "conservative_sovereigntists",
         "weight": 0.32,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 75,
           "nat_glob": -80,
@@ -1117,7 +1080,6 @@
         "id": "urban_progressivists",
         "weight": 0.24,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -70,
           "nat_glob": 75,
@@ -1138,7 +1100,6 @@
         "id": "southern_populists",
         "weight": 0.18,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -10,
           "nat_glob": -15,
@@ -1158,7 +1119,6 @@
         "id": "moderate_pro_business",
         "weight": 0.16,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 20,
           "nat_glob": 45,
@@ -1178,7 +1138,6 @@
         "id": "radical_greens_left",
         "weight": 0.1,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -85,
           "nat_glob": 60,
@@ -1210,12 +1169,12 @@
     },
     "scale": 1000,
     "hos": "King Felipe VI",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "social_democratic_loyalists",
         "weight": 0.28,
         "variance": 48,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -45,
           "nat_glob": 40,
@@ -1235,7 +1194,6 @@
         "id": "conservative_traditionalists",
         "weight": 0.26,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 55,
           "nat_glob": -20,
@@ -1255,7 +1213,6 @@
         "id": "peripheral_nationalists",
         "weight": 0.18,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -30,
           "nat_glob": -95,
@@ -1274,7 +1231,6 @@
         "id": "right_wing_populists",
         "weight": 0.16,
         "variance": 40,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -80,
@@ -1294,7 +1250,6 @@
         "id": "urban_metropolitan_left",
         "weight": 0.12,
         "variance": 42,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -85,
           "nat_glob": 60,
@@ -1326,12 +1281,12 @@
     },
     "scale": 1000,
     "hos": "Andrzej Duda",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "catholic_conservative_ruralists",
         "weight": 0.35,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -75,
@@ -1352,7 +1307,6 @@
         "id": "liberal_urban_professionals",
         "weight": 0.28,
         "variance": 48,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -60,
           "nat_glob": 70,
@@ -1372,7 +1326,6 @@
         "id": "sovereigntist_libertarians",
         "weight": 0.12,
         "variance": 40,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 70,
           "nat_glob": -95,
@@ -1392,7 +1345,6 @@
         "id": "centrist_agrarians",
         "weight": 0.15,
         "variance": 42,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 20,
           "nat_glob": 25,
@@ -1412,7 +1364,6 @@
         "id": "secular_progressive_youth",
         "weight": 0.1,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -90,
           "nat_glob": 65,
@@ -1444,12 +1395,13 @@
     },
     "scale": 1000,
     "hos": "King Carl XVI Gustaf",
+    "headOfGovernmentTitle": "Prime Minister",
+    "nameStyle": "nordic",
     "blocs": [
       {
         "id": "social_democrats",
         "weight": 0.32,
         "variance": 22,
-        "turnout": 0.86,
         "center": {
           "prog_cons": -65,
           "nat_glob": 40,
@@ -1469,7 +1421,6 @@
         "id": "liberal_conservatives",
         "weight": 0.24,
         "variance": 25,
-        "turnout": 0.88,
         "center": {
           "prog_cons": -40,
           "nat_glob": 85,
@@ -1490,7 +1441,6 @@
         "id": "nationalist_populists",
         "weight": 0.20,
         "variance": 28,
-        "turnout": 0.82,
         "center": {
           "prog_cons": 15,
           "nat_glob": -75,
@@ -1510,7 +1460,6 @@
         "id": "green_left_progressives",
         "weight": 0.16,
         "variance": 18,
-        "turnout": 0.85,
         "center": {
           "prog_cons": -95,
           "nat_glob": 80,
@@ -1530,7 +1479,6 @@
         "id": "rural_centrists",
         "weight": 0.08,
         "variance": 24,
-        "turnout": 0.84,
         "center": {
           "prog_cons": -30,
           "nat_glob": 20,
@@ -1561,13 +1509,13 @@
     },
     "scale": 10000,
     "hos": "Anton Rayne",
+    "headOfGovernmentTitle": "President",
     "nameStyle": "slavic",
     "blocs": [
       {
         "id": "sollist_loyalists",
         "weight": 0.35,
         "variance": 22,
-        "turnout": 0.85,
         "center": {
           "prog_cons": 45,
           "nat_glob": -50,
@@ -1588,7 +1536,6 @@
         "id": "democratic_reformers",
         "weight": 0.24,
         "variance": 30,
-        "turnout": 0.78,
         "center": {
           "prog_cons": -35,
           "nat_glob": 55,
@@ -1608,7 +1555,6 @@
         "id": "hardline_nationalists",
         "weight": 0.15,
         "variance": 18,
-        "turnout": 0.82,
         "center": {
           "prog_cons": 85,
           "nat_glob": -95,
@@ -1628,7 +1574,6 @@
         "id": "socialist_intelligentsia",
         "weight": 0.11,
         "variance": 25,
-        "turnout": 0.75,
         "center": {
           "prog_cons": -65,
           "nat_glob": 40,
@@ -1648,7 +1593,6 @@
         "id": "bludish_minority",
         "weight": 0.10,
         "variance": 28,
-        "turnout": 0.65,
         "center": {
           "prog_cons": -10,
           "nat_glob": -30,
@@ -1668,7 +1612,6 @@
         "id": "apolitical_agrarians",
         "weight": 0.05,
         "variance": 35,
-        "turnout": 0.55,
         "center": {
           "prog_cons": 75,
           "nat_glob": -15,
@@ -1699,12 +1642,12 @@
     },
     "scale": 1000,
     "hos": "King Harald V",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "welfare_traditionalists",
         "weight": 0.3,
         "variance": 20,
-        "turnout": 0.82,
         "center": {
           "prog_cons": -45,
           "nat_glob": 30,
@@ -1724,7 +1667,6 @@
         "id": "green_socialists",
         "weight": 0.18,
         "variance": 15,
-        "turnout": 0.85,
         "center": {
           "prog_cons": -95,
           "nat_glob": 65,
@@ -1744,7 +1686,6 @@
         "id": "moderate_conservatives",
         "weight": 0.25,
         "variance": 22,
-        "turnout": 0.84,
         "center": {
           "prog_cons": -40,
           "nat_glob": 85,
@@ -1764,7 +1705,6 @@
         "id": "regional_agrarians",
         "weight": 0.14,
         "variance": 28,
-        "turnout": 0.81,
         "center": {
           "prog_cons": -20,
           "nat_glob": -75,
@@ -1784,7 +1724,6 @@
         "id": "right_wing_populists",
         "weight": 0.13,
         "variance": 25,
-        "turnout": 0.76,
         "center": {
           "prog_cons": 10,
           "nat_glob": -50,
@@ -1816,12 +1755,12 @@
     },
     "scale": 10000,
     "hos": "Andr\u00e9s Manuel L\u00f3pez Obrador",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "morena_populists",
         "weight": 0.38,
         "variance": 30,
-        "turnout": 0.62,
         "center": {
           "prog_cons": 15,
           "nat_glob": -45,
@@ -1841,7 +1780,6 @@
         "id": "catholic_conservatives",
         "weight": 0.2,
         "variance": 25,
-        "turnout": 0.65,
         "center": {
           "prog_cons": 65,
           "nat_glob": 35,
@@ -1862,7 +1800,6 @@
         "id": "institutional_pragmatists",
         "weight": 0.15,
         "variance": 35,
-        "turnout": 0.58,
         "center": {
           "prog_cons": 10,
           "nat_glob": 10,
@@ -1882,7 +1819,6 @@
         "id": "urban_progressives",
         "weight": 0.15,
         "variance": 22,
-        "turnout": 0.55,
         "center": {
           "prog_cons": -80,
           "nat_glob": 55,
@@ -1903,7 +1839,6 @@
         "id": "informal_working_poor",
         "weight": 0.12,
         "variance": 40,
-        "turnout": 0.42,
         "center": {
           "prog_cons": 35,
           "nat_glob": -30,
@@ -1935,12 +1870,12 @@
     },
     "scale": 1000,
     "hos": "Alexander Stubb",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "helsinki_progressives",
         "weight": 0.22,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -75,
           "nat_glob": 70,
@@ -1960,7 +1895,6 @@
         "id": "security_first_conservatives",
         "weight": 0.25,
         "variance": 48,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 45,
           "nat_glob": 30,
@@ -1980,7 +1914,6 @@
         "id": "welfare_loyalists",
         "weight": 0.2,
         "variance": 40,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -40,
           "nat_glob": 35,
@@ -2000,7 +1933,6 @@
         "id": "rural_traditionalists",
         "weight": 0.18,
         "variance": 42,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 60,
           "nat_glob": -45,
@@ -2020,7 +1952,6 @@
         "id": "nordic_industrial_workers",
         "weight": 0.15,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": -20,
@@ -2052,12 +1983,12 @@
     },
     "scale": 1000,
     "hos": "King Frederik X",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "welfare_nationalists",
         "weight": 0.32,
         "variance": 22,
-        "turnout": 0.86,
         "center": {
           "prog_cons": -35,
           "nat_glob": -40,
@@ -2077,7 +2008,6 @@
         "id": "green_progressives",
         "weight": 0.26,
         "variance": 18,
-        "turnout": 0.88,
         "center": {
           "prog_cons": -90,
           "nat_glob": 75,
@@ -2098,7 +2028,6 @@
         "id": "market_liberals",
         "weight": 0.2,
         "variance": 25,
-        "turnout": 0.87,
         "center": {
           "prog_cons": -25,
           "nat_glob": 65,
@@ -2119,7 +2048,6 @@
         "id": "national_conservatives",
         "weight": 0.14,
         "variance": 28,
-        "turnout": 0.84,
         "center": {
           "prog_cons": 45,
           "nat_glob": -85,
@@ -2139,7 +2067,6 @@
         "id": "provincial_pragmatists",
         "weight": 0.08,
         "variance": 30,
-        "turnout": 0.83,
         "center": {
           "prog_cons": -10,
           "nat_glob": 10,
@@ -2171,12 +2098,12 @@
     },
     "scale": 1000,
     "hos": "King Philippe",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "flemish_conservative_autonomists",
         "weight": 0.28,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 50,
           "nat_glob": -75,
@@ -2197,7 +2124,6 @@
         "id": "walloon_liberal_reformists",
         "weight": 0.22,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -10,
           "nat_glob": 60,
@@ -2217,7 +2143,6 @@
         "id": "radical_flemish_separatists",
         "weight": 0.18,
         "variance": 20,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -95,
@@ -2237,7 +2162,6 @@
         "id": "socialist_solidarity_bloc",
         "weight": 0.2,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -45,
           "nat_glob": 45,
@@ -2257,7 +2181,6 @@
         "id": "urban_eco_progressives",
         "weight": 0.12,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -80,
           "nat_glob": 85,
@@ -2289,12 +2212,12 @@
     },
     "scale": 1000,
     "hos": "King Willem-Alexander",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "metropolitan_liberals",
         "weight": 0.28,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -75,
           "nat_glob": 85,
@@ -2314,7 +2237,6 @@
         "id": "polder_conservatives",
         "weight": 0.24,
         "variance": 22,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -80,
@@ -2334,7 +2256,6 @@
         "id": "green_left_socialists",
         "weight": 0.2,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -55,
           "nat_glob": 60,
@@ -2354,7 +2275,6 @@
         "id": "agrarian_populists",
         "weight": 0.15,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 40,
           "nat_glob": -30,
@@ -2374,7 +2294,6 @@
         "id": "moderate_centrists",
         "weight": 0.13,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -10,
           "nat_glob": 40,
@@ -2406,12 +2325,12 @@
     },
     "scale": 1000,
     "hos": "Federal Council",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "sovereigntist_farmers",
         "weight": 0.29,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 75,
           "nat_glob": -90,
@@ -2431,7 +2350,6 @@
         "id": "urban_social_liberals",
         "weight": 0.21,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -70,
           "nat_glob": 75,
@@ -2451,7 +2369,6 @@
         "id": "liberal_business_elite",
         "weight": 0.16,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -10,
           "nat_glob": 65,
@@ -2471,7 +2388,6 @@
         "id": "alpine_centrist_traditionalists",
         "weight": 0.15,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 30,
           "nat_glob": 20,
@@ -2491,7 +2407,6 @@
         "id": "neutrality_hardliners",
         "weight": 0.11,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 40,
           "nat_glob": -50,
@@ -2511,7 +2426,6 @@
         "id": "eco_pragmatists",
         "weight": 0.08,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -50,
           "nat_glob": 50,
@@ -2542,12 +2456,12 @@
     },
     "scale": 1000,
     "hos": "Michael D. Higgins",
+    "headOfGovernmentTitle": "Taoiseach",
     "blocs": [
       {
         "id": "civil_war_centrists",
         "weight": 0.35,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 15,
           "nat_glob": 45,
@@ -2567,7 +2481,6 @@
         "id": "sovereigntist_republicans",
         "weight": 0.26,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -35,
           "nat_glob": -65,
@@ -2587,7 +2500,6 @@
         "id": "metropolitan_liberals",
         "weight": 0.18,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -80,
           "nat_glob": 70,
@@ -2607,7 +2519,6 @@
         "id": "rural_agri_populists",
         "weight": 0.12,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 60,
           "nat_glob": -40,
@@ -2627,7 +2538,6 @@
         "id": "neutrality_hardliners",
         "weight": 0.09,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -40,
           "nat_glob": -10,
@@ -2658,12 +2568,12 @@
     },
     "scale": 1000,
     "hos": "Alexander Van der Bellen",
+    "headOfGovernmentTitle": "Chancellor",
     "blocs": [
       {
         "id": "sovereigntist_blue_collar",
         "weight": 0.36,
         "variance": 22,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -90,
@@ -2684,7 +2594,6 @@
         "id": "urban_progressive_liberals",
         "weight": 0.22,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -65,
           "nat_glob": 75,
@@ -2704,7 +2613,6 @@
         "id": "catholic_conservative_farmers",
         "weight": 0.18,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 60,
           "nat_glob": 30,
@@ -2724,7 +2632,6 @@
         "id": "secular_socialist_workers",
         "weight": 0.16,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -30,
           "nat_glob": 40,
@@ -2744,7 +2651,6 @@
         "id": "neutrality_loyalists",
         "weight": 0.08,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": -40,
@@ -2775,12 +2681,12 @@
     },
     "scale": 1000,
     "hos": "Katerina Sakellaropoulou",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "neoliberal_modernizers",
         "weight": 0.32,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -25,
           "nat_glob": 65,
@@ -2800,7 +2706,6 @@
         "id": "orthodox_traditionalists",
         "weight": 0.24,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 80,
           "nat_glob": -60,
@@ -2821,7 +2726,6 @@
         "id": "social_democratic_pragmatists",
         "weight": 0.18,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -35,
           "nat_glob": 35,
@@ -2841,7 +2745,6 @@
         "id": "patriotic_populists",
         "weight": 0.14,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 70,
           "nat_glob": -90,
@@ -2862,7 +2765,6 @@
         "id": "anti_establishment_radicals",
         "weight": 0.12,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -50,
           "nat_glob": -20,
@@ -2894,12 +2796,12 @@
     },
     "scale": 1000,
     "hos": "Marcelo Rebelo de Sousa",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "urban_socialists",
         "weight": 0.3,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -55,
           "nat_glob": 55,
@@ -2919,7 +2821,6 @@
         "id": "conservative_traditionalists",
         "weight": 0.25,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 45,
           "nat_glob": 10,
@@ -2939,7 +2840,6 @@
         "id": "anti_establishment_nationalists",
         "weight": 0.22,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -85,
@@ -2960,7 +2860,6 @@
         "id": "liberal_reformists",
         "weight": 0.15,
         "variance": 22,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -35,
           "nat_glob": 75,
@@ -2980,7 +2879,6 @@
         "id": "radical_progressives",
         "weight": 0.08,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -90,
           "nat_glob": 40,
@@ -3012,12 +2910,12 @@
     },
     "scale": 10000,
     "hos": "Ursula von der Leyen",
+    "headOfGovernmentTitle": "Commission President",
     "blocs": [
       {
         "id": "pro_european_federalists",
         "weight": 0.28,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -45,
           "nat_glob": 95,
@@ -3037,7 +2935,6 @@
         "id": "conservative_moderates",
         "weight": 0.26,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 40,
           "nat_glob": 65,
@@ -3057,7 +2954,6 @@
         "id": "sovereignist_nationalists",
         "weight": 0.22,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -85,
@@ -3078,7 +2974,6 @@
         "id": "social_democratic_labor",
         "weight": 0.16,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -35,
           "nat_glob": 70,
@@ -3098,7 +2993,6 @@
         "id": "ecological_progressives",
         "weight": 0.08,
         "variance": 20,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -80,
           "nat_glob": 90,
@@ -3130,12 +3024,12 @@
     },
     "scale": 10000,
     "hos": "Vladimir Putin",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "state_dependent_loyalists",
         "weight": 0.42,
         "variance": 22,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 80,
           "nat_glob": -80,
@@ -3156,7 +3050,6 @@
         "id": "patriotic_hawks",
         "weight": 0.22,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 95,
           "nat_glob": -95,
@@ -3176,7 +3069,6 @@
         "id": "urban_pragmatists",
         "weight": 0.18,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -30,
           "nat_glob": 20,
@@ -3196,7 +3088,6 @@
         "id": "nostalgic_socialists",
         "weight": 0.12,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 60,
           "nat_glob": -70,
@@ -3216,7 +3107,6 @@
         "id": "ethnic_regionalists",
         "weight": 0.06,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 40,
           "nat_glob": -60,
@@ -3248,12 +3138,12 @@
     },
     "scale": 1000,
     "hos": "Volodymyr Zelenskyy",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "victory_at_all_costs",
         "weight": 0.35,
         "variance": 15,
-        "turnout": 0.95,
         "center": {
           "prog_cons": 60,
           "nat_glob": -95,
@@ -3273,7 +3163,6 @@
         "id": "exhausted_realists",
         "weight": 0.3,
         "variance": 30,
-        "turnout": 0.85,
         "center": {
           "prog_cons": 0,
           "nat_glob": 30,
@@ -3293,7 +3182,6 @@
         "id": "euro_atlantic_liberals",
         "weight": 0.18,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -65,
           "nat_glob": 95,
@@ -3313,7 +3201,6 @@
         "id": "military_technocrats",
         "weight": 0.12,
         "variance": 20,
-        "turnout": 1.0,
         "center": {
           "prog_cons": 30,
           "nat_glob": -10,
@@ -3333,7 +3220,6 @@
         "id": "rural_traditionalists",
         "weight": 0.05,
         "variance": 35,
-        "turnout": 0.8,
         "center": {
           "prog_cons": 90,
           "nat_glob": -50,
@@ -3365,12 +3251,12 @@
     },
     "scale": 10000,
     "hos": "Xi Jinping",
+    "headOfGovernmentTitle": "Premier",
     "blocs": [
       {
         "id": "party_loyalist_cadres",
         "weight": 0.25,
         "variance": 12,
-        "turnout": 1.0,
         "center": {
           "prog_cons": 95,
           "nat_glob": -95,
@@ -3391,7 +3277,6 @@
         "id": "tech_nationalist_professionals",
         "weight": 0.2,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 60,
           "nat_glob": -70,
@@ -3411,7 +3296,6 @@
         "id": "common_prosperity_workers",
         "weight": 0.35,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 40,
           "nat_glob": -40,
@@ -3431,7 +3315,6 @@
         "id": "liberal_urban_dissenters",
         "weight": 0.1,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -60,
           "nat_glob": 60,
@@ -3451,7 +3334,6 @@
         "id": "marginalized_rural_traditionalists",
         "weight": 0.1,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -20,
@@ -3483,12 +3365,12 @@
     },
     "scale": 10000,
     "hos": "Droupadi Murmu",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "hindutva_nationalists",
         "weight": 0.38,
         "variance": 22,
-        "turnout": 0.75,
         "center": {
           "prog_cons": 85,
           "nat_glob": -90,
@@ -3509,7 +3391,6 @@
         "id": "secular_welfarists",
         "weight": 0.22,
         "variance": 28,
-        "turnout": 0.65,
         "center": {
           "prog_cons": -15,
           "nat_glob": -10,
@@ -3529,7 +3410,6 @@
         "id": "regional_identitarians",
         "weight": 0.2,
         "variance": 35,
-        "turnout": 0.7,
         "center": {
           "prog_cons": 40,
           "nat_glob": -50,
@@ -3549,7 +3429,6 @@
         "id": "urban_aspirational",
         "weight": 0.12,
         "variance": 25,
-        "turnout": 0.6,
         "center": {
           "prog_cons": 10,
           "nat_glob": 30,
@@ -3569,7 +3448,6 @@
         "id": "rural_agrarians",
         "weight": 0.08,
         "variance": 30,
-        "turnout": 0.72,
         "center": {
           "prog_cons": 75,
           "nat_glob": -40,
@@ -3601,12 +3479,12 @@
     },
     "scale": 10000,
     "hos": "Emperor Naruhito",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "conservative_establishment",
         "weight": 0.3,
         "variance": 24,
-        "turnout": 0.68,
         "center": {
           "prog_cons": 65,
           "nat_glob": -25,
@@ -3626,7 +3504,6 @@
         "id": "urban_pragmatists",
         "weight": 0.32,
         "variance": 35,
-        "turnout": 0.48,
         "center": {
           "prog_cons": 0,
           "nat_glob": 40,
@@ -3646,7 +3523,6 @@
         "id": "pacifist_progressives",
         "weight": 0.18,
         "variance": 20,
-        "turnout": 0.58,
         "center": {
           "prog_cons": -65,
           "nat_glob": 50,
@@ -3666,7 +3542,6 @@
         "id": "neoliberal_reformists",
         "weight": 0.12,
         "variance": 28,
-        "turnout": 0.55,
         "center": {
           "prog_cons": 20,
           "nat_glob": 25,
@@ -3686,7 +3561,6 @@
         "id": "komeito_buddhists",
         "weight": 0.08,
         "variance": 15,
-        "turnout": 0.72,
         "center": {
           "prog_cons": 40,
           "nat_glob": 10,
@@ -3718,12 +3592,12 @@
     },
     "scale": 10000,
     "hos": "Yoon Suk Yeol",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "conservative_establishment",
         "weight": 0.32,
         "variance": 22,
-        "turnout": 0.76,
         "center": {
           "prog_cons": 60,
           "nat_glob": -20,
@@ -3743,7 +3617,6 @@
         "id": "liberal_democrats",
         "weight": 0.3,
         "variance": 25,
-        "turnout": 0.74,
         "center": {
           "prog_cons": -35,
           "nat_glob": 20,
@@ -3763,7 +3636,6 @@
         "id": "meritocratic_young_men",
         "weight": 0.13,
         "variance": 18,
-        "turnout": 0.68,
         "center": {
           "prog_cons": 75,
           "nat_glob": 10,
@@ -3783,7 +3655,6 @@
         "id": "progressive_young_women",
         "weight": 0.1,
         "variance": 15,
-        "turnout": 0.7,
         "center": {
           "prog_cons": -90,
           "nat_glob": 30,
@@ -3803,7 +3674,6 @@
         "id": "real_estate_pragmatists",
         "weight": 0.15,
         "variance": 30,
-        "turnout": 0.72,
         "center": {
           "prog_cons": -10,
           "nat_glob": 20,
@@ -3835,12 +3705,12 @@
     },
     "scale": 10000,
     "hos": "Joko Widodo",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "secular_nationalists",
         "weight": 0.35,
         "variance": 28,
-        "turnout": 0.81,
         "center": {
           "prog_cons": 20,
           "nat_glob": -40,
@@ -3860,7 +3730,6 @@
         "id": "traditionalist_muslims",
         "weight": 0.25,
         "variance": 30,
-        "turnout": 0.83,
         "center": {
           "prog_cons": 45,
           "nat_glob": -30,
@@ -3880,7 +3749,6 @@
         "id": "orthodox_islamists",
         "weight": 0.2,
         "variance": 22,
-        "turnout": 0.78,
         "center": {
           "prog_cons": 90,
           "nat_glob": -15,
@@ -3900,7 +3768,6 @@
         "id": "resource_oligarchs",
         "weight": 0.1,
         "variance": 25,
-        "turnout": 0.75,
         "center": {
           "prog_cons": 45,
           "nat_glob": -50,
@@ -3920,7 +3787,6 @@
         "id": "urban_reformers",
         "weight": 0.1,
         "variance": 20,
-        "turnout": 0.79,
         "center": {
           "prog_cons": -35,
           "nat_glob": 25,
@@ -3952,12 +3818,12 @@
     },
     "scale": 1000,
     "hos": "Recep Tayyip Erdo\u011fan",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "anatolian_conservatives",
         "weight": 0.34,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 75,
           "nat_glob": -70,
@@ -3978,7 +3844,6 @@
         "id": "kemalist_secularists",
         "weight": 0.26,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -25,
           "nat_glob": -30,
@@ -3998,7 +3863,6 @@
         "id": "grey_wolf_nationalists",
         "weight": 0.14,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 60,
           "nat_glob": -95,
@@ -4019,7 +3883,6 @@
         "id": "pro_kurdish_reformists",
         "weight": 0.12,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -40,
           "nat_glob": 80,
@@ -4039,7 +3902,6 @@
         "id": "disaffected_urban_youth",
         "weight": 0.14,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -55,
           "nat_glob": 10,
@@ -4071,12 +3933,12 @@
     },
     "scale": 10000,
     "hos": "Ali Khamenei",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "revolutionary_loyalists",
         "weight": 0.22,
         "variance": 18,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 98,
           "nat_glob": -90,
@@ -4097,7 +3959,6 @@
         "id": "z_generation_dissenters",
         "weight": 0.3,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -85,
           "nat_glob": 60,
@@ -4118,7 +3979,6 @@
         "id": "urban_middle_reformists",
         "weight": 0.25,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -20,
           "nat_glob": 40,
@@ -4138,7 +3998,6 @@
         "id": "traditional_bazaari_merchants",
         "weight": 0.13,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 70,
           "nat_glob": -40,
@@ -4158,7 +4017,6 @@
         "id": "marginalized_ethnic_minorities",
         "weight": 0.1,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": 85,
@@ -4190,6 +4048,7 @@
     },
     "scale": 10000,
     "hos": "King Salman",
+    "headOfGovernmentTitle": "Prime Minister",
     "nameStyle": "arabic"
   },
   "ISRAEL": {
@@ -4205,12 +4064,12 @@
     },
     "scale": 10000,
     "hos": "Isaac Herzog",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "haredi_loyalists",
         "weight": 0.14,
         "variance": 15,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 90,
           "nat_glob": -40,
@@ -4230,7 +4089,6 @@
         "id": "secular_liberal_center",
         "weight": 0.28,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -70,
           "nat_glob": 20,
@@ -4250,7 +4108,6 @@
         "id": "nationalist_security_hawks",
         "weight": 0.32,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 65,
           "nat_glob": -95,
@@ -4270,7 +4127,6 @@
         "id": "arab_israeli_civic_bloc",
         "weight": 0.17,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": 60,
@@ -4290,7 +4146,6 @@
         "id": "russian_national_secularists",
         "weight": 0.09,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 30,
           "nat_glob": -50,
@@ -4322,12 +4177,12 @@
     },
     "scale": 10000,
     "hos": "Abdel Fattah el-Sisi",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "state_security_loyalists",
         "weight": 0.45,
         "variance": 20,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 80,
           "nat_glob": -70,
@@ -4348,7 +4203,6 @@
         "id": "urban_secular_modernists",
         "weight": 0.15,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -40,
           "nat_glob": 40,
@@ -4368,7 +4222,6 @@
         "id": "squeezed_working_class",
         "weight": 0.25,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 60,
           "nat_glob": -20,
@@ -4388,7 +4241,6 @@
         "id": "underground_traditionalists",
         "weight": 0.1,
         "variance": 15,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 95,
           "nat_glob": -80,
@@ -4408,7 +4260,6 @@
         "id": "nile_basin_farmers",
         "weight": 0.05,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -60,
@@ -4440,12 +4291,12 @@
     },
     "scale": 10000,
     "hos": "Cyril Ramaphosa",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "anc_loyalists",
         "weight": 0.36,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 35,
           "nat_glob": -30,
@@ -4465,7 +4316,6 @@
         "id": "liberal_modernizers",
         "weight": 0.22,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -10,
           "nat_glob": 35,
@@ -4486,7 +4336,6 @@
         "id": "zuma_populists",
         "weight": 0.16,
         "variance": 20,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 75,
           "nat_glob": -80,
@@ -4507,7 +4356,6 @@
         "id": "radical_socialists",
         "weight": 0.1,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -40,
           "nat_glob": -50,
@@ -4527,7 +4375,6 @@
         "id": "traditionalist_conservatives",
         "weight": 0.11,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 65,
           "nat_glob": -40,
@@ -4547,7 +4394,6 @@
         "id": "minority_protectionists",
         "weight": 0.05,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 55,
           "nat_glob": 10,
@@ -4579,6 +4425,7 @@
     },
     "scale": 10000,
     "hos": "Bola Tinubu",
+    "headOfGovernmentTitle": "President",
     "nameStyle": "african"
   },
   "KENYA": {
@@ -4594,12 +4441,12 @@
     },
     "scale": 10000,
     "hos": "William Ruto",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "hustler_nation_loyalists",
         "weight": 0.32,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 60,
           "nat_glob": -30,
@@ -4619,7 +4466,6 @@
         "id": "gen_z_tribeless_activists",
         "weight": 0.25,
         "variance": 20,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -70,
           "nat_glob": 60,
@@ -4640,7 +4486,6 @@
         "id": "mount_kenya_pragmatists",
         "weight": 0.2,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 40,
           "nat_glob": -20,
@@ -4660,7 +4505,6 @@
         "id": "broad_based_coalitionists",
         "weight": 0.15,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -10,
           "nat_glob": 35,
@@ -4680,7 +4524,6 @@
         "id": "marginalized_pastoralists",
         "weight": 0.08,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 80,
           "nat_glob": -60,
@@ -4712,6 +4555,7 @@
     },
     "scale": 1000,
     "hos": "Hassan Sheikh Mohamud",
+    "headOfGovernmentTitle": "President",
     "nameStyle": "african"
   },
   "NORTH KOREA": {
@@ -4727,6 +4571,7 @@
     },
     "scale": 1000,
     "hos": "Kim Jong Un",
+    "headOfGovernmentTitle": "Premier",
     "nameStyle": "korean"
   },
   "SOVIET UNION 1925": {
@@ -4742,6 +4587,7 @@
     },
     "scale": 10000,
     "hos": "Alexei Rykov",
+    "headOfGovernmentTitle": "Premier",
     "nameStyle": "slavic"
   },
   "SOVIET UNION 1991": {
@@ -4757,12 +4603,12 @@
     },
     "scale": 10000,
     "hos": "Mikhail Gorbachev",
+    "headOfGovernmentTitle": "President",
     "blocs": [
       {
         "id": "hardline_apparatchiks",
         "weight": 0.25,
         "variance": 20,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -90,
@@ -4782,7 +4628,6 @@
         "id": "urban_intelligentsia",
         "weight": 0.2,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -80,
           "nat_glob": 75,
@@ -4802,7 +4647,6 @@
         "id": "disillusioned_workers",
         "weight": 0.35,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": -10,
@@ -4821,7 +4665,6 @@
         "id": "republic_nationalists",
         "weight": 0.2,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 30,
           "nat_glob": -95,
@@ -4852,6 +4695,7 @@
     },
     "scale": 10000,
     "hos": "Emperor Trajan",
+    "headOfGovernmentTitle": "Emperor",
     "nameStyle": "italian"
   },
   "AIRSTRIP ONE": {
@@ -4867,12 +4711,12 @@
     },
     "scale": 10000,
     "hos": "Big Brother",
+    "headOfGovernmentTitle": "Big Brother",
     "blocs": [
       {
         "id": "inner_party_elite",
         "weight": 0.02,
         "variance": 5,
-        "turnout": 1.0,
         "center": {
           "prog_cons": 100,
           "nat_glob": -100,
@@ -4892,7 +4736,6 @@
         "id": "outer_party_bureaucrats",
         "weight": 0.13,
         "variance": 15,
-        "turnout": 0.95,
         "center": {
           "prog_cons": 100,
           "nat_glob": -100,
@@ -4912,7 +4755,6 @@
         "id": "the_proles",
         "weight": 0.85,
         "variance": 40,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": -10,
@@ -4945,12 +4787,12 @@
     },
     "scale": 1000,
     "hos": "Kresimir Kresimirovic IV",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "statist_establishment",
         "weight": 0.3,
         "variance": 15,
-        "turnout": 0.85,
         "center": {
           "prog_cons": -15,
           "nat_glob": -10,
@@ -4970,7 +4812,6 @@
         "id": "urban_liberals",
         "weight": 0.25,
         "variance": 25,
-        "turnout": 0.8,
         "center": {
           "prog_cons": -60,
           "nat_glob": 40,
@@ -4990,7 +4831,6 @@
         "id": "northern_eco_socialists",
         "weight": 0.2,
         "variance": 20,
-        "turnout": 0.85,
         "center": {
           "prog_cons": -40,
           "nat_glob": -20,
@@ -5010,7 +4850,6 @@
         "id": "religious_nationalists",
         "weight": 0.15,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -90,
@@ -5031,7 +4870,6 @@
         "id": "bosken_separatists",
         "weight": 0.1,
         "variance": 10,
-        "turnout": 0.95,
         "center": {
           "prog_cons": 0,
           "nat_glob": -65,
@@ -5063,14 +4901,14 @@
       "auth_ana": -80,
       "rel_sec": 15
     },
-    "scale": 10000,
+    "scale": 1000,
     "hos": "Slobodan Milo\u0161evi\u0107",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "serb_national_centralists",
         "weight": 0.36,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 70,
           "nat_glob": -95,
@@ -5091,7 +4929,6 @@
         "id": "croat_sovereigntists",
         "weight": 0.22,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 85,
           "nat_glob": -90,
@@ -5112,7 +4949,6 @@
         "id": "federal_reformists",
         "weight": 0.18,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -15,
           "nat_glob": 80,
@@ -5132,7 +4968,6 @@
         "id": "slovene_decentralists",
         "weight": 0.08,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -40,
           "nat_glob": 40,
@@ -5152,7 +4987,6 @@
         "id": "bosniak_pluralists",
         "weight": 0.16,
         "variance": 35,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 50,
           "nat_glob": -30,
@@ -5183,14 +5017,14 @@
       "auth_ana": 35,
       "rel_sec": 85
     },
-    "scale": 10000,
+    "scale": 1000,
     "hos": "Alar Karis",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "urban_liberals",
         "weight": 0.32,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -55,
           "nat_glob": 65,
@@ -5211,7 +5045,6 @@
         "id": "national_conservatives",
         "weight": 0.22,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 65,
           "nat_glob": -75,
@@ -5232,7 +5065,6 @@
         "id": "minority_integrationists",
         "weight": 0.18,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 10,
           "nat_glob": -30,
@@ -5253,7 +5085,6 @@
         "id": "nordic_social_democrats",
         "weight": 0.16,
         "variance": 42,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -40,
           "nat_glob": 35,
@@ -5273,7 +5104,6 @@
         "id": "rural_traditionalists",
         "weight": 0.12,
         "variance": 45,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 45,
           "nat_glob": -15,
@@ -5303,14 +5133,14 @@
       "auth_ana": 10,
       "rel_sec": 75
     },
-    "scale": 10000,
+    "scale": 1000,
     "hos": "Petr Pavel",
+    "headOfGovernmentTitle": "Prime Minister",
     "blocs": [
       {
         "id": "industrial_loyalists",
         "weight": 0.34,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 50,
           "nat_glob": -55,
@@ -5330,7 +5160,6 @@
         "id": "liberal_modernizers",
         "weight": 0.22,
         "variance": 30,
-        "turnout": 0.9,
         "center": {
           "prog_cons": -75,
           "nat_glob": 85,
@@ -5350,7 +5179,6 @@
         "id": "market_conservatives",
         "weight": 0.23,
         "variance": 32,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 40,
           "nat_glob": 45,
@@ -5371,7 +5199,6 @@
         "id": "nationalist_sovereigntists",
         "weight": 0.14,
         "variance": 25,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 90,
           "nat_glob": -95,
@@ -5391,7 +5218,6 @@
         "id": "pragmatic_motorists",
         "weight": 0.07,
         "variance": 28,
-        "turnout": 0.9,
         "center": {
           "prog_cons": 20,
           "nat_glob": -25,
@@ -5421,8 +5247,9 @@
       "auth_ana": 20,
       "rel_sec": 95
     },
-    "scale": 10000,
+    "scale": 1000,
     "hos": "Luis Lacalle Pou",
+    "headOfGovernmentTitle": "President",
     "nameStyle": "hispanic"
   },
   "TAIWAN": {
@@ -5438,13 +5265,13 @@
     },
     "scale": 1000,
     "hos": "Lai Ching-te",
+    "headOfGovernmentTitle": "President",
     "nameStyle": "chinese",
     "blocs": [
       {
         "id": "pan_green_sovereigntists",
         "weight": 0.35,
         "variance": 22,
-        "turnout": 0.76,
         "center": {
           "prog_cons": -45,
           "nat_glob": -60,
@@ -5464,7 +5291,6 @@
         "id": "pan_blue_traditionalists",
         "weight": 0.30,
         "variance": 26,
-        "turnout": 0.74,
         "center": {
           "prog_cons": 45,
           "nat_glob": 40,
@@ -5484,7 +5310,6 @@
         "id": "pragmatic_youth",
         "weight": 0.20,
         "variance": 20,
-        "turnout": 0.68,
         "center": {
           "prog_cons": -55,
           "nat_glob": 0,
@@ -5504,7 +5329,6 @@
         "id": "deep_green_radicals",
         "weight": 0.08,
         "variance": 15,
-        "turnout": 0.80,
         "center": {
           "prog_cons": -30,
           "nat_glob": -95,
@@ -5523,7 +5347,6 @@
         "id": "local_patronage_factions",
         "weight": 0.07,
         "variance": 35,
-        "turnout": 0.72,
         "center": {
           "prog_cons": 25,
           "nat_glob": 20,
@@ -5554,13 +5377,13 @@
     },
     "scale": 1000,
     "hos": "President Tharman Shanmugaratnam",
+    "headOfGovernmentTitle": "Prime Minister",
     "nameStyle": "indonesian",
     "blocs": [
       {
         "id": "pap_establishment",
         "weight": 0.45,
         "variance": 22,
-        "turnout": 0.95,
         "center": {
           "prog_cons": 20,
           "nat_glob": 75,
@@ -5580,7 +5403,6 @@
         "id": "pragmatic_opposition",
         "weight": 0.25,
         "variance": 26,
-        "turnout": 0.94,
         "center": {
           "prog_cons": -10,
           "nat_glob": 30,
@@ -5600,7 +5422,6 @@
         "id": "heartland_conservatives",
         "weight": 0.15,
         "variance": 28,
-        "turnout": 0.93,
         "center": {
           "prog_cons": 65,
           "nat_glob": -15,
@@ -5620,7 +5441,6 @@
         "id": "liberal_intelligentsia",
         "weight": 0.10,
         "variance": 18,
-        "turnout": 0.92,
         "center": {
           "prog_cons": -70,
           "nat_glob": 65,
@@ -5640,7 +5460,6 @@
         "id": "nationalist_populists",
         "weight": 0.05,
         "variance": 24,
-        "turnout": 0.94,
         "center": {
           "prog_cons": 35,
           "nat_glob": -75,
@@ -5657,105 +5476,7 @@
         }
       }
     ]
-  },
-  "GROUP": {
-    "pop": 100,
-    "vals": {
-      "prog_cons": 0,
-      "nat_glob": 0,
-      "env_eco": 0,
-      "soc_cap": 0,
-      "pac_mil": 0,
-      "auth_ana": 0,
-      "rel_sec": 0
-    },
-    "scale": 1,
-    "hos": "Focus Group Moderator",
-    "nameStyle": "generic",
-    "blocs": [
-      {
-        "id": "generic_centrists",
-        "weight": 0.40,
-        "variance": 20,
-        "turnout": 0.85,
-        "center": {
-          "prog_cons": 0,
-          "nat_glob": 0,
-          "env_eco": 0,
-          "soc_cap": 0,
-          "pac_mil": 0,
-          "auth_ana": 0,
-          "rel_sec": 0
-        },
-        "salience": {
-          "env_eco": 1.0,
-          "soc_cap": 1.0,
-          "prog_cons": 1.0
-        }
-      },
-      {
-        "id": "generic_progressives",
-        "weight": 0.25,
-        "variance": 25,
-        "turnout": 0.88,
-        "center": {
-          "prog_cons": -50,
-          "nat_glob": 40,
-          "env_eco": -50,
-          "soc_cap": -40,
-          "pac_mil": -30,
-          "auth_ana": 30,
-          "rel_sec": 45
-        },
-        "salience": {
-          "prog_cons": 1.8,
-          "env_eco": 1.5,
-          "soc_cap": 1.4
-        }
-      },
-      {
-        "id": "generic_conservatives",
-        "weight": 0.25,
-        "variance": 25,
-        "turnout": 0.89,
-        "center": {
-          "prog_cons": 50,
-          "nat_glob": -40,
-          "env_eco": 50,
-          "soc_cap": 40,
-          "pac_mil": 30,
-          "auth_ana": -30,
-          "rel_sec": -45
-        },
-        "salience": {
-          "prog_cons": 1.8,
-          "nat_glob": 1.5,
-          "rel_sec": 1.4
-        }
-      },
-      {
-        "id": "generic_disengaged",
-        "weight": 0.10,
-        "variance": 45,
-        "turnout": 0.35,
-        "center": {
-          "prog_cons": 0,
-          "nat_glob": 0,
-          "env_eco": 0,
-          "soc_cap": 0,
-          "pac_mil": 0,
-          "auth_ana": 0,
-          "rel_sec": 0
-        },
-        "salience": {
-          "env_eco": 0.5,
-          "auth_ana": 0.5,
-          "soc_cap": 0.5
-        }
-      }
-    ]
-  }
-}
+  }}
 
 
 

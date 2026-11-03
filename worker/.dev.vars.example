@@ -1,0 +1,7 @@
+# Local development only — copy to `.dev.vars` (gitignored) and change the token.
+# `ENVIRONMENT=dev` enables `http://localhost:8787/admin?token=...`.
+ENVIRONMENT = "dev"
+ADMIN_TOKEN = "replace-with-a-long-random-token"
+ALLOWED_ORIGINS = "http://localhost:5173,http://127.0.0.1:5173"
+ADMIN_EMAILS = ""
+TRUST_ACCESS_HEADER = "false"

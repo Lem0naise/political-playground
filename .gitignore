@@ -35,6 +35,17 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# cloudflare worker
+worker/node_modules/
+worker/.wrangler/
+worker/.dev.vars
+worker/dist/
+# Never commit Cloudflare credentials.
+worker/.cf-token
+worker/.wrangler-config/
+.wrangler-config/
 
 # vercel
 .vercel

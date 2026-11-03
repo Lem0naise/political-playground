@@ -2,6 +2,8 @@
 
 This document provides context and guidelines for AI agents working on the "Political Playground" codebase.
 
+> **Status:** written before the v4.0.0 simulation overhaul. The core concepts still hold, but details have moved on: loyalty is tracked by candidate ID, base utility is scaled to ±500, parties can split and merge mid-campaign, events can target an ideology axis, and news items carry a priority and a newspaper style. Verify anything specific against the code, or use `AGENTS.md` (the current guide).
+
 ## 1. Project Overview
 **The Political Playground** is a fictional election simulator game. Players manage a political campaign, navigating weekly polls, events, and shifting public opinion trends to win an election.
 
@@ -27,15 +29,17 @@ Defined in `src/types/game.ts` as `PoliticalValues`. Range: `-100` to `+100`.
 7. `rel_sec`: Religious (-) vs Secular (+)
 
 ### Entities
-- **Candidates**: belong to a Party, have base utility modifier (`base_utility_modifier`), polling performance (`poll_percentage`), and specific `vals` (PoliticalValues).
-- **Voter Blocs**: Groups of voters defined by a `center` (ideal values) and `weight`.
-- **Countries**: Have populations, blocs, and baseline values.
+- **Candidates**: belong to a Party, have `base_utility_modifier`, polling performance (`poll_percentage`), and `vals` — a 7-number tuple in `VALUES` order, not a `PoliticalValues` object.
+- **Voter Blocs**: Groups of voters defined by a `center` (ideal values), optional `weight`, `variance`, and `salience`. Turnout is computed by the engine; the old per-bloc `turnout` metadata was removed in 4.2.
+- **Countries**: Have a synthetic voter count (`pop`), a display multiplier (`scale`), baseline values, optional blocs, a head-of-state display name (`hos`), and a head-of-government title (`headOfGovernmentTitle`).
 - **Trends**: Temporary shifts in voter values or priorities (e.g., "Climate Alarm" pushes `env_eco` towards Environmental).
 
 ### Simulation Logic
-- **Polling**: Conducted weekly. Voters (simulated via normal distribution around Bloc centers) choose candidates based on **Euclidean distance** between their values and the candidate's values, tempered by `base_utility_modifier` and other dynamics.
-- **Events**: Multiple-choice scenarios that affect candidate popularity or values.
-- **Coalitions**: Post-election logic for forming governments if no majority is won.
+- **Polling**: Conducted weekly. Voters (simulated via normal distribution around Bloc centers) score parties by salience-weighted squared distance, modified by `base_utility_modifier`, nascent penalty, momentum, and loyalty to their previous choice. Choice uses a softmax; turnout is gated by distance and apathy.
+- **Party lifecycle**: parties can dissolve, split, merge, or be formed from low-turnout blocs between polls.
+- **Events**: Multiple-choice scenarios that affect candidate popularity and/or schedule gradual ideology shifts; an event can be aimed at a specific axis.
+- **News**: Headlines are generated as priority-tagged `NewsItem`s and rendered with a newspaper style.
+- **Coalitions**: Post-election logic for forming governments if no majority is won; all calculations are vote-share based (there is no seat allocation).
 
 ## 3. Key Files Structure
 
@@ -57,12 +61,18 @@ Defined in `src/types/game.ts` as `PoliticalValues`. Range: `-100` to `+100`.
 - contains `TREND_DEFINITIONS`.
 
 ### `src/lib/coalitionEngine.ts`
-Logic for post-election negotiation (compatibility scores, seat calculations).
+Logic for post-election negotiation (compatibility scores, willingness, cabinet appeal) over vote shares.
+
+### `src/lib/reducerLogic.ts`
+The "advance one week" pipeline: `calculateNextPollState` runs trends, polling, leadership/lifecycle checks, news, and post-election statistics.
+
+### `src/lib/newsPaperStyles.ts`
+Visual style and paper-name assignment for the newspaper-style news feed.
 
 ### `simulate.ts` (Root Directory)
-Standalone script for calibrating simulation parameters.
+Standalone script for sampling a single bloc.
 - **Usage**: `npx ts-node simulate.ts <CountryName> <BlocId>`
-- Useful for testing how a bloc votes without running the full UI.
+- It re-implements a simplified distance model and currently mishandles scalar `variance`, so use it for a rough sanity check, not calibration.
 
 ## 4. Development Guidelines
 
@@ -92,11 +102,12 @@ Standalone script for calibrating simulation parameters.
 /
 ├── simulate.ts          # CLI Simulation tool
 ├── src/
-│   ├── App.tsx          # Main Entry & Routing
-│   ├── contexts/        # State Management (GameContext)
-│   ├── lib/             # Pure Logic (Engine, Helpers)
-│   ├── types/           # Type Definitions
-│   ├── components/      # React UI Components
-│   └── pages/           # Page Layouts
-└── public/data/         # JSON Data for Countries/Parties
+│   ├── main.tsx          # Entry point (StrictMode, providers, router)
+│   ├── App.tsx           # Routes + SEO (<Helmet>) + GameProvider
+│   ├── contexts/         # State Management (GameContext)
+│   ├── lib/              # Pure Logic (Engine, Helpers)
+│   ├── types/            # Type Definitions
+│   ├── components/       # React UI Components
+│   └── pages/            # Phase routers
+└── public/data/          # JSON Data for Countries/Parties
 ```

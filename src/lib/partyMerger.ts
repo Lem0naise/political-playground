@@ -14,6 +14,22 @@ export interface MergeCandidate {
   similarityScore: number;
 }
 
+/** Make party names unique within a list. Persisted poll data is keyed by
+ *  party name, so duplicates from selecting multiple party lists would collide. */
+export function ensureUniquePartyNames<T extends { party: string }>(parties: T[]): T[] {
+  const used = new Set<string>();
+  return parties.map(party => {
+    const base = (party.party ?? '').trim() || 'Unnamed Party';
+    let name = base;
+    let suffix = 2;
+    while (used.has(name.toLowerCase())) {
+      name = `${base} (${suffix++})`;
+    }
+    used.add(name.toLowerCase());
+    return name === party.party ? party : { ...party, party: name };
+  });
+}
+
 export function calculateIdeologySimilarity(party1: Party, party2: Party): number {
   const ideologyKeys = VALUES;
   let totalSimilarity = 0;

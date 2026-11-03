@@ -1,10 +1,12 @@
-import React, { createContext, useContext, useReducer, useCallback, useState, useEffect } from 'react';
-import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, VoterTransferEntry, VALUES } from '@/types/game';
+import React, { createContext, useContext, useCallback, useState, useEffect, useRef } from 'react';
+import { GameState, Candidate, PollResult, Event, EventChoice, CoalitionState, PollingSnapshot, VoterTransferEntry, NewsItem, VALUES, MAJORITY_THRESHOLD } from '@/types/game';
 import {
   generateVotingData,
   conductPoll,
   applyEventEffect,
+  cloneCandidate,
   createCandidate,
+  resetEngineState,
   snapshotInitialChoices,
   scheduleNextTrendPoll,
   checkPostElectionLeadershipChanges
@@ -12,8 +14,10 @@ import {
 import { calculatePartyCompatibility, autoAllocateUnfilledCabinetPositions } from '@/lib/coalitionEngine';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 import { getIdeologyDescriptors, calculateWeightedIdeology } from '@/lib/ideologyProfiler';
+import { ensureUniquePartyNames } from '@/lib/partyMerger';
 
 import { calculateNextPollState } from '@/lib/reducerLogic';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 
 interface GameContextType {
   state: GameState;
@@ -73,7 +77,7 @@ const initialState: GameState = {
   candidates: [],
   playerCandidate: null,
   currentPoll: 0,
-  totalPolls: 52, // POLL COUNTER, 52 DEFAULT
+  totalPolls: 52, // 52-week default
   pollResults: [],
   previousPollResults: {},
   initialPollResults: {},
@@ -113,7 +117,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     case 'SET_PARTY_LIST': {
-      const candidates = action.payload.parties.map((party, index) =>
+      const parties = ensureUniquePartyNames(action.payload.parties);
+      const candidates = parties.map((party, index) =>
         createCandidate(
           index,
           party.name,
@@ -170,10 +175,11 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
     case 'START_CAMPAIGN':
       const votingData = state.votingData && state.votingData.length > 0
-        ? state.votingData
+        ? state.votingData.map(row => [...row])
         : generateVotingData(state.countryData);
+      const candidates = state.candidates.map(cloneCandidate);
 
-      const { results, blocStats } = conductPoll(votingData, state.candidates, 1, state.countryData);
+      const { results, blocStats } = conductPoll(votingData, candidates, 1, state.countryData);
 
       // Store initial poll results
       const initialResults: Record<string, number> = {};
@@ -186,14 +192,23 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         percentages: { ...initialResults }
       };
 
-      const nextState = {
+      const seasonNews: NewsItem = {
+        text: "ELECTION SEASON OFFICIALLY BEGINS.",
+        priority: "medium",
+        category: "government"
+      };
+
+      const nextState: GameState = {
         ...state,
         votingData,
+        candidates,
+        playerCandidate: candidates.find(candidate => candidate.is_player) ?? state.playerCandidate,
         pollResults: results.map(r => ({ ...r, change: 0 })),
         initialPollResults: initialResults,
         previousPollResults: initialResults,
         currentPoll: 1,
-        politicalNews: [{ text: "ELECTION SEASON OFFICIALLY BEGINS.", priority: "medium", category: "government" }],
+        // Keep any government-formation headlines queued by CONTINUE_CAMPAIGN.
+        politicalNews: [seasonNews, ...state.politicalNews].slice(0, 8),
         pollingHistory: [initialPollingSnapshot],
         activeTrend: state.activeTrend !== undefined ? state.activeTrend : [],
         trendHistory: state.trendHistory || [],
@@ -221,10 +236,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'HANDLE_EVENT':
       if (!state.playerCandidate) return state;
 
-      // Create a copy of the player candidate to modify
-      const updatedPlayerCandidate = { ...state.playerCandidate };
+      // Create a deep-enough copy of the player candidate to modify
+      const updatedPlayerCandidate = cloneCandidate(state.playerCandidate);
 
-      const { pollingChange, newsEvents: eventNews } = applyEventEffect(
+      const { newsEvents: eventNews } = applyEventEffect(
         updatedPlayerCandidate,
         action.payload.choice.effect,
         action.payload.choice.boost,
@@ -281,13 +296,14 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         const sortedResults = [...state.pollResults].sort((a, b) => b.percentage - a.percentage);
         const leadingParty = sortedResults[0].candidate;
 
-        let initialCabinetAllocations: Record<string, string[]> = {
-          [leadingParty.party]: []
-        };
+        let initialCabinetAllocations: Record<string, string[]> = {};
 
         return {
           ...state,
           playerCandidate: updatedPlayerCandidate,
+          candidates: state.candidates.map(candidate =>
+            candidate.id === updatedPlayerCandidate.id ? updatedPlayerCandidate : candidate
+          ),
           pendingPlayerEvent: null,
           votingData: state.votingData,
           phase: 'coalition',
@@ -309,14 +325,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         return {
           ...state,
           playerCandidate: updatedPlayerCandidate,
+          candidates: state.candidates.map(candidate =>
+            candidate.id === updatedPlayerCandidate.id ? updatedPlayerCandidate : candidate
+          ),
           pendingPlayerEvent: null,
           votingData: state.votingData,
           incumbentGovernment: [leadingParty.party]
         };
       }
 
-      // Add polling changes
-      updatedPlayerCandidate.base_utility_modifier = (updatedPlayerCandidate.base_utility_modifier || 0) + pollingChange;
+      // applyEventEffect has already applied the polling change to the candidate.
       // Update the candidates array with the modified player candidate
       const candidatesAfterEvent = state.candidates.map(candidate =>
         candidate.id === state.playerCandidate?.id ? updatedPlayerCandidate : candidate
@@ -336,11 +354,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     case 'RESET_GAME':
-      return initialState;
+      // Keep the loaded event variables so news templates keep resolving after "Play Again".
+      return { ...initialState, eventVariables: state.eventVariables };
 
     case 'SET_PENDING_PARTIES': {
       // Run a "Week 0" mock poll to determine initial sizes for merging and selection screens
-      const tempCandidates = action.payload.parties.map((p, index) =>
+      const parties = ensureUniquePartyNames(action.payload.parties);
+      const tempCandidates = parties.map((p, index) =>
         createCandidate(
           index,
           p.name,
@@ -364,9 +384,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
       const { results } = conductPoll(votingData, tempCandidates, 0, state.countryData, true);
 
-      const partiesWithSizes = action.payload.parties.map(p => {
-        const candId = tempCandidates.find(c => c.party === p.party)?.id;
-        const res = candId !== undefined ? results.find(r => r.candidate.id === candId) : null;
+      const partiesWithSizes = parties.map((p, index) => {
+        // createCandidate assigns the array index as the id, so match on index,
+        // not on party name (names can repeat across selected lists).
+        const res = results.find(r => r.candidate.id === index);
         return {
           ...p,
           poll_percentage: res ? res.percentage : 0
@@ -392,7 +413,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       const winningPercentage = sortedResults[0].percentage;
 
       // Check if coalition is needed
-      if (winningPercentage > 50) {
+      if (winningPercentage > MAJORITY_THRESHOLD) {
         return {
           ...state,
           phase: 'results' // Skip coalition if majority achieved
@@ -527,7 +548,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         governmentParties,
         state.eventVariables,
         state.country || 'USA',
-        state.countryData.hos
+        getHeadOfGovernmentTitle(state.countryData)
       );
 
       const allGovNews: import('@/types/game').NewsItem[] = [
@@ -539,6 +560,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...state,
         phase: 'campaign',
         candidates: postElecChanges.candidates,
+        playerCandidate: postElecChanges.candidates.find(c => c.is_player) ?? state.playerCandidate,
         pendingPlayerEvent: postElecChanges.playerCrisisEvent ?? null,
         incumbentGovernment: governmentParties,
         currentPoll: 0,
@@ -569,7 +591,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
     case 'LOAD_STATE': {
       return {
-        ...action.payload.savedState
+        ...action.payload.savedState,
+        // Saves made before event variables were persisted still get working news.
+        eventVariables: action.payload.savedState.eventVariables ?? state.eventVariables
       };
     }
 
@@ -665,7 +689,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         });
       }
 
-      const isNowComplete = newTotalPercentage >= 50;
+      const isNowComplete = newTotalPercentage > MAJORITY_THRESHOLD;
       if (isNowComplete) {
         const leadPartyId = state.coalitionState.coalitionPartners[0]?.party;
         if (leadPartyId) {
@@ -786,101 +810,113 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(gameReducer, initialState);
+  const [state, setState] = useState<GameState>(initialState);
+  const stateRef = useRef(state);
+
+  // Run the reducer once per action, outside React's reducer path. The poll
+  // pipeline calls impure engine functions (polling, trends, party lifecycle),
+  // and React StrictMode double-invokes reducer functions in development.
+  const apply = useCallback((action: GameAction) => {
+    const next = gameReducer(stateRef.current, action);
+    stateRef.current = next;
+    setState(next);
+  }, []);
 
   // Load event variables on mount
   useEffect(() => {
     loadEventVariables().then(vars => {
-      dispatch({ type: 'SET_EVENT_VARIABLES', payload: { eventVariables: vars } });
+      apply({ type: 'SET_EVENT_VARIABLES', payload: { eventVariables: vars } });
     }).catch(err => {
       console.error('Failed to load event variables:', err);
     });
-  }, []);
+  }, [apply]);
 
   const actions = {
     setCountry: useCallback((country: string, countryData: any) => {
-      dispatch({ type: 'SET_COUNTRY', payload: { country, countryData } });
-    }, []),
+      resetEngineState();
+      apply({ type: 'SET_COUNTRY', payload: { country, countryData } });
+    }, [apply]),
 
     setPartyList: useCallback((partyList: string, parties: any[]) => {
-      dispatch({ type: 'SET_PARTY_LIST', payload: { partyList, parties } });
-    }, []),
+      apply({ type: 'SET_PARTY_LIST', payload: { partyList, parties } });
+    }, [apply]),
 
     setPlayerCandidate: useCallback((candidateId: number) => {
-      dispatch({ type: 'SET_PLAYER_CANDIDATE', payload: { candidateId } });
-    }, []),
+      apply({ type: 'SET_PLAYER_CANDIDATE', payload: { candidateId } });
+    }, [apply]),
 
     startCampaign: useCallback(() => {
-      dispatch({ type: 'START_CAMPAIGN' });
-    }, []),
+      apply({ type: 'START_CAMPAIGN' });
+    }, [apply]),
 
     nextPoll: useCallback(() => {
-      dispatch({ type: 'NEXT_POLL' });
-    }, []),
+      apply({ type: 'NEXT_POLL' });
+    }, [apply]),
 
     handleEvent: useCallback((event: Event, choice: EventChoice) => {
-      dispatch({ type: 'HANDLE_EVENT', payload: { event, choice } });
-    }, []),
+      apply({ type: 'HANDLE_EVENT', payload: { event, choice } });
+    }, [apply]),
 
     resetGame: useCallback(() => {
-      dispatch({ type: 'RESET_GAME' });
-    }, []),
+      resetEngineState();
+      apply({ type: 'RESET_GAME' });
+    }, [apply]),
 
     setPendingParties: useCallback((parties: any[]) => {
-      dispatch({ type: 'SET_PENDING_PARTIES', payload: { parties } });
-    }, []),
+      apply({ type: 'SET_PENDING_PARTIES', payload: { parties } });
+    }, [apply]),
 
     setGamePhase: useCallback((phase: GameState['phase']) => {
-      dispatch({ type: 'SET_GAME_PHASE', payload: { phase } });
-    }, []),
+      apply({ type: 'SET_GAME_PHASE', payload: { phase } });
+    }, [apply]),
 
     startCoalitionFormation: useCallback(() => {
-      dispatch({ type: 'START_COALITION_FORMATION' });
-    }, []),
+      apply({ type: 'START_COALITION_FORMATION' });
+    }, [apply]),
 
     addCoalitionPartner: useCallback((partner: Candidate, positions?: string[]) => {
-      dispatch({ type: 'ADD_COALITION_PARTNER', payload: { partner, positions } });
-    }, []),
+      apply({ type: 'ADD_COALITION_PARTNER', payload: { partner, positions } });
+    }, [apply]),
 
     removePotentialPartner: useCallback((partner: Candidate) => {
-      dispatch({ type: 'REMOVE_POTENTIAL_PARTNER', payload: { partner } });
-    }, []),
+      apply({ type: 'REMOVE_POTENTIAL_PARTNER', payload: { partner } });
+    }, [apply]),
 
     allocateCabinetPosition: useCallback((position: string, party: string) => {
-      dispatch({ type: 'ALLOCATE_CABINET_POSITION', payload: { position, party } });
-    }, []),
+      apply({ type: 'ALLOCATE_CABINET_POSITION', payload: { position, party } });
+    }, [apply]),
 
     completeCoalitionFormation: useCallback(() => {
-      dispatch({ type: 'COMPLETE_COALITION_FORMATION' });
-    }, []),
+      apply({ type: 'COMPLETE_COALITION_FORMATION' });
+    }, [apply]),
 
     setTargetedBloc: useCallback((blocId: string | null) => {
-      dispatch({ type: 'SET_TARGETED_BLOC', payload: { blocId } });
-    }, []),
+      apply({ type: 'SET_TARGETED_BLOC', payload: { blocId } });
+    }, [apply]),
 
     setTargetedAxis: useCallback((axis: string | null) => {
-      dispatch({ type: 'SET_TARGETED_AXIS', payload: { axis } });
-    }, []),
+      apply({ type: 'SET_TARGETED_AXIS', payload: { axis } });
+    }, [apply]),
 
     nextCoalitionAttempt: useCallback(() => {
-      dispatch({ type: 'NEXT_COALITION_ATTEMPT' });
-    }, []),
+      apply({ type: 'NEXT_COALITION_ATTEMPT' });
+    }, [apply]),
 
     continueCampaign: useCallback(() => {
-      dispatch({ type: 'CONTINUE_CAMPAIGN' });
-    }, []),
+      apply({ type: 'CONTINUE_CAMPAIGN' });
+    }, [apply]),
 
     resumeCampaign: useCallback(() => {
-      dispatch({ type: 'RESUME_CAMPAIGN' });
-    }, []),
+      apply({ type: 'RESUME_CAMPAIGN' });
+    }, [apply]),
 
     loadState: useCallback((savedState: any) => {
-      dispatch({ type: 'LOAD_STATE', payload: { savedState } });
-    }, []),
+      apply({ type: 'LOAD_STATE', payload: { savedState } });
+    }, [apply]),
 
     logCoalitionEvent: useCallback((message: string) => {
-      dispatch({ type: 'LOG_COALITION_EVENT', payload: { message } });
-    }, [])
+      apply({ type: 'LOG_COALITION_EVENT', payload: { message } });
+    }, [apply])
   };
 
   return (

@@ -139,7 +139,7 @@ export function getIdeologyDescriptors(vals: number[]): Array<{ key: string, des
   return sortedDescriptors;
 }
 
-export function getIdeologyProfile(vals: number[]) {
+export function getIdeologyProfile(vals: number[], variant: 'card' | 'inline' = 'card') {
   const descriptors = getIdeologyDescriptors(vals);
   // Remove duplicates and nulls, keep order
   const seen = new Set<string>();
@@ -148,6 +148,21 @@ export function getIdeologyProfile(vals: number[]) {
     seen.add(d.desc);
     return true;
   });
+  const shown = filtered.length > 0
+    ? filtered
+    : [{ key: 'centrist', desc: 'centrist', color: 'text-slate-300' }];
+
+  if (variant === 'inline') {
+    return (
+      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 font-mono">
+        {shown.map(d => (
+          <span key={d.key} className={`inline-block font-black uppercase tracking-wider ${d.color} text-xs`}>
+            {d.desc}
+          </span>
+        ))}
+      </div>
+    );
+  }
 
   const fontSizes = [
     "text-xl sm:text-2xl",
@@ -168,10 +183,10 @@ export function getIdeologyProfile(vals: number[]) {
 
       {/* Word Cloud Container */}
       <div className="flex flex-wrap items-baseline justify-center gap-x-4 gap-y-2 text-center py-2">
-        {filtered.map((d, i) => (
+        {shown.map((d, i) => (
           <span
             key={d.key}
-            className={`inline-block font-mono font-black uppercase tracking-wider transition-transform hover:scale-110 cursor-default ${d.color} ${fontSizes[i] || "text-xs"}`}
+            className={`inline-block font-mono font-black uppercase tracking-wider cursor-default ${d.color} ${fontSizes[i] || "text-xs"}`}
           >
             {d.desc}
           </span>

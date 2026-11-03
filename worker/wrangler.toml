@@ -1,0 +1,46 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "polplay-analytics"
+main = "src/index.ts"
+compatibility_date = "2026-05-01"
+workers_dev = false
+
+# Serve the dashboard from the analytics hostname's apex. Requires the
+# indigo.spot zone to be active in Cloudflare. If you would rather use a
+# workers.dev hostname, remove this block and set workers_dev = true.
+routes = [
+  { pattern = "analytics.indigo.spot", custom_domain = true }
+]
+
+# Created with:
+#   npx wrangler d1 create polplay-analytics
+[[d1_databases]]
+binding = "DB"
+database_name = "polplay-analytics"
+database_id = "b3b0927a-726a-4d8f-aec0-52fd9807d3eb"
+migrations_dir = "migrations"
+
+# An origin allowlist, not an authentication mechanism. Requests from other
+# origins are rejected before they reach the database. Must include the
+# production site and, if you use it, the local Vite dev server.
+
+[vars]
+ENVIRONMENT = "production"
+ALLOWED_ORIGINS = "https://polplay.indigo.spot,http://localhost:5173"
+# Comma-separated Cloudflare Access emails allowed into /admin.
+# Leave empty to allow any identity admitted by the Access application.
+ADMIN_EMAILS = ""
+# Keep false until the Access application is live. The email header is
+# client-supplied until Access validates and overwrites it.
+TRUST_ACCESS_HEADER = "true"
+
+[triggers]
+crons = ["17 3 * * *"]
+
+[observability]
+enabled = true
+
+# Import the dashboard as a string instead of a separate asset pipeline.
+[[rules]]
+type = "Text"
+globs = ["**/*.html"]
+fallthrough = true

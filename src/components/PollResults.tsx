@@ -43,7 +43,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
     <div className="bg-slate-700 border border-slate-600 rounded-lg p-2 sm:p-3 text-white relative">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-2">
         <h2 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 flex items-center">
-          LIVE POLLING DATA
+          POLLING STATUS
         </h2>
         <button
           type="button"
@@ -151,7 +151,7 @@ export default function PollResults({ onViewGraph, canViewGraph }: PollResultsPr
             {(() => {
               const maxBlocWeight = Math.max(...state.blocStats.map(b => b.weight));
 
-              return state.blocStats
+              return [...state.blocStats]
                 .sort((a, b) => (b.turnout * b.weight) - (a.turnout * a.weight))
                 .map((bloc) => {
                   const blocPopulation = Math.round(state.countryData.pop * bloc.weight);

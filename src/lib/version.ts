@@ -6,6 +6,35 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '4.2.0',
+    date: '2026-11-03',
+    changes: [
+      "Coalition negotiations now trap focus, restore focus on close, and clear pending timers when unmounted.",
+      "Reduced-motion preference disables decorative UI motion and Chart.js animations.",
+      "Country data now supplies the head-of-government title (President, Chancellor, Premier, etc.) for news, cabinet and campaign labels.",
+      "Removed dead bloc data and unused constants/state fields; added a data validator to CI.",
+    ],
+  },
+  {
+    version: '4.1.0',
+    date: '2026-11-03',
+    changes: [
+      "Optional, privacy-preserving player analytics via a Cloudflare Worker + D1, disabled unless VITE_ANALYTICS_URL is configured.",
+      "Aggregate admin dashboard behind Cloudflare Access, plus an in-game anonymous-analytics opt-out.",
+      "Added worker typecheck/deploy docs and wired the Pages build to a VITE_ANALYTICS_URL repository variable.",
+    ],
+  },
+  {
+    version: '4.0.1',
+    date: '2026-11-03',
+    changes: [
+      "Fixed jumping vote totals, duplicate party names, double-applied event effects and engine memory leaking between games.",
+      "Party colours are now visible on the dark background; corrected country scales, event-variable keys and duplicate data.",
+      "Save format 2.0 with migration for older string-news saves; new terms keep government news and event text.",
+      "Added a working typecheck to CI and polished menu loading/errors, the news feed and coalition screens.",
+    ],
+  },
+  {
     version: '4.0.0',
     date: '2026-05-11',
     changes: [

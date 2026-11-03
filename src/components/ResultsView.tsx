@@ -1,17 +1,31 @@
 import { useState } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { formatVotes } from '@/lib/gameEngine';
-import { DESCRIPTORS, getIdeologyProfile, calculateWeightedIdeology } from '@/lib/ideologyProfiler';
-import { CABINET_POSITIONS } from '@/types/game';
+import { getIdeologyProfile, calculateWeightedIdeology } from '@/lib/ideologyProfiler';
+import { MAJORITY_THRESHOLD } from '@/types/game';
 import CabinetView from './CabinetView';
 import PollingGraphModal from './PollingGraphModal';
 import VoterFlowSankey from './VoterFlowSankey';
 import IdeologyScatterPlot from './IdeologyScatterPlot';
 import ParliamentChart from './ParliamentChart';
+import { track } from '@/lib/analytics';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 
 export default function ResultsView() {
   const { state, actions } = useGame();
+  const leaderTitle = getHeadOfGovernmentTitle(state.countryData);
   const [showPollingGraph, setShowPollingGraph] = useState(false);
+
+  const handleContinueCampaign = () => {
+    track('term_start', {
+      country: state.country,
+      party: state.playerCandidate?.party,
+      partyList: state.partyList,
+      totalPolls: state.totalPolls,
+      week: state.currentPoll
+    });
+    actions.continueCampaign();
+  };
 
   if (state.pollResults.length === 0) {
     return (
@@ -43,16 +57,8 @@ export default function ResultsView() {
   const playerPosition = sortedResults.findIndex(r => r.candidate.is_player) + 1;
   const playerWon = playerResult?.candidate === winner.candidate;
 
-  const needsCoalition = sortedResults[0].percentage <= 50;
+  const needsCoalition = sortedResults[0].percentage <= MAJORITY_THRESHOLD;
   const canViewPollingGraph = state.pollingHistory.length > 0;
-
-  const campaignChanges = sortedResults.map(result => {
-    const initialPercentage = state.initialPollResults[result.candidate.party] || result.percentage;
-    return {
-      ...result,
-      campaignChange: result.percentage - initialPercentage
-    };
-  });
 
   const getOrdinalSuffix = (num: number) => {
     const j = num % 10;
@@ -103,7 +109,7 @@ export default function ResultsView() {
             </div>
             {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
               <div className="mt-3 flex items-center justify-center gap-2 text-xs text-slate-400 font-mono">
-                <span className="uppercase tracking-widest text-slate-500">Incumbent PM:</span>
+                <span className="uppercase tracking-widest text-slate-500">Incumbent {leaderTitle}:</span>
                 <span className="text-slate-300 font-bold">
                   {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
                 </span>
@@ -146,7 +152,7 @@ export default function ResultsView() {
                 return (
                   <div className="mt-3 p-2 bg-slate-700/30 border border-slate-600 rounded">
                     <div className="text-xs text-slate-400 mb-1">Coalition Ideology:</div>
-                    {getIdeologyProfile(coalitionValues)}
+                    {getIdeologyProfile(coalitionValues, 'inline')}
                   </div>
                 );
               })()}
@@ -155,6 +161,7 @@ export default function ResultsView() {
                 cabinetAllocations={state.coalitionState.cabinetAllocations}
                 winningParty={winner.candidate}
                 candidates={state.candidates}
+                headOfGovernmentTitle={leaderTitle}
               />
             </div>
           )}
@@ -163,7 +170,7 @@ export default function ResultsView() {
         {/* Parliament Seating */}
         <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 sm:p-4 shadow-sm">
           <h3 className="campaign-status text-sm sm:text-base font-bold text-yellow-400 mb-3 text-center tracking-wide">
-            SEATS WON (INCUMBENT GOVT IN WHITE)
+            VOTE SHARE (INCUMBENT GOVT IN WHITE)
           </h3>
           <ParliamentChart results={sortedResults} playerResult={playerResult} incumbentGovernment={state.incumbentGovernment} />
         </div>
@@ -219,7 +226,7 @@ export default function ResultsView() {
                       }`}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-green-400 w-2">{index + 1}</span>
+                      <span className="text-xs font-bold text-green-400 w-6 text-right">{index + 1}</span>
                       <div
                         className="w-4 h-4 rounded-full border border-white flex-shrink-0"
                         style={{ backgroundColor: result.candidate.colour }}
@@ -356,8 +363,8 @@ export default function ResultsView() {
                       </div>
 
                       <div className="space-y-1">
-                        {state.blocStats
-                          ?.sort((a, b) => {
+                        {[...(state.blocStats ?? [])]
+                          .sort((a, b) => {
                             const aPercentage = a.percentages[candidate.party] || 0;
                             const bPercentage = b.percentages[candidate.party] || 0;
                             return bPercentage - aPercentage;
@@ -401,8 +408,8 @@ export default function ResultsView() {
                 VOTER BLOC BREAKDOWN
               </h3>
               <div className="space-y-3">
-                {state.blocStats
-                  ?.sort((a, b) => b.weight - a.weight)
+                {[...(state.blocStats ?? [])]
+                  .sort((a, b) => b.weight - a.weight)
                   .map((bloc) => {
                     const blocPopulation = Math.round(state.countryData.pop * bloc.weight);
 
@@ -573,7 +580,7 @@ export default function ResultsView() {
           )}
           {(!needsCoalition || coalitionComplete) && (
             <button
-              onClick={actions.continueCampaign}
+              onClick={handleContinueCampaign}
               className="px-6 py-3 bg-green-600 hover:bg-green-700 border border-green-500 text-white font-bold rounded-lg transition-colors"
             >
               Continue Playing

@@ -15,9 +15,9 @@ import { useEffect, useRef, useMemo, useState } from 'react';
 import { Chart, Tooltip, Legend } from 'chart.js';
 import { SankeyController, Flow } from 'chartjs-chart-sankey';
 import { VoterTransferEntry, Candidate } from '@/types/game';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 Chart.register(SankeyController, Flow, Tooltip, Legend);
-Chart.defaults.font.family = "'Outfit', sans-serif";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -145,6 +145,7 @@ function TransferTable({ transfers, candidates, initialPollResults }: {
 // ─── Main Sankey component ────────────────────────────────────────────────────
 
 export default function VoterFlowSankey({ transfers, candidates, pollResults, initialPollResults }: Props) {
+    const reducedMotion = useReducedMotion();
     const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const chartRef = useRef<Chart | null>(null);
@@ -277,6 +278,7 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: reducedMotion ? (false as const) : undefined,
                 plugins: {
                     tooltip: {
                         callbacks: {
@@ -308,9 +310,7 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
             chartRef.current?.destroy();
             chartRef.current = null;
         };
-    }, [displayTransfers, candidates, leftOrder, rightOrder]);
-
-    if (transfers.length === 0) return null;
+    }, [displayTransfers, candidates, leftOrder, rightOrder, reducedMotion]);
 
     // All unique party names for legend
     const legendParties = useMemo(() => {
@@ -321,6 +321,8 @@ export default function VoterFlowSankey({ transfers, candidates, pollResults, in
         }
         return out;
     }, [leftOrder, rightOrder]);
+
+    if (transfers.length === 0) return null;
 
     const canvasHeight = Math.max(500, Math.max(leftOrder.length, rightOrder.length) * 80 + 40);
 

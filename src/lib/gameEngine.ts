@@ -43,6 +43,19 @@ export function createCandidate(
   };
 }
 
+/** Deep-enough copy of a candidate for one poll transition.
+ *  The engine mutates candidates (values, trends, drifts, penalties), so callers
+ *  must pass copies rather than objects that are already in React state. */
+export function cloneCandidate(candidate: Candidate): Candidate {
+  return {
+    ...candidate,
+    vals: [...candidate.vals],
+    trend: candidate.trend ? { ...candidate.trend } : undefined,
+    ideologyDrift: candidate.ideologyDrift ? { ...candidate.ideologyDrift } : undefined,
+    eventDrifts: candidate.eventDrifts?.map(drift => ({ ...drift }))
+  };
+}
+
 export function generateLeaderName(eventVariables: any, country: string): string {
   const countryInfo = countriesData[country] || {};
   const nameStyle = countryInfo.nameStyle || 'anglo';
@@ -69,6 +82,7 @@ export function checkForLeadershipChanges(
   eventVariables: any,
   country: string,
   incumbentGovernment?: string[],
+  leaderTitle: string = 'Prime Minister',
 ): { candidates: Candidate[]; news: string[]; playerCrisisEvent?: Event | null } {
   const news: string[] = [];
   let playerCrisisEvent: Event | null = null;
@@ -176,12 +190,12 @@ export function checkForLeadershipChanges(
 
         if (isGovLeader) {
           newsOptions = [
-            `CRISIS: Prime Minister ${oldName} resigns following polling collapse`,
-            `Prime Minister ${oldName} ousted in ${candidate.party} leadership coup; ${newName} to take over`,
-            `BREAKING: ${oldName} steps down as Prime Minister of ${titleCase(country)}`,
-            `${newName} replaces ${oldName} as Prime Minister of ${titleCase(country)} following internal revolt`,
-            `${candidate.party} elects ${newName} to replace ${oldName} as Prime Minister`,
-            `Prime Minister ${oldName} is OUT, ${newName} is the new Prime Minister`
+            `CRISIS: ${leaderTitle} ${oldName} resigns following polling collapse`,
+            `${leaderTitle} ${oldName} ousted in ${candidate.party} leadership coup; ${newName} to take over`,
+            `BREAKING: ${oldName} steps down as ${leaderTitle} of ${titleCase(country)}`,
+            `${newName} replaces ${oldName} as ${leaderTitle} of ${titleCase(country)} following internal revolt`,
+            `${candidate.party} elects ${newName} to replace ${oldName} as ${leaderTitle}`,
+            `${leaderTitle} ${oldName} is OUT, ${newName} is the new ${leaderTitle}`
           ];
         }
 
@@ -230,7 +244,7 @@ export function checkPostElectionLeadershipChanges(
   newGov: string[],
   eventVariables: any,
   country: string,
-  hosTitle: string = 'Prime Minister'
+  leaderTitle: string = 'Prime Minister'
 ): { candidates: Candidate[]; news: string[]; playerCrisisEvent?: Event | null } {
   const news: string[] = [];
   let playerCrisisEvent: Event | null = null;
@@ -328,11 +342,11 @@ export function checkPostElectionLeadershipChanges(
 
         if (isGovLeader) {
           newsOptions = [
-            `ELECTION SHOCK: Prime Minister ${oldName} resigns following defeat`,
-            `Prime Minister ${oldName} steps down; ${newName} to lead ${candidate.party} in opposition`,
-            `END OF AN ERA: ${oldName} resigns as Prime Minister following bruising election`,
-            `${candidate.party} selects ${newName} as new leader to replace outgoing Prime Minister ${oldName}`,
-            `REVOLT: ${candidate.party} ousts Prime Minister ${oldName} after election disaster; ${newName} in`
+            `ELECTION SHOCK: ${leaderTitle} ${oldName} resigns following defeat`,
+            `${leaderTitle} ${oldName} steps down; ${newName} to lead ${candidate.party} in opposition`,
+            `END OF AN ERA: ${oldName} resigns as ${leaderTitle} following bruising election`,
+            `${candidate.party} selects ${newName} as new leader to replace outgoing ${leaderTitle} ${oldName}`,
+            `REVOLT: ${candidate.party} ousts ${leaderTitle} ${oldName} after election disaster; ${newName} in`
           ];
         }
 
@@ -1166,6 +1180,14 @@ export function setEngineState(state: EngineState): void {
   VOTER_BLOC_IDS = state.voterBlocIds;
 }
 
+/** Clear all voter memory. Call when starting a brand-new game so loyalty and
+ *  transfer baselines cannot leak from the previous run. */
+export function resetEngineState(): void {
+  LAST_CHOICES = null;
+  INITIAL_CHOICES = null;
+  VOTER_BLOC_IDS = null;
+}
+
 function ensureLastChoices(length: number): void {
   if (!LAST_CHOICES || LAST_CHOICES.length !== length) {
     LAST_CHOICES = new Array(length).fill(-1);
@@ -1791,8 +1813,7 @@ export function initElectorate(country: Country): number[][] {
 const VOTE_FORMATTER = new Intl.NumberFormat();
 
 export function formatVotes(votes: number, scaleFactor: number): string {
-  const formattedVotes = Math.abs(votes * scaleFactor + (Math.random() * 1000));
-  return VOTE_FORMATTER.format(Math.round(formattedVotes));
+  return VOTE_FORMATTER.format(Math.round(Math.abs(votes * scaleFactor)));
 }
 
 export function applyEventEffect(
@@ -2119,7 +2140,10 @@ export function checkForPartySplit(
     if (isBreakaway) {
       // --- BREAKAWAY FACTION ---
       // Parent stays intact; a small rebel faction forms
-      const breakawayName = generateSplinterName(coreWord, dominantIdeology);
+      const breakawayName = uniquePartyName(
+        generateSplinterName(coreWord, dominantIdeology),
+        new Set(updatedCandidates.map(c => c.party.toLowerCase()))
+      );
       const factionShare = 0.1 + Math.random() * 0.2; // 10-30% of parent's polling
       const factionVals = baseVals.map(v => Math.max(-100, Math.min(100, v + (Math.random() - 0.5) * 30)));
 
@@ -2163,15 +2187,17 @@ export function checkForPartySplit(
     } else {
       // --- FULL SPLIT ---
       // Parent dissolves; two splinter parties form
-      const splinter1Name = generateSplinterName(coreWord, dominantIdeology);
-      let splinter2Name = generateSplinterName(coreWord, dominantIdeology);
-      // Ensure names differ
-      let retries = 0;
-      while (splinter2Name === splinter1Name && retries < 5) {
-        splinter2Name = generateSplinterName(coreWord, dominantIdeology);
-        retries++;
-      }
-      if (splinter2Name === splinter1Name) splinter2Name = `Alternative ${coreWord}`;
+      const usedSplitNames = new Set(
+        updatedCandidates.filter(c => c.id !== candidate.id).map(c => c.party.toLowerCase())
+      );
+      const splinter1Name = uniquePartyName(
+        generateSplinterName(coreWord, dominantIdeology),
+        usedSplitNames
+      );
+      const splinter2Name = uniquePartyName(
+        generateSplinterName(coreWord, dominantIdeology),
+        usedSplitNames
+      );
 
       const keepOriginalOnFirst = Math.random() < 0.5;
       const leader1 = keepOriginalOnFirst ? originalLeader : newLeader;
@@ -2274,7 +2300,10 @@ export function checkForPartyMerger(
   const p2Poll = currentResults[p2.party] || p2.poll_percentage || 0;
 
   const names = generateMergedPartyNames(p1 as unknown as Party, p2 as unknown as Party);
-  const mergedName = names[0] || `${p1.party} ${p2.party}`;
+  const mergedName = uniquePartyName(
+    names[0] || `${p1.party} ${p2.party}`,
+    new Set(updatedCandidates.filter(c => c.id !== p1.id && c.id !== p2.id).map(c => c.party.toLowerCase()))
+  );
   const survivingLeader = p1Poll >= p2Poll ? p1 : p2;
   const newId = Math.max(...candidates.map(c => c.id), 0) + 1;
 
@@ -2322,8 +2351,18 @@ export function checkForPartyMerger(
   return { candidates: updatedCandidates, news, mergerInfo: { oldParties: [p1.party, p2.party], newParty: mergedName } };
 }
 
-function generateRandomHexColour(): string {
-  // Generate a distinct, vibrant random color using HSL to HEX
+/** Pick a name that is not already present in the supplied set (or candidates). */
+function uniquePartyName(base: string, used: Set<string>): string {
+  let name = base;
+  let suffix = 2;
+  while (used.has(name.toLowerCase())) {
+    name = `${base} (${suffix++})`;
+  }
+  used.add(name.toLowerCase());
+  return name;
+}
+
+function generateRandomHexColour(): string {  // Generate a distinct, vibrant random color using HSL to HEX
   const hue = Math.floor(Math.random() * 360);
   const saturation = 60 + Math.random() * 40; // 60-100%
   const lightness = 40 + Math.random() * 20; // 40-60%

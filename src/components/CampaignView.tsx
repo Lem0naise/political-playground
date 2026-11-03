@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { Event, EventChoice, VALUES, PoliticalValueKey } from '@/types/game';
-import { getRandomPaperAssignment, getPriorityBadge, type PaperAssignment } from '@/lib/newsPaperStyles';
+import { getPaperAssignment, getPriorityBadge, type PaperAssignment } from '@/lib/newsPaperStyles';
 import PollResults from './PollResults';
 import EventModal from './EventModal';
 import PollingGraphModal from './PollingGraphModal';
@@ -9,16 +9,19 @@ import IdeologyScatterPlot from './IdeologyScatterPlot';
 import { instantiateEvent, loadEventVariables, EventVariables } from '@/lib/eventTemplates';
 import { exportSaveGame } from '@/lib/saveManager';
 import { VERSION } from '@/lib/version';
+import { getHeadOfGovernmentTitle } from '@/lib/officeTitles';
 
 
 export default function CampaignView() {
   const { state, actions } = useGame();
+  const leaderTitle = getHeadOfGovernmentTitle(state.countryData);
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [eventVariables, setEventVariables] = useState<EventVariables | null>(null);
   const [lastEventPoll, setLastEventPoll] = useState(0);
   const [showPollingGraph, setShowPollingGraph] = useState(false);
   const [newsSource, setNewsSource] = useState<string>('');
+  const [eventsError, setEventsError] = useState<string | null>(null);
 
   // Function to get random newspaper name
   const getRandomNewspaper = () => {
@@ -36,9 +39,18 @@ export default function CampaignView() {
 
   useEffect(() => {
     fetch('/data/events.json')
-      .then(res => res.json())
-      .then(data => setEvents(data))
-      .catch(err => console.error('Failed to load events:', err));
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        setEvents(data);
+        setEventsError(null);
+      })
+      .catch(err => {
+        console.error('Failed to load events:', err);
+        setEventsError('Could not load the event deck. The campaign can continue, but no events will fire.');
+      });
 
     // Load event variables for template substitution
     loadEventVariables()
@@ -134,7 +146,9 @@ export default function CampaignView() {
     scrollToTop();
   };
 
-  const weeksLeft = state.totalPolls - state.currentPoll;
+  const progressPercent = state.totalPolls > 1
+    ? Math.max(0, Math.min(100, ((state.currentPoll - 1) / (state.totalPolls - 1)) * 100))
+    : 0;
   const canViewPollingGraph = state.pollingHistory.length > 0;
 
   const AXIS_LABELS: Record<PoliticalValueKey, { label: string; low: string; high: string }> = {
@@ -163,14 +177,16 @@ export default function CampaignView() {
               <div className="w-full bg-slate-600 rounded-full h-2 mb-2 border border-slate-500">
                 <div
                   className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-500 relative overflow-hidden"
-                  style={{ width: `${(state.currentPoll / state.totalPolls) * 100}%` }}
+                  style={{ width: `${progressPercent}%` }}
                 >
-                  <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+                  <div className="absolute inset-0 bg-white/20"></div>
                 </div>
               </div>
               <div className="flex justify-between text-xs text-slate-300 font-mono">
                 <span className="bg-slate-700 px-1 py-0.5 rounded">LAUNCH</span>
-                <span className="bg-green-600 px-1 py-0.5 rounded font-bold">WEEK {state.currentPoll}</span>
+                <span className="bg-green-600 px-1 py-0.5 rounded font-bold">
+                  {state.currentPoll === 0 ? 'PRE-LAUNCH' : `WEEK ${state.currentPoll}`}
+                </span>
                 <span className="bg-red-600 px-1 py-0.5 rounded">ELECTION DAY</span>
               </div>
             </div>
@@ -194,6 +210,11 @@ export default function CampaignView() {
         <div className="grid lg:grid-cols-5 gap-3 sm:gap-4">
           {/* Main Content - Newspaper Style */}
           <div className="lg:col-span-3 space-y-3 sm:space-y-4">
+            {eventsError && (
+              <div role="alert" className="text-xs text-red-300 border border-red-500/40 bg-red-900/20 rounded-lg px-3 py-2">
+                {eventsError}
+              </div>
+            )}
 
 
 
@@ -209,7 +230,7 @@ export default function CampaignView() {
                 {/* CSS Columns masonry — responsive: 3 cols desktop, 2 tablet, 1 mobile */}
                 <div className="mt-3 news-masonry">
                   {state.politicalNews.map((item, idx) => {
-                    const paper: PaperAssignment = getRandomPaperAssignment(eventVariables, state.country);
+                    const paper: PaperAssignment = getPaperAssignment(eventVariables, state.country, `${idx}:${item.text}`);
                     const style = paper.style;
                     const isCritical = item.priority === 'critical';
                     const badge = getPriorityBadge(item.priority);
@@ -335,7 +356,6 @@ export default function CampaignView() {
               <EventModal
                 event={currentEvent}
                 onChoice={(choice) => handleEventChoice(currentEvent, choice)}
-                onClose={() => setCurrentEvent(null)}
                 newsSource={newsSource}
                 eventVariables={eventVariables}
                 country={state.country}
@@ -346,18 +366,18 @@ export default function CampaignView() {
           {/* Sidebar - Campaign Status Board */}
           <div className="lg:col-span-2">
             <div className="campaign-board p-2 sm:p-3 rounded-lg lg:sticky lg:top-4">
-              <h3 className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2 text-center border-b border-slate-600 pb-1">
-
-                {state.incumbentGovernment && state.incumbentGovernment.length > 0 && (
+              <div className="campaign-status text-xs sm:text-sm font-bold text-yellow-400 mb-2 text-center border-b border-slate-600 pb-1">
+                {state.incumbentGovernment && state.incumbentGovernment.length > 0 ? (
                   <div>
                     <span className="font-bold text-xs truncate mr-2">
-                      PM: {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
+                      {leaderTitle}: {state.candidates.find(c => c.party === state.incumbentGovernment![0])?.name || 'Unknown'}
                     </span>
                     <span className="text-slate-400 text-xs truncate">({state.incumbentGovernment[0]})</span>
                   </div>
+                ) : (
+                  <span className="text-slate-400 uppercase tracking-widest">Campaign Status</span>
                 )}
-
-              </h3>
+              </div>
               <PollResults
                 onViewGraph={() => setShowPollingGraph(true)}
                 canViewGraph={canViewPollingGraph}
@@ -381,6 +401,7 @@ export default function CampaignView() {
                           <button
                             key={axis}
                             onClick={() => actions.setTargetedAxis(isTargeted ? null : axis)}
+                            aria-pressed={isTargeted}
                             className={`text-[10px] sm:text-xs px-2 py-1 rounded-full border transition-all duration-200 ${
                               isTargeted
                                 ? 'border-yellow-400 bg-yellow-900/40 text-yellow-200 font-bold'
@@ -411,12 +432,14 @@ export default function CampaignView() {
           </div>
         </div>
 
-        <button
-          onClick={() => exportSaveGame(state)}
-          className="mt-8 align-center px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs sm:text-sm font-semibold rounded-xl transition-colors self-start sm:self-center "
-        >
-          Save Progress
-        </button>
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={() => exportSaveGame(state)}
+            className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs sm:text-sm font-semibold rounded-xl transition-colors"
+          >
+            Save Progress
+          </button>
+        </div>
         <div className="text-center text-xs text-slate-400 space-y-1 mt-10">
           <p>Political Playground © 2025-2026</p>
           <p>Fictional election simulator.</p>

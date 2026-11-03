@@ -3,6 +3,7 @@ import { getIdeologyProfile } from '@/lib/ideologyProfiler';
 import { useState, useRef, useMemo } from 'react';
 import { VERSION } from '@/lib/version';
 import { generateLeaderName } from '@/lib/gameEngine';
+import { track } from '@/lib/analytics';
 
 export default function PlayerSelection() {
   const { state, actions } = useGame();
@@ -11,13 +12,21 @@ export default function PlayerSelection() {
   const creatorFormRef = useRef<HTMLDivElement>(null);
 
   const handlePlayerSelect = (candidateId: number) => {
+    const candidate = state.candidates.find(entry => entry.id === candidateId);
     actions.setPlayerCandidate(candidateId);
     actions.startCampaign();
+    if (candidate) {
+      track('campaign_start', {
+        country: state.country,
+        party: candidate.party,
+        partyList: state.partyList,
+        totalPolls: state.totalPolls
+      });
+    }
   };
 
   // --- Custom Party Creator State ---
   const [showCreator, setShowCreator] = useState(false);
-  const [creating, setCreating] = useState(false);
   const [editingPartyId, setEditingPartyId] = useState<number | null>(null);
   const [confirmingDeleteId, setConfirmingDeleteId] = useState<number | null>(null);
   const [customParty, setCustomParty] = useState({
@@ -77,6 +86,7 @@ export default function PlayerSelection() {
         rel_sec: c.vals[6],
         colour: c.colour,
         swing: c.swing || 0,
+        nascent_penalty: c.nascent_penalty || 0
       }))
     );
     setConfirmingDeleteId(null);
@@ -112,7 +122,6 @@ export default function PlayerSelection() {
   // Submit handler
   const handleCreateParty = () => {
     if (!customParty.party || !customParty.name) return;
-    setCreating(true);
 
     if (editingPartyId !== null) {
       // Update existing party
@@ -195,10 +204,8 @@ export default function PlayerSelection() {
       );
     }
 
-    console.log(state.candidates);
     resetCustomPartyForm(); // Reset the form after successful creation
     setShowCreator(false);
-    setCreating(false);
   };
 
   const availableCandidates = useMemo(() => state.candidates.length, [state.candidates]);
@@ -221,7 +228,7 @@ export default function PlayerSelection() {
               </a>
             </div>
             <h1 className="newspaper-header text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-              CANDIDATE SELECTION
+              PARTY SELECTION
             </h1>
             <p className="campaign-status text-xs sm:text-sm text-red-200 tracking-[0.35em]">
               CHOOSE YOUR PARTY BANNER • {activeCountry}
@@ -241,7 +248,7 @@ export default function PlayerSelection() {
 
               <div className="bg-slate-900/40 border border-slate-700 rounded-lg px-4 py-3 w-full sm:w-auto">
                 <div className="campaign-status text-xs text-slate-300">
-                  {availableCandidates} candidate{availableCandidates === 1 ? '' : 's'} available
+                  {availableCandidates} part{availableCandidates === 1 ? 'y' : 'ies'} available
                 </div>
                 <div className="campaign-status text-sm text-yellow-400">
                   {showCreator ? 'Custom party editor open' : 'Create or select to continue'}
@@ -323,7 +330,7 @@ export default function PlayerSelection() {
                       ></div>
                     </div>
                     <div className="text-[0.65rem] text-slate-400">
-                      {getIdeologyProfile(candidate.vals)}
+                      {getIdeologyProfile(candidate.vals, 'inline')}
                     </div>
                   </div>
 
@@ -476,16 +483,16 @@ export default function PlayerSelection() {
                     customParty.pac_mil,
                     customParty.auth_ana,
                     customParty.rel_sec
-                  ])}
+                  ], 'inline')}
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={handleCreateParty}
-                    disabled={!customParty.party || !customParty.name || creating}
+                    disabled={!customParty.party || !customParty.name}
                     className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-lg transition-all duration-200 campaign-status text-sm disabled:cursor-not-allowed"
                   >
-                    {creating ? (editingPartyId !== null ? 'Saving…' : 'Creating…') : (editingPartyId !== null ? 'Save Changes' : 'Add This Party')}
+                    {editingPartyId !== null ? 'Save Changes' : 'Add This Party'}
                   </button>
                   <button
                     onClick={() => {
